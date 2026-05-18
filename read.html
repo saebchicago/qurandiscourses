@@ -29,7 +29,7 @@
       ><a href="compare.html">Compare</a><a href="words.html">Words</a
       ><a href="patterns.html">Patterns</a><a href="numbers.html">Numbers</a
       ><a href="sources.html">Sources</a><a href="validation.html">Validation</a
-      ><a href="about.html">About</a>
+      ><a href="glossary.html">Glossary</a><a href="about.html">About</a>
     </nav>
     <main id="main">
       <section>
@@ -149,9 +149,14 @@
                 const rootLink = w.root
                   ? `<a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(w.root)}" target="_blank" rel="noopener">${w.root}</a>`
                   : "—";
-                rows += `<tr><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${w.ar}</span></td><td>${rootLink}</td><td>${w.lemma || "—"}</td><td>${w.pos || "—"}</td><td>${w.gloss || "—"}</td></tr>`;
+                const glossCell = w.gloss
+                  ? `<td>${w.gloss}</td>`
+                  : w.root
+                    ? `<td><a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(w.root)}" target="_blank" rel="noopener" style="color:var(--muted);font-size:0.88rem;text-decoration:underline dotted;text-underline-offset:3px">look up →</a></td>`
+                    : `<td style="color:var(--muted)">—</td>`;
+                rows += `<tr><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${w.ar}</span></td><td>${rootLink}</td><td>${w.lemma || "—"}</td><td>${w.pos || "—"}</td>${glossCell}</tr>`;
               });
-              html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><table class="data"><thead><tr><th>Word</th><th>Root</th><th>Lemma</th><th>POS</th><th>Meaning</th></tr></thead><tbody>${rows}</tbody></table><p class="prov"><span class="badge ok">Verified</span> morphology and roots from the Leeds Quranic Arabic Corpus v0.4 (Kais Dukes, 2009-2017), GPL licensed. Arabic rendering via Buckwalter-to-Arabic conversion in our build script.</p></div>`;
+              html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><table class="data"><thead><tr><th>Word</th><th>Root</th><th>Lemma</th><th>POS</th><th title="The Leeds corpus does not include English glosses. Links go to the corpus.quran.com dictionary for each root.">Meaning</th></tr></thead><tbody>${rows}</tbody></table><p class="prov"><span class="badge ok">Verified</span> morphology and roots from the Leeds Quranic Arabic Corpus v0.4 (Kais Dukes, 2009-2017), GPL licensed. <span class="badge pending">Pending</span> English glosses. The Leeds corpus does not carry per-word English meanings; the Meaning column links to the corpus.quran.com dictionary entry for each root. Future versions may overlay a verified gloss dataset.</p></div>`;
             } else {
               html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><p style="font-size:.9rem;color:var(--muted)">Word-level data unavailable for this verse — see the <a href="words.html">Words page</a> for the methodology.</p></div>`;
             }
@@ -207,5 +212,6 @@
         document.getElementById("ayahInput").value = params.get("a");
       window.addEventListener("load", () => setTimeout(load, 200));
     </script>
+    <script src="assets/glossary.js" defer></script>
   </body>
 </html>
