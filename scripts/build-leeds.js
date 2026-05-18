@@ -427,13 +427,14 @@ for (const line of lines) {
 }
 
 // ── Root aggregation structures ───────────────────────────────────────────────
-const roots = {}; // root → { totalCount, lemmas, pos, byChron, surahs, first }
+const roots = {}; // root → { totalCount, lemmas, lemmaFirst, pos, byChron, surahs, first }
 
 function ensureRoot(r) {
   if (!roots[r])
     roots[r] = {
       totalCount: 0,
       lemmas: {},
+      lemmaFirst: {}, // lemma → { surah, verse }
       pos: {},
       byChron: {
         "meccan-early": 0,
@@ -489,7 +490,11 @@ for (let c = 1; c <= 114; c++) {
         ensureRoot(root);
         const rd = roots[root];
         rd.totalCount++;
-        if (lemma) rd.lemmas[lemma] = (rd.lemmas[lemma] || 0) + 1;
+        if (lemma) {
+          rd.lemmas[lemma] = (rd.lemmas[lemma] || 0) + 1;
+          if (!rd.lemmaFirst[lemma])
+            rd.lemmaFirst[lemma] = { surah: c, verse: vs };
+        }
         if (pos) rd.pos[pos] = (rd.pos[pos] || 0) + 1;
         if (period) rd.byChron[period] = (rd.byChron[period] || 0) + 1;
         rd.surahs[c] = (rd.surahs[c] || 0) + 1;
@@ -531,7 +536,12 @@ for (const [rootBW, rd] of Object.entries(roots)) {
   const topLemmas = Object.entries(rd.lemmas)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5)
-    .map(([lemma, count]) => ({ lemma, count }));
+    .map(([lemma, count]) => ({
+      lemma,
+      lemmaArabic: bwToAr(lemma),
+      count,
+      firstOccurrence: rd.lemmaFirst[lemma] || null,
+    }));
 
   const topSurahs = Object.entries(rd.surahs)
     .sort((a, b) => b[1] - a[1])
