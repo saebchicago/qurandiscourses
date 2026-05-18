@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-depth="simple">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Compare · Discourses</title>
+    <meta
+      name="description"
+      content="Overlay the chronological distributions of two Qur'anic roots side by side."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <a href="#main" class="skip">Skip to main content</a>
+    <header class="site">
+      <div class="crest" aria-hidden="true">﷽</div>
+      <h1><a href="index.html">Discourses</a></h1>
+      <p class="tag">Toward direct engagement with the Qur'an</p>
+    </header>
+    <nav class="primary" aria-label="Primary">
+      <a href="index.html">Home</a><a href="navigate.html">Navigate</a
+      ><a href="read.html">Read</a><a href="roots.html">Roots</a
+      ><a href="compare.html">Compare</a><a href="words.html">Words</a
+      ><a href="patterns.html">Patterns</a><a href="numbers.html">Numbers</a
+      ><a href="sources.html">Sources</a><a href="validation.html">Validation</a
+      ><a href="about.html">About</a>
+    </nav>
+    <main id="main">
+      <section>
+        <h2>Compare two roots</h2>
+        <p class="lede">
+          Pick any two roots to overlay their chronological distributions. The
+          shape of how a root appears across the four periods of revelation is
+          often more informative than its raw count.
+        </p>
+
+        <div class="card">
+          <div
+            style="
+              display: flex;
+              gap: 0.75rem;
+              flex-wrap: wrap;
+              margin-bottom: 1rem;
+            "
+          >
+            <div style="flex: 1; min-width: 180px; position: relative">
+              <label
+                for="rootA"
+                style="
+                  font-size: 0.85rem;
+                  color: var(--muted);
+                  display: block;
+                  margin-bottom: 0.2rem;
+                "
+                >Root A</label
+              >
+              <input
+                type="search"
+                id="rootA"
+                placeholder="e.g. rHm or mercy"
+                autocomplete="off"
+                style="width: 100%"
+              />
+              <ul id="suggA" class="root-suggest" hidden></ul>
+            </div>
+            <div style="flex: 1; min-width: 180px; position: relative">
+              <label
+                for="rootB"
+                style="
+                  font-size: 0.85rem;
+                  color: var(--muted);
+                  display: block;
+                  margin-bottom: 0.2rem;
+                "
+                >Root B</label
+              >
+              <input
+                type="search"
+                id="rootB"
+                placeholder="e.g. E*b or punishment"
+                autocomplete="off"
+                style="width: 100%"
+              />
+              <ul id="suggB" class="root-suggest" hidden></ul>
+            </div>
+          </div>
+
+          <div id="compareCanvas" hidden>
+            <h3 id="compareHeading" style="margin: 0 0 0.5rem"></h3>
+            <p
+              id="compareLegend"
+              style="font-size: 0.88rem; margin: 0 0 0.75rem"
+            ></p>
+            <div id="compareBars"></div>
+            <p class="prov" style="margin-top: 0.75rem">
+              <span class="badge ok">Verified</span> chronological distribution
+              from Leeds morphology + Egyptian Standard (Cairo 1924) revelation
+              order.
+            </p>
+          </div>
+
+          <p
+            id="comparePrompt"
+            style="color: var(--muted); font-size: 0.9rem; margin: 0"
+          >
+            Type the start of a root (transliteration, Arabic script, or English
+            meaning) into each field, then pick from suggestions.
+          </p>
+        </div>
+
+        <div class="card scholar-only">
+          <h3>Examples worth comparing</h3>
+          <ul style="font-size: 0.92rem; line-height: 1.7">
+            <li>
+              <a href="#" data-pair="rHm|E*b"
+                >mercy (r-ḥ-m) vs. punishment (ʿ-dh-b)</a
+              >
+              — how late-Meccan concentration on mercy contrasts with
+              early-middle emphasis on punishment
+            </li>
+            <li>
+              <a href="#" data-pair="Alh|rbb">God (a-l-h) vs. Lord (r-b-b)</a>
+              — both ubiquitous, but distributed differently across periods
+            </li>
+            <li>
+              <a href="#" data-pair="Elm|hdy"
+                >knowledge (ʿ-l-m) vs. guidance (h-d-y)</a
+              >
+              — overlapping themes, distinct chronological rhythms
+            </li>
+            <li>
+              <a href="#" data-pair="Amn|kfr"
+                >faith (a-m-n) vs. disbelief (k-f-r)</a
+              >
+              — counterposed concepts, revealing their proportions by period
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+    <footer class="site">
+      <p>
+        Discourses is built in memory of Dr. Irfan Ahmad Khan (1931 – 2018).
+      </p>
+    </footer>
+    <div class="settings">
+      <button class="gear" id="gearBtn" title="Open settings">⚙</button>
+      <div
+        class="panel"
+        id="settingsPanel"
+        role="dialog"
+        aria-label="Settings"
+        hidden
+      ></div>
+    </div>
+    <script src="assets/app.js"></script>
+    <script src="assets/root-meanings.js"></script>
+    <script>
+      (function () {
+        const MEANINGS = window.ROOT_MEANINGS || {};
+
+        const PERIOD_ORDER = [
+          "meccan-early",
+          "meccan-middle",
+          "meccan-late",
+          "medinan",
+        ];
+        const PERIOD_LABELS = {
+          "meccan-early": "Early Meccan",
+          "meccan-middle": "Middle Meccan",
+          "meccan-late": "Late Meccan",
+          medinan: "Medinan",
+        };
+
+        let allRoots = [];
+        let selA = null;
+        let selB = null;
+
+        // ── Typeahead ─────────────────────────────────────────────────────────
+        function matchRoots(term, limit) {
+          if (!term) return [];
+          const t = term.toLowerCase();
+          return allRoots
+            .filter(
+              (r) =>
+                r.rootLatin.toLowerCase().includes(t) ||
+                r.rootBuckwalter.toLowerCase().includes(t) ||
+                r.rootArabic.includes(t) ||
+                (MEANINGS[r.rootBuckwalter] || "").toLowerCase().includes(t),
+            )
+            .slice(0, limit || 8);
+        }
+
+        function renderSuggestions(listEl, matches, onSelect) {
+          listEl.innerHTML = matches
+            .map(
+              (r) =>
+                `<li data-bw="${r.rootBuckwalter}">` +
+                `<span class="latin">${r.rootLatin}</span>` +
+                `<span class="ar notranslate" translate="no" lang="ar" dir="rtl">${r.rootArabic}</span>` +
+                (MEANINGS[r.rootBuckwalter]
+                  ? `<span class="meaning">${MEANINGS[r.rootBuckwalter]}</span>`
+                  : "") +
+                `</li>`,
+            )
+            .join("");
+          listEl.hidden = matches.length === 0;
+          listEl.querySelectorAll("li").forEach((li) => {
+            li.addEventListener("mousedown", (e) => {
+              e.preventDefault();
+              const bw = li.dataset.bw;
+              const root = allRoots.find((r) => r.rootBuckwalter === bw);
+              if (root) onSelect(root);
+              listEl.hidden = true;
+            });
+          });
+        }
+
+        function wireInput(inputId, suggId, onSelect) {
+          const inp = document.getElementById(inputId);
+          const list = document.getElementById(suggId);
+          inp.addEventListener("input", () => {
+            const matches = matchRoots(inp.value.trim());
+            renderSuggestions(list, matches, (root) => {
+              inp.value = root.rootLatin;
+              onSelect(root);
+            });
+          });
+          inp.addEventListener("blur", () => {
+            setTimeout(() => {
+              list.hidden = true;
+            }, 150);
+          });
+          inp.addEventListener("focus", () => {
+            if (inp.value.trim()) {
+              const matches = matchRoots(inp.value.trim());
+              renderSuggestions(list, matches, (root) => {
+                inp.value = root.rootLatin;
+                onSelect(root);
+              });
+            }
+          });
+        }
+
+        // ── Compare renderer ──────────────────────────────────────────────────
+        function renderCompare() {
+          const canvas = document.getElementById("compareCanvas");
+          const prompt = document.getElementById("comparePrompt");
+          if (!selA || !selB) {
+            canvas.hidden = true;
+            prompt.hidden = false;
+            return;
+          }
+          canvas.hidden = false;
+          prompt.hidden = true;
+
+          const mA = MEANINGS[selA.rootBuckwalter];
+          const mB = MEANINGS[selB.rootBuckwalter];
+
+          document.getElementById("compareHeading").textContent =
+            `${selA.rootLatin} ‪${selA.rootArabic}‬` +
+            (mA ? ` — ${mA}` : "") +
+            `   vs.   ` +
+            `${selB.rootLatin} ‪${selB.rootArabic}‬` +
+            (mB ? ` — ${mB}` : "");
+
+          document.getElementById("compareLegend").innerHTML =
+            `<span style="color:var(--accent);font-weight:600">&#9632;</span> ${selA.rootLatin} &nbsp;&nbsp;` +
+            `<span style="color:var(--accent-soft);font-weight:600">&#9632;</span> ${selB.rootLatin}`;
+
+          const allVals = PERIOD_ORDER.flatMap((p) => [
+            selA.byChronology[p] || 0,
+            selB.byChronology[p] || 0,
+          ]);
+          const globalMax = Math.max(...allVals);
+
+          document.getElementById("compareBars").innerHTML = PERIOD_ORDER.map(
+            (p) => {
+              const vA = selA.byChronology[p] || 0;
+              const vB = selB.byChronology[p] || 0;
+              const pctA =
+                globalMax > 0 ? Math.round((vA / globalMax) * 100) : 0;
+              const pctB =
+                globalMax > 0 ? Math.round((vB / globalMax) * 100) : 0;
+              return (
+                `<div style="margin:0.5rem 0">` +
+                `<div style="font-size:0.82rem;color:var(--muted);margin-bottom:0.2rem">${PERIOD_LABELS[p]}</div>` +
+                `<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.15rem">` +
+                `<div style="width:160px;height:9px;background:var(--line);border-radius:5px;overflow:hidden"><div style="width:${pctA}%;height:100%;background:var(--accent);border-radius:5px"></div></div>` +
+                `<span style="font-size:0.82rem;font-variant-numeric:tabular-nums;min-width:2.5rem">${vA}</span>` +
+                `</div>` +
+                `<div style="display:flex;align-items:center;gap:0.5rem">` +
+                `<div style="width:160px;height:9px;background:var(--line);border-radius:5px;overflow:hidden"><div style="width:${pctB}%;height:100%;background:var(--accent-soft);border-radius:5px"></div></div>` +
+                `<span style="font-size:0.82rem;font-variant-numeric:tabular-nums;min-width:2.5rem">${vB}</span>` +
+                `</div>` +
+                `</div>`
+              );
+            },
+          ).join("");
+
+          // URL sync
+          const url = new URL(window.location);
+          url.searchParams.set("a", selA.rootBuckwalter);
+          url.searchParams.set("b", selB.rootBuckwalter);
+          history.replaceState({}, "", url);
+        }
+
+        // ── Example pair links ────────────────────────────────────────────────
+        function applyPair(bwA, bwB) {
+          const rA = allRoots.find((r) => r.rootBuckwalter === bwA);
+          const rB = allRoots.find((r) => r.rootBuckwalter === bwB);
+          if (!rA || !rB) return;
+          selA = rA;
+          selB = rB;
+          document.getElementById("rootA").value = rA.rootLatin;
+          document.getElementById("rootB").value = rB.rootLatin;
+          renderCompare();
+        }
+
+        document.querySelectorAll("[data-pair]").forEach((a) => {
+          a.addEventListener("click", (e) => {
+            e.preventDefault();
+            const [bwA, bwB] = a.dataset.pair.split("|");
+            applyPair(bwA, bwB);
+            document
+              .getElementById("compareCanvas")
+              .scrollIntoView({ behavior: "smooth", block: "nearest" });
+          });
+        });
+
+        // ── Boot ──────────────────────────────────────────────────────────────
+        fetch("data/roots-summary.json")
+          .then((r) => r.json())
+          .then((data) => {
+            allRoots = Object.values(data).sort(
+              (a, b) => b.totalCount - a.totalCount,
+            );
+
+            wireInput("rootA", "suggA", (root) => {
+              selA = root;
+              renderCompare();
+            });
+            wireInput("rootB", "suggB", (root) => {
+              selB = root;
+              renderCompare();
+            });
+
+            // URL pre-population
+            const params = new URLSearchParams(location.search);
+            const pA = params.get("a");
+            const pB = params.get("b");
+            if (pA && pB) {
+              applyPair(pA, pB);
+            }
+          })
+          .catch(() => {
+            document.getElementById("comparePrompt").textContent =
+              "Root data unavailable. Please try again later.";
+          });
+      })();
+    </script>
+  </body>
+</html>
