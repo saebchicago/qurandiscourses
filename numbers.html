@@ -17,19 +17,20 @@
     <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
+    <a href="#main" class="skip">Skip to main content</a>
     <header class="site">
       <div class="crest" aria-hidden="true">﷽</div>
       <h1><a href="index.html">Discourses</a></h1>
       <p class="tag">Toward direct engagement with the Qur'an</p>
     </header>
-    <nav class="primary">
+    <nav class="primary" aria-label="Primary">
       <a href="index.html">Home</a><a href="navigate.html">Navigate</a
       ><a href="read.html">Read</a><a href="roots.html">Roots</a
       ><a href="words.html">Words</a><a href="patterns.html">Patterns</a
       ><a href="numbers.html">Numbers</a><a href="sources.html">Sources</a
       ><a href="validation.html">Validation</a><a href="about.html">About</a>
     </nav>
-    <main>
+    <main id="main">
       <section>
         <h2>Numbers</h2>
         <p class="lede">
@@ -50,7 +51,7 @@
             <p>
               Root <em>a-r-ḍ</em> (earth, land):
               <strong class="count">461</strong>. Root <em>b-ḥ-r</em> (sea):
-              <strong class="count">41</strong>.
+              <strong class="count">42</strong>.
             </p>
             <div class="barwrap">
               <span class="lbl">a-r-ḍ (land)</span>
@@ -61,9 +62,10 @@
               <div class="bar"><span style="width: 9%"></span></div>
             </div>
             <p class="prov">
-              <span class="badge pending">Pending</span> root counts from Leeds.
-              A widely cited surface-form count (13 "land" / 32 "sea") uses
-              specific noun senses; see counting note above.
+              <span class="badge ok">Verified</span> root counts from the Leeds
+              Quranic Arabic Corpus (Dukes 2009–2017). A widely cited
+              surface-form count (13 "land" / 32 "sea") uses specific noun
+              senses only; see counting note above.
               <span class="badge nuanced">Nuanced</span> on the popular
               interpretation.
             </p>
@@ -110,17 +112,19 @@
           <div class="card">
             <h3>Day, month, year</h3>
             <p>
-              <strong>Day (y-w-m, root):</strong> 475 occurrences. Singular noun
-              <em>yawm</em>: 365 by common counting method.
-              <strong>Month (sh-h-r, root):</strong> ~21. Singular
+              <strong>Day (y-w-m, root):</strong> 405 occurrences (Leeds
+              corpus); broader counts including compound forms such as
+              <em>yawma-idhin</em> reach 475. Singular form <em>yawm</em>: 365
+              by one widely cited counting.
+              <strong>Month (sh-h-r, root):</strong> 21. Singular
               <em>shahr</em>: 12 by common counting method.
               <strong>Year:</strong> not a single canonical word in the Qur'an.
             </p>
             <p class="prov">
-              <span class="badge pending">Pending</span> root counts.
-              <span class="badge nuanced">Nuanced</span> on the singular-form
-              figures; there is nuance to how these are counted depending on
-              which forms are included.
+              <span class="badge ok">Verified</span> root counts from Leeds.
+              <span class="badge nuanced">Nuanced</span> for y-w-m: the 405/475
+              difference turns on whether compound forms are included; both are
+              defensible. See <a href="roots.html">Roots</a> for detail.
             </p>
           </div>
           <div class="card">
@@ -150,7 +154,8 @@
               </tbody>
             </table>
             <p class="prov">
-              <span class="badge pending">Pending</span> root counts from Leeds.
+              <span class="badge ok">Verified</span> root counts from the Leeds
+              Quranic Arabic Corpus (Dukes 2009–2017).
             </p>
           </div>
           <div class="card">
@@ -177,48 +182,53 @@
               <tbody>
                 <tr>
                   <td>Early Meccan</td>
-                  <td class="count">4.9</td>
+                  <td class="count">4.5</td>
                 </tr>
                 <tr>
                   <td>Middle Meccan</td>
-                  <td class="count">9.7</td>
+                  <td class="count">10.1</td>
                 </tr>
                 <tr>
                   <td>Late Meccan</td>
-                  <td class="count">13.2</td>
+                  <td class="count">11.7</td>
                 </tr>
                 <tr>
                   <td>Medinan</td>
-                  <td class="count">20.4</td>
+                  <td class="count">18.5</td>
                 </tr>
               </tbody>
             </table>
             <p class="prov">
-              <span class="badge pending">Pending</span> from Leeds. The
-              increasing-length pattern is widely observed in academic
-              literature.
+              <span class="badge ok">Verified</span> from Leeds word counts +
+              Cairo 1924 chronological classification. The increasing-length
+              pattern across periods is widely observed in academic literature.
             </p>
           </div>
           <div class="card scholar-only">
             <h3>Hapax legomena</h3>
             <p>
-              About <strong>1,600</strong> surface forms occur only once. About
-              <strong>240</strong> roots appear exactly once.
+              <strong>12,004</strong> surface forms (out of 18,993 unique forms)
+              occur exactly once. <strong>395</strong> roots (out of 1,642)
+              occur exactly once.
             </p>
             <p class="prov">
-              <span class="badge pending">Pending</span> from Leeds.
+              <span class="badge ok">Verified</span> from Leeds corpus word-form
+              and root counts.
             </p>
           </div>
           <div class="card scholar-only">
             <h3>Roots unique to one period</h3>
             <p>
-              About <strong>312</strong> roots appear only in Meccan surahs.
-              About <strong>147</strong> roots appear only in Medinan surahs.
+              <strong>547</strong> roots appear only in Meccan surahs (zero
+              Medinan occurrences). <strong>198</strong> roots appear only in
+              Medinan surahs.
             </p>
             <p class="prov">
-              <span class="badge pending">Pending</span> set difference.
-              <span class="badge nuanced">Nuanced</span> on classification at
-              the boundary.
+              <span class="badge ok">Verified</span> from Leeds + Cairo 1924
+              four-period classification.
+              <span class="badge nuanced">Nuanced</span>: a handful of surahs
+              have mixed-period classification in some traditions; the boundary
+              roots may shift by a few in other schemes.
             </p>
           </div>
           <div class="card encyclopedic-only">
