@@ -83,6 +83,7 @@
     if (disp)
       disp.textContent =
         state.depth.charAt(0).toUpperCase() + state.depth.slice(1);
+    document.dispatchEvent(new CustomEvent("qd:depth-changed"));
   }
   function applyTheme() {
     if (state.theme === "light")
@@ -115,6 +116,12 @@
       </div>
       <p class="small">Simple shows core evidence. Scholar adds derivations and citations. Encyclopedic shows everything.</p>
       <h4>Translations to show</h4>
+      <div class="actions" style="flex-wrap:wrap;margin:.3rem 0 .5rem">
+        <button id="qsDefault">Default set</button>
+        <button id="qsClassical">Classical</button>
+        <button id="qsModern">Modern</button>
+        <button id="qsClear">Clear all</button>
+      </div>
       <div class="check-list" id="transList">${transChecks}</div>
       <h4>Reciter</h4>
       <div class="row"><select id="setRec">${recOpts}</select></div>
@@ -186,6 +193,40 @@
         buildPanel();
         document.dispatchEvent(new CustomEvent("qd:reset"));
       });
+
+    function applyQuickSwap(ids) {
+      state.translations = ids;
+      save();
+      buildPanel();
+      document.dispatchEvent(new CustomEvent("qd:translations-changed"));
+    }
+    const qsDefault = document.getElementById("qsDefault");
+    if (qsDefault)
+      qsDefault.addEventListener("click", () =>
+        applyQuickSwap([
+          "en.sahih",
+          "en.pickthall",
+          "en.yusufali",
+          "en.maududi",
+        ]),
+      );
+    const qsClassical = document.getElementById("qsClassical");
+    if (qsClassical)
+      qsClassical.addEventListener("click", () =>
+        applyQuickSwap([
+          "en.pickthall",
+          "en.yusufali",
+          "en.arberry",
+          "en.shakir",
+        ]),
+      );
+    const qsModern = document.getElementById("qsModern");
+    if (qsModern)
+      qsModern.addEventListener("click", () =>
+        applyQuickSwap(["en.sahih", "en.itani", "en.ahmedali"]),
+      );
+    const qsClear = document.getElementById("qsClear");
+    if (qsClear) qsClear.addEventListener("click", () => applyQuickSwap([]));
 
     applyDepth();
   }

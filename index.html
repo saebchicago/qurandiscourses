@@ -1,84 +1,180 @@
 <!doctype html>
 <html lang="en" dir="ltr" data-depth="simple">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Discourses · Toward Understanding the Qur'an</title>
-<meta name="description" content="A platform for direct, personal engagement with the Qur'an. Roots, words, patterns, and structure, with verification on every claim. In memory of Dr. Irfan Ahmad Khan.">
-<link rel="canonical" href="https://qurandiscourses.netlify.app/">
-<meta name="robots" content="index,follow">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Discourses">
-<meta property="og:title" content="Discourses · Toward Understanding the Qur'an">
-<meta property="og:description" content="A platform for direct engagement with the Qur'an. In memory of Dr. Irfan Ahmad Khan (1931-2018).">
-<meta property="og:url" content="https://qurandiscourses.netlify.app/">
-<meta name="twitter:card" content="summary">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
-<link rel="icon" type="image/svg+xml" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="%232b1d0e"/><text x="32" y="46" text-anchor="middle" font-family="Amiri,serif" font-size="42" fill="%23f6efe2">ق</text></svg>'>
-</head>
-<body>
-<a href="#main" class="skip">Skip to main content</a>
-<header class="site">
-  <div class="crest" aria-hidden="true">﷽</div>
-  <h1><a href="index.html">Discourses</a></h1>
-  <p class="tag">Toward direct engagement with the Qur'an</p>
-  <p class="dates">In memory of Dr. Irfan Ahmad Khan · 1931 – 2018</p>
-</header>
-<nav class="primary" aria-label="Primary">
-  <a href="index.html">Home</a>
-  <a href="navigate.html">Navigate</a>
-  <a href="read.html">Read</a>
-  <a href="roots.html">Roots</a>
-  <a href="words.html">Words</a>
-  <a href="patterns.html">Patterns</a>
-  <a href="numbers.html">Numbers</a>
-  <a href="sources.html">Sources</a>
-  <a href="validation.html">Validation</a>
-  <a href="about.html">About</a>
-</nav>
-<main id="main">
-<section>
-  <blockquote class="khan">
-    Every believer builds his or her own direct and personal relationship with the Book.
-    <cite>Irfan Ahmad Khan, <em>Reflections on the Qur'an</em>. See <a href="sources.html">Sources</a>.</cite>
-  </blockquote>
-  <p class="lede">Discourses is a platform for personal, evidence-based study of the Qur'an. It offers tools for roots, words, structure, and linguistic patterns, with a verification label beside every claim. Customize what you see in <a href="#" onclick="document.getElementById('gearBtn').click();return false;">Settings</a>.</p>
-</section>
-<section>
-  <h2>Begin</h2>
-  <div class="grid">
-    <a class="tile" href="navigate.html"><span class="name">Navigate</span><span class="desc">The 114 surahs with chronology, length, and group filters.</span></a>
-    <a class="tile" href="read.html"><span class="name">Read</span><span class="desc">Any verse, side by side in up to 13 translations.</span></a>
-    <a class="tile" href="roots.html"><span class="name">Roots</span><span class="desc">The triliteral roots that organize Qur'anic vocabulary.</span></a>
-    <a class="tile" href="words.html"><span class="name">Words</span><span class="desc">Word-by-word morphology, lemma, and grammar.</span></a>
-    <a class="tile" href="patterns.html"><span class="name">Patterns</span><span class="desc">Structural and rhetorical features across the text.</span></a>
-    <a class="tile" href="numbers.html"><span class="name">Numbers</span><span class="desc">Frequency and distribution insights from the corpus.</span></a>
-  </div>
-</section>
-<section>
-  <h2>Verification labels</h2>
-  <div class="banner">
-    <p style="margin:0">
-      <span class="badge ok">Verified</span> from primary corpus or canonical edition.
-      <span class="badge pending">Pending</span> awaiting triangulation.
-      <span class="badge nuanced">Nuanced</span> the counting method or interpretation has known variation; see source for detail.
-    </p>
-  </div>
-  <p>Run the prompts on <a href="validation.html">Validation</a> against ChatGPT, Gemini, or Grok to triangulate any Pending claim into Verified, or surface the nuance that keeps it labeled accordingly.</p>
-</section>
-</main>
-<footer class="site">
-  <p>Discourses is built in memory of Dr. Irfan Ahmad Khan (1931 – 2018), founding scholar of the Association for Qur'anic Understanding.</p>
-  <p>Data from the Quranic Arabic Corpus (Leeds, GPL), Tanzil text (CC BY-ND 3.0), and the alquran.cloud API. See <a href="sources.html">Sources</a> for the full citation list.</p>
-  <p class="attr">Press <span class="kbd">1</span>, <span class="kbd">2</span>, or <span class="kbd">3</span> for depth. <span class="kbd">Esc</span> closes panels.</p>
-</footer>
-<div class="settings">
-  <button class="gear" id="gearBtn" aria-controls="settingsPanel" aria-expanded="false" title="Open settings">⚙</button>
-  <div class="panel" id="settingsPanel" role="dialog" aria-label="Settings" hidden></div>
-</div>
-<script src="assets/app.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>Discourses · Toward Understanding the Qur'an</title>
+    <meta
+      name="description"
+      content="A platform for direct, personal engagement with the Qur'an. Roots, words, patterns, and structure, with verification on every claim. In memory of Dr. Irfan Ahmad Khan."
+    />
+    <link rel="canonical" href="https://qurandiscourses.netlify.app/" />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Discourses" />
+    <meta
+      property="og:title"
+      content="Discourses · Toward Understanding the Qur'an"
+    />
+    <meta
+      property="og:description"
+      content="A platform for direct engagement with the Qur'an. In memory of Dr. Irfan Ahmad Khan (1931-2018)."
+    />
+    <meta property="og:url" content="https://qurandiscourses.netlify.app/" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="%232b1d0e"/><text x="32" y="46" text-anchor="middle" font-family="Amiri,serif" font-size="42" fill="%23f6efe2">ق</text></svg>'
+    />
+  </head>
+  <body>
+    <a href="#main" class="skip">Skip to main content</a>
+    <header class="site">
+      <div class="crest" aria-hidden="true">﷽</div>
+      <h1><a href="index.html">Discourses</a></h1>
+      <p class="tag">Toward direct engagement with the Qur'an</p>
+      <p class="dates">In memory of Dr. Irfan Ahmad Khan · 1931 – 2018</p>
+    </header>
+    <nav class="primary" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="navigate.html">Navigate</a>
+      <a href="read.html">Read</a>
+      <a href="roots.html">Roots</a>
+      <a href="words.html">Words</a>
+      <a href="patterns.html">Patterns</a>
+      <a href="numbers.html">Numbers</a>
+      <a href="sources.html">Sources</a>
+      <a href="validation.html">Validation</a>
+      <a href="about.html">About</a>
+    </nav>
+    <main id="main">
+      <section>
+        <blockquote class="khan">
+          Every believer builds his or her own direct and personal relationship
+          with the Book.
+          <cite
+            >Irfan Ahmad Khan, <em>Reflections on the Qur'an</em>. See
+            <a href="sources.html">Sources</a>.</cite
+          >
+        </blockquote>
+        <p class="lede">
+          A platform for personal, evidence-based study of the Qur'an. Tools for
+          roots, words, patterns, and structure, with verification on every
+          claim. Customize in
+          <a
+            href="#"
+            onclick="
+              document.getElementById('gearBtn').click();
+              return false;
+            "
+            >Settings</a
+          >.
+        </p>
+      </section>
+      <section>
+        <h2>Begin</h2>
+        <div class="grid">
+          <a class="tile" href="navigate.html"
+            ><span class="name">Navigate</span
+            ><span class="desc"
+              >The 114 surahs with chronology, length, and group filters.</span
+            ></a
+          >
+          <a class="tile" href="read.html"
+            ><span class="name">Read</span
+            ><span class="desc"
+              >Any verse, side by side in up to 13 translations.</span
+            ></a
+          >
+          <a class="tile" href="roots.html"
+            ><span class="name">Roots</span
+            ><span class="desc"
+              >The triliteral roots that organize Qur'anic vocabulary.</span
+            ></a
+          >
+          <a class="tile" href="words.html"
+            ><span class="name">Words</span
+            ><span class="desc"
+              >Word-by-word morphology, lemma, and grammar.</span
+            ></a
+          >
+          <a class="tile" href="patterns.html"
+            ><span class="name">Patterns</span
+            ><span class="desc"
+              >Structural and rhetorical features across the text.</span
+            ></a
+          >
+          <a class="tile" href="numbers.html"
+            ><span class="name">Numbers</span
+            ><span class="desc"
+              >Frequency and distribution insights from the corpus.</span
+            ></a
+          >
+        </div>
+      </section>
+      <section>
+        <h2>Verification labels</h2>
+        <div class="banner">
+          <p style="margin: 0">
+            <span class="badge ok">Verified</span> from primary corpus or
+            canonical edition.
+            <span class="badge pending">Pending</span> awaiting triangulation.
+            <span class="badge nuanced">Nuanced</span> the counting method or
+            interpretation has known variation; see source for detail.
+          </p>
+        </div>
+        <p>
+          Run the prompts on <a href="validation.html">Validation</a> against
+          ChatGPT, Gemini, or Grok to triangulate any Pending claim into
+          Verified, or surface the nuance that keeps it labeled accordingly.
+        </p>
+      </section>
+    </main>
+    <footer class="site">
+      <p>
+        Discourses is built in memory of Dr. Irfan Ahmad Khan (1931 – 2018),
+        founding scholar of the Association for Qur'anic Understanding.
+      </p>
+      <p>
+        Data from the Quranic Arabic Corpus (Leeds, GPL), Tanzil text (CC BY-ND
+        3.0), and the alquran.cloud API. See
+        <a href="sources.html">Sources</a> for the full citation list.
+      </p>
+      <p class="attr">
+        Press <span class="kbd">1</span>, <span class="kbd">2</span>, or
+        <span class="kbd">3</span> for depth.
+        <span class="kbd">Esc</span> closes panels.
+      </p>
+    </footer>
+    <div class="settings">
+      <button
+        class="gear"
+        id="gearBtn"
+        aria-controls="settingsPanel"
+        aria-expanded="false"
+        title="Open settings"
+      >
+        ⚙
+      </button>
+      <div
+        class="panel"
+        id="settingsPanel"
+        role="dialog"
+        aria-label="Settings"
+        hidden
+      ></div>
+    </div>
+    <script src="assets/app.js"></script>
+  </body>
 </html>
