@@ -705,3 +705,80 @@ html[data-depth="encyclopedic"] li.encyclopedic-only {
     font-size: 0.82rem;
   }
 }
+
+/* ── Roots page: sparkline column ─────────────────────────────────── */
+.root-row td.spark-cell {
+  padding: 0.3rem 0.4rem;
+  line-height: 0;
+}
+
+/* ── Word-family table: mobile stacked layout ────────────────────── */
+@media (max-width: 480px) {
+  .word-family-table {
+    display: block;
+  }
+  .word-family-table thead {
+    display: none;
+  }
+  .word-family-table tbody,
+  .word-family-table tr,
+  .word-family-table td {
+    display: block;
+    width: 100%;
+  }
+  .word-family-table tr {
+    border-bottom: 1px solid var(--line);
+    padding: 0.5rem 0;
+  }
+  .word-family-table td {
+    padding: 0.15rem 0;
+  }
+  .word-family-table td::before {
+    content: attr(data-label) ": ";
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+  .word-family-table td.ar-cell::before {
+    content: "";
+  }
+}
+
+/* ── Compare page: typeahead suggestion list ─────────────────────── */
+.root-suggest {
+  list-style: none;
+  margin: 0.2rem 0 0;
+  padding: 0;
+  position: absolute;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 10;
+  box-shadow: var(--shadow);
+  min-width: 220px;
+}
+.root-suggest li {
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--line);
+}
+.root-suggest li:last-child {
+  border-bottom: none;
+}
+.root-suggest li:hover,
+.root-suggest li.active {
+  background: var(--bg);
+}
+.root-suggest .latin {
+  font-weight: 500;
+}
+.root-suggest .ar {
+  font-family: var(--ar);
+  margin: 0 0.4rem;
+}
+.root-suggest .meaning {
+  color: var(--muted);
+  font-size: 0.82rem;
+}

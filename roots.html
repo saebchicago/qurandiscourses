@@ -71,13 +71,14 @@
                   <th>Root</th>
                   <th>Arabic</th>
                   <th>Meaning</th>
+                  <th style="width: 60px">Period</th>
                   <th class="count">Count</th>
                 </tr>
               </thead>
               <tbody id="rootBody">
                 <tr>
                   <td
-                    colspan="5"
+                    colspan="6"
                     style="text-align: center; color: var(--muted)"
                   >
                     Loading…
@@ -108,6 +109,10 @@
             >
               Show all roots
             </button>
+            <p style="margin: 0; font-size: 0.78rem; color: var(--muted)">
+              Period bars (left to right): Early Meccan · Middle Meccan · Late
+              Meccan · Medinan
+            </p>
             <p class="prov" style="margin: 0; flex: 1">
               <span class="badge ok">Verified</span> counts from the Quranic
               Arabic Corpus (Leeds / Dukes 2009–2017) via
@@ -126,6 +131,7 @@
           <h3 id="detailHeading"></h3>
           <h4 style="margin: 1.25rem 0 0.5rem">Distribution by period</h4>
           <div id="detailBars"></div>
+          <div id="detailWordFamily" style="margin-top: 1.25rem"></div>
           <div
             style="
               display: flex;
@@ -197,100 +203,10 @@
       ></div>
     </div>
     <script src="assets/app.js"></script>
+    <script src="assets/root-meanings.js"></script>
     <script>
       (function () {
-        const MEANINGS = {
-          Alh: "God, deity",
-          qwl: "to say",
-          kwn: "to be",
-          rbb: "Lord, Sustainer",
-          Amn: "believe, faith",
-          Elm: "to know",
-          qwm: "people, stand",
-          Aty: "to come, bring",
-          kfr: "to disbelieve",
-          byn: "clear, between",
-          $yA: "thing",
-          rsl: "messenger, send",
-          ArD: "earth, land",
-          ywm: "day",
-          Ayy: "sign, verse",
-          smw: "sky; name",
-          kll: "all, every",
-          "E*b": "punishment",
-          Eml: "to do, act",
-          jEl: "to make",
-          rHm: "mercy",
-          rAy: "to see",
-          ktb: "to write, book",
-          hdy: "guidance",
-          Zlm: "wrongdoing",
-          nfs: "soul, self",
-          qbl: "before, receive",
-          nzl: "to send down",
-          "*kr": "to remember",
-          Hqq: "truth, right",
-          "k*b": "to lie, deny",
-          jyA: "to come",
-          Ebd: "servant, worship",
-          "Ax*": "to take",
-          xlq: "to create",
-          wqy: "to protect, fear God",
-          Axr: "other, last",
-          Amr: "command, matter",
-          nws: "people, humanity",
-          bEd: "after, far",
-          gfr: "forgiveness",
-          wly: "guardian, ally",
-          dEw: "to call, pray",
-          Hkm: "judgment, wisdom",
-          mlk: "king, possess",
-          jnn: "garden, jinn",
-          End: "with, at, near",
-          xyr: "good",
-          nwr: "light",
-          Hsn: "good, beautiful",
-          slm: "peace, submit",
-          fEl: "to do, act",
-          Hmd: "praise",
-          Hyw: "life, living",
-          mwt: "death",
-          sbl: "path, way",
-          qdr: "power, decree",
-          wjd: "to find",
-          ftn: "trial, temptation",
-          wHd: "one, alone",
-          bsr: "sight, insight",
-          $kr: "gratitude",
-          qrb: "near, draw close",
-          wqf: "to stand, stop",
-          wzn: "weight, balance",
-          xwf: "fear",
-          lqy: "to meet, receive",
-          Hzb: "party, group",
-          Srt: "path, way",
-          Shr: "month",
-          ElA: "high, above",
-          jls: "to sit",
-          wld: "to give birth, child",
-          Abd: "forever, eternity",
-          Hwl: "around, change",
-          nby: "prophet",
-          mll: "nation, community",
-          Eby: "to refuse, be haughty",
-          sdq: "truth, sincerity",
-          Swr: "form, picture",
-          rDy: "to be pleased",
-          Twb: "to repent",
-          Hsb: "to reckon, account",
-          Slw: "prayer",
-          frd: "individual, lone",
-          zkt: "purification, alms",
-          Hjj: "argument, pilgrimage",
-          bEl: "lord, husband",
-          qss: "story, narrate",
-          Hws: "sense, feel",
-        };
+        const MEANINGS = window.ROOT_MEANINGS || {};
 
         const PERIOD_ORDER = [
           "meccan-early",
@@ -337,6 +253,21 @@
           VOC: "Vocative",
         };
 
+        function sparkline(byChron) {
+          const vals = PERIOD_ORDER.map((p) => byChron[p] || 0);
+          const max = Math.max(...vals);
+          if (max === 0) return "";
+          const bars = vals
+            .map((v, i) => {
+              const h = Math.max(1, Math.round((v / max) * 12));
+              const y = 14 - h;
+              const x = i * 13;
+              return `<rect x="${x}" y="${y}" width="10" height="${h}" fill="var(--accent-soft)"/>`;
+            })
+            .join("");
+          return `<svg width="55" height="14" viewBox="0 0 55 14" aria-label="Period distribution: ${vals.join(", ")}" role="img">${bars}</svg>`;
+        }
+
         let allRoots = [];
         let showing = 50;
         let searchTerm = "";
@@ -365,7 +296,7 @@
 
           if (shown.length === 0) {
             tbody.innerHTML =
-              '<tr><td colspan="5" style="text-align:center;color:var(--muted)">No roots match.</td></tr>';
+              '<tr><td colspan="6" style="text-align:center;color:var(--muted)">No roots match.</td></tr>';
           } else {
             tbody.innerHTML = shown
               .map((r, i) => {
@@ -381,6 +312,7 @@
                   `<td><a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(r.rootBuckwalter)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${r.rootLatin}</a></td>` +
                   `<td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${r.rootArabic}</span></td>` +
                   `<td style="color:${meaning === "—" ? "var(--muted)" : "inherit"}">${meaning}</td>` +
+                  `<td class="spark-cell">${sparkline(r.byChronology)}</td>` +
                   `<td class="count">${r.totalCount.toLocaleString()}</td>` +
                   `</tr>`
                 );
@@ -470,6 +402,39 @@
             },
           ).join("");
 
+          // Word-family table
+          const wfEl = document.getElementById("detailWordFamily");
+          if (wfEl) {
+            const lemmas = r.topLemmas || [];
+            if (lemmas.length) {
+              const rows = lemmas
+                .map((lm) => {
+                  const fo = lm.firstOccurrence;
+                  const firstLink = fo
+                    ? `<a href="read.html?s=${fo.surah}&a=${fo.verse}">${fo.surah}:${fo.verse}</a>`
+                    : "—";
+                  return (
+                    `<tr>` +
+                    `<td class="ar-cell"><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${lm.lemmaArabic || ""}</span></td>` +
+                    `<td data-label="Transliteration" style="color:var(--muted);font-size:0.85rem">${lm.lemma}</td>` +
+                    `<td data-label="Count" class="count">${lm.count.toLocaleString()}</td>` +
+                    `<td data-label="First seen">${firstLink}</td>` +
+                    `</tr>`
+                  );
+                })
+                .join("");
+              wfEl.innerHTML =
+                `<h4 style="margin:0 0 0.35rem">Word family — top derived forms</h4>` +
+                `<p style="font-size:0.88rem;color:var(--muted);margin:0 0 0.5rem">A single root yields many words. These are the most frequent forms derived from this root.</p>` +
+                `<table class="data word-family-table" style="font-size:0.88rem">` +
+                `<thead><tr><th>Lemma</th><th>Transliteration</th><th class="count">Count</th><th>First seen</th></tr></thead>` +
+                `<tbody>${rows}</tbody>` +
+                `</table>`;
+            } else {
+              wfEl.innerHTML = "";
+            }
+          }
+
           document.getElementById("detailSurahs").innerHTML = (
             r.topSurahs || []
           )
@@ -523,7 +488,7 @@
           })
           .catch(() => {
             document.getElementById("rootBody").innerHTML =
-              '<tr><td colspan="5" style="text-align:center;color:var(--muted)">Root data unavailable.</td></tr>';
+              '<tr><td colspan="6" style="text-align:center;color:var(--muted)">Root data unavailable.</td></tr>';
           });
       })();
     </script>
