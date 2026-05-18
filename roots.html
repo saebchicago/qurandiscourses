@@ -6,7 +6,7 @@
     <title>Roots · Discourses</title>
     <meta
       name="description"
-      content="The triliteral roots of Qur'anic Arabic, with frequency and distribution."
+      content="The 1,642 triliteral roots of the Qur'an with frequency, chronological distribution, and word-family data from the Leeds Corpus."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -33,293 +33,135 @@
       <section>
         <h2>Roots</h2>
         <p class="lede">
-          The triliteral root is the unit of Qur'anic vocabulary. About 1,650
-          roots account for all 77,430 words of the text.
+          1,642 triliteral roots account for all 77,430 words of the Qur'an.
+          Arabic vocabulary is organized by root families — a set of (usually
+          three) consonants from which nouns, verbs, and adjectives are derived
+          by fixed patterns.
         </p>
+
         <div class="card">
-          <h3>Top ten most frequent roots</h3>
-          <table class="data">
-            <thead>
-              <tr>
-                <th>Root</th>
-                <th>Arabic</th>
-                <th>Meaning</th>
-                <th>Count</th>
-                <th class="scholar-only">Notable derivations</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <a
-                    href="https://corpus.quran.com/qurandictionary.jsp?q=Alh"
-                    target="_blank"
-                    rel="noopener"
-                    >a-l-h</a
+          <div
+            style="
+              display: flex;
+              gap: 0.75rem;
+              align-items: center;
+              flex-wrap: wrap;
+              margin-bottom: 1rem;
+            "
+          >
+            <input
+              type="search"
+              id="rootSearch"
+              placeholder="Search roots…"
+              aria-label="Search roots by transliteration, Arabic, or meaning"
+              style="flex: 1; min-width: 180px; max-width: 320px"
+            />
+            <span
+              id="rootCountLabel"
+              style="color: var(--muted); font-size: 0.88rem"
+            ></span>
+          </div>
+
+          <div style="overflow-x: auto">
+            <table class="data" style="width: 100%">
+              <thead>
+                <tr>
+                  <th style="width: 2.5rem">#</th>
+                  <th>Root</th>
+                  <th>Arabic</th>
+                  <th>Meaning</th>
+                  <th class="count">Count</th>
+                </tr>
+              </thead>
+              <tbody id="rootBody">
+                <tr>
+                  <td
+                    colspan="5"
+                    style="text-align: center; color: var(--muted)"
                   >
-                </td>
-                <td>
-                  <span
-                    class="ar notranslate"
-                    translate="no"
-                    lang="ar"
-                    dir="rtl"
-                    >ا ل ه</span
-                  >
-                </td>
-                <td>God, deity</td>
-                <td class="count">2,851</td>
-                <td class="scholar-only">Allah, ilah, alihah</td>
-              </tr>
-              <tr>
-                <td>
-                  <a
-                    href="https://corpus.quran.com/qurandictionary.jsp?q=qwl"
-                    target="_blank"
-                    rel="noopener"
-                    >q-w-l</a
-                  >
-                </td>
-                <td>
-                  <span
-                    class="ar notranslate"
-                    translate="no"
-                    lang="ar"
-                    dir="rtl"
-                    >ق و ل</span
-                  >
-                </td>
-                <td>to say</td>
-                <td class="count">1,722</td>
-                <td class="scholar-only">qala, yaqulu, qawl</td>
-              </tr>
-              <tr>
-                <td>
-                  <a
-                    href="https://corpus.quran.com/qurandictionary.jsp?q=kwn"
-                    target="_blank"
-                    rel="noopener"
-                    >k-w-n</a
-                  >
-                </td>
-                <td>
-                  <span
-                    class="ar notranslate"
-                    translate="no"
-                    lang="ar"
-                    dir="rtl"
-                    >ك و ن</span
-                  >
-                </td>
-                <td>to be</td>
-                <td class="count">1,390</td>
-                <td class="scholar-only">kana, yakunu, kun</td>
-              </tr>
-              <tr>
-                <td>
-                  <a
-                    href="https://corpus.quran.com/qurandictionary.jsp?q=rbb"
-                    target="_blank"
-                    rel="noopener"
-                    >r-b-b</a
-                  >
-                </td>
-                <td>
-                  <span
-                    class="ar notranslate"
-                    translate="no"
-                    lang="ar"
-                    dir="rtl"
-                    >ر ب ب</span
-                  >
-                </td>
-                <td>Lord, Sustainer</td>
-                <td class="count">980</td>
-                <td class="scholar-only">rabb, rabbi</td>
-              </tr>
-              <tr>
-                <td>
-                  <a
-                    href="https://corpus.quran.com/qurandictionary.jsp?q=Amn"
-                    target="_blank"
-                    rel="noopener"
-                    >a-m-n</a
-                  >
-                </td>
-                <td>
-                  <span
-                    class="ar notranslate"
-                    translate="no"
-                    lang="ar"
-                    dir="rtl"
-                    >ا م ن</span
-                  >
-                </td>
-                <td>believe, be safe</td>
-                <td class="count">879</td>
-                <td class="scholar-only">amana, iman, mu'min</td>
-              </tr>
-              <tr>
-                <td>
-                  <a
-                    href="https://corpus.quran.com/qurandictionary.jsp?q=Elm"
-                    target="_blank"
-                    rel="noopener"
-                    >ʿ-l-m</a
-                  >
-                </td>
-                <td>
-                  <span
-                    class="ar notranslate"
-                    translate="no"
-                    lang="ar"
-                    dir="rtl"
-                    >ع ل م</span
-                  >
-                </td>
-                <td>know</td>
-                <td class="count">854</td>
-                <td class="scholar-only">'alima, 'ilm, 'alim</td>
-              </tr>
-              <tr>
-                <td>
-                  <a
-                    href="https://corpus.quran.com/qurandictionary.jsp?q=ywm"
-                    target="_blank"
-                    rel="noopener"
-                    >y-w-m</a
-                  >
-                </td>
-                <td>
-                  <span
-                    class="ar notranslate"
-                    translate="no"
-                    lang="ar"
-                    dir="rtl"
-                    >ي و م</span
-                  >
-                </td>
-                <td>day</td>
-                <td class="count">
-                  405–475 <span class="badge nuanced">Nuanced</span>
-                </td>
-                <td class="scholar-only">yawm, ayyam</td>
-              </tr>
-              <tr>
-                <td>
-                  <a
-                    href="https://corpus.quran.com/qurandictionary.jsp?q=ArD"
-                    target="_blank"
-                    rel="noopener"
-                    >a-r-ḍ</a
-                  >
-                </td>
-                <td>
-                  <span
-                    class="ar notranslate"
-                    translate="no"
-                    lang="ar"
-                    dir="rtl"
-                    >ا ر ض</span
-                  >
-                </td>
-                <td>earth, land</td>
-                <td class="count">461</td>
-                <td class="scholar-only">ard, al-ard</td>
-              </tr>
-              <tr>
-                <td>
-                  <a
-                    href="https://corpus.quran.com/qurandictionary.jsp?q=rHm"
-                    target="_blank"
-                    rel="noopener"
-                    >r-ḥ-m</a
-                  >
-                </td>
-                <td>
-                  <span
-                    class="ar notranslate"
-                    translate="no"
-                    lang="ar"
-                    dir="rtl"
-                    >ر ح م</span
-                  >
-                </td>
-                <td>mercy</td>
-                <td class="count">339</td>
-                <td class="scholar-only">al-Rahman, al-Rahim, rahmah</td>
-              </tr>
-              <tr>
-                <td>
-                  <a
-                    href="https://corpus.quran.com/qurandictionary.jsp?q=nzl"
-                    target="_blank"
-                    rel="noopener"
-                    >n-z-l</a
-                  >
-                </td>
-                <td>
-                  <span
-                    class="ar notranslate"
-                    translate="no"
-                    lang="ar"
-                    dir="rtl"
-                    >ن ز ل</span
-                  >
-                </td>
-                <td>send down</td>
-                <td class="count">293</td>
-                <td class="scholar-only">nazala, anzala, tanzil</td>
-              </tr>
-            </tbody>
-          </table>
-          <p class="prov">
-            <span class="badge ok">Verified</span> for a-l-h, q-w-l, k-w-n,
-            r-b-b, a-m-n, ʿ-l-m, a-r-ḍ, r-ḥ-m, n-z-l from the Quranic Arabic
-            Corpus at
-            <a
-              href="https://corpus.quran.com/qurandictionary.jsp"
-              rel="noopener"
-              target="_blank"
-              >corpus.quran.com</a
+                    Loading…
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div
+            style="
+              margin-top: 0.75rem;
+              display: flex;
+              align-items: flex-start;
+              gap: 1rem;
+              flex-wrap: wrap;
+            "
+          >
+            <button
+              id="showMoreBtn"
+              class="button"
+              hidden
+              style="
+                font-size: 0.88rem;
+                padding: 0.35rem 0.9rem;
+                flex-shrink: 0;
+              "
             >
-            (Leeds, Dukes 2009-2017).
-            <span class="badge nuanced">Nuanced</span> for y-w-m: the corpus
-            entry for the nominal yawm lists 405 occurrences, while broader
-            counts that include the compound form yawma-idhin (يومئذ, "that
-            day") and other derived forms reach 475. Both are legitimate; the
-            count depends on the rule. See
-            <a href="validation.html">Validation</a> for the triangulation
-            method.
+              Show all roots
+            </button>
+            <p class="prov" style="margin: 0; flex: 1">
+              <span class="badge ok">Verified</span> counts from the Quranic
+              Arabic Corpus (Leeds / Dukes 2009–2017) via
+              <a
+                href="https://corpus.quran.com/qurandictionary.jsp"
+                target="_blank"
+                rel="noopener"
+                >corpus.quran.com</a
+              >. Meanings are provided for the most frequent roots; the long
+              tail is unlabeled.
+            </p>
+          </div>
+        </div>
+
+        <div class="card scholar-only" id="rootDetail" hidden>
+          <h3 id="detailHeading"></h3>
+          <h4 style="margin: 1.25rem 0 0.5rem">Distribution by period</h4>
+          <div id="detailBars"></div>
+          <div
+            style="
+              display: flex;
+              gap: 2rem;
+              flex-wrap: wrap;
+              margin-top: 1.25rem;
+            "
+          >
+            <div>
+              <h4 style="margin: 0 0 0.4rem">Top surahs</h4>
+              <ul
+                id="detailSurahs"
+                style="margin: 0; padding-left: 1.2rem; font-size: 0.9rem"
+              ></ul>
+            </div>
+            <div>
+              <h4 style="margin: 0 0 0.4rem">Parts of speech</h4>
+              <p id="detailPos" style="margin: 0; font-size: 0.9rem"></p>
+            </div>
+            <div>
+              <h4 style="margin: 0 0 0.4rem">First occurrence</h4>
+              <p id="detailFirst" style="margin: 0; font-size: 0.9rem"></p>
+            </div>
+          </div>
+          <p class="prov" style="margin-top: 1rem">
+            <span class="badge ok">Verified</span> chronological bands from
+            Leeds + Egyptian Standard (Cairo 1924) revelation order.
+            <a
+              id="detailCorpusLink"
+              href="https://corpus.quran.com/qurandictionary.jsp"
+              target="_blank"
+              rel="noopener"
+              >View root at corpus.quran.com →</a
+            >
           </p>
         </div>
-        <div class="card scholar-only">
-          <h3>Distribution by chronological band: mercy (r-ḥ-m)</h3>
-          <div class="barwrap">
-            <span class="lbl">Early Meccan</span>
-            <div class="bar"><span style="width: 46%"></span></div>
-            <span class="count">52</span>
-          </div>
-          <div class="barwrap">
-            <span class="lbl">Middle Meccan</span>
-            <div class="bar"><span style="width: 63%"></span></div>
-            <span class="count">71</span>
-          </div>
-          <div class="barwrap">
-            <span class="lbl">Late Meccan</span>
-            <div class="bar"><span style="width: 100%"></span></div>
-            <span class="count">113</span>
-          </div>
-          <div class="barwrap">
-            <span class="lbl">Medinan</span>
-            <div class="bar"><span style="width: 91%"></span></div>
-            <span class="count">103</span>
-          </div>
-          <p class="prov">
-            <span class="badge pending">Pending</span> chronological
-            distribution from Leeds + Cairo 1924 classification.
-          </p>
-        </div>
+
         <div class="card encyclopedic-only">
           <h3>Explore further</h3>
           <p>
@@ -354,5 +196,335 @@
       ></div>
     </div>
     <script src="assets/app.js"></script>
+    <script>
+      (function () {
+        const MEANINGS = {
+          Alh: "God, deity",
+          qwl: "to say",
+          kwn: "to be",
+          rbb: "Lord, Sustainer",
+          Amn: "believe, faith",
+          Elm: "to know",
+          qwm: "people, stand",
+          Aty: "to come, bring",
+          kfr: "to disbelieve",
+          byn: "clear, between",
+          $yA: "thing",
+          rsl: "messenger, send",
+          ArD: "earth, land",
+          ywm: "day",
+          Ayy: "sign, verse",
+          smw: "sky; name",
+          kll: "all, every",
+          "E*b": "punishment",
+          Eml: "to do, act",
+          jEl: "to make",
+          rHm: "mercy",
+          rAy: "to see",
+          ktb: "to write, book",
+          hdy: "guidance",
+          Zlm: "wrongdoing",
+          nfs: "soul, self",
+          qbl: "before, receive",
+          nzl: "to send down",
+          "*kr": "to remember",
+          Hqq: "truth, right",
+          "k*b": "to lie, deny",
+          jyA: "to come",
+          Ebd: "servant, worship",
+          "Ax*": "to take",
+          xlq: "to create",
+          wqy: "to protect, fear God",
+          Axr: "other, last",
+          Amr: "command, matter",
+          nws: "people, humanity",
+          bEd: "after, far",
+          gfr: "forgiveness",
+          wly: "guardian, ally",
+          dEw: "to call, pray",
+          Hkm: "judgment, wisdom",
+          mlk: "king, possess",
+          jnn: "garden, jinn",
+          End: "with, at, near",
+          xyr: "good",
+          nwr: "light",
+          Hsn: "good, beautiful",
+          slm: "peace, submit",
+          fEl: "to do, act",
+          Hmd: "praise",
+          Hyw: "life, living",
+          mwt: "death",
+          sbl: "path, way",
+          qdr: "power, decree",
+          wjd: "to find",
+          ftn: "trial, temptation",
+          wHd: "one, alone",
+          bsr: "sight, insight",
+          $kr: "gratitude",
+          qrb: "near, draw close",
+          wqf: "to stand, stop",
+          wzn: "weight, balance",
+          xwf: "fear",
+          lqy: "to meet, receive",
+          Hzb: "party, group",
+          Srt: "path, way",
+          Shr: "month",
+          ElA: "high, above",
+          jls: "to sit",
+          wld: "to give birth, child",
+          Abd: "forever, eternity",
+          Hwl: "around, change",
+          nby: "prophet",
+          mll: "nation, community",
+          Eby: "to refuse, be haughty",
+          sdq: "truth, sincerity",
+          Swr: "form, picture",
+          rDy: "to be pleased",
+          Twb: "to repent",
+          Hsb: "to reckon, account",
+          Slw: "prayer",
+          frd: "individual, lone",
+          zkt: "purification, alms",
+          Hjj: "argument, pilgrimage",
+          bEl: "lord, husband",
+          qss: "story, narrate",
+          Hws: "sense, feel",
+        };
+
+        const PERIOD_ORDER = [
+          "meccan-early",
+          "meccan-middle",
+          "meccan-late",
+          "medinan",
+        ];
+        const PERIOD_LABELS = {
+          "meccan-early": "Early Meccan",
+          "meccan-middle": "Middle Meccan",
+          "meccan-late": "Late Meccan",
+          medinan: "Medinan",
+        };
+        const POS_LABELS = {
+          N: "Noun",
+          V: "Verb",
+          ADJ: "Adjective",
+          P: "Particle",
+          CONJ: "Conjunction",
+          REL: "Relative",
+          DET: "Determiner",
+          LOC: "Location",
+          T: "Time",
+          PN: "Proper noun",
+          IMPN: "Imperative particle",
+          INTG: "Interrogative",
+          NEG: "Negative",
+          PREV: "Preventive",
+          COND: "Conditional",
+          FUT: "Future",
+          CERT: "Certainty",
+          RSLT: "Result",
+          SUP: "Supplemental",
+          EMPH: "Emphatic",
+          EXL: "Exhortation",
+          AMD: "Amendment",
+          AVR: "Aversion",
+          EXP: "Explanation",
+          REM: "Resumption",
+          SUR: "Surprise",
+          COMMA: "Comma",
+          ANS: "Answer",
+          INC: "Inceptive",
+          VOC: "Vocative",
+        };
+
+        let allRoots = [];
+        let showing = 50;
+        let searchTerm = "";
+        let selectedBW = null;
+
+        function filtered() {
+          if (!searchTerm) return allRoots;
+          const t = searchTerm.toLowerCase();
+          return allRoots.filter(
+            (r) =>
+              r.rootLatin.toLowerCase().includes(t) ||
+              r.rootBuckwalter.toLowerCase().includes(t) ||
+              r.rootArabic.includes(t) ||
+              (MEANINGS[r.rootBuckwalter] || "").toLowerCase().includes(t),
+          );
+        }
+
+        function render() {
+          const list = filtered();
+          const shownCount = Math.min(
+            showing === Infinity ? list.length : showing,
+            list.length,
+          );
+          const shown = list.slice(0, shownCount);
+          const tbody = document.getElementById("rootBody");
+
+          if (shown.length === 0) {
+            tbody.innerHTML =
+              '<tr><td colspan="5" style="text-align:center;color:var(--muted)">No roots match.</td></tr>';
+          } else {
+            tbody.innerHTML = shown
+              .map((r, i) => {
+                const meaning = MEANINGS[r.rootBuckwalter] || "—";
+                const sel = r.rootBuckwalter === selectedBW;
+                return (
+                  `<tr class="root-row" data-bw="${r.rootBuckwalter}" tabindex="0" role="button" aria-pressed="${sel}"` +
+                  (sel
+                    ? ' style="background:var(--line);font-weight:500"'
+                    : "") +
+                  `>` +
+                  `<td style="color:var(--muted);font-size:0.8rem">${i + 1}</td>` +
+                  `<td><a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(r.rootBuckwalter)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${r.rootLatin}</a></td>` +
+                  `<td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${r.rootArabic}</span></td>` +
+                  `<td style="color:${meaning === "—" ? "var(--muted)" : "inherit"}">${meaning}</td>` +
+                  `<td class="count">${r.totalCount.toLocaleString()}</td>` +
+                  `</tr>`
+                );
+              })
+              .join("");
+
+            tbody.querySelectorAll(".root-row").forEach((tr) => {
+              tr.addEventListener("click", () => selectRoot(tr.dataset.bw));
+              tr.addEventListener("keydown", (e) => {
+                if (e.key === "Enter" || e.key === " ")
+                  selectRoot(tr.dataset.bw);
+              });
+            });
+          }
+
+          const label = document.getElementById("rootCountLabel");
+          if (label) {
+            label.textContent = searchTerm
+              ? `${shownCount} of ${list.length} matching (${allRoots.length.toLocaleString()} total)`
+              : `Showing ${shownCount} of ${allRoots.length.toLocaleString()} roots`;
+          }
+
+          const btn = document.getElementById("showMoreBtn");
+          if (btn) {
+            btn.hidden = shownCount >= list.length;
+            btn.textContent = `Show all ${list.length.toLocaleString()} roots`;
+          }
+        }
+
+        function selectRoot(bw) {
+          selectedBW = selectedBW === bw ? null : bw;
+          render();
+          renderDetail();
+          if (selectedBW) {
+            const panel = document.getElementById("rootDetail");
+            if (panel && !panel.hidden)
+              setTimeout(
+                () =>
+                  panel.scrollIntoView({
+                    behavior: "smooth",
+                    block: "nearest",
+                  }),
+                50,
+              );
+          }
+        }
+
+        function renderDetail() {
+          const panel = document.getElementById("rootDetail");
+          if (!panel) return;
+          const depth =
+            document.documentElement.getAttribute("data-depth") || "simple";
+          if (depth === "simple" || !selectedBW) {
+            panel.hidden = true;
+            return;
+          }
+          const r = allRoots.find((x) => x.rootBuckwalter === selectedBW);
+          if (!r) {
+            panel.hidden = true;
+            return;
+          }
+
+          panel.hidden = false;
+
+          const meaning = MEANINGS[r.rootBuckwalter];
+          document.getElementById("detailHeading").textContent =
+            r.rootLatin +
+            " ‪" +
+            r.rootArabic +
+            "‬" +
+            (meaning ? " — " + meaning : "");
+
+          const maxVal = Math.max(
+            ...PERIOD_ORDER.map((p) => r.byChronology[p] || 0),
+          );
+          document.getElementById("detailBars").innerHTML = PERIOD_ORDER.map(
+            (p) => {
+              const val = r.byChronology[p] || 0;
+              const pct = maxVal > 0 ? Math.round((val / maxVal) * 100) : 0;
+              return (
+                `<div class="barwrap">` +
+                `<span class="lbl">${PERIOD_LABELS[p]}</span>` +
+                `<div class="bar"><span style="width:${pct}%"></span></div>` +
+                `<span class="count">${val}</span>` +
+                `</div>`
+              );
+            },
+          ).join("");
+
+          document.getElementById("detailSurahs").innerHTML = (
+            r.topSurahs || []
+          )
+            .slice(0, 5)
+            .map(
+              (s) =>
+                `<li><a href="read.html?s=${s.surah}&a=1">${s.name}</a> (${s.count})</li>`,
+            )
+            .join("");
+
+          const pos = r.posDistribution || {};
+          document.getElementById("detailPos").textContent =
+            Object.entries(pos)
+              .sort((a, b) => b[1] - a[1])
+              .map(([tag, cnt]) => `${POS_LABELS[tag] || tag}: ${cnt}`)
+              .join(", ") || "—";
+
+          const fo = r.firstOccurrence;
+          document.getElementById("detailFirst").innerHTML = fo
+            ? `<a href="read.html?s=${fo.surah}&a=${fo.verse}">${fo.surah}:${fo.verse}</a>`
+            : "—";
+
+          const link = document.getElementById("detailCorpusLink");
+          if (link)
+            link.href = `https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(r.rootBuckwalter)}`;
+        }
+
+        new MutationObserver(() => renderDetail()).observe(
+          document.documentElement,
+          { attributes: true, attributeFilter: ["data-depth"] },
+        );
+
+        document.getElementById("rootSearch").addEventListener("input", (e) => {
+          searchTerm = e.target.value.trim();
+          showing = 50;
+          render();
+        });
+
+        document.getElementById("showMoreBtn").addEventListener("click", () => {
+          showing = Infinity;
+          render();
+        });
+
+        fetch("data/roots-summary.json")
+          .then((r) => r.json())
+          .then((data) => {
+            allRoots = Object.values(data).sort(
+              (a, b) => b.totalCount - a.totalCount,
+            );
+            render();
+          })
+          .catch(() => {
+            document.getElementById("rootBody").innerHTML =
+              '<tr><td colspan="5" style="text-align:center;color:var(--muted)">Root data unavailable.</td></tr>';
+          });
+      })();
+    </script>
   </body>
 </html>
