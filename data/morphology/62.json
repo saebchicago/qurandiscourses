@@ -1,0 +1,1424 @@
+{
+  "1": [
+    {
+      "w": 1,
+      "ar": "يُسَبِّحُ",
+      "root": "sbH",
+      "lemma": "sab~aHa",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 2,
+      "ar": "لِلَّهِ",
+      "root": "Alh",
+      "lemma": "{ll~ah",
+      "pos": "PN",
+      "gloss": ""
+    },
+    {
+      "w": 3,
+      "ar": "مَا",
+      "root": "",
+      "lemma": "maA",
+      "pos": "REL",
+      "gloss": ""
+    },
+    {
+      "w": 4,
+      "ar": "فِى",
+      "root": "",
+      "lemma": "fiY",
+      "pos": "P",
+      "gloss": ""
+    },
+    {
+      "w": 5,
+      "ar": "ٱلسَّمَٰوَٰتِ",
+      "root": "smw",
+      "lemma": "samaA^'",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 6,
+      "ar": "وَمَا",
+      "root": "",
+      "lemma": "maA",
+      "pos": "REL",
+      "gloss": ""
+    },
+    {
+      "w": 7,
+      "ar": "فِى",
+      "root": "",
+      "lemma": "fiY",
+      "pos": "P",
+      "gloss": ""
+    },
+    {
+      "w": 8,
+      "ar": "ٱلْأَرْضِ",
+      "root": "ArD",
+      "lemma": ">aroD",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 9,
+      "ar": "ٱلْمَلِكِ",
+      "root": "mlk",
+      "lemma": "malik",
+      "pos": "ADJ",
+      "gloss": ""
+    },
+    {
+      "w": 10,
+      "ar": "ٱلْقُدُّوسِ",
+      "root": "qds",
+      "lemma": "qud~uws",
+      "pos": "ADJ",
+      "gloss": ""
+    },
+    {
+      "w": 11,
+      "ar": "ٱلْعَزِيزِ",
+      "root": "Ezz",
+      "lemma": "Eaziyz",
+      "pos": "ADJ",
+      "gloss": ""
+    },
+    {
+      "w": 12,
+      "ar": "ٱلْحَكِيمِ",
+      "root": "Hkm",
+      "lemma": "Hakiym",
+      "pos": "ADJ",
+      "gloss": ""
+    }
+  ],
+  "2": [
+    {
+      "w": 1,
+      "ar": "هُوَ",
+      "root": "",
+      "lemma": "",
+      "pos": "PRON",
+      "gloss": ""
+    },
+    {
+      "w": 2,
+      "ar": "ٱلَّذِى",
+      "root": "",
+      "lemma": "{l~a*iY",
+      "pos": "REL",
+      "gloss": ""
+    },
+    {
+      "w": 3,
+      "ar": "بَعَثَ",
+      "root": "bEv",
+      "lemma": "baEava",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 4,
+      "ar": "فِى",
+      "root": "",
+      "lemma": "fiY",
+      "pos": "P",
+      "gloss": ""
+    },
+    {
+      "w": 5,
+      "ar": "ٱلْأُمِّيِّ.نَ",
+      "root": "Amm",
+      "lemma": ">um~iY~",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 6,
+      "ar": "رَسُولًا",
+      "root": "rsl",
+      "lemma": "rasuwl",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 7,
+      "ar": "مِّنْهُمْ",
+      "root": "",
+      "lemma": "min",
+      "pos": "P",
+      "gloss": ""
+    },
+    {
+      "w": 8,
+      "ar": "يَتْلُوا@",
+      "root": "tlw",
+      "lemma": "talaY`",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 9,
+      "ar": "عَلَيْهِمْ",
+      "root": "",
+      "lemma": "EalaY`",
+      "pos": "P",
+      "gloss": ""
+    },
+    {
+      "w": 10,
+      "ar": "ءَايَٰتِهِ.",
+      "root": "Ayy",
+      "lemma": "'aAyap",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 11,
+      "ar": "وَيُزَكِّيهِمْ",
+      "root": "zkw",
+      "lemma": "zak~aY`",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 12,
+      "ar": "وَيُعَلِّمُهُمُ",
+      "root": "Elm",
+      "lemma": "Eal~ama",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 13,
+      "ar": "ٱلْكِتَٰبَ",
+      "root": "ktb",
+      "lemma": "kita`b",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 14,
+      "ar": "وَٱلْحِكْمَةَ",
+      "root": "Hkm",
+      "lemma": "Hikomap",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 15,
+      "ar": "وَإِن",
+      "root": "",
+      "lemma": "<in",
+      "pos": "COND",
+      "gloss": ""
+    },
+    {
+      "w": 16,
+      "ar": "كَانُوا@",
+      "root": "kwn",
+      "lemma": "kaAna",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 17,
+      "ar": "مِن",
+      "root": "",
+      "lemma": "min",
+      "pos": "P",
+      "gloss": ""
+    },
+    {
+      "w": 18,
+      "ar": "قَبْلُ",
+      "root": "qbl",
+      "lemma": "qabol",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 19,
+      "ar": "لَفِى",
+      "root": "",
+      "lemma": "fiY",
+      "pos": "P",
+      "gloss": ""
+    },
+    {
+      "w": 20,
+      "ar": "ضَلَٰلٍ",
+      "root": "Dll",
+      "lemma": "Dala`l",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 21,
+      "ar": "مُّبِينٍ",
+      "root": "byn",
+      "lemma": "m~ubiyn",
+      "pos": "ADJ",
+      "gloss": ""
+    }
+  ],
+  "3": [
+    {
+      "w": 1,
+      "ar": "وَءَاخَرِينَ",
+      "root": "Axr",
+      "lemma": "A^xar",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 2,
+      "ar": "مِنْهُمْ",
+      "root": "",
+      "lemma": "min",
+      "pos": "P",
+      "gloss": ""
+    },
+    {
+      "w": 3,
+      "ar": "لَمَّا",
+      "root": "",
+      "lemma": "lam",
+      "pos": "NEG",
+      "gloss": ""
+    },
+    {
+      "w": 4,
+      "ar": "يَلْحَقُوا@",
+      "root": "lHq",
+      "lemma": "yaloHaqu",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 5,
+      "ar": "بِهِمْ",
+      "root": "",
+      "lemma": "",
+      "pos": "PRON",
+      "gloss": ""
+    },
+    {
+      "w": 6,
+      "ar": "وَهُوَ",
+      "root": "",
+      "lemma": "",
+      "pos": "PRON",
+      "gloss": ""
+    },
+    {
+      "w": 7,
+      "ar": "ٱلْعَزِيزُ",
+      "root": "Ezz",
+      "lemma": "Eaziyz",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 8,
+      "ar": "ٱلْحَكِيمُ",
+      "root": "Hkm",
+      "lemma": "Hakiym",
+      "pos": "ADJ",
+      "gloss": ""
+    }
+  ],
+  "4": [
+    {
+      "w": 1,
+      "ar": "ذَٰلِكَ",
+      "root": "",
+      "lemma": "*a`lik",
+      "pos": "DEM",
+      "gloss": ""
+    },
+    {
+      "w": 2,
+      "ar": "فَضْلُ",
+      "root": "fDl",
+      "lemma": "faDol",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 3,
+      "ar": "ٱللَّهِ",
+      "root": "Alh",
+      "lemma": "{ll~ah",
+      "pos": "PN",
+      "gloss": ""
+    },
+    {
+      "w": 4,
+      "ar": "يُؤْتِيهِ",
+      "root": "Aty",
+      "lemma": "A^taY",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 5,
+      "ar": "مَن",
+      "root": "",
+      "lemma": "man",
+      "pos": "REL",
+      "gloss": ""
+    },
+    {
+      "w": 6,
+      "ar": "يَشَا^ءُ",
+      "root": "$yA",
+      "lemma": "$aA^'a",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 7,
+      "ar": "وَٱللَّهُ",
+      "root": "Alh",
+      "lemma": "{ll~ah",
+      "pos": "PN",
+      "gloss": ""
+    },
+    {
+      "w": 8,
+      "ar": "ذُو",
+      "root": "",
+      "lemma": "*uw",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 9,
+      "ar": "ٱلْفَضْلِ",
+      "root": "fDl",
+      "lemma": "faDol",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 10,
+      "ar": "ٱلْعَظِيمِ",
+      "root": "EZm",
+      "lemma": "EaZiym",
+      "pos": "ADJ",
+      "gloss": ""
+    }
+  ],
+  "5": [
+    {
+      "w": 1,
+      "ar": "مَثَلُ",
+      "root": "mvl",
+      "lemma": "maval",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 2,
+      "ar": "ٱلَّذِينَ",
+      "root": "",
+      "lemma": "{l~a*iY",
+      "pos": "REL",
+      "gloss": ""
+    },
+    {
+      "w": 3,
+      "ar": "حُمِّلُوا@",
+      "root": "Hml",
+      "lemma": "Hum~ila",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 4,
+      "ar": "ٱلتَّوْرَىٰةَ",
+      "root": "",
+      "lemma": "t~aworaY`p",
+      "pos": "PN",
+      "gloss": ""
+    },
+    {
+      "w": 5,
+      "ar": "ثُمَّ",
+      "root": "",
+      "lemma": "vum~",
+      "pos": "CONJ",
+      "gloss": ""
+    },
+    {
+      "w": 6,
+      "ar": "لَمْ",
+      "root": "",
+      "lemma": "lam",
+      "pos": "NEG",
+      "gloss": ""
+    },
+    {
+      "w": 7,
+      "ar": "يَحْمِلُوهَا",
+      "root": "Hml",
+      "lemma": "Hamala",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 8,
+      "ar": "كَمَثَلِ",
+      "root": "mvl",
+      "lemma": "maval",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 9,
+      "ar": "ٱلْحِمَارِ",
+      "root": "Hmr",
+      "lemma": "HimaAr",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 10,
+      "ar": "يَحْمِلُ",
+      "root": "Hml",
+      "lemma": "Hamala",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 11,
+      "ar": "أَسْفَارً[ا",
+      "root": "sfr",
+      "lemma": ">asofaAr",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 12,
+      "ar": "بِئْسَ",
+      "root": "bAs",
+      "lemma": "bi}osa",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 13,
+      "ar": "مَثَلُ",
+      "root": "mvl",
+      "lemma": "maval",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 14,
+      "ar": "ٱلْقَوْمِ",
+      "root": "qwm",
+      "lemma": "qawom",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 15,
+      "ar": "ٱلَّذِينَ",
+      "root": "",
+      "lemma": "{l~a*iY",
+      "pos": "REL",
+      "gloss": ""
+    },
+    {
+      "w": 16,
+      "ar": "كَذَّبُوا@",
+      "root": "k*b",
+      "lemma": "ka*~aba",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 17,
+      "ar": "بِـ#َايَٰتِ",
+      "root": "Ayy",
+      "lemma": "'aAyap",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 18,
+      "ar": "ٱللَّهِ",
+      "root": "Alh",
+      "lemma": "{ll~ah",
+      "pos": "PN",
+      "gloss": ""
+    },
+    {
+      "w": 19,
+      "ar": "وَٱللَّهُ",
+      "root": "Alh",
+      "lemma": "{ll~ah",
+      "pos": "PN",
+      "gloss": ""
+    },
+    {
+      "w": 20,
+      "ar": "لَا",
+      "root": "",
+      "lemma": "laA",
+      "pos": "NEG",
+      "gloss": ""
+    },
+    {
+      "w": 21,
+      "ar": "يَهْدِى",
+      "root": "hdy",
+      "lemma": "hadaY",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 22,
+      "ar": "ٱلْقَوْمَ",
+      "root": "qwm",
+      "lemma": "qawom",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 23,
+      "ar": "ٱلظَّٰلِمِينَ",
+      "root": "Zlm",
+      "lemma": "ZaAlim",
+      "pos": "ADJ",
+      "gloss": ""
+    }
+  ],
+  "6": [
+    {
+      "w": 1,
+      "ar": "قُلْ",
+      "root": "qwl",
+      "lemma": "qaAla",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 2,
+      "ar": "يَٰ^أَيُّهَا",
+      "root": "",
+      "lemma": ">ay~uhaA",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 3,
+      "ar": "ٱلَّذِينَ",
+      "root": "",
+      "lemma": "{l~a*iY",
+      "pos": "REL",
+      "gloss": ""
+    },
+    {
+      "w": 4,
+      "ar": "هَادُو^ا@",
+      "root": "hwd",
+      "lemma": "haAdu",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 5,
+      "ar": "إِن",
+      "root": "",
+      "lemma": "<in",
+      "pos": "COND",
+      "gloss": ""
+    },
+    {
+      "w": 6,
+      "ar": "زَعَمْتُمْ",
+      "root": "zEm",
+      "lemma": "zaEama",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 7,
+      "ar": "أَنَّكُمْ",
+      "root": "",
+      "lemma": ">an~",
+      "pos": "ACC",
+      "gloss": ""
+    },
+    {
+      "w": 8,
+      "ar": "أَوْلِيَا^ءُ",
+      "root": "wly",
+      "lemma": "waliY~",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 9,
+      "ar": "لِلَّهِ",
+      "root": "Alh",
+      "lemma": "{ll~ah",
+      "pos": "PN",
+      "gloss": ""
+    },
+    {
+      "w": 10,
+      "ar": "مِن",
+      "root": "",
+      "lemma": "min",
+      "pos": "P",
+      "gloss": ""
+    },
+    {
+      "w": 11,
+      "ar": "دُونِ",
+      "root": "dwn",
+      "lemma": "duwn",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 12,
+      "ar": "ٱلنَّاسِ",
+      "root": "nws",
+      "lemma": "n~aAs",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 13,
+      "ar": "فَتَمَنَّوُا@",
+      "root": "mny",
+      "lemma": "yataman~a",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 14,
+      "ar": "ٱلْمَوْتَ",
+      "root": "mwt",
+      "lemma": "mawot",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 15,
+      "ar": "إِن",
+      "root": "",
+      "lemma": "<in",
+      "pos": "COND",
+      "gloss": ""
+    },
+    {
+      "w": 16,
+      "ar": "كُنتُمْ",
+      "root": "kwn",
+      "lemma": "kaAna",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 17,
+      "ar": "صَٰدِقِينَ",
+      "root": "Sdq",
+      "lemma": "SaAdiq",
+      "pos": "N",
+      "gloss": ""
+    }
+  ],
+  "7": [
+    {
+      "w": 1,
+      "ar": "وَلَا",
+      "root": "",
+      "lemma": "laA",
+      "pos": "NEG",
+      "gloss": ""
+    },
+    {
+      "w": 2,
+      "ar": "يَتَمَنَّوْنَهُ,^",
+      "root": "mny",
+      "lemma": "yataman~a",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 3,
+      "ar": "أَبَدً[ا",
+      "root": "Abd",
+      "lemma": ">abadFA",
+      "pos": "T",
+      "gloss": ""
+    },
+    {
+      "w": 4,
+      "ar": "بِمَا",
+      "root": "",
+      "lemma": "maA",
+      "pos": "REL",
+      "gloss": ""
+    },
+    {
+      "w": 5,
+      "ar": "قَدَّمَتْ",
+      "root": "qdm",
+      "lemma": "qad~ama",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 6,
+      "ar": "أَيْدِيهِمْ",
+      "root": "ydy",
+      "lemma": "yad",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 7,
+      "ar": "وَٱللَّهُ",
+      "root": "Alh",
+      "lemma": "{ll~ah",
+      "pos": "PN",
+      "gloss": ""
+    },
+    {
+      "w": 8,
+      "ar": "عَلِيمٌ[",
+      "root": "Elm",
+      "lemma": "Ealiym",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 9,
+      "ar": "بِٱلظَّٰلِمِينَ",
+      "root": "Zlm",
+      "lemma": "ZaAlim",
+      "pos": "N",
+      "gloss": ""
+    }
+  ],
+  "8": [
+    {
+      "w": 1,
+      "ar": "قُلْ",
+      "root": "qwl",
+      "lemma": "qaAla",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 2,
+      "ar": "إِنَّ",
+      "root": "",
+      "lemma": "<in~",
+      "pos": "ACC",
+      "gloss": ""
+    },
+    {
+      "w": 3,
+      "ar": "ٱلْمَوْتَ",
+      "root": "mwt",
+      "lemma": "mawot",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 4,
+      "ar": "ٱلَّذِى",
+      "root": "",
+      "lemma": "{l~a*iY",
+      "pos": "REL",
+      "gloss": ""
+    },
+    {
+      "w": 5,
+      "ar": "تَفِرُّونَ",
+      "root": "frr",
+      "lemma": "far~ato",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 6,
+      "ar": "مِنْهُ",
+      "root": "",
+      "lemma": "min",
+      "pos": "P",
+      "gloss": ""
+    },
+    {
+      "w": 7,
+      "ar": "فَإِنَّهُ,",
+      "root": "",
+      "lemma": "<in~",
+      "pos": "ACC",
+      "gloss": ""
+    },
+    {
+      "w": 8,
+      "ar": "مُلَٰقِيكُمْ",
+      "root": "lqy",
+      "lemma": "mula`qiy",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 9,
+      "ar": "ثُمَّ",
+      "root": "",
+      "lemma": "vum~",
+      "pos": "CONJ",
+      "gloss": ""
+    },
+    {
+      "w": 10,
+      "ar": "تُرَدُّونَ",
+      "root": "rdd",
+      "lemma": "rad~a",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 11,
+      "ar": "إِلَىٰ",
+      "root": "",
+      "lemma": "<ilaY`",
+      "pos": "P",
+      "gloss": ""
+    },
+    {
+      "w": 12,
+      "ar": "عَٰلِمِ",
+      "root": "Elm",
+      "lemma": "Ea`lim",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 13,
+      "ar": "ٱلْغَيْبِ",
+      "root": "gyb",
+      "lemma": "gayob",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 14,
+      "ar": "وَٱلشَّهَٰدَةِ",
+      "root": "$hd",
+      "lemma": "$aha`dap",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 15,
+      "ar": "فَيُنَبِّئُكُم",
+      "root": "nbA",
+      "lemma": "nab~a>a",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 16,
+      "ar": "بِمَا",
+      "root": "",
+      "lemma": "maA",
+      "pos": "REL",
+      "gloss": ""
+    },
+    {
+      "w": 17,
+      "ar": "كُنتُمْ",
+      "root": "kwn",
+      "lemma": "kaAna",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 18,
+      "ar": "تَعْمَلُونَ",
+      "root": "Eml",
+      "lemma": "Eamila",
+      "pos": "V",
+      "gloss": ""
+    }
+  ],
+  "9": [
+    {
+      "w": 1,
+      "ar": "يَٰ^أَيُّهَا",
+      "root": "",
+      "lemma": ">ay~uhaA",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 2,
+      "ar": "ٱلَّذِينَ",
+      "root": "",
+      "lemma": "{l~a*iY",
+      "pos": "REL",
+      "gloss": ""
+    },
+    {
+      "w": 3,
+      "ar": "ءَامَنُو^ا@",
+      "root": "Amn",
+      "lemma": "'aAmana",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 4,
+      "ar": "إِذَا",
+      "root": "",
+      "lemma": "<i*aA",
+      "pos": "T",
+      "gloss": ""
+    },
+    {
+      "w": 5,
+      "ar": "نُودِىَ",
+      "root": "ndw",
+      "lemma": "naAdaY`",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 6,
+      "ar": "لِلصَّلَوٰةِ",
+      "root": "Slw",
+      "lemma": "Salaw`p",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 7,
+      "ar": "مِن",
+      "root": "",
+      "lemma": "min",
+      "pos": "P",
+      "gloss": ""
+    },
+    {
+      "w": 8,
+      "ar": "يَوْمِ",
+      "root": "ywm",
+      "lemma": "yawom",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 9,
+      "ar": "ٱلْجُمُعَةِ",
+      "root": "jmE",
+      "lemma": "jumuEap",
+      "pos": "PN",
+      "gloss": ""
+    },
+    {
+      "w": 10,
+      "ar": "فَٱسْعَوْا@",
+      "root": "sEy",
+      "lemma": "saEaY`",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 11,
+      "ar": "إِلَىٰ",
+      "root": "",
+      "lemma": "<ilaY`",
+      "pos": "P",
+      "gloss": ""
+    },
+    {
+      "w": 12,
+      "ar": "ذِكْرِ",
+      "root": "*kr",
+      "lemma": "*ikor",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 13,
+      "ar": "ٱللَّهِ",
+      "root": "Alh",
+      "lemma": "{ll~ah",
+      "pos": "PN",
+      "gloss": ""
+    },
+    {
+      "w": 14,
+      "ar": "وَذَرُوا@",
+      "root": "w*r",
+      "lemma": "ya*ara",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 15,
+      "ar": "ٱلْبَيْعَ",
+      "root": "byE",
+      "lemma": "bayoE",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 16,
+      "ar": "ذَٰلِكُمْ",
+      "root": "",
+      "lemma": "*a`lik",
+      "pos": "DEM",
+      "gloss": ""
+    },
+    {
+      "w": 17,
+      "ar": "خَيْرٌ",
+      "root": "xyr",
+      "lemma": "xayor",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 18,
+      "ar": "لَّكُمْ",
+      "root": "",
+      "lemma": "",
+      "pos": "PRON",
+      "gloss": ""
+    },
+    {
+      "w": 19,
+      "ar": "إِن",
+      "root": "",
+      "lemma": "<in",
+      "pos": "COND",
+      "gloss": ""
+    },
+    {
+      "w": 20,
+      "ar": "كُنتُمْ",
+      "root": "kwn",
+      "lemma": "kaAna",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 21,
+      "ar": "تَعْلَمُونَ",
+      "root": "Elm",
+      "lemma": "Ealima",
+      "pos": "V",
+      "gloss": ""
+    }
+  ],
+  "10": [
+    {
+      "w": 1,
+      "ar": "فَإِذَا",
+      "root": "",
+      "lemma": "<i*aA",
+      "pos": "T",
+      "gloss": ""
+    },
+    {
+      "w": 2,
+      "ar": "قُضِيَتِ",
+      "root": "qDy",
+      "lemma": "qaDaY`^",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 3,
+      "ar": "ٱلصَّلَوٰةُ",
+      "root": "Slw",
+      "lemma": "Salaw`p",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 4,
+      "ar": "فَٱنتَشِرُوا@",
+      "root": "n$r",
+      "lemma": "tanta$iru",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 5,
+      "ar": "فِى",
+      "root": "",
+      "lemma": "fiY",
+      "pos": "P",
+      "gloss": ""
+    },
+    {
+      "w": 6,
+      "ar": "ٱلْأَرْضِ",
+      "root": "ArD",
+      "lemma": ">aroD",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 7,
+      "ar": "وَٱبْتَغُوا@",
+      "root": "bgy",
+      "lemma": "{botagaY`",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 8,
+      "ar": "مِن",
+      "root": "",
+      "lemma": "min",
+      "pos": "P",
+      "gloss": ""
+    },
+    {
+      "w": 9,
+      "ar": "فَضْلِ",
+      "root": "fDl",
+      "lemma": "faDol",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 10,
+      "ar": "ٱللَّهِ",
+      "root": "Alh",
+      "lemma": "{ll~ah",
+      "pos": "PN",
+      "gloss": ""
+    },
+    {
+      "w": 11,
+      "ar": "وَٱذْكُرُوا@",
+      "root": "*kr",
+      "lemma": "*akara",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 12,
+      "ar": "ٱللَّهَ",
+      "root": "Alh",
+      "lemma": "{ll~ah",
+      "pos": "PN",
+      "gloss": ""
+    },
+    {
+      "w": 13,
+      "ar": "كَثِيرًا",
+      "root": "kvr",
+      "lemma": "kaviyr",
+      "pos": "ADJ",
+      "gloss": ""
+    },
+    {
+      "w": 14,
+      "ar": "لَّعَلَّكُمْ",
+      "root": "",
+      "lemma": "laEal~",
+      "pos": "ACC",
+      "gloss": ""
+    },
+    {
+      "w": 15,
+      "ar": "تُفْلِحُونَ",
+      "root": "flH",
+      "lemma": ">afolaHa",
+      "pos": "V",
+      "gloss": ""
+    }
+  ],
+  "11": [
+    {
+      "w": 1,
+      "ar": "وَإِذَا",
+      "root": "",
+      "lemma": "<i*aA",
+      "pos": "T",
+      "gloss": ""
+    },
+    {
+      "w": 2,
+      "ar": "رَأَوْا@",
+      "root": "rAy",
+      "lemma": "ra'aA",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 3,
+      "ar": "تِجَٰرَةً",
+      "root": "tjr",
+      "lemma": "tija`rap",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 4,
+      "ar": "أَوْ",
+      "root": "",
+      "lemma": ">aw",
+      "pos": "CONJ",
+      "gloss": ""
+    },
+    {
+      "w": 5,
+      "ar": "لَهْوًا",
+      "root": "lhw",
+      "lemma": "lahow",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 6,
+      "ar": "ٱنفَضُّو^ا@",
+      "root": "fDD",
+      "lemma": "{nfaD~u",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 7,
+      "ar": "إِلَيْهَا",
+      "root": "",
+      "lemma": "<ilaY`",
+      "pos": "P",
+      "gloss": ""
+    },
+    {
+      "w": 8,
+      "ar": "وَتَرَكُوكَ",
+      "root": "trk",
+      "lemma": "taraka",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 9,
+      "ar": "قَا^ئِمًا",
+      "root": "qwm",
+      "lemma": "qaA^}im",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 10,
+      "ar": "قُلْ",
+      "root": "qwl",
+      "lemma": "qaAla",
+      "pos": "V",
+      "gloss": ""
+    },
+    {
+      "w": 11,
+      "ar": "مَا",
+      "root": "",
+      "lemma": "maA",
+      "pos": "REL",
+      "gloss": ""
+    },
+    {
+      "w": 12,
+      "ar": "عِندَ",
+      "root": "End",
+      "lemma": "Eind",
+      "pos": "LOC",
+      "gloss": ""
+    },
+    {
+      "w": 13,
+      "ar": "ٱللَّهِ",
+      "root": "Alh",
+      "lemma": "{ll~ah",
+      "pos": "PN",
+      "gloss": ""
+    },
+    {
+      "w": 14,
+      "ar": "خَيْرٌ",
+      "root": "xyr",
+      "lemma": "xayor",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 15,
+      "ar": "مِّنَ",
+      "root": "",
+      "lemma": "min",
+      "pos": "P",
+      "gloss": ""
+    },
+    {
+      "w": 16,
+      "ar": "ٱللَّهْوِ",
+      "root": "lhw",
+      "lemma": "lahow",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 17,
+      "ar": "وَمِنَ",
+      "root": "",
+      "lemma": "min",
+      "pos": "P",
+      "gloss": ""
+    },
+    {
+      "w": 18,
+      "ar": "ٱلتِّجَٰرَةِ",
+      "root": "tjr",
+      "lemma": "tija`rap",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 19,
+      "ar": "وَٱللَّهُ",
+      "root": "Alh",
+      "lemma": "{ll~ah",
+      "pos": "PN",
+      "gloss": ""
+    },
+    {
+      "w": 20,
+      "ar": "خَيْرُ",
+      "root": "xyr",
+      "lemma": "xayor",
+      "pos": "N",
+      "gloss": ""
+    },
+    {
+      "w": 21,
+      "ar": "ٱلرَّٰزِقِينَ",
+      "root": "rzq",
+      "lemma": "r~a`ziqiyn",
+      "pos": "N",
+      "gloss": ""
+    }
+  ]
+}
