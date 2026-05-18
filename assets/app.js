@@ -14,6 +14,7 @@
     { id: "en.hilali", name: "Hilali & Khan", lang: "en" },
     { id: "en.ahmedraza", name: "Ahmed Raza Khan", lang: "en" },
     { id: "en.itani", name: "Clear Quran (Itani)", lang: "en" },
+    { id: "en.haleem", name: "Abdel Haleem", lang: "en" },
     { id: "en.transliteration", name: "English Transliteration", lang: "en" },
   ];
 
@@ -223,7 +224,7 @@
     const qsModern = document.getElementById("qsModern");
     if (qsModern)
       qsModern.addEventListener("click", () =>
-        applyQuickSwap(["en.sahih", "en.itani", "en.ahmedali"]),
+        applyQuickSwap(["en.sahih", "en.haleem", "en.itani", "en.ahmedali"]),
       );
     const qsClear = document.getElementById("qsClear");
     if (qsClear) qsClear.addEventListener("click", () => applyQuickSwap([]));
