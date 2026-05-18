@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-depth="simple">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Words · Discourses</title>
+    <meta
+      name="description"
+      content="Word-by-word morphology of Qur'anic Arabic: root, lemma, part of speech, grammatical role."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <header class="site">
+      <div class="crest" aria-hidden="true">﷽</div>
+      <h1><a href="index.html">Discourses</a></h1>
+      <p class="tag">Toward direct engagement with the Qur'an</p>
+    </header>
+    <nav class="primary">
+      <a href="index.html">Home</a><a href="navigate.html">Navigate</a
+      ><a href="read.html">Read</a><a href="roots.html">Roots</a
+      ><a href="words.html">Words</a><a href="patterns.html">Patterns</a
+      ><a href="numbers.html">Numbers</a><a href="sources.html">Sources</a
+      ><a href="validation.html">Validation</a><a href="about.html">About</a>
+    </nav>
+    <main>
+      <section>
+        <h2>Words</h2>
+        <p class="lede">
+          Each Qur'anic word can be examined by root, lemma, part of speech, and
+          grammatical role. Use <a href="read.html">Read</a> to load a verse,
+          then return here for per-word breakdown.
+        </p>
+        <div class="card">
+          <h3>What word-by-word reveals</h3>
+          <ul>
+            <li>
+              <strong>Root</strong>: the three-letter source organizing the
+              word's family of meanings.
+            </li>
+            <li>
+              <strong>Lemma</strong>: the dictionary form, useful for
+              cross-reference.
+            </li>
+            <li>
+              <strong>Part of speech</strong>: noun, verb, particle, pronoun.
+            </li>
+            <li>
+              <strong>Morphology</strong>: case, number, gender, person, tense,
+              mood.
+            </li>
+            <li>
+              <strong>Dependency</strong>: how each word relates to others in
+              the sentence.
+            </li>
+          </ul>
+          <p class="prov">
+            <span class="badge ok">Verified</span> approach. Data layer: Leeds
+            Quranic Arabic Corpus v0.4, GPL.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Example: al-Fatihah 1:1</h3>
+          <p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">
+            بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+          </p>
+          <table class="data">
+            <thead>
+              <tr>
+                <th>Word</th>
+                <th>Root</th>
+                <th>Lemma</th>
+                <th>POS</th>
+                <th>Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span
+                    class="ar notranslate"
+                    translate="no"
+                    lang="ar"
+                    dir="rtl"
+                    >بِسْمِ</span
+                  >
+                </td>
+                <td>s-m-w / s-m-y</td>
+                <td>ism</td>
+                <td>Noun (prep+noun)</td>
+                <td>In the name of</td>
+              </tr>
+              <tr>
+                <td>
+                  <span
+                    class="ar notranslate"
+                    translate="no"
+                    lang="ar"
+                    dir="rtl"
+                    >ٱللَّهِ</span
+                  >
+                </td>
+                <td>a-l-h</td>
+                <td>Allah</td>
+                <td>Proper noun</td>
+                <td>Allah</td>
+              </tr>
+              <tr>
+                <td>
+                  <span
+                    class="ar notranslate"
+                    translate="no"
+                    lang="ar"
+                    dir="rtl"
+                    >ٱلرَّحْمَٰنِ</span
+                  >
+                </td>
+                <td>r-ḥ-m</td>
+                <td>al-Rahman</td>
+                <td>Adjective</td>
+                <td>the Most Merciful</td>
+              </tr>
+              <tr>
+                <td>
+                  <span
+                    class="ar notranslate"
+                    translate="no"
+                    lang="ar"
+                    dir="rtl"
+                    >ٱلرَّحِيمِ</span
+                  >
+                </td>
+                <td>r-ḥ-m</td>
+                <td>al-Rahim</td>
+                <td>Adjective</td>
+                <td>the Especially Merciful</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="prov">
+            <span class="badge ok">Verified</span> morphology and roots from
+            Leeds. <span class="badge pending">Pending</span> per-verse
+            expansion via dataset bundling.
+          </p>
+        </div>
+        <div class="card scholar-only">
+          <h3>On al-Rahman and al-Rahim</h3>
+          <p>
+            Both derive from r-ḥ-m. Classical grammarians distinguish them by
+            intensity and scope: <em>al-Rahman</em> as a form (faʿlān) suggests
+            an immediate, vast mercy extending to all creation;
+            <em>al-Rahim</em> (faʿīl) suggests an enduring, specific mercy
+            directed toward the believers in the next life. The pairing in 1:1
+            binds these two facets.
+          </p>
+          <p class="prov">
+            <span class="badge ok">Verified</span> reading found in al-Tabari,
+            al-Zamakhshari, Ibn Kathir, and modern scholarship including Abdel
+            Haleem.
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer class="site">
+      <p>
+        Discourses is built in memory of Dr. Irfan Ahmad Khan (1931 – 2018).
+      </p>
+    </footer>
+    <div class="settings">
+      <button class="gear" id="gearBtn" title="Open settings">⚙</button>
+      <div
+        class="panel"
+        id="settingsPanel"
+        role="dialog"
+        aria-label="Settings"
+        hidden
+      ></div>
+    </div>
+    <script src="assets/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-depth="simple">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Navigate · Discourses</title>
+    <meta
+      name="description"
+      content="The 114 surahs of the Qur'an, with chronology and structural filters."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <a href="#main" class="skip">Skip to main content</a>
+    <header class="site">
+      <div class="crest" aria-hidden="true">﷽</div>
+      <h1><a href="index.html">Discourses</a></h1>
+      <p class="tag">Toward direct engagement with the Qur'an</p>
+    </header>
+    <nav class="primary" aria-label="Primary">
+      <a href="index.html">Home</a><a href="navigate.html">Navigate</a
+      ><a href="read.html">Read</a><a href="roots.html">Roots</a
+      ><a href="words.html">Words</a><a href="patterns.html">Patterns</a
+      ><a href="numbers.html">Numbers</a><a href="sources.html">Sources</a
+      ><a href="validation.html">Validation</a><a href="about.html">About</a>
+    </nav>
+    <main id="main">
+      <section>
+        <h2>Navigate</h2>
+        <p class="lede">
+          All 114 surahs. Filter by chronology, classification, or length. Click
+          any surah to read it.
+        </p>
+        <div class="card">
+          <h3>Filter</h3>
+          <div
+            style="display: flex; gap: 1rem; flex-wrap: wrap; margin: 0.5rem 0"
+          >
+            <label
+              >Search:
+              <input
+                type="text"
+                id="searchBox"
+                placeholder="surah name or number"
+            /></label>
+            <label
+              >Class:
+              <select id="classFilter">
+                <option value="">All</option>
+                <option value="m">Meccan</option>
+                <option value="d">Medinan</option>
+              </select></label
+            >
+            <label
+              >Length:
+              <select id="lengthFilter">
+                <option value="">All</option>
+                <option value="long">Long (100+ verses)</option>
+                <option value="mid">Mid (30-99)</option>
+                <option value="short">Short (under 30)</option>
+              </select></label
+            >
+          </div>
+          <p class="prov">
+            <span class="badge ok">Verified</span> verse counts from Tanzil
+            Uthmani text. Meccan/Medinan classification per Cairo 1924 edition.
+          </p>
+        </div>
+        <table class="data" id="surahTable" aria-label="114 surahs">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Arabic</th>
+              <th>Verses</th>
+              <th>Class</th>
+              <th class="scholar-only">Cairo order</th>
+            </tr>
+          </thead>
+          <tbody id="surahBody"></tbody>
+        </table>
+      </section>
+    </main>
+    <footer class="site">
+      <p>Source data: Tanzil metadata for verse counts and classification.</p>
+    </footer>
+    <div class="settings">
+      <button class="gear" id="gearBtn" title="Open settings">⚙</button>
+      <div
+        class="panel"
+        id="settingsPanel"
+        role="dialog"
+        aria-label="Settings"
+        hidden
+      ></div>
+    </div>
+    <script src="assets/app.js"></script>
+    <script>
+      const SURAHS = [
+        [1, "al-Fatihah", "الفاتحة", 7, "m", 5],
+        [2, "al-Baqarah", "البقرة", 286, "d", 87],
+        [3, "Al ʿImran", "آل عمران", 200, "d", 89],
+        [4, "al-Nisa'", "النساء", 176, "d", 92],
+        [5, "al-Ma'idah", "المائدة", 120, "d", 112],
+        [6, "al-An'am", "الأنعام", 165, "m", 55],
+        [7, "al-A'raf", "الأعراف", 206, "m", 39],
+        [8, "al-Anfal", "الأنفال", 75, "d", 88],
+        [9, "al-Tawbah", "التوبة", 129, "d", 113],
+        [10, "Yunus", "يونس", 109, "m", 51],
+        [11, "Hud", "هود", 123, "m", 52],
+        [12, "Yusuf", "يوسف", 111, "m", 53],
+        [13, "al-Ra'd", "الرعد", 43, "d", 96],
+        [14, "Ibrahim", "إبراهيم", 52, "m", 72],
+        [15, "al-Hijr", "الحجر", 99, "m", 54],
+        [16, "al-Nahl", "النحل", 128, "m", 70],
+        [17, "al-Isra", "الإسراء", 111, "m", 50],
+        [18, "al-Kahf", "الكهف", 110, "m", 69],
+        [19, "Maryam", "مريم", 98, "m", 44],
+        [20, "Taha", "طه", 135, "m", 45],
+        [21, "al-Anbiya", "الأنبياء", 112, "m", 73],
+        [22, "al-Hajj", "الحج", 78, "d", 103],
+        [23, "al-Mu'minun", "المؤمنون", 118, "m", 74],
+        [24, "al-Nur", "النور", 64, "d", 102],
+        [25, "al-Furqan", "الفرقان", 77, "m", 42],
+        [26, "al-Shu'ara", "الشعراء", 227, "m", 47],
+        [27, "al-Naml", "النمل", 93, "m", 48],
+        [28, "al-Qasas", "القصص", 88, "m", 49],
+        [29, "al-'Ankabut", "العنكبوت", 69, "m", 85],
+        [30, "al-Rum", "الروم", 60, "m", 84],
+        [31, "Luqman", "لقمان", 34, "m", 57],
+        [32, "al-Sajdah", "السجدة", 30, "m", 75],
+        [33, "al-Ahzab", "الأحزاب", 73, "d", 90],
+        [34, "Saba", "سبأ", 54, "m", 58],
+        [35, "Fatir", "فاطر", 45, "m", 43],
+        [36, "Yasin", "يس", 83, "m", 41],
+        [37, "al-Saffat", "الصافات", 182, "m", 56],
+        [38, "Sad", "ص", 88, "m", 38],
+        [39, "al-Zumar", "الزمر", 75, "m", 59],
+        [40, "Ghafir", "غافر", 85, "m", 60],
+        [41, "Fussilat", "فصلت", 54, "m", 61],
+        [42, "al-Shura", "الشورى", 53, "m", 62],
+        [43, "al-Zukhruf", "الزخرف", 89, "m", 63],
+        [44, "al-Dukhan", "الدخان", 59, "m", 64],
+        [45, "al-Jathiyah", "الجاثية", 37, "m", 65],
+        [46, "al-Ahqaf", "الأحقاف", 35, "m", 66],
+        [47, "Muhammad", "محمد", 38, "d", 95],
+        [48, "al-Fath", "الفتح", 29, "d", 111],
+        [49, "al-Hujurat", "الحجرات", 18, "d", 106],
+        [50, "Qaf", "ق", 45, "m", 34],
+        [51, "al-Dhariyat", "الذاريات", 60, "m", 67],
+        [52, "al-Tur", "الطور", 49, "m", 76],
+        [53, "al-Najm", "النجم", 62, "m", 23],
+        [54, "al-Qamar", "القمر", 55, "m", 37],
+        [55, "al-Rahman", "الرحمن", 78, "m", 97],
+        [56, "al-Waqi'ah", "الواقعة", 96, "m", 46],
+        [57, "al-Hadid", "الحديد", 29, "d", 94],
+        [58, "al-Mujadilah", "المجادلة", 22, "d", 105],
+        [59, "al-Hashr", "الحشر", 24, "d", 101],
+        [60, "al-Mumtahanah", "الممتحنة", 13, "d", 91],
+        [61, "al-Saff", "الصف", 14, "d", 109],
+        [62, "al-Jumu'ah", "الجمعة", 11, "d", 110],
+        [63, "al-Munafiqun", "المنافقون", 11, "d", 104],
+        [64, "al-Taghabun", "التغابن", 18, "d", 108],
+        [65, "al-Talaq", "الطلاق", 12, "d", 99],
+        [66, "al-Tahrim", "التحريم", 12, "d", 107],
+        [67, "al-Mulk", "الملك", 30, "m", 77],
+        [68, "al-Qalam", "القلم", 52, "m", 2],
+        [69, "al-Haqqah", "الحاقة", 52, "m", 78],
+        [70, "al-Ma'arij", "المعارج", 44, "m", 79],
+        [71, "Nuh", "نوح", 28, "m", 71],
+        [72, "al-Jinn", "الجن", 28, "m", 40],
+        [73, "al-Muzzammil", "المزمل", 20, "m", 3],
+        [74, "al-Muddaththir", "المدثر", 56, "m", 4],
+        [75, "al-Qiyamah", "القيامة", 40, "m", 31],
+        [76, "al-Insan", "الإنسان", 31, "d", 98],
+        [77, "al-Mursalat", "المرسلات", 50, "m", 33],
+        [78, "al-Naba'", "النبأ", 40, "m", 80],
+        [79, "al-Nazi'at", "النازعات", 46, "m", 81],
+        [80, "'Abasa", "عبس", 42, "m", 24],
+        [81, "al-Takwir", "التكوير", 29, "m", 7],
+        [82, "al-Infitar", "الانفطار", 19, "m", 82],
+        [83, "al-Mutaffifin", "المطففين", 36, "m", 86],
+        [84, "al-Inshiqaq", "الانشقاق", 25, "m", 83],
+        [85, "al-Buruj", "البروج", 22, "m", 27],
+        [86, "al-Tariq", "الطارق", 17, "m", 36],
+        [87, "al-A'la", "الأعلى", 19, "m", 8],
+        [88, "al-Ghashiyah", "الغاشية", 26, "m", 68],
+        [89, "al-Fajr", "الفجر", 30, "m", 10],
+        [90, "al-Balad", "البلد", 20, "m", 35],
+        [91, "al-Shams", "الشمس", 15, "m", 26],
+        [92, "al-Layl", "الليل", 21, "m", 9],
+        [93, "al-Duha", "الضحى", 11, "m", 11],
+        [94, "al-Sharh", "الشرح", 8, "m", 12],
+        [95, "al-Tin", "التين", 8, "m", 28],
+        [96, "al-'Alaq", "العلق", 19, "m", 1],
+        [97, "al-Qadr", "القدر", 5, "m", 25],
+        [98, "al-Bayyinah", "البينة", 8, "d", 100],
+        [99, "al-Zalzalah", "الزلزلة", 8, "d", 93],
+        [100, "al-'Adiyat", "العاديات", 11, "m", 14],
+        [101, "al-Qari'ah", "القارعة", 11, "m", 30],
+        [102, "al-Takathur", "التكاثر", 8, "m", 16],
+        [103, "al-'Asr", "العصر", 3, "m", 13],
+        [104, "al-Humazah", "الهمزة", 9, "m", 32],
+        [105, "al-Fil", "الفيل", 5, "m", 19],
+        [106, "Quraysh", "قريش", 4, "m", 29],
+        [107, "al-Ma'un", "الماعون", 7, "m", 17],
+        [108, "al-Kawthar", "الكوثر", 3, "m", 15],
+        [109, "al-Kafirun", "الكافرون", 6, "m", 18],
+        [110, "al-Nasr", "النصر", 3, "d", 114],
+        [111, "al-Masad", "المسد", 5, "m", 6],
+        [112, "al-Ikhlas", "الإخلاص", 4, "m", 22],
+        [113, "al-Falaq", "الفلق", 5, "m", 20],
+        [114, "al-Nas", "الناس", 6, "m", 21],
+      ];
+      function render() {
+        const q = document
+          .getElementById("searchBox")
+          .value.toLowerCase()
+          .trim();
+        const c = document.getElementById("classFilter").value;
+        const l = document.getElementById("lengthFilter").value;
+        const body = document.getElementById("surahBody");
+        const rows = SURAHS.filter((s) => {
+          if (
+            q &&
+            !(String(s[0]).startsWith(q) || s[1].toLowerCase().includes(q))
+          )
+            return false;
+          if (c && s[4] !== c) return false;
+          if (l === "long" && s[3] < 100) return false;
+          if (l === "mid" && (s[3] < 30 || s[3] >= 100)) return false;
+          if (l === "short" && s[3] >= 30) return false;
+          return true;
+        })
+          .map(
+            (s) =>
+              `<tr><td>${s[0]}</td><td><a href="read.html?s=${s[0]}">${s[1]}</a></td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${s[2]}</span></td><td>${s[3]}</td><td>${s[4] === "m" ? "Meccan" : "Medinan"}</td><td class="scholar-only">${s[5]}</td></tr>`,
+          )
+          .join("");
+        body.innerHTML =
+          rows ||
+          '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:1rem">No surahs match.</td></tr>';
+      }
+      ["searchBox", "classFilter", "lengthFilter"].forEach((id) =>
+        document.getElementById(id).addEventListener("input", render),
+      );
+      render();
+    </script>
+  </body>
+</html>

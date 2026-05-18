@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-depth="simple">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Patterns · Discourses</title>
+    <meta
+      name="description"
+      content="Structural and rhetorical patterns in the Qur'an: iltifat, mutashabihat, cross-references."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <header class="site">
+      <div class="crest" aria-hidden="true">﷽</div>
+      <h1><a href="index.html">Discourses</a></h1>
+      <p class="tag">Toward direct engagement with the Qur'an</p>
+    </header>
+    <nav class="primary">
+      <a href="index.html">Home</a><a href="navigate.html">Navigate</a
+      ><a href="read.html">Read</a><a href="roots.html">Roots</a
+      ><a href="words.html">Words</a><a href="patterns.html">Patterns</a
+      ><a href="numbers.html">Numbers</a><a href="sources.html">Sources</a
+      ><a href="validation.html">Validation</a><a href="about.html">About</a>
+    </nav>
+    <main>
+      <section>
+        <h2>Patterns</h2>
+        <p class="lede">
+          The Qur'an's linguistic structure includes documented rhetorical
+          features. Three are surfaced here: grammatical shifts (iltifat),
+          similar phrasings (mutashabihat), and cross-references.
+        </p>
+        <div class="card">
+          <h3>Iltifat: grammatical shift</h3>
+          <p>
+            Iltifat names a deliberate change in person, number, or addressee
+            mid-passage. A canonical example is al-Fatihah:
+          </p>
+          <p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">
+            ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ ... إِيَّاكَ نَعْبُدُ
+          </p>
+          <p>
+            The first verses praise Allah in the third person; verse 5 turns to
+            direct address ("It is You we worship"). This shift, studied at
+            length by Abdel Haleem (1992), is treated as rhetorically
+            deliberate, not a textual irregularity.
+          </p>
+          <p class="prov">
+            <span class="badge ok">Verified</span> reading. Abdel Haleem,
+            "Grammatical Shift for Rhetorical Purposes," <em>BSOAS</em> 55:3
+            (1992).
+          </p>
+        </div>
+        <div class="card">
+          <h3>Mutashabihat: similar phrasings</h3>
+          <p>
+            Many phrases recur across surahs with small variations. Recognizing
+            these is a classical Qur'anic discipline (<em>'ilm al-mutashabih</em
+            >). Example:
+            <span class="ar notranslate" translate="no" lang="ar" dir="rtl"
+              >فَلَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ</span
+            >
+            ("no fear shall be upon them, nor shall they grieve") appears in
+            multiple surahs with subtle context differences.
+          </p>
+          <p class="prov">
+            <span class="badge ok">Verified</span> phrase. Dataset: QUL
+            mutashabihat (~5,277 entries), Tarteel.
+          </p>
+        </div>
+        <div class="card scholar-only">
+          <h3>Cross-references (QurSim)</h3>
+          <p>
+            The QurSim corpus identifies 7,679 pairs of related verses, ranked
+            by relatedness. This supports cross-textual study without requiring
+            tafsir traversal.
+          </p>
+          <p class="prov">
+            <span class="badge ok">Verified</span> dataset. Sharaf and Atwell,
+            <em>LREC</em> 2012.
+          </p>
+        </div>
+        <div class="card encyclopedic-only">
+          <h3>Other documented features</h3>
+          <ul>
+            <li>
+              <strong>Fasilah</strong>: rhyming verse-end patterns, especially
+              marked in early Meccan surahs.
+            </li>
+            <li>
+              <strong>Ring composition</strong>: chiastic structures where
+              openings and closings mirror.
+            </li>
+            <li><strong>Parallelism</strong>: balanced clause structures.</li>
+            <li>
+              <strong>Qasam</strong>: oath openings (e.g., al-'Asr, al-Shams,
+              al-Tin).
+            </li>
+            <li>
+              <strong>Direct address</strong>:
+              <em>ya ayyuha al-ladhina amanu</em> ("O you who believe") in 89
+              verses.
+            </li>
+          </ul>
+          <p class="prov">
+            <span class="badge ok">Verified</span> features documented in Abdel
+            Haleem (1999), Neuwirth (1981), Cuypers (2015).
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer class="site">
+      <p>
+        Discourses is built in memory of Dr. Irfan Ahmad Khan (1931 – 2018).
+      </p>
+    </footer>
+    <div class="settings">
+      <button class="gear" id="gearBtn" title="Open settings">⚙</button>
+      <div
+        class="panel"
+        id="settingsPanel"
+        role="dialog"
+        aria-label="Settings"
+        hidden
+      ></div>
+    </div>
+    <script src="assets/app.js"></script>
+  </body>
+</html>

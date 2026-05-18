@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-depth="simple">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Read · Discourses</title>
+    <meta
+      name="description"
+      content="Read any verse of the Qur'an side by side in multiple translations."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <header class="site">
+      <div class="crest" aria-hidden="true">﷽</div>
+      <h1><a href="index.html">Discourses</a></h1>
+      <p class="tag">Toward direct engagement with the Qur'an</p>
+    </header>
+    <nav class="primary">
+      <a href="index.html">Home</a><a href="navigate.html">Navigate</a
+      ><a href="read.html">Read</a><a href="roots.html">Roots</a
+      ><a href="words.html">Words</a><a href="patterns.html">Patterns</a
+      ><a href="numbers.html">Numbers</a><a href="sources.html">Sources</a
+      ><a href="validation.html">Validation</a><a href="about.html">About</a>
+    </nav>
+    <main>
+      <section>
+        <h2>Read</h2>
+        <p class="lede">
+          Enter any surah and verse. Pick translations in
+          <a
+            href="#"
+            onclick="
+              document.getElementById('gearBtn').click();
+              return false;
+            "
+            >Settings</a
+          >. Audio uses your chosen reciter.
+        </p>
+        <div class="card">
+          <div
+            style="
+              display: flex;
+              gap: 0.8rem;
+              flex-wrap: wrap;
+              align-items: end;
+            "
+          >
+            <label
+              >Surah:
+              <input
+                type="number"
+                id="surahInput"
+                min="1"
+                max="114"
+                value="1"
+                style="width: 90px"
+            /></label>
+            <label
+              >Verse:
+              <input
+                type="number"
+                id="ayahInput"
+                min="1"
+                value="1"
+                style="width: 90px"
+            /></label>
+            <button class="button" id="loadBtn">Load</button>
+            <button class="button secondary" id="prevBtn">‹ Prev</button>
+            <button class="button secondary" id="nextBtn">Next ›</button>
+          </div>
+        </div>
+        <div id="verseContainer"></div>
+        <div class="banner soft">
+          <strong>Want depth?</strong> Use <a href="roots.html">Roots</a> for
+          the triliteral root behind any word,
+          <a href="words.html">Words</a> for word-by-word morphology, and
+          <a href="patterns.html">Patterns</a> for rhetorical and structural
+          features in this verse.
+        </div>
+      </section>
+    </main>
+    <footer class="site">
+      <p>
+        Verse text and translations served via the alquran.cloud API. Arabic
+        text from the Tanzil Uthmani edition (CC BY-ND 3.0).
+      </p>
+    </footer>
+    <div class="settings">
+      <button class="gear" id="gearBtn" title="Open settings">⚙</button>
+      <div
+        class="panel"
+        id="settingsPanel"
+        role="dialog"
+        aria-label="Settings"
+        hidden
+      ></div>
+    </div>
+    <script src="assets/app.js"></script>
+    <script>
+      async function load() {
+        const s = parseInt(document.getElementById("surahInput").value);
+        const a = parseInt(document.getElementById("ayahInput").value);
+        if (!s || !a || s < 1 || s > 114 || a < 1) return;
+        const container = document.getElementById("verseContainer");
+        container.innerHTML =
+          '<div class="card"><p style="color:var(--muted)">Loading...</p></div>';
+        try {
+          const data = await qdFetchVerse(s, a);
+          const ar = data.find((d) => d.edition.identifier === "quran-uthmani");
+          const translations = data.filter(
+            (d) => d.edition.identifier !== "quran-uthmani",
+          );
+          let html = `<div class="verse"><div class="meta"><strong>${s}:${a}</strong><span>${ar.surah.englishName} · ${ar.surah.englishNameTranslation}</span></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${ar.text}</p>`;
+          if (qdState.features.showAudio) {
+            html += `<audio controls style="width:100%;margin:.5rem 0"><source src="https://cdn.islamic.network/quran/audio/128/${qdState.reciter}/${ar.number}.mp3" type="audio/mpeg"></audio>`;
+          }
+          translations.forEach((t) => {
+            html += `<div class="translation"><div class="label">${t.edition.englishName} · ${t.edition.name}</div><div class="text">${t.text}</div></div>`;
+          });
+          html += `<p class="prov"><span class="badge ok">Verified</span> Arabic from Tanzil Uthmani via alquran.cloud. Translations rendered as published; each is an interpretation. Compare to deepen understanding.</p></div>`;
+          container.innerHTML = html;
+          const url = new URL(window.location);
+          url.searchParams.set("s", s);
+          url.searchParams.set("a", a);
+          history.replaceState({}, "", url);
+        } catch (e) {
+          container.innerHTML =
+            '<div class="card"><p style="color:var(--nuanced)">Could not load. Check the surah and verse numbers, or try again.</p></div>';
+        }
+      }
+      document.getElementById("loadBtn").addEventListener("click", load);
+      document.getElementById("prevBtn").addEventListener("click", () => {
+        const a = parseInt(document.getElementById("ayahInput").value);
+        if (a > 1) {
+          document.getElementById("ayahInput").value = a - 1;
+          load();
+        }
+      });
+      document.getElementById("nextBtn").addEventListener("click", () => {
+        document.getElementById("ayahInput").value =
+          parseInt(document.getElementById("ayahInput").value) + 1;
+        load();
+      });
+      document.addEventListener("qd:translations-changed", load);
+      const params = new URLSearchParams(location.search);
+      if (params.get("s"))
+        document.getElementById("surahInput").value = params.get("s");
+      if (params.get("a"))
+        document.getElementById("ayahInput").value = params.get("a");
+      window.addEventListener("load", () => setTimeout(load, 200));
+    </script>
+  </body>
+</html>
