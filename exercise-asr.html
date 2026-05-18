@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-depth="simple">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Khan's outline: al-Asr · Discourses</title>
+    <meta
+      name="description"
+      content="An interactive exercise in coherence-based reading. Propose where Surah al-Asr (103) pivots, then reveal the structure Khan published."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <a href="#main" class="skip">Skip to main content</a>
+    <header class="site">
+      <div class="crest" aria-hidden="true">﷽</div>
+      <h1><a href="index.html">Discourses</a></h1>
+      <p class="tag">Toward direct engagement with the Qur'an</p>
+    </header>
+    <nav class="primary" aria-label="Primary">
+      <a href="index.html">Home</a><a href="navigate.html">Navigate</a
+      ><a href="read.html">Read</a><a href="roots.html">Roots</a
+      ><a href="compare.html">Compare</a><a href="words.html">Words</a
+      ><a href="patterns.html">Patterns</a
+      ><a href="exercise-asr.html">Exercise</a><a href="numbers.html">Numbers</a
+      ><a href="sources.html">Sources</a><a href="validation.html">Validation</a
+      ><a href="glossary.html">Glossary</a><a href="credits.html">Credits</a
+      ><a href="changelog.html">Changelog</a><a href="about.html">About</a>
+    </nav>
+    <main id="main">
+      <section>
+        <h2>Khan's outline: Surah al-Asr (103)</h2>
+        <p class="lede">
+          This is an exercise in coherence-based reading. Dr. Khan held that
+          every surah has a deliberate structure: oaths set the frame, claims
+          are made, exceptions are introduced, conclusions land. Reading a surah
+          well means seeing that structure.
+        </p>
+        <p>
+          Below is Surah al-Asr in full. Before you see Khan's outline of how it
+          is structured, propose your own. Where does the discourse pivot? Where
+          does the claim land? When you are ready, reveal the outline Khan
+          published.
+        </p>
+      </section>
+
+      <section>
+        <div id="verseStack" aria-live="polite">
+          <p style="color: var(--muted)">Loading verses...</p>
+        </div>
+
+        <div
+          style="
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--line);
+          "
+        >
+          <button
+            id="revealBtn"
+            style="
+              font-size: 1rem;
+              font-family: var(--serif);
+              font-weight: 600;
+              color: var(--accent);
+              background: transparent;
+              border: 2px solid var(--accent);
+              border-radius: 4px;
+              padding: 0.5rem 1.25rem;
+              cursor: pointer;
+            "
+          >
+            Reveal Khan's outline
+          </button>
+        </div>
+      </section>
+
+      <section id="outlineSection" hidden>
+        <h3>Khan's outline</h3>
+        <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem">
+          Your proposed breaks remain visible above. Compare them against Khan's
+          structure below.
+        </p>
+        <ol style="line-height: 1.8; padding-left: 1.4rem">
+          <li style="margin-bottom: 1rem">
+            <strong>Verse 1 — Oath.</strong> Setting the cosmological frame by
+            which the discourse will be measured.
+          </li>
+          <li style="margin-bottom: 1rem">
+            <strong>Verse 2 — Negative claim.</strong> The universal condition
+            of loss.
+          </li>
+          <li>
+            <strong>Verse 3 — Exception with conditions.</strong> Four conjoined
+            qualifications that constitute the exception: faith, righteous
+            deeds, mutual exhortation to truth, mutual exhortation to patience.
+          </li>
+        </ol>
+      </section>
+
+      <p class="prov">
+        <span class="badge ok">Verified</span> outline structure from Irfan
+        Ahmad Khan,
+        <em
+          >An Exercise in Understanding the Qur'an: An Outline Study of the Last
+          Thirty Divine Discourses (Surah 85 to Surah 114)</em
+        >, Association of Quranic Understanding, 2013. ISBN 9781567447736.
+        Khan's outline for Surah al-Asr is one of thirty surah outlines in the
+        volume; <a href="sources.html">Sources</a> for the full citation.
+      </p>
+    </main>
+    <footer class="site">
+      <p>
+        Discourses is built in memory of Dr. Irfan Ahmad Khan (1931 – 2018).
+      </p>
+    </footer>
+    <div class="settings">
+      <button
+        class="gear"
+        id="gearBtn"
+        aria-controls="settingsPanel"
+        aria-expanded="false"
+        title="Open settings"
+        aria-label="Open settings"
+      >
+        ⚙
+      </button>
+      <div
+        class="panel"
+        id="settingsPanel"
+        role="dialog"
+        aria-label="Settings"
+        hidden
+      ></div>
+    </div>
+    <script src="assets/app.js"></script>
+    <script src="assets/glossary.js" defer></script>
+    <script>
+      (function () {
+        "use strict";
+
+        var breaks = new Set();
+        var revealed = false;
+
+        function toggleBreak(num) {
+          var zone = document.getElementById("break-zone-" + num);
+          var btn = zone.querySelector(".break-btn");
+          if (breaks.has(num)) {
+            breaks.delete(num);
+            zone.style.borderTop = "";
+            zone.style.paddingTop = "";
+            zone.style.marginTop = "";
+            btn.textContent = "Mark a break before this verse";
+          } else {
+            breaks.add(num);
+            zone.style.borderTop = "3px solid var(--accent-soft)";
+            zone.style.paddingTop = "1.25rem";
+            zone.style.marginTop = "1.25rem";
+            btn.textContent = "Break marked. Remove.";
+          }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+          var stack = document.getElementById("verseStack");
+
+          fetch(
+            "https://api.alquran.cloud/v1/surah/103/editions/quran-uthmani,en.sahih",
+          )
+            .then(function (res) {
+              if (!res.ok) throw new Error("Fetch failed");
+              return res.json();
+            })
+            .then(function (json) {
+              var arabic = json.data[0];
+              var english = json.data[1];
+              var html = "";
+              arabic.ayahs.forEach(function (ayah, i) {
+                var num = ayah.numberInSurah;
+                var arText = ayah.text;
+                var enText = english.ayahs[i].text;
+                html +=
+                  '<div class="verse-wrapper" id="break-zone-' +
+                  num +
+                  '" style="margin-bottom:1rem;">' +
+                  '<div class="card" style="margin:0;">' +
+                  '<div style="margin-bottom:0.75rem;">' +
+                  '<strong style="font-size:1.1rem;color:var(--accent);font-family:var(--serif);">' +
+                  num +
+                  "</strong>" +
+                  "</div>" +
+                  '<p class="ar xl notranslate" translate="no" lang="ar" dir="rtl" style="margin:0 0 0.75rem;font-size:1.8rem;line-height:2;">' +
+                  arText +
+                  "</p>" +
+                  '<p style="margin:0 0 0.75rem;line-height:1.7;">' +
+                  enText +
+                  "</p>" +
+                  '<button class="break-btn" data-verse="' +
+                  num +
+                  '" style="font-size:0.82rem;padding:0.25rem 0.6rem;border:1px solid var(--accent-soft);background:transparent;color:var(--muted);border-radius:4px;cursor:pointer;">Mark a break before this verse</button>' +
+                  "</div>" +
+                  "</div>";
+              });
+              stack.innerHTML = html;
+              stack.querySelectorAll(".break-btn").forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                  toggleBreak(parseInt(btn.dataset.verse, 10));
+                });
+              });
+            })
+            .catch(function () {
+              stack.innerHTML =
+                '<p style="color:var(--muted);">Could not load the surah. Please check your connection and reload.</p>';
+            });
+
+          document
+            .getElementById("revealBtn")
+            .addEventListener("click", function () {
+              if (!revealed) {
+                var outline = document.getElementById("outlineSection");
+                outline.removeAttribute("hidden");
+                revealed = true;
+                outline.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }
+            });
+        });
+      })();
+    </script>
+  </body>
+</html>
