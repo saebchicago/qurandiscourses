@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-depth="simple">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Changelog · Discourses</title>
+    <meta
+      name="description"
+      content="Every correction and material change to Discourses since launch. A public record of accountability."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <a href="#main" class="skip">Skip to main content</a>
+    <header class="site">
+      <div class="crest" aria-hidden="true">﷽</div>
+      <h1><a href="index.html">Discourses</a></h1>
+      <p class="tag">Toward direct engagement with the Qur'an</p>
+    </header>
+    <nav class="primary" aria-label="Primary">
+      <a href="index.html">Home</a><a href="navigate.html">Navigate</a
+      ><a href="read.html">Read</a><a href="roots.html">Roots</a
+      ><a href="compare.html">Compare</a><a href="words.html">Words</a
+      ><a href="patterns.html">Patterns</a><a href="numbers.html">Numbers</a
+      ><a href="sources.html">Sources</a><a href="validation.html">Validation</a
+      ><a href="glossary.html">Glossary</a><a href="credits.html">Credits</a
+      ><a href="changelog.html">Changelog</a><a href="about.html">About</a>
+    </nav>
+    <main id="main">
+      <section>
+        <h2>Changelog</h2>
+        <p class="lede">
+          Every correction and material change to Discourses since launch.
+          Logged here as a record of accountability. Site maintainers commit to
+          logging future corrections in the same place.
+        </p>
+        <div class="card">
+          <h3>2026</h3>
+          <h4>May</h4>
+          <ul>
+            <li>
+              <strong>Surah length statistics corrected.</strong> Mean updated
+              from 54.6 to 54.7 verses per surah. Median updated from 30 to 39
+              verses. Both errors traced to incorrect aggregation method;
+              recomputed directly against Leeds corpus.
+            </li>
+            <li>
+              <strong>y-w-m count reframed as Nuanced.</strong> Earlier showed
+              475; corpus.quran.com lists 405 for the nominal yawm, while
+              broader counts including the compound yawma-idhin reach 475. Both
+              counts now shown with explanation.
+            </li>
+            <li>
+              <strong>k-w-n count corrected.</strong> 1,361 to 1,390 after
+              triangulation against corpus.quran.com via multiple independent
+              lookups.
+            </li>
+            <li>
+              <strong>r-b-b count corrected.</strong> 975 to 980 after
+              corpus.quran.com triangulation.
+            </li>
+            <li>
+              <strong>b-h-r count corrected.</strong> 41 to 42 after Leeds
+              verification.
+            </li>
+            <li>
+              <strong>Iltifat attribution expanded.</strong> The al-Fatihah 1:5
+              grammatical shift note now credits classical attestation in
+              al-Suyuti's <em>al-Itqan</em> alongside modern scholarship by
+              Abdel Haleem (BSOAS 1992). Earlier version credited Haleem only.
+            </li>
+            <li>
+              <strong>Organization name corrected.</strong> All references to
+              "Association for Quranic Understanding" updated to "Association of
+              Quranic Understanding," matching the organization's own usage at
+              quranicunderstanding.com.
+            </li>
+            <li>
+              <strong>Khan biography expanded.</strong> The About page now
+              documents Khan's full academic and interfaith record: Aligarh and
+              Rampur education, UIC doctoral work, Parliament of the World's
+              Religions trusteeship, WCMIR presidency, AQU directorship.
+            </li>
+            <li>
+              <strong>Khan's 2013 work added.</strong>
+              <em>An Exercise in Understanding the Qur'an</em> (AQU, ISBN
+              9781567447736) now cited alongside
+              <em>Reflections on the Qur'an</em>. Foreword by Mustansir Mir
+              noted.
+            </li>
+            <li>
+              <strong>Leeds Corpus bundled.</strong> 6,236 verses, 77,429 words,
+              1,642 roots now available as static JSON. Word-by-word morphology
+              live on Read at Scholar depth. GPL compliance via NOTICE.md.
+            </li>
+            <li>
+              <strong>Site launch.</strong> Initial deployment of 13 pages.
+            </li>
+          </ul>
+        </div>
+        <p class="prov">
+          Corrections welcome. Open a GitHub issue at
+          <a
+            href="https://github.com/saebchicago/qurandiscourses/issues"
+            rel="noopener"
+            >github.com/saebchicago/qurandiscourses</a
+          >
+          or email the address on the About page.
+        </p>
+      </section>
+    </main>
+    <footer class="site">
+      <p>
+        Discourses is built in memory of Dr. Irfan Ahmad Khan (1931 – 2018).
+      </p>
+    </footer>
+    <div class="settings">
+      <button
+        class="gear"
+        id="gearBtn"
+        aria-controls="settingsPanel"
+        aria-expanded="false"
+        title="Open settings"
+        aria-label="Open settings"
+      >
+        ⚙
+      </button>
+      <div
+        class="panel"
+        id="settingsPanel"
+        role="dialog"
+        aria-label="Settings"
+        hidden
+      ></div>
+    </div>
+    <script src="assets/app.js"></script>
+    <script src="assets/glossary.js" defer></script>
+  </body>
+</html>

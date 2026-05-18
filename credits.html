@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-depth="simple">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Credits · Discourses</title>
+    <meta
+      name="description"
+      content="A one-screen summary of the datasets, scholarly lineage, and build infrastructure behind Discourses."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <a href="#main" class="skip">Skip to main content</a>
+    <header class="site">
+      <div class="crest" aria-hidden="true">﷽</div>
+      <h1><a href="index.html">Discourses</a></h1>
+      <p class="tag">Toward direct engagement with the Qur'an</p>
+    </header>
+    <nav class="primary" aria-label="Primary">
+      <a href="index.html">Home</a><a href="navigate.html">Navigate</a
+      ><a href="read.html">Read</a><a href="roots.html">Roots</a
+      ><a href="compare.html">Compare</a><a href="words.html">Words</a
+      ><a href="patterns.html">Patterns</a><a href="numbers.html">Numbers</a
+      ><a href="sources.html">Sources</a><a href="validation.html">Validation</a
+      ><a href="glossary.html">Glossary</a><a href="credits.html">Credits</a
+      ><a href="changelog.html">Changelog</a><a href="about.html">About</a>
+    </nav>
+    <main id="main">
+      <section>
+        <h2>Credits</h2>
+        <p class="lede">
+          A one-screen summary of what built this site. For the full reference
+          list, see <a href="sources.html">Sources</a>.
+        </p>
+        <div class="card">
+          <h3>Data</h3>
+          <ul>
+            <li>
+              <strong>Quranic Arabic Corpus v0.4 (Leeds).</strong> Kais Dukes,
+              2009-2017. Morphological annotation of all 77,429 word-tokens. GPL
+              licensed.
+              <a href="https://corpus.quran.com/" rel="noopener"
+                >corpus.quran.com</a
+              >
+            </li>
+            <li>
+              <strong>Tanzil Uthmani text and translations.</strong> Served via
+              the alquran.cloud API. CC BY-ND 3.0.
+            </li>
+            <li>
+              <strong>Egyptian Standard (Cairo 1924) revelation order.</strong>
+              Public-domain reference for the four-period chronology.
+            </li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Scholarly lineage</h3>
+          <ul>
+            <li>
+              <strong>Hamid al-Din al-Farahi</strong> (1863-1930). Founder of
+              the coherence-based (<em>nazm</em>) reading tradition.
+            </li>
+            <li>
+              <strong>Amin Ahsan Islahi</strong> (1904-1997). Student of Farahi,
+              author of <em>Tadabbur-i-Qur'an</em>.
+            </li>
+            <li>
+              <strong>Mustansir Mir.</strong> Leading English-language scholar
+              of Farahi-Islahi coherence reading.
+              <em>Coherence in the Qur'an</em>, American Trust Publications.
+              Wrote the foreword to Khan's 2013 <em>An Exercise</em>.
+            </li>
+            <li>
+              <strong>Irfan Ahmad Khan</strong> (1931-2018). Founding director
+              of the Association of Quranic Understanding. The principal
+              influence behind this site.
+            </li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Build</h3>
+          <ul>
+            <li>Static site, hosted on Netlify.</li>
+            <li>
+              Build script written in Node.js with no external dependencies. See
+              <code>scripts/build-leeds.js</code>.
+            </li>
+            <li>
+              Site source:
+              <a
+                href="https://github.com/saebchicago/qurandiscourses"
+                rel="noopener"
+                >github.com/saebchicago/qurandiscourses</a
+              >.
+            </li>
+            <li>
+              Maintained by Saeb, Dr. Khan's grandson, with AI coding
+              assistance.
+            </li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Privacy</h3>
+          <ul>
+            <li>No analytics. No tracking. No cookies.</li>
+            <li>
+              Preferences (depth, translations, theme) live in the browser tab
+              only and clear when the tab closes.
+            </li>
+            <li>
+              The site makes API calls to alquran.cloud for verse text and
+              translations. No personal data is sent or stored.
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+    <footer class="site">
+      <p>
+        Discourses is built in memory of Dr. Irfan Ahmad Khan (1931 – 2018).
+      </p>
+    </footer>
+    <div class="settings">
+      <button
+        class="gear"
+        id="gearBtn"
+        aria-controls="settingsPanel"
+        aria-expanded="false"
+        title="Open settings"
+        aria-label="Open settings"
+      >
+        ⚙
+      </button>
+      <div
+        class="panel"
+        id="settingsPanel"
+        role="dialog"
+        aria-label="Settings"
+        hidden
+      ></div>
+    </div>
+    <script src="assets/app.js"></script>
+    <script src="assets/glossary.js" defer></script>
+  </body>
+</html>
