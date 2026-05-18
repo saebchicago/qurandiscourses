@@ -1,0 +1,572 @@
+{
+  "1": {
+    "name": "al-Fatihah",
+    "period": "meccan-early",
+    "revelationOrder": 5
+  },
+  "2": {
+    "name": "al-Baqarah",
+    "period": "medinan",
+    "revelationOrder": 87
+  },
+  "3": {
+    "name": "al-Imran",
+    "period": "medinan",
+    "revelationOrder": 89
+  },
+  "4": {
+    "name": "an-Nisa",
+    "period": "medinan",
+    "revelationOrder": 92
+  },
+  "5": {
+    "name": "al-Maidah",
+    "period": "medinan",
+    "revelationOrder": 112
+  },
+  "6": {
+    "name": "al-Anam",
+    "period": "meccan-late",
+    "revelationOrder": 55
+  },
+  "7": {
+    "name": "al-Araf",
+    "period": "meccan-middle",
+    "revelationOrder": 39
+  },
+  "8": {
+    "name": "al-Anfal",
+    "period": "medinan",
+    "revelationOrder": 88
+  },
+  "9": {
+    "name": "at-Tawbah",
+    "period": "medinan",
+    "revelationOrder": 113
+  },
+  "10": {
+    "name": "Yunus",
+    "period": "meccan-late",
+    "revelationOrder": 51
+  },
+  "11": {
+    "name": "Hud",
+    "period": "meccan-late",
+    "revelationOrder": 52
+  },
+  "12": {
+    "name": "Yusuf",
+    "period": "meccan-late",
+    "revelationOrder": 53
+  },
+  "13": {
+    "name": "ar-Rad",
+    "period": "medinan",
+    "revelationOrder": 96
+  },
+  "14": {
+    "name": "Ibrahim",
+    "period": "meccan-late",
+    "revelationOrder": 72
+  },
+  "15": {
+    "name": "al-Hijr",
+    "period": "meccan-late",
+    "revelationOrder": 54
+  },
+  "16": {
+    "name": "an-Nahl",
+    "period": "meccan-late",
+    "revelationOrder": 70
+  },
+  "17": {
+    "name": "al-Isra",
+    "period": "meccan-late",
+    "revelationOrder": 50
+  },
+  "18": {
+    "name": "al-Kahf",
+    "period": "meccan-late",
+    "revelationOrder": 69
+  },
+  "19": {
+    "name": "Maryam",
+    "period": "meccan-middle",
+    "revelationOrder": 44
+  },
+  "20": {
+    "name": "Ta-Ha",
+    "period": "meccan-middle",
+    "revelationOrder": 45
+  },
+  "21": {
+    "name": "al-Anbiya",
+    "period": "meccan-late",
+    "revelationOrder": 73
+  },
+  "22": {
+    "name": "al-Hajj",
+    "period": "medinan",
+    "revelationOrder": 103
+  },
+  "23": {
+    "name": "al-Muminun",
+    "period": "meccan-late",
+    "revelationOrder": 74
+  },
+  "24": {
+    "name": "an-Nur",
+    "period": "medinan",
+    "revelationOrder": 102
+  },
+  "25": {
+    "name": "al-Furqan",
+    "period": "meccan-middle",
+    "revelationOrder": 42
+  },
+  "26": {
+    "name": "ash-Shuara",
+    "period": "meccan-middle",
+    "revelationOrder": 47
+  },
+  "27": {
+    "name": "an-Naml",
+    "period": "meccan-middle",
+    "revelationOrder": 48
+  },
+  "28": {
+    "name": "al-Qasas",
+    "period": "meccan-middle",
+    "revelationOrder": 49
+  },
+  "29": {
+    "name": "al-Ankabut",
+    "period": "meccan-late",
+    "revelationOrder": 85
+  },
+  "30": {
+    "name": "ar-Rum",
+    "period": "meccan-late",
+    "revelationOrder": 84
+  },
+  "31": {
+    "name": "Luqman",
+    "period": "meccan-late",
+    "revelationOrder": 57
+  },
+  "32": {
+    "name": "as-Sajdah",
+    "period": "meccan-late",
+    "revelationOrder": 75
+  },
+  "33": {
+    "name": "al-Ahzab",
+    "period": "medinan",
+    "revelationOrder": 90
+  },
+  "34": {
+    "name": "Saba",
+    "period": "meccan-late",
+    "revelationOrder": 58
+  },
+  "35": {
+    "name": "Fatir",
+    "period": "meccan-middle",
+    "revelationOrder": 43
+  },
+  "36": {
+    "name": "Ya-Sin",
+    "period": "meccan-middle",
+    "revelationOrder": 41
+  },
+  "37": {
+    "name": "as-Saffat",
+    "period": "meccan-late",
+    "revelationOrder": 56
+  },
+  "38": {
+    "name": "Sad",
+    "period": "meccan-middle",
+    "revelationOrder": 38
+  },
+  "39": {
+    "name": "az-Zumar",
+    "period": "meccan-late",
+    "revelationOrder": 59
+  },
+  "40": {
+    "name": "Ghafir",
+    "period": "meccan-late",
+    "revelationOrder": 60
+  },
+  "41": {
+    "name": "Fussilat",
+    "period": "meccan-late",
+    "revelationOrder": 61
+  },
+  "42": {
+    "name": "ash-Shura",
+    "period": "meccan-late",
+    "revelationOrder": 62
+  },
+  "43": {
+    "name": "az-Zukhruf",
+    "period": "meccan-late",
+    "revelationOrder": 63
+  },
+  "44": {
+    "name": "ad-Dukhan",
+    "period": "meccan-late",
+    "revelationOrder": 64
+  },
+  "45": {
+    "name": "al-Jathiyah",
+    "period": "meccan-late",
+    "revelationOrder": 65
+  },
+  "46": {
+    "name": "al-Ahqaf",
+    "period": "meccan-late",
+    "revelationOrder": 66
+  },
+  "47": {
+    "name": "Muhammad",
+    "period": "medinan",
+    "revelationOrder": 95
+  },
+  "48": {
+    "name": "al-Fath",
+    "period": "medinan",
+    "revelationOrder": 111
+  },
+  "49": {
+    "name": "al-Hujurat",
+    "period": "medinan",
+    "revelationOrder": 106
+  },
+  "50": {
+    "name": "Qaf",
+    "period": "meccan-middle",
+    "revelationOrder": 34
+  },
+  "51": {
+    "name": "adh-Dhariyat",
+    "period": "meccan-late",
+    "revelationOrder": 67
+  },
+  "52": {
+    "name": "at-Tur",
+    "period": "meccan-late",
+    "revelationOrder": 76
+  },
+  "53": {
+    "name": "an-Najm",
+    "period": "meccan-early",
+    "revelationOrder": 23
+  },
+  "54": {
+    "name": "al-Qamar",
+    "period": "meccan-middle",
+    "revelationOrder": 37
+  },
+  "55": {
+    "name": "ar-Rahman",
+    "period": "medinan",
+    "revelationOrder": 97
+  },
+  "56": {
+    "name": "al-Waqiah",
+    "period": "meccan-middle",
+    "revelationOrder": 46
+  },
+  "57": {
+    "name": "al-Hadid",
+    "period": "medinan",
+    "revelationOrder": 94
+  },
+  "58": {
+    "name": "al-Mujadila",
+    "period": "medinan",
+    "revelationOrder": 105
+  },
+  "59": {
+    "name": "al-Hashr",
+    "period": "medinan",
+    "revelationOrder": 101
+  },
+  "60": {
+    "name": "al-Mumtahanah",
+    "period": "medinan",
+    "revelationOrder": 91
+  },
+  "61": {
+    "name": "as-Saf",
+    "period": "medinan",
+    "revelationOrder": 109
+  },
+  "62": {
+    "name": "al-Jumuah",
+    "period": "medinan",
+    "revelationOrder": 110
+  },
+  "63": {
+    "name": "al-Munafiqun",
+    "period": "medinan",
+    "revelationOrder": 104
+  },
+  "64": {
+    "name": "at-Taghabun",
+    "period": "medinan",
+    "revelationOrder": 108
+  },
+  "65": {
+    "name": "at-Talaq",
+    "period": "medinan",
+    "revelationOrder": 99
+  },
+  "66": {
+    "name": "at-Tahrim",
+    "period": "medinan",
+    "revelationOrder": 107
+  },
+  "67": {
+    "name": "al-Mulk",
+    "period": "meccan-late",
+    "revelationOrder": 77
+  },
+  "68": {
+    "name": "al-Qalam",
+    "period": "meccan-early",
+    "revelationOrder": 2
+  },
+  "69": {
+    "name": "al-Haqqah",
+    "period": "meccan-late",
+    "revelationOrder": 78
+  },
+  "70": {
+    "name": "al-Maarij",
+    "period": "meccan-late",
+    "revelationOrder": 79
+  },
+  "71": {
+    "name": "Nuh",
+    "period": "meccan-late",
+    "revelationOrder": 71
+  },
+  "72": {
+    "name": "al-Jinn",
+    "period": "meccan-middle",
+    "revelationOrder": 40
+  },
+  "73": {
+    "name": "al-Muzzammil",
+    "period": "meccan-early",
+    "revelationOrder": 3
+  },
+  "74": {
+    "name": "al-Muddaththir",
+    "period": "meccan-early",
+    "revelationOrder": 4
+  },
+  "75": {
+    "name": "al-Qiyamah",
+    "period": "meccan-early",
+    "revelationOrder": 31
+  },
+  "76": {
+    "name": "al-Insan",
+    "period": "medinan",
+    "revelationOrder": 98
+  },
+  "77": {
+    "name": "al-Mursalat",
+    "period": "meccan-early",
+    "revelationOrder": 33
+  },
+  "78": {
+    "name": "an-Naba",
+    "period": "meccan-late",
+    "revelationOrder": 80
+  },
+  "79": {
+    "name": "an-Naziat",
+    "period": "meccan-late",
+    "revelationOrder": 81
+  },
+  "80": {
+    "name": "Abasa",
+    "period": "meccan-early",
+    "revelationOrder": 24
+  },
+  "81": {
+    "name": "at-Takwir",
+    "period": "meccan-early",
+    "revelationOrder": 7
+  },
+  "82": {
+    "name": "al-Infitar",
+    "period": "meccan-late",
+    "revelationOrder": 82
+  },
+  "83": {
+    "name": "al-Mutaffifin",
+    "period": "meccan-late",
+    "revelationOrder": 86
+  },
+  "84": {
+    "name": "al-Inshiqaq",
+    "period": "meccan-late",
+    "revelationOrder": 83
+  },
+  "85": {
+    "name": "al-Buruj",
+    "period": "meccan-early",
+    "revelationOrder": 27
+  },
+  "86": {
+    "name": "at-Tariq",
+    "period": "meccan-middle",
+    "revelationOrder": 36
+  },
+  "87": {
+    "name": "al-Ala",
+    "period": "meccan-early",
+    "revelationOrder": 8
+  },
+  "88": {
+    "name": "al-Ghashiyah",
+    "period": "meccan-late",
+    "revelationOrder": 68
+  },
+  "89": {
+    "name": "al-Fajr",
+    "period": "meccan-early",
+    "revelationOrder": 10
+  },
+  "90": {
+    "name": "al-Balad",
+    "period": "meccan-middle",
+    "revelationOrder": 35
+  },
+  "91": {
+    "name": "ash-Shams",
+    "period": "meccan-early",
+    "revelationOrder": 26
+  },
+  "92": {
+    "name": "al-Layl",
+    "period": "meccan-early",
+    "revelationOrder": 9
+  },
+  "93": {
+    "name": "ad-Duha",
+    "period": "meccan-early",
+    "revelationOrder": 11
+  },
+  "94": {
+    "name": "ash-Sharh",
+    "period": "meccan-early",
+    "revelationOrder": 12
+  },
+  "95": {
+    "name": "at-Tin",
+    "period": "meccan-early",
+    "revelationOrder": 28
+  },
+  "96": {
+    "name": "al-Alaq",
+    "period": "meccan-early",
+    "revelationOrder": 1
+  },
+  "97": {
+    "name": "al-Qadr",
+    "period": "meccan-early",
+    "revelationOrder": 25
+  },
+  "98": {
+    "name": "al-Bayyinah",
+    "period": "medinan",
+    "revelationOrder": 100
+  },
+  "99": {
+    "name": "az-Zalzalah",
+    "period": "medinan",
+    "revelationOrder": 93
+  },
+  "100": {
+    "name": "al-Adiyat",
+    "period": "meccan-early",
+    "revelationOrder": 14
+  },
+  "101": {
+    "name": "al-Qariah",
+    "period": "meccan-early",
+    "revelationOrder": 30
+  },
+  "102": {
+    "name": "at-Takathur",
+    "period": "meccan-early",
+    "revelationOrder": 16
+  },
+  "103": {
+    "name": "al-Asr",
+    "period": "meccan-early",
+    "revelationOrder": 13
+  },
+  "104": {
+    "name": "al-Humaza",
+    "period": "meccan-early",
+    "revelationOrder": 32
+  },
+  "105": {
+    "name": "al-Fil",
+    "period": "meccan-early",
+    "revelationOrder": 19
+  },
+  "106": {
+    "name": "Quraysh",
+    "period": "meccan-early",
+    "revelationOrder": 29
+  },
+  "107": {
+    "name": "al-Maun",
+    "period": "meccan-early",
+    "revelationOrder": 17
+  },
+  "108": {
+    "name": "al-Kawthar",
+    "period": "meccan-early",
+    "revelationOrder": 15
+  },
+  "109": {
+    "name": "al-Kafirun",
+    "period": "meccan-early",
+    "revelationOrder": 18
+  },
+  "110": {
+    "name": "an-Nasr",
+    "period": "medinan",
+    "revelationOrder": 114
+  },
+  "111": {
+    "name": "al-Masad",
+    "period": "meccan-early",
+    "revelationOrder": 6
+  },
+  "112": {
+    "name": "al-Ikhlas",
+    "period": "meccan-early",
+    "revelationOrder": 22
+  },
+  "113": {
+    "name": "al-Falaq",
+    "period": "meccan-early",
+    "revelationOrder": 20
+  },
+  "114": {
+    "name": "an-Nas",
+    "period": "meccan-early",
+    "revelationOrder": 21
+  }
+}
