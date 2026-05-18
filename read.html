@@ -143,6 +143,15 @@
               html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Patterns in this verse</h4><p style="font-size:.9rem;color:var(--muted)">Pattern-level data is pending — see the <a href="patterns.html">Patterns page</a> for the methodology.</p></div>`;
             }
           }
+          if (depth === "scholar" || depth === "encyclopedic") {
+            if (s === 1 && a === 1) {
+              html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Related verses</h4><p style="font-size:.9rem">The basmala formula appears at the head of 113 of the 114 surahs (all except al-Tawbah). It also appears mid-surah in one place: 27:30, in Solomon's letter to the Queen of Sheba — the only basmala counted as a numbered verse within a surah rather than as a surah opening.</p><ul style="font-size:.9rem;margin:.4rem 0;padding-left:1.2rem"><li><a href="read.html?s=27&a=30">Read 27:30 (Solomon's letter)</a></li></ul><p class="prov"><span class="badge ok">Verified</span> from Tanzil text and Cairo 1924 edition.</p></div>`;
+            } else if (s === 2 && a === 255) {
+              html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Related verses</h4><p style="font-size:.9rem">Ayat al-Kursi contains tawhid formulations that parallel several other verses in the Qur'an.</p><ul style="font-size:.9rem;margin:.4rem 0;padding-left:1.2rem"><li><a href="read.html?s=2&a=163">Read 2:163</a> — tawhid affirmation: "your God is One God"</li><li><a href="read.html?s=20&a=8">Read 20:8</a> — "Allah, there is no deity except Him"</li><li><a href="read.html?s=3&a=2">Read 3:2</a> — "Allah, there is no deity except Him, the Ever-Living, the Sustainer"</li></ul><p class="prov"><span class="badge ok">Verified</span> parallel formulations from Tanzil text. Cross-reference pattern documented in classical mutashabihat literature.</p></div>`;
+            } else {
+              html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Related verses</h4><p style="font-size:.9rem;color:var(--muted)">Cross-reference data for this verse is pending — see the <a href="patterns.html">Patterns page</a> for the methodology.</p></div>`;
+            }
+          }
           html += `<p class="prov"><span class="badge ok">Verified</span> Arabic from Tanzil Uthmani via alquran.cloud. Translations rendered as published; each is an interpretation. Compare to deepen understanding.</p></div>`;
           container.innerHTML = html;
           const url = new URL(window.location);
