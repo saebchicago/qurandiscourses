@@ -103,6 +103,7 @@
     </div>
     <script src="assets/app.js"></script>
     <script>
+      const morphCache = {};
       async function load() {
         const s = parseInt(document.getElementById("surahInput").value);
         const a = parseInt(document.getElementById("ayahInput").value);
@@ -111,13 +112,25 @@
         container.innerHTML =
           '<div class="card"><p style="color:var(--muted)">Loading...</p></div>';
         try {
-          const data = await qdFetchVerse(s, a);
+          const depth =
+            document.documentElement.getAttribute("data-depth") || "simple";
+          const needsMorph = depth === "scholar" || depth === "encyclopedic";
+          const fetches = [qdFetchVerse(s, a)];
+          if (needsMorph && !morphCache[s]) {
+            fetches.push(
+              fetch(`data/morphology/${s}.json`)
+                .then((r) => r.json())
+                .then((d) => {
+                  morphCache[s] = d;
+                })
+                .catch(() => {}),
+            );
+          }
+          const [data] = await Promise.all(fetches);
           const ar = data.find((d) => d.edition.identifier === "quran-uthmani");
           const translations = data.filter(
             (d) => d.edition.identifier !== "quran-uthmani",
           );
-          const depth =
-            document.documentElement.getAttribute("data-depth") || "simple";
           const transCount = translations.length;
           let html = `<div class="verse"><div class="meta"><strong>${s}:${a}</strong><span>${ar.surah.englishName} · ${ar.surah.englishNameTranslation}</span></div><p style="font-size:.82rem;color:var(--muted);margin:.3rem 0 .8rem">Showing ${transCount} translation${transCount !== 1 ? "s" : ""} · <a href="#" onclick="document.getElementById('gearBtn').click();return false;">Change in Settings</a></p><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${ar.text}</p>`;
           if (qdState.features.showAudio) {
@@ -126,11 +139,19 @@
           translations.forEach((t) => {
             html += `<div class="translation"><div class="label">${t.edition.englishName} · ${t.edition.name}</div><div class="text">${t.text}</div></div>`;
           });
-          if (depth === "scholar" || depth === "encyclopedic") {
-            if (s === 1 && a === 1) {
-              html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><table class="data"><thead><tr><th>Word</th><th>Root</th><th>Lemma</th><th>POS</th><th>Meaning</th></tr></thead><tbody><tr><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">بِسْمِ</span></td><td>s-m-w / s-m-y</td><td>ism</td><td>Noun (prep+noun)</td><td>In the name of</td></tr><tr><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">ٱللَّهِ</span></td><td>a-l-h</td><td>Allah</td><td>Proper noun</td><td>Allah</td></tr><tr><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">ٱلرَّحْمَٰنِ</span></td><td>r-ḥ-m</td><td>al-Rahman</td><td>Adjective</td><td>the Most Merciful</td></tr><tr><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">ٱلرَّحِيمِ</span></td><td>r-ḥ-m</td><td>al-Rahim</td><td>Adjective</td><td>the Especially Merciful</td></tr></tbody></table><p class="prov"><span class="badge ok">Verified</span> morphology and roots from Leeds Quranic Arabic Corpus.</p></div>`;
+          if (needsMorph) {
+            const words = morphCache[s] && morphCache[s][String(a)];
+            if (words && words.length) {
+              let rows = "";
+              words.forEach((w) => {
+                const rootLink = w.root
+                  ? `<a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(w.root)}" target="_blank" rel="noopener">${w.root}</a>`
+                  : "—";
+                rows += `<tr><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${w.ar}</span></td><td>${rootLink}</td><td>${w.lemma || "—"}</td><td>${w.pos || "—"}</td><td>${w.gloss || "—"}</td></tr>`;
+              });
+              html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><table class="data"><thead><tr><th>Word</th><th>Root</th><th>Lemma</th><th>POS</th><th>Meaning</th></tr></thead><tbody>${rows}</tbody></table><p class="prov"><span class="badge ok">Verified</span> morphology and roots from the Leeds Quranic Arabic Corpus v0.4 (Kais Dukes, 2009-2017), GPL licensed. Arabic rendering via Buckwalter-to-Arabic conversion in our build script.</p></div>`;
             } else {
-              html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><p style="font-size:.9rem;color:var(--muted)">Word-level data for this verse is pending — see the <a href="words.html">Words page</a> for the methodology.</p></div>`;
+              html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><p style="font-size:.9rem;color:var(--muted)">Word-level data unavailable for this verse — see the <a href="words.html">Words page</a> for the methodology.</p></div>`;
             }
           }
           if (depth === "encyclopedic") {
