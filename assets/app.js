@@ -299,6 +299,113 @@
     return json.data;
   };
 
+  const TOOLTIPS = {
+    "depth-simple":
+      "Shows verse text, translations, and audio. No morphology or annotations.",
+    "depth-scholar":
+      "Adds word-by-word morphology, root links, and chronological period distribution.",
+    "depth-encyclopedic":
+      "Adds full structural pattern notes and complete source provenance for every claim.",
+    "label-verified":
+      "Confirmed from a primary corpus or canonical edition. The source is named and linked.",
+    "label-pending":
+      "Awaiting triangulation from a second independent source before being marked Verified.",
+    "label-nuanced":
+      "The counting method or interpretation has known variation across sources. See the source detail for the specific approach used.",
+  };
+
+  function initTooltips() {
+    let activeTooltip = null;
+
+    function createTooltip(content) {
+      const tooltip = document.createElement("div");
+      tooltip.className = "tooltip-popup";
+      tooltip.textContent = content;
+      tooltip.style.position = "absolute";
+      tooltip.style.zIndex = "1000";
+      tooltip.style.backgroundColor = "var(--bg-contrast, #333)";
+      tooltip.style.color = "var(--text-contrast, #fff)";
+      tooltip.style.padding = "0.5rem 0.75rem";
+      tooltip.style.borderRadius = "4px";
+      tooltip.style.fontSize = "0.85rem";
+      tooltip.style.lineHeight = "1.4";
+      tooltip.style.maxWidth = "240px";
+      tooltip.style.boxShadow = "0 2px 8px rgba(0,0,0,0.2)";
+      tooltip.style.pointerEvents = "none";
+      return tooltip;
+    }
+
+    function positionTooltip(tooltip, button) {
+      const rect = button.getBoundingClientRect();
+      const scrollY = window.scrollY || window.pageYOffset;
+      const scrollX = window.scrollX || window.pageXOffset;
+
+      tooltip.style.left = rect.left + scrollX + rect.width / 2 + "px";
+      tooltip.style.top = rect.bottom + scrollY + 8 + "px";
+      tooltip.style.transform = "translateX(-50%)";
+    }
+
+    function showTooltip(button, tipId) {
+      const content = TOOLTIPS[tipId];
+      if (!content) return;
+
+      hideTooltip();
+
+      const tooltip = createTooltip(content);
+      document.body.appendChild(tooltip);
+      positionTooltip(tooltip, button);
+      activeTooltip = tooltip;
+
+      tooltip.addEventListener("click", hideTooltip);
+    }
+
+    function hideTooltip() {
+      if (activeTooltip) {
+        activeTooltip.remove();
+        activeTooltip = null;
+      }
+    }
+
+    document.querySelectorAll(".info-tip").forEach((button) => {
+      const tipId = button.getAttribute("data-tip");
+      if (!tipId) return;
+
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (activeTooltip) {
+          hideTooltip();
+        } else {
+          showTooltip(button, tipId);
+        }
+      });
+
+      button.addEventListener("mouseenter", () => {
+        if (window.innerWidth > 768) {
+          showTooltip(button, tipId);
+        }
+      });
+
+      button.addEventListener("mouseleave", () => {
+        if (window.innerWidth > 768) {
+          hideTooltip();
+        }
+      });
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.matches(".info-tip") && activeTooltip) {
+        hideTooltip();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && activeTooltip) {
+        hideTooltip();
+      }
+    });
+  }
+
   window.qdState = state;
   window.qdTranslations = TRANSLATIONS;
   window.qdReciters = RECITERS;
@@ -309,5 +416,6 @@
     buildPanel();
     initSettings();
     markActiveNav();
+    initTooltips();
   });
 })();

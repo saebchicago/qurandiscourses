@@ -64,19 +64,65 @@
     </nav>
     <main id="main">
       <section>
-        <p class="lede">
-          A platform for personal, evidence-based study of the Qur'an. Tools for
-          roots, words, patterns, and structure, with verification on every
-          claim. Customize in
-          <a
-            href="#"
-            onclick="
-              document.getElementById('gearBtn').click();
-              return false;
-            "
-            >Settings</a
-          >.
-        </p>
+        <div
+          class="intro-blocks"
+          style="display: grid; gap: 1.25rem; margin-bottom: 1.5rem"
+        >
+          <div>
+            <h2 style="margin: 0 0 0.5rem; font-size: 1.1rem">Purpose</h2>
+            <p style="margin: 0">
+              Discourses is a tool for direct, evidence-based study of the
+              Qur'an. It surfaces roots, word morphology, structural patterns,
+              and cross-references with a verification label on every claim.
+            </p>
+          </div>
+          <div>
+            <h2 style="margin: 0 0 0.5rem; font-size: 1.1rem">Who it is for</h2>
+            <p style="margin: 0">
+              For readers who want to engage the text without an intermediary,
+              and for students who want claims they can trace.
+            </p>
+          </div>
+          <div>
+            <h2 style="margin: 0 0 0.5rem; font-size: 1.1rem">What is here</h2>
+            <div
+              class="grid"
+              style="
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 0.75rem;
+              "
+            >
+              <a class="tile" href="read.html" style="padding: 0.75rem">
+                <span class="name" style="font-size: 0.95rem">Read</span>
+                <span class="desc" style="font-size: 0.85rem"
+                  >Verse text with translations</span
+                >
+              </a>
+              <a class="tile" href="roots.html" style="padding: 0.75rem">
+                <span class="name" style="font-size: 0.95rem">Roots</span>
+                <span class="desc" style="font-size: 0.85rem"
+                  >Triliteral root index</span
+                >
+              </a>
+              <a class="tile" href="patterns.html" style="padding: 0.75rem">
+                <span class="name" style="font-size: 0.95rem">Patterns</span>
+                <span class="desc" style="font-size: 0.85rem"
+                  >Structural features</span
+                >
+              </a>
+              <a
+                class="tile"
+                href="#"
+                style="padding: 0.75rem; opacity: 0.6; pointer-events: none"
+              >
+                <span class="name" style="font-size: 0.95rem"
+                  >Coherence View</span
+                >
+                <span class="desc" style="font-size: 0.85rem">Coming soon</span>
+              </a>
+            </div>
+          </div>
+        </div>
         <blockquote class="khan">
           Every believer builds his or her own direct and personal relationship
           with the Book.
@@ -135,107 +181,107 @@
         </div>
       </section>
       <section>
-        <h2>Start here</h2>
-        <h3>What this site does</h3>
-        <p>
-          Discourses lets you read any verse of the Qur'an alongside multiple
-          English translations, look up any of the 1,642 triliteral roots, see
-          how Qur'anic words derive from those roots, compare roots across
-          chronological periods, and trace recurring structural patterns. Every
-          claim carries a verification label so you can calibrate confidence and
-          triangulate independently.
-        </p>
-        <h3>Three depth levels</h3>
+        <h2>Three depth levels</h2>
         <div
           style="
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 0.75rem;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
           "
         >
           <div class="card" style="margin: 0">
-            <strong>Simple</strong>
+            <strong
+              >Simple
+              <button
+                class="info-tip"
+                data-tip="depth-simple"
+                aria-label="More about Simple depth"
+              >
+                ?
+              </button></strong
+            >
             <p style="margin: 0.25rem 0 0; font-size: 0.9rem">
               Verse text, translations, audio. The reading layer.
             </p>
           </div>
           <div class="card" style="margin: 0">
-            <strong>Scholar</strong>
+            <strong
+              >Scholar
+              <button
+                class="info-tip"
+                data-tip="depth-scholar"
+                aria-label="More about Scholar depth"
+              >
+                ?
+              </button></strong
+            >
             <p style="margin: 0.25rem 0 0; font-size: 0.9rem">
               Adds word-by-word morphology, root links, related verses, and
               period distribution. The analytical layer.
             </p>
           </div>
           <div class="card" style="margin: 0">
-            <strong>Encyclopedic</strong>
+            <strong
+              >Encyclopedic
+              <button
+                class="info-tip"
+                data-tip="depth-encyclopedic"
+                aria-label="More about Encyclopedic depth"
+              >
+                ?
+              </button></strong
+            >
             <p style="margin: 0.25rem 0 0; font-size: 0.9rem">
               Adds structural pattern notes and full provenance. The reference
               layer.
             </p>
           </div>
         </div>
-        <p>
-          Change depth anytime via the
-          <a
-            href="#"
-            onclick="
-              document.getElementById('gearBtn').click();
-              return false;
-            "
-            >gear icon</a
+        <p style="text-align: center; margin-top: 1.5rem">
+          <a href="how-it-works.html" style="font-weight: 500"
+            >Learn the method →</a
           >
-          in the top right. Your selection persists for this tab only. No
-          tracking, no cookies.
-        </p>
-        <h3>A suggested first visit</h3>
-        <ol>
-          <li>
-            Open <a href="read.html?s=1&amp;a=1">al-Fatihah 1:1</a> and read the
-            basmala in multiple translations at Simple depth.
-          </li>
-          <li>
-            Switch to Scholar depth (gear icon) and reload the same verse to see
-            word-by-word morphology with root links.
-          </li>
-          <li>
-            Visit the <a href="roots.html">Roots</a> page and click any row to
-            see how that root distributes across the Meccan and Medinan periods.
-          </li>
-          <li>
-            Use <a href="compare.html">Compare</a> to set two roots side by
-            side. Try r-&#7717;-m (mercy) against E-*-b (punishment) for a
-            thematic contrast.
-          </li>
-          <li>
-            Visit <a href="patterns.html">Patterns</a> to see grammatical shift
-            (iltifat) and recurring formulations (mutashabihat) at work in the
-            text.
-          </li>
-        </ol>
-        <p
-          style="
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--line);
-          "
-        >
-          When you have done the first visit, try the
-          <a href="exercise-asr.html"
-            >coherence-reading exercise on Surah al-Asr</a
-          >. This is the method this site honors, demonstrated live on the
-          shortest meaningful surah.
         </p>
       </section>
       <section>
         <h2>Verification labels</h2>
         <div class="banner">
           <p style="margin: 0">
-            <span class="badge ok">Verified</span> from primary corpus or
-            canonical edition.
-            <span class="badge pending">Pending</span> awaiting triangulation.
-            <span class="badge nuanced">Nuanced</span> the counting method or
-            interpretation has known variation; see source for detail.
+            <span class="badge ok"
+              >Verified
+              <button
+                class="info-tip"
+                data-tip="label-verified"
+                aria-label="More about Verified label"
+              >
+                ?
+              </button></span
+            >
+            from primary corpus or canonical edition.
+            <span class="badge pending"
+              >Pending
+              <button
+                class="info-tip"
+                data-tip="label-pending"
+                aria-label="More about Pending label"
+              >
+                ?
+              </button></span
+            >
+            awaiting triangulation.
+            <span class="badge nuanced"
+              >Nuanced
+              <button
+                class="info-tip"
+                data-tip="label-nuanced"
+                aria-label="More about Nuanced label"
+              >
+                ?
+              </button></span
+            >
+            the counting method or interpretation has known variation; see
+            source for detail.
           </p>
         </div>
         <p>

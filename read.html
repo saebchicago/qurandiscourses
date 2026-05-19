@@ -37,14 +37,14 @@
       <section>
         <h2>Read</h2>
         <p class="lede">
-          Enter any surah and verse. Pick translations in
+          Enter any surah and verse. Pick translations using
           <a
             href="#"
             onclick="
               document.getElementById('gearBtn').click();
               return false;
             "
-            >Settings</a
+            >the gear icon</a
           >. Audio uses your chosen reciter.
         </p>
         <div class="card">
@@ -308,7 +308,7 @@
             (d) => d.edition.identifier !== "quran-uthmani",
           );
           const transCount = translations.length;
-          let html = `<div class="verse"><div class="meta"><strong>${s}:${a}</strong><span>${SURAH_DISPLAY_NAMES[s] || ar.surah.englishName} · ${ar.surah.englishNameTranslation}</span></div><p style="font-size:.82rem;color:var(--muted);margin:.3rem 0 .8rem">Showing ${transCount} translation${transCount !== 1 ? "s" : ""} · <a href="#" onclick="document.getElementById('gearBtn').click();return false;">Change in Settings</a></p><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${ar.text}</p>`;
+          let html = `<div class="verse"><div class="meta"><strong>${s}:${a}</strong><span>${SURAH_DISPLAY_NAMES[s] || ar.surah.englishName} · ${ar.surah.englishNameTranslation}</span></div><p style="font-size:.82rem;color:var(--muted);margin:.3rem 0 .8rem">Showing ${transCount} translation${transCount !== 1 ? "s" : ""} · <a href="#" onclick="document.getElementById('gearBtn').click();return false;">Change translations</a></p><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${ar.text}</p>`;
           if (qdState.features.showAudio) {
             html += `<audio controls style="width:100%;margin:.5rem 0"><source src="https://cdn.islamic.network/quran/audio/128/${qdState.reciter}/${ar.number}.mp3" type="audio/mpeg"></audio>`;
           }
