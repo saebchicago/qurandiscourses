@@ -109,23 +109,7 @@
     ).join("");
 
     panel.innerHTML = `
-      <h3>Depth</h3>
-      <div class="depth-toggle" role="group" aria-label="Depth level">
-        <button data-depth="simple">Simple</button>
-        <button data-depth="scholar">Scholar</button>
-        <button data-depth="encyclopedic">Encyclopedic</button>
-      </div>
-      <p class="small">Simple shows core evidence. Scholar adds derivations and citations. Encyclopedic shows everything.</p>
-      <h4>Translations to show</h4>
-      <div class="actions" style="flex-wrap:wrap;margin:.3rem 0 .5rem">
-        <button id="qsDefault">Default set</button>
-        <button id="qsClassical">Classical</button>
-        <button id="qsModern">Modern</button>
-        <button id="qsClear">Clear all</button>
-      </div>
-      <div class="check-list" id="transList">${transChecks}</div>
-      <h4>Reciter</h4>
-      <div class="row"><select id="setRec">${recOpts}</select></div>
+      <h3>Display</h3>
       <h4>Show features</h4>
       <div class="check-list">
         <label><input type="checkbox" data-feature="showRoots" ${state.features.showRoots ? "checked" : ""}> Root details</label>
@@ -143,28 +127,9 @@
       <div class="actions">
         <button id="clearPrefs">Clear preferences</button>
       </div>
-      <p class="small">Stored only in this browser tab. Cleared when the tab closes.</p>
+      <p class="small">Preferences stored in this browser tab.</p>
     `;
 
-    panel.querySelectorAll(".depth-toggle button").forEach((b) => {
-      b.addEventListener("click", () => {
-        state.depth = b.dataset.depth;
-        save();
-        applyDepth();
-      });
-    });
-    panel.querySelectorAll("[data-trans]").forEach((cb) => {
-      cb.addEventListener("change", () => {
-        const id = cb.dataset.trans;
-        if (cb.checked) {
-          if (!state.translations.includes(id)) state.translations.push(id);
-        } else {
-          state.translations = state.translations.filter((x) => x !== id);
-        }
-        save();
-        document.dispatchEvent(new CustomEvent("qd:translations-changed"));
-      });
-    });
     panel.querySelectorAll("[data-feature]").forEach((cb) => {
       cb.addEventListener("change", () => {
         state.features[cb.dataset.feature] = cb.checked;
@@ -172,12 +137,6 @@
         document.dispatchEvent(new CustomEvent("qd:features-changed"));
       });
     });
-    const recSel = document.getElementById("setRec");
-    if (recSel)
-      recSel.addEventListener("change", () => {
-        state.reciter = recSel.value;
-        save();
-      });
     const themeSel = document.getElementById("setTheme");
     if (themeSel)
       themeSel.addEventListener("change", () => {
@@ -194,42 +153,6 @@
         buildPanel();
         document.dispatchEvent(new CustomEvent("qd:reset"));
       });
-
-    function applyQuickSwap(ids) {
-      state.translations = ids;
-      save();
-      buildPanel();
-      document.dispatchEvent(new CustomEvent("qd:translations-changed"));
-    }
-    const qsDefault = document.getElementById("qsDefault");
-    if (qsDefault)
-      qsDefault.addEventListener("click", () =>
-        applyQuickSwap([
-          "en.sahih",
-          "en.pickthall",
-          "en.yusufali",
-          "en.maududi",
-        ]),
-      );
-    const qsClassical = document.getElementById("qsClassical");
-    if (qsClassical)
-      qsClassical.addEventListener("click", () =>
-        applyQuickSwap([
-          "en.pickthall",
-          "en.yusufali",
-          "en.arberry",
-          "en.shakir",
-        ]),
-      );
-    const qsModern = document.getElementById("qsModern");
-    if (qsModern)
-      qsModern.addEventListener("click", () =>
-        applyQuickSwap(["en.sahih", "en.haleem", "en.itani", "en.ahmedali"]),
-      );
-    const qsClear = document.getElementById("qsClear");
-    if (qsClear) qsClear.addEventListener("click", () => applyQuickSwap([]));
-
-    applyDepth();
   }
 
   function initSettings() {
@@ -549,6 +472,16 @@
     });
   }
 
+  function initInlineDepth() {
+    document.querySelectorAll(".depth-toggle.inline button").forEach((b) => {
+      b.addEventListener("click", () => {
+        state.depth = b.dataset.depth;
+        save();
+        applyDepth();
+      });
+    });
+  }
+
   window.qdState = state;
   window.qdTranslations = TRANSLATIONS;
   window.qdReciters = RECITERS;
@@ -561,5 +494,7 @@
     markActiveNav();
     initTooltips();
     initSourcePopovers();
+    initInlineDepth();
+    applyDepth();
   });
 })();

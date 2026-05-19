@@ -37,16 +37,45 @@
       <section>
         <h2>Read</h2>
         <p class="lede">
-          Enter any surah and verse. Pick translations using
-          <a
-            href="#"
-            onclick="
-              document.getElementById('gearBtn').click();
-              return false;
-            "
-            >the gear icon</a
-          >. Audio uses your chosen reciter.
+          Enter any surah and verse. Audio uses your chosen reciter.
         </p>
+        <div
+          style="
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+          "
+        >
+          <span style="font-size: 0.9rem; color: var(--muted); font-weight: 500"
+            >Depth:</span
+          >
+          <div
+            class="depth-toggle inline"
+            role="group"
+            aria-label="Depth level"
+          >
+            <button
+              data-depth="simple"
+              style="min-width: 44px; min-height: 44px"
+            >
+              Simple
+            </button>
+            <button
+              data-depth="scholar"
+              style="min-width: 44px; min-height: 44px"
+            >
+              Scholar
+            </button>
+            <button
+              data-depth="encyclopedic"
+              style="min-width: 44px; min-height: 44px"
+            >
+              Encyclopedic
+            </button>
+          </div>
+        </div>
         <div class="card">
           <div
             style="
@@ -308,9 +337,12 @@
             (d) => d.edition.identifier !== "quran-uthmani",
           );
           const transCount = translations.length;
-          let html = `<div class="verse"><div class="meta"><strong>${s}:${a}</strong><span>${SURAH_DISPLAY_NAMES[s] || ar.surah.englishName} · ${ar.surah.englishNameTranslation}</span></div><p style="font-size:.82rem;color:var(--muted);margin:.3rem 0 .8rem">Showing ${transCount} translation${transCount !== 1 ? "s" : ""} · <a href="#" onclick="document.getElementById('gearBtn').click();return false;">Change translations</a></p><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${ar.text}</p>`;
+          let html = `<div class="verse"><div class="meta"><strong>${s}:${a}</strong><span>${SURAH_DISPLAY_NAMES[s] || ar.surah.englishName} · ${ar.surah.englishNameTranslation}</span></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button id="transBtn" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem">${transCount} selected ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${ar.text}</p>`;
           if (qdState.features.showAudio) {
-            html += `<audio controls style="width:100%;margin:.5rem 0"><source src="https://cdn.islamic.network/quran/audio/128/${qdState.reciter}/${ar.number}.mp3" type="audio/mpeg"></audio>`;
+            const reciterName =
+              qdReciters.find((r) => r.id === qdState.reciter)?.name ||
+              "Reciter";
+            html += `<div style="display:flex;gap:0.5rem;align-items:center;margin:.5rem 0"><audio controls style="flex:1"><source src="https://cdn.islamic.network/quran/audio/128/${qdState.reciter}/${ar.number}.mp3" type="audio/mpeg"></audio><button id="reciterBtn" style="min-width:44px;min-height:44px;padding:0.5rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem" title="Change reciter">\uD83C\uDFA4</button></div><div id="reciterName" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.5rem">${reciterName}</div>`;
           }
           translations.forEach((t) => {
             html += `<div class="translation"><div class="label">${t.edition.englishName} · ${t.edition.name}</div><div class="text">${t.text}</div></div>`;
@@ -358,6 +390,73 @@
           }
           html += `<p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4">Verified</span> Arabic from Tanzil Uthmani via alquran.cloud. Translations rendered as published; each is an interpretation. Compare to deepen understanding.</p></div>`;
           container.innerHTML = html;
+
+          const transBtn = document.getElementById("transBtn");
+          if (transBtn) {
+            transBtn.addEventListener("click", () => {
+              const transList = qdTranslations
+                .map(
+                  (t) =>
+                    `<label style="display:block;padding:0.75rem;border-bottom:1px solid var(--line);cursor:pointer"><input type="checkbox" data-trans="${t.id}" ${qdState.translations.includes(t.id) ? "checked" : ""}  style="margin-right:0.5rem"> ${t.name}</label>`,
+                )
+                .join("");
+              const modal = document.createElement("div");
+              modal.style.cssText =
+                "position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:3000;display:flex;align-items:center;justify-content:center";
+              modal.innerHTML = `<div style="background:var(--card);border-radius:8px;max-width:400px;width:90%;max-height:80vh;overflow:auto"><div style="padding:1rem;border-bottom:2px solid var(--accent);font-weight:600;display:flex;justify-content:space-between;align-items:center"><span>Choose Translations</span><button id="closeTransModal" style="border:none;background:none;font-size:1.5rem;cursor:pointer;padding:0;min-width:44px;min-height:44px">×</button></div><div id="transListContainer">${transList}</div></div>`;
+              document.body.appendChild(modal);
+              modal.querySelectorAll("[data-trans]").forEach((cb) => {
+                cb.addEventListener("change", () => {
+                  const id = cb.getAttribute("data-trans");
+                  if (cb.checked) {
+                    if (!qdState.translations.includes(id))
+                      qdState.translations.push(id);
+                  } else {
+                    qdState.translations = qdState.translations.filter(
+                      (x) => x !== id,
+                    );
+                  }
+                  sessionStorage.setItem("qd_state", JSON.stringify(qdState));
+                  load();
+                });
+              });
+              modal.addEventListener("click", (e) => {
+                if (e.target === modal) modal.remove();
+              });
+              document
+                .getElementById("closeTransModal")
+                .addEventListener("click", () => modal.remove());
+            });
+          }
+
+          const reciterBtn = document.getElementById("reciterBtn");
+          if (reciterBtn) {
+            reciterBtn.addEventListener("click", () => {
+              const reciterList = qdReciters
+                .map(
+                  (r) =>
+                    `<div style="padding:0.75rem;border-bottom:1px solid var(--line);cursor:pointer" data-reciter="${r.id}" class="reciter-option">${r.name}</div>`,
+                )
+                .join("");
+              const modal = document.createElement("div");
+              modal.style.cssText =
+                "position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:3000;display:flex;align-items:center;justify-content:center";
+              modal.innerHTML = `<div style="background:var(--card);border-radius:8px;max-width:400px;width:90%;max-height:80vh;overflow:auto"><div style="padding:1rem;border-bottom:2px solid var(--accent);font-weight:600">Choose Reciter</div>${reciterList}</div>`;
+              document.body.appendChild(modal);
+              modal.querySelectorAll(".reciter-option").forEach((opt) => {
+                opt.addEventListener("click", () => {
+                  qdState.reciter = opt.getAttribute("data-reciter");
+                  sessionStorage.setItem("qd_state", JSON.stringify(qdState));
+                  modal.remove();
+                  load();
+                });
+              });
+              modal.addEventListener("click", (e) => {
+                if (e.target === modal) modal.remove();
+              });
+            });
+          }
+
           const url = new URL(window.location);
           url.searchParams.set("s", s);
           url.searchParams.set("a", a);
