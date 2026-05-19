@@ -6,6 +6,7 @@
     { id: "en.pickthall", name: "Pickthall", lang: "en", default: true },
     { id: "en.yusufali", name: "Yusuf Ali", lang: "en", default: true },
     { id: "en.maududi", name: "Maududi", lang: "en", default: true },
+    { id: "en.asad", name: "Muhammad Asad", lang: "en", default: true },
     { id: "en.shakir", name: "Shakir", lang: "en" },
     { id: "en.arberry", name: "Arberry", lang: "en" },
     { id: "en.ahmedali", name: "Ahmed Ali", lang: "en" },
@@ -24,7 +25,6 @@
     { id: "ar.abdulbasitmurattal", name: "Abdul Basit" },
     { id: "ar.abdurrahmaansudais", name: "Sudais" },
     { id: "ar.saoodshuraym", name: "Shuraim" },
-    { id: "ar.alafasy", name: "Mishary Alafasy" },
   ];
 
   const state = {
