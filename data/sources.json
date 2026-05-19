@@ -1,0 +1,70 @@
+{
+  "sources": [
+    {
+      "id": "leeds-corpus-v0.4",
+      "name": "Quranic Arabic Corpus",
+      "edition": "v0.4",
+      "publisher": "University of Leeds, School of Computing",
+      "year": "2017",
+      "url": "https://corpus.quran.com",
+      "accessed": "2026-05-19"
+    },
+    {
+      "id": "qul",
+      "name": "Quranic Universal Library",
+      "publisher": "Tarteel AI / Quran.com Foundation",
+      "year": "2024",
+      "url": "https://qul.tarteel.ai",
+      "accessed": "2026-05-19"
+    },
+    {
+      "id": "quran-foundation-api-v4",
+      "name": "Quran.com Foundation Content API",
+      "edition": "v4",
+      "publisher": "Quran.com Foundation",
+      "year": "2025",
+      "url": "https://api-docs.quran.foundation",
+      "accessed": "2026-05-19"
+    },
+    {
+      "id": "alquran-cloud-api",
+      "name": "AlQuran.cloud API",
+      "edition": "v1",
+      "publisher": "Islamic Network",
+      "year": "2024",
+      "url": "https://alquran.cloud/api",
+      "accessed": "2026-05-19"
+    },
+    {
+      "id": "qursim",
+      "name": "QurSim Cross-Reference Corpus",
+      "publisher": "Quranic Arabic Corpus project",
+      "url": "https://corpus.quran.com/qursim.jsp",
+      "accessed": "2026-05-19"
+    },
+    {
+      "id": "khan-reflections-2005",
+      "name": "Reflections on the Qur'an",
+      "author": "Irfan Ahmad Khan",
+      "publisher": "Islamic Foundation UK",
+      "year": "2005"
+    },
+    {
+      "id": "khan-exercise-2013",
+      "name": "An Exercise in Understanding the Qur'an",
+      "author": "Irfan Ahmad Khan",
+      "publisher": "Association of Quranic Understanding",
+      "year": "2013",
+      "isbn": "9781567447736"
+    },
+    {
+      "id": "tanzil",
+      "name": "Tanzil Quran Text",
+      "edition": "Uthmani script",
+      "publisher": "Tanzil Project",
+      "year": "2024",
+      "url": "https://tanzil.net",
+      "accessed": "2026-05-19"
+    }
+  ]
+}

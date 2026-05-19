@@ -406,6 +406,149 @@
     });
   }
 
+  let sourcesData = null;
+  let activeSourcePopover = null;
+
+  async function loadSources() {
+    if (sourcesData) return sourcesData;
+    try {
+      const res = await fetch("data/sources.json");
+      if (!res.ok) throw new Error("Failed to load sources");
+      const data = await res.json();
+      sourcesData = data.sources;
+      return sourcesData;
+    } catch (e) {
+      console.error("Failed to load sources.json:", e);
+      return [];
+    }
+  }
+
+  function createSourcePopover(sourceIds, targetElement) {
+    if (!sourcesData) return null;
+
+    const ids = sourceIds.split(",").map((id) => id.trim());
+    const sources = ids
+      .map((id) => sourcesData.find((s) => s.id === id))
+      .filter(Boolean);
+
+    if (sources.length === 0) return null;
+
+    const popover = document.createElement("div");
+    popover.className = "source-popover";
+    popover.style.position = "absolute";
+    popover.style.zIndex = "2000";
+    popover.style.backgroundColor = "var(--card)";
+    popover.style.border = "1px solid var(--accent)";
+    popover.style.borderRadius = "6px";
+    popover.style.padding = "0.75rem 1rem";
+    popover.style.boxShadow = "var(--shadow-lg)";
+    popover.style.maxWidth = "320px";
+    popover.style.fontSize = "0.85rem";
+    popover.style.lineHeight = "1.5";
+
+    let html = "";
+    sources.forEach((source, idx) => {
+      if (idx > 0)
+        html +=
+          '<hr style="margin: 0.6rem 0; border: none; border-top: 1px solid var(--line);">';
+      html += `<div style="margin-bottom: 0.4rem;"><strong>${source.name}</strong>`;
+      if (source.edition)
+        html += ` <span style="color: var(--muted);">${source.edition}</span>`;
+      html += `</div>`;
+      if (source.author)
+        html += `<div style="font-size: 0.82rem; color: var(--muted);">Author: ${source.author}</div>`;
+      if (source.publisher)
+        html += `<div style="font-size: 0.82rem; color: var(--muted);">${source.publisher}`;
+      if (source.year) html += `, ${source.year}`;
+      html += `</div>`;
+      if (source.isbn)
+        html += `<div style="font-size: 0.82rem; color: var(--muted);">ISBN: ${source.isbn}</div>`;
+      if (source.url)
+        html += `<div style="margin-top: 0.3rem;"><a href="${source.url}" target="_blank" rel="noopener" style="font-size: 0.82rem;">${source.url}</a></div>`;
+      if (source.accessed)
+        html += `<div style="font-size: 0.78rem; color: var(--muted); margin-top: 0.25rem;">Accessed: ${source.accessed}</div>`;
+    });
+
+    popover.innerHTML = html;
+
+    const rect = targetElement.getBoundingClientRect();
+    const scrollY = window.scrollY || window.pageYOffset;
+    const scrollX = window.scrollX || window.pageXOffset;
+
+    document.body.appendChild(popover);
+
+    const popoverRect = popover.getBoundingClientRect();
+    let top = rect.bottom + scrollY + 8;
+    let left = rect.left + scrollX;
+
+    if (left + popoverRect.width > window.innerWidth) {
+      left = window.innerWidth - popoverRect.width - 16;
+    }
+    if (left < 8) left = 8;
+
+    if (top + popoverRect.height > window.innerHeight + scrollY) {
+      top = rect.top + scrollY - popoverRect.height - 8;
+    }
+
+    popover.style.left = left + "px";
+    popover.style.top = top + "px";
+
+    return popover;
+  }
+
+  function hideSourcePopover() {
+    if (activeSourcePopover) {
+      activeSourcePopover.remove();
+      activeSourcePopover = null;
+    }
+  }
+
+  async function initSourcePopovers() {
+    await loadSources();
+
+    document.querySelectorAll(".badge[data-source-ids]").forEach((badge) => {
+      badge.style.cursor = "pointer";
+      badge.setAttribute("role", "button");
+      badge.setAttribute("tabindex", "0");
+
+      badge.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (activeSourcePopover) {
+          hideSourcePopover();
+        } else {
+          const sourceIds = badge.getAttribute("data-source-ids");
+          if (sourceIds) {
+            activeSourcePopover = createSourcePopover(sourceIds, badge);
+          }
+        }
+      });
+
+      badge.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          badge.click();
+        }
+      });
+    });
+
+    document.addEventListener("click", (e) => {
+      if (
+        activeSourcePopover &&
+        !e.target.closest(".badge[data-source-ids]") &&
+        !e.target.closest(".source-popover")
+      ) {
+        hideSourcePopover();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && activeSourcePopover) {
+        hideSourcePopover();
+      }
+    });
+  }
+
   window.qdState = state;
   window.qdTranslations = TRANSLATIONS;
   window.qdReciters = RECITERS;
@@ -417,5 +560,6 @@
     initSettings();
     markActiveNav();
     initTooltips();
+    initSourcePopovers();
   });
 })();
