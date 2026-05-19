@@ -27,9 +27,11 @@
       <a href="index.html">Home</a><a href="navigate.html">Navigate</a
       ><a href="read.html">Read</a><a href="roots.html">Roots</a
       ><a href="compare.html">Compare</a><a href="words.html">Words</a
-      ><a href="patterns.html">Patterns</a><a href="exercise-asr.html">Exercise</a><a href="numbers.html">Numbers</a
+      ><a href="patterns.html">Patterns</a
+      ><a href="exercise-asr.html">Exercise</a><a href="numbers.html">Numbers</a
       ><a href="sources.html">Sources</a><a href="validation.html">Validation</a
-      ><a href="glossary.html">Glossary</a><a href="credits.html">Credits</a><a href="changelog.html">Changelog</a><a href="about.html">About</a>
+      ><a href="glossary.html">Glossary</a><a href="credits.html">Credits</a
+      ><a href="changelog.html">Changelog</a><a href="about.html">About</a>
     </nav>
     <main id="main">
       <section>
@@ -89,8 +91,10 @@
       </section>
     </main>
     <footer class="site">
-      <p>
-        Discourses is built in memory of Dr. Irfan Ahmad Khan (1931 – 2018).
+      <p style="font-size: 0.82rem; color: var(--muted)">
+        Discourses · <a href="about.html">About</a> ·
+        <a href="sources.html">Sources</a> ·
+        <a href="credits.html">Credits</a>
       </p>
     </footer>
     <div class="settings">
@@ -114,12 +118,173 @@
     </div>
     <script src="assets/app.js"></script>
     <script>
+      const BW_TO_DISPLAY = {
+        A: "a",
+        ">": "a",
+        "<": "a",
+        "|": "a",
+        "&": "w",
+        "}": "y",
+        "'": "ʾ",
+        b: "b",
+        t: "t",
+        v: "th",
+        j: "j",
+        H: "ḥ",
+        x: "kh",
+        d: "d",
+        "*": "dh",
+        r: "r",
+        z: "z",
+        s: "s",
+        $: "sh",
+        S: "ṣ",
+        D: "ḍ",
+        T: "ṭ",
+        Z: "ẓ",
+        E: "ʿ",
+        g: "gh",
+        f: "f",
+        q: "q",
+        k: "k",
+        l: "l",
+        m: "m",
+        n: "n",
+        h: "h",
+        w: "w",
+        y: "y",
+        Y: "y",
+        p: "t",
+      };
+      function rootToDisplay(bw) {
+        return [...bw].map((c) => BW_TO_DISPLAY[c] || c).join("-");
+      }
+      const SURAH_DISPLAY_NAMES = {
+        1: "al-Fatihah",
+        2: "al-Baqarah",
+        3: "al-Imran",
+        4: "an-Nisa",
+        5: "al-Maidah",
+        6: "al-Anam",
+        7: "al-Araf",
+        8: "al-Anfal",
+        9: "at-Tawbah",
+        10: "Yunus",
+        11: "Hud",
+        12: "Yusuf",
+        13: "ar-Rad",
+        14: "Ibrahim",
+        15: "al-Hijr",
+        16: "an-Nahl",
+        17: "al-Isra",
+        18: "al-Kahf",
+        19: "Maryam",
+        20: "Ta-Ha",
+        21: "al-Anbiya",
+        22: "al-Hajj",
+        23: "al-Muminun",
+        24: "an-Nur",
+        25: "al-Furqan",
+        26: "ash-Shuara",
+        27: "an-Naml",
+        28: "al-Qasas",
+        29: "al-Ankabut",
+        30: "ar-Rum",
+        31: "Luqman",
+        32: "as-Sajdah",
+        33: "al-Ahzab",
+        34: "Saba",
+        35: "Fatir",
+        36: "Ya-Sin",
+        37: "as-Saffat",
+        38: "Sad",
+        39: "az-Zumar",
+        40: "Ghafir",
+        41: "Fussilat",
+        42: "ash-Shura",
+        43: "az-Zukhruf",
+        44: "ad-Dukhan",
+        45: "al-Jathiyah",
+        46: "al-Ahqaf",
+        47: "Muhammad",
+        48: "al-Fath",
+        49: "al-Hujurat",
+        50: "Qaf",
+        51: "adh-Dhariyat",
+        52: "at-Tur",
+        53: "an-Najm",
+        54: "al-Qamar",
+        55: "ar-Rahman",
+        56: "al-Waqiah",
+        57: "al-Hadid",
+        58: "al-Mujadila",
+        59: "al-Hashr",
+        60: "al-Mumtahanah",
+        61: "as-Saf",
+        62: "al-Jumuah",
+        63: "al-Munafiqun",
+        64: "at-Taghabun",
+        65: "at-Talaq",
+        66: "at-Tahrim",
+        67: "al-Mulk",
+        68: "al-Qalam",
+        69: "al-Haqqah",
+        70: "al-Maarij",
+        71: "Nuh",
+        72: "al-Jinn",
+        73: "al-Muzzammil",
+        74: "al-Muddaththir",
+        75: "al-Qiyamah",
+        76: "al-Insan",
+        77: "al-Mursalat",
+        78: "an-Naba",
+        79: "an-Naziat",
+        80: "Abasa",
+        81: "at-Takwir",
+        82: "al-Infitar",
+        83: "al-Mutaffifin",
+        84: "al-Inshiqaq",
+        85: "al-Buruj",
+        86: "at-Tariq",
+        87: "al-Ala",
+        88: "al-Ghashiyah",
+        89: "al-Fajr",
+        90: "al-Balad",
+        91: "ash-Shams",
+        92: "al-Layl",
+        93: "ad-Duha",
+        94: "ash-Sharh",
+        95: "at-Tin",
+        96: "al-Alaq",
+        97: "al-Qadr",
+        98: "al-Bayyinah",
+        99: "az-Zalzalah",
+        100: "al-Adiyat",
+        101: "al-Qariah",
+        102: "at-Takathur",
+        103: "al-Asr",
+        104: "al-Humaza",
+        105: "al-Fil",
+        106: "Quraysh",
+        107: "al-Maun",
+        108: "al-Kawthar",
+        109: "al-Kafirun",
+        110: "an-Nasr",
+        111: "al-Masad",
+        112: "al-Ikhlas",
+        113: "al-Falaq",
+        114: "an-Nas",
+      };
       const morphCache = {};
       async function load() {
         const s = parseInt(document.getElementById("surahInput").value);
         const a = parseInt(document.getElementById("ayahInput").value);
-        if (!s || !a || s < 1 || s > 114 || a < 1) return;
         const container = document.getElementById("verseContainer");
+        if (!s || s < 1 || s > 114 || !a || a < 1) {
+          container.innerHTML =
+            '<div class="card"><p>Please enter a valid surah (1–114) and verse number.</p></div>';
+          return;
+        }
         container.innerHTML =
           '<div class="card"><p style="color:var(--muted)">Loading...</p></div>';
         try {
@@ -143,7 +308,7 @@
             (d) => d.edition.identifier !== "quran-uthmani",
           );
           const transCount = translations.length;
-          let html = `<div class="verse"><div class="meta"><strong>${s}:${a}</strong><span>${ar.surah.englishName} · ${ar.surah.englishNameTranslation}</span></div><p style="font-size:.82rem;color:var(--muted);margin:.3rem 0 .8rem">Showing ${transCount} translation${transCount !== 1 ? "s" : ""} · <a href="#" onclick="document.getElementById('gearBtn').click();return false;">Change in Settings</a></p><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${ar.text}</p>`;
+          let html = `<div class="verse"><div class="meta"><strong>${s}:${a}</strong><span>${SURAH_DISPLAY_NAMES[s] || ar.surah.englishName} · ${ar.surah.englishNameTranslation}</span></div><p style="font-size:.82rem;color:var(--muted);margin:.3rem 0 .8rem">Showing ${transCount} translation${transCount !== 1 ? "s" : ""} · <a href="#" onclick="document.getElementById('gearBtn').click();return false;">Change in Settings</a></p><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${ar.text}</p>`;
           if (qdState.features.showAudio) {
             html += `<audio controls style="width:100%;margin:.5rem 0"><source src="https://cdn.islamic.network/quran/audio/128/${qdState.reciter}/${ar.number}.mp3" type="audio/mpeg"></audio>`;
           }
@@ -156,16 +321,19 @@
               let rows = "";
               words.forEach((w) => {
                 const rootLink = w.root
-                  ? `<a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(w.root)}" target="_blank" rel="noopener">${w.root}</a>`
+                  ? `<a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(w.root)}" target="_blank" rel="noopener">${rootToDisplay(w.root)}</a>`
                   : "—";
                 const glossCell = w.gloss
                   ? `<td>${w.gloss}</td>`
                   : w.root
                     ? `<td><a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(w.root)}" target="_blank" rel="noopener" style="color:var(--muted);font-size:0.88rem;text-decoration:underline dotted;text-underline-offset:3px">look up →</a></td>`
                     : `<td style="color:var(--muted)">—</td>`;
-                rows += `<tr><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${w.ar}</span></td><td>${rootLink}</td><td>${w.lemma || "—"}</td><td>${w.pos || "—"}</td>${glossCell}</tr>`;
+                const lemmaCell = w.root
+                  ? `<a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(w.root)}" target="_blank" rel="noopener" style="color:var(--muted);font-size:0.88rem">see entry →</a>`
+                  : "—";
+                rows += `<tr><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${w.ar}</span></td><td>${rootLink}</td><td>${lemmaCell}</td><td>${w.pos || "—"}</td>${glossCell}</tr>`;
               });
-              html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><table class="data"><thead><tr><th>Word</th><th>Root</th><th>Lemma</th><th>POS</th><th title="The Leeds corpus does not include English glosses. Links go to the corpus.quran.com dictionary for each root.">Meaning</th></tr></thead><tbody>${rows}</tbody></table><p class="prov"><span class="badge ok">Verified</span> morphology and roots from the Leeds Quranic Arabic Corpus v0.4 (Kais Dukes, 2009-2017), GPL licensed. <span class="badge pending">Pending</span> English glosses. The Leeds corpus does not carry per-word English meanings; the Meaning column links to the corpus.quran.com dictionary entry for each root. Future versions may overlay a verified gloss dataset.</p></div>`;
+              html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><table class="data"><thead><tr><th>Word</th><th>Root</th><th>Lemma</th><th>POS</th><th title="The Leeds corpus does not include English glosses. Links go to the corpus.quran.com dictionary for each root.">Meaning</th></tr></thead><tbody>${rows}</tbody></table><p class="prov"><span class="badge ok">Verified</span> morphology and roots from the Leeds Quranic Arabic Corpus v0.4 (Kais Dukes, 2009–2017), GPL licensed. <span class="badge pending">Pending</span> English glosses. The Leeds corpus does not carry per-word English meanings; the Meaning column links to the corpus.quran.com dictionary entry for each root. Future versions may overlay a verified gloss dataset.</p></div>`;
             } else {
               html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><p style="font-size:.9rem;color:var(--muted)">Word-level data unavailable for this verse — see the <a href="words.html">Words page</a> for the methodology.</p></div>`;
             }

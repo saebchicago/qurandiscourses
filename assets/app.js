@@ -13,7 +13,7 @@
     { id: "en.qaribullah", name: "Qaribullah & Darwish", lang: "en" },
     { id: "en.hilali", name: "Hilali & Khan", lang: "en" },
     { id: "en.ahmedraza", name: "Ahmed Raza Khan", lang: "en" },
-    { id: "en.itani", name: "Clear Quran (Itani)", lang: "en" },
+    { id: "en.itani", name: "Quran in English (Itani)", lang: "en" },
     { id: "en.haleem", name: "Abdel Haleem", lang: "en" },
     { id: "en.transliteration", name: "English Transliteration", lang: "en" },
   ];

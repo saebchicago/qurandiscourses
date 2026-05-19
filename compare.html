@@ -27,9 +27,11 @@
       <a href="index.html">Home</a><a href="navigate.html">Navigate</a
       ><a href="read.html">Read</a><a href="roots.html">Roots</a
       ><a href="compare.html">Compare</a><a href="words.html">Words</a
-      ><a href="patterns.html">Patterns</a><a href="exercise-asr.html">Exercise</a><a href="numbers.html">Numbers</a
+      ><a href="patterns.html">Patterns</a
+      ><a href="exercise-asr.html">Exercise</a><a href="numbers.html">Numbers</a
       ><a href="sources.html">Sources</a><a href="validation.html">Validation</a
-      ><a href="glossary.html">Glossary</a><a href="credits.html">Credits</a><a href="changelog.html">Changelog</a><a href="about.html">About</a>
+      ><a href="glossary.html">Glossary</a><a href="credits.html">Credits</a
+      ><a href="changelog.html">Changelog</a><a href="about.html">About</a>
     </nav>
     <main id="main">
       <section>
@@ -104,6 +106,23 @@
           </div>
 
           <div id="compareCanvas" hidden>
+            <div
+              id="sameRootNotice"
+              hidden
+              style="
+                background: var(--card);
+                border: 1px solid var(--line);
+                border-radius: 4px;
+                padding: 0.75rem 1rem;
+                margin: 0 0 1rem;
+                font-size: 0.92rem;
+                color: var(--muted);
+              "
+            >
+              You selected the same root twice. The two distributions will be
+              identical. Choose a different second root for a meaningful
+              comparison.
+            </div>
             <h3 id="compareHeading" style="margin: 0 0 0.5rem"></h3>
             <p
               id="compareLegend"
@@ -132,33 +151,32 @@
             <li>
               <a href="#" data-pair="rHm|E*b"
                 >mercy (r-ḥ-m) vs. punishment (ʿ-dh-b)</a
-              >
-              — how late-Meccan concentration on mercy contrasts with
+              >. How late-Meccan concentration on mercy contrasts with
               early-middle emphasis on punishment
             </li>
             <li>
-              <a href="#" data-pair="Alh|rbb">God (a-l-h) vs. Lord (r-b-b)</a>
-              — both ubiquitous, but distributed differently across periods
+              <a href="#" data-pair="Alh|rbb">God (a-l-h) vs. Lord (r-b-b)</a>.
+              Both ubiquitous, but distributed differently across periods
             </li>
             <li>
               <a href="#" data-pair="Elm|hdy"
                 >knowledge (ʿ-l-m) vs. guidance (h-d-y)</a
-              >
-              — overlapping themes, distinct chronological rhythms
+              >. Overlapping themes, distinct chronological rhythms
             </li>
             <li>
               <a href="#" data-pair="Amn|kfr"
                 >faith (a-m-n) vs. disbelief (k-f-r)</a
-              >
-              — counterposed concepts, revealing their proportions by period
+              >. Counterposed concepts, revealing their proportions by period
             </li>
           </ul>
         </div>
       </section>
     </main>
     <footer class="site">
-      <p>
-        Discourses is built in memory of Dr. Irfan Ahmad Khan (1931 – 2018).
+      <p style="font-size: 0.82rem; color: var(--muted)">
+        Discourses · <a href="about.html">About</a> ·
+        <a href="sources.html">Sources</a> ·
+        <a href="credits.html">Credits</a>
       </p>
     </footer>
     <div class="settings">
@@ -280,6 +298,11 @@
           }
           canvas.hidden = false;
           prompt.hidden = true;
+
+          const sameRootNotice = document.getElementById("sameRootNotice");
+          if (sameRootNotice) {
+            sameRootNotice.hidden = selA.rootBuckwalter !== selB.rootBuckwalter;
+          }
 
           const mA = MEANINGS[selA.rootBuckwalter];
           const mB = MEANINGS[selB.rootBuckwalter];

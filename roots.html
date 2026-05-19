@@ -27,18 +27,20 @@
       <a href="index.html">Home</a><a href="navigate.html">Navigate</a
       ><a href="read.html">Read</a><a href="roots.html">Roots</a
       ><a href="compare.html">Compare</a><a href="words.html">Words</a
-      ><a href="patterns.html">Patterns</a><a href="exercise-asr.html">Exercise</a><a href="numbers.html">Numbers</a
+      ><a href="patterns.html">Patterns</a
+      ><a href="exercise-asr.html">Exercise</a><a href="numbers.html">Numbers</a
       ><a href="sources.html">Sources</a><a href="validation.html">Validation</a
-      ><a href="glossary.html">Glossary</a><a href="credits.html">Credits</a><a href="changelog.html">Changelog</a><a href="about.html">About</a>
+      ><a href="glossary.html">Glossary</a><a href="credits.html">Credits</a
+      ><a href="changelog.html">Changelog</a><a href="about.html">About</a>
     </nav>
     <main id="main">
       <section>
         <h2>Roots</h2>
         <p class="lede">
-          1,642 triliteral roots account for all 77,430 words of the Qur'an.
-          Arabic vocabulary is organized by root families — a set of (usually
-          three) consonants from which nouns, verbs, and adjectives are derived
-          by fixed patterns.
+          1,642 triliteral roots organize the lexical core of the Qur'an. Arabic
+          vocabulary is structured by these roots, sets of (usually three)
+          consonants from which nouns, verbs, and adjectives are derived by
+          fixed patterns.
         </p>
 
         <div class="card">
@@ -189,8 +191,10 @@
       </section>
     </main>
     <footer class="site">
-      <p>
-        Discourses is built in memory of Dr. Irfan Ahmad Khan (1931 – 2018).
+      <p style="font-size: 0.82rem; color: var(--muted)">
+        Discourses · <a href="about.html">About</a> ·
+        <a href="sources.html">Sources</a> ·
+        <a href="credits.html">Credits</a>
       </p>
     </footer>
     <div class="settings">
@@ -341,14 +345,14 @@
           const label = document.getElementById("rootCountLabel");
           if (label) {
             label.textContent = searchTerm
-              ? `${shownCount} of ${list.length} matching (${allRoots.length.toLocaleString()} total)`
+              ? `${shownCount} of ${list.length} match${list.length === 1 ? "" : "es"} (${allRoots.length.toLocaleString()} total)`
               : `Showing ${shownCount} of ${allRoots.length.toLocaleString()} roots`;
           }
 
           const btn = document.getElementById("showMoreBtn");
           if (btn) {
-            btn.hidden = shownCount >= list.length;
-            btn.textContent = `Show all ${list.length.toLocaleString()} roots`;
+            btn.hidden = list.length === 0 || shownCount >= list.length;
+            btn.textContent = `Show all ${list.length.toLocaleString()} root${list.length === 1 ? "" : "s"}`;
           }
         }
 
