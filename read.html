@@ -353,7 +353,7 @@
               let rows = "";
               words.forEach((w) => {
                 const rootLink = w.root
-                  ? `<a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(w.root)}" target="_blank" rel="noopener">${rootToDisplay(w.root)}</a>`
+                  ? `<button class="root-detail-btn" data-root="${w.root}" style="background:none;border:none;color:var(--link);text-decoration:underline;cursor:pointer;font-family:inherit;font-size:inherit;padding:0;min-width:44px;min-height:44px">${rootToDisplay(w.root)}</button>`
                   : "—";
                 const glossCell = w.gloss
                   ? `<td>${w.gloss}</td>`
@@ -456,6 +456,78 @@
               });
             });
           }
+
+          // Add root detail handlers
+          document.querySelectorAll(".root-detail-btn").forEach((btn) => {
+            btn.addEventListener("click", async () => {
+              const rootBuck = btn.getAttribute("data-root");
+              try {
+                const res = await fetch("data/roots-index.json");
+                const rootsIndex = await res.json();
+
+                // Convert Buckwalter to display form (approximation)
+                const rootKey = Object.keys(rootsIndex).find((k) => {
+                  const keyNorm = k.replace(/-/g, "").toLowerCase();
+                  const buckNorm = rootBuck.replace(/-/g, "").toLowerCase();
+                  return (
+                    keyNorm === buckNorm ||
+                    keyNorm.includes(buckNorm) ||
+                    buckNorm.includes(keyNorm)
+                  );
+                });
+
+                const rootData = rootKey ? rootsIndex[rootKey] : null;
+
+                if (!rootData) {
+                  alert("Root data not available");
+                  return;
+                }
+
+                const derivedHtml = rootData.derived_forms
+                  .slice(0, 5)
+                  .map(
+                    (df) =>
+                      `<div style="padding:0.75rem;border-bottom:1px solid var(--line)">
+                    <div style="display:flex;justify-content:space-between;align-items:center">
+                      <span class="ar notranslate" translate="no" lang="ar" dir="rtl" style="font-size:1.1rem">${df.form}</span>
+                      <span style="color:var(--muted);font-size:0.85rem">${df.count} times</span>
+                    </div>
+                    ${df.occurrences.length > 0 ? `<div style="font-size:0.82rem;color:var(--muted);margin-top:0.25rem">First at: ${df.occurrences[0]}</div>` : ""}
+                  </div>`,
+                  )
+                  .join("");
+
+                const modal = document.createElement("div");
+                modal.style.cssText =
+                  "position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:3000;display:flex;align-items:center;justify-content:center";
+                modal.innerHTML = `<div style="background:var(--card);border-radius:8px;max-width:500px;width:90%;max-height:80vh;overflow:auto">
+                  <div style="padding:1rem;border-bottom:2px solid var(--accent);display:flex;justify-content:space-between;align-items:center">
+                    <span style="font-weight:600">Root: <span class="ar notranslate" translate="no" lang="ar" dir="rtl">${rootData.arabic}</span> (${rootKey})</span>
+                    <button id="closeRootModal" style="border:none;background:none;font-size:1.5rem;cursor:pointer;padding:0;min-width:44px;min-height:44px">×</button>
+                  </div>
+                  <div style="padding:1rem">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+                      <div><strong style="color:var(--muted);font-size:0.85rem">Total frequency:</strong><div style="font-size:1.2rem;font-weight:600">${rootData.frequency} <span class="badge ok" data-source-ids="leeds-corpus-v0.4" style="font-size:0.7rem;vertical-align:middle">Verified</span></div></div>
+                      <div><strong style="color:var(--muted);font-size:0.85rem">First occurrence:</strong><div><a href="read.html?s=${rootData.first_occurrence.split(":")[0]}&a=${rootData.first_occurrence.split(":")[1]}" style="font-size:0.95rem">${rootData.first_occurrence}</a></div></div>
+                    </div>
+                    <div style="margin-bottom:1rem"><strong style="color:var(--muted);font-size:0.85rem">Last occurrence:</strong><div><a href="read.html?s=${rootData.last_occurrence.split(":")[0]}&a=${rootData.last_occurrence.split(":")[1]}" style="font-size:0.95rem">${rootData.last_occurrence}</a></div></div>
+                    <h4 style="margin:1rem 0 0.5rem;font-size:0.95rem">Top derived forms (${rootData.derived_forms.length} total):</h4>
+                    ${derivedHtml}
+                  </div>
+                </div>`;
+                document.body.appendChild(modal);
+                modal.addEventListener("click", (e) => {
+                  if (e.target === modal) modal.remove();
+                });
+                document
+                  .getElementById("closeRootModal")
+                  .addEventListener("click", () => modal.remove());
+              } catch (e) {
+                console.error("Failed to load root data:", e);
+                alert("Failed to load root details");
+              }
+            });
+          });
 
           const url = new URL(window.location);
           url.searchParams.set("s", s);
