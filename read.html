@@ -15,6 +15,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/surahs.js"></script>
   </head>
   <body>
     <a href="#main" class="skip">Skip to main content</a>
@@ -24,10 +25,10 @@
       <p class="tag">Toward direct engagement with the Qur'an</p>
     </header>
     <nav class="primary" aria-label="Primary">
-      <a href="index.html">Home</a><a href="navigate.html">Navigate</a
-      ><a href="read.html">Read</a><a href="roots.html">Roots</a
-      ><a href="compare.html">Compare</a><a href="words.html">Words</a
-      ><a href="patterns.html">Patterns</a
+      <a href="index.html">Home</a><a href="how-to-use.html">How to use</a
+      ><a href="navigate.html">Navigate</a><a href="read.html">Read</a
+      ><a href="roots.html">Roots</a><a href="compare.html">Compare</a
+      ><a href="words.html">Words</a><a href="patterns.html">Patterns</a
       ><a href="exercise-asr.html">Exercise</a><a href="numbers.html">Numbers</a
       ><a href="sources.html">Sources</a><a href="validation.html">Validation</a
       ><a href="glossary.html">Glossary</a><a href="credits.html">Credits</a
@@ -85,16 +86,38 @@
               align-items: end;
             "
           >
-            <label
-              >Surah:
-              <input
-                type="number"
-                id="surahInput"
-                min="1"
-                max="114"
-                value="1"
-                style="width: 90px"
-            /></label>
+            <label for="surahInput">Surah:</label>
+            <input
+              type="text"
+              id="surahInput"
+              list="surah-list"
+              autocomplete="off"
+              placeholder="Name or number (e.g. Fatihah or 1)"
+              style="width: 220px"
+            />
+            <datalist id="surah-list"></datalist>
+          </div>
+          <span
+            id="surahError"
+            role="alert"
+            aria-live="polite"
+            style="
+              display: none;
+              font-size: 0.85rem;
+              color: var(--nuanced);
+              margin-top: 0.4rem;
+              min-height: 1.2em;
+            "
+          ></span>
+          <div
+            style="
+              display: flex;
+              gap: 0.8rem;
+              flex-wrap: wrap;
+              align-items: end;
+              margin-top: 0.5rem;
+            "
+          >
             <label
               >Verse:
               <input
@@ -305,8 +328,70 @@
         114: "an-Nas",
       };
       const morphCache = {};
+
+      function resolveSurah(val) {
+        const trimmed = (val || "").trim();
+        const leading = trimmed.match(/^(\d{1,3})/);
+        if (leading) {
+          const n = +leading[1];
+          if (n >= 1 && n <= 114) return n;
+        }
+        if (!window.SURAHS || !window.SURAHS.length) return NaN;
+        const q = trimmed
+          .toLowerCase()
+          .replace(/[''`]/g, "")
+          .replace(/[ʿʾ]/g, "")
+          .replace(/[āáà]/g, "a")
+          .replace(/[īíì]/g, "i")
+          .replace(/[ūúù]/g, "u")
+          .replace(/ḥ/g, "h")
+          .replace(/ṣ/g, "s")
+          .replace(/ḍ/g, "d")
+          .replace(/ṭ/g, "t")
+          .replace(/ẓ/g, "z");
+        const enQ = trimmed.toLowerCase();
+        const found = window.SURAHS.find(
+          (s) =>
+            s.names.some((n) => n === q) ||
+            s.names.some((n) => n.startsWith(q) && q.length >= 3) ||
+            s.en.toLowerCase() === enQ ||
+            (enQ.length >= 4 && s.en.toLowerCase().startsWith(enQ)),
+        );
+        return found ? found.id : NaN;
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        var dl = document.getElementById("surah-list");
+        if (dl && window.SURAHS) {
+          window.SURAHS.forEach(function (s) {
+            var opt = document.createElement("option");
+            opt.value = String(s.id);
+            opt.textContent = s.id + ". " + s.en;
+            dl.appendChild(opt);
+          });
+        }
+        var surahInput = document.getElementById("surahInput");
+        var errSpan = document.getElementById("surahError");
+        if (surahInput && errSpan) {
+          surahInput.addEventListener("blur", function () {
+            var v = surahInput.value.trim();
+            if (!v) return;
+            var id = resolveSurah(v);
+            if (isNaN(id)) {
+              errSpan.textContent =
+                "Surah not found. Try a number (1-114) or a name like Fatihah.";
+              errSpan.style.display = "block";
+            } else {
+              surahInput.value = String(id);
+              errSpan.textContent = "";
+              errSpan.style.display = "none";
+            }
+          });
+        }
+      });
+
       async function load() {
-        const s = parseInt(document.getElementById("surahInput").value);
+        const s = resolveSurah(document.getElementById("surahInput").value);
         const a = parseInt(document.getElementById("ayahInput").value);
         const container = document.getElementById("verseContainer");
         if (!s || s < 1 || s > 114 || !a || a < 1) {
