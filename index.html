@@ -47,6 +47,7 @@
     </header>
     <nav class="primary" aria-label="Primary">
       <a href="index.html">Home</a>
+      <a href="how-to-use.html">How to use</a>
       <a href="navigate.html">Navigate</a>
       <a href="read.html">Read</a>
       <a href="roots.html">Roots</a>
@@ -139,6 +140,40 @@
           >
         </blockquote>
       </section>
+      <section class="ask-section">
+        <label for="ask-input" class="ask-label">Ask</label>
+        <p class="ask-help">
+          Type a surah name, a verse like 1:1, a root like r-h-m, or an English
+          word.
+        </p>
+        <div class="ask-row">
+          <input
+            type="text"
+            id="ask-input"
+            class="ask-input"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Try: Fatihah, 1:1, r-h-m, or mercy"
+            aria-label="Ask Discourses"
+          />
+          <button type="button" id="ask-go" class="ask-go">Go</button>
+        </div>
+        <div class="ask-chips" role="list">
+          <button type="button" class="chip" data-fill="Fatihah">
+            Fatihah
+          </button>
+          <button type="button" class="chip" data-fill="1:1">1:1</button>
+          <button type="button" class="chip" data-fill="r-h-m">r-h-m</button>
+          <button type="button" class="chip" data-fill="mercy">mercy</button>
+        </div>
+        <div
+          id="ask-feedback"
+          class="ask-feedback"
+          role="status"
+          aria-live="polite"
+        ></div>
+      </section>
+
       <section>
         <h2>Begin</h2>
         <div class="grid">
@@ -313,6 +348,171 @@
         hidden
       ></div>
     </div>
+    <button
+      type="button"
+      id="tour-launcher"
+      class="tour-launcher"
+      aria-label="Open getting started tour"
+    >
+      ?
+    </button>
+
+    <div
+      id="tour-modal"
+      class="tour-modal"
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="tour-title"
+    >
+      <div class="tour-backdrop" data-close></div>
+      <div class="tour-panel">
+        <button type="button" class="tour-close" data-close aria-label="Close">
+          &times;
+        </button>
+        <div class="tour-slides">
+          <div class="tour-slide" data-slide="1">
+            <h2 id="tour-title">This is not Google</h2>
+            <p>
+              Discourses is a workbench for studying the Qur'an the way Dr. Khan
+              taught. One surah at a time. As a coherent discourse. With
+              attention to words, roots, and structure.
+            </p>
+            <p>
+              You can still just type something to start. The Ask box accepts:
+            </p>
+            <ul>
+              <li>A surah name (Fatihah, al-Asr)</li>
+              <li>A verse (1:1, 103:1)</li>
+              <li>A root (r-h-m, s-b-r)</li>
+              <li>An English word (mercy, patience)</li>
+            </ul>
+          </div>
+          <div class="tour-slide" data-slide="2" hidden>
+            <h2>Three depth levels</h2>
+            <p>
+              <strong>Simple</strong> shows text and translation. Use this to
+              read.
+            </p>
+            <p>
+              <strong>Scholar</strong> adds word-by-word morphology and root
+              links. Use this to study.
+            </p>
+            <p>
+              <strong>Encyclopedic</strong> adds structural patterns and full
+              sources. Use this to verify.
+            </p>
+            <p>Change depth anytime with the gear icon, top right.</p>
+          </div>
+          <div class="tour-slide" data-slide="3" hidden>
+            <h2>If you only have ten minutes</h2>
+            <p>
+              Open the <a href="exercise-asr.html">Exercise on Surah al-Asr</a>.
+              It demonstrates the coherence method on the shortest meaningful
+              surah. Read that, then try the same approach on a surah you
+              choose.
+            </p>
+            <p>
+              You can reopen this tour anytime from the "?" button on the home
+              page.
+            </p>
+          </div>
+        </div>
+        <div class="tour-nav">
+          <button type="button" id="tour-prev" disabled>Back</button>
+          <span class="tour-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </span>
+          <button type="button" id="tour-next">Next</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/surahs.js"></script>
+    <script src="assets/ask.js"></script>
+    <script>
+      (function () {
+        var input = document.getElementById("ask-input");
+        var button = document.getElementById("ask-go");
+        var feedback = document.getElementById("ask-feedback");
+        var chips = document.querySelectorAll(".ask-chips .chip");
+
+        function go() {
+          var result = window.parseAsk(input.value);
+          if (result && result.route) {
+            window.location.href = result.route;
+          } else {
+            feedback.textContent =
+              "Not recognized. Try a surah name, a verse like 1:1, a root like r-h-m, or an English word.";
+          }
+        }
+
+        button.addEventListener("click", go);
+        input.addEventListener("keydown", function (e) {
+          if (e.key === "Enter") go();
+        });
+        chips.forEach(function (c) {
+          c.addEventListener("click", function () {
+            input.value = c.dataset.fill;
+            input.focus();
+            go();
+          });
+        });
+
+        var TOUR_KEY = "discourses_tour_seen_v1";
+        var modal = document.getElementById("tour-modal");
+        var slides = modal.querySelectorAll(".tour-slide");
+        var dots = modal.querySelectorAll(".dot");
+        var prev = document.getElementById("tour-prev");
+        var next = document.getElementById("tour-next");
+        var launcher = document.getElementById("tour-launcher");
+        var current = 1;
+
+        function showSlide(n) {
+          current = n;
+          slides.forEach(function (s) {
+            s.hidden = +s.dataset.slide !== n;
+          });
+          dots.forEach(function (d, i) {
+            d.classList.toggle("active", i + 1 === n);
+          });
+          prev.disabled = n === 1;
+          next.textContent = n === 3 ? "Done" : "Next";
+        }
+        function openTour() {
+          modal.hidden = false;
+          showSlide(1);
+        }
+        function closeTour() {
+          modal.hidden = true;
+          localStorage.setItem(TOUR_KEY, "1");
+        }
+
+        modal.querySelectorAll("[data-close]").forEach(function (el) {
+          el.addEventListener("click", closeTour);
+        });
+        prev.addEventListener("click", function () {
+          showSlide(Math.max(1, current - 1));
+        });
+        next.addEventListener("click", function () {
+          if (current === 3) {
+            closeTour();
+            return;
+          }
+          showSlide(current + 1);
+        });
+        launcher.addEventListener("click", openTour);
+        document.addEventListener("keydown", function (e) {
+          if (!modal.hidden && e.key === "Escape") closeTour();
+        });
+
+        if (!localStorage.getItem(TOUR_KEY)) {
+          setTimeout(openTour, 400);
+        }
+      })();
+    </script>
     <script src="assets/app.js"></script>
     <script src="assets/glossary.js" defer></script>
   </body>
