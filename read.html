@@ -96,6 +96,28 @@
               style="width: 220px"
             />
             <datalist id="surah-list"></datalist>
+          </div>
+          <span
+            id="surahError"
+            role="alert"
+            aria-live="polite"
+            style="
+              display: none;
+              font-size: 0.85rem;
+              color: var(--nuanced);
+              margin-top: 0.4rem;
+              min-height: 1.2em;
+            "
+          ></span>
+          <div
+            style="
+              display: flex;
+              gap: 0.8rem;
+              flex-wrap: wrap;
+              align-items: end;
+              margin-top: 0.5rem;
+            "
+          >
             <label
               >Verse:
               <input
@@ -327,23 +349,46 @@
           .replace(/ḍ/g, "d")
           .replace(/ṭ/g, "t")
           .replace(/ẓ/g, "z");
+        const enQ = trimmed.toLowerCase();
         const found = window.SURAHS.find(
           (s) =>
             s.names.some((n) => n === q) ||
-            s.names.some((n) => n.startsWith(q) && q.length >= 3),
+            s.names.some((n) => n.startsWith(q) && q.length >= 3) ||
+            s.en.toLowerCase() === enQ ||
+            (enQ.length >= 4 && s.en.toLowerCase().startsWith(enQ)),
         );
         return found ? found.id : NaN;
       }
 
-      (function populateSurahList() {
-        const dl = document.getElementById("surah-list");
-        if (!dl || !window.SURAHS) return;
-        window.SURAHS.forEach(function (s) {
-          const opt = document.createElement("option");
-          opt.value = s.id + ". " + (SURAH_DISPLAY_NAMES[s.id] || s.names[0]);
-          dl.appendChild(opt);
-        });
-      })();
+      document.addEventListener("DOMContentLoaded", function () {
+        var dl = document.getElementById("surah-list");
+        if (dl && window.SURAHS) {
+          window.SURAHS.forEach(function (s) {
+            var opt = document.createElement("option");
+            opt.value = String(s.id);
+            opt.textContent = s.id + ". " + s.en;
+            dl.appendChild(opt);
+          });
+        }
+        var surahInput = document.getElementById("surahInput");
+        var errSpan = document.getElementById("surahError");
+        if (surahInput && errSpan) {
+          surahInput.addEventListener("blur", function () {
+            var v = surahInput.value.trim();
+            if (!v) return;
+            var id = resolveSurah(v);
+            if (isNaN(id)) {
+              errSpan.textContent =
+                "Surah not found. Try a number (1-114) or a name like Fatihah.";
+              errSpan.style.display = "block";
+            } else {
+              surahInput.value = String(id);
+              errSpan.textContent = "";
+              errSpan.style.display = "none";
+            }
+          });
+        }
+      });
 
       async function load() {
         const s = resolveSurah(document.getElementById("surahInput").value);
@@ -594,13 +639,8 @@
       document.addEventListener("qd:translations-changed", load);
       document.addEventListener("qd:depth-changed", load);
       const params = new URLSearchParams(location.search);
-      if (params.get("s")) {
-        const sNum = +params.get("s");
-        const displayName = SURAH_DISPLAY_NAMES[sNum];
-        document.getElementById("surahInput").value = displayName
-          ? sNum + ". " + displayName
-          : params.get("s");
-      }
+      if (params.get("s"))
+        document.getElementById("surahInput").value = params.get("s");
       if (params.get("a"))
         document.getElementById("ayahInput").value = params.get("a");
       window.addEventListener("load", () => setTimeout(load, 200));
