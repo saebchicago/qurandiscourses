@@ -328,6 +328,8 @@
         114: "an-Nas",
       };
       const morphCache = {};
+      const xrefCache = {};
+      const verseTransCache = {};
 
       function resolveSurah(val) {
         const trimmed = (val || "").trim();
@@ -389,6 +391,79 @@
           });
         }
       });
+
+      async function fetchXrefTranslations(detailsEl, refs) {
+        await Promise.all(
+          refs.map(async (ref, i) => {
+            const key = `${ref.s}:${ref.a}`;
+            if (!verseTransCache[key]) {
+              try {
+                verseTransCache[key] = await qdFetchVerse(ref.s, ref.a);
+              } catch {
+                return;
+              }
+            }
+            const data = verseTransCache[key];
+            const trans = data.filter(
+              (d) => d.edition.identifier !== "quran-uthmani",
+            );
+            if (!trans.length) return;
+            const items = detailsEl.querySelectorAll(".xref-item");
+            if (!items[i]) return;
+            const el = items[i].querySelector(".xref-trans");
+            if (el) {
+              el.textContent = trans[0].text;
+              el.style.color = "var(--text)";
+            }
+          }),
+        );
+      }
+
+      async function attachXrefs(surahNum, ayahNums, depth) {
+        if (!xrefCache[surahNum]) {
+          try {
+            const r = await fetch(`data/qursim/${surahNum}.json`);
+            xrefCache[surahNum] = r.ok ? await r.json() : {};
+          } catch {
+            xrefCache[surahNum] = {};
+            return;
+          }
+        }
+        const surahXrefs = xrefCache[surahNum];
+        const autoExpand = depth === "scholar" || depth === "encyclopedic";
+
+        for (const ayahNum of ayahNums) {
+          const refs = surahXrefs[`${surahNum}:${ayahNum}`];
+          if (!refs || !refs.length) continue;
+          const placeholder = document.getElementById(`xref-${ayahNum}`);
+          if (!placeholder) continue;
+
+          const details = document.createElement("details");
+          details.className = "xref-panel";
+          if (autoExpand) details.open = true;
+
+          const items = refs
+            .map((ref) => {
+              const sName = SURAH_DISPLAY_NAMES[ref.s] || `Surah ${ref.s}`;
+              const catLabel =
+                ref.cat === "structural"
+                  ? "structural"
+                  : ref.cat === "semantic"
+                    ? "semantic"
+                    : ref.cat === "lexical"
+                      ? "lexical"
+                      : ref.cat;
+              return `<div class="xref-item"><a href="read.html?s=${ref.s}&a=${ref.a}" class="xref-ref">${ref.s}:${ref.a} · ${sName}</a><span class="xref-cat">${catLabel}</span><span class="ar notranslate xref-ar" translate="no" lang="ar" dir="rtl">${ref.ar}</span><span class="xref-trans" style="color:var(--muted)">Loading translation…</span></div>`;
+            })
+            .join("");
+
+          details.innerHTML = `<summary>Related verses (${refs.length})</summary><div class="xref-list">${items}<p class="prov" style="margin-top:.5rem"><span class="badge ok" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Cross-references from the <a href="sources.html#mishkat">Mishkat Mutashābihāt corpus</a> (13 classical books, scholarly-attested).</p></div>`;
+
+          placeholder.appendChild(details);
+
+          fetchXrefTranslations(details, refs);
+        }
+      }
 
       async function load() {
         const s = resolveSurah(document.getElementById("surahInput").value);
@@ -505,7 +580,7 @@
               translations,
             }) => {
               const transCount = translations.length;
-              let html = `<div class="verse"><div class="meta"><strong>${s}:${ayahNum}</strong><span>${surahName} · ${surahNameTranslation}</span></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button id="transBtn-${ayahNum}" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem">${transCount} selected ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arText}</p>`;
+              let html = `<div class="verse" data-ayah="${ayahNum}"><div class="meta"><strong>${s}:${ayahNum}</strong><span>${surahName} · ${surahNameTranslation}</span></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button id="transBtn-${ayahNum}" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem">${transCount} selected ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arText}</p>`;
               if (qdState.features.showAudio) {
                 const reciterName =
                   qdReciters.find((r) => r.id === qdState.reciter)?.name ||
@@ -547,15 +622,7 @@
                   html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Patterns in this verse</h4><p style="font-size:.9rem;color:var(--muted)">Pattern-level data is pending — see the <a href="patterns.html">Patterns page</a> for the methodology.</p></div>`;
                 }
               }
-              if (depth === "scholar" || depth === "encyclopedic") {
-                if (s === 1 && ayahNum === 1) {
-                  html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Related verses</h4><p style="font-size:.9rem">The basmala formula appears at the head of 113 of the 114 surahs (all except al-Tawbah). It also appears mid-surah in one place: 27:30, in Solomon's letter to the Queen of Sheba — the only basmala counted as a numbered verse within a surah rather than as a surah opening.</p><ul style="font-size:.9rem;margin:.4rem 0;padding-left:1.2rem"><li><a href="read.html?s=27&a=30">Read 27:30 (Solomon's letter)</a></li></ul><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> from Tanzil text and Cairo 1924 edition.</p></div>`;
-                } else if (s === 2 && ayahNum === 255) {
-                  html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Related verses</h4><p style="font-size:.9rem">Ayat al-Kursi contains tawhid formulations that parallel several other verses in the Qur'an.</p><ul style="font-size:.9rem;margin:.4rem 0;padding-left:1.2rem"><li><a href="read.html?s=2&a=163">Read 2:163</a> — tawhid affirmation: "your God is One God"</li><li><a href="read.html?s=20&a=8">Read 20:8</a> — "Allah, there is no deity except Him"</li><li><a href="read.html?s=3&a=2">Read 3:2</a> — "Allah, there is no deity except Him, the Ever-Living, the Sustainer"</li></ul><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> parallel formulations from Tanzil text. Cross-reference pattern documented in classical mutashabihat literature.</p></div>`;
-                } else {
-                  html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Related verses</h4><p style="font-size:.9rem;color:var(--muted)">Cross-reference data for this verse is pending — see the <a href="patterns.html">Patterns page</a> for the methodology.</p></div>`;
-                }
-              }
+              html += `<div id="xref-${ayahNum}"></div>`;
               html += `<p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Arabic from Tanzil Uthmani via alquran.cloud. Translations rendered as published; each is an interpretation. Compare to deepen understanding.</p></div>`;
               allHtml += html;
             },
@@ -701,6 +768,12 @@
               }
             });
           });
+
+          attachXrefs(
+            s,
+            verses.map((v) => v.ayahNum),
+            depth,
+          );
 
           const url = new URL(window.location);
           url.searchParams.set("s", s);

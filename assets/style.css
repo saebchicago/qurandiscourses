@@ -1114,3 +1114,75 @@ dd {
 .dot.active {
   background: var(--accent);
 }
+
+/* ── Cross-reference panel ────────────────────────────────────────── */
+.xref-panel {
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line);
+}
+.xref-panel > summary {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--accent);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0 0.4rem;
+  user-select: none;
+}
+.xref-panel > summary::after {
+  content: "▸";
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-family: var(--sans);
+}
+.xref-panel[open] > summary::after {
+  content: "▾";
+}
+.xref-panel > summary::-webkit-details-marker {
+  display: none;
+}
+.xref-list {
+  margin-top: 0.25rem;
+}
+.xref-item {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.xref-item:last-child {
+  border-bottom: none;
+}
+.xref-ref {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--link);
+  text-decoration: none;
+  margin-bottom: 0.2rem;
+}
+.xref-ref:hover {
+  text-decoration: underline;
+}
+.xref-cat {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-left: 0.4rem;
+  font-style: italic;
+}
+.xref-ar {
+  font-size: 1.1rem;
+  margin: 0.2rem 0 0.15rem;
+  line-height: 1.8;
+  display: block;
+}
+.xref-trans {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0;
+  display: block;
+}
