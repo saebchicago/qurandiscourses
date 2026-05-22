@@ -121,11 +121,11 @@
             <label
               >Verse:
               <input
-                type="number"
+                type="text"
                 id="ayahInput"
-                min="1"
                 value="1"
-                style="width: 90px"
+                placeholder="e.g. 5 or 1–7"
+                style="width: 120px"
             /></label>
             <button class="button" id="loadBtn">Load</button>
             <button class="button secondary" id="prevBtn">‹ Prev</button>
@@ -392,157 +392,245 @@
 
       async function load() {
         const s = resolveSurah(document.getElementById("surahInput").value);
-        const a = parseInt(document.getElementById("ayahInput").value);
+        const rawA = document.getElementById("ayahInput").value.trim();
         const container = document.getElementById("verseContainer");
-        if (!s || s < 1 || s > 114 || !a || a < 1) {
+
+        const rangeMatch = rawA.match(/^(\d+)-(\d+)$/);
+        const singleMatch = rawA.match(/^(\d+)$/);
+        let ayahStart, ayahEnd;
+        if (rangeMatch) {
+          ayahStart = parseInt(rangeMatch[1]);
+          ayahEnd = parseInt(rangeMatch[2]);
+        } else if (singleMatch) {
+          ayahStart = parseInt(singleMatch[1]);
+          ayahEnd = ayahStart;
+        } else {
+          container.innerHTML =
+            '<div class="card"><p>Please enter a valid surah (1–114) and verse (e.g. 5 or 1–7).</p></div>';
+          return;
+        }
+
+        if (!s || s < 1 || s > 114 || ayahStart < 1 || ayahEnd < ayahStart) {
           container.innerHTML =
             '<div class="card"><p>Please enter a valid surah (1–114) and verse number.</p></div>';
           return;
         }
+
+        const isRange = ayahEnd > ayahStart;
         container.innerHTML =
           '<div class="card"><p style="color:var(--muted)">Loading...</p></div>';
         try {
           const depth =
             document.documentElement.getAttribute("data-depth") || "simple";
           const needsMorph = depth === "scholar" || depth === "encyclopedic";
-          const fetches = [qdFetchVerse(s, a)];
-          if (needsMorph && !morphCache[s]) {
-            fetches.push(
-              fetch(`data/morphology/${s}.json`)
-                .then((r) => r.json())
-                .then((d) => {
-                  morphCache[s] = d;
-                })
-                .catch(() => {}),
+          let verses;
+
+          if (!isRange) {
+            const fetches = [qdFetchVerse(s, ayahStart)];
+            if (needsMorph && !morphCache[s]) {
+              fetches.push(
+                fetch(`data/morphology/${s}.json`)
+                  .then((r) => r.json())
+                  .then((d) => {
+                    morphCache[s] = d;
+                  })
+                  .catch(() => {}),
+              );
+            }
+            const [data] = await Promise.all(fetches);
+            const ar = data.find(
+              (d) => d.edition.identifier === "quran-uthmani",
             );
+            verses = [
+              {
+                ayahNum: ayahStart,
+                arText: ar.text,
+                surahName: SURAH_DISPLAY_NAMES[s] || ar.surah.englishName,
+                surahNameTranslation: ar.surah.englishNameTranslation,
+                arNumber: ar.number,
+                translations: data.filter(
+                  (d) => d.edition.identifier !== "quran-uthmani",
+                ),
+              },
+            ];
+          } else {
+            const fetches = [qdFetchSurah(s)];
+            if (needsMorph && !morphCache[s]) {
+              fetches.push(
+                fetch(`data/morphology/${s}.json`)
+                  .then((r) => r.json())
+                  .then((d) => {
+                    morphCache[s] = d;
+                  })
+                  .catch(() => {}),
+              );
+            }
+            const [surahData] = await Promise.all(fetches);
+            const arEd = surahData.find(
+              (d) => d.edition.identifier === "quran-uthmani",
+            );
+            const transEds = surahData.filter(
+              (d) => d.edition.identifier !== "quran-uthmani",
+            );
+            const surahName = SURAH_DISPLAY_NAMES[s] || arEd.englishName;
+            const surahNameTranslation = arEd.englishNameTranslation;
+
+            verses = [];
+            for (let a = ayahStart; a <= ayahEnd; a++) {
+              const arVerse = arEd.ayahs.find((v) => v.numberInSurah === a);
+              if (!arVerse) break;
+              verses.push({
+                ayahNum: a,
+                arText: arVerse.text,
+                surahName,
+                surahNameTranslation,
+                arNumber: arVerse.number,
+                translations: transEds.map((ed) => ({
+                  edition: ed.edition,
+                  text:
+                    (ed.ayahs.find((v) => v.numberInSurah === a) || {}).text ||
+                    "",
+                })),
+              });
+            }
           }
-          const [data] = await Promise.all(fetches);
-          const ar = data.find((d) => d.edition.identifier === "quran-uthmani");
-          const translations = data.filter(
-            (d) => d.edition.identifier !== "quran-uthmani",
+          let allHtml = "";
+          verses.forEach(
+            ({
+              ayahNum,
+              arText,
+              surahName,
+              surahNameTranslation,
+              arNumber,
+              translations,
+            }) => {
+              const transCount = translations.length;
+              let html = `<div class="verse"><div class="meta"><strong>${s}:${ayahNum}</strong><span>${surahName} · ${surahNameTranslation}</span></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button id="transBtn-${ayahNum}" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem">${transCount} selected ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arText}</p>`;
+              if (qdState.features.showAudio) {
+                const reciterName =
+                  qdReciters.find((r) => r.id === qdState.reciter)?.name ||
+                  "Reciter";
+                html += `<div style="display:flex;gap:0.5rem;align-items:center;margin:.5rem 0"><audio controls style="flex:1"><source src="https://cdn.islamic.network/quran/audio/128/${qdState.reciter}/${arNumber}.mp3" type="audio/mpeg"></audio><button id="reciterBtn-${ayahNum}" style="min-width:44px;min-height:44px;padding:0.5rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem" title="Change reciter">\uD83C\uDFA4</button></div><div id="reciterName-${ayahNum}" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.5rem">${reciterName}</div>`;
+              }
+              translations.forEach((t) => {
+                html += `<div class="translation"><div class="label">${t.edition.englishName} · ${t.edition.name}</div><div class="text">${t.text}</div></div>`;
+              });
+              if (needsMorph) {
+                const words = morphCache[s] && morphCache[s][String(ayahNum)];
+                if (words && words.length) {
+                  let rows = "";
+                  words.forEach((w) => {
+                    const rootLink = w.root
+                      ? `<button class="root-detail-btn" data-root="${w.root}" style="background:none;border:none;color:var(--link);text-decoration:underline;cursor:pointer;font-family:inherit;font-size:inherit;padding:0;min-width:44px;min-height:44px">${rootToDisplay(w.root)}</button>`
+                      : "—";
+                    const glossCell = w.gloss
+                      ? `<td>${w.gloss}</td>`
+                      : w.root
+                        ? `<td><a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(w.root)}" target="_blank" rel="noopener" style="color:var(--muted);font-size:0.88rem;text-decoration:underline dotted;text-underline-offset:3px">look up →</a></td>`
+                        : `<td style="color:var(--muted)">—</td>`;
+                    const lemmaCell = w.root
+                      ? `<a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(w.root)}" target="_blank" rel="noopener" style="color:var(--muted);font-size:0.88rem">see entry →</a>`
+                      : "—";
+                    rows += `<tr><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${w.ar}</span></td><td>${rootLink}</td><td>${lemmaCell}</td><td>${w.pos || "—"}</td>${glossCell}</tr>`;
+                  });
+                  html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><table class="data"><thead><tr><th>Word</th><th>Root</th><th>Lemma</th><th>POS</th><th title="The Leeds corpus does not include English glosses. Links go to the corpus.quran.com dictionary for each root.">Meaning</th></tr></thead><tbody>${rows}</tbody></table><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> morphology and roots from the Leeds Quranic Arabic Corpus v0.4 (Kais Dukes, 2009–2017), GPL licensed. <span class="badge pending" aria-label="Pending" tabindex="0" title="Pending · awaiting a second independent source">○</span> English glosses. The Leeds corpus does not carry per-word English meanings; the Meaning column links to the corpus.quran.com dictionary entry for each root. Future versions may overlay a verified gloss dataset.</p></div>`;
+                } else {
+                  html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><p style="font-size:.9rem;color:var(--muted)">Word-level data unavailable for this verse — see the <a href="words.html">Words page</a> for the methodology.</p></div>`;
+                }
+              }
+              if (depth === "encyclopedic") {
+                if (s === 1 && ayahNum === 1) {
+                  html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Patterns in this verse</h4><p style="font-size:.9rem">This verse is the <em>basmala</em> — it opens 113 of the 114 surahs (all except al-Tawbah). In the Uthmani text it is counted as verse 1 of al-Fatihah and as a non-numbered separator at the head of other surahs.</p><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> from Tanzil text and Cairo 1924 edition.</p></div>`;
+                } else if (s === 1 && ayahNum === 5) {
+                  html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Patterns in this verse</h4><p style="font-size:.9rem"><strong>Iltifat (grammatical shift):</strong> The surah opens in third-person praise of God ("Praise be to God…"), but verse 5 pivots to direct second-person address ("It is You we worship, and You we ask for help"). This shift from third to second person is a classic instance of iltifat, treated as rhetorically deliberate rather than a textual irregularity. The phenomenon was identified by classical Arabic rhetoricians (al-Suyuti discusses it in al-Itqan, drawing on earlier authorities); it was documented in modern Western scholarship by Abdel Haleem (1992).</p><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Classical: al-Suyuti, <em>al-Itqan fi 'Ulum al-Qur'an</em>. Modern: Abdel Haleem, "Grammatical Shift for Rhetorical Purposes," <em>BSOAS</em> 55:3 (1992).</p></div>`;
+                } else {
+                  html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Patterns in this verse</h4><p style="font-size:.9rem;color:var(--muted)">Pattern-level data is pending — see the <a href="patterns.html">Patterns page</a> for the methodology.</p></div>`;
+                }
+              }
+              if (depth === "scholar" || depth === "encyclopedic") {
+                if (s === 1 && ayahNum === 1) {
+                  html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Related verses</h4><p style="font-size:.9rem">The basmala formula appears at the head of 113 of the 114 surahs (all except al-Tawbah). It also appears mid-surah in one place: 27:30, in Solomon's letter to the Queen of Sheba — the only basmala counted as a numbered verse within a surah rather than as a surah opening.</p><ul style="font-size:.9rem;margin:.4rem 0;padding-left:1.2rem"><li><a href="read.html?s=27&a=30">Read 27:30 (Solomon's letter)</a></li></ul><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> from Tanzil text and Cairo 1924 edition.</p></div>`;
+                } else if (s === 2 && ayahNum === 255) {
+                  html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Related verses</h4><p style="font-size:.9rem">Ayat al-Kursi contains tawhid formulations that parallel several other verses in the Qur'an.</p><ul style="font-size:.9rem;margin:.4rem 0;padding-left:1.2rem"><li><a href="read.html?s=2&a=163">Read 2:163</a> — tawhid affirmation: "your God is One God"</li><li><a href="read.html?s=20&a=8">Read 20:8</a> — "Allah, there is no deity except Him"</li><li><a href="read.html?s=3&a=2">Read 3:2</a> — "Allah, there is no deity except Him, the Ever-Living, the Sustainer"</li></ul><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> parallel formulations from Tanzil text. Cross-reference pattern documented in classical mutashabihat literature.</p></div>`;
+                } else {
+                  html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Related verses</h4><p style="font-size:.9rem;color:var(--muted)">Cross-reference data for this verse is pending — see the <a href="patterns.html">Patterns page</a> for the methodology.</p></div>`;
+                }
+              }
+              html += `<p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Arabic from Tanzil Uthmani via alquran.cloud. Translations rendered as published; each is an interpretation. Compare to deepen understanding.</p></div>`;
+              allHtml += html;
+            },
           );
-          const transCount = translations.length;
-          let html = `<div class="verse"><div class="meta"><strong>${s}:${a}</strong><span>${SURAH_DISPLAY_NAMES[s] || ar.surah.englishName} · ${ar.surah.englishNameTranslation}</span></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button id="transBtn" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem">${transCount} selected ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${ar.text}</p>`;
-          if (qdState.features.showAudio) {
-            const reciterName =
-              qdReciters.find((r) => r.id === qdState.reciter)?.name ||
-              "Reciter";
-            html += `<div style="display:flex;gap:0.5rem;align-items:center;margin:.5rem 0"><audio controls style="flex:1"><source src="https://cdn.islamic.network/quran/audio/128/${qdState.reciter}/${ar.number}.mp3" type="audio/mpeg"></audio><button id="reciterBtn" style="min-width:44px;min-height:44px;padding:0.5rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem" title="Change reciter">\uD83C\uDFA4</button></div><div id="reciterName" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.5rem">${reciterName}</div>`;
-          }
-          translations.forEach((t) => {
-            html += `<div class="translation"><div class="label">${t.edition.englishName} · ${t.edition.name}</div><div class="text">${t.text}</div></div>`;
+          container.innerHTML = allHtml;
+
+          verses.forEach(({ ayahNum }) => {
+            const transBtn = document.getElementById(`transBtn-${ayahNum}`);
+            if (transBtn) {
+              transBtn.addEventListener("click", () => {
+                const transList = qdTranslations
+                  .map(
+                    (t) =>
+                      `<label style="display:block;padding:0.75rem;border-bottom:1px solid var(--line);cursor:pointer"><input type="checkbox" data-trans="${t.id}" ${qdState.translations.includes(t.id) ? "checked" : ""}  style="margin-right:0.5rem"> ${t.name}</label>`,
+                  )
+                  .join("");
+                const modal = document.createElement("div");
+                modal.style.cssText =
+                  "position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:3000;display:flex;align-items:center;justify-content:center";
+                modal.innerHTML = `<div style="background:var(--card);border-radius:8px;max-width:400px;width:90%;max-height:80vh;overflow:auto"><div style="padding:1rem;border-bottom:2px solid var(--accent);font-weight:600;display:flex;justify-content:space-between;align-items:center"><span>Choose Translations</span><button id="closeTransModal" style="border:none;background:none;font-size:1.5rem;cursor:pointer;padding:0;min-width:44px;min-height:44px">×</button></div><div id="transListContainer">${transList}</div></div>`;
+                document.body.appendChild(modal);
+                modal.querySelectorAll("[data-trans]").forEach((cb) => {
+                  cb.addEventListener("change", () => {
+                    const id = cb.getAttribute("data-trans");
+                    if (cb.checked) {
+                      if (!qdState.translations.includes(id))
+                        qdState.translations.push(id);
+                    } else {
+                      qdState.translations = qdState.translations.filter(
+                        (x) => x !== id,
+                      );
+                    }
+                    sessionStorage.setItem("qd_state", JSON.stringify(qdState));
+                    load();
+                  });
+                });
+                modal.addEventListener("click", (e) => {
+                  if (e.target === modal) modal.remove();
+                });
+                document
+                  .getElementById("closeTransModal")
+                  .addEventListener("click", () => modal.remove());
+              });
+            }
+
+            const reciterBtn = document.getElementById(`reciterBtn-${ayahNum}`);
+            if (reciterBtn) {
+              reciterBtn.addEventListener("click", () => {
+                const reciterList = qdReciters
+                  .map(
+                    (r) =>
+                      `<div style="padding:0.75rem;border-bottom:1px solid var(--line);cursor:pointer" data-reciter="${r.id}" class="reciter-option">${r.name}</div>`,
+                  )
+                  .join("");
+                const modal = document.createElement("div");
+                modal.style.cssText =
+                  "position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:3000;display:flex;align-items:center;justify-content:center";
+                modal.innerHTML = `<div style="background:var(--card);border-radius:8px;max-width:400px;width:90%;max-height:80vh;overflow:auto"><div style="padding:1rem;border-bottom:2px solid var(--accent);font-weight:600">Choose Reciter</div>${reciterList}</div>`;
+                document.body.appendChild(modal);
+                modal.querySelectorAll(".reciter-option").forEach((opt) => {
+                  opt.addEventListener("click", () => {
+                    qdState.reciter = opt.getAttribute("data-reciter");
+                    sessionStorage.setItem("qd_state", JSON.stringify(qdState));
+                    modal.remove();
+                    load();
+                  });
+                });
+                modal.addEventListener("click", (e) => {
+                  if (e.target === modal) modal.remove();
+                });
+              });
+            }
           });
-          if (needsMorph) {
-            const words = morphCache[s] && morphCache[s][String(a)];
-            if (words && words.length) {
-              let rows = "";
-              words.forEach((w) => {
-                const rootLink = w.root
-                  ? `<button class="root-detail-btn" data-root="${w.root}" style="background:none;border:none;color:var(--link);text-decoration:underline;cursor:pointer;font-family:inherit;font-size:inherit;padding:0;min-width:44px;min-height:44px">${rootToDisplay(w.root)}</button>`
-                  : "—";
-                const glossCell = w.gloss
-                  ? `<td>${w.gloss}</td>`
-                  : w.root
-                    ? `<td><a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(w.root)}" target="_blank" rel="noopener" style="color:var(--muted);font-size:0.88rem;text-decoration:underline dotted;text-underline-offset:3px">look up →</a></td>`
-                    : `<td style="color:var(--muted)">—</td>`;
-                const lemmaCell = w.root
-                  ? `<a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(w.root)}" target="_blank" rel="noopener" style="color:var(--muted);font-size:0.88rem">see entry →</a>`
-                  : "—";
-                rows += `<tr><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${w.ar}</span></td><td>${rootLink}</td><td>${lemmaCell}</td><td>${w.pos || "—"}</td>${glossCell}</tr>`;
-              });
-              html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><table class="data"><thead><tr><th>Word</th><th>Root</th><th>Lemma</th><th>POS</th><th title="The Leeds corpus does not include English glosses. Links go to the corpus.quran.com dictionary for each root.">Meaning</th></tr></thead><tbody>${rows}</tbody></table><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4">Verified</span> morphology and roots from the Leeds Quranic Arabic Corpus v0.4 (Kais Dukes, 2009–2017), GPL licensed. <span class="badge pending">Pending</span> English glosses. The Leeds corpus does not carry per-word English meanings; the Meaning column links to the corpus.quran.com dictionary entry for each root. Future versions may overlay a verified gloss dataset.</p></div>`;
-            } else {
-              html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><p style="font-size:.9rem;color:var(--muted)">Word-level data unavailable for this verse — see the <a href="words.html">Words page</a> for the methodology.</p></div>`;
-            }
-          }
-          if (depth === "encyclopedic") {
-            if (s === 1 && a === 1) {
-              html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Patterns in this verse</h4><p style="font-size:.9rem">This verse is the <em>basmala</em> — it opens 113 of the 114 surahs (all except al-Tawbah). In the Uthmani text it is counted as verse 1 of al-Fatihah and as a non-numbered separator at the head of other surahs.</p><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4">Verified</span> from Tanzil text and Cairo 1924 edition.</p></div>`;
-            } else if (s === 1 && a === 5) {
-              html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Patterns in this verse</h4><p style="font-size:.9rem"><strong>Iltifat (grammatical shift):</strong> The surah opens in third-person praise of God ("Praise be to God…"), but verse 5 pivots to direct second-person address ("It is You we worship, and You we ask for help"). This shift from third to second person is a classic instance of iltifat, treated as rhetorically deliberate rather than a textual irregularity. The phenomenon was identified by classical Arabic rhetoricians (al-Suyuti discusses it in al-Itqan, drawing on earlier authorities); it was documented in modern Western scholarship by Abdel Haleem (1992).</p><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4">Verified</span> Classical: al-Suyuti, <em>al-Itqan fi 'Ulum al-Qur'an</em>. Modern: Abdel Haleem, "Grammatical Shift for Rhetorical Purposes," <em>BSOAS</em> 55:3 (1992).</p></div>`;
-            } else {
-              html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Patterns in this verse</h4><p style="font-size:.9rem;color:var(--muted)">Pattern-level data is pending — see the <a href="patterns.html">Patterns page</a> for the methodology.</p></div>`;
-            }
-          }
-          if (depth === "scholar" || depth === "encyclopedic") {
-            if (s === 1 && a === 1) {
-              html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Related verses</h4><p style="font-size:.9rem">The basmala formula appears at the head of 113 of the 114 surahs (all except al-Tawbah). It also appears mid-surah in one place: 27:30, in Solomon's letter to the Queen of Sheba — the only basmala counted as a numbered verse within a surah rather than as a surah opening.</p><ul style="font-size:.9rem;margin:.4rem 0;padding-left:1.2rem"><li><a href="read.html?s=27&a=30">Read 27:30 (Solomon's letter)</a></li></ul><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4">Verified</span> from Tanzil text and Cairo 1924 edition.</p></div>`;
-            } else if (s === 2 && a === 255) {
-              html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Related verses</h4><p style="font-size:.9rem">Ayat al-Kursi contains tawhid formulations that parallel several other verses in the Qur'an.</p><ul style="font-size:.9rem;margin:.4rem 0;padding-left:1.2rem"><li><a href="read.html?s=2&a=163">Read 2:163</a> — tawhid affirmation: "your God is One God"</li><li><a href="read.html?s=20&a=8">Read 20:8</a> — "Allah, there is no deity except Him"</li><li><a href="read.html?s=3&a=2">Read 3:2</a> — "Allah, there is no deity except Him, the Ever-Living, the Sustainer"</li></ul><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4">Verified</span> parallel formulations from Tanzil text. Cross-reference pattern documented in classical mutashabihat literature.</p></div>`;
-            } else {
-              html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Related verses</h4><p style="font-size:.9rem;color:var(--muted)">Cross-reference data for this verse is pending — see the <a href="patterns.html">Patterns page</a> for the methodology.</p></div>`;
-            }
-          }
-          html += `<p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4">Verified</span> Arabic from Tanzil Uthmani via alquran.cloud. Translations rendered as published; each is an interpretation. Compare to deepen understanding.</p></div>`;
-          container.innerHTML = html;
 
-          const transBtn = document.getElementById("transBtn");
-          if (transBtn) {
-            transBtn.addEventListener("click", () => {
-              const transList = qdTranslations
-                .map(
-                  (t) =>
-                    `<label style="display:block;padding:0.75rem;border-bottom:1px solid var(--line);cursor:pointer"><input type="checkbox" data-trans="${t.id}" ${qdState.translations.includes(t.id) ? "checked" : ""}  style="margin-right:0.5rem"> ${t.name}</label>`,
-                )
-                .join("");
-              const modal = document.createElement("div");
-              modal.style.cssText =
-                "position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:3000;display:flex;align-items:center;justify-content:center";
-              modal.innerHTML = `<div style="background:var(--card);border-radius:8px;max-width:400px;width:90%;max-height:80vh;overflow:auto"><div style="padding:1rem;border-bottom:2px solid var(--accent);font-weight:600;display:flex;justify-content:space-between;align-items:center"><span>Choose Translations</span><button id="closeTransModal" style="border:none;background:none;font-size:1.5rem;cursor:pointer;padding:0;min-width:44px;min-height:44px">×</button></div><div id="transListContainer">${transList}</div></div>`;
-              document.body.appendChild(modal);
-              modal.querySelectorAll("[data-trans]").forEach((cb) => {
-                cb.addEventListener("change", () => {
-                  const id = cb.getAttribute("data-trans");
-                  if (cb.checked) {
-                    if (!qdState.translations.includes(id))
-                      qdState.translations.push(id);
-                  } else {
-                    qdState.translations = qdState.translations.filter(
-                      (x) => x !== id,
-                    );
-                  }
-                  sessionStorage.setItem("qd_state", JSON.stringify(qdState));
-                  load();
-                });
-              });
-              modal.addEventListener("click", (e) => {
-                if (e.target === modal) modal.remove();
-              });
-              document
-                .getElementById("closeTransModal")
-                .addEventListener("click", () => modal.remove());
-            });
-          }
-
-          const reciterBtn = document.getElementById("reciterBtn");
-          if (reciterBtn) {
-            reciterBtn.addEventListener("click", () => {
-              const reciterList = qdReciters
-                .map(
-                  (r) =>
-                    `<div style="padding:0.75rem;border-bottom:1px solid var(--line);cursor:pointer" data-reciter="${r.id}" class="reciter-option">${r.name}</div>`,
-                )
-                .join("");
-              const modal = document.createElement("div");
-              modal.style.cssText =
-                "position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:3000;display:flex;align-items:center;justify-content:center";
-              modal.innerHTML = `<div style="background:var(--card);border-radius:8px;max-width:400px;width:90%;max-height:80vh;overflow:auto"><div style="padding:1rem;border-bottom:2px solid var(--accent);font-weight:600">Choose Reciter</div>${reciterList}</div>`;
-              document.body.appendChild(modal);
-              modal.querySelectorAll(".reciter-option").forEach((opt) => {
-                opt.addEventListener("click", () => {
-                  qdState.reciter = opt.getAttribute("data-reciter");
-                  sessionStorage.setItem("qd_state", JSON.stringify(qdState));
-                  modal.remove();
-                  load();
-                });
-              });
-              modal.addEventListener("click", (e) => {
-                if (e.target === modal) modal.remove();
-              });
-            });
-          }
-
-          // Add root detail handlers
+          // Root detail handlers
           document.querySelectorAll(".root-detail-btn").forEach((btn) => {
             btn.addEventListener("click", async () => {
               const rootBuck = btn.getAttribute("data-root");
@@ -592,7 +680,7 @@
                   </div>
                   <div style="padding:1rem">
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
-                      <div><strong style="color:var(--muted);font-size:0.85rem">Total frequency:</strong><div style="font-size:1.2rem;font-weight:600">${rootData.frequency} <span class="badge ok" data-source-ids="leeds-corpus-v0.4" style="font-size:0.7rem;vertical-align:middle">Verified</span></div></div>
+                      <div><strong style="color:var(--muted);font-size:0.85rem">Total frequency:</strong><div style="font-size:1.2rem;font-weight:600">${rootData.frequency} <span class="badge ok" data-source-ids="leeds-corpus-v0.4" style="font-size:0.7rem;vertical-align:middle" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span></div></div>
                       <div><strong style="color:var(--muted);font-size:0.85rem">First occurrence:</strong><div><a href="read.html?s=${rootData.first_occurrence.split(":")[0]}&a=${rootData.first_occurrence.split(":")[1]}" style="font-size:0.95rem">${rootData.first_occurrence}</a></div></div>
                     </div>
                     <div style="margin-bottom:1rem"><strong style="color:var(--muted);font-size:0.85rem">Last occurrence:</strong><div><a href="read.html?s=${rootData.last_occurrence.split(":")[0]}&a=${rootData.last_occurrence.split(":")[1]}" style="font-size:0.95rem">${rootData.last_occurrence}</a></div></div>
@@ -616,7 +704,10 @@
 
           const url = new URL(window.location);
           url.searchParams.set("s", s);
-          url.searchParams.set("a", a);
+          url.searchParams.set(
+            "a",
+            isRange ? `${ayahStart}-${ayahEnd}` : String(ayahStart),
+          );
           history.replaceState({}, "", url);
         } catch (e) {
           container.innerHTML =
@@ -625,15 +716,19 @@
       }
       document.getElementById("loadBtn").addEventListener("click", load);
       document.getElementById("prevBtn").addEventListener("click", () => {
-        const a = parseInt(document.getElementById("ayahInput").value);
-        if (a > 1) {
-          document.getElementById("ayahInput").value = a - 1;
+        const rawA = document.getElementById("ayahInput").value.trim();
+        const rm = rawA.match(/^(\d+)-(\d+)$/);
+        const start = rm ? parseInt(rm[1]) : parseInt(rawA) || 1;
+        if (start > 1) {
+          document.getElementById("ayahInput").value = start - 1;
           load();
         }
       });
       document.getElementById("nextBtn").addEventListener("click", () => {
-        document.getElementById("ayahInput").value =
-          parseInt(document.getElementById("ayahInput").value) + 1;
+        const rawA = document.getElementById("ayahInput").value.trim();
+        const rm = rawA.match(/^(\d+)-(\d+)$/);
+        const end = rm ? parseInt(rm[2]) : parseInt(rawA) || 1;
+        document.getElementById("ayahInput").value = end + 1;
         load();
       });
       document.addEventListener("qd:translations-changed", load);

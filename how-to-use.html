@@ -118,7 +118,9 @@
         </p>
         <p>
           Change depth with the gear icon, top right. Your selection persists
-          for this tab only. No tracking, no cookies.
+          for this tab only. No tracking, no cookies. Every claim on the site
+          carries a small verification pill —
+          <a href="#labels">see what the labels mean</a>.
         </p>
 
         <h2>The method Dr. Khan taught</h2>
@@ -134,19 +136,67 @@
           ten minutes.
         </p>
 
-        <h2>What the labels mean</h2>
+        <h2 id="labels">What the labels mean</h2>
         <p>
-          <strong>Verified:</strong> drawn from the Leeds Corpus or another
-          primary source.
+          Every factual claim on this site carries one of three small pills.
+          Hover or tap a pill to read its definition.
         </p>
-        <p>
-          <strong>Pending:</strong> awaiting triangulation. Treat as
-          provisional.
-        </p>
-        <p>
-          <strong>Nuanced:</strong> the counting method varies. See source for
-          detail.
-        </p>
+        <table
+          style="
+            border-collapse: collapse;
+            width: 100%;
+            margin: 0.75rem 0 1rem;
+            font-size: 0.95rem;
+          "
+        >
+          <tbody>
+            <tr>
+              <td style="padding: 0.4rem 0.75rem 0.4rem 0; white-space: nowrap">
+                <span
+                  class="badge ok"
+                  aria-label="Verified"
+                  tabindex="0"
+                  title="Verified · confirmed from a primary source"
+                  >●</span
+                >
+              </td>
+              <td style="padding: 0.4rem 0">
+                <strong>Verified</strong> — drawn from the Leeds Corpus or
+                another named primary source.
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 0.4rem 0.75rem 0.4rem 0; white-space: nowrap">
+                <span
+                  class="badge pending"
+                  aria-label="Pending"
+                  tabindex="0"
+                  title="Pending · awaiting a second independent source"
+                  >○</span
+                >
+              </td>
+              <td style="padding: 0.4rem 0">
+                <strong>Pending</strong> — awaiting triangulation from a second
+                independent source. Treat as provisional.
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 0.4rem 0.75rem 0.4rem 0; white-space: nowrap">
+                <span
+                  class="badge nuanced"
+                  aria-label="Nuanced"
+                  tabindex="0"
+                  title="Nuanced · counting method varies by source"
+                  >~</span
+                >
+              </td>
+              <td style="padding: 0.4rem 0">
+                <strong>Nuanced</strong> — the counting method varies across
+                sources. See the source detail for the specific approach used.
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <p>
           This site does not generate exegesis. Every interpretive claim is
           sourced.
