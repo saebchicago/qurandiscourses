@@ -133,6 +133,7 @@
           </div>
         </div>
         <div id="verseContainer"></div>
+        <div id="vocabPanel"></div>
         <div class="banner soft">
           <strong>Want depth?</strong> Use <a href="roots.html">Roots</a> for
           the triliteral root behind any word,
@@ -330,6 +331,155 @@
       const morphCache = {};
       const xrefCache = {};
       const verseTransCache = {};
+      const surahHighlightCache = {};
+
+      function computeRecurring(morphData) {
+        const rootPos = {};
+        for (const [ayah, words] of Object.entries(morphData)) {
+          const a = parseInt(ayah);
+          for (const word of words) {
+            if (!word.root) continue;
+            if (!rootPos[word.root]) rootPos[word.root] = [];
+            rootPos[word.root].push({ a, w: word.w });
+          }
+        }
+        const out = {};
+        for (const [root, pos] of Object.entries(rootPos)) {
+          if (pos.length >= 2)
+            out[root] = { count: pos.length, positions: pos };
+        }
+        return out;
+      }
+
+      function buildArHtml(arText, morphWords, recurringRoots) {
+        if (
+          !morphWords ||
+          !morphWords.length ||
+          !Object.keys(recurringRoots).length
+        )
+          return arText;
+        const tokens = arText.split(/\s+/);
+        return tokens
+          .map((tok, i) => {
+            if (!tok) return tok;
+            const morph = morphWords[i];
+            if (!morph || !morph.root || !recurringRoots[morph.root])
+              return tok;
+            return `<span class="recurring-word" data-root="${morph.root}" tabindex="0">${tok}</span>`;
+          })
+          .join(" ");
+      }
+
+      // Single reusable tooltip element
+      const rootTip = document.createElement("div");
+      rootTip.id = "rootTooltip";
+      rootTip.setAttribute("hidden", "");
+      document.body.appendChild(rootTip);
+      let tipTimer = null;
+
+      function hideTip() {
+        tipTimer = setTimeout(() => rootTip.setAttribute("hidden", ""), 120);
+      }
+      rootTip.addEventListener("mouseenter", () => clearTimeout(tipTimer));
+      rootTip.addEventListener("mouseleave", hideTip);
+      document.addEventListener("click", (e) => {
+        if (
+          !e.target.closest("#rootTooltip") &&
+          !e.target.classList.contains("recurring-word")
+        )
+          rootTip.setAttribute("hidden", "");
+      });
+
+      function showTip(el, surahNum, root, data) {
+        clearTimeout(tipTimer);
+        const rootDisplay = rootToDisplay(root);
+        const seen = new Set();
+        const links = data.positions
+          .filter((p) => {
+            const k = `${p.a}`;
+            if (seen.has(k)) return false;
+            seen.add(k);
+            return true;
+          })
+          .map(
+            (p) =>
+              `<a href="read.html?s=${surahNum}&a=${p.a}">${surahNum}:${p.a}</a>`,
+          )
+          .join(" · ");
+        rootTip.innerHTML = `<div class="rt-root">${rootDisplay}</div><div class="rt-count">${data.count}× in this surah</div><div class="rt-positions">${links}</div>`;
+        rootTip.removeAttribute("hidden");
+        const rect = el.getBoundingClientRect();
+        const w = Math.min(200, window.innerWidth - 16);
+        rootTip.style.width = w + "px";
+        let left = rect.left + rect.width / 2 - w / 2;
+        left = Math.max(8, Math.min(left, window.innerWidth - w - 8));
+        rootTip.style.left = left + "px";
+        rootTip.style.top = "";
+        const tipH = rootTip.offsetHeight;
+        const spaceAbove = rect.top;
+        const top =
+          spaceAbove >= tipH + 10
+            ? rect.top + window.scrollY - tipH - 8
+            : rect.bottom + window.scrollY + 8;
+        rootTip.style.top = top + "px";
+      }
+
+      function attachRootTooltips(surahNum, recurringRoots) {
+        document.querySelectorAll(".recurring-word").forEach((el) => {
+          const root = el.dataset.root;
+          const data = recurringRoots[root];
+          if (!data) return;
+          el.addEventListener("mouseenter", () =>
+            showTip(el, surahNum, root, data),
+          );
+          el.addEventListener("mouseleave", hideTip);
+          el.addEventListener("focus", () => showTip(el, surahNum, root, data));
+          el.addEventListener("blur", hideTip);
+          el.addEventListener("click", (e) => {
+            if (rootTip.hasAttribute("hidden")) {
+              showTip(el, surahNum, root, data);
+              e.stopPropagation();
+            }
+          });
+        });
+      }
+
+      function renderVocabPanel(surahNum, recurringRoots) {
+        const panel = document.getElementById("vocabPanel");
+        if (!panel) return;
+        const sorted = Object.entries(recurringRoots)
+          .sort((a, b) => b[1].count - a[1].count)
+          .slice(0, 10);
+        if (!sorted.length) {
+          panel.innerHTML = "";
+          return;
+        }
+        const items = sorted
+          .map(([root, data]) => {
+            const disp = rootToDisplay(root);
+            return `<div class="vocab-item"><button class="vocab-root-btn" data-root="${root}"><span class="vocab-root-name">${disp}</span><span class="vocab-root-count">${data.count}×</span></button></div>`;
+          })
+          .join("");
+        panel.innerHTML = `<details class="vocab-panel" open><summary>Recurring vocabulary in this surah</summary><div class="vocab-list">${items}</div></details>`;
+        panel.querySelectorAll(".vocab-root-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const root = btn.dataset.root;
+            const isActive = btn.classList.contains("active");
+            document
+              .querySelectorAll(".recurring-word.highlighted")
+              .forEach((el) => el.classList.remove("highlighted"));
+            document
+              .querySelectorAll(".vocab-root-btn.active")
+              .forEach((b) => b.classList.remove("active"));
+            if (!isActive) {
+              document
+                .querySelectorAll(`.recurring-word[data-root="${root}"]`)
+                .forEach((el) => el.classList.add("highlighted"));
+              btn.classList.add("active");
+            }
+          });
+        });
+      }
 
       function resolveSurah(val) {
         const trimmed = (val || "").trim();
@@ -569,6 +719,14 @@
               });
             }
           }
+          let recurringRoots = {};
+          if (needsMorph && morphCache[s]) {
+            if (!surahHighlightCache[s])
+              surahHighlightCache[s] = computeRecurring(morphCache[s]);
+            recurringRoots = surahHighlightCache[s];
+          }
+          const vocabPanelEl = document.getElementById("vocabPanel");
+          if (vocabPanelEl) vocabPanelEl.innerHTML = "";
           let allHtml = "";
           verses.forEach(
             ({
@@ -580,7 +738,14 @@
               translations,
             }) => {
               const transCount = translations.length;
-              let html = `<div class="verse" data-ayah="${ayahNum}"><div class="meta"><strong>${s}:${ayahNum}</strong><span>${surahName} · ${surahNameTranslation}</span></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button id="transBtn-${ayahNum}" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem">${transCount} selected ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arText}</p>`;
+              const arHtml = needsMorph
+                ? buildArHtml(
+                    arText,
+                    morphCache[s] && morphCache[s][String(ayahNum)],
+                    recurringRoots,
+                  )
+                : arText;
+              let html = `<div class="verse" data-ayah="${ayahNum}"><div class="meta"><strong>${s}:${ayahNum}</strong><span>${surahName} · ${surahNameTranslation}</span></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button id="transBtn-${ayahNum}" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem">${transCount} selected ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arHtml}</p>`;
               if (qdState.features.showAudio) {
                 const reciterName =
                   qdReciters.find((r) => r.id === qdState.reciter)?.name ||
@@ -774,6 +939,9 @@
             verses.map((v) => v.ayahNum),
             depth,
           );
+
+          attachRootTooltips(s, recurringRoots);
+          if (depth === "encyclopedic") renderVocabPanel(s, recurringRoots);
 
           const url = new URL(window.location);
           url.searchParams.set("s", s);
