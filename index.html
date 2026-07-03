@@ -32,6 +32,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/nav.js"></script>
     <link
       rel="icon"
       type="image/svg+xml"
@@ -46,105 +47,83 @@
       <p class="tag">Toward direct engagement with the Qur'an</p>
     </header>
     <nav class="primary" aria-label="Primary">
-      <a href="index.html">Home</a>
-      <a href="how-to-use.html">How to use</a>
-      <a href="navigate.html">Navigate</a>
-      <a href="read.html">Read</a>
-      <a href="roots.html">Roots</a>
-      <a href="compare.html">Compare</a>
-      <a href="words.html">Words</a>
-      <a href="patterns.html">Patterns</a>
-      <a href="exercise-asr.html">Exercise</a>
-      <a href="numbers.html">Numbers</a>
-      <a href="sources.html">Sources</a>
-      <a href="validation.html">Validation</a>
-      <a href="glossary.html">Glossary</a>
-      <a href="credits.html">Credits</a>
-      <a href="changelog.html">Changelog</a>
-      <a href="about.html">About</a>
+      <ul class="nav-groups">
+        <li class="nav-group" data-group="study">
+          <button
+            type="button"
+            class="nav-group-btn"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="nav-menu-study"
+          >
+            Study
+          </button>
+          <ul id="nav-menu-study" class="nav-menu">
+            <li><a href="read.html">Read</a></li>
+            <li><a href="navigate.html">Navigate</a></li>
+            <li><a href="compare.html">Compare</a></li>
+          </ul>
+        </li>
+        <li class="nav-group" data-group="analyze">
+          <button
+            type="button"
+            class="nav-group-btn"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="nav-menu-analyze"
+          >
+            Analyze
+          </button>
+          <ul id="nav-menu-analyze" class="nav-menu">
+            <li><a href="words.html">Words</a></li>
+            <li><a href="roots.html">Roots</a></li>
+            <li><a href="patterns.html">Patterns</a></li>
+            <li><a href="numbers.html">Numbers</a></li>
+          </ul>
+        </li>
+        <li class="nav-group" data-group="learn">
+          <button
+            type="button"
+            class="nav-group-btn"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="nav-menu-learn"
+          >
+            Learn
+          </button>
+          <ul id="nav-menu-learn" class="nav-menu">
+            <li><a href="how-to-use.html">How to use</a></li>
+            <li><a href="exercise-asr.html">Exercise</a></li>
+            <li><a href="glossary.html">Glossary</a></li>
+          </ul>
+        </li>
+        <li class="nav-group" data-group="about">
+          <button
+            type="button"
+            class="nav-group-btn"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="nav-menu-about"
+          >
+            About
+          </button>
+          <ul id="nav-menu-about" class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="sources.html">Sources</a></li>
+            <li><a href="validation.html">Validation</a></li>
+            <li><a href="credits.html">Credits</a></li>
+            <li><a href="changelog.html">Changelog</a></li>
+          </ul>
+        </li>
+      </ul>
     </nav>
     <main id="main">
-      <section>
-        <div
-          class="intro-blocks"
-          style="display: grid; gap: 1.25rem; margin-bottom: 1.5rem"
-        >
-          <div>
-            <h2 style="margin: 0 0 0.5rem; font-size: 1.1rem">Purpose</h2>
-            <p style="margin: 0">
-              Discourses is a tool for direct, evidence-based study of the
-              Qur'an. It surfaces roots, word morphology, structural patterns,
-              and cross-references with a verification label on every claim.
-            </p>
-          </div>
-          <div>
-            <h2 style="margin: 0 0 0.5rem; font-size: 1.1rem">Who it is for</h2>
-            <p style="margin: 0">
-              For readers who want to engage the text without an intermediary,
-              and for students who want claims they can trace.
-            </p>
-          </div>
-          <div>
-            <h2 style="margin: 0 0 0.5rem; font-size: 1.1rem">What is here</h2>
-            <div
-              class="grid"
-              style="
-                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-                gap: 0.75rem;
-              "
-            >
-              <a class="tile" href="read.html" style="padding: 0.75rem">
-                <span class="name" style="font-size: 0.95rem">Read</span>
-                <span class="desc" style="font-size: 0.85rem"
-                  >Verse text with translations</span
-                >
-              </a>
-              <a class="tile" href="roots.html" style="padding: 0.75rem">
-                <span class="name" style="font-size: 0.95rem">Roots</span>
-                <span class="desc" style="font-size: 0.85rem"
-                  >Triliteral root index</span
-                >
-              </a>
-              <a class="tile" href="patterns.html" style="padding: 0.75rem">
-                <span class="name" style="font-size: 0.95rem">Patterns</span>
-                <span class="desc" style="font-size: 0.85rem"
-                  >Structural features</span
-                >
-              </a>
-              <a
-                class="tile"
-                href="#"
-                style="padding: 0.75rem; opacity: 0.6; pointer-events: none"
-              >
-                <span class="name" style="font-size: 0.95rem"
-                  >Coherence View</span
-                >
-                <span class="desc" style="font-size: 0.85rem">Coming soon</span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <blockquote class="khan">
-          Every believer builds his or her own direct and personal relationship
-          with the Book.
-          <cite
-            style="
-              display: block;
-              margin-top: 0.4rem;
-              font-size: 0.82rem;
-              color: var(--muted);
-              font-style: italic;
-            "
-            >From Irfan Ahmad Khan, <em>Reflections on the Qur'an</em> (Islamic
-            Foundation UK, 2005).</cite
-          >
-        </blockquote>
-      </section>
-      <section class="ask-section">
+      <section class="ask-section hero">
         <label for="ask-input" class="ask-label">Ask</label>
         <p class="ask-help">
-          Type a surah name, a verse like 1:1, a root like r-h-m, or an English
-          word.
+          Search a surah (Al-Fatihah), a verse (2:255), a root (r-h-m), or an
+          English word (mercy).
         </p>
         <div class="ask-row">
           <input
@@ -153,7 +132,7 @@
             class="ask-input"
             autocomplete="off"
             spellcheck="false"
-            placeholder="Try: Fatihah, 1:1, r-h-m, or mercy"
+            placeholder="Al-Fatihah"
             aria-label="Ask Discourses"
           />
           <button type="button" id="ask-go" class="ask-go">Go</button>
@@ -172,6 +151,18 @@
           role="status"
           aria-live="polite"
         ></div>
+      </section>
+
+      <section>
+        <p class="aqu-bridge">
+          Discourses is built to serve direct engagement with the Qur'an in the
+          tradition of Dr. Irfan Ahmad Khan (1931–2018), founding scholar of the
+          Association of Quranic Understanding (<a
+            href="https://quranicunderstanding.com"
+            rel="noopener"
+            >quranicunderstanding.com</a
+          >).
+        </p>
       </section>
 
       <section>
@@ -215,6 +206,88 @@
           >
         </div>
       </section>
+
+      <section>
+        <h2>How we verify</h2>
+        <p>
+          Every factual claim on this site carries a label. Three worked
+          examples, each drawn from a published claim on the site.
+        </p>
+        <div class="verify-block">
+          <div class="verify-example">
+            <h4>
+              <span
+                class="badge ok"
+                data-source-ids="leeds-corpus-v0.4"
+                aria-label="Verified"
+                tabindex="0"
+                title="Verified · confirmed from a primary source"
+                >●</span
+              >
+              Verified
+            </h4>
+            <p class="claim">
+              The five most frequent roots in the Qur'an: a-l-h (God, 2,851),
+              q-w-l (say, 1,722), k-w-n (be, 1,390), r-b-b (Lord, 980), a-m-n
+              (believe, 879).
+            </p>
+            <p class="trace">
+              Traced to the Leeds Quranic Arabic Corpus (Dukes 2009–2017),
+              corpus.quran.com dictionary. Full table on
+              <a href="numbers.html">Numbers</a>.
+            </p>
+          </div>
+          <div class="verify-example">
+            <h4>
+              <span
+                class="badge pending"
+                aria-label="Pending"
+                tabindex="0"
+                title="Pending · awaiting a second independent source"
+                >○</span
+              >
+              Pending
+            </h4>
+            <p class="claim">
+              Farahi's <em>Mufradat al-Qur'an</em> and <em>Niẓām al-Qur'an</em>
+              are foundational to the coherence-based reading school.
+            </p>
+            <p class="trace">
+              Awaiting a second independent citation with edition and page
+              references before upgrade to Verified. Listed on
+              <a href="sources.html">Sources</a>.
+            </p>
+          </div>
+          <div class="verify-example">
+            <h4>
+              <span
+                class="badge nuanced"
+                data-source-ids="leeds-corpus-v0.4"
+                aria-label="Nuanced"
+                tabindex="0"
+                title="Nuanced · counting method varies by source"
+                >~</span
+              >
+              Nuanced
+            </h4>
+            <p class="claim">
+              Root y-w-m (day): 405 occurrences by the Leeds corpus; broader
+              counts including compound forms such as <em>yawma-idhin</em> reach
+              475.
+            </p>
+            <p class="trace">
+              The 405/475 difference turns on whether compound forms are
+              included; both are defensible. See
+              <a href="numbers.html">Numbers</a>.
+            </p>
+          </div>
+        </div>
+        <p>
+          Full method and prompts on
+          <a href="validation.html">Validation</a>.
+        </p>
+      </section>
+
       <section>
         <h2>Three depth levels</h2>
         <div
@@ -279,42 +352,46 @@
           >
         </p>
       </section>
+
       <section>
-        <h2>Verification labels</h2>
-        <div class="banner">
-          <p style="margin: 0">
-            <span
-              class="badge ok"
-              aria-label="Verified"
-              tabindex="0"
-              title="Verified · confirmed from a primary source"
-              >●</span
-            >
-            from primary corpus or canonical edition.
-            <span
-              class="badge pending"
-              aria-label="Pending"
-              tabindex="0"
-              title="Pending · awaiting a second independent source"
-              >○</span
-            >
-            awaiting triangulation.
-            <span
-              class="badge nuanced"
-              aria-label="Nuanced"
-              tabindex="0"
-              title="Nuanced · counting method varies by source"
-              >~</span
-            >
-            the counting method or interpretation has known variation; see
-            source for detail.
-          </p>
+        <h2>Purpose, audience, and scope</h2>
+        <div
+          class="intro-blocks"
+          style="display: grid; gap: 1.25rem; margin-bottom: 1rem"
+        >
+          <div>
+            <h3 style="margin: 0 0 0.35rem; font-size: 1.05rem">Purpose</h3>
+            <p style="margin: 0">
+              Discourses is a tool for direct, evidence-based study of the
+              Qur'an. It surfaces roots, word morphology, structural patterns,
+              and cross-references with a verification label on every claim.
+            </p>
+          </div>
+          <div>
+            <h3 style="margin: 0 0 0.35rem; font-size: 1.05rem">
+              Who it is for
+            </h3>
+            <p style="margin: 0">
+              For readers who want to engage the text without an intermediary,
+              and for students who want claims they can trace.
+            </p>
+          </div>
         </div>
-        <p>
-          Run the prompts on <a href="validation.html">Validation</a> against
-          ChatGPT, Gemini, or Grok to triangulate any Pending claim into
-          Verified, or surface the nuance that keeps it labeled accordingly.
-        </p>
+        <blockquote class="khan">
+          Every believer builds his or her own direct and personal relationship
+          with the Book.
+          <cite
+            style="
+              display: block;
+              margin-top: 0.4rem;
+              font-size: 0.82rem;
+              color: var(--muted);
+              font-style: italic;
+            "
+            >From Irfan Ahmad Khan, <em>Reflections on the Qur'an</em> (Islamic
+            Foundation UK, 2005).</cite
+          >
+        </blockquote>
       </section>
     </main>
     <footer class="site">
@@ -339,88 +416,6 @@
         hidden
       ></div>
     </div>
-    <button
-      type="button"
-      id="tour-launcher"
-      class="tour-launcher"
-      aria-label="Open getting started tour"
-    >
-      ?
-    </button>
-
-    <div
-      id="tour-modal"
-      class="tour-modal"
-      hidden
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="tour-title"
-    >
-      <div class="tour-backdrop" data-close></div>
-      <div class="tour-panel">
-        <button type="button" class="tour-close" data-close aria-label="Close">
-          &times;
-        </button>
-        <div class="tour-slides">
-          <div class="tour-slide" data-slide="1">
-            <h2 id="tour-title">This is not Google</h2>
-            <p>
-              Discourses is a workbench for studying the Qur'an the way Dr. Khan
-              taught. One surah at a time. As a coherent discourse. With
-              attention to words, roots, and structure.
-            </p>
-            <p>
-              You can still just type something to start. The Ask box accepts:
-            </p>
-            <ul>
-              <li>A surah name (Fatihah, al-Asr)</li>
-              <li>A verse (1:1, 103:1)</li>
-              <li>A root (r-h-m, s-b-r)</li>
-              <li>An English word (mercy, patience)</li>
-            </ul>
-          </div>
-          <div class="tour-slide" data-slide="2" hidden>
-            <h2>Three depth levels</h2>
-            <p>
-              <strong>Simple</strong> shows text and translation. Use this to
-              read.
-            </p>
-            <p>
-              <strong>Scholar</strong> adds word-by-word morphology and root
-              links. Use this to study.
-            </p>
-            <p>
-              <strong>Encyclopedic</strong> adds structural patterns and full
-              sources. Use this to verify.
-            </p>
-            <p>Change depth anytime with the gear icon, bottom right.</p>
-          </div>
-          <div class="tour-slide" data-slide="3" hidden>
-            <h2>If you only have ten minutes</h2>
-            <p>
-              Open the <a href="exercise-asr.html">Exercise on Surah al-Asr</a>.
-              It demonstrates the coherence method on the shortest meaningful
-              surah. Read that, then try the same approach on a surah you
-              choose.
-            </p>
-            <p>
-              You can reopen this tour anytime from the "?" button on the home
-              page.
-            </p>
-          </div>
-        </div>
-        <div class="tour-nav">
-          <button type="button" id="tour-prev" disabled>Back</button>
-          <span class="tour-dots">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-          </span>
-          <button type="button" id="tour-next">Next</button>
-        </div>
-      </div>
-    </div>
-
     <script src="assets/surahs.js"></script>
     <script src="assets/ask.js"></script>
     <script>
@@ -452,56 +447,39 @@
           });
         });
 
-        var TOUR_KEY = "discourses_tour_seen_v1";
-        var modal = document.getElementById("tour-modal");
-        var slides = modal.querySelectorAll(".tour-slide");
-        var dots = modal.querySelectorAll(".dot");
-        var prev = document.getElementById("tour-prev");
-        var next = document.getElementById("tour-next");
-        var launcher = document.getElementById("tour-launcher");
-        var current = 1;
-
-        function showSlide(n) {
-          current = n;
-          slides.forEach(function (s) {
-            s.hidden = +s.dataset.slide !== n;
-          });
-          dots.forEach(function (d, i) {
-            d.classList.toggle("active", i + 1 === n);
-          });
-          prev.disabled = n === 1;
-          next.textContent = n === 3 ? "Done" : "Next";
+        var PLACEHOLDERS = ["Al-Fatihah", "2:255", "r-h-m", "mercy"];
+        var reduce = false;
+        try {
+          reduce =
+            window.matchMedia &&
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        } catch (e) {
+          reduce = false;
         }
-        function openTour() {
-          modal.hidden = false;
-          showSlide(1);
+        var phIdx = 0;
+        var phTimer = null;
+        function setPh(i) {
+          input.setAttribute("placeholder", PLACEHOLDERS[i]);
         }
-        function closeTour() {
-          modal.hidden = true;
-          localStorage.setItem(TOUR_KEY, "1");
+        function startRotation() {
+          if (reduce || phTimer) return;
+          phTimer = setInterval(function () {
+            phIdx = (phIdx + 1) % PLACEHOLDERS.length;
+            setPh(phIdx);
+          }, 4000);
         }
-
-        modal.querySelectorAll("[data-close]").forEach(function (el) {
-          el.addEventListener("click", closeTour);
-        });
-        prev.addEventListener("click", function () {
-          showSlide(Math.max(1, current - 1));
-        });
-        next.addEventListener("click", function () {
-          if (current === 3) {
-            closeTour();
-            return;
+        function stopRotation() {
+          if (phTimer) {
+            clearInterval(phTimer);
+            phTimer = null;
           }
-          showSlide(current + 1);
-        });
-        launcher.addEventListener("click", openTour);
-        document.addEventListener("keydown", function (e) {
-          if (!modal.hidden && e.key === "Escape") closeTour();
-        });
-
-        if (!localStorage.getItem(TOUR_KEY)) {
-          setTimeout(openTour, 400);
         }
+        setPh(0);
+        input.addEventListener("focus", stopRotation);
+        input.addEventListener("blur", function () {
+          if (!input.value) startRotation();
+        });
+        if (!reduce) startRotation();
       })();
     </script>
     <script src="assets/app.js"></script>

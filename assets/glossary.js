@@ -1,6 +1,8 @@
 /* Inline glossary — wraps first per-page occurrence of each term in a .gloss span */
 window.GLOSSARY = {
   nazm: "Arabic for 'coherence' or 'structural order'. A method of Qur'anic exegesis that reads each surah as a unified composition with deliberate thematic structure, developed by Farahi, Islahi, Mir, and Khan.",
+  coherence:
+    "Arabic for 'coherence' or 'structural order' (nazm). A method of Qur'anic exegesis that reads each surah as a unified composition with deliberate thematic structure, developed by Farahi, Islahi, Mir, and Khan.",
   mutashabihat:
     "Phrases or formulations that recur across the Qur'an with small variations. The classical science of tracking these parallels is a subfield of 'ulum al-Qur'an.",
   iltifat:
@@ -96,7 +98,11 @@ window.GLOSSARY = {
           var span = document.createElement("span");
           span.className = "gloss";
           span.tabIndex = 0;
+          span.setAttribute("role", "button");
+          span.setAttribute("aria-expanded", "false");
           span.title = window.GLOSSARY[term];
+          span.setAttribute("data-def", window.GLOSSARY[term]);
+          span.setAttribute("data-term", term);
           span.textContent = matched;
           frag.appendChild(span);
           if (after) frag.appendChild(document.createTextNode(after));
@@ -105,5 +111,82 @@ window.GLOSSARY = {
         }
       }
     });
+
+    // Click / keyboard popover for touch users (title is hover-only on mobile)
+    var pop = document.createElement("div");
+    pop.className = "gloss-pop";
+    pop.setAttribute("hidden", "");
+    pop.setAttribute("role", "tooltip");
+    document.body.appendChild(pop);
+
+    var openEl = null;
+
+    function closePop() {
+      if (!openEl) return;
+      openEl.setAttribute("aria-expanded", "false");
+      openEl = null;
+      pop.setAttribute("hidden", "");
+    }
+
+    function openPop(el) {
+      if (openEl === el) {
+        closePop();
+        return;
+      }
+      closePop();
+      var def = el.getAttribute("data-def");
+      var term = el.getAttribute("data-term") || el.textContent;
+      pop.innerHTML =
+        '<strong class="gloss-pop-term"></strong><span class="gloss-pop-def"></span> <a class="gloss-pop-more" href="glossary.html#' +
+        encodeURIComponent(term) +
+        '">Glossary →</a>';
+      pop.querySelector(".gloss-pop-term").textContent =
+        term.charAt(0).toUpperCase() + term.slice(1) + ". ";
+      pop.querySelector(".gloss-pop-def").textContent = def;
+      pop.removeAttribute("hidden");
+      el.setAttribute("aria-expanded", "true");
+      openEl = el;
+
+      var rect = el.getBoundingClientRect();
+      var w = Math.min(320, window.innerWidth - 24);
+      pop.style.width = w + "px";
+      var left = rect.left + rect.width / 2 - w / 2;
+      left = Math.max(12, Math.min(left, window.innerWidth - w - 12));
+      pop.style.left = left + "px";
+      var popH = pop.offsetHeight;
+      var top =
+        rect.top >= popH + 10
+          ? rect.top + window.scrollY - popH - 6
+          : rect.bottom + window.scrollY + 6;
+      pop.style.top = top + "px";
+    }
+
+    document.addEventListener("click", function (e) {
+      var el = e.target.closest && e.target.closest(".gloss");
+      if (el) {
+        e.preventDefault();
+        openPop(el);
+        return;
+      }
+      if (!e.target.closest || !e.target.closest(".gloss-pop")) {
+        closePop();
+      }
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closePop();
+      if (
+        (e.key === "Enter" || e.key === " " || e.key === "Spacebar") &&
+        document.activeElement &&
+        document.activeElement.classList &&
+        document.activeElement.classList.contains("gloss")
+      ) {
+        e.preventDefault();
+        openPop(document.activeElement);
+      }
+    });
+
+    window.addEventListener("resize", closePop);
+    window.addEventListener("scroll", closePop, true);
   });
 })();
