@@ -15,6 +15,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/nav.js"></script>
   </head>
   <body>
     <a href="#main" class="skip">Skip to main content</a>
@@ -24,14 +25,76 @@
       <p class="tag">Toward direct engagement with the Qur'an</p>
     </header>
     <nav class="primary" aria-label="Primary">
-      <a href="index.html">Home</a><a href="how-to-use.html">How to use</a><a href="navigate.html">Navigate</a
-      ><a href="read.html">Read</a><a href="roots.html">Roots</a
-      ><a href="compare.html">Compare</a><a href="words.html">Words</a
-      ><a href="patterns.html">Patterns</a
-      ><a href="exercise-asr.html">Exercise</a><a href="numbers.html">Numbers</a
-      ><a href="sources.html">Sources</a><a href="validation.html">Validation</a
-      ><a href="glossary.html">Glossary</a><a href="credits.html">Credits</a
-      ><a href="changelog.html">Changelog</a><a href="about.html">About</a>
+      <ul class="nav-groups">
+        <li class="nav-group" data-group="study">
+          <button
+            type="button"
+            class="nav-group-btn"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="nav-menu-study"
+          >
+            Study
+          </button>
+          <ul id="nav-menu-study" class="nav-menu">
+            <li><a href="read.html">Read</a></li>
+            <li><a href="navigate.html">Navigate</a></li>
+            <li><a href="compare.html">Compare</a></li>
+          </ul>
+        </li>
+        <li class="nav-group" data-group="analyze">
+          <button
+            type="button"
+            class="nav-group-btn"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="nav-menu-analyze"
+          >
+            Analyze
+          </button>
+          <ul id="nav-menu-analyze" class="nav-menu">
+            <li><a href="words.html">Words</a></li>
+            <li><a href="roots.html">Roots</a></li>
+            <li><a href="patterns.html">Patterns</a></li>
+            <li><a href="numbers.html">Numbers</a></li>
+          </ul>
+        </li>
+        <li class="nav-group" data-group="learn">
+          <button
+            type="button"
+            class="nav-group-btn"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="nav-menu-learn"
+          >
+            Learn
+          </button>
+          <ul id="nav-menu-learn" class="nav-menu">
+            <li><a href="how-to-use.html">How to use</a></li>
+            <li><a href="exercise-asr.html">Exercise</a></li>
+            <li><a href="glossary.html">Glossary</a></li>
+          </ul>
+        </li>
+        <li class="nav-group" data-group="about">
+          <button
+            type="button"
+            class="nav-group-btn"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="nav-menu-about"
+          >
+            About
+          </button>
+          <ul id="nav-menu-about" class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="sources.html">Sources</a></li>
+            <li><a href="validation.html">Validation</a></li>
+            <li><a href="credits.html">Credits</a></li>
+            <li><a href="changelog.html">Changelog</a></li>
+          </ul>
+        </li>
+      </ul>
     </nav>
     <main id="main">
       <section>
@@ -112,6 +175,14 @@
               patterns.
             </dd>
 
+            <dt id="morphology">Morphology</dt>
+            <dd>
+              The word-form analysis of Arabic: root, stem pattern, prefixes,
+              suffixes, tense, mood, person, number, and inflection. The Leeds
+              Quranic Arabic Corpus provides this analysis for every word in the
+              Qur'an.
+            </dd>
+
             <dt id="mutashabihat">
               Mutashabihat
               <span class="ar notranslate" translate="no" lang="ar" dir="rtl"
@@ -144,10 +215,25 @@
               headline figure and the underlying ambiguity are presented.
             </dd>
 
+            <dt id="period-distribution">Period distribution</dt>
+            <dd>
+              How a word or root's occurrences distribute across the Meccan and
+              Medinan revelation periods, based on a chosen chronology such as
+              the Cairo 1924 edition or Nöldeke-Schwally.
+            </dd>
+
             <dt id="pending">Pending</dt>
             <dd>
               A claim awaiting triangulation. Useful as a working figure but not
               yet verified against primary sources.
+            </dd>
+
+            <dt id="root">Root</dt>
+            <dd>
+              The three-letter (occasionally four-letter) consonantal skeleton
+              from which Arabic words are derived. Every noun and verb in the
+              Qur'an fits a root into fixed morphological patterns; the same
+              root can carry a family of related meanings.
             </dd>
 
             <dt id="surah">
@@ -175,6 +261,14 @@
               the earliest generations of Islam.
             </dd>
 
+            <dt id="triangulate">Triangulate</dt>
+            <dd>
+              To cross-check a claim against two or more independent sources.
+              Agreement across sources moves a claim from Pending to Verified;
+              disagreement keeps it Nuanced with the disagreement recorded. See
+              <a href="validation.html">Validation</a> for the prompts.
+            </dd>
+
             <dt id="verified">Verified</dt>
             <dd>
               A claim on this site backed by direct corpus data, primary text,
@@ -186,8 +280,9 @@
           This glossary is also available inline throughout the site. Technical
           terms are marked with a dotted underline and reveal their definition
           on hover or tap. Categories: Method (nazm, khitab, tafsir,
-          mutashabihat, iltifat). Structure (surah, ayah, basmala). Data (lemma,
-          hapax, Buckwalter). Claim labels (Verified, Nuanced, Pending).
+          mutashabihat, iltifat, triangulate). Structure (surah, ayah, basmala).
+          Data (root, morphology, lemma, hapax, Buckwalter, period
+          distribution). Claim labels (Verified, Nuanced, Pending).
         </p>
       </section>
     </main>

@@ -195,15 +195,6 @@
     });
   }
 
-  function markActiveNav() {
-    const path = location.pathname.split("/").pop() || "index.html";
-    document.querySelectorAll("nav.primary a").forEach((a) => {
-      const href = a.getAttribute("href");
-      if (href === path || (path === "" && href === "index.html"))
-        a.classList.add("active");
-    });
-  }
-
   window.qdFetchVerse = async function (surah, ayah) {
     const editions = ["quran-uthmani", ...state.translations];
     const url = `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/editions/${editions.join(",")}`;
@@ -491,7 +482,6 @@
     applyTheme();
     buildPanel();
     initSettings();
-    markActiveNav();
     initTooltips();
     initSourcePopovers();
     initInlineDepth();
