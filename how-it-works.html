@@ -15,6 +15,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/nav.js"></script>
     <link
       rel="icon"
       type="image/svg+xml"
@@ -29,14 +30,44 @@
       <p class="tag">Toward direct engagement with the Qur'an</p>
     </header>
     <nav class="primary" aria-label="Primary">
-      <a href="index.html">Home</a><a href="how-to-use.html">How to use</a
-      ><a href="navigate.html">Navigate</a><a href="read.html">Read</a
-      ><a href="roots.html">Roots</a><a href="compare.html">Compare</a
-      ><a href="words.html">Words</a><a href="patterns.html">Patterns</a
-      ><a href="exercise-asr.html">Exercise</a><a href="numbers.html">Numbers</a
-      ><a href="sources.html">Sources</a><a href="validation.html">Validation</a
-      ><a href="glossary.html">Glossary</a><a href="credits.html">Credits</a
-      ><a href="changelog.html">Changelog</a><a href="about.html">About</a>
+      <ul class="nav-groups">
+        <li class="nav-group" data-group="study">
+          <button type="button" class="nav-group-btn" aria-expanded="false" aria-haspopup="true" aria-controls="nav-menu-study">Study</button>
+          <ul id="nav-menu-study" class="nav-menu">
+            <li><a href="read.html">Read</a></li>
+            <li><a href="navigate.html">Navigate</a></li>
+            <li><a href="compare.html">Compare</a></li>
+          </ul>
+        </li>
+        <li class="nav-group" data-group="analyze">
+          <button type="button" class="nav-group-btn" aria-expanded="false" aria-haspopup="true" aria-controls="nav-menu-analyze">Analyze</button>
+          <ul id="nav-menu-analyze" class="nav-menu">
+            <li><a href="words.html">Words</a></li>
+            <li><a href="roots.html">Roots</a></li>
+            <li><a href="patterns.html">Patterns</a></li>
+            <li><a href="numbers.html">Numbers</a></li>
+          </ul>
+        </li>
+        <li class="nav-group" data-group="learn">
+          <button type="button" class="nav-group-btn" aria-expanded="false" aria-haspopup="true" aria-controls="nav-menu-learn">Learn</button>
+          <ul id="nav-menu-learn" class="nav-menu">
+            <li><a href="how-to-use.html">How to use</a></li>
+            <li><a href="exercise-asr.html">Exercise</a></li>
+            <li><a href="glossary.html">Glossary</a></li>
+          </ul>
+        </li>
+        <li class="nav-group" data-group="about">
+          <button type="button" class="nav-group-btn" aria-expanded="false" aria-haspopup="true" aria-controls="nav-menu-about">About</button>
+          <ul id="nav-menu-about" class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="sources.html">Sources</a></li>
+            <li><a href="validation.html">Validation</a></li>
+            <li><a href="credits.html">Credits</a></li>
+            <li><a href="changelog.html">Changelog</a></li>
+          </ul>
+        </li>
+      </ul>
     </nav>
     <main id="main">
       <section>
