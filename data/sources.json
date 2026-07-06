@@ -4,9 +4,11 @@
       "id": "leeds-corpus-v0.4",
       "name": "Quranic Arabic Corpus",
       "edition": "v0.4",
+      "author": "Kais Dukes",
       "publisher": "University of Leeds, School of Computing",
-      "year": "2017",
+      "year": "2009–2017",
       "url": "https://corpus.quran.com",
+      "license": "GPL",
       "accessed": "2026-05-19"
     },
     {
@@ -44,18 +46,19 @@
     },
     {
       "id": "khan-reflections-2005",
-      "name": "Reflections on the Qur'an",
+      "name": "Reflections on the Qur'an: Understanding Surahs al-Fatihah and al-Baqarah",
       "author": "Irfan Ahmad Khan",
       "publisher": "Islamic Foundation UK",
       "year": "2005"
     },
     {
       "id": "khan-exercise-2013",
-      "name": "An Exercise in Understanding the Qur'an",
+      "name": "An Exercise in Understanding the Qur'an: An Outline Study of the Last Thirty Divine Discourses (Surah 85 to Surah 114)",
       "author": "Irfan Ahmad Khan",
       "publisher": "Association of Quranic Understanding",
       "year": "2013",
-      "isbn": "9781567447736"
+      "isbn": "9781567447736",
+      "note": "Foreword by Mustansir Mir. 213 pp."
     },
     {
       "id": "tanzil",
@@ -64,7 +67,16 @@
       "publisher": "Tanzil Project",
       "year": "2024",
       "url": "https://tanzil.net",
+      "license": "CC BY-ND 3.0",
       "accessed": "2026-05-19"
+    },
+    {
+      "id": "the-clear-quran",
+      "name": "The Clear Quran: A Thematic English Translation",
+      "author": "Dr. Mustafa Khattab",
+      "publisher": "Book of Signs Foundation",
+      "year": "2016",
+      "isbn": "9780998539003"
     }
   ]
 }
