@@ -53,9 +53,24 @@
       .p-row select {
         min-width: 200px;
       }
-      .p-row input {
-        flex: 1;
-        min-width: 140px;
+      .p-start,
+      .p-end {
+        width: 72px;
+      }
+      .p-start::-webkit-inner-spin-button,
+      .p-start::-webkit-outer-spin-button,
+      .p-end::-webkit-inner-spin-button,
+      .p-end::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      .p-start,
+      .p-end {
+        -moz-appearance: textfield;
+      }
+      .p-sep {
+        color: var(--muted);
+        flex-shrink: 0;
       }
       .p-remove {
         background: none;
@@ -645,15 +660,6 @@
           return out;
         }
 
-        function parseRange(str) {
-          const m = str.trim().match(/^(\d+)(?:[–\-](\d+))?$/);
-          if (!m) return null;
-          const a = parseInt(m[1], 10);
-          const b = m[2] ? parseInt(m[2], 10) : a;
-          if (a < 1 || b < a) return null;
-          return [a, b];
-        }
-
         // ── Data loading (cached) ──────────────────────────────────────────────
 
         const morphCache = {};
@@ -756,12 +762,33 @@
           const sel = makeSelect(idx);
           row.appendChild(sel);
 
-          const inp = document.createElement("input");
-          inp.type = "text";
-          inp.className = "p-range";
-          inp.placeholder = "e.g. 255 or 22–24";
-          inp.setAttribute("aria-label", "Passage " + (idx + 1) + " verses");
-          row.appendChild(inp);
+          const start = document.createElement("input");
+          start.type = "number";
+          start.className = "p-start";
+          start.placeholder = "Verse";
+          start.min = "1";
+          start.setAttribute(
+            "aria-label",
+            "Passage " + (idx + 1) + " start verse",
+          );
+          row.appendChild(start);
+
+          const sep = document.createElement("span");
+          sep.className = "p-sep";
+          sep.setAttribute("aria-hidden", "true");
+          sep.textContent = "–";
+          row.appendChild(sep);
+
+          const end = document.createElement("input");
+          end.type = "number";
+          end.className = "p-end";
+          end.placeholder = "end";
+          end.min = "1";
+          end.setAttribute(
+            "aria-label",
+            "Passage " + (idx + 1) + " end verse (optional)",
+          );
+          row.appendChild(end);
 
           if (removable) {
             const btn = document.createElement("button");
@@ -1003,22 +1030,26 @@
 
           for (let i = 0; i < rows.length; i++) {
             const surahVal = rows[i].querySelector(".p-surah").value;
-            const rangeStr = rows[i].querySelector(".p-range").value;
             const surah = parseInt(surahVal, 10);
             if (!surahVal || isNaN(surah)) {
               setError("Passage " + (i + 1) + ": select a surah.");
               return;
             }
-            const range = parseRange(rangeStr);
-            if (!range) {
+            const startVal = rows[i].querySelector(".p-start").value.trim();
+            const endVal = rows[i].querySelector(".p-end").value.trim();
+            const start = parseInt(startVal, 10);
+            if (!startVal || isNaN(start) || start < 1) {
+              setError("Passage " + (i + 1) + ": enter a verse number.");
+              return;
+            }
+            const end = endVal ? parseInt(endVal, 10) : start;
+            if (isNaN(end) || end < start) {
               setError(
-                "Passage " +
-                  (i + 1) +
-                  ": enter a valid verse range (e.g. 255 or 22–24).",
+                "Passage " + (i + 1) + ": end verse must be ≥ start verse.",
               );
               return;
             }
-            const ayatCount = range[1] - range[0] + 1;
+            const ayatCount = end - start + 1;
             if (ayatCount > 30) {
               setError(
                 "Passage " +
@@ -1029,7 +1060,7 @@
               );
               return;
             }
-            inputs.push({ surah: surah, start: range[0], end: range[1] });
+            inputs.push({ surah: surah, start: start, end: end });
           }
 
           const loadBtn = document.getElementById("load-passages");
@@ -1159,8 +1190,8 @@
           const m = str.match(/^(\d+):(\d+)(?:-(\d+))?$/);
           if (!m) return false;
           row.querySelector(".p-surah").value = m[1];
-          row.querySelector(".p-range").value =
-            m[3] && m[3] !== m[2] ? m[2] + "–" + m[3] : m[2];
+          row.querySelector(".p-start").value = m[2];
+          if (m[3] && m[3] !== m[2]) row.querySelector(".p-end").value = m[3];
           return true;
         }
 
