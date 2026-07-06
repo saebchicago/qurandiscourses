@@ -6,7 +6,7 @@
     <title>Compare · Discourses</title>
     <meta
       name="description"
-      content="Overlay the chronological distributions of two Qur'anic roots side by side."
+      content="Compare Qur'anic roots by chronological distribution, or compare passages by shared vocabulary."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,7 +15,77 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/surahs.js"></script>
     <script src="assets/nav.js"></script>
+    <style>
+      .mode-tabs {
+        display: flex;
+        border-bottom: 2px solid var(--line);
+        margin-bottom: 1.5rem;
+      }
+      .mode-tab {
+        background: none;
+        border: none;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+        padding: 0.45rem 1rem;
+        font: inherit;
+        font-size: 0.95rem;
+        cursor: pointer;
+        color: var(--muted);
+        transition: color 0.15s;
+      }
+      .mode-tab[aria-selected="true"] {
+        color: var(--body);
+        border-bottom-color: var(--accent);
+        font-weight: 600;
+      }
+      .mode-tab:hover {
+        color: var(--body);
+      }
+      .p-row {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        flex-wrap: wrap;
+      }
+      .p-row select {
+        min-width: 200px;
+      }
+      .p-start,
+      .p-end {
+        width: 72px;
+      }
+      .p-start::-webkit-inner-spin-button,
+      .p-start::-webkit-outer-spin-button,
+      .p-end::-webkit-inner-spin-button,
+      .p-end::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      .p-start,
+      .p-end {
+        -moz-appearance: textfield;
+      }
+      .p-sep {
+        color: var(--muted);
+        flex-shrink: 0;
+      }
+      .p-remove {
+        background: none;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 0.15rem 0.5rem;
+        cursor: pointer;
+        color: var(--muted);
+        font-size: 1rem;
+        line-height: 1.8;
+      }
+      .p-remove:hover {
+        color: var(--body);
+      }
+    </style>
   </head>
   <body>
     <a href="#main" class="skip">Skip to main content</a>
@@ -27,7 +97,15 @@
     <nav class="primary" aria-label="Primary">
       <ul class="nav-groups">
         <li class="nav-group" data-group="study">
-          <button type="button" class="nav-group-btn" aria-expanded="false" aria-haspopup="true" aria-controls="nav-menu-study">Study</button>
+          <button
+            type="button"
+            class="nav-group-btn"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="nav-menu-study"
+          >
+            Study
+          </button>
           <ul id="nav-menu-study" class="nav-menu">
             <li><a href="read.html">Read</a></li>
             <li><a href="navigate.html">Navigate</a></li>
@@ -35,7 +113,15 @@
           </ul>
         </li>
         <li class="nav-group" data-group="analyze">
-          <button type="button" class="nav-group-btn" aria-expanded="false" aria-haspopup="true" aria-controls="nav-menu-analyze">Analyze</button>
+          <button
+            type="button"
+            class="nav-group-btn"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="nav-menu-analyze"
+          >
+            Analyze
+          </button>
           <ul id="nav-menu-analyze" class="nav-menu">
             <li><a href="words.html">Words</a></li>
             <li><a href="roots.html">Roots</a></li>
@@ -44,7 +130,15 @@
           </ul>
         </li>
         <li class="nav-group" data-group="learn">
-          <button type="button" class="nav-group-btn" aria-expanded="false" aria-haspopup="true" aria-controls="nav-menu-learn">Learn</button>
+          <button
+            type="button"
+            class="nav-group-btn"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="nav-menu-learn"
+          >
+            Learn
+          </button>
           <ul id="nav-menu-learn" class="nav-menu">
             <li><a href="how-to-use.html">How to use</a></li>
             <li><a href="exercise-asr.html">Exercise</a></li>
@@ -52,7 +146,15 @@
           </ul>
         </li>
         <li class="nav-group" data-group="about">
-          <button type="button" class="nav-group-btn" aria-expanded="false" aria-haspopup="true" aria-controls="nav-menu-about">About</button>
+          <button
+            type="button"
+            class="nav-group-btn"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="nav-menu-about"
+          >
+            About
+          </button>
           <ul id="nav-menu-about" class="nav-menu">
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
@@ -66,140 +168,241 @@
     </nav>
     <main id="main">
       <section>
-        <h2>Compare two roots</h2>
-        <p class="lede">
-          Pick any two roots to overlay their chronological distributions. The
-          shape of how a root appears across the four periods of revelation is
-          often more informative than its raw count.
-        </p>
-
-        <div class="card">
-          <div
-            style="
-              display: flex;
-              gap: 0.75rem;
-              flex-wrap: wrap;
-              margin-bottom: 1rem;
-            "
+        <div class="mode-tabs" role="tablist" aria-label="Compare mode">
+          <button
+            id="btn-roots"
+            role="tab"
+            class="mode-tab"
+            aria-selected="true"
+            aria-controls="panel-roots"
           >
-            <div style="flex: 1; min-width: 180px; position: relative">
-              <label
-                for="rootA"
-                style="
-                  font-size: 0.85rem;
-                  color: var(--muted);
-                  display: block;
-                  margin-bottom: 0.2rem;
-                "
-                >Root A</label
-              >
-              <input
-                type="search"
-                id="rootA"
-                placeholder="e.g. rHm or mercy"
-                autocomplete="off"
-                style="width: 100%"
-              />
-              <ul
-                id="suggA"
-                class="root-suggest"
-                role="listbox"
-                aria-live="polite"
-                hidden
-              ></ul>
-            </div>
-            <div style="flex: 1; min-width: 180px; position: relative">
-              <label
-                for="rootB"
-                style="
-                  font-size: 0.85rem;
-                  color: var(--muted);
-                  display: block;
-                  margin-bottom: 0.2rem;
-                "
-                >Root B</label
-              >
-              <input
-                type="search"
-                id="rootB"
-                placeholder="e.g. E*b or punishment"
-                autocomplete="off"
-                style="width: 100%"
-              />
-              <ul
-                id="suggB"
-                class="root-suggest"
-                role="listbox"
-                aria-live="polite"
-                hidden
-              ></ul>
-            </div>
-          </div>
+            Roots
+          </button>
+          <button
+            id="btn-passages"
+            role="tab"
+            class="mode-tab"
+            aria-selected="false"
+            aria-controls="panel-passages"
+          >
+            Passages
+          </button>
+        </div>
 
-          <div id="compareCanvas" hidden>
+        <!-- ── Roots panel ─────────────────────────────────────────────────── -->
+        <div id="panel-roots" role="tabpanel" aria-labelledby="btn-roots">
+          <h2>Compare two roots</h2>
+          <p class="lede">
+            Pick any two roots to overlay their chronological distributions. The
+            shape of how a root appears across the four periods of revelation is
+            often more informative than its raw count.
+          </p>
+
+          <div class="card">
             <div
-              id="sameRootNotice"
-              hidden
               style="
-                background: var(--card);
-                border: 1px solid var(--line);
-                border-radius: 4px;
-                padding: 0.75rem 1rem;
-                margin: 0 0 1rem;
-                font-size: 0.92rem;
-                color: var(--muted);
+                display: flex;
+                gap: 0.75rem;
+                flex-wrap: wrap;
+                margin-bottom: 1rem;
               "
             >
-              You selected the same root twice. The two distributions will be
-              identical. Choose a different second root for a meaningful
-              comparison.
+              <div style="flex: 1; min-width: 180px; position: relative">
+                <label
+                  for="rootA"
+                  style="
+                    font-size: 0.85rem;
+                    color: var(--muted);
+                    display: block;
+                    margin-bottom: 0.2rem;
+                  "
+                  >Root A</label
+                >
+                <input
+                  type="search"
+                  id="rootA"
+                  placeholder="e.g. rHm or mercy"
+                  autocomplete="off"
+                  style="width: 100%"
+                />
+                <ul
+                  id="suggA"
+                  class="root-suggest"
+                  role="listbox"
+                  aria-live="polite"
+                  hidden
+                ></ul>
+              </div>
+              <div style="flex: 1; min-width: 180px; position: relative">
+                <label
+                  for="rootB"
+                  style="
+                    font-size: 0.85rem;
+                    color: var(--muted);
+                    display: block;
+                    margin-bottom: 0.2rem;
+                  "
+                  >Root B</label
+                >
+                <input
+                  type="search"
+                  id="rootB"
+                  placeholder="e.g. E*b or punishment"
+                  autocomplete="off"
+                  style="width: 100%"
+                />
+                <ul
+                  id="suggB"
+                  class="root-suggest"
+                  role="listbox"
+                  aria-live="polite"
+                  hidden
+                ></ul>
+              </div>
             </div>
-            <h3 id="compareHeading" style="margin: 0 0 0.5rem"></h3>
+
+            <div id="compareCanvas" hidden>
+              <div
+                id="sameRootNotice"
+                hidden
+                style="
+                  background: var(--card);
+                  border: 1px solid var(--line);
+                  border-radius: 4px;
+                  padding: 0.75rem 1rem;
+                  margin: 0 0 1rem;
+                  font-size: 0.92rem;
+                  color: var(--muted);
+                "
+              >
+                You selected the same root twice. The two distributions will be
+                identical. Choose a different second root for a meaningful
+                comparison.
+              </div>
+              <h3 id="compareHeading" style="margin: 0 0 0.5rem"></h3>
+              <p
+                id="compareLegend"
+                style="font-size: 0.88rem; margin: 0 0 0.75rem"
+              ></p>
+              <div id="compareBars"></div>
+              <p class="prov" style="margin-top: 0.75rem">
+                <span
+                  class="badge ok"
+                  data-source-ids="leeds-corpus-v0.4"
+                  aria-label="Verified"
+                  tabindex="0"
+                  title="Verified · confirmed from a primary source"
+                  >●</span
+                >
+                chronological distribution from Leeds morphology + Egyptian
+                Standard (Cairo 1924) revelation order.
+              </p>
+            </div>
+
             <p
-              id="compareLegend"
-              style="font-size: 0.88rem; margin: 0 0 0.75rem"
-            ></p>
-            <div id="compareBars"></div>
-            <p class="prov" style="margin-top: 0.75rem">
-              <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> chronological distribution
-              from Leeds morphology + Egyptian Standard (Cairo 1924) revelation
-              order.
+              id="comparePrompt"
+              style="color: var(--muted); font-size: 0.9rem; margin: 0"
+            >
+              Type the start of a root (transliteration, Arabic script, or
+              English meaning) into each field, then pick from suggestions.
             </p>
           </div>
 
-          <p
-            id="comparePrompt"
-            style="color: var(--muted); font-size: 0.9rem; margin: 0"
-          >
-            Type the start of a root (transliteration, Arabic script, or English
-            meaning) into each field, then pick from suggestions.
-          </p>
+          <div class="card scholar-only">
+            <h3>Examples worth comparing</h3>
+            <ul style="font-size: 0.92rem; line-height: 1.7">
+              <li>
+                <a href="#" data-pair="rHm|E*b"
+                  >mercy (r-ḥ-m) vs. punishment (ʿ-dh-b)</a
+                >. How late-Meccan concentration on mercy contrasts with
+                early-middle emphasis on punishment
+              </li>
+              <li>
+                <a href="#" data-pair="Alh|rbb">God (a-l-h) vs. Lord (r-b-b)</a
+                >. Both ubiquitous, but distributed differently across periods
+              </li>
+              <li>
+                <a href="#" data-pair="Elm|hdy"
+                  >knowledge (ʿ-l-m) vs. guidance (h-d-y)</a
+                >. Overlapping themes, distinct chronological rhythms
+              </li>
+              <li>
+                <a href="#" data-pair="Amn|kfr"
+                  >faith (a-m-n) vs. disbelief (k-f-r)</a
+                >. Counterposed concepts, revealing their proportions by period
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div class="card scholar-only">
-          <h3>Examples worth comparing</h3>
-          <ul style="font-size: 0.92rem; line-height: 1.7">
-            <li>
-              <a href="#" data-pair="rHm|E*b"
-                >mercy (r-ḥ-m) vs. punishment (ʿ-dh-b)</a
-              >. How late-Meccan concentration on mercy contrasts with
-              early-middle emphasis on punishment
-            </li>
-            <li>
-              <a href="#" data-pair="Alh|rbb">God (a-l-h) vs. Lord (r-b-b)</a>.
-              Both ubiquitous, but distributed differently across periods
-            </li>
-            <li>
-              <a href="#" data-pair="Elm|hdy"
-                >knowledge (ʿ-l-m) vs. guidance (h-d-y)</a
-              >. Overlapping themes, distinct chronological rhythms
-            </li>
-            <li>
-              <a href="#" data-pair="Amn|kfr"
-                >faith (a-m-n) vs. disbelief (k-f-r)</a
-              >. Counterposed concepts, revealing their proportions by period
-            </li>
-          </ul>
+        <!-- ── Passages panel ──────────────────────────────────────────────── -->
+        <div
+          id="panel-passages"
+          role="tabpanel"
+          aria-labelledby="btn-passages"
+          hidden
+        >
+          <h2>Compare passages</h2>
+          <p class="lede">
+            Select two or three passages to see which roots they share. Lexical
+            overlap is a starting point, not a conclusion.
+          </p>
+
+          <div class="card">
+            <div id="passages-rows"></div>
+            <div style="margin: 0.5rem 0 0.75rem">
+              <button
+                type="button"
+                id="add-passage"
+                style="
+                  background: none;
+                  border: 1px solid var(--line);
+                  border-radius: 4px;
+                  padding: 0.3rem 0.75rem;
+                  cursor: pointer;
+                  font-size: 0.88rem;
+                  color: var(--muted);
+                "
+              >
+                + Add passage
+              </button>
+            </div>
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-size: 0.88rem;
+                color: var(--muted);
+                margin: 0 0 0.75rem;
+              "
+            >
+              <input type="checkbox" id="show-common" />
+              Include very common roots (corpus total &gt; 1,000)
+            </label>
+            <button
+              type="button"
+              id="load-passages"
+              style="
+                background: var(--accent);
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                padding: 0.45rem 1.25rem;
+                cursor: pointer;
+                font-size: 0.95rem;
+              "
+            >
+              Load
+            </button>
+            <p
+              id="passages-error"
+              hidden
+              style="font-size: 0.88rem; margin: 0.5rem 0 0; color: #c0392b"
+            ></p>
+          </div>
+
+          <div id="passages-result" hidden></div>
         </div>
       </section>
     </main>
@@ -440,6 +643,574 @@
           });
       })();
     </script>
+    <script>
+      (function () {
+        "use strict";
+
+        // ── Utilities ──────────────────────────────────────────────────────────
+
+        function safeKey(bw) {
+          let out = "";
+          for (const c of bw) {
+            if (c === "*") out += "dh";
+            else if (c === "$") out += "sh";
+            else if (c >= "A" && c <= "Z") out += "u" + c;
+            else out += c;
+          }
+          return out;
+        }
+
+        // ── Data loading (cached) ──────────────────────────────────────────────
+
+        const morphCache = {};
+        function loadMorph(surah) {
+          if (!morphCache[surah]) {
+            morphCache[surah] = fetch(
+              "data/morphology/" + surah + ".json",
+            ).then(function (r) {
+              if (!r.ok) throw new Error("HTTP " + r.status);
+              return r.json();
+            });
+          }
+          return morphCache[surah];
+        }
+
+        const textCache = {};
+        function loadSurahText(surah) {
+          if (!textCache[surah]) {
+            textCache[surah] = Promise.resolve(window.qdFetchSurah(surah));
+          }
+          return textCache[surah];
+        }
+
+        let rootsSummaryP = null;
+        function loadRootsSummary() {
+          if (!rootsSummaryP) {
+            rootsSummaryP = fetch("data/roots-summary.json").then(function (r) {
+              return r.json();
+            });
+          }
+          return rootsSummaryP;
+        }
+
+        // ── Compute roots for a verse range ────────────────────────────────────
+
+        function computePassageRoots(surah, start, end) {
+          return loadMorph(surah).then(function (morph) {
+            const counts = {};
+            for (let v = start; v <= end; v++) {
+              const words = morph[String(v)] || [];
+              for (let i = 0; i < words.length; i++) {
+                const root = words[i].root;
+                if (root) counts[root] = (counts[root] || 0) + 1;
+              }
+            }
+            return counts;
+          });
+        }
+
+        // ── Fetch Arabic + translation ──────────────────────────────────────────
+
+        function fetchPassageText(surah, start, end) {
+          return loadSurahText(surah).then(function (editions) {
+            const arabicAyahs = (
+              (editions[0] && editions[0].ayahs) ||
+              []
+            ).filter(function (a) {
+              return a.numberInSurah >= start && a.numberInSurah <= end;
+            });
+            const transAyahs = (
+              (editions[1] && editions[1].ayahs) ||
+              []
+            ).filter(function (a) {
+              return a.numberInSurah >= start && a.numberInSurah <= end;
+            });
+            return { arabicAyahs: arabicAyahs, transAyahs: transAyahs };
+          });
+        }
+
+        // ── Build surah select element ─────────────────────────────────────────
+
+        function makeSelect(labelIdx) {
+          const sel = document.createElement("select");
+          sel.className = "p-surah";
+          sel.setAttribute(
+            "aria-label",
+            "Passage " + (labelIdx + 1) + " surah",
+          );
+          const ph = document.createElement("option");
+          ph.value = "";
+          ph.textContent = "Surah…";
+          sel.appendChild(ph);
+          const surahs = window.SURAHS || [];
+          for (let i = 0; i < surahs.length; i++) {
+            const opt = document.createElement("option");
+            opt.value = String(surahs[i].id);
+            opt.textContent = surahs[i].id + " · " + surahs[i].en;
+            sel.appendChild(opt);
+          }
+          return sel;
+        }
+
+        // ── Add a passage input row ────────────────────────────────────────────
+
+        function addPassageRow(container, removable) {
+          const idx = container.querySelectorAll(".p-row").length;
+          const row = document.createElement("div");
+          row.className = "p-row";
+
+          const sel = makeSelect(idx);
+          row.appendChild(sel);
+
+          const start = document.createElement("input");
+          start.type = "number";
+          start.className = "p-start";
+          start.placeholder = "Verse";
+          start.min = "1";
+          start.setAttribute(
+            "aria-label",
+            "Passage " + (idx + 1) + " start verse",
+          );
+          row.appendChild(start);
+
+          const sep = document.createElement("span");
+          sep.className = "p-sep";
+          sep.setAttribute("aria-hidden", "true");
+          sep.textContent = "–";
+          row.appendChild(sep);
+
+          const end = document.createElement("input");
+          end.type = "number";
+          end.className = "p-end";
+          end.placeholder = "end";
+          end.min = "1";
+          end.setAttribute(
+            "aria-label",
+            "Passage " + (idx + 1) + " end verse (optional)",
+          );
+          row.appendChild(end);
+
+          if (removable) {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "p-remove";
+            btn.setAttribute("aria-label", "Remove passage");
+            btn.textContent = "×";
+            btn.addEventListener("click", function () {
+              row.remove();
+              document.getElementById("add-passage").hidden = false;
+            });
+            row.appendChild(btn);
+          }
+
+          container.appendChild(row);
+        }
+
+        // ── Error display ──────────────────────────────────────────────────────
+
+        function setError(msg) {
+          const el = document.getElementById("passages-error");
+          el.textContent = msg;
+          el.hidden = !msg;
+        }
+
+        // ── Render results ─────────────────────────────────────────────────────
+
+        function renderResults(passages, rootsSummary, showCommon) {
+          const resultEl = document.getElementById("passages-result");
+          resultEl.innerHTML = "";
+          resultEl.hidden = false;
+
+          // Passage columns
+          const colCard = document.createElement("div");
+          colCard.className = "card";
+          const colsWrap = document.createElement("div");
+          colsWrap.style.cssText = "display:flex;gap:1.5rem;flex-wrap:wrap";
+
+          for (let i = 0; i < passages.length; i++) {
+            const p = passages[i];
+            const col = document.createElement("div");
+            col.style.cssText = "flex:1;min-width:220px";
+
+            const sObj = (window.SURAHS || []).find(function (x) {
+              return x.id === p.surah;
+            });
+            const rangeLabel =
+              p.start === p.end
+                ? p.surah + ":" + p.start
+                : p.surah + ":" + p.start + "–" + p.end;
+            const rootCount = Object.keys(p.rootCounts).length;
+
+            let html =
+              '<h4 style="margin:0 0 0.2rem;font-size:1rem">' +
+              rangeLabel +
+              (sObj
+                ? ' <span style="font-weight:400;color:var(--muted)">· ' +
+                  sObj.en +
+                  "</span>"
+                : "") +
+              "</h4>" +
+              '<p style="font-size:0.82rem;color:var(--muted);margin:0 0 0.75rem">' +
+              rootCount +
+              " unique root" +
+              (rootCount !== 1 ? "s" : "") +
+              "</p>";
+
+            if (p.arabicAyahs.length) {
+              html +=
+                '<div class="notranslate" lang="ar" dir="rtl" translate="no" style="font-family:\'Amiri\',serif;font-size:1.25rem;line-height:2;margin-bottom:0.75rem">';
+              for (let j = 0; j < p.arabicAyahs.length; j++) {
+                const a = p.arabicAyahs[j];
+                html += "<div>(" + a.numberInSurah + ") " + a.text + "</div>";
+              }
+              html += "</div>";
+            }
+
+            if (p.transAyahs.length) {
+              html +=
+                '<div style="font-size:0.88rem;line-height:1.65;border-top:1px solid var(--line);padding-top:0.5rem">';
+              for (let j = 0; j < p.transAyahs.length; j++) {
+                const a = p.transAyahs[j];
+                html +=
+                  '<p style="margin:0 0 0.35rem">(' +
+                  a.numberInSurah +
+                  ") " +
+                  a.text +
+                  "</p>";
+              }
+              html += "</div>";
+            }
+
+            html +=
+              '<p class="prov" style="margin:0.6rem 0 0;font-size:0.78rem">Arabic from Tanzil Uthmani via alquran.cloud.</p>';
+            col.innerHTML = html;
+            colsWrap.appendChild(col);
+          }
+
+          colCard.appendChild(colsWrap);
+          resultEl.appendChild(colCard);
+
+          // Shared-roots card
+          const allBw = new Set();
+          for (let i = 0; i < passages.length; i++) {
+            const keys = Object.keys(passages[i].rootCounts);
+            for (let j = 0; j < keys.length; j++) allBw.add(keys[j]);
+          }
+
+          const shared = [];
+          let hiddenCount = 0;
+
+          allBw.forEach(function (bw) {
+            const inCount = passages.filter(function (p) {
+              return p.rootCounts[bw];
+            }).length;
+            if (inCount < 2) return;
+            const total =
+              (rootsSummary[bw] && rootsSummary[bw].totalCount) || 0;
+            if (!showCommon && total > 1000) {
+              hiddenCount++;
+              return;
+            }
+            shared.push({
+              bw: bw,
+              arabic: (rootsSummary[bw] && rootsSummary[bw].rootArabic) || "",
+              rootLatin: (rootsSummary[bw] && rootsSummary[bw].rootLatin) || bw,
+              total: total,
+              counts: passages.map(function (p) {
+                return p.rootCounts[bw] || 0;
+              }),
+            });
+          });
+
+          shared.sort(function (a, b) {
+            const sa = a.counts.reduce(function (x, y) {
+              return x + y;
+            }, 0);
+            const sb = b.counts.reduce(function (x, y) {
+              return x + y;
+            }, 0);
+            return sb - sa;
+          });
+
+          const sharedCard = document.createElement("div");
+          sharedCard.className = "card";
+          sharedCard.style.marginTop = "1rem";
+
+          if (shared.length === 0) {
+            const note =
+              hiddenCount > 0
+                ? " (" + hiddenCount + " very common hidden)"
+                : "";
+            sharedCard.innerHTML =
+              '<p style="color:var(--muted);font-size:0.9rem;margin:0">No shared roots found' +
+              note +
+              ".</p>";
+          } else {
+            const hiddenNote =
+              hiddenCount > 0 ? "; " + hiddenCount + " very common hidden" : "";
+            let html =
+              '<h3 style="margin:0 0 0.75rem;font-size:1.05rem">Shared roots (' +
+              shared.length +
+              hiddenNote +
+              ")</h3>" +
+              '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:0.88rem">' +
+              '<thead><tr style="border-bottom:2px solid var(--line)">' +
+              '<th style="text-align:left;padding:0.3rem 0.5rem">Root</th>';
+
+            for (let i = 0; i < passages.length; i++) {
+              const p = passages[i];
+              const ref =
+                p.start === p.end
+                  ? p.surah + ":" + p.start
+                  : p.surah + ":" + p.start + "–" + p.end;
+              html +=
+                '<th style="text-align:right;padding:0.3rem 0.5rem">' +
+                ref +
+                "</th>";
+            }
+            html +=
+              '<th style="text-align:right;padding:0.3rem 0.5rem;color:var(--muted)">Total</th>' +
+              "</tr></thead><tbody>";
+
+            for (let i = 0; i < shared.length; i++) {
+              const r = shared[i];
+              html +=
+                '<tr style="border-bottom:1px solid var(--line)">' +
+                '<td style="padding:0.3rem 0.5rem"><a href="roots.html?root=' +
+                safeKey(r.bw) +
+                '" style="text-decoration:none">' +
+                '<span class="notranslate" lang="ar" dir="rtl" translate="no" style="font-family:\'Amiri\',serif;font-size:1.1rem;margin-right:0.4rem">' +
+                r.arabic +
+                "</span>" +
+                '<span style="color:var(--muted);font-size:0.82rem">' +
+                r.rootLatin +
+                "</span>" +
+                "</a></td>";
+              for (let j = 0; j < r.counts.length; j++) {
+                html +=
+                  '<td style="text-align:right;padding:0.3rem 0.5rem;font-variant-numeric:tabular-nums">' +
+                  r.counts[j] +
+                  "</td>";
+              }
+              html +=
+                '<td style="text-align:right;padding:0.3rem 0.5rem;font-variant-numeric:tabular-nums;color:var(--muted)">' +
+                r.total.toLocaleString() +
+                "</td>" +
+                "</tr>";
+            }
+
+            html += "</tbody></table></div>";
+            sharedCard.innerHTML = html;
+          }
+
+          resultEl.appendChild(sharedCard);
+
+          // Method disclosure
+          const methodEl = document.createElement("details");
+          methodEl.className = "method-note";
+          methodEl.style.cssText = "margin-top:0.75rem;font-size:0.85rem";
+          methodEl.innerHTML =
+            '<summary style="cursor:pointer;color:var(--muted)">' +
+            '<span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Method</summary>' +
+            '<p style="margin:0.5rem 0 0;color:var(--muted);line-height:1.6">' +
+            "Computed from Leeds Quranic Arabic Corpus v0.4: roots present in each selected passage, intersected. " +
+            "Lexical overlap only; shared vocabulary does not by itself establish thematic connection." +
+            "</p>";
+          resultEl.appendChild(methodEl);
+
+          resultEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+
+        // ── Load handler ────────────────────────────────────────────────────────
+
+        function loadPassages() {
+          setError("");
+          const rows = Array.from(document.querySelectorAll(".p-row"));
+          const inputs = [];
+
+          for (let i = 0; i < rows.length; i++) {
+            const surahVal = rows[i].querySelector(".p-surah").value;
+            const surah = parseInt(surahVal, 10);
+            if (!surahVal || isNaN(surah)) {
+              setError("Passage " + (i + 1) + ": select a surah.");
+              return;
+            }
+            const startVal = rows[i].querySelector(".p-start").value.trim();
+            const endVal = rows[i].querySelector(".p-end").value.trim();
+            const start = parseInt(startVal, 10);
+            if (!startVal || isNaN(start) || start < 1) {
+              setError("Passage " + (i + 1) + ": enter a verse number.");
+              return;
+            }
+            const end = endVal ? parseInt(endVal, 10) : start;
+            if (isNaN(end) || end < start) {
+              setError(
+                "Passage " + (i + 1) + ": end verse must be ≥ start verse.",
+              );
+              return;
+            }
+            const ayatCount = end - start + 1;
+            if (ayatCount > 30) {
+              setError(
+                "Passage " +
+                  (i + 1) +
+                  ": " +
+                  ayatCount +
+                  " verses selected; maximum is 30.",
+              );
+              return;
+            }
+            inputs.push({ surah: surah, start: start, end: end });
+          }
+
+          const loadBtn = document.getElementById("load-passages");
+          loadBtn.disabled = true;
+          loadBtn.textContent = "Loading…";
+
+          const promises = [loadRootsSummary()];
+          for (let i = 0; i < inputs.length; i++) {
+            (function (inp) {
+              promises.push(
+                Promise.all([
+                  computePassageRoots(inp.surah, inp.start, inp.end),
+                  fetchPassageText(inp.surah, inp.start, inp.end),
+                ]).then(function (results) {
+                  return {
+                    surah: inp.surah,
+                    start: inp.start,
+                    end: inp.end,
+                    rootCounts: results[0],
+                    arabicAyahs: results[1].arabicAyahs,
+                    transAyahs: results[1].transAyahs,
+                  };
+                }),
+              );
+            })(inputs[i]);
+          }
+
+          Promise.all(promises)
+            .then(function (results) {
+              const rootsSummary = results[0];
+              const passages = results.slice(1);
+              const showCommon = document.getElementById("show-common").checked;
+              renderResults(passages, rootsSummary, showCommon);
+
+              // URL sync
+              const url = new URL(window.location);
+              url.searchParams.set("mode", "passages");
+              for (let i = 0; i < inputs.length; i++) {
+                const inp = inputs[i];
+                const ref =
+                  inp.start === inp.end
+                    ? inp.surah + ":" + inp.start
+                    : inp.surah + ":" + inp.start + "-" + inp.end;
+                url.searchParams.set("p" + (i + 1), ref);
+              }
+              for (let i = inputs.length + 1; i <= 3; i++)
+                url.searchParams.delete("p" + i);
+              url.searchParams.delete("a");
+              url.searchParams.delete("b");
+              history.replaceState({}, "", url);
+            })
+            .catch(function (err) {
+              setError(
+                "Could not load data. Check your connection and try again.",
+              );
+              console.error(err);
+            })
+            .finally(function () {
+              loadBtn.disabled = false;
+              loadBtn.textContent = "Load";
+            });
+        }
+
+        // ── Mode toggle ─────────────────────────────────────────────────────────
+
+        function setMode(mode) {
+          const isPassages = mode === "passages";
+          document.getElementById("panel-roots").hidden = isPassages;
+          document.getElementById("panel-passages").hidden = !isPassages;
+          document
+            .getElementById("btn-roots")
+            .setAttribute("aria-selected", String(!isPassages));
+          document
+            .getElementById("btn-passages")
+            .setAttribute("aria-selected", String(isPassages));
+        }
+
+        document
+          .getElementById("btn-roots")
+          .addEventListener("click", function () {
+            setMode("roots");
+            const url = new URL(window.location);
+            url.searchParams.set("mode", "roots");
+            history.replaceState({}, "", url);
+          });
+
+        document
+          .getElementById("btn-passages")
+          .addEventListener("click", function () {
+            setMode("passages");
+            const url = new URL(window.location);
+            url.searchParams.set("mode", "passages");
+            history.replaceState({}, "", url);
+          });
+
+        // ── Boot ────────────────────────────────────────────────────────────────
+
+        const rowsContainer = document.getElementById("passages-rows");
+        addPassageRow(rowsContainer, false);
+        addPassageRow(rowsContainer, false);
+
+        document
+          .getElementById("add-passage")
+          .addEventListener("click", function () {
+            if (rowsContainer.querySelectorAll(".p-row").length >= 3) return;
+            addPassageRow(rowsContainer, true);
+            if (rowsContainer.querySelectorAll(".p-row").length >= 3) {
+              document.getElementById("add-passage").hidden = true;
+            }
+          });
+
+        document
+          .getElementById("load-passages")
+          .addEventListener("click", loadPassages);
+
+        document
+          .getElementById("show-common")
+          .addEventListener("change", function () {
+            if (!document.getElementById("passages-result").hidden) {
+              loadPassages();
+            }
+          });
+
+        // URL hydration
+        function applyParam(row, str) {
+          if (!str) return false;
+          const m = str.match(/^(\d+):(\d+)(?:-(\d+))?$/);
+          if (!m) return false;
+          row.querySelector(".p-surah").value = m[1];
+          row.querySelector(".p-start").value = m[2];
+          if (m[3] && m[3] !== m[2]) row.querySelector(".p-end").value = m[3];
+          return true;
+        }
+
+        const params = new URLSearchParams(location.search);
+        if (params.get("mode") === "passages") {
+          setMode("passages");
+          const rows = rowsContainer.querySelectorAll(".p-row");
+          applyParam(rows[0], params.get("p1"));
+          applyParam(rows[1], params.get("p2"));
+          if (params.get("p3")) {
+            document.getElementById("add-passage").click();
+            const rows3 = rowsContainer.querySelectorAll(".p-row");
+            applyParam(rows3[2], params.get("p3"));
+          }
+          if (params.get("p1") && params.get("p2")) loadPassages();
+        }
+      })();
+    </script>
+    <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
   </body>
 </html>
