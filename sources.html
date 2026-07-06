@@ -413,6 +413,19 @@
               >●</span
             >
           </li>
+          <li>
+            <strong>The Clear Quran: A Thematic English Translation</strong>.
+            Dr. Mustafa Khattab. Book of Signs Foundation, 2016. ISBN
+            9780998539003.
+            <span
+              class="badge ok"
+              data-source-ids="the-clear-quran"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · confirmed from a primary source"
+              >●</span
+            >
+          </li>
           <li class="scholar-only">
             Asad, The Message of the Qur'an (1980).
             <span
@@ -934,6 +947,24 @@
         <h3>APIs and digital tools</h3>
         <ul>
           <li>
+            <strong>Quran.com Foundation Content API v4</strong>. Quran.com
+            Foundation, 2025.
+            <a href="https://api-docs.quran.foundation" rel="noopener"
+              >api-docs.quran.foundation</a
+            >. Used for per-surah Makki/Madani classification (revelation-place
+            field, <code>/chapters</code> endpoint); results committed to
+            <code>data/surah-meta.json</code> with the source string recorded
+            inside the file.
+            <span
+              class="badge ok"
+              data-source-ids="quran-foundation-api-v4"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · Quran.com Foundation Content API v4"
+              >●</span
+            >
+          </li>
+          <li>
             <strong>alquran.cloud API</strong>.
             <a href="https://alquran.cloud/api" rel="noopener"
               >alquran.cloud/api</a
@@ -981,6 +1012,53 @@
             may use it for deeper study alongside this site.
           </li>
         </ul>
+        <h3>Citation badge component</h3>
+        <p>Every statistic on this site carries one of three claim badges:</p>
+        <ul>
+          <li>
+            <span
+              class="badge ok"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · Leeds Quranic Arabic Corpus v0.4"
+              >●</span
+            >
+            <strong>Verified</strong> — confirmed from the primary source cited.
+            Click the badge for the full citation.
+          </li>
+          <li>
+            <span
+              class="badge pending"
+              aria-label="Pending"
+              tabindex="0"
+              title="Pending · awaiting a second independent source"
+              >○</span
+            >
+            <strong>Pending</strong> — sourced but awaiting a second independent
+            confirmation.
+          </li>
+          <li>
+            <span
+              class="badge nuanced"
+              aria-label="Nuanced"
+              tabindex="0"
+              title="Nuanced · contested or context-dependent"
+              >◐</span
+            >
+            <strong>Nuanced</strong> — contested in the scholarship or
+            context-dependent; use with the linked note.
+          </li>
+        </ul>
+        <p style="font-size: 0.85rem; color: var(--muted)">
+          The badge component is implemented in
+          <code>assets/cite-badge.js</code> (plain vanilla JS, no dependencies).
+          Add
+          <code>&lt;script src="assets/cite-badge.js"&gt;&lt;/script&gt;</code>
+          to any page and badges with <code>data-source-ids</code> attributes
+          will show click-to-expand citation popovers sourced from
+          <code>data/sources.json</code>.
+        </p>
         <h3>Editorial policy</h3>
         <ul>
           <li>
@@ -1018,6 +1096,7 @@
       ></div>
     </div>
     <script src="assets/app.js"></script>
+    <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
   </body>
 </html>

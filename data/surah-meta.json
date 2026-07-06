@@ -1,0 +1,1033 @@
+{
+  "_source": "Quran.com Foundation Content API v4, /chapters endpoint, accessed 2026-07-06",
+  "_generated": "2026-07-06",
+  "_note": "Classification: 'makki' = revealed before the Hijra (622 CE); 'madani' = revealed after. Where a surah has mixed opinions in tradition, the predominant classification in the source is used.",
+  "surahs": {
+    "1": {
+      "surah": 1,
+      "name": "Al-Fatihah",
+      "nameArabic": "الفاتحة",
+      "revelationOrder": 5,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 7
+    },
+    "2": {
+      "surah": 2,
+      "name": "Al-Baqarah",
+      "nameArabic": "البقرة",
+      "revelationOrder": 87,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 286
+    },
+    "3": {
+      "surah": 3,
+      "name": "Ali 'Imran",
+      "nameArabic": "آل عمران",
+      "revelationOrder": 89,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 200
+    },
+    "4": {
+      "surah": 4,
+      "name": "An-Nisa",
+      "nameArabic": "النساء",
+      "revelationOrder": 92,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 176
+    },
+    "5": {
+      "surah": 5,
+      "name": "Al-Ma'idah",
+      "nameArabic": "المائدة",
+      "revelationOrder": 112,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 120
+    },
+    "6": {
+      "surah": 6,
+      "name": "Al-An'am",
+      "nameArabic": "الأنعام",
+      "revelationOrder": 55,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 165
+    },
+    "7": {
+      "surah": 7,
+      "name": "Al-A'raf",
+      "nameArabic": "الأعراف",
+      "revelationOrder": 39,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 206
+    },
+    "8": {
+      "surah": 8,
+      "name": "Al-Anfal",
+      "nameArabic": "الأنفال",
+      "revelationOrder": 88,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 75
+    },
+    "9": {
+      "surah": 9,
+      "name": "At-Tawbah",
+      "nameArabic": "التوبة",
+      "revelationOrder": 113,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 129
+    },
+    "10": {
+      "surah": 10,
+      "name": "Yunus",
+      "nameArabic": "يونس",
+      "revelationOrder": 51,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 109
+    },
+    "11": {
+      "surah": 11,
+      "name": "Hud",
+      "nameArabic": "هود",
+      "revelationOrder": 52,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 123
+    },
+    "12": {
+      "surah": 12,
+      "name": "Yusuf",
+      "nameArabic": "يوسف",
+      "revelationOrder": 53,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 111
+    },
+    "13": {
+      "surah": 13,
+      "name": "Ar-Ra'd",
+      "nameArabic": "الرعد",
+      "revelationOrder": 96,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 43
+    },
+    "14": {
+      "surah": 14,
+      "name": "Ibrahim",
+      "nameArabic": "ابراهيم",
+      "revelationOrder": 72,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 52
+    },
+    "15": {
+      "surah": 15,
+      "name": "Al-Hijr",
+      "nameArabic": "الحجر",
+      "revelationOrder": 54,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 99
+    },
+    "16": {
+      "surah": 16,
+      "name": "An-Nahl",
+      "nameArabic": "النحل",
+      "revelationOrder": 70,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 128
+    },
+    "17": {
+      "surah": 17,
+      "name": "Al-Isra",
+      "nameArabic": "الإسراء",
+      "revelationOrder": 50,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 111
+    },
+    "18": {
+      "surah": 18,
+      "name": "Al-Kahf",
+      "nameArabic": "الكهف",
+      "revelationOrder": 69,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 110
+    },
+    "19": {
+      "surah": 19,
+      "name": "Maryam",
+      "nameArabic": "مريم",
+      "revelationOrder": 44,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 98
+    },
+    "20": {
+      "surah": 20,
+      "name": "Taha",
+      "nameArabic": "طه",
+      "revelationOrder": 45,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 135
+    },
+    "21": {
+      "surah": 21,
+      "name": "Al-Anbya",
+      "nameArabic": "الأنبياء",
+      "revelationOrder": 73,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 112
+    },
+    "22": {
+      "surah": 22,
+      "name": "Al-Hajj",
+      "nameArabic": "الحج",
+      "revelationOrder": 103,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 78
+    },
+    "23": {
+      "surah": 23,
+      "name": "Al-Mu'minun",
+      "nameArabic": "المؤمنون",
+      "revelationOrder": 74,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 118
+    },
+    "24": {
+      "surah": 24,
+      "name": "An-Nur",
+      "nameArabic": "النور",
+      "revelationOrder": 102,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 64
+    },
+    "25": {
+      "surah": 25,
+      "name": "Al-Furqan",
+      "nameArabic": "الفرقان",
+      "revelationOrder": 42,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 77
+    },
+    "26": {
+      "surah": 26,
+      "name": "Ash-Shu'ara",
+      "nameArabic": "الشعراء",
+      "revelationOrder": 47,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 227
+    },
+    "27": {
+      "surah": 27,
+      "name": "An-Naml",
+      "nameArabic": "النمل",
+      "revelationOrder": 48,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 93
+    },
+    "28": {
+      "surah": 28,
+      "name": "Al-Qasas",
+      "nameArabic": "القصص",
+      "revelationOrder": 49,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 88
+    },
+    "29": {
+      "surah": 29,
+      "name": "Al-'Ankabut",
+      "nameArabic": "العنكبوت",
+      "revelationOrder": 85,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 69
+    },
+    "30": {
+      "surah": 30,
+      "name": "Ar-Rum",
+      "nameArabic": "الروم",
+      "revelationOrder": 84,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 60
+    },
+    "31": {
+      "surah": 31,
+      "name": "Luqman",
+      "nameArabic": "لقمان",
+      "revelationOrder": 57,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 34
+    },
+    "32": {
+      "surah": 32,
+      "name": "As-Sajdah",
+      "nameArabic": "السجدة",
+      "revelationOrder": 75,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 30
+    },
+    "33": {
+      "surah": 33,
+      "name": "Al-Ahzab",
+      "nameArabic": "الأحزاب",
+      "revelationOrder": 90,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 73
+    },
+    "34": {
+      "surah": 34,
+      "name": "Saba",
+      "nameArabic": "سبإ",
+      "revelationOrder": 58,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 54
+    },
+    "35": {
+      "surah": 35,
+      "name": "Fatir",
+      "nameArabic": "فاطر",
+      "revelationOrder": 43,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 45
+    },
+    "36": {
+      "surah": 36,
+      "name": "Ya-Sin",
+      "nameArabic": "يس",
+      "revelationOrder": 41,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 83
+    },
+    "37": {
+      "surah": 37,
+      "name": "As-Saffat",
+      "nameArabic": "الصافات",
+      "revelationOrder": 56,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 182
+    },
+    "38": {
+      "surah": 38,
+      "name": "Sad",
+      "nameArabic": "ص",
+      "revelationOrder": 38,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 88
+    },
+    "39": {
+      "surah": 39,
+      "name": "Az-Zumar",
+      "nameArabic": "الزمر",
+      "revelationOrder": 59,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 75
+    },
+    "40": {
+      "surah": 40,
+      "name": "Ghafir",
+      "nameArabic": "غافر",
+      "revelationOrder": 60,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 85
+    },
+    "41": {
+      "surah": 41,
+      "name": "Fussilat",
+      "nameArabic": "فصلت",
+      "revelationOrder": 61,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 54
+    },
+    "42": {
+      "surah": 42,
+      "name": "Ash-Shuraa",
+      "nameArabic": "الشورى",
+      "revelationOrder": 62,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 53
+    },
+    "43": {
+      "surah": 43,
+      "name": "Az-Zukhruf",
+      "nameArabic": "الزخرف",
+      "revelationOrder": 63,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 89
+    },
+    "44": {
+      "surah": 44,
+      "name": "Ad-Dukhan",
+      "nameArabic": "الدخان",
+      "revelationOrder": 64,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 59
+    },
+    "45": {
+      "surah": 45,
+      "name": "Al-Jathiyah",
+      "nameArabic": "الجاثية",
+      "revelationOrder": 65,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 37
+    },
+    "46": {
+      "surah": 46,
+      "name": "Al-Ahqaf",
+      "nameArabic": "الأحقاف",
+      "revelationOrder": 66,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 35
+    },
+    "47": {
+      "surah": 47,
+      "name": "Muhammad",
+      "nameArabic": "محمد",
+      "revelationOrder": 95,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 38
+    },
+    "48": {
+      "surah": 48,
+      "name": "Al-Fath",
+      "nameArabic": "الفتح",
+      "revelationOrder": 111,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 29
+    },
+    "49": {
+      "surah": 49,
+      "name": "Al-Hujurat",
+      "nameArabic": "الحجرات",
+      "revelationOrder": 106,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 18
+    },
+    "50": {
+      "surah": 50,
+      "name": "Qaf",
+      "nameArabic": "ق",
+      "revelationOrder": 34,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 45
+    },
+    "51": {
+      "surah": 51,
+      "name": "Adh-Dhariyat",
+      "nameArabic": "الذاريات",
+      "revelationOrder": 67,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 60
+    },
+    "52": {
+      "surah": 52,
+      "name": "At-Tur",
+      "nameArabic": "الطور",
+      "revelationOrder": 76,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 49
+    },
+    "53": {
+      "surah": 53,
+      "name": "An-Najm",
+      "nameArabic": "النجم",
+      "revelationOrder": 23,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 62
+    },
+    "54": {
+      "surah": 54,
+      "name": "Al-Qamar",
+      "nameArabic": "القمر",
+      "revelationOrder": 37,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 55
+    },
+    "55": {
+      "surah": 55,
+      "name": "Ar-Rahman",
+      "nameArabic": "الرحمن",
+      "revelationOrder": 97,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 78
+    },
+    "56": {
+      "surah": 56,
+      "name": "Al-Waqi'ah",
+      "nameArabic": "الواقعة",
+      "revelationOrder": 46,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 96
+    },
+    "57": {
+      "surah": 57,
+      "name": "Al-Hadid",
+      "nameArabic": "الحديد",
+      "revelationOrder": 94,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 29
+    },
+    "58": {
+      "surah": 58,
+      "name": "Al-Mujadila",
+      "nameArabic": "المجادلة",
+      "revelationOrder": 105,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 22
+    },
+    "59": {
+      "surah": 59,
+      "name": "Al-Hashr",
+      "nameArabic": "الحشر",
+      "revelationOrder": 101,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 24
+    },
+    "60": {
+      "surah": 60,
+      "name": "Al-Mumtahanah",
+      "nameArabic": "الممتحنة",
+      "revelationOrder": 91,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 13
+    },
+    "61": {
+      "surah": 61,
+      "name": "As-Saf",
+      "nameArabic": "الصف",
+      "revelationOrder": 109,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 14
+    },
+    "62": {
+      "surah": 62,
+      "name": "Al-Jumu'ah",
+      "nameArabic": "الجمعة",
+      "revelationOrder": 110,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 11
+    },
+    "63": {
+      "surah": 63,
+      "name": "Al-Munafiqun",
+      "nameArabic": "المنافقون",
+      "revelationOrder": 104,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 11
+    },
+    "64": {
+      "surah": 64,
+      "name": "At-Taghabun",
+      "nameArabic": "التغابن",
+      "revelationOrder": 108,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 18
+    },
+    "65": {
+      "surah": 65,
+      "name": "At-Talaq",
+      "nameArabic": "الطلاق",
+      "revelationOrder": 99,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 12
+    },
+    "66": {
+      "surah": 66,
+      "name": "At-Tahrim",
+      "nameArabic": "التحريم",
+      "revelationOrder": 107,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 12
+    },
+    "67": {
+      "surah": 67,
+      "name": "Al-Mulk",
+      "nameArabic": "الملك",
+      "revelationOrder": 77,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 30
+    },
+    "68": {
+      "surah": 68,
+      "name": "Al-Qalam",
+      "nameArabic": "القلم",
+      "revelationOrder": 2,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 52
+    },
+    "69": {
+      "surah": 69,
+      "name": "Al-Haqqah",
+      "nameArabic": "الحاقة",
+      "revelationOrder": 78,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 52
+    },
+    "70": {
+      "surah": 70,
+      "name": "Al-Ma'arij",
+      "nameArabic": "المعارج",
+      "revelationOrder": 79,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 44
+    },
+    "71": {
+      "surah": 71,
+      "name": "Nuh",
+      "nameArabic": "نوح",
+      "revelationOrder": 71,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 28
+    },
+    "72": {
+      "surah": 72,
+      "name": "Al-Jinn",
+      "nameArabic": "الجن",
+      "revelationOrder": 40,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 28
+    },
+    "73": {
+      "surah": 73,
+      "name": "Al-Muzzammil",
+      "nameArabic": "المزمل",
+      "revelationOrder": 3,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 20
+    },
+    "74": {
+      "surah": 74,
+      "name": "Al-Muddaththir",
+      "nameArabic": "المدثر",
+      "revelationOrder": 4,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 56
+    },
+    "75": {
+      "surah": 75,
+      "name": "Al-Qiyamah",
+      "nameArabic": "القيامة",
+      "revelationOrder": 31,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 40
+    },
+    "76": {
+      "surah": 76,
+      "name": "Al-Insan",
+      "nameArabic": "الانسان",
+      "revelationOrder": 98,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 31
+    },
+    "77": {
+      "surah": 77,
+      "name": "Al-Mursalat",
+      "nameArabic": "المرسلات",
+      "revelationOrder": 33,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 50
+    },
+    "78": {
+      "surah": 78,
+      "name": "An-Naba",
+      "nameArabic": "النبإ",
+      "revelationOrder": 80,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 40
+    },
+    "79": {
+      "surah": 79,
+      "name": "An-Nazi'at",
+      "nameArabic": "النازعات",
+      "revelationOrder": 81,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 46
+    },
+    "80": {
+      "surah": 80,
+      "name": "'Abasa",
+      "nameArabic": "عبس",
+      "revelationOrder": 24,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 42
+    },
+    "81": {
+      "surah": 81,
+      "name": "At-Takwir",
+      "nameArabic": "التكوير",
+      "revelationOrder": 7,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 29
+    },
+    "82": {
+      "surah": 82,
+      "name": "Al-Infitar",
+      "nameArabic": "الإنفطار",
+      "revelationOrder": 82,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 19
+    },
+    "83": {
+      "surah": 83,
+      "name": "Al-Mutaffifin",
+      "nameArabic": "المطففين",
+      "revelationOrder": 86,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 36
+    },
+    "84": {
+      "surah": 84,
+      "name": "Al-Inshiqaq",
+      "nameArabic": "الإنشقاق",
+      "revelationOrder": 83,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 25
+    },
+    "85": {
+      "surah": 85,
+      "name": "Al-Buruj",
+      "nameArabic": "البروج",
+      "revelationOrder": 27,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 22
+    },
+    "86": {
+      "surah": 86,
+      "name": "At-Tariq",
+      "nameArabic": "الطارق",
+      "revelationOrder": 36,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 17
+    },
+    "87": {
+      "surah": 87,
+      "name": "Al-A'la",
+      "nameArabic": "الأعلى",
+      "revelationOrder": 8,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 19
+    },
+    "88": {
+      "surah": 88,
+      "name": "Al-Ghashiyah",
+      "nameArabic": "الغاشية",
+      "revelationOrder": 68,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 26
+    },
+    "89": {
+      "surah": 89,
+      "name": "Al-Fajr",
+      "nameArabic": "الفجر",
+      "revelationOrder": 10,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 30
+    },
+    "90": {
+      "surah": 90,
+      "name": "Al-Balad",
+      "nameArabic": "البلد",
+      "revelationOrder": 35,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 20
+    },
+    "91": {
+      "surah": 91,
+      "name": "Ash-Shams",
+      "nameArabic": "الشمس",
+      "revelationOrder": 26,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 15
+    },
+    "92": {
+      "surah": 92,
+      "name": "Al-Layl",
+      "nameArabic": "الليل",
+      "revelationOrder": 9,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 21
+    },
+    "93": {
+      "surah": 93,
+      "name": "Ad-Duhaa",
+      "nameArabic": "الضحى",
+      "revelationOrder": 11,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 11
+    },
+    "94": {
+      "surah": 94,
+      "name": "Ash-Sharh",
+      "nameArabic": "الشرح",
+      "revelationOrder": 12,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 8
+    },
+    "95": {
+      "surah": 95,
+      "name": "At-Tin",
+      "nameArabic": "التين",
+      "revelationOrder": 28,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 8
+    },
+    "96": {
+      "surah": 96,
+      "name": "Al-'Alaq",
+      "nameArabic": "العلق",
+      "revelationOrder": 1,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 19
+    },
+    "97": {
+      "surah": 97,
+      "name": "Al-Qadr",
+      "nameArabic": "القدر",
+      "revelationOrder": 25,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 5
+    },
+    "98": {
+      "surah": 98,
+      "name": "Al-Bayyinah",
+      "nameArabic": "البينة",
+      "revelationOrder": 100,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 8
+    },
+    "99": {
+      "surah": 99,
+      "name": "Az-Zalzalah",
+      "nameArabic": "الزلزلة",
+      "revelationOrder": 93,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 8
+    },
+    "100": {
+      "surah": 100,
+      "name": "Al-'Adiyat",
+      "nameArabic": "العاديات",
+      "revelationOrder": 14,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 11
+    },
+    "101": {
+      "surah": 101,
+      "name": "Al-Qari'ah",
+      "nameArabic": "القارعة",
+      "revelationOrder": 30,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 11
+    },
+    "102": {
+      "surah": 102,
+      "name": "At-Takathur",
+      "nameArabic": "التكاثر",
+      "revelationOrder": 16,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 8
+    },
+    "103": {
+      "surah": 103,
+      "name": "Al-'Asr",
+      "nameArabic": "العصر",
+      "revelationOrder": 13,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 3
+    },
+    "104": {
+      "surah": 104,
+      "name": "Al-Humazah",
+      "nameArabic": "الهمزة",
+      "revelationOrder": 32,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 9
+    },
+    "105": {
+      "surah": 105,
+      "name": "Al-Fil",
+      "nameArabic": "الفيل",
+      "revelationOrder": 19,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 5
+    },
+    "106": {
+      "surah": 106,
+      "name": "Quraysh",
+      "nameArabic": "قريش",
+      "revelationOrder": 29,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 4
+    },
+    "107": {
+      "surah": 107,
+      "name": "Al-Ma'un",
+      "nameArabic": "الماعون",
+      "revelationOrder": 17,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 7
+    },
+    "108": {
+      "surah": 108,
+      "name": "Al-Kawthar",
+      "nameArabic": "الكوثر",
+      "revelationOrder": 15,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 3
+    },
+    "109": {
+      "surah": 109,
+      "name": "Al-Kafirun",
+      "nameArabic": "الكافرون",
+      "revelationOrder": 18,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 6
+    },
+    "110": {
+      "surah": 110,
+      "name": "An-Nasr",
+      "nameArabic": "النصر",
+      "revelationOrder": 114,
+      "classification": "madani",
+      "revelationPlace": "madinah",
+      "versesCount": 3
+    },
+    "111": {
+      "surah": 111,
+      "name": "Al-Masad",
+      "nameArabic": "المسد",
+      "revelationOrder": 6,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 5
+    },
+    "112": {
+      "surah": 112,
+      "name": "Al-Ikhlas",
+      "nameArabic": "الإخلاص",
+      "revelationOrder": 22,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 4
+    },
+    "113": {
+      "surah": 113,
+      "name": "Al-Falaq",
+      "nameArabic": "الفلق",
+      "revelationOrder": 20,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 5
+    },
+    "114": {
+      "surah": 114,
+      "name": "An-Nas",
+      "nameArabic": "الناس",
+      "revelationOrder": 21,
+      "classification": "makki",
+      "revelationPlace": "makkah",
+      "versesCount": 6
+    }
+  }
+}

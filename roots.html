@@ -6,7 +6,7 @@
     <title>Roots · Discourses</title>
     <meta
       name="description"
-      content="The 1,642 triliteral roots of the Qur'an with frequency, chronological distribution, and word-family data from the Leeds Corpus."
+      content="The 1,642 triliteral roots of the Qur'an with frequency, derived forms, surah distribution, Makki/Madani split, and co-occurrence data from the Leeds Corpus."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,6 +15,168 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/style.css" />
+    <style>
+      /* ── Root detail panel additions ─────────────────────────── */
+      .root-heading {
+        display: flex;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 0.5rem 1rem;
+        margin-bottom: 1rem;
+      }
+      .root-heading .ar-root {
+        font-family: "Amiri", serif;
+        font-size: 2.2rem;
+        line-height: 1.2;
+        color: var(--ink);
+      }
+      .root-heading .root-latin {
+        font-size: 1.1rem;
+        color: var(--muted);
+        font-family: "Cormorant Garamond", serif;
+      }
+      .root-heading .root-count {
+        font-size: 0.9rem;
+        margin-left: auto;
+        color: var(--muted);
+      }
+      .stat-block {
+        margin: 1.25rem 0;
+      }
+      .stat-block h4 {
+        margin: 0 0 0.4rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.92rem;
+      }
+      .method-note {
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin-top: 0.3rem;
+        border-left: 2px solid var(--line);
+        padding-left: 0.6rem;
+      }
+      .method-note summary {
+        cursor: pointer;
+        list-style: none;
+        user-select: none;
+        color: var(--muted);
+      }
+      .method-note summary::-webkit-details-marker {
+        display: none;
+      }
+      .method-note[open] summary {
+        color: var(--text);
+      }
+      .method-note p {
+        margin: 0.3rem 0 0;
+      }
+      .makki-bar {
+        display: flex;
+        height: 12px;
+        border-radius: 6px;
+        overflow: hidden;
+        margin: 0.4rem 0 0.2rem;
+      }
+      .makki-bar .makki-seg {
+        background: var(--accent);
+      }
+      .makki-bar .madani-seg {
+        background: var(--accent-soft);
+      }
+      .makki-legend {
+        display: flex;
+        gap: 1.2rem;
+        font-size: 0.8rem;
+        color: var(--muted);
+        margin-top: 0.15rem;
+      }
+      .makki-legend span::before {
+        content: "■ ";
+      }
+      .makki-legend .m-makki::before {
+        color: var(--accent);
+      }
+      .makki-legend .m-madani::before {
+        color: var(--accent-soft);
+      }
+      .dist-chart {
+        overflow-x: auto;
+        margin: 0.4rem 0;
+        -webkit-overflow-scrolling: touch;
+      }
+      .dist-chart svg {
+        display: block;
+      }
+      .co-root-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem 0.6rem;
+        margin: 0.4rem 0;
+        padding: 0;
+        list-style: none;
+      }
+      .co-root-list li a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.2rem 0.55rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        font-size: 0.84rem;
+        text-decoration: none;
+        color: var(--ink);
+        background: var(--bg);
+        transition:
+          border-color 0.15s,
+          background 0.15s;
+      }
+      .co-root-list li a:hover {
+        border-color: var(--accent);
+        background: var(--card);
+      }
+      .co-root-list li a .ar-inline {
+        font-family: "Amiri", serif;
+        font-size: 1.05rem;
+      }
+      .co-root-list li a .co-count {
+        font-size: 0.75rem;
+        color: var(--muted);
+      }
+      .verse-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem 0.5rem;
+        margin: 0.4rem 0;
+        font-variant-numeric: tabular-nums;
+        font-size: 0.84rem;
+      }
+      .verse-grid a {
+        padding: 0.1rem 0.3rem;
+        border-radius: 3px;
+        text-decoration: none;
+        color: var(--accent);
+      }
+      .verse-grid a:hover {
+        text-decoration: underline;
+      }
+      #showAllVerses {
+        font-size: 0.84rem;
+        padding: 0.3rem 0.8rem;
+        margin-top: 0.4rem;
+      }
+      .detail-corpus-link {
+        font-size: 0.82rem;
+        margin-top: 0.5rem;
+        display: inline-block;
+      }
+      #detailError {
+        color: var(--muted);
+        font-size: 0.9rem;
+        padding: 0.5rem 0;
+      }
+    </style>
     <script src="assets/nav.js"></script>
   </head>
   <body>
@@ -27,7 +189,15 @@
     <nav class="primary" aria-label="Primary">
       <ul class="nav-groups">
         <li class="nav-group" data-group="study">
-          <button type="button" class="nav-group-btn" aria-expanded="false" aria-haspopup="true" aria-controls="nav-menu-study">Study</button>
+          <button
+            type="button"
+            class="nav-group-btn"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="nav-menu-study"
+          >
+            Study
+          </button>
           <ul id="nav-menu-study" class="nav-menu">
             <li><a href="read.html">Read</a></li>
             <li><a href="navigate.html">Navigate</a></li>
@@ -35,7 +205,15 @@
           </ul>
         </li>
         <li class="nav-group" data-group="analyze">
-          <button type="button" class="nav-group-btn" aria-expanded="false" aria-haspopup="true" aria-controls="nav-menu-analyze">Analyze</button>
+          <button
+            type="button"
+            class="nav-group-btn"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="nav-menu-analyze"
+          >
+            Analyze
+          </button>
           <ul id="nav-menu-analyze" class="nav-menu">
             <li><a href="words.html">Words</a></li>
             <li><a href="roots.html">Roots</a></li>
@@ -44,7 +222,15 @@
           </ul>
         </li>
         <li class="nav-group" data-group="learn">
-          <button type="button" class="nav-group-btn" aria-expanded="false" aria-haspopup="true" aria-controls="nav-menu-learn">Learn</button>
+          <button
+            type="button"
+            class="nav-group-btn"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="nav-menu-learn"
+          >
+            Learn
+          </button>
           <ul id="nav-menu-learn" class="nav-menu">
             <li><a href="how-to-use.html">How to use</a></li>
             <li><a href="exercise-asr.html">Exercise</a></li>
@@ -52,7 +238,15 @@
           </ul>
         </li>
         <li class="nav-group" data-group="about">
-          <button type="button" class="nav-group-btn" aria-expanded="false" aria-haspopup="true" aria-controls="nav-menu-about">About</button>
+          <button
+            type="button"
+            class="nav-group-btn"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="nav-menu-about"
+          >
+            About
+          </button>
           <ul id="nav-menu-about" class="nav-menu">
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
@@ -148,58 +342,253 @@
               Meccan · Medinan
             </p>
             <p class="prov" style="margin: 0; flex: 1">
-              <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> counts from the Quranic
-              Arabic Corpus (Leeds / Dukes 2009–2017) via
-              <a
-                href="https://corpus.quran.com/qurandictionary.jsp"
-                target="_blank"
-                rel="noopener"
-                >corpus.quran.com</a
-              >. Meanings are provided for the most frequent roots; the long
-              tail is unlabeled.
+              <span
+                class="badge ok"
+                aria-label="Verified"
+                tabindex="0"
+                title="Verified · Leeds Quranic Arabic Corpus v0.4"
+                >●</span
+              >
+              counts from the Quranic Arabic Corpus (Leeds / Dukes 2009–2017).
+              Meanings are provided for the most frequent roots; the long tail
+              is unlabeled.
             </p>
           </div>
         </div>
 
-        <div class="card scholar-only" id="rootDetail" hidden>
-          <h3 id="detailHeading"></h3>
-          <h4 style="margin: 1.25rem 0 0.5rem">Distribution by period</h4>
-          <div id="detailBars"></div>
-          <div id="detailWordFamily" style="margin-top: 1.25rem"></div>
-          <div
-            style="
-              display: flex;
-              gap: 2rem;
-              flex-wrap: wrap;
-              margin-top: 1.25rem;
-            "
-          >
-            <div>
-              <h4 style="margin: 0 0 0.4rem">Top surahs</h4>
-              <ul
-                id="detailSurahs"
-                style="margin: 0; padding-left: 1.2rem; font-size: 0.9rem"
-              ></ul>
-            </div>
-            <div>
-              <h4 style="margin: 0 0 0.4rem">Parts of speech</h4>
-              <p id="detailPos" style="margin: 0; font-size: 0.9rem"></p>
-            </div>
-            <div>
-              <h4 style="margin: 0 0 0.4rem">First occurrence</h4>
-              <p id="detailFirst" style="margin: 0; font-size: 0.9rem"></p>
-            </div>
+        <!-- Per-root detail panel — visible for all depth modes when a root is selected -->
+        <div class="card" id="rootDetail" hidden>
+          <div id="detailError" hidden></div>
+
+          <!-- Root header -->
+          <div class="root-heading" id="detailHeader">
+            <span
+              class="ar-root ar notranslate"
+              translate="no"
+              lang="ar"
+              dir="rtl"
+              id="detailArabic"
+            ></span>
+            <span class="root-latin" id="detailLatin"></span>
+            <span class="root-count" id="detailCountBadge"></span>
           </div>
-          <p class="prov" style="margin-top: 1rem">
-            <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> chronological bands from
-            Leeds + Egyptian Standard (Cairo 1924) revelation order.
+
+          <!-- Occurrence count with provenance -->
+          <div class="stat-block" id="detailCountBlock">
+            <h4>
+              Occurrences
+              <span
+                class="badge ok"
+                aria-label="Verified"
+                tabindex="0"
+                title="Verified · Leeds Quranic Arabic Corpus v0.4"
+                >●</span
+              >
+            </h4>
+            <p
+              id="detailCountNum"
+              style="font-size: 1.5rem; font-weight: 600; margin: 0.2rem 0"
+            ></p>
+            <details class="method-note">
+              <summary>ℹ How computed</summary>
+              <p>
+                Computed from Leeds Quranic Arabic Corpus v0.4: total count of
+                all token entries with this root across 114 morphology files
+                (77,429 rooted tokens total).
+              </p>
+            </details>
+          </div>
+
+          <!-- Makki / Madani split -->
+          <div class="stat-block" id="detailMakkiBlock">
+            <h4>
+              Makki / Madani distribution
+              <span
+                class="badge ok"
+                aria-label="Verified"
+                tabindex="0"
+                title="Verified · Leeds v0.4 + Quran.com API v4"
+                >●</span
+              >
+            </h4>
+            <div class="makki-bar" id="detailMakkiBar" aria-hidden="true"></div>
+            <div class="makki-legend">
+              <span class="m-makki" id="detailMakkiLabel"></span>
+              <span class="m-madani" id="detailMadaniLabel"></span>
+            </div>
+            <details class="method-note">
+              <summary>ℹ How computed</summary>
+              <p>
+                Computed from Leeds Quranic Arabic Corpus v0.4 morphology +
+                Quran.com Foundation API v4
+                <code>/chapters</code> revelation-place field. Surahs classified
+                <em>makkah</em> in the API are counted as Makki;
+                <em>madinah</em> as Madani.
+              </p>
+            </details>
+          </div>
+
+          <!-- Surah distribution bar chart (inline SVG) -->
+          <div class="stat-block" id="detailDistBlock">
+            <h4>
+              Distribution by surah (114 surahs)
+              <span
+                class="badge ok"
+                aria-label="Verified"
+                tabindex="0"
+                title="Verified · Leeds Quranic Arabic Corpus v0.4"
+                >●</span
+              >
+            </h4>
+            <div
+              class="dist-chart"
+              id="detailDistChart"
+              aria-label="Bar chart of occurrences per surah"
+            ></div>
+            <p
+              style="
+                font-size: 0.78rem;
+                color: var(--muted);
+                margin: 0.2rem 0 0;
+              "
+            >
+              Each bar = one surah (1–114 left to right). Hover for surah
+              number.
+            </p>
+            <details class="method-note">
+              <summary>ℹ How computed</summary>
+              <p>
+                Computed from Leeds Quranic Arabic Corpus v0.4: summed token
+                count for this root in each of the 114 surah morphology files.
+              </p>
+            </details>
+          </div>
+
+          <!-- Derived forms table -->
+          <div class="stat-block" id="detailFormsBlock">
+            <h4>
+              Derived forms
+              <span
+                class="badge ok"
+                aria-label="Verified"
+                tabindex="0"
+                title="Verified · Leeds Quranic Arabic Corpus v0.4"
+                >●</span
+              >
+            </h4>
+            <p
+              style="
+                font-size: 0.85rem;
+                color: var(--muted);
+                margin: 0 0 0.4rem;
+              "
+            >
+              One root yields many surface forms through Arabic morphological
+              patterns. Grouped by Arabic form and part of speech (Leeds POS
+              tag).
+            </p>
+            <div style="overflow-x: auto">
+              <table
+                class="data word-family-table"
+                style="font-size: 0.88rem; width: 100%"
+              >
+                <thead>
+                  <tr>
+                    <th>Form</th>
+                    <th>Part of speech</th>
+                    <th class="count">Count</th>
+                  </tr>
+                </thead>
+                <tbody id="detailFormsTbody"></tbody>
+              </table>
+            </div>
+            <details class="method-note">
+              <summary>ℹ How computed</summary>
+              <p>
+                Computed from Leeds Quranic Arabic Corpus v0.4: grouped all
+                token entries for this root by Arabic surface form and POS tag;
+                sorted by frequency descending.
+              </p>
+            </details>
+          </div>
+
+          <!-- Co-occurring roots -->
+          <div class="stat-block" id="detailCoBlock">
+            <h4>
+              Top co-occurring roots
+              <span
+                class="badge ok"
+                aria-label="Verified"
+                tabindex="0"
+                title="Verified · Leeds Quranic Arabic Corpus v0.4"
+                >●</span
+              >
+            </h4>
+            <p
+              style="
+                font-size: 0.85rem;
+                color: var(--muted);
+                margin: 0 0 0.4rem;
+              "
+            >
+              Roots that appear in the same verse most frequently (raw
+              co-occurrence count).
+            </p>
+            <ul class="co-root-list" id="detailCoList"></ul>
+            <details class="method-note">
+              <summary>ℹ How computed</summary>
+              <p>
+                Computed from Leeds Quranic Arabic Corpus v0.4: for each verse
+                containing this root, recorded all other roots present in the
+                same verse; ranked by co-occurrence frequency.
+              </p>
+            </details>
+          </div>
+
+          <!-- Verse references -->
+          <div class="stat-block" id="detailVersesBlock">
+            <h4>
+              Verse references
+              <span
+                class="badge ok"
+                aria-label="Verified"
+                tabindex="0"
+                title="Verified · Leeds Quranic Arabic Corpus v0.4"
+                >●</span
+              >
+            </h4>
+            <p
+              style="
+                font-size: 0.85rem;
+                color: var(--muted);
+                margin: 0 0 0.4rem;
+              "
+              id="detailVersesNote"
+            ></p>
+            <div class="verse-grid" id="detailVerseGrid"></div>
+            <button id="showAllVerses" class="button" hidden>
+              Show all verses
+            </button>
+            <details class="method-note">
+              <summary>ℹ How computed</summary>
+              <p>
+                Computed from Leeds Quranic Arabic Corpus v0.4: unique verse
+                references (surah:ayah) where at least one token carries this
+                root; sorted numerically.
+              </p>
+            </details>
+          </div>
+
+          <p class="prov" style="margin-top: 0.5rem">
             <a
               id="detailCorpusLink"
               href="https://corpus.quran.com/qurandictionary.jsp"
               target="_blank"
               rel="noopener"
-              >View root at corpus.quran.com →</a
+              class="detail-corpus-link"
             >
+              View at corpus.quran.com →
+            </a>
           </p>
         </div>
 
@@ -251,7 +640,22 @@
     <script src="assets/root-meanings.js"></script>
     <script>
       (function () {
+        "use strict";
+
         const MEANINGS = window.ROOT_MEANINGS || {};
+
+        // ── Filename-safe key (mirrors build-root-analytics.mjs) ───────────────
+        // Uppercase BW letters → 'u'+letter; * (ذ) → 'dh'; $ (ش) → 'sh'
+        function safeKey(bw) {
+          let out = "";
+          for (const c of bw) {
+            if (c === "*") out += "dh";
+            else if (c === "$") out += "sh";
+            else if (c >= "A" && c <= "Z") out += "u" + c;
+            else out += c;
+          }
+          return out;
+        }
 
         const PERIOD_ORDER = [
           "meccan-early",
@@ -296,6 +700,8 @@
           ANS: "Answer",
           INC: "Inceptive",
           VOC: "Vocative",
+          PRON: "Pronoun",
+          PREP: "Preposition",
         };
 
         function sparkline(byChron) {
@@ -317,6 +723,8 @@
         let showing = 50;
         let searchTerm = "";
         let selectedBW = null;
+        let detailData = null;
+        let versesShowing = 50;
 
         function filtered() {
           if (!searchTerm) return allRoots;
@@ -363,7 +771,6 @@
                 );
               })
               .join("");
-
             tbody.querySelectorAll(".root-row").forEach((tr) => {
               tr.addEventListener("click", () => selectRoot(tr.dataset.bw));
               tr.addEventListener("keydown", (e) => {
@@ -379,7 +786,6 @@
               ? `${shownCount} of ${list.length} match${list.length === 1 ? "" : "es"} (${allRoots.length.toLocaleString()} total)`
               : `Showing ${shownCount} of ${allRoots.length.toLocaleString()} roots`;
           }
-
           const btn = document.getElementById("showMoreBtn");
           if (btn) {
             btn.hidden = list.length === 0 || shownCount >= list.length;
@@ -387,131 +793,208 @@
           }
         }
 
-        function selectRoot(bw) {
-          selectedBW = selectedBW === bw ? null : bw;
+        async function selectRoot(bw) {
+          if (selectedBW === bw) {
+            selectedBW = null;
+            detailData = null;
+            hideDetail();
+            render();
+            history.replaceState(null, "", location.pathname);
+            return;
+          }
+          selectedBW = bw;
           render();
-          renderDetail();
-          if (selectedBW) {
-            const panel = document.getElementById("rootDetail");
-            if (panel && !panel.hidden)
-              setTimeout(
-                () =>
-                  panel.scrollIntoView({
-                    behavior: "smooth",
-                    block: "nearest",
-                  }),
-                50,
-              );
+          history.replaceState(null, "", `?root=${safeKey(bw)}`);
+          await loadRootDetail(bw);
+          const panel = document.getElementById("rootDetail");
+          if (panel && !panel.hidden) {
+            setTimeout(
+              () =>
+                panel.scrollIntoView({ behavior: "smooth", block: "nearest" }),
+              60,
+            );
           }
         }
 
-        function renderDetail() {
+        function hideDetail() {
           const panel = document.getElementById("rootDetail");
-          if (!panel) return;
-          const depth =
-            document.documentElement.getAttribute("data-depth") || "simple";
-          if (depth === "simple" || !selectedBW) {
-            panel.hidden = true;
-            return;
-          }
-          const r = allRoots.find((x) => x.rootBuckwalter === selectedBW);
-          if (!r) {
-            panel.hidden = true;
-            return;
-          }
+          if (panel) panel.hidden = true;
+        }
 
+        async function loadRootDetail(bw) {
+          const panel = document.getElementById("rootDetail");
+          const errEl = document.getElementById("detailError");
           panel.hidden = false;
+          errEl.hidden = true;
+          // Show loading state in header
+          document.getElementById("detailArabic").textContent = "…";
+          document.getElementById("detailLatin").textContent = "";
+          document.getElementById("detailCountBadge").textContent = "";
 
-          const meaning = MEANINGS[r.rootBuckwalter];
-          document.getElementById("detailHeading").textContent =
-            r.rootLatin +
-            " ‪" +
-            r.rootArabic +
-            "‬" +
-            (meaning ? " — " + meaning : "");
-
-          const maxVal = Math.max(
-            ...PERIOD_ORDER.map((p) => r.byChronology[p] || 0),
-          );
-          document.getElementById("detailBars").innerHTML = PERIOD_ORDER.map(
-            (p) => {
-              const val = r.byChronology[p] || 0;
-              const pct = maxVal > 0 ? Math.round((val / maxVal) * 100) : 0;
-              return (
-                `<div class="barwrap">` +
-                `<span class="lbl">${PERIOD_LABELS[p]}</span>` +
-                `<div class="bar"><span style="width:${pct}%"></span></div>` +
-                `<span class="count">${val}</span>` +
-                `</div>`
-              );
-            },
-          ).join("");
-
-          // Word-family table
-          const wfEl = document.getElementById("detailWordFamily");
-          if (wfEl) {
-            const lemmas = r.topLemmas || [];
-            if (lemmas.length) {
-              const rows = lemmas
-                .map((lm) => {
-                  const fo = lm.firstOccurrence;
-                  const firstLink = fo
-                    ? `<a href="read.html?s=${fo.surah}&a=${fo.verse}">${fo.surah}:${fo.verse}</a>`
-                    : "—";
-                  return (
-                    `<tr>` +
-                    `<td class="ar-cell"><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${lm.lemmaArabic || ""}</span></td>` +
-                    `<td data-label="Transliteration" style="color:var(--muted);font-size:0.85rem">${lm.lemma}</td>` +
-                    `<td data-label="Count" class="count">${lm.count.toLocaleString()}</td>` +
-                    `<td data-label="First seen">${firstLink}</td>` +
-                    `</tr>`
-                  );
-                })
-                .join("");
-              wfEl.innerHTML =
-                `<h4 style="margin:0 0 0.35rem">Word family — top derived forms</h4>` +
-                `<p style="font-size:0.88rem;color:var(--muted);margin:0 0 0.5rem">A single root yields many words. These are the most frequent forms derived from this root.</p>` +
-                `<table class="data word-family-table" style="font-size:0.88rem">` +
-                `<thead><tr><th>Lemma</th><th>Transliteration</th><th class="count">Count</th><th>First seen</th></tr></thead>` +
-                `<tbody>${rows}</tbody>` +
-                `</table>`;
-            } else {
-              wfEl.innerHTML = "";
-            }
+          try {
+            const sk = safeKey(bw);
+            const resp = await fetch(`data/root-analytics/${sk}.json`);
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            detailData = await resp.json();
+            renderFullDetail(detailData);
+          } catch (err) {
+            errEl.textContent = `Root detail unavailable: ${err.message}`;
+            errEl.hidden = false;
+            document.getElementById("detailArabic").textContent = "";
           }
+        }
 
-          document.getElementById("detailSurahs").innerHTML = (
-            r.topSurahs || []
-          )
-            .slice(0, 5)
-            .map(
-              (s) =>
-                `<li><a href="read.html?s=${s.surah}&a=1">${s.name}</a> (${s.count})</li>`,
-            )
-            .join("");
+        function renderFullDetail(d) {
+          const errEl = document.getElementById("detailError");
+          errEl.hidden = true;
 
-          const pos = r.posDistribution || {};
-          document.getElementById("detailPos").textContent =
-            Object.entries(pos)
-              .sort((a, b) => b[1] - a[1])
-              .map(([tag, cnt]) => `${POS_LABELS[tag] || tag}: ${cnt}`)
-              .join(", ") || "—";
+          // Header
+          document.getElementById("detailArabic").textContent = d.arabic;
+          document.getElementById("detailLatin").textContent = d.rootLatin;
+          document.getElementById("detailCountBadge").textContent =
+            `${d.totalOccurrences.toLocaleString()} occurrence${d.totalOccurrences === 1 ? "" : "s"}`;
 
-          const fo = r.firstOccurrence;
-          document.getElementById("detailFirst").innerHTML = fo
-            ? `<a href="read.html?s=${fo.surah}&a=${fo.verse}">${fo.surah}:${fo.verse}</a>`
-            : "—";
-
+          // Corpus link
           const link = document.getElementById("detailCorpusLink");
           if (link)
-            link.href = `https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(r.rootBuckwalter)}`;
+            link.href = `https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(d.bw)}`;
+
+          // Occurrence count
+          document.getElementById("detailCountNum").textContent =
+            d.totalOccurrences.toLocaleString();
+
+          // Makki / Madani
+          const total = d.makki + d.madani;
+          const makkiPct = total > 0 ? Math.round((d.makki / total) * 100) : 0;
+          const madaniPct = 100 - makkiPct;
+          document.getElementById("detailMakkiBar").innerHTML =
+            `<div class="makki-seg" style="width:${makkiPct}%" title="${d.makki} Makki"></div>` +
+            `<div class="madani-seg" style="width:${madaniPct}%" title="${d.madani} Madani"></div>`;
+          document.getElementById("detailMakkiLabel").textContent =
+            `Makki: ${d.makki.toLocaleString()} (${makkiPct}%)`;
+          document.getElementById("detailMadaniLabel").textContent =
+            `Madani: ${d.madani.toLocaleString()} (${madaniPct}%)`;
+
+          // Surah distribution SVG
+          renderDistChart(d.bySurah, d.totalOccurrences);
+
+          // Derived forms table
+          renderForms(d.derivedForms);
+
+          // Co-occurring roots
+          renderCoRoots(d.coRoots);
+
+          // Verse references
+          versesShowing = 50;
+          renderVerses(d.verses);
         }
 
-        new MutationObserver(() => renderDetail()).observe(
-          document.documentElement,
-          { attributes: true, attributeFilter: ["data-depth"] },
-        );
+        function renderDistChart(bySurah, total) {
+          const container = document.getElementById("detailDistChart");
+          const W_BAR = 4;
+          const W_GAP = 1;
+          const H = 60;
+          const W = 114 * (W_BAR + W_GAP) - W_GAP;
 
+          // Find max for scaling
+          let max = 0;
+          for (let s = 1; s <= 114; s++) {
+            const v = bySurah[s] || bySurah[String(s)] || 0;
+            if (v > max) max = v;
+          }
+
+          let rects = "";
+          for (let s = 1; s <= 114; s++) {
+            const v = bySurah[s] || bySurah[String(s)] || 0;
+            if (v === 0) continue;
+            const h = max > 0 ? Math.max(2, Math.round((v / max) * H)) : 0;
+            const x = (s - 1) * (W_BAR + W_GAP);
+            const y = H - h;
+            rects += `<rect x="${x}" y="${y}" width="${W_BAR}" height="${h}" fill="var(--accent)" rx="1"><title>Surah ${s}: ${v}</title></rect>`;
+          }
+
+          container.innerHTML =
+            `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Surah distribution for ${total} occurrences across 114 surahs">` +
+            rects +
+            `</svg>`;
+        }
+
+        function renderForms(forms) {
+          const tbody = document.getElementById("detailFormsTbody");
+          if (!forms || forms.length === 0) {
+            tbody.innerHTML =
+              '<tr><td colspan="3" style="color:var(--muted)">No form data.</td></tr>';
+            return;
+          }
+          const MAX_FORMS = 30;
+          const shown = forms.slice(0, MAX_FORMS);
+          tbody.innerHTML = shown
+            .map((f) => {
+              const posLabel = POS_LABELS[f.pos] || f.pos || "—";
+              return (
+                `<tr>` +
+                `<td class="ar-cell"><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${f.form}</span></td>` +
+                `<td data-label="Part of speech">${posLabel}</td>` +
+                `<td data-label="Count" class="count">${f.count.toLocaleString()}</td>` +
+                `</tr>`
+              );
+            })
+            .join("");
+          if (forms.length > MAX_FORMS) {
+            tbody.innerHTML += `<tr><td colspan="3" style="color:var(--muted);font-size:0.82rem">… and ${(forms.length - MAX_FORMS).toLocaleString()} more forms</td></tr>`;
+          }
+        }
+
+        function renderCoRoots(coRoots) {
+          const list = document.getElementById("detailCoList");
+          if (!coRoots || coRoots.length === 0) {
+            list.innerHTML =
+              '<li style="color:var(--muted);font-size:0.85rem">No co-occurrence data.</li>';
+            return;
+          }
+          list.innerHTML = coRoots
+            .map((cr) => {
+              const meaning = MEANINGS[cr.root] || "";
+              return (
+                `<li>` +
+                `<a href="roots.html?root=${cr.safeKey}">` +
+                `<span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">${cr.arabic}</span>` +
+                `<span>${cr.rootLatin}${meaning ? " — " + meaning : ""}</span>` +
+                `<span class="co-count">${cr.count.toLocaleString()}×</span>` +
+                `</a>` +
+                `</li>`
+              );
+            })
+            .join("");
+        }
+
+        function renderVerses(verses) {
+          const grid = document.getElementById("detailVerseGrid");
+          const note = document.getElementById("detailVersesNote");
+          const btn = document.getElementById("showAllVerses");
+
+          const shown = verses.slice(0, versesShowing);
+          note.textContent = `${verses.length.toLocaleString()} unique verse${verses.length === 1 ? "" : "s"} — each verse where this root appears at least once.`;
+          grid.innerHTML = shown
+            .map((ref) => {
+              const [s, v] = ref.split(":");
+              return `<a href="read.html?s=${s}&a=${v}">${ref}</a>`;
+            })
+            .join("");
+
+          if (verses.length > versesShowing) {
+            btn.hidden = false;
+            btn.textContent = `Show all ${verses.length.toLocaleString()} verses`;
+            btn.onclick = () => {
+              versesShowing = Infinity;
+              renderVerses(verses);
+            };
+          } else {
+            btn.hidden = true;
+          }
+        }
+
+        // ── Event handlers ──────────────────────────────────────────────────────
         document.getElementById("rootSearch").addEventListener("input", (e) => {
           searchTerm = e.target.value.trim();
           showing = 50;
@@ -523,6 +1006,7 @@
           render();
         });
 
+        // ── Initialise ──────────────────────────────────────────────────────────
         fetch("data/roots-summary.json")
           .then((r) => r.json())
           .then((data) => {
@@ -530,6 +1014,19 @@
               (a, b) => b.totalCount - a.totalCount,
             );
             render();
+
+            // Handle ?root= query param to pre-select a root
+            const params = new URLSearchParams(location.search);
+            const rootParam = params.get("root");
+            if (rootParam) {
+              // Find BW key whose safeKey matches the param
+              const match = allRoots.find(
+                (r) => safeKey(r.rootBuckwalter) === rootParam,
+              );
+              if (match) {
+                selectRoot(match.rootBuckwalter);
+              }
+            }
           })
           .catch(() => {
             document.getElementById("rootBody").innerHTML =
