@@ -220,6 +220,7 @@
       // Badges are focusable spans, not buttons: without this, keyboard
       // users can reach a badge but never open its citation.
       if (!badge.hasAttribute("role")) badge.setAttribute("role", "button");
+      if (!badge.hasAttribute("tabindex")) badge.setAttribute("tabindex", "0");
       badge.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
           e.preventDefault();
