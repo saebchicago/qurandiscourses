@@ -16,6 +16,81 @@
     />
     <link rel="stylesheet" href="assets/style.css" />
     <script src="assets/nav.js"></script>
+    <style>
+      /* ── Surah profile panel additions ───────────────────────── */
+      .profile-toggle {
+        font-size: 0.82rem;
+        padding: 0.2rem 0.6rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--bg);
+        color: var(--ink);
+        cursor: pointer;
+      }
+      .profile-toggle:hover {
+        border-color: var(--accent);
+      }
+      .profile-toggle[aria-expanded="true"] {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .profile-panel-cell {
+        background: var(--card);
+        padding: 1rem 1.2rem 1.2rem;
+      }
+      .stat-block {
+        margin: 0.9rem 0;
+      }
+      .stat-block h4 {
+        margin: 0 0 0.3rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.92rem;
+      }
+      .stat-block .stat-value {
+        font-size: 1.15rem;
+        font-weight: 600;
+        margin: 0.1rem 0;
+      }
+      .top-roots-chart {
+        list-style: none;
+        margin: 0.3rem 0 0;
+        padding: 0;
+      }
+      .top-roots-chart li {
+        display: grid;
+        grid-template-columns: 6.5rem 1fr 3rem;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 0.25rem 0;
+      }
+      .top-roots-chart .root-label {
+        display: flex;
+        align-items: baseline;
+        gap: 0.4rem;
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+      .top-roots-chart .root-ar {
+        font-family: "Amiri", serif;
+        font-size: 1.15rem;
+        color: var(--ink);
+      }
+      .top-roots-chart svg {
+        display: block;
+      }
+      .top-roots-chart .root-count {
+        font-size: 0.82rem;
+        color: var(--muted);
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+      .table-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+    </style>
   </head>
   <body>
     <a href="#main" class="skip">Skip to main content</a>
@@ -106,19 +181,36 @@
             Uthmani text. Meccan/Medinan classification per Cairo 1924 edition.
           </p>
         </div>
-        <table class="data" id="surahTable" aria-label="114 surahs">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Arabic</th>
-              <th>Verses</th>
-              <th>Class</th>
-              <th class="scholar-only">Cairo order</th>
-            </tr>
-          </thead>
-          <tbody id="surahBody"></tbody>
-        </table>
+        <div class="banner note">
+          <strong>Method: surah profile figures.</strong> Word-token and root
+          counts are drawn from the Leeds Quranic Arabic Corpus v0.4
+          morphology files, one token per morphology entry (Leeds' Uthmani
+          tokenization). Chronology period follows the Egyptian Standard
+          (Cairo 1924) Meccan/Medinan and four-period classification. Root
+          diversity ratio divides distinct roots by all word-tokens in the
+          surah, including function words with no tagged root. QurSim
+          cross-reference connectivity counts distinct other surahs
+          cross-referenced (same-surah references excluded) and covers 110
+          of 114 surahs; surahs 104, 105, 106, and 110 show no figure rather
+          than zero, since they are outside current coverage. These are
+          descriptive corpus counts, not claims about meaning or emphasis.
+        </div>
+        <div class="table-scroll">
+          <table class="data" id="surahTable" aria-label="114 surahs">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Arabic</th>
+                <th>Verses</th>
+                <th>Class</th>
+                <th class="scholar-only">Cairo order</th>
+              </tr>
+            </thead>
+            <tbody id="surahBody"></tbody>
+          </table>
+        </div>
+        <div class="card" id="surahProfilePanel" hidden></div>
       </section>
     </main>
     <footer class="site">
@@ -265,6 +357,7 @@
         [113, "al-Falaq", "الفلق", 5, "m", 20],
         [114, "al-Nas", "الناس", 6, "m", 21],
       ];
+      let openSurah = null;
       function render() {
         const q = document
           .getElementById("searchBox")
@@ -287,17 +380,141 @@
         })
           .map(
             (s) =>
-              `<tr><td>${s[0]}</td><td><a href="read.html?s=${s[0]}">${s[1]}</a></td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${s[2]}</span></td><td>${s[3]}</td><td>${s[4] === "m" ? "Meccan" : "Medinan"}</td><td class="scholar-only">${s[5]}</td></tr>`,
+              `<tr><td>${s[0]}</td><td><a href="read.html?s=${s[0]}">${s[1]}</a> <button type="button" class="profile-toggle" data-surah="${s[0]}" data-name="${s[1]}" aria-expanded="false" aria-controls="surahProfilePanel">Profile ▾</button></td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${s[2]}</span></td><td>${s[3]}</td><td>${s[4] === "m" ? "Meccan" : "Medinan"}</td><td class="scholar-only">${s[5]}</td></tr>`,
           )
           .join("");
         body.innerHTML =
           rows ||
           '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:1rem">No surahs match.</td></tr>';
+        document.getElementById("surahProfilePanel").hidden = true;
+        openSurah = null;
       }
       ["searchBox", "classFilter", "lengthFilter"].forEach((id) =>
         document.getElementById(id).addEventListener("input", render),
       );
       render();
+
+      // ── Surah profile panel: fetched once, expanded inline per row ──
+      let PROFILES = null;
+      const profilesReady = fetch("data/surah-profiles.json")
+        .then((r) => r.json())
+        .then((d) => {
+          PROFILES = d.surahs;
+        })
+        .catch(() => {
+          PROFILES = {};
+        });
+
+      const PERIOD_LABELS = {
+        "meccan-early": "Meccan, early period",
+        "meccan-middle": "Meccan, middle period",
+        "meccan-late": "Meccan, late period",
+        medinan: "Medinan",
+      };
+
+      function topRootsChart(topRoots) {
+        if (!topRoots || !topRoots.length) {
+          return '<p style="color:var(--muted);font-size:0.85rem">No rooted tokens.</p>';
+        }
+        const max = Math.max(...topRoots.map((r) => r.count));
+        const W_BAR = 100;
+        const items = topRoots
+          .map((r) => {
+            const w = max > 0 ? Math.max(2, Math.round((r.count / max) * W_BAR)) : 0;
+            return (
+              `<li>` +
+              `<span class="root-label"><span class="root-ar notranslate" translate="no" lang="ar" dir="rtl">${r.rootArabic || r.root}</span><span>${r.rootLatin}</span></span>` +
+              `<svg width="${W_BAR}" height="14" viewBox="0 0 ${W_BAR} 14" role="img" aria-label="${r.rootLatin}: ${r.count} occurrences"><rect x="0" y="1" width="${w}" height="12" rx="2" fill="var(--accent)"><title>${r.rootLatin}: ${r.count}</title></rect></svg>` +
+              `<span class="root-count">${r.count}</span>` +
+              `</li>`
+            );
+          })
+          .join("");
+        return `<ul class="top-roots-chart">${items}</ul>`;
+      }
+
+      function profilePanelHTML(p) {
+        const period = PERIOD_LABELS[p.chronologyPeriod] || p.chronologyPeriod || "Unclassified";
+        const qursimHTML =
+          p.qursimConnectivity === null
+            ? `<p class="stat-value" style="color:var(--muted);font-size:1rem">Not covered</p>`
+            : `<p class="stat-value">${p.qursimConnectivity} surah${p.qursimConnectivity === 1 ? "" : "s"}</p>`;
+        const qursimBadge =
+          p.qursimConnectivity === null
+            ? `<span class="badge pending" aria-label="Pending" tabindex="0" title="Pending · outside QurSim/Mishkat coverage">○</span>`
+            : `<span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · self-surah refs excluded">~</span>`;
+
+        return `
+          <div class="stat-block">
+            <h4>Verses <span class="badge ok" aria-label="Verified" tabindex="0" title="Verified · Tanzil Uthmani text">●</span></h4>
+            <p class="stat-value">${p.verseCount}</p>
+          </div>
+          <div class="stat-block">
+            <h4>Word tokens <span class="badge ok" aria-label="Verified" tabindex="0" title="Verified · Leeds Corpus v0.4">●</span></h4>
+            <p class="stat-value">${p.tokenCount}</p>
+          </div>
+          <div class="stat-block">
+            <h4>Distinct roots <span class="badge ok" aria-label="Verified" tabindex="0" title="Verified · Leeds Corpus v0.4">●</span></h4>
+            <p class="stat-value">${p.distinctRootCount}</p>
+          </div>
+          <div class="stat-block">
+            <h4>Root diversity ratio <span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · roots over all tokens">~</span></h4>
+            <p class="stat-value">${p.rootDiversityRatio}</p>
+          </div>
+          <div class="stat-block">
+            <h4>Chronology period <span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · Cairo 1924 convention">~</span></h4>
+            <p class="stat-value" style="font-size:1rem">${period}</p>
+          </div>
+          <div class="stat-block">
+            <h4>QurSim connectivity ${qursimBadge}</h4>
+            ${qursimHTML}
+          </div>
+          <div class="stat-block">
+            <h4>Top ${p.topRoots.length} roots by frequency <span class="badge ok" aria-label="Verified" tabindex="0" title="Verified · per-surah frequency">●</span></h4>
+            ${topRootsChart(p.topRoots)}
+          </div>
+        `;
+      }
+
+      function closePanel() {
+        const panel = document.getElementById("surahProfilePanel");
+        panel.hidden = true;
+        panel.innerHTML = "";
+        openSurah = null;
+        document
+          .querySelectorAll(".profile-toggle[aria-expanded='true']")
+          .forEach((b) => {
+            b.setAttribute("aria-expanded", "false");
+            b.textContent = "Profile ▾";
+          });
+      }
+
+      document.getElementById("surahBody").addEventListener("click", async (e) => {
+        const btn = e.target.closest(".profile-toggle");
+        if (!btn) return;
+        const surahNum = btn.dataset.surah;
+
+        if (openSurah === surahNum) {
+          closePanel();
+          return;
+        }
+        closePanel();
+
+        btn.setAttribute("aria-expanded", "true");
+        btn.textContent = "Profile ▴";
+        openSurah = surahNum;
+
+        await profilesReady;
+        const p = PROFILES && PROFILES[surahNum];
+        const panel = document.getElementById("surahProfilePanel");
+        panel.innerHTML =
+          `<h3>Surah ${surahNum} profile: ${btn.dataset.name}</h3>` +
+          (p
+            ? profilePanelHTML(p)
+            : '<p style="color:var(--muted)">Profile data unavailable.</p>');
+        panel.hidden = false;
+        panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      });
     </script>
     <script src="assets/glossary.js" defer></script>
   </body>
