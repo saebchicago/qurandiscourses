@@ -481,19 +481,23 @@ blockquote.khan cite {
   border-radius: 4px;
   font-size: 0.8rem;
   font-weight: 400;
-  white-space: nowrap;
+  /* display:none, not opacity alone: an invisible absolutely-positioned
+     tooltip still widens the page's scrollable area, which put a ~100px
+     horizontal scroll on every badge-bearing page at mobile widths. */
+  display: none;
+  width: max-content;
+  max-width: min(80vw, 320px);
+  white-space: normal;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
   border: 1px solid var(--line);
-  opacity: 0;
   pointer-events: none;
-  transition: opacity 0.15s;
   z-index: 200;
   text-transform: none;
   letter-spacing: 0;
 }
 .badge[title]:hover::after,
 .badge[title]:focus::after {
-  opacity: 1;
+  display: block;
 }
 .info-tip {
   display: inline-flex;
@@ -1454,4 +1458,11 @@ footer.site .footer-links {
   font-size: 0.82rem;
   color: var(--muted);
   margin-top: 0.35rem;
+}
+main a {
+  overflow-wrap: anywhere;
+}
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
