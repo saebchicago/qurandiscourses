@@ -8,6 +8,13 @@
       name="description"
       content="Prompts to triangulate claims via independent sources and other AI tools."
     />
+    <link rel="canonical" href="https://qurandiscourse.netlify.app/validation.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Discourses" />
+    <meta property="og:title" content="Validation · Discourses" />
+    <meta property="og:description" content="Prompts to triangulate claims via independent sources and other AI tools." />
+    <meta property="og:url" content="https://qurandiscourse.netlify.app/validation.html" />
+    <meta name="twitter:card" content="summary" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,6 +23,11 @@
     />
     <link rel="stylesheet" href="assets/style.css" />
     <script src="assets/nav.js"></script>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="%232b1d0e"/><text x="32" y="46" text-anchor="middle" font-family="Amiri,serif" font-size="42" fill="%23f6efe2">ق</text></svg>'
+    />
   </head>
   <body>
     <a href="#main" class="skip">Skip to main content</a>
@@ -71,6 +83,7 @@
           </button>
           <ul id="nav-menu-learn" class="nav-menu">
             <li><a href="how-to-use.html">How to use</a></li>
+            <li><a href="how-it-works.html">How it works</a></li>
             <li><a href="exercise-asr.html">Exercise</a></li>
             <li><a href="glossary.html">Glossary</a></li>
           </ul>
@@ -100,9 +113,11 @@
       <section>
         <h2>Validation Methods</h2>
         <p class="lede">
-          Every claim can be triangulated through independent sources. Below are
-          prompts to run against ChatGPT, Gemini, Grok, and Perplexity.
-          Agreement across sources moves a claim from
+          Every claim can be triangulated through independent sources. The
+          prompts below help you cross-examine a claim with AI research
+          assistants (ChatGPT, Gemini, Grok, Perplexity). Chatbot agreement is
+          a screening signal, not a verification: it tells you where to look,
+          not what is true. A claim moves from
           <span
             class="badge pending"
             aria-label="Pending"
@@ -113,20 +128,21 @@
           to
           <span
             class="badge ok"
-            data-source-ids="leeds-corpus-v0.4"
             aria-label="Verified"
             tabindex="0"
             title="Verified · confirmed from a primary source"
             >●</span
-          >. Disagreement keeps it
+          >
+          only when it is confirmed against the primary source it cites. Where
+          reputable sources genuinely disagree, the claim stays
           <span
             class="badge nuanced"
-            data-source-ids="leeds-corpus-v0.4"
             aria-label="Nuanced"
             tabindex="0"
             title="Nuanced · counting method varies by source"
             >~</span
-          >.
+          >
+          and the disagreement is recorded.
         </p>
       </section>
       <section>
@@ -189,8 +205,9 @@
               page numbers for the specific claims we draw from Farahi. The
               entry is listed on <a href="sources.html">Sources</a> under
               coherence-based reading; run Prompt 3 below (Islahi-school
-              content) against ChatGPT and Gemini for the exact Farahi passage,
-              compare the responses, and upgrade if they agree.
+              content) against ChatGPT and Gemini to locate the exact Farahi
+              passage, then confirm the passage against a published edition
+              before upgrading.
             </p>
           </div>
           <div class="verify-example">
@@ -223,10 +240,12 @@
       <section>
         <h2>Triangulation prompts</h2>
         <p>
-          Run any of the prompts below in ChatGPT, Gemini, Grok, or Perplexity.
-          When two independent responses agree, upgrade the label from Pending
-          to Verified. When they disagree, keep Nuanced and record the
-          disagreement.
+          Run any of the prompts below in ChatGPT, Gemini, Grok, or Perplexity
+          to stress-test a claim. Treat the responses as leads, not proof:
+          when two independent responses agree, follow their citations to the
+          primary source and upgrade the label from Pending to Verified only
+          after the source itself confirms the claim. When sources genuinely
+          disagree, keep Nuanced and record the disagreement.
         </p>
         <div class="card">
           <h3>Prompt 1: Verify a root count</h3>
@@ -314,8 +333,9 @@ For Surah [INSERT NUMBER], what revelation order is assigned by each of: (1) Cai
 Does Qur'an [INSERT VERSE] contain an instance of iltifat (grammatical shift in person, number, addressee, tense, case, or structure)? If yes, describe and cite Abdel Haleem's 1992 BSOAS article or other peer-reviewed sources. If borderline, state that.</pre>
         </div>
         <div class="banner">
-          <strong>Workflow.</strong> Run a prompt in two or three sources. If
-          they agree, upgrade the claim from
+          <strong>Workflow.</strong> Run a prompt in two or three assistants.
+          If they agree, follow their citations back to the primary source, and
+          upgrade the claim from
           <span
             class="badge pending"
             aria-label="Pending"
@@ -326,15 +346,15 @@ Does Qur'an [INSERT VERSE] contain an instance of iltifat (grammatical shift in 
           to
           <span
             class="badge ok"
-            data-source-ids="leeds-corpus-v0.4"
             aria-label="Verified"
             tabindex="0"
             title="Verified · confirmed from a primary source"
             >●</span
-          >. If they disagree, keep
+          >
+          only once the source itself confirms it. If sources genuinely
+          disagree, keep
           <span
             class="badge nuanced"
-            data-source-ids="leeds-corpus-v0.4"
             aria-label="Nuanced"
             tabindex="0"
             title="Nuanced · counting method varies by source"
@@ -345,10 +365,11 @@ Does Qur'an [INSERT VERSE] contain an instance of iltifat (grammatical shift in 
       </section>
     </main>
     <footer class="site">
-      <p style="font-size: 0.82rem; color: var(--muted)">
-        Discourses · <a href="about.html">About</a> ·
-        <a href="sources.html">Sources</a> ·
-        <a href="credits.html">Credits</a>
+      <p>Discourses is built in memory of Dr. Irfan Ahmad Khan (1931–2018).</p>
+      <p class="footer-links">
+        <a href="about.html">About</a> · <a href="sources.html">Sources</a> ·
+        <a href="credits.html">Credits</a> ·
+        <a href="changelog.html">Changelog</a>
       </p>
     </footer>
     <div class="settings">
@@ -371,6 +392,7 @@ Does Qur'an [INSERT VERSE] contain an instance of iltifat (grammatical shift in 
       ></div>
     </div>
     <script src="assets/app.js"></script>
+    <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
   </body>
 </html>

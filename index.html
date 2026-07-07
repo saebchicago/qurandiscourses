@@ -93,6 +93,7 @@
           </button>
           <ul id="nav-menu-learn" class="nav-menu">
             <li><a href="how-to-use.html">How to use</a></li>
+            <li><a href="how-it-works.html">How it works</a></li>
             <li><a href="exercise-asr.html">Exercise</a></li>
             <li><a href="glossary.html">Glossary</a></li>
           </ul>
@@ -396,6 +397,11 @@
     </main>
     <footer class="site">
       <p>Discourses is built in memory of Dr. Irfan Ahmad Khan (1931–2018).</p>
+      <p class="footer-links">
+        <a href="about.html">About</a> · <a href="sources.html">Sources</a> ·
+        <a href="credits.html">Credits</a> ·
+        <a href="changelog.html">Changelog</a>
+      </p>
     </footer>
     <div class="settings">
       <button
@@ -429,6 +435,8 @@
           var result = window.parseAsk(input.value);
           if (result && result.route) {
             window.location.href = result.route;
+          } else if (result && result.message) {
+            feedback.textContent = result.message;
           } else {
             feedback.textContent =
               "Not recognized. Try a surah name, a verse like 1:1, a root like r-h-m, or an English word.";
@@ -483,6 +491,7 @@
       })();
     </script>
     <script src="assets/app.js"></script>
+    <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
   </body>
 </html>

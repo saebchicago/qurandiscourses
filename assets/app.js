@@ -84,14 +84,22 @@
     if (disp)
       disp.textContent =
         state.depth.charAt(0).toUpperCase() + state.depth.slice(1);
+    const depthSel = document.getElementById("setDepth");
+    if (depthSel) depthSel.value = state.depth;
     document.dispatchEvent(new CustomEvent("qd:depth-changed"));
   }
   function applyTheme() {
-    if (state.theme === "light")
-      document.documentElement.style.colorScheme = "light";
-    else if (state.theme === "dark")
-      document.documentElement.style.colorScheme = "dark";
-    else document.documentElement.style.colorScheme = "light dark";
+    const root = document.documentElement;
+    // color-scheme alone only affects form controls/scrollbars; the site
+    // palette lives in custom properties keyed off [data-theme] (with the
+    // prefers-color-scheme media query as the "auto" default).
+    if (state.theme === "light" || state.theme === "dark") {
+      root.style.colorScheme = state.theme;
+      root.setAttribute("data-theme", state.theme);
+    } else {
+      root.style.colorScheme = "light dark";
+      root.removeAttribute("data-theme");
+    }
   }
 
   function buildPanel() {
@@ -118,6 +126,12 @@
         <label><input type="checkbox" data-feature="showAudio" ${state.features.showAudio ? "checked" : ""}> Audio player</label>
         <label><input type="checkbox" data-feature="showTransliteration" ${state.features.showTransliteration ? "checked" : ""}> Transliteration</label>
       </div>
+      <h4>Depth</h4>
+      <div class="row"><select id="setDepth" aria-label="Depth level">
+        <option value="simple" ${state.depth === "simple" ? "selected" : ""}>Simple</option>
+        <option value="scholar" ${state.depth === "scholar" ? "selected" : ""}>Scholar</option>
+        <option value="encyclopedic" ${state.depth === "encyclopedic" ? "selected" : ""}>Encyclopedic</option>
+      </select></div>
       <h4>Theme</h4>
       <div class="row"><select id="setTheme">
         <option value="auto" ${state.theme === "auto" ? "selected" : ""}>Auto (system)</option>
@@ -137,6 +151,13 @@
         document.dispatchEvent(new CustomEvent("qd:features-changed"));
       });
     });
+    const depthSel = document.getElementById("setDepth");
+    if (depthSel)
+      depthSel.addEventListener("change", () => {
+        state.depth = depthSel.value;
+        save();
+        applyDepth();
+      });
     const themeSel = document.getElementById("setTheme");
     if (themeSel)
       themeSel.addEventListener("change", () => {
