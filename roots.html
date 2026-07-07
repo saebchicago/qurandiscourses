@@ -15,12 +15,7 @@
     <meta property="og:description" content="The 1,642 triliteral roots of the Qur'an with frequency, derived forms, surah distribution, Makki/Madani split, and co-occurrence data from the Leeds Corpus." />
     <meta property="og:url" content="https://qurandiscourse.netlify.app/roots.html" />
     <meta name="twitter:card" content="summary" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
     <style>
       /* ── Root detail panel additions ─────────────────────────── */
@@ -183,12 +178,16 @@
         font-size: 0.84rem;
       }
       .verse-grid a {
-        padding: 0.1rem 0.3rem;
-        border-radius: 3px;
+        padding: 0.15rem 0.45rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--bg);
         text-decoration: none;
         color: var(--accent);
       }
-      .verse-grid a:hover {
+      .verse-grid a:hover,
+      .verse-grid a:focus-visible {
+        border-color: var(--accent);
         text-decoration: underline;
       }
       #showAllVerses {
@@ -795,6 +794,7 @@
         let selectedBW = null;
         let detailData = null;
         let versesShowing = 50;
+        let formsShowing = 10;
 
         function filtered() {
           if (!searchTerm) return allRoots;
@@ -959,6 +959,7 @@
           renderDistChart(d.bySurah, d.totalOccurrences);
 
           // Derived forms table
+          formsShowing = 10;
           renderForms(d.derivedForms);
 
           // Co-occurring roots
@@ -1006,7 +1007,7 @@
               '<tr><td colspan="3" style="color:var(--muted)">No form data.</td></tr>';
             return;
           }
-          const MAX_FORMS = 30;
+          const MAX_FORMS = formsShowing;
           const shown = forms.slice(0, MAX_FORMS);
           tbody.innerHTML = shown
             .map((f) => {
@@ -1021,7 +1022,13 @@
             })
             .join("");
           if (forms.length > MAX_FORMS) {
-            tbody.innerHTML += `<tr><td colspan="3" style="color:var(--muted);font-size:0.82rem">… and ${(forms.length - MAX_FORMS).toLocaleString()} more forms</td></tr>`;
+            tbody.innerHTML += `<tr><td colspan="3"><button type="button" class="button" id="showAllForms" style="font-size:0.82rem;padding:0.25rem 0.7rem">Show all ${forms.length.toLocaleString()} forms</button></td></tr>`;
+            document
+              .getElementById("showAllForms")
+              .addEventListener("click", () => {
+                formsShowing = Infinity;
+                renderForms(forms);
+              });
           }
         }
 

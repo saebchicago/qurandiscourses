@@ -15,12 +15,7 @@
     <meta property="og:description" content="Read any verse of the Qur'an side by side in multiple translations." />
     <meta property="og:url" content="https://qurandiscourse.netlify.app/read.html" />
     <meta name="twitter:card" content="summary" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
     <script src="assets/nav.js"></script>
     <script src="assets/surahs.js"></script>
@@ -1062,9 +1057,34 @@
           );
           history.replaceState({}, "", url);
         } catch (e) {
+          // Offline fallback: the Arabic word tokens are bundled locally
+          // (Leeds corpus); render them so the reader is not left empty.
+          let fallback = "";
+          try {
+            const resp = await fetch(`data/morphology/${s}.json`);
+            if (resp.ok) {
+              const morph = await resp.json();
+              const cards = [];
+              for (let a = ayahStart; a <= ayahEnd; a++) {
+                const words = morph[String(a)];
+                if (!words) continue;
+                const arabic = words.map((w) => w.ar).join(" ");
+                cards.push(
+                  `<div class="card"><p style="color:var(--muted);font-size:0.8rem;margin:0 0 0.3rem">${s}:${a}</p>` +
+                    `<p class="ar xl notranslate" translate="no" lang="ar" dir="rtl" style="margin:0">${arabic}</p></div>`,
+                );
+              }
+              if (cards.length) {
+                fallback =
+                  cards.join("") +
+                  '<p class="method-note">Offline view: Arabic text reassembled from the locally bundled Leeds Quranic Arabic Corpus word tokens. Translations, audio, and cross-references need a connection.</p>';
+              }
+            }
+          } catch (e2) {}
           container.innerHTML =
             '<div class="card"><p style="color:var(--nuanced)">Could not reach the text service (api.alquran.cloud). This is usually a connection problem, not a problem with your surah or verse numbers.</p>' +
-            '<p><button type="button" id="retryLoad" class="button">Try again</button></p></div>';
+            '<p><button type="button" id="retryLoad" class="button">Try again</button></p></div>' +
+            fallback;
           const retry = document.getElementById("retryLoad");
           if (retry) retry.addEventListener("click", load);
         }

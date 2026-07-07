@@ -101,6 +101,9 @@ header.site {
   padding: 2.2rem 1.25rem 1.4rem;
   text-align: center;
   position: relative;
+  /* Amiri's ﷽ ligature paints ink beyond its layout box; without a clip
+     the glyph's overflow widens the page's scroll area on small screens. */
+  overflow-x: clip;
 }
 header.site .crest {
   font-family: var(--ar);
@@ -108,6 +111,11 @@ header.site .crest {
   color: var(--accent);
   line-height: 1;
   margin-bottom: 0.3rem;
+}
+@media (max-width: 480px) {
+  header.site .crest {
+    font-size: 1.9rem;
+  }
 }
 header.site h1 {
   font-family: var(--serif);
@@ -1489,4 +1497,32 @@ main a {
 .table-scroll {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+}
+.back-to-top {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 40;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font-size: 1.2rem;
+  line-height: 1;
+  box-shadow: var(--shadow);
+}
+.back-to-top:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+kbd {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.82em;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 0.05em 0.4em;
 }

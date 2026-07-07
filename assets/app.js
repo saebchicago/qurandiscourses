@@ -43,7 +43,7 @@
 
   function load() {
     try {
-      const raw = sessionStorage.getItem("qd_state");
+      const raw = localStorage.getItem("qd_state");
       if (raw) {
         const saved = JSON.parse(raw);
         Object.assign(state, saved);
@@ -52,12 +52,12 @@
   }
   function save() {
     try {
-      sessionStorage.setItem("qd_state", JSON.stringify(state));
+      localStorage.setItem("qd_state", JSON.stringify(state));
     } catch (e) {}
   }
   function clear() {
     try {
-      sessionStorage.removeItem("qd_state");
+      localStorage.removeItem("qd_state");
     } catch (e) {}
     state.depth = "simple";
     state.theme = "auto";
@@ -141,7 +141,7 @@
       <div class="actions">
         <button id="clearPrefs">Clear preferences</button>
       </div>
-      <p class="small">Preferences stored in this browser tab.</p>
+      <p class="small">Preferences are saved in this browser only and never sent anywhere. Clear them anytime above.</p>
     `;
 
     panel.querySelectorAll("[data-feature]").forEach((cb) => {
@@ -498,6 +498,32 @@
   window.qdTranslations = TRANSLATIONS;
   window.qdReciters = RECITERS;
 
+  function initBackToTop() {
+    const btn = document.createElement("button");
+    btn.className = "back-to-top";
+    btn.type = "button";
+    btn.setAttribute("aria-label", "Back to top");
+    btn.textContent = "↑";
+    btn.hidden = true;
+    document.body.appendChild(btn);
+    let reduce = false;
+    try {
+      reduce =
+        window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    } catch (e) {}
+    btn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+    });
+    window.addEventListener(
+      "scroll",
+      () => {
+        btn.hidden = window.scrollY < 600;
+      },
+      { passive: true },
+    );
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     load();
     applyTheme();
@@ -506,6 +532,7 @@
     initTooltips();
     initSourcePopovers();
     initInlineDepth();
+    initBackToTop();
     applyDepth();
   });
 })();
