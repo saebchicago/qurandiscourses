@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-depth="simple">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Exercise: Spot the roots · Discourses</title>
+    <meta
+      name="description"
+      content="An interactive exercise: spot the recurring roots in a short surah, then check your reading against the Leeds corpus morphology data."
+    />
+    <link rel="canonical" href="https://qurandiscourse.netlify.app/exercise-roots.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Discourses" />
+    <meta property="og:title" content="Exercise: Spot the roots · Discourses" />
+    <meta property="og:description" content="An interactive exercise: spot the recurring roots in a short surah, then check your reading against the Leeds corpus morphology data." />
+    <meta property="og:url" content="https://qurandiscourse.netlify.app/exercise-roots.html" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="assets/fonts.css" />
+    <link rel="stylesheet" href="assets/style.css" />
+    <style>
+      .surah-picker {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin: 0.8rem 0 1.2rem;
+      }
+      .surah-picker button {
+        padding: 0.4rem 0.85rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--bg);
+        font: inherit;
+        font-size: 0.88rem;
+        color: var(--ink);
+        min-height: 40px;
+      }
+      .surah-picker button[aria-pressed="true"] {
+        background: var(--ink);
+        color: var(--bg);
+        border-color: var(--ink);
+        font-weight: 500;
+      }
+      .rs-verse {
+        margin: 0 0 1.1rem;
+      }
+      .rs-verse .vnum {
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin: 0 0 0.2rem;
+      }
+      .rs-words {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem 0.45rem;
+        justify-content: flex-start;
+      }
+      .rs-word {
+        font-family: var(--ar);
+        font-size: 1.7rem;
+        line-height: 1.9;
+        background: none;
+        border: 0;
+        border-radius: 6px;
+        padding: 0.05rem 0.35rem;
+        color: var(--ink);
+        cursor: pointer;
+        outline-offset: 2px;
+      }
+      .rs-word[aria-pressed="true"] {
+        outline: 2px dashed var(--accent);
+      }
+      .rs-word.rg-0 { background: rgba(214, 158, 46, 0.28); }
+      .rs-word.rg-1 { background: rgba(46, 139, 139, 0.28); }
+      .rs-word.rg-2 { background: rgba(155, 89, 182, 0.28); }
+      .rs-word.rg-3 { background: rgba(200, 80, 80, 0.28); }
+      .rs-legend {
+        list-style: none;
+        margin: 0.6rem 0 0;
+        padding: 0;
+      }
+      .rs-legend li {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.5rem;
+        padding: 0.35rem 0.5rem;
+        border-radius: 6px;
+        margin-bottom: 0.35rem;
+        font-size: 0.92rem;
+      }
+      .rs-legend li.rg-0 { background: rgba(214, 158, 46, 0.28); }
+      .rs-legend li.rg-1 { background: rgba(46, 139, 139, 0.28); }
+      .rs-legend li.rg-2 { background: rgba(155, 89, 182, 0.28); }
+      .rs-legend li.rg-3 { background: rgba(200, 80, 80, 0.28); }
+      .rs-legend .ar-inline {
+        font-family: var(--ar);
+        font-size: 1.25rem;
+      }
+      .rs-feedback {
+        margin-top: 0.8rem;
+        font-size: 0.95rem;
+      }
+      #revealRoots {
+        font-size: 1rem;
+        font-family: var(--serif);
+        font-weight: 600;
+        color: var(--accent);
+        background: transparent;
+        border: 2px solid var(--accent);
+        border-radius: 4px;
+        padding: 0.5rem 1.25rem;
+        cursor: pointer;
+      }
+    </style>
+    <script src="assets/nav.js"></script>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="%232b1d0e"/><text x="32" y="46" text-anchor="middle" font-family="Amiri,serif" font-size="42" fill="%23f6efe2">ق</text></svg>'
+    />
+  </head>
+  <body>
+    <a href="#main" class="skip">Skip to main content</a>
+    <header class="site">
+      <div class="crest" aria-hidden="true">﷽</div>
+      <h1><a href="index.html">Discourses</a></h1>
+      <p class="tag">Toward direct engagement with the Qur'an</p>
+    </header>
+    <nav class="primary" aria-label="Primary">
+      <ul class="nav-groups">
+        <li class="nav-group" data-group="study">
+          <button type="button" class="nav-group-btn" aria-expanded="false" aria-haspopup="true" aria-controls="nav-menu-study">Study</button>
+          <ul id="nav-menu-study" class="nav-menu">
+            <li><a href="read.html">Read</a></li>
+            <li><a href="navigate.html">Navigate</a></li>
+            <li><a href="compare.html">Compare</a></li>
+          </ul>
+        </li>
+        <li class="nav-group" data-group="analyze">
+          <button type="button" class="nav-group-btn" aria-expanded="false" aria-haspopup="true" aria-controls="nav-menu-analyze">Analyze</button>
+          <ul id="nav-menu-analyze" class="nav-menu">
+            <li><a href="words.html">Words</a></li>
+            <li><a href="roots.html">Roots</a></li>
+            <li><a href="patterns.html">Patterns</a></li>
+            <li><a href="numbers.html">Numbers</a></li>
+          </ul>
+        </li>
+        <li class="nav-group" data-group="learn">
+          <button type="button" class="nav-group-btn" aria-expanded="false" aria-haspopup="true" aria-controls="nav-menu-learn">Learn</button>
+          <ul id="nav-menu-learn" class="nav-menu">
+            <li><a href="how-to-use.html">How to use</a></li>
+            <li><a href="how-it-works.html">How it works</a></li>
+            <li><a href="exercises.html">Exercises</a></li>
+            <li><a href="paths.html">Study paths</a></li>
+            <li><a href="glossary.html">Glossary</a></li>
+          </ul>
+        </li>
+        <li class="nav-group" data-group="about">
+          <button type="button" class="nav-group-btn" aria-expanded="false" aria-haspopup="true" aria-controls="nav-menu-about">About</button>
+          <ul id="nav-menu-about" class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="sources.html">Sources</a></li>
+            <li><a href="validation.html">Validation</a></li>
+            <li><a href="credits.html">Credits</a></li>
+            <li><a href="changelog.html">Changelog</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <main id="main">
+      <section>
+        <h2>Exercise: Spot the roots</h2>
+        <p class="lede">
+          Repetition is one of a surah's structural signals. When a triliteral
+          root recurs, the discourse is circling a concept. This exercise
+          trains your eye to see it in the Arabic before any tool tells you.
+        </p>
+        <p>
+          Pick a short surah. Tap every word you believe shares a root with
+          another word in the same surah. When you are done, reveal the answer:
+          the recurring root families are highlighted and counted from the
+          corpus data.
+        </p>
+        <div class="surah-picker" id="surahPicker" role="group" aria-label="Choose a surah"></div>
+      </section>
+
+      <section>
+        <div id="rsStack" aria-live="polite">
+          <p style="color: var(--muted)">Loading...</p>
+        </div>
+        <div
+          style="
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--line);
+          "
+        >
+          <button id="revealRoots" type="button">Reveal recurring roots</button>
+          <div class="rs-feedback" id="rsFeedback" role="status"></div>
+        </div>
+      </section>
+
+      <section id="rsAnswer" hidden>
+        <h3>Recurring root families</h3>
+        <ul class="rs-legend" id="rsLegend"></ul>
+        <p class="method-note">
+          Recurring here means: the root is attested on two or more word tokens
+          within this surah, per the Leeds corpus morphological annotation.
+          Repetition describes distribution in the text; it does not by itself
+          establish meaning or emphasis.
+        </p>
+      </section>
+
+      <p class="prov">
+        <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span>
+        Arabic word tokens, root assignments, and counts from the Leeds Quranic
+        Arabic Corpus v0.4 (Kais Dukes, 2009–2017), bundled locally in
+        <code>data/morphology/</code>. Explore any highlighted root further on
+        the <a href="roots.html">Roots</a> page.
+      </p>
+
+      <section>
+        <p>
+          <a href="exercises.html">← All exercises</a>
+        </p>
+      </section>
+    </main>
+    <footer class="site">
+      <p>Discourses is built in memory of Dr. Irfan Ahmad Khan (1931–2018).</p>
+      <p class="footer-links">
+        <a href="about.html">About</a> · <a href="sources.html">Sources</a> ·
+        <a href="credits.html">Credits</a> ·
+        <a href="changelog.html">Changelog</a>
+      </p>
+    </footer>
+    <div class="settings">
+      <button
+        class="gear"
+        id="gearBtn"
+        aria-controls="settingsPanel"
+        aria-expanded="false"
+        title="Open settings"
+        aria-label="Open settings"
+      >
+        ⚙
+      </button>
+      <div
+        class="panel"
+        id="settingsPanel"
+        role="dialog"
+        aria-label="Settings"
+        hidden
+      ></div>
+    </div>
+    <script src="assets/root-meanings.js"></script>
+    <script>
+      (function () {
+        "use strict";
+        var MEANINGS = window.ROOT_MEANINGS || {};
+        var SURAH_CHOICES = [
+          { n: 109, name: "al-Kafirun" },
+          { n: 112, name: "al-Ikhlas" },
+          { n: 113, name: "al-Falaq" },
+          { n: 114, name: "al-Nas" },
+          { n: 103, name: "al-'Asr" },
+          { n: 1, name: "al-Fatihah" },
+        ];
+        var current = null;
+        var revealed = false;
+        var rootsSummary = null;
+
+        var stack = document.getElementById("rsStack");
+        var picker = document.getElementById("surahPicker");
+        var revealBtn = document.getElementById("revealRoots");
+        var feedback = document.getElementById("rsFeedback");
+        var answer = document.getElementById("rsAnswer");
+        var legend = document.getElementById("rsLegend");
+
+        function paramSurah() {
+          var s = parseInt(
+            new URLSearchParams(location.search).get("s") || "109",
+            10,
+          );
+          return SURAH_CHOICES.some(function (c) {
+            return c.n === s;
+          })
+            ? s
+            : 109;
+        }
+
+        function buildPicker(active) {
+          picker.innerHTML = "";
+          SURAH_CHOICES.forEach(function (c) {
+            var b = document.createElement("button");
+            b.type = "button";
+            b.textContent = c.n + ". " + c.name;
+            b.setAttribute("aria-pressed", c.n === active ? "true" : "false");
+            b.addEventListener("click", function () {
+              if (c.n !== current) loadSurah(c.n);
+            });
+            picker.appendChild(b);
+          });
+        }
+
+        function loadSurah(n) {
+          current = n;
+          revealed = false;
+          history.replaceState(null, "", "?s=" + n);
+          buildPicker(n);
+          answer.hidden = true;
+          legend.innerHTML = "";
+          feedback.textContent = "";
+          revealBtn.disabled = false;
+          revealBtn.textContent = "Reveal recurring roots";
+          stack.innerHTML = '<p style="color: var(--muted)">Loading...</p>';
+          fetch("data/morphology/" + n + ".json")
+            .then(function (r) {
+              if (!r.ok) throw new Error("HTTP " + r.status);
+              return r.json();
+            })
+            .then(function (morph) {
+              renderSurah(morph);
+            })
+            .catch(function () {
+              stack.innerHTML =
+                '<p style="color: var(--muted)">Could not load the surah data. Please reload.</p>';
+              revealBtn.disabled = true;
+            });
+        }
+
+        function renderSurah(morph) {
+          stack.innerHTML = "";
+          var ayahs = Object.keys(morph)
+            .map(Number)
+            .sort(function (a, b) {
+              return a - b;
+            });
+          ayahs.forEach(function (a) {
+            var div = document.createElement("div");
+            div.className = "rs-verse";
+            var num = document.createElement("p");
+            num.className = "vnum";
+            num.textContent = current + ":" + a;
+            div.appendChild(num);
+            var row = document.createElement("div");
+            row.className = "rs-words";
+            row.setAttribute("dir", "rtl");
+            row.setAttribute("lang", "ar");
+            morph[String(a)].forEach(function (w) {
+              var b = document.createElement("button");
+              b.type = "button";
+              b.className = "rs-word ar notranslate";
+              b.setAttribute("translate", "no");
+              b.setAttribute("aria-pressed", "false");
+              b.textContent = w.ar;
+              b.dataset.root = w.root || "";
+              b.addEventListener("click", function () {
+                if (revealed) return;
+                b.setAttribute(
+                  "aria-pressed",
+                  b.getAttribute("aria-pressed") === "true" ? "false" : "true",
+                );
+              });
+              row.appendChild(b);
+            });
+            div.appendChild(row);
+            stack.appendChild(div);
+          });
+        }
+
+        function loadRootsSummary() {
+          if (rootsSummary) return Promise.resolve(rootsSummary);
+          return fetch("data/roots-summary.json")
+            .then(function (r) {
+              return r.ok ? r.json() : {};
+            })
+            .then(function (d) {
+              rootsSummary = {};
+              Object.values(d).forEach(function (r) {
+                rootsSummary[r.rootBuckwalter] = r;
+              });
+              return rootsSummary;
+            })
+            .catch(function () {
+              rootsSummary = {};
+              return rootsSummary;
+            });
+        }
+
+        function reveal() {
+          if (revealed) return;
+          revealed = true;
+          revealBtn.disabled = true;
+          revealBtn.textContent = "Revealed";
+
+          var words = Array.prototype.slice.call(
+            stack.querySelectorAll(".rs-word"),
+          );
+          var counts = {};
+          words.forEach(function (w) {
+            if (w.dataset.root) {
+              counts[w.dataset.root] = (counts[w.dataset.root] || 0) + 1;
+            }
+          });
+          var recurring = Object.keys(counts)
+            .filter(function (r) {
+              return counts[r] >= 2;
+            })
+            .sort(function (a, b) {
+              return counts[b] - counts[a];
+            });
+
+          var groupIdx = {};
+          recurring.forEach(function (r, i) {
+            groupIdx[r] = i % 4;
+          });
+
+          var hits = 0,
+            marked = 0,
+            targets = 0,
+            falseMarks = 0;
+          words.forEach(function (w) {
+            var isTarget = recurring.indexOf(w.dataset.root) !== -1;
+            var isMarked = w.getAttribute("aria-pressed") === "true";
+            if (isTarget) {
+              targets++;
+              w.classList.add("rg-" + groupIdx[w.dataset.root]);
+            }
+            if (isMarked) {
+              marked++;
+              if (isTarget) hits++;
+              else falseMarks++;
+            }
+          });
+
+          loadRootsSummary().then(function (summary) {
+            legend.innerHTML = "";
+            recurring.forEach(function (r) {
+              var info = summary[r] || {};
+              var li = document.createElement("li");
+              li.className = "rg-" + groupIdx[r];
+              var meaning = MEANINGS[r] ? " — " + MEANINGS[r] : "";
+              var corpus = info.totalCount
+                ? "; " + info.totalCount.toLocaleString() + "× in the Qur'an"
+                : "";
+              li.innerHTML =
+                '<span class="ar-inline notranslate" translate="no" lang="ar" dir="rtl">' +
+                (info.rootArabic || r) +
+                "</span> <strong>" +
+                (info.rootLatin || r) +
+                "</strong>" +
+                meaning +
+                " · " +
+                counts[r] +
+                "× in this surah" +
+                corpus +
+                ' · <a href="roots.html?q=' +
+                encodeURIComponent(info.rootLatin || r) +
+                '">explore</a>';
+              legend.appendChild(li);
+            });
+            if (recurring.length === 0) {
+              legend.innerHTML =
+                '<li style="color:var(--muted)">No root recurs in this surah.</li>';
+            }
+            answer.hidden = false;
+
+            if (marked === 0) {
+              feedback.textContent =
+                "You marked no words. " +
+                targets +
+                " of the " +
+                words.length +
+                " words belong to a recurring root family; they are now highlighted.";
+            } else {
+              feedback.textContent =
+                "You marked " +
+                hits +
+                " of the " +
+                targets +
+                " words that share a recurring root" +
+                (falseMarks
+                  ? ", plus " +
+                    falseMarks +
+                    " word" +
+                    (falseMarks === 1 ? "" : "s") +
+                    " whose root appears only once."
+                  : ".");
+            }
+            answer.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          });
+        }
+
+        revealBtn.addEventListener("click", reveal);
+        loadSurah(paramSurah());
+      })();
+    </script>
+    <script src="assets/app.js"></script>
+    <script src="assets/cite-badge.js" defer></script>
+    <script src="assets/glossary.js" defer></script>
+  </body>
+</html>
