@@ -16,8 +16,11 @@
   --shadow: 0 2px 12px rgba(43, 29, 14, 0.08);
   --shadow-lg: 0 8px 32px rgba(43, 29, 14, 0.15);
 }
+/* Dark palette: applies for system dark scheme unless the user forced
+   light in Settings, and always when the user forced dark. Keep the two
+   blocks' token lists identical. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #1a120a;
     --ink: #f0e6d2;
     --muted: #bfae8a;
@@ -32,6 +35,21 @@
     --shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
   }
+}
+:root[data-theme="dark"] {
+  --bg: #1a120a;
+  --ink: #f0e6d2;
+  --muted: #bfae8a;
+  --accent: #d9b074;
+  --accent-soft: #8a6a3a;
+  --line: #3a2c1a;
+  --card: #241810;
+  --link: #e8c98a;
+  --ok: #7ac590;
+  --pending: #e0b860;
+  --nuanced: #e08a6a;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -503,9 +521,10 @@ blockquote.khan cite {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.2rem;
-  height: 1.2rem;
-  min-width: 1.2rem;
+  /* 24px minimum target size (WCAG 2.5.8); was 19px rendered */
+  width: 1.5rem;
+  height: 1.5rem;
+  min-width: 1.5rem;
   padding: 0;
   margin-left: 0.25rem;
   border: 1px solid var(--muted);
@@ -805,8 +824,10 @@ label {
   margin: 0.5rem 0 0.8rem;
 }
 .depth-toggle button {
-  flex: 1;
-  padding: 0.45rem 0.3rem;
+  flex: 1 1 auto;
+  /* let "Encyclopedic" size its button instead of clipping */
+  min-width: max-content;
+  padding: 0.45rem 0.55rem;
   background: var(--bg);
   border: 1px solid var(--line);
   border-radius: 6px;
@@ -1184,9 +1205,12 @@ dd {
   min-height: 1.2em;
 }
 @media (prefers-color-scheme: dark) {
-  .ask-feedback {
+  :root:not([data-theme="light"]) .ask-feedback {
     color: #e07060;
   }
+}
+:root[data-theme="dark"] .ask-feedback {
+  color: #e07060;
 }
 @media (max-width: 640px) {
   .ask-input {

@@ -32,6 +32,12 @@
         a = +verseMatch[2];
       if (s >= 1 && s <= 114 && a >= 1)
         return { route: `read.html?s=${s}&a=${a}`, type: "verse" };
+      if (s < 1 || s > 114)
+        return {
+          route: null,
+          reason: "range",
+          message: "Surah numbers run 1 to 114.",
+        };
     }
 
     // Bare surah number
@@ -40,13 +46,18 @@
       const s = +surahNumMatch[1];
       if (s >= 1 && s <= 114)
         return { route: `read.html?s=${s}&a=1`, type: "surah" };
+      return {
+        route: null,
+        reason: "range",
+        message: "Surah numbers run 1 to 114.",
+      };
     }
 
     // Root: r-h-m, r.h.m, rhm (3 latin letters separated or bare)
     const rootMatch = q.match(/^([a-z])[-.\s]?([a-z])[-.\s]?([a-z])$/);
     if (rootMatch && q.replace(/[-.\s]/g, "").length === 3) {
       const root = `${rootMatch[1]}-${rootMatch[2]}-${rootMatch[3]}`;
-      return { route: `roots.html#${root}`, type: "root" };
+      return { route: `roots.html?q=${root}`, type: "root" };
     }
 
     // Surah name fuzzy match (names list + full English name field)
@@ -64,10 +75,11 @@
         match: surah.en,
       };
 
-    // English word fallback
+    // English word fallback: the Roots page search matches English
+    // glosses (words.html is a static explainer and ignores queries)
     if (/^[a-z\s'-]{2,}$/.test(q)) {
       return {
-        route: `words.html?q=${encodeURIComponent(raw)}`,
+        route: `roots.html?q=${encodeURIComponent(raw)}`,
         type: "word",
       };
     }

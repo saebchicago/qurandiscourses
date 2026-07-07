@@ -93,6 +93,7 @@
           </button>
           <ul id="nav-menu-learn" class="nav-menu">
             <li><a href="how-to-use.html">How to use</a></li>
+            <li><a href="how-it-works.html">How it works</a></li>
             <li><a href="exercise-asr.html">Exercise</a></li>
             <li><a href="glossary.html">Glossary</a></li>
           </ul>
@@ -434,6 +435,8 @@
           var result = window.parseAsk(input.value);
           if (result && result.route) {
             window.location.href = result.route;
+          } else if (result && result.message) {
+            feedback.textContent = result.message;
           } else {
             feedback.textContent =
               "Not recognized. Try a surah name, a verse like 1:1, a root like r-h-m, or an English word.";
