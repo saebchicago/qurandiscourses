@@ -51,6 +51,105 @@
   --shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
+/* ── Alternate palettes (Settings → Palette) ─────────────────────────
+   Same structure as the default Parchment: a light block, an auto-dark
+   media block, and a forced-dark block. The [data-palette][data-theme]
+   combinations out-rank the parchment dark blocks by specificity, so
+   ordering here is safe. All text tokens hold 4.5:1 on bg and card. */
+:root[data-palette="paper"] {
+  --bg: #f7f7f5;
+  --ink: #1f1f1f;
+  --muted: #565660;
+  --accent: #3d5a80;
+  --accent-soft: #98a8bd;
+  --line: #d8d8d2;
+  --card: #ffffff;
+  --link: #2f4a6b;
+  --ok: #256b35;
+  --pending: #7a5c10;
+  --nuanced: #963a28;
+  --shadow: 0 2px 12px rgba(20, 20, 25, 0.08);
+  --shadow-lg: 0 8px 32px rgba(20, 20, 25, 0.14);
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-palette="paper"]:not([data-theme="light"]) {
+    --bg: #16171a;
+    --ink: #e9e9e6;
+    --muted: #a6a6ad;
+    --accent: #94b8e0;
+    --accent-soft: #4d637d;
+    --line: #34363c;
+    --card: #1f2126;
+    --link: #a8c8ea;
+    --ok: #7ac590;
+    --pending: #d9b860;
+    --nuanced: #e08a6a;
+    --shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+}
+:root[data-palette="paper"][data-theme="dark"] {
+  --bg: #16171a;
+  --ink: #e9e9e6;
+  --muted: #a6a6ad;
+  --accent: #94b8e0;
+  --accent-soft: #4d637d;
+  --line: #34363c;
+  --card: #1f2126;
+  --link: #a8c8ea;
+  --ok: #7ac590;
+  --pending: #d9b860;
+  --nuanced: #e08a6a;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+:root[data-palette="sage"] {
+  --bg: #f1f4ea;
+  --ink: #1f2a1c;
+  --muted: #4c5a45;
+  --accent: #43633a;
+  --accent-soft: #93a888;
+  --line: #ccd6c0;
+  --card: #fafcf4;
+  --link: #35522c;
+  --ok: #2e6b3a;
+  --pending: #7a5c10;
+  --nuanced: #8a3a1a;
+  --shadow: 0 2px 12px rgba(31, 42, 28, 0.08);
+  --shadow-lg: 0 8px 32px rgba(31, 42, 28, 0.14);
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-palette="sage"]:not([data-theme="light"]) {
+    --bg: #151a11;
+    --ink: #e5ecdb;
+    --muted: #a9b89d;
+    --accent: #a8c795;
+    --accent-soft: #566b4a;
+    --line: #2e3927;
+    --card: #1d241a;
+    --link: #bcd8a8;
+    --ok: #7ac590;
+    --pending: #e0b860;
+    --nuanced: #e08a6a;
+    --shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+}
+:root[data-palette="sage"][data-theme="dark"] {
+  --bg: #151a11;
+  --ink: #e5ecdb;
+  --muted: #a9b89d;
+  --accent: #a8c795;
+  --accent-soft: #566b4a;
+  --line: #2e3927;
+  --card: #1d241a;
+  --link: #bcd8a8;
+  --ok: #7ac590;
+  --pending: #e0b860;
+  --nuanced: #e08a6a;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

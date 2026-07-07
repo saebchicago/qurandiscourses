@@ -30,6 +30,7 @@
   const state = {
     depth: "simple",
     theme: "auto",
+    palette: "parchment",
     reciter: "ar.husary",
     translations: TRANSLATIONS.filter((t) => t.default).map((t) => t.id),
     features: {
@@ -61,6 +62,7 @@
     } catch (e) {}
     state.depth = "simple";
     state.theme = "auto";
+    state.palette = "parchment";
     state.reciter = "ar.husary";
     state.translations = TRANSLATIONS.filter((t) => t.default).map((t) => t.id);
     state.features = {
@@ -100,6 +102,11 @@
       root.style.colorScheme = "light dark";
       root.removeAttribute("data-theme");
     }
+    if (state.palette && state.palette !== "parchment") {
+      root.setAttribute("data-palette", state.palette);
+    } else {
+      root.removeAttribute("data-palette");
+    }
   }
 
   function buildPanel() {
@@ -132,6 +139,12 @@
         <option value="scholar" ${state.depth === "scholar" ? "selected" : ""}>Scholar</option>
         <option value="encyclopedic" ${state.depth === "encyclopedic" ? "selected" : ""}>Encyclopedic</option>
       </select></div>
+      <h4>Palette</h4>
+      <div class="row"><select id="setPalette" aria-label="Color palette">
+        <option value="parchment" ${state.palette === "parchment" || !state.palette ? "selected" : ""}>Parchment</option>
+        <option value="paper" ${state.palette === "paper" ? "selected" : ""}>Paper</option>
+        <option value="sage" ${state.palette === "sage" ? "selected" : ""}>Sage</option>
+      </select></div>
       <h4>Theme</h4>
       <div class="row"><select id="setTheme">
         <option value="auto" ${state.theme === "auto" ? "selected" : ""}>Auto (system)</option>
@@ -157,6 +170,13 @@
         state.depth = depthSel.value;
         save();
         applyDepth();
+      });
+    const paletteSel = document.getElementById("setPalette");
+    if (paletteSel)
+      paletteSel.addEventListener("change", () => {
+        state.palette = paletteSel.value;
+        save();
+        applyTheme();
       });
     const themeSel = document.getElementById("setTheme");
     if (themeSel)
