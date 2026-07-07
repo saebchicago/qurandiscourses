@@ -579,6 +579,39 @@
             </details>
           </div>
 
+          <!-- Co-occurring roots (filtered, verse-level, function-word ceiling) -->
+          <div class="stat-block" id="detailCoFilteredBlock">
+            <h4>
+              Co-occurring roots
+              <span
+                class="badge nuanced"
+                aria-label="Nuanced"
+                tabindex="0"
+                title="Nuanced · verse-level window, function-word roots excluded"
+                >~</span
+              >
+            </h4>
+            <details class="method-note" open>
+              <summary>ℹ Method</summary>
+              <p>
+                Counted at verse level: two roots co-occur once for each
+                verse in which both are attested, regardless of order or
+                distance within the verse. Roots occurring more than 700
+                times across the whole corpus
+                (<em>a-l-h, q-w-l, k-w-n, r-b-b, a-m-n, ʿ-l-m</em>) are
+                excluded as counting partners: they are frequent enough to
+                co-occur with nearly everything, so including them would
+                make every root's list look the same. The 12 remaining
+                partners with the highest counts are listed below. This is a
+                separate, filtered view from the raw
+                <q>Top co-occurring roots</q> list above. Co-occurrence
+                describes distribution in the text. It does not by itself
+                establish meaning.
+              </p>
+            </details>
+            <ul class="co-root-list" id="detailCoFilteredList"></ul>
+          </div>
+
           <p class="prov" style="margin-top: 0.5rem">
             <a
               id="detailCorpusLink"
@@ -841,6 +874,16 @@
             errEl.textContent = `Root detail unavailable: ${err.message}`;
             errEl.hidden = false;
             document.getElementById("detailArabic").textContent = "";
+            return;
+          }
+
+          try {
+            const sk = safeKey(bw);
+            const coResp = await fetch(`data/cooccurrence/${sk}.json`);
+            const coData = coResp.ok ? await coResp.json() : null;
+            renderFilteredCoRoots(coData ? coData.coRoots : []);
+          } catch {
+            renderFilteredCoRoots([]);
           }
         }
 
@@ -960,6 +1003,29 @@
                 `<a href="roots.html?root=${cr.safeKey}">` +
                 `<span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">${cr.arabic}</span>` +
                 `<span>${cr.rootLatin}${meaning ? " — " + meaning : ""}</span>` +
+                `<span class="co-count">${cr.count.toLocaleString()}×</span>` +
+                `</a>` +
+                `</li>`
+              );
+            })
+            .join("");
+        }
+
+        function renderFilteredCoRoots(coRoots) {
+          const list = document.getElementById("detailCoFilteredList");
+          if (!coRoots || coRoots.length === 0) {
+            list.innerHTML =
+              '<li style="color:var(--muted);font-size:0.85rem">No co-occurrence data.</li>';
+            return;
+          }
+          list.innerHTML = coRoots
+            .map((cr) => {
+              const meaning = MEANINGS[cr.root] || "";
+              return (
+                `<li>` +
+                `<a href="roots.html?root=${cr.safeKey}">` +
+                `<span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">${cr.arabic}</span>` +
+                `<span>${cr.rootLatin}${meaning ? " (" + meaning + ")" : ""}</span>` +
                 `<span class="co-count">${cr.count.toLocaleString()}×</span>` +
                 `</a>` +
                 `</li>`
