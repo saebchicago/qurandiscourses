@@ -6,8 +6,9 @@
     <title>Sources · Discourses</title>
     <meta
       name="description"
-      content="Every dataset, translation, scholarly work, and API that Discourses draws on."
+      content="Every dataset, translation, scholarly work, and API that Discourses draws on, cited in Chicago style."
     />
+    <link rel="canonical" href="https://qurandiscourse.netlify.app/sources.html" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,6 +17,11 @@
     />
     <link rel="stylesheet" href="assets/style.css" />
     <script src="assets/nav.js"></script>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="%232b1d0e"/><text x="32" y="46" text-anchor="middle" font-family="Amiri,serif" font-size="42" fill="%23f6efe2">ق</text></svg>'
+    />
   </head>
   <body>
     <a href="#main" class="skip">Skip to main content</a>
@@ -103,15 +109,22 @@
           Every dataset, translation, scholarly work, and tool that Discourses
           draws on, with license and verification status.
         </p>
+        <p class="method-note">
+          Entries follow the Chicago Manual of Style, bibliography form. Where a
+          detail (edition, place, or year) could not be confirmed against the
+          work itself, it is omitted rather than guessed. Translations rendered
+          on the Read page are served through the alquran.cloud API; the print
+          editions cited are the originals of those renderings.
+        </p>
         <h3>Primary text</h3>
         <ul>
           <li>
-            <strong>Tanzil Uthmani text</strong>.
-            <a href="https://tanzil.net/" rel="noopener">tanzil.net</a>. CC
-            BY-ND 3.0.
+            Tanzil Project. <em>Tanzil Quran Text</em>, Uthmani script. 2007–.
+            <a href="https://tanzil.net/" rel="noopener">https://tanzil.net/</a>.
+            Distributed under CC BY-ND 3.0.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
+              data-source-ids="tanzil"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -119,10 +132,10 @@
             >
           </li>
           <li>
-            <strong>King Fahd Complex Madinah Mushaf</strong>.
+            King Fahd Complex for the Printing of the Holy Qur'an.
+            <em>Mushaf al-Madinah</em>. Madinah: King Fahd Complex.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -133,12 +146,12 @@
         <h3>Morphology and lexicography</h3>
         <ul>
           <li>
-            <strong>Quranic Arabic Corpus v0.4 (Leeds)</strong>. Kais Dukes,
-            2009–2017. Morphological annotation of all 77,430 word-tokens of the
-            Qur'an.
+            Dukes, Kais. <em>The Quranic Arabic Corpus</em>, version 0.4. Leeds:
+            Language Research Group, University of Leeds, 2009–2017.
             <a href="https://corpus.quran.com/" rel="noopener"
-              >corpus.quran.com</a
-            >. GPL licensed. Bundled in this site as per-surah JSON in
+              >https://corpus.quran.com/</a
+            >. GNU GPL. Morphological annotation of all 77,430 word-tokens of
+            the Qur'an; bundled in this site as per-surah JSON in
             <code>data/morphology/</code> and aggregated in
             <code>data/roots-summary.json</code>.
             <span
@@ -151,14 +164,13 @@
             >
           </li>
           <li>
-            <strong>Lane's Arabic-English Lexicon</strong> (1863–1893). Public
-            domain.
+            Lane, Edward William. <em>An Arabic-English Lexicon</em>. 8 vols.
+            London: Williams and Norgate, 1863–1893. Public domain.
             <a href="https://lexicon.quranic-research.net/" rel="noopener"
-              >lexicon.quranic-research.net</a
+              >https://lexicon.quranic-research.net/</a
             >.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -166,16 +178,16 @@
             >
           </li>
           <li>
-            <strong>Penrice, Dictionary of the Koran</strong> (1873). Public
-            domain.
+            Penrice, John.
+            <em>A Dictionary and Glossary of the Kor-ân</em>. London: Henry S.
+            King, 1873. Public domain.
             <a
               href="https://archive.org/details/dictionaryglossa00penruoft"
               rel="noopener"
-              >archive.org</a
+              >https://archive.org/details/dictionaryglossa00penruoft</a
             >.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -183,10 +195,11 @@
             >
           </li>
           <li>
-            <strong>Hava, Arabic-English Dictionary</strong> (1899).
+            Hava, J. G.
+            <em>Arabic-English Dictionary for the Use of Students</em>. Beirut:
+            Catholic Press, 1899.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -194,10 +207,10 @@
             >
           </li>
           <li>
-            <strong>Wehr, Dictionary of Modern Written Arabic</strong>.
+            Wehr, Hans. <em>A Dictionary of Modern Written Arabic</em>. Edited
+            by J Milton Cowan. 4th ed. Wiesbaden: Otto Harrassowitz, 1979.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -205,7 +218,7 @@
             >
           </li>
           <li class="scholar-only">
-            <strong>Farahi, Mufradat al-Qur'an</strong>.
+            Farahi, Hamiduddin. <em>Mufradat al-Qur'an</em>.
             <span
               class="badge pending"
               aria-label="Pending"
@@ -218,26 +231,28 @@
         <h3>Patterns and cross-references</h3>
         <ul>
           <li id="mishkat">
-            <strong>Mishkat Mutashābihāt corpus</strong> — verse-to-verse
-            cross-references drawn from 13 classical Islamic books of
-            mutashābihāt scholarship (similar and structurally parallel verses
-            as identified by classical scholars). 1,905 verse nodes, 3,294
-            directed edges, expanded to a bidirectional index.
+            Alhassan (Threadwork). <em>Mishkat Mutashābihāt Corpus</em>. GitHub
+            repository, accessed July 2026.
             <a
               href="https://github.com/Alhassan777/Mishkat"
               target="_blank"
               rel="noopener"
-              >github.com/Alhassan777/Mishkat</a
-            >.
+              >https://github.com/Alhassan777/Mishkat</a
+            >. Verse-to-verse cross-references drawn from 13 classical Islamic
+            books of mutashābihāt scholarship (similar and structurally parallel
+            verses as identified by classical scholars); 1,905 verse nodes,
+            3,294 directed edges, expanded to a bidirectional index. License
+            pending: none published in the source repository.
             <span
               class="badge ok"
+              data-source-ids="mishkat"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
               >●</span
             >
-            <br /><small style="color: var(--muted)"
-              >Note: the QurSim corpus (Sharaf &amp; Atwell, LREC 2012) was
+            <br /><small class="muted-note"
+              >Note: the QurSim corpus (Sharaf and Atwell, LREC 2012) was
               previously cited here. Its canonical source at
               corpus.quran.com/qursim.jsp is no longer accessible; Mishkat
               serves the same function from a classical-scholarship
@@ -245,11 +260,14 @@
             >
           </li>
           <li>
-            <strong>QUL Mutashabihat dataset</strong>, Tarteel (~5,277 entries).
-            <a href="https://qul.tarteel.ai/" rel="noopener">qul.tarteel.ai</a>.
+            Tarteel AI and Quran.com Foundation. "Mutashabihat Dataset."
+            <em>Quranic Universal Library</em>. Approximately 5,277 entries.
+            <a href="https://qul.tarteel.ai/" rel="noopener"
+              >https://qul.tarteel.ai/</a
+            >.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
+              data-source-ids="qul-mutashabihat"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -257,10 +275,11 @@
             >
           </li>
           <li>
-            <strong>QUL Similar Ayah dataset</strong> (~4,001 pairs).
+            Tarteel AI and Quran.com Foundation. "Similar Ayah Dataset."
+            <em>Quranic Universal Library</em>. Approximately 4,001 pairs.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
+              data-source-ids="qul"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -271,10 +290,11 @@
         <h3>Translations rendered on this site</h3>
         <ul>
           <li>
-            Saheeh International (public domain).
+            Saheeh International.
+            <em>The Qur'ān: Arabic Text with Corresponding English Meanings</em>.
+            Jeddah: Abul-Qasim Publishing House, 1997.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -282,10 +302,11 @@
             >
           </li>
           <li>
-            Pickthall (1930, public domain).
+            Pickthall, Marmaduke.
+            <em>The Meaning of the Glorious Koran</em>. New York: A. A. Knopf,
+            1930. Public domain.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -293,10 +314,11 @@
             >
           </li>
           <li>
-            Yusuf Ali (1934, public domain).
+            Ali, Abdullah Yusuf.
+            <em>The Holy Qur'ān: Text, Translation and Commentary</em>. Lahore:
+            Shaikh Muhammad Ashraf, 1934. Public domain.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -304,10 +326,11 @@
             >
           </li>
           <li>
-            Maududi (Ansari English).
+            Mawdudi, Sayyid Abul A'la.
+            <em>Towards Understanding the Qur'ān</em>. Translated and edited by
+            Zafar Ishaq Ansari. Leicester: Islamic Foundation, 1988–.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -315,10 +338,10 @@
             >
           </li>
           <li>
-            Shakir.
+            Shakir, M. H. <em>The Qur'an</em>. Elmhurst, NY: Tahrike Tarsile
+            Qur'an.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -326,10 +349,10 @@
             >
           </li>
           <li>
-            Arberry (1955).
+            Arberry, Arthur J. <em>The Koran Interpreted</em>. 2 vols. London:
+            George Allen &amp; Unwin, 1955.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -337,10 +360,10 @@
             >
           </li>
           <li>
-            Ahmed Ali.
+            Ali, Ahmed. <em>Al-Qur'ān: A Contemporary Translation</em>.
+            Princeton, NJ: Princeton University Press, 1988.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -348,10 +371,11 @@
             >
           </li>
           <li>
-            Daryabadi.
+            Daryabadi, Abdul Majid.
+            <em>The Glorious Qur'an: Text, Translation and Commentary</em>.
+            Leicester: Islamic Foundation, 2001.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -359,10 +383,10 @@
             >
           </li>
           <li>
-            Qaribullah & Darwish.
+            Qaribullah, Hasan, and Ahmad Darwish. English translation of the
+            Qur'an, rendered via the alquran.cloud API.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -370,10 +394,13 @@
             >
           </li>
           <li>
-            Hilali & Khan.
+            al-Hilali, Muhammad Taqi-ud-Din, and Muhammad Muhsin Khan.
+            <em
+              >The Noble Qur'an: English Translation of the Meanings and
+              Commentary</em
+            >. Madinah: King Fahd Complex for the Printing of the Holy Qur'an.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -381,10 +408,10 @@
             >
           </li>
           <li>
-            Ahmed Raza Khan.
+            Khan, Ahmed Raza. <em>Kanz al-Iman</em> (1910), English rendering
+            via the alquran.cloud API.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -392,10 +419,9 @@
             >
           </li>
           <li>
-            Talal Itani (Quran in English, 2012).
+            Itani, Talal. <em>Quran in English</em>. Dallas: ClearQuran, 2012.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -403,10 +429,10 @@
             >
           </li>
           <li>
-            Abdel Haleem (Oxford, 2004).
+            Abdel Haleem, M. A. S. <em>The Qur'an: A New Translation</em>.
+            Oxford: Oxford University Press, 2004.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -414,9 +440,9 @@
             >
           </li>
           <li>
-            <strong>The Clear Quran: A Thematic English Translation</strong>.
-            Dr. Mustafa Khattab. Book of Signs Foundation, 2016. ISBN
-            9780998539003.
+            Khattab, Mustafa.
+            <em>The Clear Quran: A Thematic English Translation</em>. Lombard,
+            IL: Book of Signs Foundation, 2016. ISBN 9780998539003.
             <span
               class="badge ok"
               data-source-ids="the-clear-quran"
@@ -427,10 +453,10 @@
             >
           </li>
           <li class="scholar-only">
-            Asad, The Message of the Qur'an (1980).
+            Asad, Muhammad. <em>The Message of the Qur'ān</em>. Gibraltar: Dar
+            al-Andalus, 1980.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -438,10 +464,13 @@
             >
           </li>
           <li class="scholar-only">
-            Bridges Foundation translation (2020).
+            <em
+              >The Bridges' Translation of the Ten Qira'at of the Noble
+              Qur'an</em
+            >. Translated by Fadel Soliman and others. Bloomington, IN:
+            AuthorHouse, 2020.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -452,10 +481,10 @@
         <h3>Classical tafsir lineage</h3>
         <ul>
           <li>
-            al-Tabari (d. 310/923), <em>Jami' al-Bayan</em>.
+            al-Tabari, Muhammad ibn Jarir (d. 310/923).
+            <em>Jāmiʿ al-bayān ʿan taʾwīl āy al-Qurʾān</em>.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -463,10 +492,10 @@
             >
           </li>
           <li>
-            al-Zamakhshari (d. 538/1144), <em>al-Kashshaf</em>.
+            al-Zamakhshari, Mahmud ibn ʿUmar (d. 538/1144).
+            <em>al-Kashshāf ʿan ḥaqāʾiq ghawāmiḍ al-tanzīl</em>.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -474,10 +503,10 @@
             >
           </li>
           <li>
-            al-Razi (d. 606/1210), <em>Mafatih al-Ghayb</em>.
+            al-Razi, Fakhr al-Din (d. 606/1210).
+            <em>Mafātīḥ al-ghayb (al-Tafsīr al-kabīr)</em>.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -485,10 +514,10 @@
             >
           </li>
           <li>
-            al-Qurtubi (d. 671/1273), <em>al-Jami'</em>.
+            al-Qurtubi, Muhammad ibn Ahmad (d. 671/1273).
+            <em>al-Jāmiʿ li-aḥkām al-Qurʾān</em>.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -496,10 +525,10 @@
             >
           </li>
           <li>
-            Ibn Kathir (d. 774/1373), <em>Tafsir al-Qur'an al-ʿAzim</em>.
+            Ibn Kathir, Ismaʿil ibn ʿUmar (d. 774/1373).
+            <em>Tafsīr al-Qurʾān al-ʿAẓīm</em>.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -507,10 +536,10 @@
             >
           </li>
           <li>
-            al-Suyuti (d. 911/1505), <em>al-Itqan</em>.
+            al-Suyuti, Jalal al-Din (d. 911/1505).
+            <em>al-Itqān fī ʿulūm al-Qurʾān</em>.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -518,10 +547,9 @@
             >
           </li>
           <li class="scholar-only">
-            al-Alusi (d. 1854), <em>Ruh al-Ma'ani</em>.
+            al-Alusi, Mahmud (d. 1270/1854). <em>Rūḥ al-maʿānī</em>.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -529,10 +557,10 @@
             >
           </li>
           <li class="scholar-only">
-            Ibn 'Ashur (d. 1973), <em>al-Tahrir wa-l-Tanwir</em>.
+            Ibn ʿAshur, Muhammad al-Tahir (d. 1393/1973).
+            <em>al-Taḥrīr wa-l-tanwīr</em>. Tunis: al-Dar al-Tunisiyya, 1984.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -540,10 +568,11 @@
             >
           </li>
           <li class="encyclopedic-only">
-            al-Wahidi (d. 468/1075), <em>Asbab al-Nuzul</em>, Guezzou trans.
+            al-Wahidi, ʿAli ibn Ahmad (d. 468/1075). <em>Asbāb al-Nuzūl</em>.
+            Translated by Mokrane Guezzou. Amman: Royal Aal al-Bayt Institute
+            for Islamic Thought, 2008.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -554,8 +583,8 @@
         <h3>Coherence-based reading</h3>
         <ul>
           <li>
-            Hamiduddin Farahi, <em>Mufradat al-Qur'an</em>,
-            <em>Niẓām al-Qur'an</em>.
+            Farahi, Hamiduddin. <em>Mufradat al-Qur'an</em>;
+            <em>Niẓām al-Qur'an wa-taʾwīl al-furqān bi-l-furqān</em>.
             <span
               class="badge pending"
               aria-label="Pending"
@@ -565,13 +594,13 @@
             >
           </li>
           <li>
-            Amin Ahsan Islahi, <em>Tadabbur-i-Qur'an</em>, 9 vols.
+            Islahi, Amin Ahsan. <em>Tadabbur-i Qur'ān</em>. 9 vols. Lahore:
+            Faran Foundation.
             <a href="https://www.tadabbur-i-quran.org/" rel="noopener"
-              >tadabbur-i-quran.org</a
+              >https://www.tadabbur-i-quran.org/</a
             >.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -579,10 +608,13 @@
             >
           </li>
           <li>
-            Mustansir Mir, <em>Coherence in the Qur'an</em> (1986).
+            Mir, Mustansir.
+            <em
+              >Coherence in the Qur'ān: A Study of Iṣlāḥī's Concept of Naẓm in
+              Tadabbur-i Qur'ān</em
+            >. Indianapolis: American Trust Publications, 1986.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -590,11 +622,10 @@
             >
           </li>
           <li>
-            Mustansir Mir,
-            <em>Thematic and Structural Coherence in the Qur'an</em>.
+            Mir, Mustansir. "Thematic and Structural Coherence in the Qur'ān."
+            PhD diss., University of Michigan, 1983.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -602,12 +633,12 @@
             >
           </li>
           <li>
-            Shehzad Saleem and al-Mawrid.
-            <a href="https://www.al-mawrid.org/" rel="noopener">al-mawrid.org</a
+            Saleem, Shehzad, and the al-Mawrid Institute.
+            <a href="https://www.al-mawrid.org/" rel="noopener"
+              >https://www.al-mawrid.org/</a
             >.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -615,11 +646,12 @@
             >
           </li>
           <li class="scholar-only">
-            Javed Ahmad Ghamidi.
-            <a href="https://www.ghamidi.org/" rel="noopener">ghamidi.org</a>.
+            Ghamidi, Javed Ahmad.
+            <a href="https://www.ghamidi.org/" rel="noopener"
+              >https://www.ghamidi.org/</a
+            >.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -635,21 +667,24 @@
         </p>
         <ul>
           <li>
-            <strong
+            Khan, Irfan Ahmad.
+            <em
               >Reflections on the Qur'an: Understanding Surahs al-Fatihah and
-              al-Baqarah</strong
-            >. Irfan Ahmad Khan. Islamic Foundation UK, 2005. The first volume
-            of Khan's English-language tafsir, covering the opening two surahs.
+              al-Baqarah</em
+            >. Markfield, Leicestershire: Islamic Foundation, 2005. The first
+            volume of Khan's English-language tafsir, covering the opening two
+            surahs.
             <a href="https://www.kubepublishing.com/" rel="noopener"
               >Kube / Islamic Foundation UK</a
             >.
           </li>
           <li>
-            <strong
+            Khan, Irfan Ahmad.
+            <em
               >An Exercise in Understanding the Qur'an: An Outline Study of the
-              Last Thirty Divine Discourses (Surah 85 to Surah 114)</strong
-            >. Irfan Ahmad Khan, with a foreword by Mustansir Mir. Association
-            of Quranic Understanding, 2013. 213 pp. ISBN 9781567447736. Khan's
+              Last Thirty Divine Discourses (Surah 85 to Surah 114)</em
+            >. Foreword by Mustansir Mir. Chicago: Association of Quranic
+            Understanding, 2013. 213 pp. ISBN 9781567447736. Khan's
             outline-structure methodology applied to the final thirty surahs.
             Available through AQU and major Islamic bookstores.
           </li>
@@ -672,41 +707,42 @@
         <h4>Translations</h4>
         <ul>
           <li>
-            <strong>The Meaning of the Holy Qur'an</strong>. Abdullah Yusuf Ali.
-            Amana Publications.
+            Ali, Abdullah Yusuf. <em>The Meaning of the Holy Qur'an</em>.
+            Beltsville, MD: Amana Publications.
           </li>
           <li>
-            <strong>Towards Understanding the Qur'an</strong>. Sayyid Abul Ala
-            Mawdudi. Islamic Foundation UK.
+            Mawdudi, Sayyid Abul Ala.
+            <em>Towards Understanding the Qur'an</em>. Leicester: Islamic
+            Foundation.
           </li>
           <li>
-            <strong>The Meaning of the Glorious Qur'an</strong>. M.M. Pickthall,
-            rendered into modern standard English by Dr. Arafat Al-Ashi. Amana
-            Publications.
+            Pickthall, M. M. <em>The Meaning of the Glorious Qur'an</em>.
+            Rendered into modern standard English by Arafat Al-Ashi.
+            Beltsville, MD: Amana Publications.
           </li>
         </ul>
         <h4>Tafaseer (Qur'anic exegesis)</h4>
         <ul>
           <li>
-            <strong>Tafsir Ibn Kathir</strong> (10 vols). Imam Abu Al-Fida
-            Ismail Ibn Kathir. Darussalam Publications.
+            Ibn Kathir, Abu al-Fida Ismail. <em>Tafsir Ibn Kathir</em>. 10 vols.
+            Riyadh: Darussalam Publications.
           </li>
           <li>
-            <strong>In the Shade of the Qur'an</strong>. Sayyid Qutb, translated
-            by Adil Salahi and Ashur Shamis. Islamic Foundation UK.
+            Qutb, Sayyid. <em>In the Shade of the Qur'an</em>. Translated by
+            Adil Salahi and Ashur Shamis. Leicester: Islamic Foundation.
           </li>
           <li>
-            <strong>Reflections on the Qur'an</strong> (first 2 chapters). Irfan
-            Ahmad Khan. Islamic Foundation UK, 2005.
+            Khan, Irfan Ahmad. <em>Reflections on the Qur'an</em> (first 2
+            chapters). Leicester: Islamic Foundation, 2005.
           </li>
           <li>
-            <strong>An Exercise in Understanding the Qur'an</strong>. Irfan
-            Ahmad Khan, with a foreword by Mustansir Mir. Association for
-            Quranic Understanding, 2013. ISBN 9781567447736.
+            Khan, Irfan Ahmad.
+            <em>An Exercise in Understanding the Qur'an</em>. Foreword by
+            Mustansir Mir. Chicago: Association of Quranic Understanding, 2013.
+            ISBN 9781567447736.
           </li>
           <li>
-            <strong>Tafheem ul-Qur'an</strong>. Sayyid Abul Ala Mawdudi. Online
-            at
+            Mawdudi, Sayyid Abul Ala. <em>Tafheem ul-Qur'an</em>. Online at
             <a href="https://englishtafsir.com/" rel="noopener"
               >englishtafsir.com</a
             >.
@@ -715,60 +751,66 @@
         <h4>Qur'an guide (methodology and coherence)</h4>
         <ul>
           <li>
-            <strong>Coherence in the Qur'an</strong>. Mustansir Mir. American
-            Trust Publications.
+            Mir, Mustansir. <em>Coherence in the Qur'an</em>. Indianapolis:
+            American Trust Publications.
           </li>
           <li>
-            <strong>Guidance from the Holy Qur'an</strong>. Sayyid Abul-Hasan
-            Ali Nadwi, translated by Abdur Raheem Kidwai. Islamic Foundation UK.
+            Nadwi, Sayyid Abul-Hasan Ali.
+            <em>Guidance from the Holy Qur'an</em>. Translated by Abdur Raheem
+            Kidwai. Leicester: Islamic Foundation.
           </li>
           <li>
-            <strong>Four Key Concepts of the Qur'an</strong>. Sayyid Abul Ala
-            Mawdudi, translated and edited by Tariq Jan. Islamic Foundation UK.
+            Mawdudi, Sayyid Abul Ala. <em>Four Key Concepts of the Qur'an</em>.
+            Translated and edited by Tariq Jan. Leicester: Islamic Foundation.
           </li>
           <li>
-            <strong
+            Von Denffer, Ahmad.
+            <em
               >Ulum al-Qur'an: An Introduction to the Sciences of the
-              Qur'an</strong
-            >. Ahmad Von Denffer. Islamic Foundation UK.
+              Qur'an</em
+            >. Leicester: Islamic Foundation.
           </li>
         </ul>
         <h4>Qur'anic Arabic studies</h4>
         <ul>
           <li>
-            <strong>Qur'an Made Easy</strong>. SA Behlim. Kazi Publications.
+            Behlim, S. A. <em>Qur'an Made Easy</em>. Chicago: Kazi
+            Publications.
           </li>
           <li>
-            <strong>Arabic Course for English-Speaking Students</strong> (3
-            vols). Dr. V. Abdur Rahim. UK Islamic Academy.
+            Abdur Rahim, V.
+            <em>Arabic Course for English-Speaking Students</em>. 3 vols.
+            Leicester: UK Islamic Academy.
           </li>
           <li>
-            <strong>Arabic Tutor</strong> (4 vols). Maulana Ibrahim Muhammad.
-            Albalagh Bookstore.
+            Muhammad, Ibrahim. <em>Arabic Tutor</em>. 4 vols. Albalagh
+            Bookstore.
           </li>
           <li>
-            <strong>Access to Qur'anic Arabic</strong> (3 books + 4 CDs). Abdul
-            Wahid Hamid. Muslim Education and Literary Services, UK.
+            Hamid, Abdul Wahid. <em>Access to Qur'anic Arabic</em>. 3 books + 4
+            CDs. London: Muslim Education and Literary Services.
           </li>
           <li>
-            <strong>Learn the Language of the Holy Qur'an</strong>. Dr. Abdullah
-            Abbas Nadwi. Iqra International Education Foundation.
+            Nadwi, Abdullah Abbas.
+            <em>Learn the Language of the Holy Qur'an</em>. Chicago: Iqra
+            International Educational Foundation.
           </li>
           <li>
-            <strong>Vocabulary of the Holy Qur'an</strong>. Dr. Abdullah Abbas
-            Nadwi. Iqra International Education Foundation.
+            Nadwi, Abdullah Abbas. <em>Vocabulary of the Holy Qur'an</em>.
+            Chicago: Iqra International Educational Foundation.
           </li>
           <li>
-            <strong>Madinah Arabic</strong>. free online course at
+            <em>Madinah Arabic</em>. Free online course at
             <a href="https://www.madinaharabic.com/" rel="noopener"
               >madinaharabic.com</a
             >.
           </li>
           <li>
-            <strong>Al-Mu'jam al-Mufahras li-Alfaz al-Qur'an al-Karim</strong>.
-            Muhammad Fu'ad Abd al-Baqi. The classical concordance of Qur'anic
-            words; the pre-digital ancestor of the computational frequency
-            counts on the <a href="roots.html">Roots</a> page.
+            ʿAbd al-Baqi, Muhammad Fu'ad.
+            <em>Al-Muʿjam al-Mufahras li-Alfāẓ al-Qurʾān al-Karīm</em>. The
+            classical concordance of Qur'anic words; the pre-digital ancestor of
+            the computational frequency counts on the
+            <a href="roots.html">Roots</a> page.
           </li>
         </ul>
         <p>
@@ -782,10 +824,11 @@
         <h3>Academic chronology and history</h3>
         <ul>
           <li>
-            Nöldeke & Schwally, <em>Geschichte des Qorans</em> (1909–1938).
+            Nöldeke, Theodor, and Friedrich Schwally.
+            <em>Geschichte des Qorāns</em>. 2nd ed. 3 vols. Leipzig:
+            Dieterichsche Verlagsbuchhandlung, 1909–1938.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -793,10 +836,13 @@
             >
           </li>
           <li>
-            Bell, <em>The Qur'an: A Critical Re-arrangement</em> (1937–1939).
+            Bell, Richard.
+            <em
+              >The Qur'ān: Translated, with a Critical Re-arrangement of the
+              Surahs</em
+            >. 2 vols. Edinburgh: T. &amp; T. Clark, 1937–1939.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -804,10 +850,10 @@
             >
           </li>
           <li>
-            Watt, <em>Bell's Introduction to the Qur'an</em> (1970).
+            Watt, W. Montgomery. <em>Bell's Introduction to the Qur'ān</em>.
+            Edinburgh: Edinburgh University Press, 1970.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -815,10 +861,13 @@
             >
           </li>
           <li class="scholar-only">
-            Wansbrough, <em>Quranic Studies</em> (1977).
+            Wansbrough, John.
+            <em
+              >Quranic Studies: Sources and Methods of Scriptural
+              Interpretation</em
+            >. Oxford: Oxford University Press, 1977.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -826,11 +875,11 @@
             >
           </li>
           <li class="scholar-only">
-            Reynolds (ed.),
-            <em>The Qur'an in its Historical Context</em> (2008).
+            Reynolds, Gabriel Said, ed.
+            <em>The Qur'ān in Its Historical Context</em>. London: Routledge,
+            2008.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -838,11 +887,11 @@
             >
           </li>
           <li class="scholar-only">
-            Sinai,
-            <em>The Qur'an: A Historical-Critical Introduction</em> (2017).
+            Sinai, Nicolai.
+            <em>The Qur'an: A Historical-Critical Introduction</em>. Edinburgh:
+            Edinburgh University Press, 2017.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -850,10 +899,10 @@
             >
           </li>
           <li class="scholar-only">
-            Sadeghi & Goudarzi, <em>Der Islam</em> 87:1 (2012).
+            Sadeghi, Behnam, and Mohsen Goudarzi. "Ṣanʿāʾ 1 and the Origins of
+            the Qurʾān." <em>Der Islam</em> 87, no. 1–2 (2012): 1–129.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -861,10 +910,10 @@
             >
           </li>
           <li class="encyclopedic-only">
-            <em>Encyclopaedia of the Qur'an</em>, Brill.
+            McAuliffe, Jane Dammen, ed. <em>Encyclopaedia of the Qurʾān</em>. 6
+            vols. Leiden: Brill, 2001–2006.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -872,10 +921,11 @@
             >
           </li>
           <li class="encyclopedic-only">
-            <em>Oxford Handbook of Qur'anic Studies</em>.
+            Shah, Mustafa, and Muhammad Abdel Haleem, eds.
+            <em>The Oxford Handbook of Qur'anic Studies</em>. Oxford: Oxford
+            University Press, 2020.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -883,10 +933,12 @@
             >
           </li>
           <li class="encyclopedic-only">
-            IQSA. <a href="https://iqsaweb.org/" rel="noopener">iqsaweb.org</a>.
+            International Qur'anic Studies Association (IQSA).
+            <a href="https://iqsaweb.org/" rel="noopener"
+              >https://iqsaweb.org/</a
+            >.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -897,11 +949,12 @@
         <h3>Rhetoric and stylistics</h3>
         <ul>
           <li>
-            Abdel Haleem, "Grammatical Shift for Rhetorical Purposes,"
-            <em>BSOAS</em> 55:3 (1992).
+            Abdel Haleem, Muhammad. "Grammatical Shift for Rhetorical Purposes:
+            Iltifāt and Related Features in the Qur'ān."
+            <em>Bulletin of the School of Oriental and African Studies</em> 55,
+            no. 3 (1992): 407–32.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -909,11 +962,11 @@
             >
           </li>
           <li>
-            Abdel Haleem,
-            <em>Understanding the Qur'an: Themes and Style</em> (1999).
+            Abdel Haleem, Muhammad.
+            <em>Understanding the Qur'an: Themes and Style</em>. London: I. B.
+            Tauris, 1999.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -921,11 +974,11 @@
             >
           </li>
           <li class="scholar-only">
-            Neuwirth,
-            <em>Studien zur Komposition der mekkanischen Suren</em> (1981).
+            Neuwirth, Angelika.
+            <em>Studien zur Komposition der mekkanischen Suren</em>. Berlin:
+            Walter de Gruyter, 1981.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -933,10 +986,11 @@
             >
           </li>
           <li class="scholar-only">
-            Cuypers, <em>The Composition of the Qur'an</em> (2015).
+            Cuypers, Michel.
+            <em>The Composition of the Qur'an: Rhetorical Analysis</em>.
+            Translated by Jerry Ryan. London: Bloomsbury Academic, 2015.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -947,10 +1001,10 @@
         <h3>APIs and digital tools</h3>
         <ul>
           <li>
-            <strong>Quran.com Foundation Content API v4</strong>. Quran.com
-            Foundation, 2025.
+            Quran.com Foundation.
+            <em>Quran.com Foundation Content API</em>, v4. 2025.
             <a href="https://api-docs.quran.foundation" rel="noopener"
-              >api-docs.quran.foundation</a
+              >https://api-docs.quran.foundation</a
             >. Used for per-surah Makki/Madani classification (revelation-place
             field, <code>/chapters</code> endpoint); results committed to
             <code>data/surah-meta.json</code> with the source string recorded
@@ -965,13 +1019,14 @@
             >
           </li>
           <li>
-            <strong>alquran.cloud API</strong>.
+            Islamic Network. <em>AlQuran.cloud API</em>, v1.
             <a href="https://alquran.cloud/api" rel="noopener"
-              >alquran.cloud/api</a
-            >. Free, no auth.
+              >https://alquran.cloud/api</a
+            >. Free, no authentication. Serves verse text and the translation
+            renderings on the Read page.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
+              data-source-ids="alquran-cloud-api"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -979,11 +1034,14 @@
             >
           </li>
           <li>
-            <strong>QUL (Tarteel)</strong>.
-            <a href="https://qul.tarteel.ai/" rel="noopener">qul.tarteel.ai</a>.
+            Tarteel AI and Quran.com Foundation.
+            <em>Quranic Universal Library (QUL)</em>.
+            <a href="https://qul.tarteel.ai/" rel="noopener"
+              >https://qul.tarteel.ai/</a
+            >.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
+              data-source-ids="qul"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -991,11 +1049,11 @@
             >
           </li>
           <li class="scholar-only">
-            Tarteel.ai.
-            <a href="https://tarteel.ai/" rel="noopener">tarteel.ai</a>.
+            Tarteel AI.
+            <a href="https://tarteel.ai/" rel="noopener">https://tarteel.ai/</a
+            >.
             <span
               class="badge ok"
-              data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
               tabindex="0"
               title="Verified · confirmed from a primary source"
@@ -1025,7 +1083,9 @@
               >●</span
             >
             <strong>Verified</strong> — confirmed from the primary source cited.
-            Click the badge for the full citation.
+            Where the badge is attached to a statistic, clicking it opens the
+            full citation (this example opens the Leeds corpus citation). On
+            this Sources page the citation is the entry itself.
           </li>
           <li>
             <span
@@ -1050,7 +1110,7 @@
             context-dependent; use with the linked note.
           </li>
         </ul>
-        <p style="font-size: 0.85rem; color: var(--muted)">
+        <p class="muted-note">
           The badge component is implemented in
           <code>assets/cite-badge.js</code> (plain vanilla JS, no dependencies).
           Add
@@ -1075,6 +1135,11 @@
     </main>
     <footer class="site">
       <p>Discourses is built in memory of Dr. Irfan Ahmad Khan (1931–2018).</p>
+      <p class="footer-links">
+        <a href="about.html">About</a> · <a href="sources.html">Sources</a> ·
+        <a href="credits.html">Credits</a> ·
+        <a href="changelog.html">Changelog</a>
+      </p>
     </footer>
     <div class="settings">
       <button

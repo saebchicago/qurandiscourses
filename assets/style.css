@@ -1444,3 +1444,14 @@ dd {
   line-height: 1.55;
   margin: 1rem 0;
 }
+
+/* ── Muted inline notes and footer links ─────────────────────────── */
+.muted-note {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+footer.site .footer-links {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 0.35rem;
+}

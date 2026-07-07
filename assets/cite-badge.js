@@ -86,6 +86,8 @@
     return sourcesCache;
   }
 
+  // Chicago bibliography order:
+  // Author. Title, edition. Place: Publisher, year. ISBN. License. Accessed.
   function formatCitation(src) {
     const parts = [];
     if (src.author) parts.push(src.author + ".");
@@ -95,9 +97,15 @@
         : `<em>${src.name}</em>`;
       parts.push(namePart + ".");
     }
-    if (src.publisher)
+    if (src.publisher) {
       parts.push(src.publisher + (src.year ? ", " + src.year : "") + ".");
+    } else if (src.year) {
+      parts.push(src.year + ".");
+    }
     if (src.isbn) parts.push("ISBN " + src.isbn + ".");
+    if (src.license) parts.push(src.license + ".");
+    if (src.accessed) parts.push("Accessed " + src.accessed + ".");
+    if (src.note) parts.push(src.note);
     return parts.join(" ");
   }
 
@@ -168,30 +176,57 @@
     }
   }
 
+  // Guards the async open: role="button" makes some browsers synthesize a
+  // click on Enter, so a keypress can invoke this twice before the first
+  // call has set activePopover.
+  let opening = false;
+
   async function handleBadgeClick(e) {
     const badge = e.currentTarget;
     if (activePopover) {
       closePopover();
       return;
     }
+    if (opening) return;
+    opening = true;
+    try {
+      const ids = (badge.dataset.sourceIds || "").split(/\s+/).filter(Boolean);
+      if (ids.length === 0) return;
 
-    const ids = (badge.dataset.sourceIds || "").split(/\s+/).filter(Boolean);
-    if (ids.length === 0) return;
+      const map = await loadSources();
+      const sources = ids.map((id) => map[id]).filter(Boolean);
+      if (sources.length === 0) return;
 
-    const map = await loadSources();
-    const sources = ids.map((id) => map[id]).filter(Boolean);
-    if (sources.length === 0) return;
-
-    e.stopPropagation();
-    const pop = buildPopover(sources);
-    activePopover = pop;
-    positionPopover(pop, badge);
+      e.stopPropagation();
+      const pop = buildPopover(sources);
+      activePopover = pop;
+      positionPopover(pop, badge);
+    } finally {
+      opening = false;
+    }
   }
 
   function init() {
     injectStyle();
+    // Browsers may synthesize a click after Enter/Space on role="button"
+    // (Chromium fires it on Space keyup), which would immediately toggle
+    // the popover the keydown handler just opened.
+    let lastKeyActivation = 0;
     document.querySelectorAll(".badge[data-source-ids]").forEach((badge) => {
-      badge.addEventListener("click", handleBadgeClick);
+      badge.addEventListener("click", (e) => {
+        if (Date.now() - lastKeyActivation < 500) return;
+        handleBadgeClick(e);
+      });
+      // Badges are focusable spans, not buttons: without this, keyboard
+      // users can reach a badge but never open its citation.
+      if (!badge.hasAttribute("role")) badge.setAttribute("role", "button");
+      badge.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+          e.preventDefault();
+          lastKeyActivation = Date.now();
+          handleBadgeClick({ currentTarget: badge, stopPropagation() {} });
+        }
+      });
     });
     document.addEventListener("click", (e) => {
       if (activePopover && !activePopover.contains(e.target)) closePopover();

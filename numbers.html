@@ -8,6 +8,7 @@
       name="description"
       content="Frequency and distribution insights from the Qur'anic corpus."
     />
+    <link rel="canonical" href="https://qurandiscourse.netlify.app/numbers.html" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,6 +17,11 @@
     />
     <link rel="stylesheet" href="assets/style.css" />
     <script src="assets/nav.js"></script>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="%232b1d0e"/><text x="32" y="46" text-anchor="middle" font-family="Amiri,serif" font-size="42" fill="%23f6efe2">ق</text></svg>'
+    />
   </head>
   <body>
     <a href="#main" class="skip">Skip to main content</a>
@@ -251,7 +257,7 @@
               </tbody>
             </table>
             <p class="prov">
-              <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> from Leeds word counts +
+              <span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> from Leeds word counts +
               Cairo 1924 chronological classification. The increasing-length
               pattern across periods is widely observed in academic literature.
             </p>
@@ -276,7 +282,7 @@
               Medinan surahs.
             </p>
             <p class="prov">
-              <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> from Leeds + Cairo 1924
+              <span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> from Leeds + Cairo 1924
               four-period classification.
               <span class="badge nuanced" data-source-ids="leeds-corpus-v0.4" aria-label="Nuanced" tabindex="0" title="Nuanced · counting method varies by source">~</span>: a handful of surahs
               have mixed-period classification in some traditions; the boundary
@@ -299,10 +305,11 @@
       </section>
     </main>
     <footer class="site">
-      <p style="font-size: 0.82rem; color: var(--muted)">
-        Discourses · <a href="about.html">About</a> ·
-        <a href="sources.html">Sources</a> ·
-        <a href="credits.html">Credits</a>
+      <p>Discourses is built in memory of Dr. Irfan Ahmad Khan (1931–2018).</p>
+      <p class="footer-links">
+        <a href="about.html">About</a> · <a href="sources.html">Sources</a> ·
+        <a href="credits.html">Credits</a> ·
+        <a href="changelog.html">Changelog</a>
       </p>
     </footer>
     <div class="settings">
@@ -325,6 +332,7 @@
       ></div>
     </div>
     <script src="assets/app.js"></script>
+    <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
   </body>
 </html>

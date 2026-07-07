@@ -8,6 +8,7 @@
       name="description"
       content="Structural and rhetorical patterns in the Qur'an: iltifat, mutashabihat, cross-references."
     />
+    <link rel="canonical" href="https://qurandiscourse.netlify.app/patterns.html" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,6 +17,11 @@
     />
     <link rel="stylesheet" href="assets/style.css" />
     <script src="assets/nav.js"></script>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="%232b1d0e"/><text x="32" y="46" text-anchor="middle" font-family="Amiri,serif" font-size="42" fill="%23f6efe2">ق</text></svg>'
+    />
   </head>
   <body>
     <a href="#main" class="skip">Skip to main content</a>
@@ -88,7 +94,7 @@
             deliberate, not a textual irregularity.
           </p>
           <p class="prov">
-            <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Classical attestation:
+            <span class="badge ok" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Classical attestation:
             al-Suyuti, <em>al-Itqan fi 'Ulum al-Qur'an</em>. Modern Western
             scholarship: Abdel Haleem, "Grammatical Shift for Rhetorical
             Purposes," <em>BSOAS</em> 55:3 (1992).
@@ -111,24 +117,27 @@
             depth and above.
           </p>
           <p class="prov">
-            <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> phrase. Dataset: QUL
+            <span class="badge ok" data-source-ids="qul-mutashabihat" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> phrase. Dataset: QUL
             mutashabihat (~5,277 entries), Tarteel.
           </p>
         </div>
         <div class="card scholar-only">
-          <h3>Cross-references (QurSim)</h3>
+          <h3>Cross-references</h3>
           <p>
             The QurSim corpus identifies 7,679 pairs of related verses, ranked
             by relatedness. This supports cross-textual study without requiring
             tafsir traversal.
           </p>
           <p class="prov">
-            <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> dataset. Sharaf and Atwell,
-            <em>LREC</em> 2012.
+            <span class="badge ok" data-source-ids="qursim" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> dataset. Sharaf and Atwell,
+            <em>LREC</em> 2012. QurSim is cited as a conceptual reference; its
+            canonical host is no longer accessible.
           </p>
           <p class="method-note">
-            Cross-reference coverage: 110 of 114 surahs. Not yet covered:
-            104, 105, 106, 110.
+            The cross-reference data shipped on this site (Read page) is the
+            Mishkat Mutashābihāt corpus, not QurSim. Coverage: 110 of 114
+            surahs. Not yet covered: 104, 105, 106, 110. See
+            <a href="sources.html#mishkat">Sources</a>.
           </p>
         </div>
         <div class="card encyclopedic-only">
@@ -154,17 +163,18 @@
             </li>
           </ul>
           <p class="prov">
-            <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> features documented in Abdel
+            <span class="badge ok" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> features documented in Abdel
             Haleem (1999), Neuwirth (1981), Cuypers (2015).
           </p>
         </div>
       </section>
     </main>
     <footer class="site">
-      <p style="font-size: 0.82rem; color: var(--muted)">
-        Discourses · <a href="about.html">About</a> ·
-        <a href="sources.html">Sources</a> ·
-        <a href="credits.html">Credits</a>
+      <p>Discourses is built in memory of Dr. Irfan Ahmad Khan (1931–2018).</p>
+      <p class="footer-links">
+        <a href="about.html">About</a> · <a href="sources.html">Sources</a> ·
+        <a href="credits.html">Credits</a> ·
+        <a href="changelog.html">Changelog</a>
       </p>
     </footer>
     <div class="settings">
@@ -187,6 +197,7 @@
       ></div>
     </div>
     <script src="assets/app.js"></script>
+    <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
   </body>
 </html>

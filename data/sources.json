@@ -2,79 +2,107 @@
   "sources": [
     {
       "id": "leeds-corpus-v0.4",
-      "name": "Quranic Arabic Corpus",
-      "edition": "v0.4",
-      "author": "Kais Dukes",
-      "publisher": "University of Leeds, School of Computing",
+      "author": "Dukes, Kais",
+      "name": "The Quranic Arabic Corpus",
+      "edition": "version 0.4",
+      "publisher": "Language Research Group, University of Leeds",
       "year": "2009–2017",
       "url": "https://corpus.quran.com",
-      "license": "GPL",
+      "license": "GNU GPL",
+      "accessed": "2026-05-19"
+    },
+    {
+      "id": "tanzil",
+      "author": "Tanzil Project",
+      "name": "Tanzil Quran Text",
+      "edition": "Uthmani script",
+      "year": "2007–",
+      "url": "https://tanzil.net",
+      "license": "CC BY-ND 3.0",
       "accessed": "2026-05-19"
     },
     {
       "id": "qul",
-      "name": "Quranic Universal Library",
-      "publisher": "Tarteel AI / Quran.com Foundation",
+      "author": "Tarteel AI and Quran.com Foundation",
+      "name": "Quranic Universal Library (QUL)",
       "year": "2024",
       "url": "https://qul.tarteel.ai",
       "accessed": "2026-05-19"
     },
     {
+      "id": "qul-mutashabihat",
+      "author": "Tarteel AI and Quran.com Foundation",
+      "name": "QUL Mutashabihat Dataset",
+      "year": "2024",
+      "url": "https://qul.tarteel.ai",
+      "note": "Approximately 5,277 entries of similar-phrase annotations.",
+      "accessed": "2026-05-19"
+    },
+    {
+      "id": "mishkat",
+      "author": "Alhassan (Threadwork)",
+      "name": "Mishkat Mutashābihāt Corpus",
+      "year": "2024",
+      "url": "https://github.com/Alhassan777/Mishkat",
+      "license": "License pending: none published in the source repository",
+      "note": "Verse-to-verse cross-references compiled from 13 classical books of mutashābihāt scholarship; 1,905 verse nodes, 3,294 directed edges.",
+      "accessed": "2026-07-07"
+    },
+    {
+      "id": "qursim",
+      "author": "Sharaf, Abdul-Baquee, and Eric Atwell",
+      "name": "QurSim: A Corpus for Evaluation of Relatedness in Short Texts",
+      "publisher": "In Proceedings of the Eighth International Conference on Language Resources and Evaluation (LREC 2012). Istanbul: European Language Resources Association",
+      "year": "2012",
+      "note": "The dataset's canonical host, corpus.quran.com/qursim.jsp, is no longer accessible; cited as a conceptual reference only.",
+      "accessed": "2026-05-19"
+    },
+    {
       "id": "quran-foundation-api-v4",
+      "author": "Quran.com Foundation",
       "name": "Quran.com Foundation Content API",
       "edition": "v4",
-      "publisher": "Quran.com Foundation",
       "year": "2025",
       "url": "https://api-docs.quran.foundation",
       "accessed": "2026-05-19"
     },
     {
       "id": "alquran-cloud-api",
+      "author": "Islamic Network",
       "name": "AlQuran.cloud API",
       "edition": "v1",
-      "publisher": "Islamic Network",
       "year": "2024",
       "url": "https://alquran.cloud/api",
       "accessed": "2026-05-19"
     },
     {
-      "id": "qursim",
-      "name": "QurSim Cross-Reference Corpus",
-      "publisher": "Quranic Arabic Corpus project",
-      "url": "https://corpus.quran.com/qursim.jsp",
-      "accessed": "2026-05-19"
+      "id": "cairo-1924",
+      "name": "Chronological Order of Surahs, Cairo Edition",
+      "publisher": "Cairo: al-Maṭbaʿa al-Amīrīyya",
+      "year": "1924",
+      "note": "The revelation-order classification printed in the 1924 Cairo edition of the Qur'an."
     },
     {
       "id": "khan-reflections-2005",
+      "author": "Khan, Irfan Ahmad",
       "name": "Reflections on the Qur'an: Understanding Surahs al-Fatihah and al-Baqarah",
-      "author": "Irfan Ahmad Khan",
-      "publisher": "Islamic Foundation UK",
+      "publisher": "Markfield, Leicestershire: Islamic Foundation",
       "year": "2005"
     },
     {
       "id": "khan-exercise-2013",
+      "author": "Khan, Irfan Ahmad",
       "name": "An Exercise in Understanding the Qur'an: An Outline Study of the Last Thirty Divine Discourses (Surah 85 to Surah 114)",
-      "author": "Irfan Ahmad Khan",
-      "publisher": "Association of Quranic Understanding",
+      "publisher": "Chicago: Association of Quranic Understanding",
       "year": "2013",
       "isbn": "9781567447736",
       "note": "Foreword by Mustansir Mir. 213 pp."
     },
     {
-      "id": "tanzil",
-      "name": "Tanzil Quran Text",
-      "edition": "Uthmani script",
-      "publisher": "Tanzil Project",
-      "year": "2024",
-      "url": "https://tanzil.net",
-      "license": "CC BY-ND 3.0",
-      "accessed": "2026-05-19"
-    },
-    {
       "id": "the-clear-quran",
+      "author": "Khattab, Mustafa",
       "name": "The Clear Quran: A Thematic English Translation",
-      "author": "Dr. Mustafa Khattab",
-      "publisher": "Book of Signs Foundation",
+      "publisher": "Lombard, IL: Book of Signs Foundation",
       "year": "2016",
       "isbn": "9780998539003"
     }
