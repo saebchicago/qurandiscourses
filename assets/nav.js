@@ -141,5 +141,86 @@
         closeAll(null);
       }
     });
+
+    /* Mobile hamburger panel: collapses .nav-groups behind a toggle
+       below 768px. Injected here rather than in markup so every page
+       gets it from this one shared script. */
+    var groupsList = nav.querySelector(".nav-groups");
+    if (!groupsList.id) groupsList.id = "nav-groups-panel";
+
+    var toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "nav-toggle";
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-controls", groupsList.id);
+    toggle.setAttribute("aria-label", "Menu");
+    toggle.innerHTML =
+      '<span class="nav-toggle-icon" aria-hidden="true"><span class="nav-toggle-icon-bar"></span></span>' +
+      '<span class="nav-toggle-label">Menu</span>';
+    nav.insertBefore(toggle, groupsList);
+
+    function isPanelOpen() {
+      return groupsList.classList.contains("is-open");
+    }
+
+    function openPanel() {
+      groupsList.classList.add("is-open");
+      toggle.classList.add("is-open");
+      toggle.setAttribute("aria-expanded", "true");
+      toggle.setAttribute("aria-label", "Close menu");
+      toggle.querySelector(".nav-toggle-label").textContent = "Close";
+    }
+
+    function closePanel(focusToggle) {
+      groupsList.classList.remove("is-open");
+      toggle.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Menu");
+      toggle.querySelector(".nav-toggle-label").textContent = "Menu";
+      closeAll(null);
+      if (focusToggle) toggle.focus();
+    }
+
+    toggle.addEventListener("click", function () {
+      if (isPanelOpen()) closePanel(false);
+      else openPanel();
+    });
+
+    function getPanelFocusable() {
+      var els = Array.prototype.slice.call(
+        nav.querySelectorAll("button, a[href]"),
+      );
+      return els.filter(function (el) {
+        return el.offsetParent !== null;
+      });
+    }
+
+    document.addEventListener("keydown", function (e) {
+      if (!isPanelOpen()) return;
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closePanel(true);
+        return;
+      }
+      if (e.key === "Tab") {
+        var focusable = getPanelFocusable();
+        if (!focusable.length) return;
+        var first = focusable[0];
+        var last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
+    window.addEventListener("resize", function () {
+      if (window.innerWidth > 768 && isPanelOpen()) {
+        closePanel(false);
+      }
+    });
   });
 })();

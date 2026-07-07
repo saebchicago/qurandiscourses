@@ -213,6 +213,96 @@ html.js-nav nav.primary .nav-menu {
 html.js-nav nav.primary .nav-menu[hidden] {
   display: none;
 }
+nav.primary .nav-toggle {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg);
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--ink);
+  min-height: 40px;
+  cursor: pointer;
+}
+nav.primary .nav-toggle-icon {
+  position: relative;
+  display: inline-block;
+  width: 18px;
+  height: 13px;
+}
+nav.primary .nav-toggle-icon::before,
+nav.primary .nav-toggle-icon::after,
+nav.primary .nav-toggle-icon-bar {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: currentColor;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
+}
+nav.primary .nav-toggle-icon::before {
+  top: 0;
+}
+nav.primary .nav-toggle-icon-bar {
+  top: 5.5px;
+}
+nav.primary .nav-toggle-icon::after {
+  bottom: 0;
+}
+nav.primary .nav-toggle.is-open .nav-toggle-icon::before {
+  top: 5.5px;
+  transform: rotate(45deg);
+}
+nav.primary .nav-toggle.is-open .nav-toggle-icon-bar {
+  opacity: 0;
+}
+nav.primary .nav-toggle.is-open .nav-toggle-icon::after {
+  bottom: 5.5px;
+  transform: rotate(-45deg);
+}
+@media (max-width: 768px) {
+  nav.primary {
+    flex-wrap: wrap;
+  }
+  nav.primary .nav-toggle {
+    display: inline-flex;
+  }
+  nav.primary .nav-groups {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.3rem;
+    margin-top: 0.6rem;
+  }
+  nav.primary .nav-groups.is-open {
+    display: flex;
+  }
+  nav.primary .nav-group {
+    width: 100%;
+  }
+  nav.primary .nav-group-btn {
+    width: 100%;
+    justify-content: space-between;
+  }
+  html.js-nav nav.primary .nav-menu {
+    position: static;
+    transform: none;
+    left: auto;
+    min-width: 0;
+    width: 100%;
+    margin: 0.3rem 0 0.4rem;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+  }
+}
 main {
   max-width: 1080px;
   margin: 0 auto;
@@ -430,6 +520,28 @@ blockquote.khan cite {
   border-top: 1px dashed var(--line);
   padding-top: 0.55rem;
   line-height: 1.55;
+}
+.method-note {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.3rem;
+  border-left: 2px solid var(--line);
+  padding-left: 0.6rem;
+}
+.method-note summary {
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  color: var(--muted);
+}
+.method-note summary::-webkit-details-marker {
+  display: none;
+}
+.method-note[open] summary {
+  color: var(--text);
+}
+.method-note p {
+  margin: 0.3rem 0 0;
 }
 .banner {
   background: var(--card);
