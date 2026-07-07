@@ -75,6 +75,44 @@
         match: surah.en,
       };
 
+    // Theme keywords route to the theme gateways page
+    const THEME_WORDS = {
+      forgiveness: "forgiveness",
+      forgive: "forgiveness",
+      pardon: "forgiveness",
+      repentance: "forgiveness",
+      marriage: "marriage",
+      marry: "marriage",
+      spouse: "marriage",
+      divorce: "marriage",
+      children: "children",
+      child: "children",
+      family: "children",
+      orphan: "children",
+      trade: "trade",
+      business: "trade",
+      wealth: "trade",
+      money: "trade",
+      usury: "trade",
+      peace: "peace",
+      reconciliation: "peace",
+      patience: "patience",
+      trial: "patience",
+      hardship: "patience",
+      justice: "justice",
+      fairness: "justice",
+      healing: "healing",
+      health: "healing",
+      illness: "healing",
+      knowledge: "knowledge",
+      reflection: "knowledge",
+      prayer: "prayer",
+      remembrance: "prayer",
+    };
+    if (THEME_WORDS[q]) {
+      return { route: `themes.html#${THEME_WORDS[q]}`, type: "theme" };
+    }
+
     // English word fallback: the Roots page search matches English
     // glosses (words.html is a static explainer and ignores queries)
     if (/^[a-z\s'-]{2,}$/.test(q)) {
