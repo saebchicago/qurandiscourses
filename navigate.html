@@ -15,12 +15,7 @@
     <meta property="og:description" content="The 114 surahs of the Qur'an, with chronology and structural filters." />
     <meta property="og:url" content="https://qurandiscourse.netlify.app/navigate.html" />
     <meta name="twitter:card" content="summary" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
     <script src="assets/nav.js"></script>
     <style>
@@ -96,6 +91,33 @@
       .table-scroll {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+      }
+      th .th-sort {
+        background: none;
+        border: 0;
+        padding: 0;
+        font: inherit;
+        font-weight: inherit;
+        color: inherit;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+      th .th-sort::after {
+        content: "↕";
+        font-size: 0.65rem;
+        color: var(--muted);
+      }
+      th[aria-sort="ascending"] .th-sort::after {
+        content: "▲";
+        font-size: 0.6rem;
+        color: var(--accent);
+      }
+      th[aria-sort="descending"] .th-sort::after {
+        content: "▼";
+        font-size: 0.6rem;
+        color: var(--accent);
       }
     </style>
     <link
@@ -212,12 +234,12 @@
           <table class="data" id="surahTable" aria-label="114 surahs">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Name</th>
+                <th aria-sort="ascending"><button type="button" class="th-sort" data-key="0">#</button></th>
+                <th><button type="button" class="th-sort" data-key="1">Name</button></th>
                 <th>Arabic</th>
-                <th>Verses</th>
-                <th>Class</th>
-                <th class="scholar-only">Cairo order</th>
+                <th><button type="button" class="th-sort" data-key="3">Verses</button></th>
+                <th><button type="button" class="th-sort" data-key="4">Class</button></th>
+                <th class="scholar-only"><button type="button" class="th-sort" data-key="5">Cairo order</button></th>
               </tr>
             </thead>
             <tbody id="surahBody"></tbody>
@@ -372,6 +394,8 @@
         [114, "al-Nas", "الناس", 6, "m", 21],
       ];
       let openSurah = null;
+      let sortKey = 0;
+      let sortDir = 1;
       function render() {
         const q = document
           .getElementById("searchBox")
@@ -392,6 +416,15 @@
           if (l === "short" && s[3] >= 30) return false;
           return true;
         })
+          .sort((a, b) => {
+            const va = a[sortKey],
+              vb = b[sortKey];
+            const cmp =
+              typeof va === "number"
+                ? va - vb
+                : String(va).localeCompare(String(vb));
+            return cmp * sortDir;
+          })
           .map(
             (s) =>
               `<tr><td>${s[0]}</td><td><a href="read.html?s=${s[0]}">${s[1]}</a> <button type="button" class="profile-toggle" data-surah="${s[0]}" data-name="${s[1]}" aria-expanded="false" aria-controls="surahProfilePanel">Profile ▾</button></td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${s[2]}</span></td><td>${s[3]}</td><td>${s[4] === "m" ? "Meccan" : "Medinan"}</td><td class="scholar-only">${s[5]}</td></tr>`,
@@ -406,6 +439,27 @@
       ["searchBox", "classFilter", "lengthFilter"].forEach((id) =>
         document.getElementById(id).addEventListener("input", render),
       );
+      document.querySelectorAll("#surahTable .th-sort").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const key = +btn.dataset.key;
+          if (key === sortKey) {
+            sortDir = -sortDir;
+          } else {
+            sortKey = key;
+            sortDir = 1;
+          }
+          document
+            .querySelectorAll("#surahTable th")
+            .forEach((th) => th.removeAttribute("aria-sort"));
+          btn
+            .closest("th")
+            .setAttribute(
+              "aria-sort",
+              sortDir === 1 ? "ascending" : "descending",
+            );
+          render();
+        });
+      });
       render();
 
       // ── Surah profile panel: fetched once, expanded inline per row ──
