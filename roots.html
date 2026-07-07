@@ -144,6 +144,20 @@
         font-size: 0.75rem;
         color: var(--muted);
       }
+      .root-row {
+        cursor: pointer;
+      }
+      .root-row .root-select-btn {
+        display: block;
+        width: 100%;
+        background: none;
+        border: 0;
+        padding: 0.2rem 0;
+        margin: 0;
+        font: inherit;
+        text-align: left;
+        cursor: pointer;
+      }
       .verse-grid {
         display: flex;
         flex-wrap: wrap;
@@ -789,14 +803,14 @@
                 const meaning = MEANINGS[r.rootBuckwalter] || "—";
                 const sel = r.rootBuckwalter === selectedBW;
                 return (
-                  `<tr class="root-row" data-bw="${r.rootBuckwalter}" tabindex="0" role="button" aria-pressed="${sel}"` +
+                  `<tr class="root-row" data-bw="${r.rootBuckwalter}"` +
                   (sel
                     ? ' style="background:var(--line);font-weight:500"'
                     : "") +
                   `>` +
                   `<td style="color:var(--muted);font-size:0.8rem">${i + 1}</td>` +
                   `<td><a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(r.rootBuckwalter)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${r.rootLatin}</a></td>` +
-                  `<td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${r.rootArabic}</span></td>` +
+                  `<td><button type="button" class="root-select-btn" aria-pressed="${sel}" aria-label="Select root ${r.rootLatin}"><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${r.rootArabic}</span></button></td>` +
                   `<td style="color:${meaning === "—" ? "var(--muted)" : "inherit"}">${meaning}</td>` +
                   `<td class="spark-cell">${sparkline(r.byChronology)}</td>` +
                   `<td class="count">${r.totalCount.toLocaleString()}</td>` +
@@ -805,10 +819,10 @@
               })
               .join("");
             tbody.querySelectorAll(".root-row").forEach((tr) => {
-              tr.addEventListener("click", () => selectRoot(tr.dataset.bw));
-              tr.addEventListener("keydown", (e) => {
-                if (e.key === "Enter" || e.key === " ")
-                  selectRoot(tr.dataset.bw);
+              tr.querySelector(".root-select-btn").addEventListener("click", () => selectRoot(tr.dataset.bw));
+              tr.addEventListener("click", (e) => {
+                if (e.target.closest("a, button")) return;
+                selectRoot(tr.dataset.bw);
               });
             });
           }

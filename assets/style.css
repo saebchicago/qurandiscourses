@@ -8,7 +8,7 @@
   --card: #fffaf0;
   --link: #5a3a1a;
   --ok: #2e6b3a;
-  --pending: #a87a1f;
+  --pending: #866119;
   --nuanced: #8a3a1a;
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans: "Inter", system-ui, -apple-system, sans-serif;
@@ -31,6 +31,16 @@
     --nuanced: #e08a6a;
     --shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }
 * {
@@ -450,7 +460,6 @@ blockquote.khan cite {
 }
 .badge.ok {
   color: var(--ok);
-  opacity: 0.8;
 }
 .badge.pending {
   color: var(--pending);
@@ -653,7 +662,7 @@ label {
   display: inline-block;
   padding: 0.5rem 1rem;
   background: var(--accent);
-  color: #fff;
+  color: var(--bg);
   border: 0;
   border-radius: 6px;
   text-decoration: none;
@@ -1126,7 +1135,7 @@ dd {
 .ask-go {
   padding: 0.6rem 1.3rem;
   background: var(--accent);
-  color: #fff;
+  color: var(--bg);
   border: 0;
   border-radius: 8px;
   font-size: 1rem;
@@ -1305,7 +1314,7 @@ dd {
 }
 .vocab-root-btn.active {
   background: var(--accent);
-  color: #fff;
+  color: var(--bg);
   border-color: var(--accent);
 }
 .vocab-root-name {
@@ -1403,7 +1412,7 @@ dd {
   padding: 1rem 1.1rem;
   box-shadow: var(--shadow);
 }
-.verify-example h4 {
+.verify-example h3 {
   margin: 0 0 0.5rem;
   font-size: 0.95rem;
   color: var(--accent);
