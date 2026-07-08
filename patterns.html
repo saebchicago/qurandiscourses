@@ -144,6 +144,17 @@
             <a href="sources.html#mishkat">Sources</a>.
           </p>
         </div>
+        <div class="card scholar-only">
+          <h3>Browse cross-references by surah</h3>
+          <p>
+            The same Mishkat data, browsable a surah at a time: every verse in
+            it that carries a documented parallel elsewhere in the Qur'an.
+          </p>
+          <div style="margin: 0.6rem 0 0.9rem">
+            <select id="xrefBrowseSelect" aria-label="Choose a surah"></select>
+          </div>
+          <div id="xrefBrowseResults" aria-live="polite"></div>
+        </div>
         <div class="card encyclopedic-only">
           <h3>Other documented features</h3>
           <ul>
@@ -200,7 +211,122 @@
         hidden
       ></div>
     </div>
+    <script src="assets/surahs.js"></script>
     <script src="assets/app.js"></script>
+    <script>
+      (function () {
+        var NOT_COVERED = [104, 105, 106, 110];
+        var cache = {};
+
+        function surahLabel(n) {
+          var s =
+            window.SURAHS &&
+            window.SURAHS.find(function (x) {
+              return x.id === n;
+            });
+          var label = n + ". " + (s ? s.en : "Surah " + n);
+          return NOT_COVERED.indexOf(n) !== -1
+            ? label + " (not yet covered)"
+            : label;
+        }
+
+        function ready(fn) {
+          if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", fn);
+          } else {
+            fn();
+          }
+        }
+
+        ready(function () {
+          var select = document.getElementById("xrefBrowseSelect");
+          var results = document.getElementById("xrefBrowseResults");
+          if (!select || !results) return;
+
+          var opts = ['<option value="">Choose a surah…</option>'];
+          for (var n = 1; n <= 114; n++) {
+            var disabled = NOT_COVERED.indexOf(n) !== -1 ? " disabled" : "";
+            opts.push(
+              '<option value="' +
+                n +
+                '"' +
+                disabled +
+                ">" +
+                surahLabel(n) +
+                "</option>",
+            );
+          }
+          select.innerHTML = opts.join("");
+
+          async function loadSurah(n) {
+            if (!cache[n]) {
+              results.innerHTML =
+                '<p style="color:var(--muted)">Loading…</p>';
+              try {
+                var r = await fetch("data/qursim/" + n + ".json");
+                cache[n] = r.ok ? await r.json() : {};
+              } catch (e) {
+                cache[n] = {};
+              }
+            }
+            var xrefs = cache[n];
+            var keys = Object.keys(xrefs).sort(function (a, b) {
+              return parseInt(a.split(":")[1]) - parseInt(b.split(":")[1]);
+            });
+            if (!keys.length) {
+              results.innerHTML =
+                '<p style="color:var(--muted)">No cross-references recorded for this surah in the Mishkat dataset.</p>';
+              return;
+            }
+            var html = keys
+              .map(function (key) {
+                var refs = xrefs[key];
+                var items = refs
+                  .map(function (ref) {
+                    var sName = surahLabel(ref.s).replace(/^\d+\.\s*/, "");
+                    return (
+                      '<div class="xref-item"><a href="read.html?s=' +
+                      ref.s +
+                      "&a=" +
+                      ref.a +
+                      '" class="xref-ref">' +
+                      ref.s +
+                      ":" +
+                      ref.a +
+                      " · " +
+                      qdEsc(sName) +
+                      '</a><span class="xref-cat">' +
+                      qdEsc(ref.cat) +
+                      '</span><span class="ar notranslate xref-ar" translate="no" lang="ar" dir="rtl">' +
+                      qdEsc(ref.ar) +
+                      "</span></div>"
+                    );
+                  })
+                  .join("");
+                return (
+                  '<details class="xref-panel"><summary>' +
+                  key +
+                  " — " +
+                  refs.length +
+                  (refs.length === 1 ? " related verse" : " related verses") +
+                  '</summary><div class="xref-list">' +
+                  items +
+                  "</div></details>"
+                );
+              })
+              .join("");
+            html +=
+              '<p class="prov" style="margin-top:.75rem"><span class="badge ok" data-source-ids="qursim" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Cross-references from the <a href="sources.html#mishkat">Mishkat Mutashābihāt corpus</a> (13 classical books, scholarly-attested).</p>';
+            results.innerHTML = html;
+          }
+
+          select.addEventListener("change", function () {
+            if (select.value) loadSurah(parseInt(select.value));
+            else results.innerHTML = "";
+          });
+        });
+      })();
+    </script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
   </body>
