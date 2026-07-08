@@ -1,6 +1,6 @@
 # Maintainer's Guide
 
-How Discourses works, how to change it without breaking its credibility
+How Divine Discourses works, how to change it without breaking its credibility
 system, and how to verify before shipping. Written for the site owner and
 any future contributor (human or AI assistant).
 
