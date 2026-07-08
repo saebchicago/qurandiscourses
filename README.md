@@ -1,4 +1,4 @@
-# Discourses — qurandiscourses
+# Divine Discourses — qurandiscourses
 
 A Qur'an study platform built in memory of Dr. Irfan Ahmad Khan (1931–2018),
 directed at one goal: **direct, personal, evidence-based engagement with the

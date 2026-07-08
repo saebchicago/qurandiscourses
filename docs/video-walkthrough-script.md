@@ -1,4 +1,4 @@
-# Video walkthrough script — "How to study with Discourses"
+# Video walkthrough script — "How to study with Divine Discourses"
 
 A ready-to-record script for a screen-capture training video (~10 minutes).
 Each scene lists the URL to show, the actions to perform on screen, and
@@ -12,7 +12,7 @@ Also usable as-is for a live demo or a written tutorial with screenshots.
 ## Scene 1 — What this site is (0:00–1:00)
 **Show:** `/` (home), scroll slowly.
 **Do:** Nothing yet; let the page speak.
-**Say:** "Discourses is a study platform built in memory of Dr. Irfan
+**Say:** "Divine Discourses is a study platform built in memory of Dr. Irfan
 Ahmad Khan, for one purpose: direct, personal engagement with the Qur'an.
 It is not a search engine and it gives no interpretation. It does two
 things: it puts the text's own structure in front of you — roots, words,
