@@ -235,6 +235,18 @@ header.site .tag {
   margin: 0 0 0.4rem;
   font-size: 1.05rem;
 }
+header.site .tag-khitab {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 0 0 0.4rem;
+  letter-spacing: 0.01em;
+}
+header.site .tag-khitab a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--accent-soft);
+}
 header.site .dates {
   font-size: 0.78rem;
   color: var(--muted);
