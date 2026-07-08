@@ -72,6 +72,7 @@ them only when their inputs change; commit their outputs.
 | build-surah-meta.mjs | Quran Foundation API | data/surah-meta.json | Makki/Madani |
 | build-surah-profiles.mjs | morphology, chronology, qursim | data/surah-profiles.json | navigate.html profiles |
 | build-themes.mjs | morphology, roots-summary | data/themes.json | themes.html |
+| build-rhetorical-features.mjs | morphology | data/rhetorical-features.json | patterns.html direct-address list, numbers.html fawatih list |
 
 Determinism check for any script: run it twice, `git diff` must be empty.
 
