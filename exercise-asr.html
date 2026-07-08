@@ -226,8 +226,8 @@
               var html = "";
               arabic.ayahs.forEach(function (ayah, i) {
                 var num = ayah.numberInSurah;
-                var arText = ayah.text;
-                var enText = english.ayahs[i].text;
+                var arText = qdEsc(ayah.text);
+                var enText = qdEsc(english.ayahs[i].text);
                 html +=
                   '<div class="verse-wrapper" id="break-zone-' +
                   num +

@@ -1,6 +1,17 @@
 (function () {
   "use strict";
 
+  // Shared HTML escaper for externally sourced text (API responses).
+  // Never interpolate API text into innerHTML without this.
+  window.qdEsc = function (v) {
+    return String(v == null ? "" : v)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  };
+
   const TRANSLATIONS = [
     { id: "en.sahih", name: "Saheeh International", lang: "en", default: true },
     { id: "en.pickthall", name: "Pickthall", lang: "en", default: true },
