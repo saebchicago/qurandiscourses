@@ -777,9 +777,9 @@
             verses = [
               {
                 ayahNum: ayahStart,
-                arText: ar.text,
-                surahName: SURAH_DISPLAY_NAMES[s] || ar.surah.englishName,
-                surahNameTranslation: ar.surah.englishNameTranslation,
+                arText: qdEsc(ar.text),
+                surahName: SURAH_DISPLAY_NAMES[s] || qdEsc(ar.surah.englishName),
+                surahNameTranslation: qdEsc(ar.surah.englishNameTranslation),
                 arNumber: ar.number,
                 translations: data.filter(
                   (d) => d.edition.identifier !== "quran-uthmani",
@@ -806,7 +806,7 @@
               (d) => d.edition.identifier !== "quran-uthmani",
             );
             const surahName = SURAH_DISPLAY_NAMES[s] || arEd.englishName;
-            const surahNameTranslation = arEd.englishNameTranslation;
+            const surahNameTranslation = qdEsc(arEd.englishNameTranslation);
 
             verses = [];
             for (let a = ayahStart; a <= ayahEnd; a++) {
@@ -814,7 +814,7 @@
               if (!arVerse) break;
               verses.push({
                 ayahNum: a,
-                arText: arVerse.text,
+                arText: qdEsc(arVerse.text),
                 surahName,
                 surahNameTranslation,
                 arNumber: arVerse.number,
@@ -861,7 +861,7 @@
                 html += `<div style="display:flex;gap:0.5rem;align-items:center;margin:.5rem 0"><audio controls style="flex:1"><source src="https://cdn.islamic.network/quran/audio/128/${qdState.reciter}/${arNumber}.mp3" type="audio/mpeg"></audio><button id="reciterBtn-${ayahNum}" style="min-width:44px;min-height:44px;padding:0.5rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem" title="Change reciter">\uD83C\uDFA4</button></div><div id="reciterName-${ayahNum}" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.5rem">${reciterName}</div>`;
               }
               translations.forEach((t) => {
-                html += `<div class="translation"><div class="label">${t.edition.englishName} · ${t.edition.name}</div><div class="text">${t.text}</div></div>`;
+                html += `<div class="translation"><div class="label">${qdEsc(t.edition.englishName)} · ${qdEsc(t.edition.name)}</div><div class="text">${qdEsc(t.text)}</div></div>`;
               });
               if (needsMorph) {
                 const words = morphCache[s] && morphCache[s][String(ayahNum)];
