@@ -353,18 +353,6 @@
           return s ? s.en : "Surah " + n;
         }
 
-        // The bundled morphology's "ar" field for isolated-letter (POS
-        // "INL") words carries a stray "^" from the source Buckwalter
-        // dump that assets/../scripts/build-leeds.js's BW_MAP does not
-        // yet cover (affects ~6% of words sitewide, not just fawatih).
-        // Stripping it here shows the correct base letters without
-        // guessing at what diacritic it was meant to represent — see
-        // the maintainer for the real fix, which needs the raw corpus
-        // source file to identify the character correctly.
-        function cleanLetters(s) {
-          return s.replace(/\^/g, "");
-        }
-
         function ready(fn) {
           if (document.readyState === "loading") {
             document.addEventListener("DOMContentLoaded", fn);
@@ -403,7 +391,7 @@
                     " · " +
                     qdEsc(surahName(f.s)) +
                     '</a><span class="ar notranslate xref-ar" translate="no" lang="ar" dir="rtl">' +
-                    qdEsc(cleanLetters(f.letters)) +
+                    qdEsc(f.letters) +
                     "</span></div>"
                   );
                 })
