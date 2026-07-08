@@ -394,6 +394,8 @@
           revealed = true;
           revealBtn.disabled = true;
           revealBtn.textContent = "Revealed";
+          if (window.qdMarkExerciseDone)
+            window.qdMarkExerciseDone("exercise-roots");
 
           var words = Array.prototype.slice.call(
             stack.querySelectorAll(".rs-word"),

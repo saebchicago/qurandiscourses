@@ -51,6 +51,14 @@
       showAudio: true,
       showTransliteration: false,
     },
+    // Reading position and exercise completion, kept only to power a
+    // "continue where you left off" prompt. Same storage, same privacy
+    // posture as the rest of this object: browser-only, never sent
+    // anywhere, cleared by the same "Clear preferences" button.
+    progress: {
+      lastRead: null, // { s: surahNumber, a: "1" | "1-7" }
+      exercises: {}, // { [exerciseId]: { at: isoString } }
+    },
   };
 
   function load() {
@@ -83,7 +91,25 @@
       showAudio: true,
       showTransliteration: false,
     };
+    state.progress = { lastRead: null, exercises: {} };
   }
+
+  // Called by read.html after a verse/range successfully loads.
+  window.qdSaveLastRead = function (s, a) {
+    if (!state.progress) state.progress = { lastRead: null, exercises: {} };
+    state.progress.lastRead = { s: s, a: String(a) };
+    save();
+  };
+
+  // Called by exercise pages once a reader has revealed/attempted the
+  // exercise. Marks intent to practice, not a graded score.
+  window.qdMarkExerciseDone = function (exerciseId) {
+    if (!state.progress) state.progress = { lastRead: null, exercises: {} };
+    state.progress.exercises[exerciseId] = {
+      at: new Date().toISOString(),
+    };
+    save();
+  };
 
   function applyDepth() {
     document.documentElement.setAttribute("data-depth", state.depth);
