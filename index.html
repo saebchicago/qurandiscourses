@@ -9,7 +9,7 @@
     <title>Divine Discourses · Toward direct engagement with the Qur'an</title>
     <meta
       name="description"
-      content="A platform for direct, personal engagement with the Qur'an. Roots, words, patterns, and structure, with verification on every claim. In memory of Dr. Irfan Ahmad Khan."
+      content="Study the Qur'an surah by surah, the way Dr. Irfan Ahmad Khan taught: structure first, every claim sourced and citable, no intermediary interpretation. Roots, words, patterns, and verification on every claim."
     />
     <link rel="canonical" href="https://qurandiscourse.netlify.app/" />
     <meta name="robots" content="index,follow" />
@@ -21,7 +21,7 @@
     />
     <meta
       property="og:description"
-      content="A platform for direct engagement with the Qur'an. In memory of Dr. Irfan Ahmad Khan (1931–2018)."
+      content="Study the Qur'an surah by surah, structure first, with every claim sourced and citable. In memory of Dr. Irfan Ahmad Khan (1931–2018)."
     />
     <meta property="og:url" content="https://qurandiscourse.netlify.app/" />
     <meta name="twitter:card" content="summary" />
@@ -40,6 +40,10 @@
       <div class="crest" aria-hidden="true">﷽</div>
       <h1><a href="index.html">Divine Discourses</a></h1>
       <p class="tag">Toward direct engagement with the Qur'an</p>
+      <p class="tag-khitab">
+        <em>Khitab</em>: God's direct address to the hearer — the name this
+        site renders. <a href="about.html#the-name">More on the name</a>.
+      </p>
     </header>
     <nav class="primary" aria-label="Primary">
       <ul class="nav-groups">
@@ -149,6 +153,33 @@
           role="status"
           aria-live="polite"
         ></div>
+      </section>
+
+      <section id="continueSection" hidden aria-live="polite">
+        <div
+          class="banner soft"
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem 1.25rem;
+            flex-wrap: wrap;
+          "
+        >
+          <p id="continueText" style="margin: 0"></p>
+          <div style="display: flex; gap: 0.5rem; align-items: center; flex-shrink: 0">
+            <a id="continueLink" class="button" href="#">Continue</a>
+            <button
+              type="button"
+              id="continueDismiss"
+              class="button secondary"
+              aria-label="Dismiss"
+              title="Dismiss"
+            >
+              ×
+            </button>
+          </div>
+        </div>
       </section>
 
       <section>
@@ -495,6 +526,80 @@
       })();
     </script>
     <script src="assets/app.js"></script>
+    <script>
+      (function () {
+        var EXERCISES = [
+          { id: "exercise-asr", href: "exercise-asr.html" },
+          { id: "exercise-roots", href: "exercise-roots.html" },
+        ];
+
+        function surahLabel(n) {
+          var s =
+            window.SURAHS &&
+            window.SURAHS.find(function (x) {
+              return x.id === n;
+            });
+          return s ? "Surah " + n + " (" + s.en + ")" : "Surah " + n;
+        }
+
+        function ready(fn) {
+          if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", fn);
+          } else {
+            fn();
+          }
+        }
+
+        ready(function () {
+          var progress = window.qdState && window.qdState.progress;
+          if (!progress) return;
+
+          var lastRead = progress.lastRead;
+          var doneCount = Object.keys(progress.exercises || {}).length;
+          if (!lastRead && !doneCount) return;
+
+          var section = document.getElementById("continueSection");
+          var text = document.getElementById("continueText");
+          var link = document.getElementById("continueLink");
+          if (!section || !text || !link) return;
+
+          if (lastRead) {
+            text.textContent =
+              "Continue reading — you were at " +
+              surahLabel(Number(lastRead.s)) +
+              ", verse " +
+              lastRead.a +
+              (doneCount
+                ? ". You've tried " +
+                  doneCount +
+                  " of " +
+                  EXERCISES.length +
+                  " exercises."
+                : ".");
+            link.textContent = "Resume reading";
+            link.href = "read.html?s=" + lastRead.s + "&a=" + lastRead.a;
+          } else {
+            text.textContent =
+              "You've tried " +
+              doneCount +
+              " of " +
+              EXERCISES.length +
+              " exercises. Pick up where you left off.";
+            link.textContent = "See exercises";
+            link.href = "exercises.html";
+          }
+
+          section.hidden = false;
+
+          var dismiss = document.getElementById("continueDismiss");
+          if (dismiss) {
+            dismiss.addEventListener("click", function () {
+              section.hidden = true;
+            });
+          }
+        });
+      })();
+    </script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
   </body>

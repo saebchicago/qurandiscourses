@@ -1051,13 +1051,14 @@
           attachRootTooltips(s, recurringRoots);
           if (depth === "encyclopedic") renderVocabPanel(s, recurringRoots);
 
+          const aParam = isRange
+            ? `${ayahStart}-${ayahEnd}`
+            : String(ayahStart);
           const url = new URL(window.location);
           url.searchParams.set("s", s);
-          url.searchParams.set(
-            "a",
-            isRange ? `${ayahStart}-${ayahEnd}` : String(ayahStart),
-          );
+          url.searchParams.set("a", aParam);
           history.replaceState({}, "", url);
+          if (window.qdSaveLastRead) window.qdSaveLastRead(s, aParam);
         } catch (e) {
           // Offline fallback: the Arabic word tokens are bundled locally
           // (Leeds corpus); render them so the reader is not left empty.

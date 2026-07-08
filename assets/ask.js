@@ -108,6 +108,17 @@
       reflection: "knowledge",
       prayer: "prayer",
       remembrance: "prayer",
+      gratitude: "gratitude",
+      thanks: "gratitude",
+      thankfulness: "gratitude",
+      guidance: "guidance",
+      light: "guidance",
+      fear: "fear-hope",
+      hope: "fear-hope",
+      truthfulness: "truthfulness",
+      truth: "truthfulness",
+      lying: "truthfulness",
+      falsehood: "truthfulness",
     };
     if (THEME_WORDS[q]) {
       return { route: `themes.html#${THEME_WORDS[q]}`, type: "theme" };

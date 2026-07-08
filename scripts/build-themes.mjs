@@ -114,6 +114,37 @@ const THEMES = [
       dEw: "to call, supplicate",
     },
   },
+  {
+    slug: "gratitude",
+    title: "Gratitude",
+    roots: {
+      $kr: "to give thanks, gratitude",
+    },
+  },
+  {
+    slug: "guidance",
+    title: "Guidance and light",
+    roots: {
+      hdy: "to guide; guidance",
+      nwr: "light",
+    },
+  },
+  {
+    slug: "fear-hope",
+    title: "Fear and hope",
+    roots: {
+      xwf: "to fear",
+      rjw: "to hope, expect",
+    },
+  },
+  {
+    slug: "truthfulness",
+    title: "Truthfulness and falsehood",
+    roots: {
+      Sdq: "truth, sincerity",
+      "k*b": "to lie, falsehood",
+    },
+  },
 ];
 
 const MAX_PASSAGES = 12;

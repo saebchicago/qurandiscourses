@@ -44,9 +44,20 @@ guess. sources.html is the reference implementation.
 Shared building blocks every page uses: `assets/nav.js` (menus, hamburger,
 aria-current), `assets/app.js` (settings gear: depth / palette / theme /
 translations, keyboard shortcuts 1/2/3, back-to-top, `qdEsc` HTML escaper,
-API fetch helpers), `assets/cite-badge.js` (citation popovers),
-`assets/glossary.js` (term popovers), `assets/fonts.css` + `assets/fonts/`
-(self-hosted Amiri, Cormorant Garamond, Inter).
+API fetch helpers, `qd_state.progress` — see below), `assets/cite-badge.js`
+(citation popovers, the *only* citation-popover implementation — do not
+add a second one bound to `.badge[data-source-ids]`), `assets/glossary.js`
+(term popovers), `assets/fonts.css` + `assets/fonts/` (self-hosted Amiri,
+Cormorant Garamond, Inter).
+
+`qd_state.progress` (in `assets/app.js`) remembers reading position and
+exercise attempts, browser-only, same as every other preference: `{
+lastRead: { s, a } | null, exercises: { [exerciseId]: { at: isoString } }
+}`. `window.qdSaveLastRead(s, a)` is called by `read.html` after a verse
+loads successfully; `window.qdMarkExerciseDone(id)` is called by exercise
+pages when the reader reveals an answer. `index.html` reads
+`qdState.progress` to show a dismissible "continue where you left off"
+card. `clear()` resets it along with every other preference.
 
 ## 3. Data pipeline
 

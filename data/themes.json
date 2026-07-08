@@ -1426,6 +1426,474 @@
     }
    ],
    "verseCoverage": 594
+  },
+  {
+   "slug": "gratitude",
+   "title": "Gratitude",
+   "roots": [
+    {
+     "bw": "$kr",
+     "latin": "sh-k-r",
+     "arabic": "ش ك ر",
+     "gloss": "to give thanks, gratitude",
+     "count": 75
+    }
+   ],
+   "passages": [
+    {
+     "s": 27,
+     "a": 40,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "sh-k-r"
+     ]
+    },
+    {
+     "s": 31,
+     "a": 12,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "sh-k-r"
+     ]
+    },
+    {
+     "s": 4,
+     "a": 147,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "sh-k-r"
+     ]
+    },
+    {
+     "s": 34,
+     "a": 13,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "sh-k-r"
+     ]
+    }
+   ],
+   "verseCoverage": 69
+  },
+  {
+   "slug": "guidance",
+   "title": "Guidance and light",
+   "roots": [
+    {
+     "bw": "hdy",
+     "latin": "h-d-y",
+     "arabic": "ه د ي",
+     "gloss": "to guide; guidance",
+     "count": 316
+    },
+    {
+     "bw": "nwr",
+     "latin": "n-w-r",
+     "arabic": "ن و ر",
+     "gloss": "light",
+     "count": 194
+    }
+   ],
+   "passages": [
+    {
+     "s": 24,
+     "a": 35,
+     "distinctRoots": 2,
+     "tokens": 7,
+     "roots": [
+      "h-d-y",
+      "n-w-r"
+     ]
+    },
+    {
+     "s": 20,
+     "a": 10,
+     "distinctRoots": 2,
+     "tokens": 4,
+     "roots": [
+      "h-d-y",
+      "n-w-r"
+     ]
+    },
+    {
+     "s": 5,
+     "a": 16,
+     "distinctRoots": 2,
+     "tokens": 3,
+     "roots": [
+      "h-d-y",
+      "n-w-r"
+     ]
+    },
+    {
+     "s": 5,
+     "a": 46,
+     "distinctRoots": 2,
+     "tokens": 3,
+     "roots": [
+      "h-d-y",
+      "n-w-r"
+     ]
+    },
+    {
+     "s": 42,
+     "a": 52,
+     "distinctRoots": 2,
+     "tokens": 3,
+     "roots": [
+      "h-d-y",
+      "n-w-r"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 175,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "h-d-y",
+      "n-w-r"
+     ]
+    },
+    {
+     "s": 3,
+     "a": 103,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "h-d-y",
+      "n-w-r"
+     ]
+    },
+    {
+     "s": 5,
+     "a": 44,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "h-d-y",
+      "n-w-r"
+     ]
+    },
+    {
+     "s": 6,
+     "a": 91,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "h-d-y",
+      "n-w-r"
+     ]
+    },
+    {
+     "s": 9,
+     "a": 109,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "h-d-y",
+      "n-w-r"
+     ]
+    },
+    {
+     "s": 22,
+     "a": 8,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "h-d-y",
+      "n-w-r"
+     ]
+    },
+    {
+     "s": 31,
+     "a": 20,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "h-d-y",
+      "n-w-r"
+     ]
+    }
+   ],
+   "verseCoverage": 429
+  },
+  {
+   "slug": "fear-hope",
+   "title": "Fear and hope",
+   "roots": [
+    {
+     "bw": "xwf",
+     "latin": "kh-w-f",
+     "arabic": "خ و ف",
+     "gloss": "to fear",
+     "count": 124
+    },
+    {
+     "bw": "rjw",
+     "latin": "r-j-w",
+     "arabic": "ر ج و",
+     "gloss": "to hope, expect",
+     "count": 28
+    }
+   ],
+   "passages": [
+    {
+     "s": 10,
+     "a": 15,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "kh-w-f",
+      "r-j-w"
+     ]
+    },
+    {
+     "s": 17,
+     "a": 57,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "kh-w-f",
+      "r-j-w"
+     ]
+    },
+    {
+     "s": 3,
+     "a": 175,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "kh-w-f"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 229,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "kh-w-f"
+     ]
+    },
+    {
+     "s": 4,
+     "a": 3,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "kh-w-f"
+     ]
+    },
+    {
+     "s": 4,
+     "a": 104,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "r-j-w"
+     ]
+    },
+    {
+     "s": 6,
+     "a": 81,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "kh-w-f"
+     ]
+    },
+    {
+     "s": 11,
+     "a": 70,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "kh-w-f"
+     ]
+    },
+    {
+     "s": 14,
+     "a": 14,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "kh-w-f"
+     ]
+    },
+    {
+     "s": 27,
+     "a": 10,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "kh-w-f"
+     ]
+    },
+    {
+     "s": 28,
+     "a": 7,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "kh-w-f"
+     ]
+    },
+    {
+     "s": 30,
+     "a": 28,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "kh-w-f"
+     ]
+    }
+   ],
+   "verseCoverage": 137
+  },
+  {
+   "slug": "truthfulness",
+   "title": "Truthfulness and falsehood",
+   "roots": [
+    {
+     "bw": "Sdq",
+     "latin": "ṣ-d-q",
+     "arabic": "ص د ق",
+     "gloss": "truth, sincerity",
+     "count": 155
+    },
+    {
+     "bw": "k*b",
+     "latin": "k-dh-b",
+     "arabic": "ك ذ ب",
+     "gloss": "to lie, falsehood",
+     "count": 282
+    }
+   ],
+   "passages": [
+    {
+     "s": 40,
+     "a": 28,
+     "distinctRoots": 2,
+     "tokens": 4,
+     "roots": [
+      "ṣ-d-q",
+      "k-dh-b"
+     ]
+    },
+    {
+     "s": 39,
+     "a": 32,
+     "distinctRoots": 2,
+     "tokens": 3,
+     "roots": [
+      "ṣ-d-q",
+      "k-dh-b"
+     ]
+    },
+    {
+     "s": 9,
+     "a": 43,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "ṣ-d-q",
+      "k-dh-b"
+     ]
+    },
+    {
+     "s": 12,
+     "a": 26,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "ṣ-d-q",
+      "k-dh-b"
+     ]
+    },
+    {
+     "s": 12,
+     "a": 27,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "ṣ-d-q",
+      "k-dh-b"
+     ]
+    },
+    {
+     "s": 27,
+     "a": 27,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "ṣ-d-q",
+      "k-dh-b"
+     ]
+    },
+    {
+     "s": 28,
+     "a": 34,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "ṣ-d-q",
+      "k-dh-b"
+     ]
+    },
+    {
+     "s": 29,
+     "a": 3,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "ṣ-d-q",
+      "k-dh-b"
+     ]
+    },
+    {
+     "s": 57,
+     "a": 19,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "ṣ-d-q",
+      "k-dh-b"
+     ]
+    },
+    {
+     "s": 33,
+     "a": 35,
+     "distinctRoots": 1,
+     "tokens": 4,
+     "roots": [
+      "ṣ-d-q"
+     ]
+    },
+    {
+     "s": 16,
+     "a": 116,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "k-dh-b"
+     ]
+    },
+    {
+     "s": 3,
+     "a": 184,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "k-dh-b"
+     ]
+    }
+   ],
+   "verseCoverage": 392
   }
  ]
 }
