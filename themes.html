@@ -245,12 +245,23 @@
             var toc = document.getElementById("themeToc");
             var wrap = document.getElementById("themeSections");
             wrap.innerHTML = "";
-            data.themes.forEach(function (t) {
-              var a = document.createElement("a");
-              a.href = "#" + t.slug;
-              a.textContent = t.title;
-              toc.appendChild(a);
 
+            // Jump-nav chips are alphabetized by title so a reader can
+            // find one specific theme at a glance among the 33. The theme
+            // cards below stay in the curated order from data/themes.json.
+            data.themes
+              .slice()
+              .sort(function (a, b) {
+                return a.title.localeCompare(b.title);
+              })
+              .forEach(function (t) {
+                var a = document.createElement("a");
+                a.href = "#" + t.slug;
+                a.textContent = t.title;
+                toc.appendChild(a);
+              });
+
+            data.themes.forEach(function (t) {
               var sec = document.createElement("section");
               sec.id = t.slug;
               var card = document.createElement("div");
