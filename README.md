@@ -13,7 +13,7 @@ Live site: https://qurandiscourse.netlify.app/
    Chicago-style citation of its source. The method is documented on
    [Validation](https://qurandiscourse.netlify.app/validation.html).
 2. **The data ships with the site.** Word-by-word morphology for all
-   77,430 tokens (Leeds Quranic Arabic Corpus v0.4, GPL — see
+   77,429 tokens (Leeds Quranic Arabic Corpus v0.4, GPL — see
    [NOTICE.md](NOTICE.md)) is bundled as JSON, so root counts, theme
    passages, and exercises are recomputable by anyone, offline.
 3. **No interpretation is generated.** The site orders evidence (roots,
