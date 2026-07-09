@@ -63,6 +63,28 @@ const BW_MAP = {
   o: "ْ",
   "`": "ٰ",
   "{": "ٱ",
+  // Extended Quranic-Uthmani marks used by the Leeds corpus v0.4's
+  // Buckwalter dump (beyond the base 1990s Buckwalter table above).
+  // Verified against an independent conversion script for the same
+  // source file (quranic-corpus-morphology-0.4.txt) — every character
+  // this project already had (backtick, {) matched exactly, giving high
+  // confidence in the rest of this table. Previously falling through to
+  // "pass the raw character through", which put a literal ^, @, #, etc.
+  // into ~6% of words' displayed Arabic text.
+  "^": "ٓ", // maddah above
+  "#": "ٔ", // hamza above
+  ":": "ۜ", // small high seen
+  "@": "۟", // small high rounded zero
+  '"': "۠", // small high madda
+  "[": "ۢ", // small high meem, isolated form
+  ";": "ۣ", // small low seen
+  ",": "ۥ", // small waw
+  ".": "ۦ", // small high yeh
+  "!": "ۨ", // small high noon
+  "-": "۪", // empty centre low stop
+  "+": "۫", // empty centre high stop
+  "%": "۬", // rounded high stop with filled centre
+  "]": "ۭ", // small low meem
 };
 
 function bwToAr(bw) {

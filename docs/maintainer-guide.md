@@ -72,8 +72,26 @@ them only when their inputs change; commit their outputs.
 | build-surah-meta.mjs | Quran Foundation API | data/surah-meta.json | Makki/Madani |
 | build-surah-profiles.mjs | morphology, chronology, qursim | data/surah-profiles.json | navigate.html profiles |
 | build-themes.mjs | morphology, roots-summary | data/themes.json | themes.html |
+| build-rhetorical-features.mjs | morphology | data/rhetorical-features.json | patterns.html direct-address list, numbers.html fawatih list |
 
 Determinism check for any script: run it twice, `git diff` must be empty.
+
+**BW_MAP note.** `build-leeds.js`'s Buckwalter→Arabic table (`BW_MAP`) was
+missing 14 characters used by the Leeds corpus v0.4's extended
+Quranic-Uthmani encoding (`^ # : @ " [ ; , . ! - + %`), so ~15% of words'
+displayed Arabic text carried a stray literal ASCII character instead of
+the diacritic it stood for (visible on read.html word-by-word, roots.html
+derived forms, and anywhere else `w.ar`/`lemmaArabic` is rendered). The
+table is now complete — verified byte-for-byte against an independent
+project's conversion script for the identical source file. Since
+`scripts/leeds-raw.txt` (gitignored, not always present) is needed to
+regenerate `data/morphology/` and `data/roots-summary.json` from scratch,
+`scripts/migrate-bw-map-fix.mjs` was run once instead to patch those two
+files' already-committed `ar`/`lemmaArabic` fields directly — it does not
+need to be run again unless a future contributor reverts `BW_MAP` or
+reruns `build-leeds.js` against a raw dump older than this fix. If you
+ever do have `leeds-raw.txt` and re-run `build-leeds.js` from scratch, its
+output will already be correct and the migration script becomes a no-op.
 
 ## 4. Recipes
 

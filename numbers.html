@@ -299,10 +299,15 @@
               29 surahs open with disconnected letters (<em>al-muqatta'at</em>).
               14 unique letter combinations across these 29 surahs.
             </p>
+            <details id="fawatihDetails" class="xref-panel">
+              <summary>List all 29</summary>
+              <div id="fawatihList" class="xref-list"></div>
+            </details>
             <p class="prov">
               <span class="badge ok" data-source-ids="tanzil" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> from Tanzil text.
               <span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · counting method varies by source">~</span> on interpretation;
               meaning is discussed across the tafsir tradition.
+              <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> The 29/14 count is computed directly from the bundled morphology, not asserted — see it listed above.
             </p>
           </div>
         </div>
@@ -335,7 +340,71 @@
         hidden
       ></div>
     </div>
+    <script src="assets/surahs.js"></script>
     <script src="assets/app.js"></script>
+    <script>
+      (function () {
+        function surahName(n) {
+          var s =
+            window.SURAHS &&
+            window.SURAHS.find(function (x) {
+              return x.id === n;
+            });
+          return s ? s.en : "Surah " + n;
+        }
+
+        function ready(fn) {
+          if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", fn);
+          } else {
+            fn();
+          }
+        }
+
+        ready(function () {
+          var details = document.getElementById("fawatihDetails");
+          var list = document.getElementById("fawatihList");
+          if (!details || !list) return;
+          var loaded = false;
+          details.addEventListener("toggle", async function () {
+            if (!details.open || loaded) return;
+            loaded = true;
+            list.innerHTML = '<p style="color:var(--muted)">Loading…</p>';
+            try {
+              var r = await fetch("data/rhetorical-features.json");
+              var data = await r.json();
+              list.innerHTML = data.fawatih.entries
+                .map(function (f) {
+                  var versePart =
+                    f.verses.length > 1
+                      ? f.verses[0] + "-" + f.verses[f.verses.length - 1]
+                      : String(f.verses[0]);
+                  return (
+                    '<div class="xref-item"><a href="read.html?s=' +
+                    f.s +
+                    "&a=" +
+                    f.verses[0] +
+                    '" class="xref-ref">' +
+                    f.s +
+                    ":" +
+                    versePart +
+                    " · " +
+                    qdEsc(surahName(f.s)) +
+                    '</a><span class="ar notranslate xref-ar" translate="no" lang="ar" dir="rtl">' +
+                    qdEsc(f.letters) +
+                    "</span></div>"
+                  );
+                })
+                .join("");
+            } catch (e) {
+              list.innerHTML =
+                '<p style="color:var(--muted)">Could not load the list.</p>';
+              loaded = false;
+            }
+          });
+        });
+      })();
+    </script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
   </body>

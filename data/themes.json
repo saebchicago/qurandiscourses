@@ -1894,6 +1894,1586 @@
     }
    ],
    "verseCoverage": 392
+  },
+  {
+   "slug": "charity",
+   "title": "Charity and giving",
+   "roots": [
+    {
+     "bw": "nfq",
+     "latin": "n-f-q",
+     "arabic": "ن ف ق",
+     "gloss": "to spend, give",
+     "count": 111
+    },
+    {
+     "bw": "zkw",
+     "latin": "z-k-w",
+     "arabic": "ز ك و",
+     "gloss": "to purify; alms",
+     "count": 59
+    }
+   ],
+   "passages": [
+    {
+     "s": 2,
+     "a": 272,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "n-f-q"
+     ]
+    },
+    {
+     "s": 9,
+     "a": 67,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "n-f-q"
+     ]
+    },
+    {
+     "s": 57,
+     "a": 10,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "n-f-q"
+     ]
+    },
+    {
+     "s": 60,
+     "a": 10,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "n-f-q"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 215,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-f-q"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 262,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-f-q"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 267,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-f-q"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 270,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-f-q"
+     ]
+    },
+    {
+     "s": 3,
+     "a": 92,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-f-q"
+     ]
+    },
+    {
+     "s": 4,
+     "a": 49,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "z-k-w"
+     ]
+    },
+    {
+     "s": 8,
+     "a": 36,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-f-q"
+     ]
+    },
+    {
+     "s": 9,
+     "a": 54,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-f-q"
+     ]
+    }
+   ],
+   "verseCoverage": 142
+  },
+  {
+   "slug": "death",
+   "title": "Death and mortality",
+   "roots": [
+    {
+     "bw": "mwt",
+     "latin": "m-w-t",
+     "arabic": "م و ت",
+     "gloss": "death",
+     "count": 165
+    }
+   ],
+   "passages": [
+    {
+     "s": 30,
+     "a": 19,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "m-w-t"
+     ]
+    },
+    {
+     "s": 39,
+     "a": 42,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "m-w-t"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 28,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "m-w-t"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 243,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "m-w-t"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 258,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "m-w-t"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 259,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "m-w-t"
+     ]
+    },
+    {
+     "s": 3,
+     "a": 27,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "m-w-t"
+     ]
+    },
+    {
+     "s": 3,
+     "a": 156,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "m-w-t"
+     ]
+    },
+    {
+     "s": 4,
+     "a": 18,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "m-w-t"
+     ]
+    },
+    {
+     "s": 5,
+     "a": 106,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "m-w-t"
+     ]
+    },
+    {
+     "s": 6,
+     "a": 95,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "m-w-t"
+     ]
+    },
+    {
+     "s": 7,
+     "a": 57,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "m-w-t"
+     ]
+    }
+   ],
+   "verseCoverage": 143
+  },
+  {
+   "slug": "paradise",
+   "title": "Paradise",
+   "roots": [
+    {
+     "bw": "jnn",
+     "latin": "j-n-n",
+     "arabic": "ج ن ن",
+     "gloss": "garden, paradise",
+     "count": 201
+    }
+   ],
+   "passages": [
+    {
+     "s": 9,
+     "a": 72,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "j-n-n"
+     ]
+    },
+    {
+     "s": 34,
+     "a": 16,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "j-n-n"
+     ]
+    },
+    {
+     "s": 37,
+     "a": 158,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "j-n-n"
+     ]
+    },
+    {
+     "s": 59,
+     "a": 20,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "j-n-n"
+     ]
+    },
+    {
+     "s": 61,
+     "a": 12,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "j-n-n"
+     ]
+    }
+   ],
+   "verseCoverage": 196
+  },
+  {
+   "slug": "hellfire",
+   "title": "Hellfire and consequence",
+   "roots": [
+    {
+     "bw": "sEr",
+     "latin": "s-ʿ-r",
+     "arabic": "س ع ر",
+     "gloss": "blazing fire",
+     "count": 19
+    },
+    {
+     "bw": "Sly",
+     "latin": "ṣ-l-y",
+     "arabic": "ص ل ي",
+     "gloss": "to burn, roast",
+     "count": 25
+    }
+   ],
+   "passages": [
+    {
+     "s": 4,
+     "a": 10,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "s-ʿ-r",
+      "ṣ-l-y"
+     ]
+    },
+    {
+     "s": 84,
+     "a": 12,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "s-ʿ-r",
+      "ṣ-l-y"
+     ]
+    }
+   ],
+   "verseCoverage": 42
+  },
+  {
+   "slug": "wisdom",
+   "title": "Wisdom",
+   "roots": [
+    {
+     "bw": "Hkm",
+     "latin": "ḥ-k-m",
+     "arabic": "ح ك م",
+     "gloss": "judgment, wisdom",
+     "count": 210
+    }
+   ],
+   "passages": [
+    {
+     "s": 5,
+     "a": 42,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "ḥ-k-m"
+     ]
+    },
+    {
+     "s": 60,
+     "a": 10,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "ḥ-k-m"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 129,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-k-m"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 269,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-k-m"
+     ]
+    },
+    {
+     "s": 4,
+     "a": 35,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-k-m"
+     ]
+    },
+    {
+     "s": 4,
+     "a": 58,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-k-m"
+     ]
+    },
+    {
+     "s": 5,
+     "a": 43,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-k-m"
+     ]
+    },
+    {
+     "s": 5,
+     "a": 44,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-k-m"
+     ]
+    },
+    {
+     "s": 5,
+     "a": 47,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-k-m"
+     ]
+    },
+    {
+     "s": 5,
+     "a": 50,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-k-m"
+     ]
+    },
+    {
+     "s": 7,
+     "a": 87,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-k-m"
+     ]
+    },
+    {
+     "s": 10,
+     "a": 109,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-k-m"
+     ]
+    }
+   ],
+   "verseCoverage": 189
+  },
+  {
+   "slug": "pilgrimage",
+   "title": "Pilgrimage",
+   "roots": [
+    {
+     "bw": "Hjj",
+     "latin": "ḥ-j-j",
+     "arabic": "ح ج ج",
+     "gloss": "pilgrimage, argument",
+     "count": 33
+    }
+   ],
+   "passages": [
+    {
+     "s": 2,
+     "a": 196,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "ḥ-j-j"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 197,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "ḥ-j-j"
+     ]
+    },
+    {
+     "s": 3,
+     "a": 66,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-j-j"
+     ]
+    },
+    {
+     "s": 6,
+     "a": 80,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-j-j"
+     ]
+    },
+    {
+     "s": 42,
+     "a": 16,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-j-j"
+     ]
+    }
+   ],
+   "verseCoverage": 26
+  },
+  {
+   "slug": "fasting",
+   "title": "Fasting",
+   "roots": [
+    {
+     "bw": "Swm",
+     "latin": "ṣ-w-m",
+     "arabic": "ص و م",
+     "gloss": "fasting",
+     "count": 14
+    }
+   ],
+   "passages": [
+    {
+     "s": 2,
+     "a": 187,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ṣ-w-m"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 196,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ṣ-w-m"
+     ]
+    },
+    {
+     "s": 33,
+     "a": 35,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ṣ-w-m"
+     ]
+    }
+   ],
+   "verseCoverage": 11
+  },
+  {
+   "slug": "anger",
+   "title": "Anger and restraint",
+   "roots": [
+    {
+     "bw": "gDb",
+     "latin": "gh-ḍ-b",
+     "arabic": "غ ض ب",
+     "gloss": "anger",
+     "count": 24
+    },
+    {
+     "bw": "kZm",
+     "latin": "k-ẓ-m",
+     "arabic": "ك ظ م",
+     "gloss": "to restrain, suppress anger",
+     "count": 6
+    }
+   ],
+   "passages": [
+    {
+     "s": 2,
+     "a": 90,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "gh-ḍ-b"
+     ]
+    },
+    {
+     "s": 20,
+     "a": 81,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "gh-ḍ-b"
+     ]
+    },
+    {
+     "s": 20,
+     "a": 86,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "gh-ḍ-b"
+     ]
+    }
+   ],
+   "verseCoverage": 27
+  },
+  {
+   "slug": "love",
+   "title": "Love",
+   "roots": [
+    {
+     "bw": "Hbb",
+     "latin": "ḥ-b-b",
+     "arabic": "ح ب ب",
+     "gloss": "to love",
+     "count": 95
+    }
+   ],
+   "passages": [
+    {
+     "s": 2,
+     "a": 165,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "ḥ-b-b"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 222,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-b-b"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 261,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-b-b"
+     ]
+    },
+    {
+     "s": 3,
+     "a": 31,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-b-b"
+     ]
+    },
+    {
+     "s": 3,
+     "a": 119,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-b-b"
+     ]
+    },
+    {
+     "s": 5,
+     "a": 54,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-b-b"
+     ]
+    },
+    {
+     "s": 9,
+     "a": 108,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-b-b"
+     ]
+    },
+    {
+     "s": 38,
+     "a": 32,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-b-b"
+     ]
+    },
+    {
+     "s": 89,
+     "a": 20,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ḥ-b-b"
+     ]
+    }
+   ],
+   "verseCoverage": 85
+  },
+  {
+   "slug": "trust",
+   "title": "Trust in God",
+   "roots": [
+    {
+     "bw": "wkl",
+     "latin": "w-k-l",
+     "arabic": "و ك ل",
+     "gloss": "to trust, rely upon",
+     "count": 70
+    }
+   ],
+   "passages": [
+    {
+     "s": 12,
+     "a": 67,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "w-k-l"
+     ]
+    },
+    {
+     "s": 14,
+     "a": 12,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "w-k-l"
+     ]
+    },
+    {
+     "s": 3,
+     "a": 159,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "w-k-l"
+     ]
+    },
+    {
+     "s": 4,
+     "a": 81,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "w-k-l"
+     ]
+    },
+    {
+     "s": 33,
+     "a": 3,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "w-k-l"
+     ]
+    },
+    {
+     "s": 33,
+     "a": 48,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "w-k-l"
+     ]
+    },
+    {
+     "s": 39,
+     "a": 38,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "w-k-l"
+     ]
+    }
+   ],
+   "verseCoverage": 61
+  },
+  {
+   "slug": "arrogance",
+   "title": "Arrogance and humility",
+   "roots": [
+    {
+     "bw": "kbr",
+     "latin": "k-b-r",
+     "arabic": "ك ب ر",
+     "gloss": "arrogance, greatness",
+     "count": 161
+    },
+    {
+     "bw": "x$E",
+     "latin": "kh-sh-ʿ",
+     "arabic": "خ ش ع",
+     "gloss": "to humble oneself",
+     "count": 17
+    }
+   ],
+   "passages": [
+    {
+     "s": 2,
+     "a": 45,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "k-b-r",
+      "kh-sh-ʿ"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 217,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "k-b-r"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 219,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "k-b-r"
+     ]
+    },
+    {
+     "s": 17,
+     "a": 21,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "k-b-r"
+     ]
+    },
+    {
+     "s": 17,
+     "a": 111,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "k-b-r"
+     ]
+    },
+    {
+     "s": 25,
+     "a": 21,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "k-b-r"
+     ]
+    },
+    {
+     "s": 33,
+     "a": 35,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "kh-sh-ʿ"
+     ]
+    },
+    {
+     "s": 40,
+     "a": 35,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "k-b-r"
+     ]
+    },
+    {
+     "s": 71,
+     "a": 7,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "k-b-r"
+     ]
+    }
+   ],
+   "verseCoverage": 168
+  },
+  {
+   "slug": "brotherhood",
+   "title": "Brotherhood and community",
+   "roots": [
+    {
+     "bw": "Axw",
+     "latin": "a-kh-w",
+     "arabic": "ا خ و",
+     "gloss": "brother, kinship",
+     "count": 96
+    },
+    {
+     "bw": "jmE",
+     "latin": "j-m-ʿ",
+     "arabic": "ج م ع",
+     "gloss": "to gather, community",
+     "count": 129
+    },
+    {
+     "bw": "$wr",
+     "latin": "sh-w-r",
+     "arabic": "ش و ر",
+     "gloss": "to consult",
+     "count": 4
+    }
+   ],
+   "passages": [
+    {
+     "s": 4,
+     "a": 23,
+     "distinctRoots": 2,
+     "tokens": 6,
+     "roots": [
+      "a-kh-w",
+      "j-m-ʿ"
+     ]
+    },
+    {
+     "s": 24,
+     "a": 31,
+     "distinctRoots": 2,
+     "tokens": 4,
+     "roots": [
+      "a-kh-w",
+      "j-m-ʿ"
+     ]
+    },
+    {
+     "s": 24,
+     "a": 61,
+     "distinctRoots": 2,
+     "tokens": 3,
+     "roots": [
+      "a-kh-w",
+      "j-m-ʿ"
+     ]
+    },
+    {
+     "s": 3,
+     "a": 103,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "a-kh-w",
+      "j-m-ʿ"
+     ]
+    },
+    {
+     "s": 7,
+     "a": 38,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "a-kh-w",
+      "j-m-ʿ"
+     ]
+    },
+    {
+     "s": 12,
+     "a": 76,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "a-kh-w"
+     ]
+    },
+    {
+     "s": 33,
+     "a": 55,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "a-kh-w"
+     ]
+    },
+    {
+     "s": 4,
+     "a": 12,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "a-kh-w"
+     ]
+    },
+    {
+     "s": 4,
+     "a": 140,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "j-m-ʿ"
+     ]
+    },
+    {
+     "s": 4,
+     "a": 176,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "a-kh-w"
+     ]
+    },
+    {
+     "s": 5,
+     "a": 31,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "a-kh-w"
+     ]
+    },
+    {
+     "s": 5,
+     "a": 32,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "j-m-ʿ"
+     ]
+    }
+   ],
+   "verseCoverage": 202
+  },
+  {
+   "slug": "sincerity",
+   "title": "Sincerity",
+   "roots": [
+    {
+     "bw": "xlS",
+     "latin": "kh-l-ṣ",
+     "arabic": "خ ل ص",
+     "gloss": "to purify, be sincere",
+     "count": 31
+    },
+    {
+     "bw": "nSH",
+     "latin": "n-ṣ-ḥ",
+     "arabic": "ن ص ح",
+     "gloss": "sincere advice, counsel",
+     "count": 13
+    }
+   ],
+   "passages": [
+    {
+     "s": 7,
+     "a": 79,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-ṣ-ḥ"
+     ]
+    },
+    {
+     "s": 11,
+     "a": 34,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-ṣ-ḥ"
+     ]
+    },
+    {
+     "s": 38,
+     "a": 46,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "kh-l-ṣ"
+     ]
+    }
+   ],
+   "verseCoverage": 41
+  },
+  {
+   "slug": "tyranny",
+   "title": "Tyranny and transgression",
+   "roots": [
+    {
+     "bw": "Tgy",
+     "latin": "ṭ-gh-y",
+     "arabic": "ط غ ي",
+     "gloss": "to transgress, tyrannize",
+     "count": 39
+    },
+    {
+     "bw": "bgy",
+     "latin": "b-gh-y",
+     "arabic": "ب غ ي",
+     "gloss": "to transgress, wrong",
+     "count": 96
+    }
+   ],
+   "passages": [
+    {
+     "s": 24,
+     "a": 33,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "b-gh-y"
+     ]
+    },
+    {
+     "s": 3,
+     "a": 7,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "b-gh-y"
+     ]
+    },
+    {
+     "s": 10,
+     "a": 23,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "b-gh-y"
+     ]
+    },
+    {
+     "s": 28,
+     "a": 77,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "b-gh-y"
+     ]
+    },
+    {
+     "s": 49,
+     "a": 9,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "b-gh-y"
+     ]
+    }
+   ],
+   "verseCoverage": 129
+  },
+  {
+   "slug": "covenant",
+   "title": "Covenant and fulfillment",
+   "roots": [
+    {
+     "bw": "Ehd",
+     "latin": "ʿ-h-d",
+     "arabic": "ع ه د",
+     "gloss": "covenant, promise",
+     "count": 46
+    },
+    {
+     "bw": "wfy",
+     "latin": "w-f-y",
+     "arabic": "و ف ي",
+     "gloss": "to fulfill, be loyal",
+     "count": 66
+    }
+   ],
+   "passages": [
+    {
+     "s": 2,
+     "a": 40,
+     "distinctRoots": 2,
+     "tokens": 4,
+     "roots": [
+      "ʿ-h-d",
+      "w-f-y"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 177,
+     "distinctRoots": 2,
+     "tokens": 3,
+     "roots": [
+      "ʿ-h-d",
+      "w-f-y"
+     ]
+    },
+    {
+     "s": 6,
+     "a": 152,
+     "distinctRoots": 2,
+     "tokens": 3,
+     "roots": [
+      "ʿ-h-d",
+      "w-f-y"
+     ]
+    },
+    {
+     "s": 16,
+     "a": 91,
+     "distinctRoots": 2,
+     "tokens": 3,
+     "roots": [
+      "ʿ-h-d",
+      "w-f-y"
+     ]
+    },
+    {
+     "s": 17,
+     "a": 34,
+     "distinctRoots": 2,
+     "tokens": 3,
+     "roots": [
+      "ʿ-h-d",
+      "w-f-y"
+     ]
+    },
+    {
+     "s": 3,
+     "a": 76,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "ʿ-h-d",
+      "w-f-y"
+     ]
+    },
+    {
+     "s": 9,
+     "a": 111,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "ʿ-h-d",
+      "w-f-y"
+     ]
+    },
+    {
+     "s": 13,
+     "a": 20,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "ʿ-h-d",
+      "w-f-y"
+     ]
+    },
+    {
+     "s": 48,
+     "a": 10,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "ʿ-h-d",
+      "w-f-y"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 80,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ʿ-h-d"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 100,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ʿ-h-d"
+     ]
+    },
+    {
+     "s": 8,
+     "a": 56,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "ʿ-h-d"
+     ]
+    }
+   ],
+   "verseCoverage": 91
+  },
+  {
+   "slug": "striving",
+   "title": "Effort and striving",
+   "roots": [
+    {
+     "bw": "jhd",
+     "latin": "j-h-d",
+     "arabic": "ج ه د",
+     "gloss": "to strive, exert effort",
+     "count": 41
+    }
+   ],
+   "passages": [
+    {
+     "s": 4,
+     "a": 95,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "j-h-d"
+     ]
+    },
+    {
+     "s": 22,
+     "a": 78,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "j-h-d"
+     ]
+    },
+    {
+     "s": 25,
+     "a": 52,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "j-h-d"
+     ]
+    },
+    {
+     "s": 29,
+     "a": 6,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "j-h-d"
+     ]
+    }
+   ],
+   "verseCoverage": 36
+  },
+  {
+   "slug": "certainty",
+   "title": "Certainty and doubt",
+   "roots": [
+    {
+     "bw": "yqn",
+     "latin": "y-q-n",
+     "arabic": "ي ق ن",
+     "gloss": "certainty",
+     "count": 28
+    },
+    {
+     "bw": "ryb",
+     "latin": "r-y-b",
+     "arabic": "ر ي ب",
+     "gloss": "doubt, suspicion",
+     "count": 36
+    }
+   ],
+   "passages": [
+    {
+     "s": 45,
+     "a": 32,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "y-q-n",
+      "r-y-b"
+     ]
+    },
+    {
+     "s": 74,
+     "a": 31,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "y-q-n",
+      "r-y-b"
+     ]
+    },
+    {
+     "s": 9,
+     "a": 45,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "r-y-b"
+     ]
+    }
+   ],
+   "verseCoverage": 61
+  },
+  {
+   "slug": "joy-sorrow",
+   "title": "Joy and sorrow",
+   "roots": [
+    {
+     "bw": "frH",
+     "latin": "f-r-ḥ",
+     "arabic": "ف ر ح",
+     "gloss": "joy, delight",
+     "count": 22
+    },
+    {
+     "bw": "Hzn",
+     "latin": "ḥ-z-n",
+     "arabic": "ح ز ن",
+     "gloss": "grief, sorrow",
+     "count": 42
+    }
+   ],
+   "passages": [
+    {
+     "s": 3,
+     "a": 170,
+     "distinctRoots": 2,
+     "tokens": 2,
+     "roots": [
+      "f-r-ḥ",
+      "ḥ-z-n"
+     ]
+    },
+    {
+     "s": 28,
+     "a": 76,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "f-r-ḥ"
+     ]
+    }
+   ],
+   "verseCoverage": 62
+  },
+  {
+   "slug": "blessing",
+   "title": "Blessing",
+   "roots": [
+    {
+     "bw": "nEm",
+     "latin": "n-ʿ-m",
+     "arabic": "ن ع م",
+     "gloss": "blessing, favor",
+     "count": 140
+    }
+   ],
+   "passages": [
+    {
+     "s": 6,
+     "a": 138,
+     "distinctRoots": 1,
+     "tokens": 3,
+     "roots": [
+      "n-ʿ-m"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 40,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-ʿ-m"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 47,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-ʿ-m"
+     ]
+    },
+    {
+     "s": 2,
+     "a": 122,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-ʿ-m"
+     ]
+    },
+    {
+     "s": 3,
+     "a": 103,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-ʿ-m"
+     ]
+    },
+    {
+     "s": 8,
+     "a": 40,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-ʿ-m"
+     ]
+    },
+    {
+     "s": 8,
+     "a": 53,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-ʿ-m"
+     ]
+    },
+    {
+     "s": 22,
+     "a": 78,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-ʿ-m"
+     ]
+    },
+    {
+     "s": 27,
+     "a": 19,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-ʿ-m"
+     ]
+    },
+    {
+     "s": 33,
+     "a": 37,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-ʿ-m"
+     ]
+    },
+    {
+     "s": 46,
+     "a": 15,
+     "distinctRoots": 1,
+     "tokens": 2,
+     "roots": [
+      "n-ʿ-m"
+     ]
+    }
+   ],
+   "verseCoverage": 128
   }
  ]
 }

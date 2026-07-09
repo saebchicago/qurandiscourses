@@ -145,6 +145,150 @@ const THEMES = [
       "k*b": "to lie, falsehood",
     },
   },
+  {
+    slug: "charity",
+    title: "Charity and giving",
+    roots: {
+      nfq: "to spend, give",
+      zkw: "to purify; alms",
+    },
+  },
+  {
+    slug: "death",
+    title: "Death and mortality",
+    roots: {
+      mwt: "death",
+    },
+  },
+  {
+    slug: "paradise",
+    title: "Paradise",
+    roots: {
+      jnn: "garden, paradise",
+    },
+  },
+  {
+    slug: "hellfire",
+    title: "Hellfire and consequence",
+    roots: {
+      sEr: "blazing fire",
+      Sly: "to burn, roast",
+    },
+  },
+  {
+    slug: "wisdom",
+    title: "Wisdom",
+    roots: {
+      Hkm: "judgment, wisdom",
+    },
+  },
+  {
+    slug: "pilgrimage",
+    title: "Pilgrimage",
+    roots: {
+      Hjj: "pilgrimage, argument",
+    },
+  },
+  {
+    slug: "fasting",
+    title: "Fasting",
+    roots: {
+      Swm: "fasting",
+    },
+  },
+  {
+    slug: "anger",
+    title: "Anger and restraint",
+    roots: {
+      gDb: "anger",
+      kZm: "to restrain, suppress anger",
+    },
+  },
+  {
+    slug: "love",
+    title: "Love",
+    roots: {
+      Hbb: "to love",
+    },
+  },
+  {
+    slug: "trust",
+    title: "Trust in God",
+    roots: {
+      wkl: "to trust, rely upon",
+    },
+  },
+  {
+    slug: "arrogance",
+    title: "Arrogance and humility",
+    roots: {
+      kbr: "arrogance, greatness",
+      "x$E": "to humble oneself",
+    },
+  },
+  {
+    slug: "brotherhood",
+    title: "Brotherhood and community",
+    roots: {
+      Axw: "brother, kinship",
+      jmE: "to gather, community",
+      "$wr": "to consult",
+    },
+  },
+  {
+    slug: "sincerity",
+    title: "Sincerity",
+    roots: {
+      xlS: "to purify, be sincere",
+      nSH: "sincere advice, counsel",
+    },
+  },
+  {
+    slug: "tyranny",
+    title: "Tyranny and transgression",
+    roots: {
+      Tgy: "to transgress, tyrannize",
+      bgy: "to transgress, wrong",
+    },
+  },
+  {
+    slug: "covenant",
+    title: "Covenant and fulfillment",
+    roots: {
+      Ehd: "covenant, promise",
+      wfy: "to fulfill, be loyal",
+    },
+  },
+  {
+    slug: "striving",
+    title: "Effort and striving",
+    roots: {
+      jhd: "to strive, exert effort",
+    },
+  },
+  {
+    slug: "certainty",
+    title: "Certainty and doubt",
+    roots: {
+      yqn: "certainty",
+      ryb: "doubt, suspicion",
+    },
+  },
+  {
+    slug: "joy-sorrow",
+    title: "Joy and sorrow",
+    roots: {
+      frH: "joy, delight",
+      Hzn: "grief, sorrow",
+    },
+  },
+  {
+    slug: "blessing",
+    title: "Blessing",
+    roots: {
+      nEm: "blessing, favor",
+    },
+  },
 ];
 
 const MAX_PASSAGES = 12;
