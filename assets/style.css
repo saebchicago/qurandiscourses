@@ -595,6 +595,15 @@ blockquote.khan cite {
   line-height: 1.3;
   vertical-align: middle;
 }
+/* Badges carrying a source are clickable (cite-badge.js opens the full
+   citation and marks them role="button"). The default help cursor above
+   signals only the hover tooltip; a pointer cursor is what tells a
+   first-time reader the site's core promise — click any claim to see its
+   source — is actually one click away. Pending badges (no source id) stay
+   help-cursored: they are hover-only. */
+.badge[data-source-ids] {
+  cursor: pointer;
+}
 .badge.ok {
   color: var(--ok);
 }
@@ -1491,6 +1500,16 @@ dd {
   gap: 0.4rem;
   padding: 0.2rem 0 0.4rem;
   user-select: none;
+}
+.xref-panel > summary:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.xref-panel > summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
 }
 .xref-panel > summary::after {
   content: "▸";
