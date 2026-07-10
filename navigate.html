@@ -225,8 +225,8 @@
           tokenization). Chronology period follows the Egyptian Standard
           (Cairo 1924) Meccan/Medinan and four-period classification. Root
           diversity ratio divides distinct roots by all word-tokens in the
-          surah, including function words with no tagged root. QurSim
-          cross-reference connectivity counts distinct other surahs
+          surah, including function words with no tagged root. Cross-reference
+          connectivity (Mishkat Mutashābihāt corpus) counts distinct other surahs
           cross-referenced (same-surah references excluded) and covers 110
           of 114 surahs; surahs 104, 105, 106, and 110 show no figure rather
           than zero, since they are outside current coverage. These are
@@ -511,7 +511,7 @@
             : `<p class="stat-value">${p.qursimConnectivity} surah${p.qursimConnectivity === 1 ? "" : "s"}</p>`;
         const qursimBadge =
           p.qursimConnectivity === null
-            ? `<span class="badge pending" aria-label="Pending" tabindex="0" title="Pending · outside QurSim/Mishkat coverage">○</span>`
+            ? `<span class="badge pending" aria-label="Pending" tabindex="0" title="Pending · outside Mishkat coverage">○</span>`
             : `<span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · self-surah refs excluded">~</span>`;
 
         return `
@@ -536,7 +536,7 @@
             <p class="stat-value" style="font-size:1rem">${period}</p>
           </div>
           <div class="stat-block">
-            <h4>QurSim connectivity ${qursimBadge}</h4>
+            <h4>Cross-reference connectivity ${qursimBadge}</h4>
             ${qursimHTML}
           </div>
           <div class="stat-block">
