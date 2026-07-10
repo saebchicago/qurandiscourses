@@ -299,6 +299,7 @@
         <div class="card">
           <h3>Prompt 1: Verify a root count</h3>
           <pre
+            id="prompt1"
             style="
               background: var(--bg);
               border: 1px solid var(--line);
@@ -312,10 +313,12 @@
             "
           >
 Using only verifiable academic sources (Quranic Arabic Corpus at corpus.quran.com, Tanzil text, Lane's Lexicon, Penrice's Dictionary of the Koran, or peer-reviewed Qur'anic studies journals), how many times does the triliteral root [INSERT ROOT, e.g., r-ḥ-m] appear in the Qur'an? Distinguish (a) root occurrences, (b) surface form occurrences if relevant, (c) any counting variation between sources. Cite each source. Do not estimate; if uncertain, say so.</pre>
+          <p class="share-row" style="margin:0.6rem 0 0"><button type="button" class="button secondary copy-btn" data-copy-target="prompt1">Copy prompt</button></p>
         </div>
         <div class="card">
           <h3>Prompt 2: Verify a numerical claim</h3>
           <pre
+            id="prompt2"
             style="
               background: var(--bg);
               border: 1px solid var(--line);
@@ -329,10 +332,12 @@ Using only verifiable academic sources (Quranic Arabic Corpus at corpus.quran.co
             "
           >
 The following claim about the Qur'an circulates widely: [INSERT CLAIM]. Investigate with academic rigor. (1) What counting rule does it use? (2) What do alternative counting rules yield? (3) What is the academic position, citing peer-reviewed sources? (4) Is the claim broadly accepted, or are there nuances? Provide direct citations.</pre>
+          <p class="share-row" style="margin:0.6rem 0 0"><button type="button" class="button secondary copy-btn" data-copy-target="prompt2">Copy prompt</button></p>
         </div>
         <div class="card">
           <h3>Prompt 3: Verify Islahi-school content</h3>
           <pre
+            id="prompt3"
             style="
               background: var(--bg);
               border: 1px solid var(--line);
@@ -346,10 +351,12 @@ The following claim about the Qur'an circulates widely: [INSERT CLAIM]. Investig
             "
           >
 In Amin Ahsan Islahi's Tadabbur-i-Qur'an (Lahore: Faran Foundation), what is the stated 'amud (central axis) of Surah [INSERT NUMBER AND NAME]? Provide the Urdu phrasing if available, the English translation if accessible (e.g., Shehzad Saleem at al-Mawrid), and the volume and page reference.</pre>
+          <p class="share-row" style="margin:0.6rem 0 0"><button type="button" class="button secondary copy-btn" data-copy-target="prompt3">Copy prompt</button></p>
         </div>
         <div class="card">
           <h3>Prompt 4: Verify chronology</h3>
           <pre
+            id="prompt4"
             style="
               background: var(--bg);
               border: 1px solid var(--line);
@@ -363,10 +370,12 @@ In Amin Ahsan Islahi's Tadabbur-i-Qur'an (Lahore: Faran Foundation), what is the
             "
           >
 For Surah [INSERT NUMBER], what revelation order is assigned by each of: (1) Cairo 1924, (2) Nöldeke-Schwally 1909, (3) Bell 1937, (4) Sadeghi-Goudarzi 2012? List each ordering's position number and qualifications. Cite the source for each.</pre>
+          <p class="share-row" style="margin:0.6rem 0 0"><button type="button" class="button secondary copy-btn" data-copy-target="prompt4">Copy prompt</button></p>
         </div>
         <div class="card">
           <h3>Prompt 5: Verify iltifat</h3>
           <pre
+            id="prompt5"
             style="
               background: var(--bg);
               border: 1px solid var(--line);
@@ -380,6 +389,7 @@ For Surah [INSERT NUMBER], what revelation order is assigned by each of: (1) Cai
             "
           >
 Does Qur'an [INSERT VERSE] contain an instance of iltifat (grammatical shift in person, number, addressee, tense, case, or structure)? If yes, describe and cite Abdel Haleem's 1992 BSOAS article or other peer-reviewed sources. If borderline, state that.</pre>
+          <p class="share-row" style="margin:0.6rem 0 0"><button type="button" class="button secondary copy-btn" data-copy-target="prompt5">Copy prompt</button></p>
         </div>
         <div class="banner">
           <strong>Workflow.</strong> Run a prompt in two or three assistants.
@@ -441,6 +451,7 @@ Does Qur'an [INSERT VERSE] contain an instance of iltifat (grammatical shift in 
       ></div>
     </div>
     <script src="assets/app.js"></script>
+    <script src="assets/share.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
   </body>

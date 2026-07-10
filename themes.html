@@ -309,7 +309,10 @@
                   '">Open the top two passages side by side \u2192</a></p>';
               }
               card.innerHTML =
-                "<h3>" + t.title + "</h3>" +
+                '<h3 style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap">' + t.title +
+                '<button type="button" class="button secondary share-btn" data-share data-share-url="https://qurandiscourse.netlify.app/themes.html#' +
+                t.slug +
+                '" data-share-title="' + t.title + ' · Divine Discourses">Share</button></h3>' +
                 '<h4 style="margin:0 0 0.2rem">Root families</h4>' +
                 '<ul class="root-chips">' + rootChips + "</ul>" +
                 '<h4 style="margin:0 0 0.2rem">Key passages <span style="font-weight:400;color:var(--muted);font-size:0.82rem">(computed: theme vocabulary clusters here)</span></h4>' +
@@ -325,6 +328,7 @@
               var el = document.getElementById(location.hash.slice(1));
               if (el) el.scrollIntoView();
             }
+            if (window.qdInitShare) window.qdInitShare();
           })
           .catch(function () {
             document.getElementById("themeSections").innerHTML =
@@ -333,6 +337,7 @@
       })();
     </script>
     <script src="assets/app.js"></script>
+    <script src="assets/share.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
   </body>

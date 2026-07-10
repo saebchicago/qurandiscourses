@@ -834,6 +834,41 @@ label {
   border-color: var(--accent);
   background: var(--card);
 }
+.share-btn {
+  font-size: 0.85rem;
+  padding: 0.35rem 0.8rem;
+  cursor: pointer;
+}
+.share-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0.75rem 0;
+}
+.qd-toast {
+  position: fixed;
+  bottom: 4.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--ink);
+  color: var(--bg);
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+  z-index: 1200;
+  max-width: min(90vw, 24rem);
+  text-align: center;
+}
+.qd-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
 .verse {
   background: var(--card);
   border: 1px solid var(--line);
@@ -891,6 +926,24 @@ label {
 }
 .settings .gear:hover {
   transform: rotate(45deg) scale(1.05);
+}
+.settings .share-fab {
+  display: block;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  width: 52px;
+  height: 52px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 0.6rem;
+  transition: transform 0.15s ease;
+}
+.settings .share-fab:hover {
+  transform: scale(1.08);
+  border-color: var(--accent);
 }
 .panel {
   position: fixed;
@@ -1053,7 +1106,13 @@ html[data-depth="encyclopedic"] li.encyclopedic-only {
 @media print {
   nav.primary,
   .settings,
-  .panel {
+  .panel,
+  .share-btn,
+  .share-row,
+  .copy-btn,
+  .back-to-top,
+  .skip,
+  .qd-toast {
     display: none !important;
   }
   body {
