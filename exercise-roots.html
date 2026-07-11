@@ -255,21 +255,28 @@
       ></div>
     </div>
     <script src="assets/root-meanings.js"></script>
+    <script src="assets/surahs.js"></script>
     <script>
       (function () {
         "use strict";
         var MEANINGS = window.ROOT_MEANINGS || {};
-        var SURAH_CHOICES = [
-          { n: 109, name: "al-Kafirun" },
-          { n: 112, name: "al-Ikhlas" },
-          { n: 113, name: "al-Falaq" },
-          { n: 114, name: "al-Nas" },
-          { n: 103, name: "al-'Asr" },
-          { n: 1, name: "al-Fatihah" },
-        ];
+        // Surah choices come from the exercise-roots entry in
+        // data/exercises.json; the answer key is computed live from the
+        // bundled morphology, so any surah number in that list just works.
+        // This list is the offline/failure fallback.
+        var SURAH_CHOICES = [109, 112, 113, 114, 103, 1];
         var current = null;
         var revealed = false;
         var rootsSummary = null;
+
+        function surahName(n) {
+          var s =
+            window.SURAHS &&
+            window.SURAHS.find(function (x) {
+              return x.id === n;
+            });
+          return s ? s.en : "Surah " + n;
+        }
 
         var stack = document.getElementById("rsStack");
         var picker = document.getElementById("surahPicker");
@@ -283,22 +290,18 @@
             new URLSearchParams(location.search).get("s") || "109",
             10,
           );
-          return SURAH_CHOICES.some(function (c) {
-            return c.n === s;
-          })
-            ? s
-            : 109;
+          return SURAH_CHOICES.indexOf(s) !== -1 ? s : 109;
         }
 
         function buildPicker(active) {
           picker.innerHTML = "";
-          SURAH_CHOICES.forEach(function (c) {
+          SURAH_CHOICES.forEach(function (n) {
             var b = document.createElement("button");
             b.type = "button";
-            b.textContent = c.n + ". " + c.name;
-            b.setAttribute("aria-pressed", c.n === active ? "true" : "false");
+            b.textContent = n + ". " + surahName(n);
+            b.setAttribute("aria-pressed", n === active ? "true" : "false");
             b.addEventListener("click", function () {
-              if (c.n !== current) loadSurah(c.n);
+              if (n !== current) loadSurah(n);
             });
             picker.appendChild(b);
           });
@@ -394,8 +397,6 @@
           revealed = true;
           revealBtn.disabled = true;
           revealBtn.textContent = "Revealed";
-          if (window.qdMarkExerciseDone)
-            window.qdMarkExerciseDone("exercise-roots");
 
           var words = Array.prototype.slice.call(
             stack.querySelectorAll(".rs-word"),
@@ -436,6 +437,14 @@
               else falseMarks++;
             }
           });
+
+          if (window.qdMarkExerciseDone)
+            window.qdMarkExerciseDone(
+              "exercise-roots",
+              targets > 0
+                ? { hits: hits, targets: targets, falseMarks: falseMarks }
+                : null,
+            );
 
           loadRootsSummary().then(function (summary) {
             legend.innerHTML = "";
@@ -496,7 +505,26 @@
         }
 
         revealBtn.addEventListener("click", reveal);
-        loadSurah(paramSurah());
+        fetch("data/exercises.json")
+          .then(function (r) {
+            return r.ok ? r.json() : null;
+          })
+          .then(function (data) {
+            var entry =
+              data &&
+              data.exercises.find(function (e) {
+                return e.id === "exercise-roots";
+              });
+            if (entry && Array.isArray(entry.surahs) && entry.surahs.length) {
+              SURAH_CHOICES = entry.surahs.filter(function (n) {
+                return Number.isInteger(n) && n >= 1 && n <= 114;
+              });
+            }
+          })
+          .catch(function () {})
+          .then(function () {
+            loadSurah(paramSurah());
+          });
       })();
     </script>
     <script src="assets/app.js"></script>

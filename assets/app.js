@@ -102,12 +102,20 @@
   };
 
   // Called by exercise pages once a reader has revealed/attempted the
-  // exercise. Marks intent to practice, not a graded score.
-  window.qdMarkExerciseDone = function (exerciseId) {
+  // exercise. `score` is optional: { hits, targets, falseMarks } from the
+  // exercises that grade the attempt. Attempts and last score are kept —
+  // browser-only, like everything else in qd_state — so the Exercises hub
+  // can show "attempted N times, last score X/Y".
+  window.qdMarkExerciseDone = function (exerciseId, score) {
     if (!state.progress) state.progress = { lastRead: null, exercises: {} };
-    state.progress.exercises[exerciseId] = {
+    var prev = state.progress.exercises[exerciseId] || {};
+    var entry = {
       at: new Date().toISOString(),
+      attempts: (prev.attempts || (prev.at ? 1 : 0)) + 1,
     };
+    if (score) entry.score = score;
+    else if (prev.score) entry.score = prev.score;
+    state.progress.exercises[exerciseId] = entry;
     save();
   };
 

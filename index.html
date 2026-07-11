@@ -533,10 +533,10 @@
     <script src="assets/case-studies.js" defer></script>
     <script>
       (function () {
-        var EXERCISES = [
-          { id: "exercise-asr", href: "exercise-asr.html" },
-          { id: "exercise-roots", href: "exercise-roots.html" },
-        ];
+        // Keep ids in sync with data/exercises.json ("exercise-asr" is the
+        // pre-engine id kept so older saved progress still counts).
+        var EXERCISE_COUNT = 2;
+        var LEGACY_IDS = { "exercise-asr": "asr-outline" };
 
         function surahLabel(n) {
           var s =
@@ -560,7 +560,14 @@
           if (!progress) return;
 
           var lastRead = progress.lastRead;
-          var doneCount = Object.keys(progress.exercises || {}).length;
+          var doneIds = {};
+          Object.keys(progress.exercises || {}).forEach(function (id) {
+            doneIds[LEGACY_IDS[id] || id] = true;
+          });
+          var doneCount = Math.min(
+            Object.keys(doneIds).length,
+            EXERCISE_COUNT,
+          );
           if (!lastRead && !doneCount) return;
 
           var section = document.getElementById("continueSection");
@@ -578,7 +585,7 @@
                 ? ". You've tried " +
                   doneCount +
                   " of " +
-                  EXERCISES.length +
+                  EXERCISE_COUNT +
                   " exercises."
                 : ".");
             link.textContent = "Resume reading";
@@ -588,7 +595,7 @@
               "You've tried " +
               doneCount +
               " of " +
-              EXERCISES.length +
+              EXERCISE_COUNT +
               " exercises. Pick up where you left off.";
             link.textContent = "See exercises";
             link.href = "exercises.html";

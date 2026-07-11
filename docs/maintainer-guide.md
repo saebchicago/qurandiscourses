@@ -107,11 +107,14 @@ output will already be correct and the migration script becomes a no-op.
 ### Add a Khan outline exercise (surahs 85–114)
 1. Transcribe the outline from *An Exercise in Understanding the Qur'an*
    (2013) — never paraphrase from memory.
-2. Copy `exercise-asr.html`, change the surah number in the API fetch and
-   the outline `<ol>`; keep the reveal flow and the
-   `data-source-ids="khan-exercise-2013"` provenance line.
-3. Add a tile to `exercises.html`; add the page to `sitemap.xml`; give it
-   canonical/OG tags like every page.
+2. Add an entry of `"type": "outline"` to `data/exercises.json`: id,
+   surah number, title, tileName/tileDesc, the outline items
+   (`startVerse`, `heading`, `note` — the transcription), and keep
+   `"sourceIds": "khan-exercise-2013"` with a provenanceHtml line. No new
+   page is needed: `exercise.html?id=<your-id>` renders it, and the tile
+   appears on `exercises.html` automatically.
+3. Open the exercise locally and check the reveal flow, the break
+   scoring, and that the provenance badge opens its citation.
 
 ### Add or adjust a theme gateway
 1. Edit the `THEMES` table at the top of `scripts/build-themes.mjs` —
