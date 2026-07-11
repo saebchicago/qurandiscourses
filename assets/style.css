@@ -2004,3 +2004,53 @@ kbd {
   border-radius: 4px;
   padding: 0.05em 0.4em;
 }
+
+/* ── Print: teacher handouts from any page ─────────────────────────
+   Hide interactive chrome, force readable black-on-white, expand
+   disclosure panels so method notes and answers appear on paper. */
+@media print {
+  nav.primary,
+  .settings,
+  .back-to-top,
+  .skip,
+  footer.site .footer-links,
+  #methodStrip,
+  .depth-toggle,
+  button,
+  audio,
+  input,
+  select {
+    display: none !important;
+  }
+  :root,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .card,
+  .banner {
+    border: 1px solid #999;
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+  details {
+    display: block;
+  }
+  details > *,
+  details[open] > * {
+    display: block !important;
+  }
+  details summary {
+    font-weight: 600;
+    list-style: none;
+  }
+  a {
+    color: #000 !important;
+    text-decoration: none;
+  }
+  .prov a[href]::after,
+  main p > a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+  }
+}
