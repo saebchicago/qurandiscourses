@@ -83,6 +83,7 @@
   function clear() {
     try {
       localStorage.removeItem("qd_state");
+      localStorage.removeItem("qd_apicache");
     } catch (e) {}
     state.depth = "simple";
     state.theme = "auto";
@@ -309,22 +310,67 @@
     });
   }
 
-  window.qdFetchVerse = async function (surah, ayah) {
-    const editions = ["quran-uthmani", ...state.translations];
-    const url = `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/editions/${editions.join(",")}`;
+  // Persistent cache for api.alquran.cloud responses. Quranic text and
+  // published translations are immutable, so a response can be reused
+  // across visits — repeat reads render without the network, and verses
+  // read before going offline stay readable. Keyed by the full request
+  // URL, which encodes the selected editions, so changing translations
+  // never serves a stale shape. Browser-only, cleared with everything
+  // else by clear().
+  const API_CACHE_KEY = "qd_apicache";
+  const API_CACHE_MAX = 200;
+  let apiCache = null;
+  function apiCacheLoad() {
+    if (apiCache) return apiCache;
+    apiCache = { v: 1, order: [], entries: {} };
+    try {
+      const saved = JSON.parse(localStorage.getItem(API_CACHE_KEY));
+      if (saved && saved.v === 1 && saved.entries && saved.order) {
+        apiCache = saved;
+      }
+    } catch (e) {}
+    return apiCache;
+  }
+  function apiCachePut(url, data) {
+    const c = apiCacheLoad();
+    if (!c.entries[url]) c.order.push(url);
+    c.entries[url] = data;
+    while (c.order.length > API_CACHE_MAX) delete c.entries[c.order.shift()];
+    try {
+      localStorage.setItem(API_CACHE_KEY, JSON.stringify(c));
+    } catch (e) {
+      // Quota exceeded (surah responses are large): evict the older
+      // half and retry once; if storage still refuses, stay in-memory.
+      c.order.splice(0, Math.ceil(c.order.length / 2)).forEach(function (u) {
+        delete c.entries[u];
+      });
+      try {
+        localStorage.setItem(API_CACHE_KEY, JSON.stringify(c));
+      } catch (e2) {}
+    }
+  }
+  async function apiCachedFetch(url) {
+    const c = apiCacheLoad();
+    if (c.entries[url]) return c.entries[url];
     const res = await fetch(url);
     if (!res.ok) throw new Error("Fetch failed");
     const json = await res.json();
+    apiCachePut(url, json.data);
     return json.data;
+  }
+
+  window.qdFetchVerse = function (surah, ayah) {
+    const editions = ["quran-uthmani", ...state.translations];
+    return apiCachedFetch(
+      `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/editions/${editions.join(",")}`,
+    );
   };
 
-  window.qdFetchSurah = async function (surah) {
+  window.qdFetchSurah = function (surah) {
     const editions = ["quran-uthmani", ...state.translations];
-    const url = `https://api.alquran.cloud/v1/surah/${surah}/editions/${editions.join(",")}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error("Fetch failed");
-    const json = await res.json();
-    return json.data;
+    return apiCachedFetch(
+      `https://api.alquran.cloud/v1/surah/${surah}/editions/${editions.join(",")}`,
+    );
   };
 
   const TOOLTIPS = {
