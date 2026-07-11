@@ -25,6 +25,11 @@
   --chart-2: #2e8054;
   --chart-3: #96520a;
   --chart-4: #a8447c;
+  /* Two extra categorical tokens (indigo, brick) so N-way overlays
+     (e.g. comparing up to 6 roots) stay separable beyond the four
+     period colors. Same light/dark discipline as the set above. */
+  --chart-5: #5b4bb0;
+  --chart-6: #a0392e;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -32,6 +37,8 @@
     --chart-2: #3d9e64;
     --chart-3: #bd8330;
     --chart-4: #c25f8d;
+    --chart-5: #8577d6;
+    --chart-6: #d0685a;
   }
 }
 :root[data-theme="dark"] {
@@ -39,6 +46,8 @@
   --chart-2: #3d9e64;
   --chart-3: #bd8330;
   --chart-4: #c25f8d;
+  --chart-5: #8577d6;
+  --chart-6: #d0685a;
 }
 /* Dark palette: applies for system dark scheme unless the user forced
    light in Settings, and always when the user forced dark. Keep the two

@@ -94,6 +94,32 @@
       .p-remove:hover {
         color: var(--body);
       }
+      .compare-add {
+        background: none;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 0.3rem 0.75rem;
+        cursor: pointer;
+        font-size: 0.88rem;
+        color: var(--muted);
+      }
+      .compare-add:hover {
+        color: var(--body);
+      }
+      .root-row {
+        display: flex;
+        gap: 0.5rem;
+        align-items: flex-start;
+        margin-bottom: 0.5rem;
+      }
+      .root-row > .root-field {
+        flex: 1;
+        min-width: 180px;
+        position: relative;
+      }
+      .root-row input[type="search"] {
+        width: 100%;
+      }
     </style>
     <link
       rel="icon"
@@ -206,83 +232,38 @@
           >
             Passages
           </button>
+          <button
+            id="btn-surahs"
+            role="tab"
+            class="mode-tab"
+            aria-selected="false"
+            aria-controls="panel-surahs"
+          >
+            Surahs
+          </button>
         </div>
 
         <!-- ── Roots panel ─────────────────────────────────────────────────── -->
         <div id="panel-roots" role="tabpanel" aria-labelledby="btn-roots">
-          <h2>Compare two roots</h2>
+          <h2>Compare roots</h2>
           <p class="lede">
-            Pick any two roots to overlay their chronological distributions. The
-            shape of how a root appears across the four periods of revelation is
-            often more informative than its raw count.
+            Overlay the chronological distributions of two or more roots (up to
+            six). The shape of how a root appears across the four periods of
+            revelation is often more informative than its raw count — and where
+            several roots all occur in the same verse can be read directly.
           </p>
 
           <div class="card">
-            <div
-              style="
-                display: flex;
-                gap: 0.75rem;
-                flex-wrap: wrap;
-                margin-bottom: 1rem;
-              "
-            >
-              <div style="flex: 1; min-width: 180px; position: relative">
-                <label
-                  for="rootA"
-                  style="
-                    font-size: 0.85rem;
-                    color: var(--muted);
-                    display: block;
-                    margin-bottom: 0.2rem;
-                  "
-                  >Root A</label
-                >
-                <input
-                  type="search"
-                  id="rootA"
-                  placeholder="e.g. rHm or mercy"
-                  autocomplete="off"
-                  style="width: 100%"
-                />
-                <ul
-                  id="suggA"
-                  class="root-suggest"
-                  role="listbox"
-                  aria-live="polite"
-                  hidden
-                ></ul>
-              </div>
-              <div style="flex: 1; min-width: 180px; position: relative">
-                <label
-                  for="rootB"
-                  style="
-                    font-size: 0.85rem;
-                    color: var(--muted);
-                    display: block;
-                    margin-bottom: 0.2rem;
-                  "
-                  >Root B</label
-                >
-                <input
-                  type="search"
-                  id="rootB"
-                  placeholder="e.g. E*b or punishment"
-                  autocomplete="off"
-                  style="width: 100%"
-                />
-                <ul
-                  id="suggB"
-                  class="root-suggest"
-                  role="listbox"
-                  aria-live="polite"
-                  hidden
-                ></ul>
-              </div>
+            <div id="roots-rows"></div>
+            <div style="margin: 0.5rem 0 0.75rem">
+              <button type="button" id="add-root" class="compare-add">
+                + Add root
+              </button>
             </div>
 
             <div id="compareCanvas" hidden>
               <div
-                id="sameRootNotice"
+                id="dupRootNotice"
                 hidden
                 style="
                   background: var(--card);
@@ -294,9 +275,9 @@
                   color: var(--muted);
                 "
               >
-                You selected the same root twice. The two distributions will be
-                identical. Choose a different second root for a meaningful
-                comparison.
+                The same root is selected more than once. Duplicate
+                distributions will be identical — choose distinct roots for a
+                meaningful comparison.
               </div>
               <h3 id="compareHeading" style="margin: 0 0 0.5rem"></h3>
               <p
@@ -305,6 +286,7 @@
               ></p>
               <div id="compareBars"></div>
               <div id="compareTimelines" style="margin-top: 1rem"></div>
+              <div id="compareIntersection" style="margin-top: 1.25rem"></div>
               <p class="prov" style="margin-top: 0.75rem">
                 <span
                   class="badge ok"
@@ -314,8 +296,9 @@
                   title="Verified · computed from the cited corpus"
                   >●</span
                 >
-                chronological distribution from Leeds morphology + Egyptian
-                Standard (Cairo 1924) revelation order.
+                chronological distribution and shared-verse intersection from
+                Leeds morphology + Egyptian Standard (Cairo 1924) revelation
+                order.
                 <span
                   class="badge nuanced"
                   aria-label="Nuanced"
@@ -334,6 +317,7 @@
             >
               Type the start of a root (transliteration, Arabic script, or
               English meaning) into each field, then pick from suggestions.
+              Two roots are enough; add more to overlay them.
             </p>
           </div>
 
@@ -341,22 +325,23 @@
             <h3>Examples worth comparing</h3>
             <ul style="font-size: 0.92rem; line-height: 1.7">
               <li>
-                <a href="#" data-pair="rHm|E*b"
+                <a href="#" data-roots="rHm,E*b"
                   >mercy (r-ḥ-m) vs. punishment (ʿ-dh-b)</a
                 >. How late-Meccan concentration on mercy contrasts with
                 early-middle emphasis on punishment
               </li>
               <li>
-                <a href="#" data-pair="Alh|rbb">God (a-l-h) vs. Lord (r-b-b)</a
+                <a href="#" data-roots="Alh,rbb">God (a-l-h) vs. Lord (r-b-b)</a
                 >. Both ubiquitous, but distributed differently across periods
               </li>
               <li>
-                <a href="#" data-pair="Elm|hdy"
-                  >knowledge (ʿ-l-m) vs. guidance (h-d-y)</a
-                >. Overlapping themes, distinct chronological rhythms
+                <a href="#" data-roots="Amn,Eml,SlH"
+                  >faith (a-m-n), works (ʿ-m-l), righteousness (ṣ-l-ḥ)</a
+                >. A three-way overlay of a recurring Qur'anic triad — and the
+                verses where all three meet
               </li>
               <li>
-                <a href="#" data-pair="Amn|kfr"
+                <a href="#" data-roots="Amn,kfr"
                   >faith (a-m-n) vs. disbelief (k-f-r)</a
                 >. Counterposed concepts, revealing their proportions by period
               </li>
@@ -373,8 +358,8 @@
         >
           <h2>Compare passages</h2>
           <p class="lede">
-            Select two or three passages to see which roots they share. Lexical
-            overlap is a starting point, not a conclusion.
+            Select several passages (up to six) to see which roots they share.
+            Lexical overlap is a starting point, not a conclusion.
           </p>
 
           <div class="card">
@@ -433,6 +418,53 @@
 
           <div id="passages-result" hidden></div>
         </div>
+
+        <!-- ── Surahs panel ─────────────────────────────────────────────────── -->
+        <div
+          id="panel-surahs"
+          role="tabpanel"
+          aria-labelledby="btn-surahs"
+          hidden
+        >
+          <h2>Compare surahs</h2>
+          <p class="lede">
+            Set two or more surahs (up to six) side by side on their corpus
+            fingerprints — length, vocabulary spread, grammatical texture, and
+            cross-reference reach. Descriptive statistics, not a ranking of
+            merit.
+          </p>
+
+          <div class="card">
+            <div id="surahs-rows"></div>
+            <div style="margin: 0.5rem 0 0.75rem">
+              <button type="button" id="add-surah" class="compare-add">
+                + Add surah
+              </button>
+            </div>
+            <button
+              type="button"
+              id="load-surahs"
+              style="
+                background: var(--accent);
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                padding: 0.45rem 1.25rem;
+                cursor: pointer;
+                font-size: 0.95rem;
+              "
+            >
+              Compare
+            </button>
+            <p
+              id="surahs-error"
+              hidden
+              style="font-size: 0.88rem; margin: 0.5rem 0 0; color: #c0392b"
+            ></p>
+          </div>
+
+          <div id="surahs-result" hidden></div>
+        </div>
       </section>
     </main>
     <footer class="site">
@@ -482,10 +514,31 @@
           "meccan-late": "Late Meccan",
           medinan: "Medinan",
         };
+        const MAX_ROOTS = 6;
+        // Categorical series colors (theme-aware, validated tokens). Index i
+        // is root i's color across bars, legend, and (implicitly) order.
+        const SERIES = [
+          "var(--chart-1)",
+          "var(--chart-2)",
+          "var(--chart-3)",
+          "var(--chart-4)",
+          "var(--chart-5)",
+          "var(--chart-6)",
+        ];
 
         let allRoots = [];
-        let selA = null;
-        let selB = null;
+        let rowSeq = 0;
+
+        function rootsSafeKey(bw) {
+          let out = "";
+          for (const c of bw) {
+            if (c === "*") out += "dh";
+            else if (c === "$") out += "sh";
+            else if (c >= "A" && c <= "Z") out += "u" + c;
+            else out += c;
+          }
+          return out;
+        }
 
         // ── Typeahead ─────────────────────────────────────────────────────────
         function matchRoots(term, limit) {
@@ -545,15 +598,39 @@
           });
         }
 
-        function wireInput(inputId, suggId, onSelect) {
-          const inp = document.getElementById(inputId);
-          const list = document.getElementById(suggId);
+        // ── Dynamic root rows ────────────────────────────────────────────────
+        function rowsContainer() {
+          return document.getElementById("roots-rows");
+        }
+        function currentRows() {
+          return Array.from(rowsContainer().querySelectorAll(".root-row"));
+        }
+        function collectSels() {
+          return currentRows()
+            .map((row) => row._sel || null)
+            .filter(Boolean);
+        }
+        function updateRowControls() {
+          const rows = currentRows();
+          rows.forEach((row) => {
+            const btn = row.querySelector(".p-remove");
+            if (btn) btn.style.visibility = rows.length > 2 ? "visible" : "hidden";
+          });
+          document.getElementById("add-root").hidden = rows.length >= MAX_ROOTS;
+        }
+        function wireRow(inp, list, row) {
+          const onSelect = (root) => {
+            inp.value = root.rootLatin;
+            row._sel = root;
+            list.hidden = true;
+            renderCompare();
+          };
           inp.addEventListener("input", () => {
-            const matches = matchRoots(inp.value.trim());
-            renderSuggestions(list, matches, (root) => {
-              inp.value = root.rootLatin;
-              onSelect(root);
-            });
+            renderSuggestions(list, matchRoots(inp.value.trim()), onSelect);
+            if (!inp.value.trim() && row._sel) {
+              row._sel = null;
+              renderCompare();
+            }
           });
           inp.addEventListener("blur", () => {
             setTimeout(() => {
@@ -561,72 +638,112 @@
             }, 150);
           });
           inp.addEventListener("focus", () => {
-            if (inp.value.trim()) {
-              const matches = matchRoots(inp.value.trim());
-              renderSuggestions(list, matches, (root) => {
-                inp.value = root.rootLatin;
-                onSelect(root);
-              });
-            }
+            if (inp.value.trim())
+              renderSuggestions(list, matchRoots(inp.value.trim()), onSelect);
           });
+        }
+        function addRootRow(preRoot) {
+          const idx = ++rowSeq;
+          const row = document.createElement("div");
+          row.className = "root-row";
+          row._sel = null;
+
+          const field = document.createElement("div");
+          field.className = "root-field";
+          const inp = document.createElement("input");
+          inp.type = "search";
+          inp.autocomplete = "off";
+          inp.placeholder = "e.g. rHm or mercy";
+          inp.setAttribute("aria-label", "Root " + idx);
+          const list = document.createElement("ul");
+          list.className = "root-suggest";
+          list.setAttribute("role", "listbox");
+          list.setAttribute("aria-live", "polite");
+          list.hidden = true;
+          field.appendChild(inp);
+          field.appendChild(list);
+          row.appendChild(field);
+
+          const rm = document.createElement("button");
+          rm.type = "button";
+          rm.className = "p-remove";
+          rm.setAttribute("aria-label", "Remove root");
+          rm.textContent = "×";
+          rm.addEventListener("click", () => {
+            row.remove();
+            updateRowControls();
+            renderCompare();
+          });
+          row.appendChild(rm);
+
+          wireRow(inp, list, row);
+          rowsContainer().appendChild(row);
+          if (preRoot) {
+            row._sel = preRoot;
+            inp.value = preRoot.rootLatin;
+          }
+          updateRowControls();
+          return row;
         }
 
         // ── Compare renderer ──────────────────────────────────────────────────
+        let lastSig = "";
         function renderCompare() {
           const canvas = document.getElementById("compareCanvas");
           const prompt = document.getElementById("comparePrompt");
-          if (!selA || !selB) {
+          const sels = collectSels();
+          if (sels.length < 2) {
             canvas.hidden = true;
             prompt.hidden = false;
+            lastSig = "";
             return;
           }
           canvas.hidden = false;
           prompt.hidden = true;
 
-          const sameRootNotice = document.getElementById("sameRootNotice");
-          if (sameRootNotice) {
-            sameRootNotice.hidden = selA.rootBuckwalter !== selB.rootBuckwalter;
-          }
+          // Duplicate detection across all selected roots.
+          const bws = sels.map((r) => r.rootBuckwalter);
+          document.getElementById("dupRootNotice").hidden =
+            new Set(bws).size === bws.length;
 
-          const mA = MEANINGS[selA.rootBuckwalter];
-          const mB = MEANINGS[selB.rootBuckwalter];
+          document.getElementById("compareHeading").textContent = sels
+            .map((r) => {
+              const m = MEANINGS[r.rootBuckwalter];
+              return `${r.rootLatin} ‪${r.rootArabic}‬` + (m ? ` — ${m}` : "");
+            })
+            .join("   ·   ");
 
-          document.getElementById("compareHeading").textContent =
-            `${selA.rootLatin} ‪${selA.rootArabic}‬` +
-            (mA ? ` — ${mA}` : "") +
-            `   vs.   ` +
-            `${selB.rootLatin} ‪${selB.rootArabic}‬` +
-            (mB ? ` — ${mB}` : "");
+          document.getElementById("compareLegend").innerHTML = sels
+            .map(
+              (r, i) =>
+                `<span style="color:${SERIES[i]};font-weight:600">&#9632;</span> ${r.rootLatin}`,
+            )
+            .join(" &nbsp;&nbsp; ");
 
-          document.getElementById("compareLegend").innerHTML =
-            `<span style="color:var(--accent);font-weight:600">&#9632;</span> ${selA.rootLatin} &nbsp;&nbsp;` +
-            `<span style="color:var(--accent-soft);font-weight:600">&#9632;</span> ${selB.rootLatin}`;
-
-          const allVals = PERIOD_ORDER.flatMap((p) => [
-            selA.byChronology[p] || 0,
-            selB.byChronology[p] || 0,
-          ]);
-          const globalMax = Math.max(...allVals);
+          const allVals = PERIOD_ORDER.flatMap((p) =>
+            sels.map((r) => r.byChronology[p] || 0),
+          );
+          const globalMax = Math.max(1, ...allVals);
 
           document.getElementById("compareBars").innerHTML = PERIOD_ORDER.map(
             (p) => {
-              const vA = selA.byChronology[p] || 0;
-              const vB = selB.byChronology[p] || 0;
-              const pctA =
-                globalMax > 0 ? Math.round((vA / globalMax) * 100) : 0;
-              const pctB =
-                globalMax > 0 ? Math.round((vB / globalMax) * 100) : 0;
+              const rows = sels
+                .map((r, i) => {
+                  const v = r.byChronology[p] || 0;
+                  const pct = Math.round((v / globalMax) * 100);
+                  return (
+                    `<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.15rem">` +
+                    `<div style="width:160px;height:9px;background:var(--line);border-radius:5px;overflow:hidden"><div style="width:${pct}%;height:100%;background:${SERIES[i]};border-radius:5px"></div></div>` +
+                    `<span style="font-size:0.82rem;font-variant-numeric:tabular-nums;min-width:2.5rem">${v}</span>` +
+                    `<span style="font-size:0.78rem;color:var(--muted)">${r.rootLatin}</span>` +
+                    `</div>`
+                  );
+                })
+                .join("");
               return (
                 `<div style="margin:0.5rem 0">` +
                 `<div style="font-size:0.82rem;color:var(--muted);margin-bottom:0.2rem">${PERIOD_LABELS[p]}</div>` +
-                `<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.15rem">` +
-                `<div style="width:160px;height:9px;background:var(--line);border-radius:5px;overflow:hidden"><div style="width:${pctA}%;height:100%;background:var(--accent);border-radius:5px"></div></div>` +
-                `<span style="font-size:0.82rem;font-variant-numeric:tabular-nums;min-width:2.5rem">${vA}</span>` +
-                `</div>` +
-                `<div style="display:flex;align-items:center;gap:0.5rem">` +
-                `<div style="width:160px;height:9px;background:var(--line);border-radius:5px;overflow:hidden"><div style="width:${pctB}%;height:100%;background:var(--accent-soft);border-radius:5px"></div></div>` +
-                `<span style="font-size:0.82rem;font-variant-numeric:tabular-nums;min-width:2.5rem">${vB}</span>` +
-                `</div>` +
+                rows +
                 `</div>`
               );
             },
@@ -634,138 +751,263 @@
 
           // URL sync
           const url = new URL(window.location);
-          url.searchParams.set("a", selA.rootBuckwalter);
-          url.searchParams.set("b", selB.rootBuckwalter);
+          url.searchParams.set("roots", bws.join(","));
+          url.searchParams.delete("a");
+          url.searchParams.delete("b");
           history.replaceState({}, "", url);
 
-          renderTimelines(selA, selB);
+          // Only refetch the network-backed views when the selection set
+          // actually changes (typing in a field doesn't re-fetch).
+          const sig = bws.join(",");
+          if (sig !== lastSig) {
+            lastSig = sig;
+            renderDetails(sels);
+          }
         }
 
-        // ── Revelation-order small multiples ─────────────────────────────
-        // Two strips, one per root, same scale and same order axis — the
-        // 4-period bars above summarize; these show the full 114-surah
-        // texture. Data: per-root analytics + Cairo 1924 order.
-        function rootsSafeKey(bw) {
-          let out = "";
-          for (const c of bw) {
-            if (c === "*") out += "dh";
-            else if (c === "$") out += "sh";
-            else if (c >= "A" && c <= "Z") out += "u" + c;
-            else out += c;
-          }
-          return out;
-        }
+        // ── Revelation-order strips + shared-verse intersection ──────────
+        // One strip per root (shared scale, same order axis), then the
+        // exact set of verses where every selected root co-occurs. Data:
+        // per-root analytics (bySurah, verses) + Cairo 1924 order.
         let chronCache = null;
-        let timelineToken = 0;
-        function renderTimelines(a, b) {
+        const analyticsCache = {};
+        function loadAnalytics(bw) {
+          if (!analyticsCache[bw]) {
+            analyticsCache[bw] = fetch(
+              `data/root-analytics/${rootsSafeKey(bw)}.json`,
+            ).then((r) => (r.ok ? r.json() : null));
+          }
+          return analyticsCache[bw];
+        }
+        const morphCacheR = {};
+        function loadMorphR(surah) {
+          if (!morphCacheR[surah]) {
+            morphCacheR[surah] = fetch(
+              `data/morphology/${surah}.json`,
+            ).then((r) => (r.ok ? r.json() : null));
+          }
+          return morphCacheR[surah];
+        }
+
+        let detailToken = 0;
+        function renderDetails(sels) {
           const wrap = document.getElementById("compareTimelines");
-          if (!wrap || !window.qdChart) return;
-          const token = ++timelineToken;
+          const interWrap = document.getElementById("compareIntersection");
+          if (!wrap) return;
+          const token = ++detailToken;
           wrap.innerHTML = "";
+          interWrap.innerHTML = "";
           Promise.all([
             chronCache
               ? Promise.resolve(chronCache)
               : fetch("data/chronology.json").then((r) => (r.ok ? r.json() : null)),
-            fetch(`data/root-analytics/${rootsSafeKey(a.rootBuckwalter)}.json`).then((r) => (r.ok ? r.json() : null)),
-            fetch(`data/root-analytics/${rootsSafeKey(b.rootBuckwalter)}.json`).then((r) => (r.ok ? r.json() : null)),
+            Promise.all(sels.map((r) => loadAnalytics(r.rootBuckwalter))),
           ])
-            .then(([chron, dA, dB]) => {
-              if (token !== timelineToken) return; // stale selection
-              if (!chron || !dA || !dB) return;
+            .then(([chron, datas]) => {
+              if (token !== detailToken) return; // stale selection
+              if (!chron || datas.some((d) => !d)) return;
               chronCache = chron;
-              const toPoints = (d) => {
-                const pts = [];
-                for (let s = 1; s <= 114; s++) {
-                  const meta = chron[String(s)];
-                  if (!meta) continue;
-                  pts.push({
-                    order: meta.revelationOrder,
-                    surah: s,
-                    name: meta.name,
-                    period: meta.period,
-                    count: d.bySurah[s] || d.bySurah[String(s)] || 0,
-                  });
-                }
-                return pts;
-              };
-              const pA = toPoints(dA);
-              const pB = toPoints(dB);
-              const sharedMax = Math.max(
-                ...pA.map((p) => p.count),
-                ...pB.map((p) => p.count),
-              );
-              [[a, pA, dA], [b, pB, dB]].forEach(([root, pts, d]) => {
-                const h = document.createElement("h4");
-                h.style.cssText = "margin:0.8rem 0 0.2rem;font-size:0.9rem";
-                h.textContent = `${root.rootLatin} across the revelation timeline (shared scale)`;
-                wrap.appendChild(h);
-                const div = document.createElement("div");
-                wrap.appendChild(div);
-                qdChart.revTimeline(div, {
-                  points: pts,
-                  max: sharedMax,
-                  ariaLabel: `Occurrences of ${root.rootLatin} by revelation order`,
-                  filename: `${rootsSafeKey(root.rootBuckwalter)}-timeline.svg`,
-                  onSurahClick: (s) => {
-                    location.href = `read.html?s=${s}&a=1`;
-                  },
+              if (window.qdChart) {
+                const seriesPts = datas.map((d) => {
+                  const pts = [];
+                  for (let s = 1; s <= 114; s++) {
+                    const meta = chron[String(s)];
+                    if (!meta) continue;
+                    pts.push({
+                      order: meta.revelationOrder,
+                      surah: s,
+                      name: meta.name,
+                      period: meta.period,
+                      count: d.bySurah[s] || d.bySurah[String(s)] || 0,
+                    });
+                  }
+                  return pts;
                 });
-              });
-              const note = document.createElement("p");
-              note.className = "method-note";
-              note.textContent =
-                "Cairo 1924 revelation order (a convention); bar height = occurrences in that surah, same scale for both roots. Distribution does not by itself establish meaning.";
-              wrap.appendChild(note);
+                const sharedMax = Math.max(
+                  1,
+                  ...seriesPts.flat().map((p) => p.count),
+                );
+                sels.forEach((root, i) => {
+                  const h = document.createElement("h4");
+                  h.style.cssText = "margin:0.8rem 0 0.2rem;font-size:0.9rem";
+                  h.textContent = `${root.rootLatin} across the revelation timeline (shared scale)`;
+                  wrap.appendChild(h);
+                  const div = document.createElement("div");
+                  wrap.appendChild(div);
+                  qdChart.revTimeline(div, {
+                    points: seriesPts[i],
+                    max: sharedMax,
+                    ariaLabel: `Occurrences of ${root.rootLatin} by revelation order`,
+                    filename: `${rootsSafeKey(root.rootBuckwalter)}-timeline.svg`,
+                    onSurahClick: (s) => {
+                      location.href = `read.html?s=${s}&a=1`;
+                    },
+                  });
+                });
+                const note = document.createElement("p");
+                note.className = "method-note";
+                note.textContent =
+                  "Cairo 1924 revelation order (a convention); bar height = occurrences in that surah, same scale for every root. Distribution does not by itself establish meaning.";
+                wrap.appendChild(note);
+              }
+
+              renderIntersection(sels, datas, interWrap, token);
             })
             .catch(() => {});
         }
 
-        // ── Example pair links ────────────────────────────────────────────────
-        function applyPair(bwA, bwB) {
-          const rA = allRoots.find((r) => r.rootBuckwalter === bwA);
-          const rB = allRoots.find((r) => r.rootBuckwalter === bwB);
-          if (!rA || !rB) return;
-          selA = rA;
-          selB = rB;
-          document.getElementById("rootA").value = rA.rootLatin;
-          document.getElementById("rootB").value = rB.rootLatin;
+        // Exact N-way intersection: verses in which EVERY selected root
+        // occurs. Verse ids come straight from each root's committed
+        // `verses` list, so the result is a plain set intersection.
+        function renderIntersection(sels, datas, interWrap, token) {
+          let inter = datas[0].verses.slice();
+          for (let i = 1; i < datas.length; i++) {
+            const set = new Set(datas[i].verses);
+            inter = inter.filter((v) => set.has(v));
+          }
+          inter.sort((a, b) => {
+            const [sa, va] = a.split(":").map(Number);
+            const [sb, vb] = b.split(":").map(Number);
+            return sa - sb || va - vb;
+          });
+
+          const names = sels.map((r) => r.rootLatin).join(", ");
+          const head =
+            `<h4 style="margin:0 0 0.35rem;font-size:0.95rem">Verses where all ${sels.length} roots occur together` +
+            ` <span style="font-weight:400;color:var(--muted)">(${inter.length})</span></h4>`;
+
+          if (inter.length === 0) {
+            interWrap.innerHTML =
+              head +
+              `<p style="color:var(--muted);font-size:0.9rem;margin:0">` +
+              `These roots never all appear in the same verse. Each still has the chronological profile shown above.</p>`;
+            return;
+          }
+
+          const shown = inter.slice(0, 60);
+          const chips = shown
+            .map((v) => {
+              const [s, a] = v.split(":");
+              return (
+                `<a href="read.html?s=${s}&a=${a}" ` +
+                `style="display:inline-block;border:1px solid var(--line);border-radius:4px;` +
+                `padding:0.1rem 0.45rem;margin:0 0.3rem 0.3rem 0;font-size:0.85rem;text-decoration:none;` +
+                `font-variant-numeric:tabular-nums">${s}:${a}</a>`
+              );
+            })
+            .join("");
+          const more =
+            inter.length > shown.length
+              ? `<span style="color:var(--muted);font-size:0.85rem">+${inter.length - shown.length} more</span>`
+              : "";
+          interWrap.innerHTML =
+            head +
+            `<div style="margin-bottom:0.5rem">${chips}${more}</div>`;
+
+          // Exact shared companions: the OTHER roots appearing in those
+          // shared verses. Bounded to keep morphology fetches cheap.
+          if (inter.length <= 50) {
+            const bySurah = {};
+            inter.forEach((v) => {
+              const [s, a] = v.split(":");
+              (bySurah[s] = bySurah[s] || []).push(a);
+            });
+            const selSet = new Set(sels.map((r) => r.rootBuckwalter));
+            Promise.all(
+              Object.keys(bySurah).map((s) =>
+                loadMorphR(s).then((m) => ({ s, m })),
+              ),
+            ).then((loaded) => {
+              if (token !== detailToken) return;
+              const tally = {};
+              loaded.forEach(({ s, m }) => {
+                if (!m) return;
+                bySurah[s].forEach((a) => {
+                  const words = m[a] || [];
+                  const seen = new Set();
+                  words.forEach((w) => {
+                    if (w.root && !selSet.has(w.root)) seen.add(w.root);
+                  });
+                  seen.forEach((rt) => (tally[rt] = (tally[rt] || 0) + 1));
+                });
+              });
+              const companions = Object.entries(tally)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 12);
+              if (!companions.length) return;
+              const rmeta = window.__rootsMeta || {};
+              const items = companions
+                .map(([bw, n]) => {
+                  const meta = rmeta[bw];
+                  const latin = meta ? meta.rootLatin : bw;
+                  const ar = meta ? meta.rootArabic : "";
+                  return (
+                    `<a href="roots.html?root=${rootsSafeKey(bw)}" ` +
+                    `style="display:inline-block;margin:0 0.6rem 0.3rem 0;text-decoration:none;font-size:0.88rem">` +
+                    `<span class="notranslate" lang="ar" dir="rtl" translate="no" style="font-family:'Amiri',serif">${ar}</span> ` +
+                    `<span style="color:var(--muted)">${latin}</span> ` +
+                    `<span style="color:var(--muted);font-variant-numeric:tabular-nums">·${n}</span></a>`
+                  );
+                })
+                .join("");
+              interWrap.innerHTML +=
+                `<h4 style="margin:0.75rem 0 0.35rem;font-size:0.95rem">Roots sharing those verses` +
+                ` <span style="font-weight:400;color:var(--muted)">(count = shared verses)</span></h4>` +
+                `<div>${items}</div>`;
+            });
+          }
+        }
+
+        // ── Example links + boot ─────────────────────────────────────────────
+        function applyRoots(bwList) {
+          const roots = bwList
+            .map((bw) => allRoots.find((r) => r.rootBuckwalter === bw))
+            .filter(Boolean);
+          if (roots.length < 1) return;
+          rowsContainer().innerHTML = "";
+          rowSeq = 0;
+          roots.forEach((r) => addRootRow(r));
+          while (currentRows().length < 2) addRootRow();
+          updateRowControls();
           renderCompare();
         }
 
-        document.querySelectorAll("[data-pair]").forEach((a) => {
+        document.querySelectorAll("[data-roots]").forEach((a) => {
           a.addEventListener("click", (e) => {
             e.preventDefault();
-            const [bwA, bwB] = a.dataset.pair.split("|");
-            applyPair(bwA, bwB);
+            applyRoots(a.dataset.roots.split(","));
             document
               .getElementById("compareCanvas")
               .scrollIntoView({ behavior: "smooth", block: "nearest" });
           });
         });
 
+        document.getElementById("add-root").addEventListener("click", () => {
+          if (currentRows().length >= MAX_ROOTS) return;
+          addRootRow();
+        });
+
         // ── Boot ──────────────────────────────────────────────────────────────
         fetch("data/roots-list.json")
           .then((r) => r.json())
           .then((data) => {
+            window.__rootsMeta = data;
             allRoots = Object.values(data).sort(
               (a, b) => b.totalCount - a.totalCount,
             );
 
-            wireInput("rootA", "suggA", (root) => {
-              selA = root;
-              renderCompare();
-            });
-            wireInput("rootB", "suggB", (root) => {
-              selB = root;
-              renderCompare();
-            });
-
-            // URL pre-population
             const params = new URLSearchParams(location.search);
-            const pA = params.get("a");
-            const pB = params.get("b");
-            if (pA && pB) {
-              applyPair(pA, pB);
+            let initial = [];
+            if (params.get("roots")) {
+              initial = params.get("roots").split(",").filter(Boolean);
+            } else if (params.get("a") && params.get("b")) {
+              initial = [params.get("a"), params.get("b")]; // legacy links
+            }
+            if (initial.length >= 2) {
+              applyRoots(initial);
+            } else {
+              addRootRow();
+              addRootRow();
             }
           })
           .catch(() => {
@@ -777,6 +1019,8 @@
     <script>
       (function () {
         "use strict";
+
+        const MAX_PASSAGES = 6;
 
         // ── Utilities ──────────────────────────────────────────────────────────
 
@@ -1237,10 +1481,11 @@
                     : inp.surah + ":" + inp.start + "-" + inp.end;
                 url.searchParams.set("p" + (i + 1), ref);
               }
-              for (let i = inputs.length + 1; i <= 3; i++)
+              for (let i = inputs.length + 1; i <= MAX_PASSAGES; i++)
                 url.searchParams.delete("p" + i);
               url.searchParams.delete("a");
               url.searchParams.delete("b");
+              url.searchParams.delete("roots");
               history.replaceState({}, "", url);
             })
             .catch(function (err) {
@@ -1255,37 +1500,31 @@
             });
         }
 
-        // ── Mode toggle ─────────────────────────────────────────────────────────
+        // ── Mode toggle (roots · passages · surahs) ──────────────────────────────
+        // Generic over the three tabs; exposed so the Surahs IIFE can switch
+        // in when hydrating from ?mode=surahs.
 
+        const MODES = ["roots", "passages", "surahs"];
         function setMode(mode) {
-          const isPassages = mode === "passages";
-          document.getElementById("panel-roots").hidden = isPassages;
-          document.getElementById("panel-passages").hidden = !isPassages;
-          document
-            .getElementById("btn-roots")
-            .setAttribute("aria-selected", String(!isPassages));
-          document
-            .getElementById("btn-passages")
-            .setAttribute("aria-selected", String(isPassages));
+          MODES.forEach(function (m) {
+            document.getElementById("panel-" + m).hidden = m !== mode;
+            document
+              .getElementById("btn-" + m)
+              .setAttribute("aria-selected", String(m === mode));
+          });
         }
+        window.qdCompareSetMode = setMode;
 
-        document
-          .getElementById("btn-roots")
-          .addEventListener("click", function () {
-            setMode("roots");
-            const url = new URL(window.location);
-            url.searchParams.set("mode", "roots");
-            history.replaceState({}, "", url);
-          });
-
-        document
-          .getElementById("btn-passages")
-          .addEventListener("click", function () {
-            setMode("passages");
-            const url = new URL(window.location);
-            url.searchParams.set("mode", "passages");
-            history.replaceState({}, "", url);
-          });
+        MODES.forEach(function (m) {
+          document
+            .getElementById("btn-" + m)
+            .addEventListener("click", function () {
+              setMode(m);
+              const url = new URL(window.location);
+              url.searchParams.set("mode", m);
+              history.replaceState({}, "", url);
+            });
+        });
 
         // ── Boot ────────────────────────────────────────────────────────────────
 
@@ -1296,9 +1535,12 @@
         document
           .getElementById("add-passage")
           .addEventListener("click", function () {
-            if (rowsContainer.querySelectorAll(".p-row").length >= 3) return;
+            if (rowsContainer.querySelectorAll(".p-row").length >= MAX_PASSAGES)
+              return;
             addPassageRow(rowsContainer, true);
-            if (rowsContainer.querySelectorAll(".p-row").length >= 3) {
+            if (
+              rowsContainer.querySelectorAll(".p-row").length >= MAX_PASSAGES
+            ) {
               document.getElementById("add-passage").hidden = true;
             }
           });
@@ -1329,15 +1571,323 @@
         const params = new URLSearchParams(location.search);
         if (params.get("mode") === "passages") {
           setMode("passages");
-          const rows = rowsContainer.querySelectorAll(".p-row");
-          applyParam(rows[0], params.get("p1"));
-          applyParam(rows[1], params.get("p2"));
-          if (params.get("p3")) {
+          // Ensure enough rows exist for the provided p1..pN, then fill them.
+          for (let i = 3; i <= MAX_PASSAGES; i++) {
+            if (!params.get("p" + i)) break;
             document.getElementById("add-passage").click();
-            const rows3 = rowsContainer.querySelectorAll(".p-row");
-            applyParam(rows3[2], params.get("p3"));
+          }
+          const rows = rowsContainer.querySelectorAll(".p-row");
+          for (let i = 0; i < rows.length; i++) {
+            applyParam(rows[i], params.get("p" + (i + 1)));
           }
           if (params.get("p1") && params.get("p2")) loadPassages();
+        }
+      })();
+    </script>
+    <script>
+      (function () {
+        "use strict";
+
+        // ── Surahs compare ───────────────────────────────────────────────────
+        // N-way (2–6) side-by-side of committed per-surah fingerprints:
+        // length, vocabulary spread, grammatical texture, cross-reference
+        // reach. All figures come from data/surah-profiles.json (Leeds +
+        // Cairo 1924 + QurSim) and data/surah-meta.json (Quran.com API v4).
+
+        const MAX_SURAHS = 6;
+        let profiles = null;
+        let meta = null;
+        let seq = 0;
+
+        function safeKeyS(bw) {
+          let out = "";
+          for (const c of bw) {
+            if (c === "*") out += "dh";
+            else if (c === "$") out += "sh";
+            else if (c >= "A" && c <= "Z") out += "u" + c;
+            else out += c;
+          }
+          return out;
+        }
+        function esc(s) {
+          return (window.qdEsc ? qdEsc(s) : String(s)).toString();
+        }
+
+        const PERIOD_LABELS = {
+          "meccan-early": "Early Meccan",
+          "meccan-middle": "Middle Meccan",
+          "meccan-late": "Late Meccan",
+          medinan: "Medinan",
+        };
+
+        function rowsC() {
+          return document.getElementById("surahs-rows");
+        }
+        function currentRows() {
+          return Array.from(rowsC().querySelectorAll(".s-row"));
+        }
+        function updateControls() {
+          const rows = currentRows();
+          rows.forEach((row) => {
+            const btn = row.querySelector(".p-remove");
+            if (btn) btn.style.visibility = rows.length > 2 ? "visible" : "hidden";
+          });
+          document.getElementById("add-surah").hidden = rows.length >= MAX_SURAHS;
+        }
+        function makeSelect(labelIdx) {
+          const sel = document.createElement("select");
+          sel.className = "s-surah";
+          sel.setAttribute("aria-label", "Surah " + (labelIdx + 1));
+          const ph = document.createElement("option");
+          ph.value = "";
+          ph.textContent = "Surah…";
+          sel.appendChild(ph);
+          const surahs = window.SURAHS || [];
+          for (let i = 0; i < surahs.length; i++) {
+            const opt = document.createElement("option");
+            opt.value = String(surahs[i].id);
+            opt.textContent = surahs[i].id + " · " + surahs[i].en;
+            sel.appendChild(opt);
+          }
+          return sel;
+        }
+        function addRow(preId) {
+          const idx = ++seq;
+          const row = document.createElement("div");
+          row.className = "p-row s-row";
+          const sel = makeSelect(idx - 1);
+          row.appendChild(sel);
+          const rm = document.createElement("button");
+          rm.type = "button";
+          rm.className = "p-remove";
+          rm.setAttribute("aria-label", "Remove surah");
+          rm.textContent = "×";
+          rm.addEventListener("click", () => {
+            row.remove();
+            updateControls();
+          });
+          row.appendChild(rm);
+          rowsC().appendChild(row);
+          if (preId) sel.value = String(preId);
+          updateControls();
+          return row;
+        }
+
+        function setError(msg) {
+          const el = document.getElementById("surahs-error");
+          el.textContent = msg;
+          el.hidden = !msg;
+        }
+
+        function pct(x) {
+          return (Math.round(x * 10) / 10).toFixed(1) + "%";
+        }
+
+        function renderResults(ids) {
+          const resultEl = document.getElementById("surahs-result");
+          resultEl.hidden = false;
+          const metaS = (meta && meta.surahs) || {};
+
+          const cols = ids.map((id) => ({
+            id,
+            p: profiles.surahs[String(id)],
+            m: metaS[String(id)] || {},
+          }));
+
+          // Metric rows: label + accessor returning a display string.
+          const ROWS = [
+            ["Name", (c) => (c.m.name ? esc(c.m.name) : "surah " + c.id)],
+            [
+              "Period",
+              (c) => PERIOD_LABELS[c.p.chronologyPeriod] || c.p.chronologyPeriod || "—",
+            ],
+            ["Revelation order", (c) => (c.m.revelationOrder || "—") + " / 114"],
+            [
+              "Classification",
+              (c) =>
+                c.m.classification === "makki"
+                  ? "Meccan"
+                  : c.m.classification === "madani"
+                    ? "Medinan"
+                    : "—",
+            ],
+            ["Verses", (c) => c.p.verseCount],
+            ["Word-tokens", (c) => c.p.tokenCount.toLocaleString()],
+            ["Distinct roots", (c) => c.p.distinctRootCount],
+            [
+              "Root diversity",
+              (c) => c.p.rootDiversityRatio.toFixed(3),
+            ],
+            [
+              "Nouns / verbs",
+              (c) =>
+                c.p.posMix
+                  ? pct(c.p.posMix.nounPct) + " / " + pct(c.p.posMix.verbPct)
+                  : "—",
+            ],
+            [
+              "Cross-referenced surahs",
+              (c) =>
+                c.p.qursimConnectivity === null
+                  ? "—"
+                  : c.p.qursimConnectivity,
+            ],
+          ];
+
+          let html =
+            '<div class="card" style="margin-top:1rem"><div style="overflow-x:auto">' +
+            '<table style="width:100%;border-collapse:collapse;font-size:0.9rem">' +
+            '<thead><tr style="border-bottom:2px solid var(--line)">' +
+            '<th style="text-align:left;padding:0.35rem 0.5rem">Metric</th>';
+          cols.forEach((c) => {
+            html +=
+              '<th style="text-align:right;padding:0.35rem 0.5rem">' +
+              '<a href="navigate.html#s' +
+              c.id +
+              '" style="text-decoration:none">' +
+              c.id +
+              "</a></th>";
+          });
+          html += "</tr></thead><tbody>";
+
+          ROWS.forEach(([label, fn]) => {
+            html +=
+              '<tr style="border-bottom:1px solid var(--line)">' +
+              '<td style="padding:0.35rem 0.5rem;color:var(--muted)">' +
+              label +
+              "</td>";
+            cols.forEach((c) => {
+              html +=
+                '<td style="text-align:right;padding:0.35rem 0.5rem;font-variant-numeric:tabular-nums">' +
+                fn(c) +
+                "</td>";
+            });
+            html += "</tr>";
+          });
+          html += "</tbody></table></div>";
+
+          // Top roots per surah (chips).
+          html +=
+            '<h3 style="margin:1rem 0 0.5rem;font-size:1.05rem">Most frequent roots</h3>' +
+            '<div style="display:flex;gap:1.5rem;flex-wrap:wrap">';
+          cols.forEach((c) => {
+            const chips = (c.p.topRoots || [])
+              .slice(0, 8)
+              .map(
+                (r) =>
+                  '<a href="roots.html?root=' +
+                  safeKeyS(r.root) +
+                  '" style="display:inline-block;margin:0 0.5rem 0.35rem 0;text-decoration:none;font-size:0.88rem">' +
+                  '<span class="notranslate" lang="ar" dir="rtl" translate="no" style="font-family:\'Amiri\',serif">' +
+                  esc(r.rootArabic || "") +
+                  "</span> " +
+                  '<span style="color:var(--muted)">' +
+                  esc(r.rootLatin) +
+                  "</span> " +
+                  '<span style="color:var(--muted);font-variant-numeric:tabular-nums">·' +
+                  r.count +
+                  "</span></a>",
+              )
+              .join("");
+            html +=
+              '<div style="flex:1;min-width:200px">' +
+              '<h4 style="margin:0 0 0.35rem;font-size:0.95rem">' +
+              c.id +
+              (c.m.name
+                ? ' <span style="font-weight:400;color:var(--muted)">· ' +
+                  esc(c.m.name) +
+                  "</span>"
+                : "") +
+              "</h4>" +
+              chips +
+              "</div>";
+          });
+          html += "</div>";
+
+          html +=
+            '<p class="prov" style="margin:0.75rem 0 0;font-size:0.82rem">' +
+            '<span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924 qursim quran-foundation-api-v4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> ' +
+            "Length, vocabulary, and grammatical texture computed from Leeds morphology; period and revelation order from Cairo 1924; " +
+            "cross-reference reach from QurSim/Mishkat (four surahs are outside that index); classification from the Quran.com API. " +
+            "Descriptive statistics, not a measure of merit.</p>";
+          html += "</div>";
+
+          resultEl.innerHTML = html;
+          if (window.qdCiteEnhance) window.qdCiteEnhance(resultEl);
+          resultEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+
+        function loadData() {
+          if (profiles && meta) return Promise.resolve();
+          return Promise.all([
+            profiles
+              ? Promise.resolve(profiles)
+              : fetch("data/surah-profiles.json").then((r) => r.json()),
+            meta
+              ? Promise.resolve(meta)
+              : fetch("data/surah-meta.json").then((r) => r.json()),
+          ]).then(([p, m]) => {
+            profiles = p;
+            meta = m;
+          });
+        }
+
+        function loadSurahs() {
+          setError("");
+          const ids = currentRows()
+            .map((row) => parseInt(row.querySelector(".s-surah").value, 10))
+            .filter((n) => !isNaN(n));
+          if (ids.length < 2) {
+            setError("Select at least two surahs to compare.");
+            return;
+          }
+          const btn = document.getElementById("load-surahs");
+          btn.disabled = true;
+          btn.textContent = "Loading…";
+          loadData()
+            .then(() => {
+              renderResults(ids);
+              const url = new URL(window.location);
+              url.searchParams.set("mode", "surahs");
+              url.searchParams.set("surahs", ids.join(","));
+              url.searchParams.delete("a");
+              url.searchParams.delete("b");
+              url.searchParams.delete("roots");
+              history.replaceState({}, "", url);
+            })
+            .catch(() => setError("Could not load surah data. Try again."))
+            .finally(() => {
+              btn.disabled = false;
+              btn.textContent = "Compare";
+            });
+        }
+
+        // ── Boot ──────────────────────────────────────────────────────────────
+        addRow();
+        addRow();
+        document.getElementById("add-surah").addEventListener("click", () => {
+          if (currentRows().length >= MAX_SURAHS) return;
+          addRow();
+        });
+        document
+          .getElementById("load-surahs")
+          .addEventListener("click", loadSurahs);
+
+        const params = new URLSearchParams(location.search);
+        if (params.get("mode") === "surahs") {
+          if (window.qdCompareSetMode) window.qdCompareSetMode("surahs");
+          const ids = (params.get("surahs") || "")
+            .split(",")
+            .map((x) => parseInt(x, 10))
+            .filter((n) => !isNaN(n) && n >= 1 && n <= 114);
+          if (ids.length >= 2) {
+            rowsC().innerHTML = "";
+            seq = 0;
+            ids.forEach((id) => addRow(id));
+            while (currentRows().length < 2) addRow();
+            updateControls();
+            loadSurahs();
+          }
         }
       })();
     </script>

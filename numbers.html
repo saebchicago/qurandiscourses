@@ -284,6 +284,105 @@
             </p>
           </div>
           <div class="card scholar-only">
+            <h3>Grammatical texture</h3>
+            <p>
+              Of <span data-num="posProfile.totalTokens">77,429</span> word-tokens,
+              <strong data-num="posProfile.byTag.N">25,135</strong> are nouns and
+              <strong data-num="posProfile.byTag.V">19,356</strong> are verbs. The
+              noun and verb share shifts across the revelation:
+            </p>
+            <table class="data">
+              <thead>
+                <tr>
+                  <th>Period</th>
+                  <th class="count">Nouns</th>
+                  <th class="count">Verbs</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Early Meccan</td>
+                  <td class="count"><span data-num="posByPeriod.0.nounPct">35.5</span>%</td>
+                  <td class="count"><span data-num="posByPeriod.0.verbPct">24.9</span>%</td>
+                </tr>
+                <tr>
+                  <td>Middle Meccan</td>
+                  <td class="count"><span data-num="posByPeriod.1.nounPct">32.6</span>%</td>
+                  <td class="count"><span data-num="posByPeriod.1.verbPct">26.4</span>%</td>
+                </tr>
+                <tr>
+                  <td>Late Meccan</td>
+                  <td class="count"><span data-num="posByPeriod.2.nounPct">33</span>%</td>
+                  <td class="count"><span data-num="posByPeriod.2.verbPct">24.9</span>%</td>
+                </tr>
+                <tr>
+                  <td>Medinan</td>
+                  <td class="count"><span data-num="posByPeriod.3.nounPct">31.6</span>%</td>
+                  <td class="count"><span data-num="posByPeriod.3.verbPct">24.5</span>%</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="prov">
+              <span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
+              exact counts of the Leeds N (noun) and V (verb) tags as a share
+              of all tokens, by Cairo 1924 period. Noun and verb are the two
+              unambiguous single tags; the remaining tokens are particles and
+              other function words, so no family taxonomy is asserted.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Verse-length distribution</h3>
+            <p>
+              Most verses are short. Of
+              <span data-num="verseLengthHistogram.totalVerses">6,236</span>
+              verses, the longest runs to
+              <strong data-num="verseLengthHistogram.maxVerseTokens">128</strong>
+              word-tokens (al-Baqarah 2:282).
+            </p>
+            <div id="lenHisto" style="margin-top: 0.5rem"></div>
+            <p class="prov">
+              <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
+              token-length of every verse (Leeds tokenization), grouped into
+              bands.
+            </p>
+          </div>
+          <div class="card scholar-only">
+            <h3>Vocabulary growth across revelation</h3>
+            <p>
+              Following Cairo 1924 order, the first revealed surah already
+              introduces <strong data-num="rootIntroduction.0.newRoots">32</strong>
+              distinct roots; by the last, all
+              <strong data-num="rootIntroduction.113.cumulativeRoots">1,642</strong>
+              rooted roots have appeared. New roots enter fastest early and
+              taper as the shared vocabulary saturates.
+            </p>
+            <div id="vocabGrowth" style="margin-top: 0.5rem"></div>
+            <p class="prov">
+              <span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
+              count of roots first appearing at each revelation-order step.
+              Order is a convention; the curve describes the corpus, not a
+              claim about composition.
+            </p>
+          </div>
+          <div class="card scholar-only">
+            <h3>Where the rare words are</h3>
+            <p>
+              <strong data-num="hapaxLocalization.count">395</strong> roots occur
+              exactly once in the whole Qur'an, alongside
+              <strong data-num="hapax.lemmasOccurringOnce">1,994</strong> lemmas.
+              Each once-root's single verse is listed below.
+            </p>
+            <details id="hapaxDetails" class="xref-panel">
+              <summary>List the once-occurring roots</summary>
+              <div id="hapaxList" class="xref-list"></div>
+            </details>
+            <p class="prov">
+              <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
+              roots with a corpus total of exactly one, with the verse of their
+              single occurrence.
+            </p>
+          </div>
+          <div class="card scholar-only">
             <h3>Hapax legomena</h3>
             <p>
               <strong data-num="hapax.surfaceFormsOccurringOnce">12,004</strong> surface forms (out of <span data-num="hapax.uniqueSurfaceForms">18,993</span> unique forms)
@@ -360,6 +459,7 @@
     <script src="assets/surahs.js"></script>
     <script src="assets/app.js"></script>
     <script src="assets/share.js" defer></script>
+    <script src="assets/chart.js" defer></script>
     <script>
       (function () {
         function surahName(n) {
@@ -401,14 +501,121 @@
                     : v.toFixed(1);
                 }
               });
+              renderExtras(data);
             })
             .catch(function () {
               /* static fallback text stays in place */
             });
         }
 
+        // Render the visual analytics that need more than a scalar fill:
+        // the verse-length histogram (inline bars) and the vocabulary-growth
+        // strip (chart.js revelation timeline). Both degrade gracefully if
+        // their data or chart.js is unavailable.
+        function renderExtras(data) {
+          var histo = document.getElementById("lenHisto");
+          if (histo && data.verseLengthHistogram) {
+            var bins = data.verseLengthHistogram.bins || [];
+            var max = bins.reduce(function (m, b) {
+              return Math.max(m, b.count);
+            }, 1);
+            histo.innerHTML = bins
+              .map(function (b) {
+                var pct = Math.round((b.count / max) * 100);
+                return (
+                  '<div class="barwrap">' +
+                  '<span class="lbl">' +
+                  b.label +
+                  " words</span>" +
+                  '<div class="bar"><span style="width:' +
+                  pct +
+                  '%"></span></div>' +
+                  '<span class="lbl" style="min-width:3.5rem;text-align:right">' +
+                  b.count.toLocaleString("en-US") +
+                  "</span></div>"
+                );
+              })
+              .join("");
+          }
+
+          var grow = document.getElementById("vocabGrowth");
+          if (grow && data.rootIntroduction && window.qdChart) {
+            fetch("data/chronology.json")
+              .then(function (r) {
+                return r.ok ? r.json() : null;
+              })
+              .then(function (chron) {
+                if (!chron) return;
+                var points = data.rootIntroduction
+                  .filter(function (e) {
+                    return e.surah != null;
+                  })
+                  .map(function (e) {
+                    var meta = chron[String(e.surah)] || {};
+                    return {
+                      order: e.order,
+                      surah: e.surah,
+                      name: meta.name,
+                      period: meta.period,
+                      count: e.newRoots,
+                    };
+                  });
+                qdChart.revTimeline(grow, {
+                  points: points,
+                  ariaLabel: "New roots introduced by revelation order",
+                  filename: "vocabulary-growth.svg",
+                  onSurahClick: function (s) {
+                    location.href = "read.html?s=" + s + "&a=1";
+                  },
+                });
+              })
+              .catch(function () {});
+          }
+        }
+
+        function wireHapaxList() {
+          var details = document.getElementById("hapaxDetails");
+          var list = document.getElementById("hapaxList");
+          if (!details || !list) return;
+          var loaded = false;
+          details.addEventListener("toggle", async function () {
+            if (!details.open || loaded) return;
+            loaded = true;
+            list.innerHTML = '<p style="color:var(--muted)">Loading…</p>';
+            try {
+              var r = await fetch("data/numbers.json");
+              var data = await r.json();
+              var roots = (data.hapaxLocalization || {}).roots || [];
+              list.innerHTML = roots
+                .map(function (h) {
+                  return (
+                    '<div class="xref-item"><a href="read.html?s=' +
+                    h.surah +
+                    "&a=" +
+                    h.verse +
+                    '" class="xref-ref">' +
+                    h.surah +
+                    ":" +
+                    h.verse +
+                    " · " +
+                    qdEsc(h.latin) +
+                    '</a><span class="ar notranslate xref-ar" translate="no" lang="ar" dir="rtl">' +
+                    qdEsc(h.arabic || "") +
+                    "</span></div>"
+                  );
+                })
+                .join("");
+            } catch (e) {
+              list.innerHTML =
+                '<p style="color:var(--muted)">Could not load the list.</p>';
+              loaded = false;
+            }
+          });
+        }
+
         ready(function () {
           fillNumbers();
+          wireHapaxList();
           var details = document.getElementById("fawatihDetails");
           var list = document.getElementById("fawatihList");
           if (!details || !list) return;

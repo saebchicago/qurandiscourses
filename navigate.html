@@ -498,6 +498,14 @@
             <h4>Root diversity ratio <span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · roots over all tokens">~</span></h4>
             <p class="stat-value">${p.rootDiversityRatio}</p>
           </div>
+          ${
+            p.posMix
+              ? `<div class="stat-block">
+            <h4>Grammatical texture <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · Leeds POS tags">●</span></h4>
+            <p class="stat-value" style="font-size:1rem">${p.posMix.nounPct}% nouns · ${p.posMix.verbPct}% verbs</p>
+          </div>`
+              : ""
+          }
           <div class="stat-block">
             <h4>Chronology period <span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · Cairo 1924 convention">~</span></h4>
             <p class="stat-value" style="font-size:1rem">${period}</p>

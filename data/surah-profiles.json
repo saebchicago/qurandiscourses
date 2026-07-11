@@ -1,6 +1,6 @@
 {
   "_source": "Leeds Quranic Arabic Corpus v0.4 (morphology/roots); chronology.json (Egyptian Standard, Cairo 1924); data/qursim (Mishkat cross-reference index, 110/114 surahs)",
-  "_generated": "2026-07-07",
+  "_generated": "2026-07-11",
   "_note": "Descriptive corpus statistics only. Root diversity ratio divides distinct roots by all word-tokens, including function words with no tagged root. QurSim connectivity counts distinct other surahs cross-referenced; null means the surah is outside current QurSim/Mishkat coverage (104, 105, 106, 110), not zero connections.",
   "surahs": {
     "1": {
@@ -71,6 +71,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 29,
+        "nouns": 12,
+        "verbs": 4,
+        "prepositions": 2,
+        "other": 11,
+        "nounPct": 41.4,
+        "verbPct": 13.8
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 3
     },
@@ -142,6 +151,15 @@
           "count": 46
         }
       ],
+      "posMix": {
+        "total": 6116,
+        "nouns": 1860,
+        "verbs": 1529,
+        "prepositions": 628,
+        "other": 2099,
+        "nounPct": 30.4,
+        "verbPct": 25
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 70
     },
@@ -213,6 +231,15 @@
           "count": 24
         }
       ],
+      "posMix": {
+        "total": 3481,
+        "nouns": 1083,
+        "verbs": 865,
+        "prepositions": 338,
+        "other": 1195,
+        "nounPct": 31.1,
+        "verbPct": 24.8
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 32
     },
@@ -284,6 +311,15 @@
           "count": 27
         }
       ],
+      "posMix": {
+        "total": 3747,
+        "nouns": 1140,
+        "verbs": 928,
+        "prepositions": 383,
+        "other": 1296,
+        "nounPct": 30.4,
+        "verbPct": 24.8
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 47
     },
@@ -355,6 +391,15 @@
           "count": 23
         }
       ],
+      "posMix": {
+        "total": 2804,
+        "nouns": 868,
+        "verbs": 712,
+        "prepositions": 302,
+        "other": 922,
+        "nounPct": 31,
+        "verbPct": 25.4
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 29
     },
@@ -426,6 +471,15 @@
           "count": 27
         }
       ],
+      "posMix": {
+        "total": 3050,
+        "nouns": 943,
+        "verbs": 820,
+        "prepositions": 280,
+        "other": 1007,
+        "nounPct": 30.9,
+        "verbPct": 26.9
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 38
     },
@@ -497,6 +551,15 @@
           "count": 28
         }
       ],
+      "posMix": {
+        "total": 3320,
+        "nouns": 1010,
+        "verbs": 971,
+        "prepositions": 336,
+        "other": 1003,
+        "nounPct": 30.4,
+        "verbPct": 29.2
+      },
       "chronologyPeriod": "meccan-middle",
       "qursimConnectivity": 42
     },
@@ -568,6 +631,15 @@
           "count": 9
         }
       ],
+      "posMix": {
+        "total": 1233,
+        "nouns": 361,
+        "verbs": 318,
+        "prepositions": 112,
+        "other": 442,
+        "nounPct": 29.3,
+        "verbPct": 25.8
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 16
     },
@@ -639,6 +711,15 @@
           "count": 19
         }
       ],
+      "posMix": {
+        "total": 2498,
+        "nouns": 753,
+        "verbs": 611,
+        "prepositions": 243,
+        "other": 891,
+        "nounPct": 30.1,
+        "verbPct": 24.5
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 22
     },
@@ -710,6 +791,15 @@
           "count": 16
         }
       ],
+      "posMix": {
+        "total": 1833,
+        "nouns": 550,
+        "verbs": 467,
+        "prepositions": 202,
+        "other": 614,
+        "nounPct": 30,
+        "verbPct": 25.5
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 21
     },
@@ -781,6 +871,15 @@
           "count": 14
         }
       ],
+      "posMix": {
+        "total": 1917,
+        "nouns": 613,
+        "verbs": 457,
+        "prepositions": 225,
+        "other": 622,
+        "nounPct": 32,
+        "verbPct": 23.8
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 31
     },
@@ -852,6 +951,15 @@
           "count": 13
         }
       ],
+      "posMix": {
+        "total": 1777,
+        "nouns": 549,
+        "verbs": 473,
+        "prepositions": 190,
+        "other": 565,
+        "nounPct": 30.9,
+        "verbPct": 26.6
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 20
     },
@@ -923,6 +1031,15 @@
           "count": 7
         }
       ],
+      "posMix": {
+        "total": 853,
+        "nouns": 320,
+        "verbs": 188,
+        "prepositions": 83,
+        "other": 262,
+        "nounPct": 37.5,
+        "verbPct": 22
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 13
     },
@@ -994,6 +1111,15 @@
           "count": 9
         }
       ],
+      "posMix": {
+        "total": 830,
+        "nouns": 290,
+        "verbs": 197,
+        "prepositions": 95,
+        "other": 248,
+        "nounPct": 34.9,
+        "verbPct": 23.7
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 11
     },
@@ -1065,6 +1191,15 @@
           "count": 6
         }
       ],
+      "posMix": {
+        "total": 655,
+        "nouns": 230,
+        "verbs": 165,
+        "prepositions": 79,
+        "other": 181,
+        "nounPct": 35.1,
+        "verbPct": 25.2
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 14
     },
@@ -1136,6 +1271,15 @@
           "count": 14
         }
       ],
+      "posMix": {
+        "total": 1844,
+        "nouns": 600,
+        "verbs": 448,
+        "prepositions": 203,
+        "other": 593,
+        "nounPct": 32.5,
+        "verbPct": 24.3
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 35
     },
@@ -1207,6 +1351,15 @@
           "count": 12
         }
       ],
+      "posMix": {
+        "total": 1556,
+        "nouns": 553,
+        "verbs": 412,
+        "prepositions": 126,
+        "other": 465,
+        "nounPct": 35.5,
+        "verbPct": 26.5
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 21
     },
@@ -1278,6 +1431,15 @@
           "count": 13
         }
       ],
+      "posMix": {
+        "total": 1579,
+        "nouns": 562,
+        "verbs": 437,
+        "prepositions": 149,
+        "other": 431,
+        "nounPct": 35.6,
+        "verbPct": 27.7
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 19
     },
@@ -1349,6 +1511,15 @@
           "count": 9
         }
       ],
+      "posMix": {
+        "total": 961,
+        "nouns": 330,
+        "verbs": 256,
+        "prepositions": 82,
+        "other": 293,
+        "nounPct": 34.3,
+        "verbPct": 26.6
+      },
       "chronologyPeriod": "meccan-middle",
       "qursimConnectivity": 23
     },
@@ -1420,6 +1591,15 @@
           "count": 10
         }
       ],
+      "posMix": {
+        "total": 1335,
+        "nouns": 372,
+        "verbs": 392,
+        "prepositions": 131,
+        "other": 440,
+        "nounPct": 27.9,
+        "verbPct": 29.4
+      },
       "chronologyPeriod": "meccan-middle",
       "qursimConnectivity": 31
     },
@@ -1491,6 +1671,15 @@
           "count": 11
         }
       ],
+      "posMix": {
+        "total": 1169,
+        "nouns": 393,
+        "verbs": 301,
+        "prepositions": 113,
+        "other": 362,
+        "nounPct": 33.6,
+        "verbPct": 25.7
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 20
     },
@@ -1562,6 +1751,15 @@
           "count": 9
         }
       ],
+      "posMix": {
+        "total": 1274,
+        "nouns": 417,
+        "verbs": 280,
+        "prepositions": 148,
+        "other": 429,
+        "nounPct": 32.7,
+        "verbPct": 22
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 14
     },
@@ -1633,6 +1831,15 @@
           "count": 7
         }
       ],
+      "posMix": {
+        "total": 1050,
+        "nouns": 347,
+        "verbs": 253,
+        "prepositions": 104,
+        "other": 346,
+        "nounPct": 33,
+        "verbPct": 24.1
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 17
     },
@@ -1704,6 +1911,15 @@
           "count": 11
         }
       ],
+      "posMix": {
+        "total": 1316,
+        "nouns": 440,
+        "verbs": 280,
+        "prepositions": 137,
+        "other": 459,
+        "nounPct": 33.4,
+        "verbPct": 21.3
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 14
     },
@@ -1775,6 +1991,15 @@
           "count": 8
         }
       ],
+      "posMix": {
+        "total": 893,
+        "nouns": 315,
+        "verbs": 243,
+        "prepositions": 64,
+        "other": 271,
+        "nounPct": 35.3,
+        "verbPct": 27.2
+      },
       "chronologyPeriod": "meccan-middle",
       "qursimConnectivity": 21
     },
@@ -1846,6 +2071,15 @@
           "count": 12
         }
       ],
+      "posMix": {
+        "total": 1318,
+        "nouns": 418,
+        "verbs": 342,
+        "prepositions": 109,
+        "other": 449,
+        "nounPct": 31.7,
+        "verbPct": 25.9
+      },
       "chronologyPeriod": "meccan-middle",
       "qursimConnectivity": 17
     },
@@ -1917,6 +2151,15 @@
           "count": 10
         }
       ],
+      "posMix": {
+        "total": 1151,
+        "nouns": 352,
+        "verbs": 315,
+        "prepositions": 96,
+        "other": 388,
+        "nounPct": 30.6,
+        "verbPct": 27.4
+      },
       "chronologyPeriod": "meccan-middle",
       "qursimConnectivity": 14
     },
@@ -1988,6 +2231,15 @@
           "count": 10
         }
       ],
+      "posMix": {
+        "total": 1430,
+        "nouns": 426,
+        "verbs": 400,
+        "prepositions": 165,
+        "other": 439,
+        "nounPct": 29.8,
+        "verbPct": 28
+      },
       "chronologyPeriod": "meccan-middle",
       "qursimConnectivity": 26
     },
@@ -2059,6 +2311,15 @@
           "count": 10
         }
       ],
+      "posMix": {
+        "total": 976,
+        "nouns": 304,
+        "verbs": 259,
+        "prepositions": 100,
+        "other": 313,
+        "nounPct": 31.1,
+        "verbPct": 26.5
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 20
     },
@@ -2130,6 +2391,15 @@
           "count": 9
         }
       ],
+      "posMix": {
+        "total": 817,
+        "nouns": 289,
+        "verbs": 198,
+        "prepositions": 93,
+        "other": 237,
+        "nounPct": 35.4,
+        "verbPct": 24.2
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 20
     },
@@ -2201,6 +2471,15 @@
           "count": 5
         }
       ],
+      "posMix": {
+        "total": 546,
+        "nouns": 187,
+        "verbs": 107,
+        "prepositions": 59,
+        "other": 193,
+        "nounPct": 34.2,
+        "verbPct": 19.6
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 9
     },
@@ -2272,6 +2551,15 @@
           "count": 4
         }
       ],
+      "posMix": {
+        "total": 372,
+        "nouns": 122,
+        "verbs": 101,
+        "prepositions": 45,
+        "other": 104,
+        "nounPct": 32.8,
+        "verbPct": 27.2
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 16
     },
@@ -2343,6 +2631,15 @@
           "count": 10
         }
       ],
+      "posMix": {
+        "total": 1287,
+        "nouns": 436,
+        "verbs": 312,
+        "prepositions": 128,
+        "other": 411,
+        "nounPct": 33.9,
+        "verbPct": 24.2
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 14
     },
@@ -2414,6 +2711,15 @@
           "count": 8
         }
       ],
+      "posMix": {
+        "total": 883,
+        "nouns": 274,
+        "verbs": 213,
+        "prepositions": 97,
+        "other": 299,
+        "nounPct": 31,
+        "verbPct": 24.1
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 11
     },
@@ -2485,6 +2791,15 @@
           "count": 6
         }
       ],
+      "posMix": {
+        "total": 775,
+        "nouns": 281,
+        "verbs": 160,
+        "prepositions": 82,
+        "other": 252,
+        "nounPct": 36.3,
+        "verbPct": 20.6
+      },
       "chronologyPeriod": "meccan-middle",
       "qursimConnectivity": 20
     },
@@ -2556,6 +2871,15 @@
           "count": 6
         }
       ],
+      "posMix": {
+        "total": 725,
+        "nouns": 224,
+        "verbs": 189,
+        "prepositions": 78,
+        "other": 234,
+        "nounPct": 30.9,
+        "verbPct": 26.1
+      },
       "chronologyPeriod": "meccan-middle",
       "qursimConnectivity": 12
     },
@@ -2627,6 +2951,15 @@
           "count": 7
         }
       ],
+      "posMix": {
+        "total": 860,
+        "nouns": 298,
+        "verbs": 193,
+        "prepositions": 92,
+        "other": 277,
+        "nounPct": 34.7,
+        "verbPct": 22.4
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 14
     },
@@ -2698,6 +3031,15 @@
           "count": 6
         }
       ],
+      "posMix": {
+        "total": 733,
+        "nouns": 280,
+        "verbs": 155,
+        "prepositions": 71,
+        "other": 227,
+        "nounPct": 38.2,
+        "verbPct": 21.1
+      },
       "chronologyPeriod": "meccan-middle",
       "qursimConnectivity": 11
     },
@@ -2769,6 +3111,15 @@
           "count": 10
         }
       ],
+      "posMix": {
+        "total": 1172,
+        "nouns": 395,
+        "verbs": 291,
+        "prepositions": 116,
+        "other": 370,
+        "nounPct": 33.7,
+        "verbPct": 24.8
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 20
     },
@@ -2840,6 +3191,15 @@
           "count": 11
         }
       ],
+      "posMix": {
+        "total": 1219,
+        "nouns": 410,
+        "verbs": 292,
+        "prepositions": 115,
+        "other": 402,
+        "nounPct": 33.6,
+        "verbPct": 24
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 14
     },
@@ -2911,6 +3271,15 @@
           "count": 7
         }
       ],
+      "posMix": {
+        "total": 794,
+        "nouns": 255,
+        "verbs": 194,
+        "prepositions": 95,
+        "other": 250,
+        "nounPct": 32.1,
+        "verbPct": 24.4
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 16
     },
@@ -2982,6 +3351,15 @@
           "count": 8
         }
       ],
+      "posMix": {
+        "total": 860,
+        "nouns": 260,
+        "verbs": 180,
+        "prepositions": 115,
+        "other": 305,
+        "nounPct": 30.2,
+        "verbPct": 20.9
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 20
     },
@@ -3053,6 +3431,15 @@
           "count": 9
         }
       ],
+      "posMix": {
+        "total": 830,
+        "nouns": 276,
+        "verbs": 201,
+        "prepositions": 85,
+        "other": 268,
+        "nounPct": 33.3,
+        "verbPct": 24.2
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 20
     },
@@ -3124,6 +3511,15 @@
           "count": 4
         }
       ],
+      "posMix": {
+        "total": 346,
+        "nouns": 135,
+        "verbs": 63,
+        "prepositions": 30,
+        "other": 118,
+        "nounPct": 39,
+        "verbPct": 18.2
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 7
     },
@@ -3195,6 +3591,15 @@
           "count": 7
         }
       ],
+      "posMix": {
+        "total": 488,
+        "nouns": 168,
+        "verbs": 118,
+        "prepositions": 47,
+        "other": 155,
+        "nounPct": 34.4,
+        "verbPct": 24.2
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 9
     },
@@ -3266,6 +3671,15 @@
           "count": 6
         }
       ],
+      "posMix": {
+        "total": 643,
+        "nouns": 196,
+        "verbs": 171,
+        "prepositions": 69,
+        "other": 207,
+        "nounPct": 30.5,
+        "verbPct": 26.6
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 6
     },
@@ -3337,6 +3751,15 @@
           "count": 5
         }
       ],
+      "posMix": {
+        "total": 539,
+        "nouns": 162,
+        "verbs": 152,
+        "prepositions": 50,
+        "other": 175,
+        "nounPct": 30.1,
+        "verbPct": 28.2
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 9
     },
@@ -3408,6 +3831,15 @@
           "count": 6
         }
       ],
+      "posMix": {
+        "total": 560,
+        "nouns": 185,
+        "verbs": 148,
+        "prepositions": 52,
+        "other": 175,
+        "nounPct": 33,
+        "verbPct": 26.4
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 3
     },
@@ -3479,6 +3911,15 @@
           "count": 4
         }
       ],
+      "posMix": {
+        "total": 347,
+        "nouns": 105,
+        "verbs": 85,
+        "prepositions": 29,
+        "other": 128,
+        "nounPct": 30.3,
+        "verbPct": 24.5
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 6
     },
@@ -3550,6 +3991,15 @@
           "count": 4
         }
       ],
+      "posMix": {
+        "total": 373,
+        "nouns": 138,
+        "verbs": 73,
+        "prepositions": 41,
+        "other": 121,
+        "nounPct": 37,
+        "verbPct": 19.6
+      },
       "chronologyPeriod": "meccan-middle",
       "qursimConnectivity": 14
     },
@@ -3621,6 +4071,15 @@
           "count": 4
         }
       ],
+      "posMix": {
+        "total": 360,
+        "nouns": 133,
+        "verbs": 83,
+        "prepositions": 45,
+        "other": 99,
+        "nounPct": 36.9,
+        "verbPct": 23.1
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 6
     },
@@ -3692,6 +4151,15 @@
           "count": 3
         }
       ],
+      "posMix": {
+        "total": 312,
+        "nouns": 123,
+        "verbs": 71,
+        "prepositions": 27,
+        "other": 91,
+        "nounPct": 39.4,
+        "verbPct": 22.8
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 9
     },
@@ -3763,6 +4231,15 @@
           "count": 4
         }
       ],
+      "posMix": {
+        "total": 360,
+        "nouns": 116,
+        "verbs": 84,
+        "prepositions": 27,
+        "other": 133,
+        "nounPct": 32.2,
+        "verbPct": 23.3
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 10
     },
@@ -3834,6 +4311,15 @@
           "count": 4
         }
       ],
+      "posMix": {
+        "total": 342,
+        "nouns": 156,
+        "verbs": 75,
+        "prepositions": 32,
+        "other": 79,
+        "nounPct": 45.6,
+        "verbPct": 21.9
+      },
       "chronologyPeriod": "meccan-middle",
       "qursimConnectivity": 10
     },
@@ -3905,6 +4391,15 @@
           "count": 4
         }
       ],
+      "posMix": {
+        "total": 351,
+        "nouns": 201,
+        "verbs": 68,
+        "prepositions": 26,
+        "other": 56,
+        "nounPct": 57.3,
+        "verbPct": 19.4
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 6
     },
@@ -3976,6 +4471,15 @@
           "count": 4
         }
       ],
+      "posMix": {
+        "total": 379,
+        "nouns": 168,
+        "verbs": 68,
+        "prepositions": 35,
+        "other": 108,
+        "nounPct": 44.3,
+        "verbPct": 17.9
+      },
       "chronologyPeriod": "meccan-middle",
       "qursimConnectivity": 3
     },
@@ -4047,6 +4551,15 @@
           "count": 6
         }
       ],
+      "posMix": {
+        "total": 574,
+        "nouns": 206,
+        "verbs": 126,
+        "prepositions": 58,
+        "other": 184,
+        "nounPct": 35.9,
+        "verbPct": 22
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 11
     },
@@ -4118,6 +4631,15 @@
           "count": 4
         }
       ],
+      "posMix": {
+        "total": 472,
+        "nouns": 128,
+        "verbs": 111,
+        "prepositions": 42,
+        "other": 191,
+        "nounPct": 27.1,
+        "verbPct": 23.5
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 9
     },
@@ -4189,6 +4711,15 @@
           "count": 4
         }
       ],
+      "posMix": {
+        "total": 445,
+        "nouns": 142,
+        "verbs": 90,
+        "prepositions": 46,
+        "other": 167,
+        "nounPct": 31.9,
+        "verbPct": 20.2
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 5
     },
@@ -4260,6 +4791,15 @@
           "count": 4
         }
       ],
+      "posMix": {
+        "total": 348,
+        "nouns": 89,
+        "verbs": 92,
+        "prepositions": 35,
+        "other": 132,
+        "nounPct": 25.6,
+        "verbPct": 26.4
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 5
     },
@@ -4331,6 +4871,15 @@
           "count": 2
         }
       ],
+      "posMix": {
+        "total": 221,
+        "nouns": 70,
+        "verbs": 49,
+        "prepositions": 20,
+        "other": 82,
+        "nounPct": 31.7,
+        "verbPct": 22.2
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 6
     },
@@ -4402,6 +4951,15 @@
           "count": 3
         }
       ],
+      "posMix": {
+        "total": 175,
+        "nouns": 53,
+        "verbs": 43,
+        "prepositions": 18,
+        "other": 61,
+        "nounPct": 30.3,
+        "verbPct": 24.6
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 11
     },
@@ -4473,6 +5031,15 @@
           "count": 2
         }
       ],
+      "posMix": {
+        "total": 180,
+        "nouns": 45,
+        "verbs": 53,
+        "prepositions": 13,
+        "other": 69,
+        "nounPct": 25,
+        "verbPct": 29.4
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 5
     },
@@ -4544,6 +5111,15 @@
           "count": 3
         }
       ],
+      "posMix": {
+        "total": 241,
+        "nouns": 81,
+        "verbs": 60,
+        "prepositions": 17,
+        "other": 83,
+        "nounPct": 33.6,
+        "verbPct": 24.9
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 6
     },
@@ -4615,6 +5191,15 @@
           "count": 4
         }
       ],
+      "posMix": {
+        "total": 287,
+        "nouns": 95,
+        "verbs": 76,
+        "prepositions": 27,
+        "other": 89,
+        "nounPct": 33.1,
+        "verbPct": 26.5
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 7
     },
@@ -4686,6 +5271,15 @@
           "count": 3
         }
       ],
+      "posMix": {
+        "total": 249,
+        "nouns": 76,
+        "verbs": 63,
+        "prepositions": 21,
+        "other": 89,
+        "nounPct": 30.5,
+        "verbPct": 25.3
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 6
     },
@@ -4757,6 +5351,15 @@
           "count": 4
         }
       ],
+      "posMix": {
+        "total": 333,
+        "nouns": 102,
+        "verbs": 87,
+        "prepositions": 29,
+        "other": 115,
+        "nounPct": 30.6,
+        "verbPct": 26.1
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 7
     },
@@ -4828,6 +5431,15 @@
           "count": 3
         }
       ],
+      "posMix": {
+        "total": 300,
+        "nouns": 102,
+        "verbs": 75,
+        "prepositions": 23,
+        "other": 100,
+        "nounPct": 34,
+        "verbPct": 25
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 6
     },
@@ -4899,6 +5511,15 @@
           "count": 3
         }
       ],
+      "posMix": {
+        "total": 258,
+        "nouns": 87,
+        "verbs": 55,
+        "prepositions": 24,
+        "other": 92,
+        "nounPct": 33.7,
+        "verbPct": 21.3
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 8
     },
@@ -4970,6 +5591,15 @@
           "count": 2
         }
       ],
+      "posMix": {
+        "total": 217,
+        "nouns": 92,
+        "verbs": 44,
+        "prepositions": 20,
+        "other": 61,
+        "nounPct": 42.4,
+        "verbPct": 20.3
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 6
     },
@@ -5041,6 +5671,15 @@
           "count": 3
         }
       ],
+      "posMix": {
+        "total": 226,
+        "nouns": 68,
+        "verbs": 64,
+        "prepositions": 14,
+        "other": 80,
+        "nounPct": 30.1,
+        "verbPct": 28.3
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 5
     },
@@ -5112,6 +5751,15 @@
           "count": 3
         }
       ],
+      "posMix": {
+        "total": 285,
+        "nouns": 84,
+        "verbs": 74,
+        "prepositions": 26,
+        "other": 101,
+        "nounPct": 29.5,
+        "verbPct": 26
+      },
       "chronologyPeriod": "meccan-middle",
       "qursimConnectivity": 1
     },
@@ -5183,6 +5831,15 @@
           "count": 3
         }
       ],
+      "posMix": {
+        "total": 199,
+        "nouns": 74,
+        "verbs": 46,
+        "prepositions": 20,
+        "other": 59,
+        "nounPct": 37.2,
+        "verbPct": 23.1
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 4
     },
@@ -5254,6 +5911,15 @@
           "count": 3
         }
       ],
+      "posMix": {
+        "total": 255,
+        "nouns": 77,
+        "verbs": 76,
+        "prepositions": 12,
+        "other": 90,
+        "nounPct": 30.2,
+        "verbPct": 29.8
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 7
     },
@@ -5325,6 +5991,15 @@
           "count": 2
         }
       ],
+      "posMix": {
+        "total": 164,
+        "nouns": 60,
+        "verbs": 44,
+        "prepositions": 11,
+        "other": 49,
+        "nounPct": 36.6,
+        "verbPct": 26.8
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 5
     },
@@ -5396,6 +6071,15 @@
           "count": 3
         }
       ],
+      "posMix": {
+        "total": 243,
+        "nouns": 96,
+        "verbs": 59,
+        "prepositions": 23,
+        "other": 65,
+        "nounPct": 39.5,
+        "verbPct": 24.3
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 15
     },
@@ -5467,6 +6151,15 @@
           "count": 2
         }
       ],
+      "posMix": {
+        "total": 181,
+        "nouns": 76,
+        "verbs": 41,
+        "prepositions": 9,
+        "other": 55,
+        "nounPct": 42,
+        "verbPct": 22.7
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 3
     },
@@ -5538,6 +6231,15 @@
           "count": 2
         }
       ],
+      "posMix": {
+        "total": 173,
+        "nouns": 76,
+        "verbs": 40,
+        "prepositions": 11,
+        "other": 46,
+        "nounPct": 43.9,
+        "verbPct": 23.1
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 2
     },
@@ -5609,6 +6311,15 @@
           "count": 2
         }
       ],
+      "posMix": {
+        "total": 179,
+        "nouns": 63,
+        "verbs": 44,
+        "prepositions": 11,
+        "other": 61,
+        "nounPct": 35.2,
+        "verbPct": 24.6
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 9
     },
@@ -5680,6 +6391,15 @@
           "count": 2
         }
       ],
+      "posMix": {
+        "total": 133,
+        "nouns": 44,
+        "verbs": 36,
+        "prepositions": 10,
+        "other": 43,
+        "nounPct": 33.1,
+        "verbPct": 27.1
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 7
     },
@@ -5751,6 +6471,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 104,
+        "nouns": 33,
+        "verbs": 24,
+        "prepositions": 2,
+        "other": 45,
+        "nounPct": 31.7,
+        "verbPct": 23.1
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 3
     },
@@ -5822,6 +6551,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 80,
+        "nouns": 27,
+        "verbs": 20,
+        "prepositions": 5,
+        "other": 28,
+        "nounPct": 33.8,
+        "verbPct": 25
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 1
     },
@@ -5893,6 +6631,15 @@
           "count": 2
         }
       ],
+      "posMix": {
+        "total": 169,
+        "nouns": 54,
+        "verbs": 42,
+        "prepositions": 17,
+        "other": 56,
+        "nounPct": 32,
+        "verbPct": 24.9
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 4
     },
@@ -5964,6 +6711,15 @@
           "count": 2
         }
       ],
+      "posMix": {
+        "total": 107,
+        "nouns": 33,
+        "verbs": 31,
+        "prepositions": 6,
+        "other": 37,
+        "nounPct": 30.8,
+        "verbPct": 29
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 2
     },
@@ -6035,6 +6791,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 109,
+        "nouns": 44,
+        "verbs": 14,
+        "prepositions": 8,
+        "other": 43,
+        "nounPct": 40.4,
+        "verbPct": 12.8
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 2
     },
@@ -6106,6 +6871,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 61,
+        "nouns": 29,
+        "verbs": 10,
+        "prepositions": 6,
+        "other": 16,
+        "nounPct": 47.5,
+        "verbPct": 16.4
+      },
       "chronologyPeriod": "meccan-middle",
       "qursimConnectivity": 3
     },
@@ -6177,6 +6951,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 72,
+        "nouns": 17,
+        "verbs": 26,
+        "prepositions": 2,
+        "other": 27,
+        "nounPct": 23.6,
+        "verbPct": 36.1
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 6
     },
@@ -6248,6 +7031,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 92,
+        "nouns": 29,
+        "verbs": 17,
+        "prepositions": 14,
+        "other": 32,
+        "nounPct": 31.5,
+        "verbPct": 18.5
+      },
       "chronologyPeriod": "meccan-late",
       "qursimConnectivity": 6
     },
@@ -6319,6 +7111,15 @@
           "count": 2
         }
       ],
+      "posMix": {
+        "total": 137,
+        "nouns": 57,
+        "verbs": 32,
+        "prepositions": 9,
+        "other": 39,
+        "nounPct": 41.6,
+        "verbPct": 23.4
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 1
     },
@@ -6390,6 +7191,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 82,
+        "nouns": 35,
+        "verbs": 18,
+        "prepositions": 5,
+        "other": 24,
+        "nounPct": 42.7,
+        "verbPct": 22
+      },
       "chronologyPeriod": "meccan-middle",
       "qursimConnectivity": 5
     },
@@ -6461,6 +7271,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 54,
+        "nouns": 18,
+        "verbs": 19,
+        "prepositions": 1,
+        "other": 16,
+        "nounPct": 33.3,
+        "verbPct": 35.2
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 1
     },
@@ -6532,6 +7351,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 71,
+        "nouns": 23,
+        "verbs": 23,
+        "prepositions": 3,
+        "other": 22,
+        "nounPct": 32.4,
+        "verbPct": 32.4
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 3
     },
@@ -6603,6 +7431,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 40,
+        "nouns": 14,
+        "verbs": 14,
+        "prepositions": 1,
+        "other": 11,
+        "nounPct": 35,
+        "verbPct": 35
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 8
     },
@@ -6674,6 +7511,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 27,
+        "nouns": 9,
+        "verbs": 7,
+        "prepositions": 4,
+        "other": 7,
+        "nounPct": 33.3,
+        "verbPct": 25.9
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 1
     },
@@ -6745,6 +7591,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 34,
+        "nouns": 15,
+        "verbs": 6,
+        "prepositions": 1,
+        "other": 12,
+        "nounPct": 44.1,
+        "verbPct": 17.6
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 1
     },
@@ -6816,6 +7671,15 @@
           "count": 2
         }
       ],
+      "posMix": {
+        "total": 72,
+        "nouns": 17,
+        "verbs": 28,
+        "prepositions": 3,
+        "other": 24,
+        "nounPct": 23.6,
+        "verbPct": 38.9
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 2
     },
@@ -6887,6 +7751,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 30,
+        "nouns": 18,
+        "verbs": 3,
+        "prepositions": 5,
+        "other": 4,
+        "nounPct": 60,
+        "verbPct": 10
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 4
     },
@@ -6958,6 +7831,15 @@
           "count": 2
         }
       ],
+      "posMix": {
+        "total": 94,
+        "nouns": 35,
+        "verbs": 18,
+        "prepositions": 12,
+        "other": 29,
+        "nounPct": 37.2,
+        "verbPct": 19.1
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 3
     },
@@ -7029,6 +7911,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 36,
+        "nouns": 16,
+        "verbs": 11,
+        "prepositions": 0,
+        "other": 9,
+        "nounPct": 44.4,
+        "verbPct": 30.6
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": 1
     },
@@ -7100,6 +7991,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 40,
+        "nouns": 18,
+        "verbs": 5,
+        "prepositions": 3,
+        "other": 14,
+        "nounPct": 45,
+        "verbPct": 12.5
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 5
     },
@@ -7171,6 +8071,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 36,
+        "nouns": 13,
+        "verbs": 6,
+        "prepositions": 1,
+        "other": 16,
+        "nounPct": 36.1,
+        "verbPct": 16.7
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 2
     },
@@ -7242,6 +8151,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 28,
+        "nouns": 8,
+        "verbs": 8,
+        "prepositions": 1,
+        "other": 11,
+        "nounPct": 28.6,
+        "verbPct": 28.6
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 1
     },
@@ -7307,6 +8225,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 14,
+        "nouns": 6,
+        "verbs": 4,
+        "prepositions": 1,
+        "other": 3,
+        "nounPct": 42.9,
+        "verbPct": 28.6
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 0
     },
@@ -7378,6 +8305,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 33,
+        "nouns": 12,
+        "verbs": 7,
+        "prepositions": 4,
+        "other": 10,
+        "nounPct": 36.4,
+        "verbPct": 21.2
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": null
     },
@@ -7449,6 +8385,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 23,
+        "nouns": 9,
+        "verbs": 6,
+        "prepositions": 3,
+        "other": 5,
+        "nounPct": 39.1,
+        "verbPct": 26.1
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": null
     },
@@ -7520,6 +8465,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 17,
+        "nouns": 9,
+        "verbs": 3,
+        "prepositions": 2,
+        "other": 3,
+        "nounPct": 52.9,
+        "verbPct": 17.6
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": null
     },
@@ -7591,6 +8545,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 25,
+        "nouns": 9,
+        "verbs": 6,
+        "prepositions": 2,
+        "other": 8,
+        "nounPct": 36,
+        "verbPct": 24
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 1
     },
@@ -7644,6 +8607,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 10,
+        "nouns": 4,
+        "verbs": 3,
+        "prepositions": 0,
+        "other": 3,
+        "nounPct": 40,
+        "verbPct": 30
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 1
     },
@@ -7679,6 +8651,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 26,
+        "nouns": 7,
+        "verbs": 6,
+        "prepositions": 0,
+        "other": 13,
+        "nounPct": 26.9,
+        "verbPct": 23.1
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 4
     },
@@ -7750,6 +8731,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 19,
+        "nouns": 8,
+        "verbs": 6,
+        "prepositions": 1,
+        "other": 4,
+        "nounPct": 42.1,
+        "verbPct": 31.6
+      },
       "chronologyPeriod": "medinan",
       "qursimConnectivity": null
     },
@@ -7821,6 +8811,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 23,
+        "nouns": 13,
+        "verbs": 5,
+        "prepositions": 3,
+        "other": 2,
+        "nounPct": 56.5,
+        "verbPct": 21.7
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 2
     },
@@ -7874,6 +8873,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 15,
+        "nouns": 4,
+        "verbs": 4,
+        "prepositions": 0,
+        "other": 7,
+        "nounPct": 26.7,
+        "verbPct": 26.7
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 1
     },
@@ -7945,6 +8953,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 23,
+        "nouns": 10,
+        "verbs": 5,
+        "prepositions": 5,
+        "other": 3,
+        "nounPct": 43.5,
+        "verbPct": 21.7
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 0
     },
@@ -8016,6 +9033,15 @@
           "count": 1
         }
       ],
+      "posMix": {
+        "total": 20,
+        "nouns": 12,
+        "verbs": 3,
+        "prepositions": 3,
+        "other": 2,
+        "nounPct": 60,
+        "verbPct": 15
+      },
       "chronologyPeriod": "meccan-early",
       "qursimConnectivity": 2
     }
