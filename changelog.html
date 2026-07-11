@@ -126,6 +126,35 @@
           <h4>July</h4>
           <ul>
             <li>
+              <strong>Link previews, embeds, guided entry, and one surah
+              dataset.</strong> Shared links now unfurl properly everywhere:
+              a branded social image on every page, and 1,789 generated
+              per-entity share pages (<code>s/root|theme|surah/…</code>) so
+              a pasted root, theme, or surah link shows its own name and
+              stats — the share buttons hand these URLs out automatically.
+              A new <code>embed.html</code> lets teachers and bloggers
+              iframe a root profile, theme card, or verse on their own
+              site (one-click "Embed" copy buttons on Themes and Roots);
+              it is the only page whose security policy allows framing,
+              via a restructured per-page <code>netlify.toml</code> guarded
+              by <code>scripts/check-headers-sync.mjs</code>. New visitors
+              get a first-visit depth question and a reopenable 60-second
+              tour ("?" button, bottom right), and the home page's Begin
+              tiles are grouped by intent: Read, Study, Verify. Root
+              mentions (r-ḥ-m) and verse references (2:255) in page prose
+              are now live popovers with counts and one-tap navigation on
+              ten static pages. <em>Correction:</em> the three separate
+              surah-name lists were consolidated into one generated
+              dataset (<code>data/surah-names.json</code> &rarr;
+              <code>assets/surahs.js</code>); in the process, Navigate's
+              row for surah 55 (ar-Rahman) was corrected from Meccan to
+              Medinan, matching the Cairo 1924 convention both bundled
+              datasets follow (the classification is genuinely discussed
+              in the tradition — this site follows its cited convention),
+              and the Read page's handful of divergent display names now
+              match Navigate's romanization.
+            </li>
+            <li>
               <strong>Sharing, self-learning, and analytics expansion.</strong>
               A share button on every page (each tool page's URL was already
               a permalink; now there's an affordance for it), per-theme share

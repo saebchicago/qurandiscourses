@@ -85,6 +85,16 @@ them only when their inputs change; commit their outputs.
 | build-themes.mjs | morphology, roots-summary | data/themes.json | themes.html |
 | build-rhetorical-features.mjs | morphology | data/rhetorical-features.json | patterns.html direct-address list, numbers.html fawatih list |
 | build-numbers.mjs | morphology, roots-summary, chronology | data/numbers.json | every corpus figure on numbers.html (`[data-num]` elements) |
+| build-surahs-js.mjs | surah-names.json, chronology, surah-meta, surah-profiles | assets/surahs.js | the ONE canonical surah dataset (navigate, read, ask box, refs, embeds) — edit data/surah-names.json, never assets/surahs.js |
+| build-share-pages.mjs | roots-summary, themes, chronology, surah-names, surah-profiles | s/ (1,789 pages) | per-entity link previews; share buttons hand these URLs out |
+| build-root-refs-index.mjs | roots-summary | assets/root-refs.js | refs.js root-mention detection (ambiguous ASCII folds deliberately absent) |
+
+Checkers (not generators — they gate shipping):
+
+| Script | Guards |
+|---|---|
+| check-headers-sync.mjs | netlify.toml per-page CSP structure (fail-open for new pages: a page without its own block ships with NO CSP — run after adding any page) |
+| check-nav-sync.mjs | the by-design nav duplication: every page's primary nav must match index.html's (allowlist: embed.html, exercise-asr.html) |
 
 Determinism check for any script: run it twice, `git diff` must be empty.
 
@@ -137,10 +147,21 @@ output will already be correct and the migration script becomes a no-op.
    `THEME_WORDS` in `assets/ask.js`.
 
 ### Add a new page
-Copy an existing page's `<head>` (canonical + OG + favicon + fonts.css)
-and nav/footer blocks verbatim; add the page to the right nav group **on
-every page** (the nav is static HTML, duplicated by design); add a
-`sitemap.xml` entry.
+Copy an existing page's `<head>` (canonical + OG incl. og:image + favicon
++ fonts.css) and nav/footer blocks verbatim; add the page to the right
+nav group **on every page** (the nav is static HTML, duplicated by
+design); add a `sitemap.xml` entry; **add a `[[headers]]` CSP block for
+it in `netlify.toml`** (the per-page CSP structure is fail-open — a page
+without its own block ships with no CSP). Then run
+`node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs`.
+
+### Regenerate the social-preview image (rare)
+`assets/og/site-og.png` (the og:image on every page and share page) is
+captured from `assets/og/og-template.html` — a ONE-TIME MANUAL step,
+deliberately outside the deterministic pipeline: open the template in a
+browser and screenshot at exactly 1200×630 (Playwright viewport capture
+or devtools device capture), overwrite the PNG, commit. Do not add a
+package.json for this.
 
 ### Change colors / add a palette
 Palettes live in `assets/style.css` as custom-property blocks keyed off
@@ -184,6 +205,20 @@ python3 -m http.server 8000    # then drive the site in a real browser
 6. If you touched palettes/themes: check all palette × light/dark
    combinations actually change the background.
 7. Dark mode screenshots of any page you changed.
+8. `node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs`
+   — mandatory after adding a page, touching the nav, or touching
+   netlify.toml.
+9. Re-run every generator you touched twice; `git diff` must be empty
+   after the second run.
+10. If you touched netlify.toml: on the PR's deploy preview, `curl -sI`
+    the preview URL for `/`, `/index.html`, a regular page,
+    `/embed.html`, and one `s/` page — assert exactly one
+    Content-Security-Policy header each, `frame-ancestors *` ONLY on
+    embed.html, no X-Frame-Options anywhere, and the `/*` residual
+    headers present. Frame embed.html from a foreign origin (renders)
+    and any other page (blocked). Do not merge on assumptions — Netlify
+    emits every matching rule's headers and browsers enforce multiple
+    CSPs as their intersection.
 
 ## 7. Deployment
 
