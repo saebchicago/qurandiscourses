@@ -6,13 +6,13 @@
     <title>Words · Divine Discourses</title>
     <meta
       name="description"
-      content="Word-by-word morphology of Qur'anic Arabic: root, lemma, part of speech, grammatical role."
+      content="Search all 4,832 dictionary forms of Qur'anic Arabic by Arabic, transliteration, or root — with frequency, part of speech, and first occurrences from the Leeds Corpus."
     />
     <link rel="canonical" href="https://qurandiscourse.netlify.app/words.html" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Divine Discourses" />
     <meta property="og:title" content="Words · Divine Discourses" />
-    <meta property="og:description" content="Word-by-word morphology of Qur'anic Arabic: root, lemma, part of speech, grammatical role." />
+    <meta property="og:description" content="Search all 4,832 dictionary forms of Qur'anic Arabic by Arabic, transliteration, or root — with frequency, part of speech, and first occurrences from the Leeds Corpus." />
     <meta property="og:url" content="https://qurandiscourse.netlify.app/words.html" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta property="og:image" content="https://qurandiscourse.netlify.app/assets/og/site-og.png" />
@@ -90,6 +90,70 @@
           grammatical role. Use <a href="read.html">Read</a> to load a verse,
           then return here for per-word breakdown.
         </p>
+        <div class="card">
+          <h3>Search the corpus vocabulary</h3>
+          <p style="font-size: 0.9rem; color: var(--muted); margin-top: 0">
+            Every dictionary form (lemma) in the Qur'an — searchable by
+            Arabic, transliteration, or root. Type
+            <span class="ar notranslate" translate="no" lang="ar" dir="rtl">سلم</span>,
+            <em>slm</em>, or <em>s-l-m</em>.
+          </p>
+          <p style="margin: 0.4rem 0">
+            <input
+              type="search"
+              id="wordSearch"
+              placeholder="e.g. rHm or رحم"
+              aria-label="Search words by Arabic, transliteration, or root"
+              autocomplete="off"
+              style="
+                width: 100%;
+                max-width: 26rem;
+                padding: 0.55rem 0.7rem;
+                border: 1px solid var(--line);
+                border-radius: 6px;
+                background: var(--bg);
+                color: var(--text);
+                font: inherit;
+              "
+            />
+          </p>
+          <p
+            id="wordCount"
+            style="font-size: 0.85rem; color: var(--muted); margin: 0.2rem 0"
+          ></p>
+          <div class="table-scroll">
+            <table class="data" id="wordTable" hidden>
+              <thead>
+                <tr>
+                  <th>Word</th>
+                  <th>Root</th>
+                  <th>POS</th>
+                  <th>Meaning</th>
+                  <th>Count</th>
+                  <th>First verses</th>
+                </tr>
+              </thead>
+              <tbody id="wordResults"></tbody>
+            </table>
+          </div>
+          <button id="wordMore" class="button" hidden style="margin-top: 0.4rem">
+            Show more
+          </button>
+          <p class="prov">
+            <span
+              class="badge ok"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · Leeds Quranic Arabic Corpus v0.4"
+              >●</span
+            >
+            4,832 lemmas computed from the Leeds Quranic Arabic Corpus v0.4.
+            The Meaning column stays empty until a licensed word-by-word
+            gloss dataset is committed (owner-gated — see Sources); until
+            then each row links to the corpus dictionary instead.
+          </p>
+        </div>
         <div class="card">
           <h3>What word-by-word reveals</h3>
           <ul>
@@ -345,6 +409,184 @@
         }
         if (document.readyState === "complete") init();
         else document.addEventListener("DOMContentLoaded", init);
+      })();
+    </script>
+    <script>
+      (function () {
+        "use strict";
+        // Vocabulary search over data/word-index.json (Leeds-derived,
+        // built by scripts/build-word-index.mjs). The index is fetched
+        // lazily on first keystroke so non-searchers pay nothing.
+        // Gloss strings inside the index exist only once the owner
+        // commits a licensed dataset (guide: "Add word-by-word
+        // glosses") — they are external-origin text, so every
+        // interpolation below goes through qdEsc.
+        var input = document.getElementById("wordSearch");
+        var countEl = document.getElementById("wordCount");
+        var table = document.getElementById("wordTable");
+        var tbody = document.getElementById("wordResults");
+        var moreBtn = document.getElementById("wordMore");
+        var INITIAL = 50;
+        var BATCH = 100;
+        var index = null;
+        var loading = null;
+        var showing = INITIAL;
+        var current = [];
+
+        // Same BW→safe-key mapping as roots.html/themes.html (and
+        // scripts/lib/safe-key.mjs) — duplicated by design, no modules.
+        function safeKey(bw) {
+          var out = "";
+          for (var i = 0; i < bw.length; i++) {
+            var c = bw[i];
+            if (c === "*") out += "dh";
+            else if (c === "$") out += "sh";
+            else if (c >= "A" && c <= "Z") out += "u" + c;
+            else out += c;
+          }
+          return out;
+        }
+
+        function loadIndex() {
+          if (loading) return loading;
+          loading = fetch("data/word-index.json")
+            .then(function (r) {
+              if (!r.ok) throw new Error("index unavailable");
+              return r.json();
+            })
+            .then(function (d) {
+              index = d.lemmas || [];
+            });
+          return loading;
+        }
+
+        // Readers type Arabic without diacritics; the corpus text is
+        // fully vocalized — compare skeletons (also fold alif forms).
+        var AR_MARKS = /[\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g;
+        function skeleton(s) {
+          return s
+            .replace(AR_MARKS, "")
+            .replace(/[آأإٱ]/g, "ا");
+        }
+
+        function matches(e, q, qFlat, qAr) {
+          if (qAr && e._sk === undefined) e._sk = skeleton(e.ar);
+          if (qAr && e._sk.indexOf(qAr) !== -1) return true;
+          var l = e.l.toLowerCase();
+          if (l.indexOf(qFlat) !== -1) return true;
+          if (e.r && e.r.toLowerCase().indexOf(qFlat) !== -1) return true;
+          if (e.rl && e.rl.replace(/-/g, "").indexOf(qFlat) !== -1) return true;
+          for (var i = 0; i < e.g.length; i++) {
+            if (e.g[i].toLowerCase().indexOf(qFlat) !== -1) return true;
+          }
+          return false;
+        }
+
+        function rowHtml(e) {
+          var rootCell = e.r
+            ? '<a href="roots.html?root=' +
+              qdEsc(safeKey(e.r)) +
+              '">' +
+              qdEsc(e.rl || e.r) +
+              "</a>"
+            : '<span style="color:var(--muted)">—</span>';
+          var meaning = e.g.length
+            ? qdEsc(e.g.join("; "))
+            : e.r
+              ? '<a href="https://corpus.quran.com/qurandictionary.jsp?q=' +
+                encodeURIComponent(e.r) +
+                '" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:underline dotted;text-underline-offset:3px">look up →</a>'
+              : '<span style="color:var(--muted)">—</span>';
+          var refs = e.refs
+            .slice(0, 3)
+            .map(function (r) {
+              return (
+                '<a href="read.html?s=' + r[0] + "&a=" + r[1] + '">' + r[0] + ":" + r[1] + "</a>"
+              );
+            })
+            .join(" ");
+          return (
+            "<tr><td><span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\">" +
+            qdEsc(e.ar) +
+            "</span></td><td>" +
+            rootCell +
+            "</td><td>" +
+            qdEsc(e.pos) +
+            "</td><td>" +
+            meaning +
+            "</td><td>" +
+            e.n.toLocaleString() +
+            "</td><td>" +
+            refs +
+            "</td></tr>"
+          );
+        }
+
+        function render() {
+          var q = input.value.trim();
+          if (!q) {
+            table.hidden = true;
+            moreBtn.hidden = true;
+            countEl.textContent = "";
+            return;
+          }
+          var qFlat = q.toLowerCase().replace(/-/g, "");
+          var qAr = /[؀-ۿ]/.test(q) ? skeleton(q) : "";
+          current = index.filter(function (e) {
+            return matches(e, q, qFlat, qAr);
+          });
+          countEl.textContent =
+            current.length.toLocaleString() +
+            " lemma" +
+            (current.length === 1 ? "" : "s") +
+            " match, by frequency";
+          tbody.innerHTML = current.slice(0, showing).map(rowHtml).join("");
+          table.hidden = current.length === 0;
+          if (current.length === 0) {
+            countEl.textContent = "No words match.";
+          }
+          var remaining = current.length - Math.min(showing, current.length);
+          if (remaining > 0) {
+            moreBtn.hidden = false;
+            moreBtn.textContent =
+              remaining <= BATCH
+                ? "Show all " + current.length.toLocaleString()
+                : "Show " + BATCH + " more (" + Math.min(showing, current.length) + " of " + current.length.toLocaleString() + " shown)";
+          } else {
+            moreBtn.hidden = true;
+          }
+        }
+
+        moreBtn.addEventListener("click", function () {
+          showing += BATCH;
+          render();
+        });
+
+        input.addEventListener("input", function () {
+          showing = INITIAL;
+          if (index) {
+            render();
+            return;
+          }
+          countEl.textContent = "Loading index…";
+          loadIndex().then(render, function () {
+            countEl.textContent = "Could not load the word index.";
+          });
+        });
+
+        // ?q= deep link — whitelisted to Arabic letters, Latin letters,
+        // digits-free transliteration punctuation (guide §5).
+        var q = new URLSearchParams(location.search).get("q");
+        if (q) {
+          q = q.replace(/[^؀-ۿa-zA-Z'\-\s]/g, "").slice(0, 40);
+          if (q) {
+            input.value = q;
+            countEl.textContent = "Loading index…";
+            loadIndex().then(render, function () {
+              countEl.textContent = "Could not load the word index.";
+            });
+          }
+        }
       })();
     </script>
   </body>
