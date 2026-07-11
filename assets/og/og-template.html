@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>OG card template · Divine Discourses</title>
+    <!-- Source template for assets/og/site-og.png (the og:image used
+         site-wide). Regenerating the PNG is a ONE-TIME MANUAL step, not
+         part of the deterministic pipeline: open this file in a browser
+         and capture a 1200x630 screenshot (e.g. Playwright:
+         page.setViewportSize({width:1200,height:630}) + screenshot, or
+         devtools device capture), save as assets/og/site-og.png.
+         Fonts are intentionally system/serif fallbacks so the capture
+         does not depend on the site's self-hosted webfonts. -->
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        width: 1200px;
+        height: 630px;
+        background: #f6efe2;
+        color: #2b1d0e;
+        font-family: Georgia, "Times New Roman", serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
+      .frame {
+        position: absolute;
+        inset: 28px;
+        border: 2px solid #d9c8a8;
+        border-radius: 18px;
+      }
+      .frame::after {
+        content: "";
+        position: absolute;
+        inset: 8px;
+        border: 1px solid #d9c8a8;
+        border-radius: 12px;
+      }
+      .card {
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        padding: 0 90px;
+      }
+      .crest {
+        width: 118px;
+        height: 118px;
+        border-radius: 26px;
+        background: #2b1d0e;
+        color: #f6efe2;
+        font-size: 74px;
+        line-height: 118px;
+        margin: 0 auto 34px;
+        font-family: "Amiri", "Scheherazade New", Georgia, serif;
+      }
+      h1 {
+        font-size: 84px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        margin-bottom: 22px;
+      }
+      .tag {
+        font-size: 34px;
+        color: #5a4a36;
+        font-style: italic;
+        margin-bottom: 40px;
+      }
+      .badges {
+        font-size: 26px;
+        color: #5a4a36;
+        display: flex;
+        gap: 34px;
+        justify-content: center;
+        align-items: center;
+      }
+      .badges span b {
+        color: #2e6b3a;
+        font-style: normal;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="frame"></div>
+    <div class="card">
+      <div class="crest">ق</div>
+      <h1>Divine Discourses</h1>
+      <p class="tag">Toward direct engagement with the Qur&rsquo;an</p>
+      <p class="badges">
+        <span><b>●</b>&nbsp;Every claim verified</span>
+        <span>1,642 roots</span>
+        <span>114 surahs</span>
+      </p>
+    </div>
+  </body>
+</html>
