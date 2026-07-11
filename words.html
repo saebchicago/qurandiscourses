@@ -103,7 +103,7 @@
             <input
               type="search"
               id="wordSearch"
-              placeholder="e.g. rHm or رحم"
+              placeholder="e.g. r-h-m or رحم"
               aria-label="Search words by Arabic, transliteration, or root"
               autocomplete="off"
               style="
@@ -128,7 +128,7 @@
                 <tr>
                   <th>Word</th>
                   <th>Root</th>
-                  <th>POS</th>
+                  <th><abbr title="Part of speech">POS</abbr></th>
                   <th>Meaning</th>
                   <th>Count</th>
                   <th>First verses</th>
@@ -195,7 +195,7 @@
                 <th>Word</th>
                 <th>Root</th>
                 <th>Lemma</th>
-                <th>POS</th>
+                <th><abbr title="Part of speech">POS</abbr></th>
                 <th>Meaning</th>
               </tr>
             </thead>
@@ -470,7 +470,21 @@
             .replace(/[آأإٱ]/g, "ا");
         }
 
-        function matches(e, q, qFlat, qAr) {
+        // Fold the human Latin form (e.rl, "r-ḥ-m") to bare ASCII so a
+        // reader typing plain letters can find it: NFD-decompose, drop
+        // combining marks (ḥ→h, ṣ→s, ā→a…), drop ʿ/ʾ and dashes. Plain
+        // ASCII is inherently lossy — "w-h-y" folds equal to both و-ه-ي
+        // and و-ح-ي — so a folded query may deliberately return several
+        // candidate roots; the exact Buckwalter path below stays precise.
+        function foldLatin(s) {
+          return s
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/[\u02BF\u02BE'-]/g, "")
+            .toLowerCase();
+        }
+
+        function matches(e, q, qFlat, qLat, qAr) {
           if (qAr && e._sk === undefined) e._sk = skeleton(e.ar);
           if (qAr && e._sk.indexOf(qAr) !== -1) return true;
           // e.l/e.r are Buckwalter transliteration, where letter CASE is
@@ -480,10 +494,11 @@
           // "why" و-ه-ي vs "wHy" و-ح-ي, revelation) — compare raw case.
           if (e.l.indexOf(q) !== -1) return true;
           if (e.r && e.r.indexOf(q) !== -1) return true;
-          // e.rl (human-readable Latin, "r-h-m") and e.g (English gloss
-          // prose) carry no phonemic case, so folding case here is safe
-          // and expected.
-          if (e.rl && e.rl.replace(/-/g, "").indexOf(qFlat) !== -1) return true;
+          if (e.rl) {
+            if (e._rlf === undefined) e._rlf = foldLatin(e.rl);
+            if (e._rlf.indexOf(qLat) !== -1) return true;
+          }
+          // English gloss prose carries no phonemic case either.
           for (var i = 0; i < e.g.length; i++) {
             if (e.g[i].toLowerCase().indexOf(qFlat) !== -1) return true;
           }
@@ -539,9 +554,10 @@
             return;
           }
           var qFlat = q.toLowerCase().replace(/-/g, "");
+          var qLat = foldLatin(q);
           var qAr = /[؀-ۿ]/.test(q) ? skeleton(q) : "";
           current = index.filter(function (e) {
-            return matches(e, q, qFlat, qAr);
+            return matches(e, q, qFlat, qLat, qAr);
           });
           countEl.textContent =
             current.length.toLocaleString() +

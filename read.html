@@ -1003,6 +1003,7 @@
           url.searchParams.set("a", aParam);
           history.replaceState({}, "", url);
           if (window.qdSaveLastRead) window.qdSaveLastRead(s, aParam);
+          maybeShowMethodStrip();
           // Whole-surah views (starting at verse 1) share via the surah's
           // link-preview page; specific-verse views keep the live URL so
           // the exact verse is never lost to a redirect.
@@ -1058,6 +1059,7 @@
             url.searchParams.set("a", aParam);
             history.replaceState({}, "", url);
             if (window.qdSaveLastRead) window.qdSaveLastRead(s, aParam);
+            maybeShowMethodStrip();
           // Whole-surah views (starting at verse 1) share via the surah's
           // link-preview page; specific-verse views keep the live URL so
           // the exact verse is never lost to a redirect.
@@ -1070,6 +1072,39 @@
           }
         }
       }
+      // One-time coaching strip: the coherence method, shown above the
+      // first passage a reader ever loads (the site's central promise,
+      // previously taught only on separate pages). Dismissal is stored
+      // with the other reading progress and reset by Clear preferences.
+      function maybeShowMethodStrip() {
+        try {
+          if (!window.qdState || !qdState.progress) return;
+          if (qdState.progress.methodStripDismissed) return;
+          if (document.getElementById("methodStrip")) return;
+          const container = document.getElementById("verseContainer");
+          if (!container || !container.firstChild) return;
+          const strip = document.createElement("div");
+          strip.id = "methodStrip";
+          strip.className = "banner soft";
+          strip.style.margin = "0 0 1rem";
+          strip.innerHTML =
+            '<div style="display:flex;gap:0.75rem;align-items:baseline;justify-content:space-between;flex-wrap:wrap">' +
+            '<p style="margin:0;font-size:0.92rem"><strong>Reading a surah as one discourse:</strong> ' +
+            "read it whole. Find the central claim. Trace the words that carry it back to their roots. " +
+            '<a href="exercise.html?id=asr-outline">Try it on al-\'Asr</a> — three verses, ten minutes.</p>' +
+            '<button type="button" id="methodStripClose" class="button" style="font-size:0.82rem;padding:0.25rem 0.7rem;flex-shrink:0" aria-label="Dismiss reading guide">Got it</button>' +
+            "</div>";
+          container.parentNode.insertBefore(strip, container);
+          document
+            .getElementById("methodStripClose")
+            .addEventListener("click", () => {
+              qdState.progress.methodStripDismissed = true;
+              if (window.qdSaveState) window.qdSaveState();
+              strip.remove();
+            });
+        } catch (e) {}
+      }
+
       document.getElementById("loadBtn").addEventListener("click", load);
       document.getElementById("prevBtn").addEventListener("click", () => {
         const rawA = document.getElementById("ayahInput").value.trim();
