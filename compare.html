@@ -125,6 +125,7 @@
             <li><a href="navigate.html">Navigate</a></li>
             <li><a href="compare.html">Compare</a></li>
             <li><a href="themes.html">Themes</a></li>
+            <li><a href="replay.html">Replay</a></li>
           </ul>
         </li>
         <li class="nav-group" data-group="analyze">
@@ -743,7 +744,7 @@
         });
 
         // ── Boot ──────────────────────────────────────────────────────────────
-        fetch("data/roots-summary.json")
+        fetch("data/roots-list.json")
           .then((r) => r.json())
           .then((data) => {
             allRoots = Object.values(data).sort(
@@ -816,7 +817,7 @@
         let rootsSummaryP = null;
         function loadRootsSummary() {
           if (!rootsSummaryP) {
-            rootsSummaryP = fetch("data/roots-summary.json").then(function (r) {
+            rootsSummaryP = fetch("data/roots-list.json").then(function (r) {
               return r.json();
             });
           }

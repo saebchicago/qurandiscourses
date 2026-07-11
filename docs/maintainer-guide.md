@@ -39,14 +39,15 @@ Citations follow the **Chicago Manual of Style, bibliography form**:
 When a detail can't be confirmed against the work itself, omit it — never
 guess. sources.html is the reference implementation.
 
-## 2. Site map (21 pages)
+## 2. Site map (25 pages)
 
 | Group | Pages | Notes |
 |---|---|---|
-| Study | read, navigate, compare, themes | API-backed reading; local-data everything else |
+| Study | read, navigate, compare, themes, replay | API-backed reading; local-data everything else |
 | Analyze | words, roots, patterns, numbers | fully local data |
-| Learn | how-to-use, how-it-works, exercises (hub), exercise-asr, exercise-roots, paths, glossary | exercises are data-driven or book-cited |
+| Learn | how-to-use, how-it-works, exercises (hub), exercise, exercise-roots, paths, glossary, watch | exercises are data-driven or book-cited; exercise-asr.html is a redirect stub |
 | About | index, about, sources, validation, credits, changelog | credibility pages |
+| Unlisted | embed (iframe card, the one frameable page), exercise-asr (redirect stub) | outside nav and sitemap by design |
 
 Shared building blocks every page uses: `assets/nav.js` (menus, hamburger,
 aria-current), `assets/app.js` (settings gear: depth / palette / theme /
@@ -96,6 +97,7 @@ them only when their inputs change; commit their outputs.
 | build-share-pages.mjs | roots-summary, themes, chronology, surah-names, surah-profiles | s/ (1,789 pages) | per-entity link previews; share buttons hand these URLs out |
 | build-root-refs-index.mjs | roots-summary | assets/root-refs.js | refs.js root-mention detection (ambiguous ASCII folds deliberately absent) |
 | build-word-index.mjs | morphology, roots-summary, data/gloss (optional) | data/word-index.json | words.html vocabulary search — rerun after committing a gloss dataset so meanings join the index |
+| build-roots-list.mjs | roots-summary | data/roots-list.json | the slim per-root record every list-level consumer fetches (roots list, compare suggestions, refs popovers, embeds, exercise-roots) — rerun whenever roots-summary changes |
 
 Checkers (not generators — they gate shipping):
 

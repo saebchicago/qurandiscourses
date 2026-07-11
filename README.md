@@ -27,7 +27,7 @@ dependencies (fonts self-hosted; the only network calls are the optional
 alquran.cloud verse/translation API and recitation audio).
 
 ```
-*.html               21 pages, vanilla HTML + inline page logic
+*.html               25 pages, vanilla HTML + inline page logic
 assets/              shared JS (app, nav, ask, cite-badge, glossary),
                      CSS (3 palettes x light/dark), self-hosted fonts
 data/                bundled datasets: morphology/ (per-surah tokens),
