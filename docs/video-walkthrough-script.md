@@ -14,7 +14,7 @@ Also usable as-is for a live demo or a written tutorial with screenshots.
 **Do:** Nothing yet; let the page speak.
 **Say:** "Divine Discourses is a study platform built in memory of Dr. Irfan
 Ahmad Khan, for one purpose: direct, personal engagement with the Qur'an.
-It is not a search engine and it gives no interpretation. It does two
+It is not a search engine and it generates no commentary. It does two
 things: it puts the text's own structure in front of you — roots, words,
 patterns, frequencies — and it labels every factual claim so you can
 check it yourself. You do the reading; the site orders the evidence."

@@ -86,7 +86,7 @@ writeFileSync(
 );
 
 console.log(
-  `Direct address: ${directAddress.length} verses (patterns.html claims 89)`,
+  `Believers' vocative (ya ayyuha al-ladhina amanu): ${directAddress.length} verses (patterns.html claims 89)`,
 );
 console.log(
   `Fawatih: ${fawatih.length} surahs, ${uniqueCombos.size} unique combinations (numbers.html claims 29 surahs, 14 combinations)`,
