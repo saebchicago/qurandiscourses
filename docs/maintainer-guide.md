@@ -96,6 +96,7 @@ Checkers (not generators — they gate shipping):
 | check-headers-sync.mjs | netlify.toml per-page CSP structure (fail-open for new pages: a page without its own block ships with NO CSP — run after adding any page) |
 | check-nav-sync.mjs | the by-design nav duplication: every page's primary nav must match index.html's (allowlist: embed.html, exercise-asr.html) |
 | check-videos.mjs | the video registry: an entry cannot be 'published' without its mp4, poster, AND a real WEBVTT captions file on disk — the anti-slop covenant, enforced mechanically |
+| check-source-links.mjs | external citation liveness: every sources.json `url` and every external href on every page still answers (404/410 = FAIL, 403/429 = WARN for bot-shielding). Needs real outbound network — run from an unrestricted machine, not a sandboxed session; a good habit before any release and every few months |
 
 Determinism check for any script: run it twice, `git diff` must be empty.
 
@@ -273,7 +274,6 @@ commit and push; Netlify redeploys the previous state.
 
 ## 8. Optimization backlog (known, deliberate deferrals)
 
-- External citation-link liveness checking (needs unrestricted network).
 - `words.html` is a static explainer; a real word-search would need a
   gloss dataset with a license worth citing.
 - Badge dot glyphs are at the WCAG 2.5.8 24px minimum, not 44px.
