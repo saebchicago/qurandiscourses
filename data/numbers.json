@@ -1,6 +1,14 @@
 {
  "_generated": "build-numbers.mjs",
  "_method": "All figures computed from data/morphology/ (Leeds Quranic Arabic Corpus v0.4, one token per morphology entry), data/roots-summary.json, and data/chronology.json (Cairo 1924 four-period classification). Verse counts follow Cairo numbering as tokenized by Leeds.",
+ "totals": {
+  "tokens": 77429,
+  "rootedTokens": 49967,
+  "roots": 1642,
+  "lemmas": 4832,
+  "verses": 6236,
+  "surahs": 114
+ },
  "namedRoots": {
   "ArD": {
    "latin": "a-r-ḍ",

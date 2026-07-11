@@ -338,6 +338,19 @@ for (const pageFile of testPages) {
     } else if (ids.length) {
       report("badges", pageFile, true, `${ids.length} source-id references valid`);
     }
+    // A Verified dot that names no source is unfalsifiable — every
+    // visible .badge.ok must carry data-source-ids, except explicit
+    // legend/demo chrome marked data-legend. Hidden badges (runtime-
+    // populated provenance shells) are exempt until shown.
+    const naked = await page.evaluate(() =>
+      [...document.querySelectorAll(".badge.ok")]
+        .filter((el) => el.offsetParent !== null)
+        .filter((el) => !el.hasAttribute("data-source-ids") && !el.hasAttribute("data-legend"))
+        .map((el) => (el.parentElement?.textContent || "").trim().slice(0, 60)),
+    );
+    if (naked.length) {
+      report("badge-ids", pageFile, false, `${naked.length} Verified badge(s) without data-source-ids: "${naked[0]}…"`);
+    }
     // handleBadgeClick awaits a sources.json fetch, so the popover
     // appears asynchronously — poll rather than sample.
     const popShown = () =>

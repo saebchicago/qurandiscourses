@@ -54,7 +54,7 @@
       "name": "QurSim: A Corpus for Evaluation of Relatedness in Short Texts",
       "publisher": "In Proceedings of the Eighth International Conference on Language Resources and Evaluation (LREC 2012). Istanbul: European Language Resources Association",
       "year": "2012",
-      "note": "The dataset's canonical host, corpus.quran.com/qursim.jsp, is no longer accessible; cited as a conceptual reference only.",
+      "note": "Methodological reference for the verse-relatedness approach. The dataset's canonical host, corpus.quran.com/qursim.jsp, is no longer accessible; no QurSim data is bundled. The cross-reference files in data/qursim/ carry that directory name for historical reasons but contain the Mishkat corpus (see the mishkat entry and NOTICE.md).",
       "accessed": "2026-05-19"
     },
     {
@@ -112,6 +112,76 @@
       "publisher": "Lombard, IL: Book of Signs Foundation",
       "year": "2016",
       "isbn": "9780998539003"
+    },
+    {
+      "id": "mushaf-madinah",
+      "author": "King Fahd Complex for the Printing of the Holy Qur'an",
+      "name": "Mushaf al-Madinah",
+      "publisher": "Madinah: King Fahd Complex"
+    },
+    {
+      "id": "suyuti-itqan",
+      "author": "al-Suyuti, Jalal al-Din (d. 911/1505)",
+      "name": "al-Itqān fī ʿulūm al-Qurʾān"
+    },
+    {
+      "id": "abdel-haleem-1992",
+      "author": "Abdel Haleem, Muhammad",
+      "name": "Grammatical Shift for Rhetorical Purposes: Iltifāt and Related Features in the Qur'ān",
+      "publisher": "Bulletin of the School of Oriental and African Studies 55, no. 3, pp. 407–32",
+      "year": "1992"
+    },
+    {
+      "id": "watt-bell-1970",
+      "author": "Watt, W. Montgomery",
+      "name": "Bell's Introduction to the Qur'ān",
+      "publisher": "Edinburgh: Edinburgh University Press",
+      "year": "1970"
+    },
+    {
+      "id": "noldeke-schwally",
+      "author": "Nöldeke, Theodor, and Friedrich Schwally",
+      "name": "Geschichte des Qorāns",
+      "edition": "2nd ed., 3 vols.",
+      "publisher": "Leipzig: Dieterichsche Verlagsbuchhandlung",
+      "year": "1909–1938"
+    },
+    {
+      "id": "tabari-jami",
+      "author": "al-Tabari, Muhammad ibn Jarir (d. 310/923)",
+      "name": "Jāmiʿ al-bayān ʿan taʾwīl āy al-Qurʾān"
+    },
+    {
+      "id": "zamakhshari-kashshaf",
+      "author": "al-Zamakhshari, Mahmud ibn ʿUmar (d. 538/1144)",
+      "name": "al-Kashshāf ʿan ḥaqāʾiq ghawāmiḍ al-tanzīl"
+    },
+    {
+      "id": "ibn-kathir-tafsir",
+      "author": "Ibn Kathir, Ismaʿil ibn ʿUmar (d. 774/1373)",
+      "name": "Tafsīr al-Qurʾān al-ʿAẓīm"
+    },
+    {
+      "id": "abdel-haleem-1999",
+      "author": "Abdel Haleem, Muhammad",
+      "name": "Understanding the Qur'an: Themes and Style",
+      "publisher": "London: I. B. Tauris",
+      "year": "1999"
+    },
+    {
+      "id": "neuwirth-1981",
+      "author": "Neuwirth, Angelika",
+      "name": "Studien zur Komposition der mekkanischen Suren",
+      "publisher": "Berlin: Walter de Gruyter",
+      "year": "1981"
+    },
+    {
+      "id": "cuypers-2015",
+      "author": "Cuypers, Michel",
+      "name": "The Composition of the Qur'an: Rhetorical Analysis",
+      "edition": "translated by Jerry Ryan",
+      "publisher": "London: Bloomsbury Academic",
+      "year": "2015"
     }
   ]
 }

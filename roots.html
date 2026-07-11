@@ -20,7 +20,7 @@
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="Divine Discourses — toward direct engagement with the Qur'an. Every claim verified; 1,642 roots; 114 surahs."
+      content="Divine Discourses — toward direct engagement with the Qur'an. Every claim labeled and traceable to its source."
     />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
@@ -307,7 +307,7 @@
       <section>
         <h2>Roots</h2>
         <p class="lede">
-          1,642 triliteral roots organize the lexical core of the Qur'an. Arabic
+          <span data-num="totals.roots">1,642</span> triliteral roots organize the lexical core of the Qur'an. Arabic
           vocabulary is structured by these roots, sets of (usually three)
           consonants from which nouns, verbs, and adjectives are derived by
           fixed patterns.
@@ -389,14 +389,25 @@
             <p class="prov" style="margin: 0; flex: 1">
               <span
                 class="badge ok"
+                data-source-ids="leeds-corpus-v0.4"
                 aria-label="Verified"
                 tabindex="0"
                 title="Verified · Leeds Quranic Arabic Corpus v0.4"
                 >●</span
               >
               counts from the Quranic Arabic Corpus (Leeds / Dukes 2009–2017).
-              Meanings are provided for the most frequent roots; the long tail
-              is unlabeled.
+              <span
+                class="badge nuanced"
+                aria-label="Nuanced"
+                tabindex="0"
+                title="Nuanced · editorial working glosses, not corpus data"
+                >~</span
+              >
+              English meanings shown for the most frequent roots are
+              editorial working glosses for orientation — one or two common
+              senses, not definitions from a cited dictionary; the long tail
+              is unlabeled. Follow each root's corpus-dictionary link for
+              sourced lexicography.
             </p>
           </div>
         </div>
@@ -424,6 +435,7 @@
               Occurrences
               <span
                 class="badge ok"
+                data-source-ids="leeds-corpus-v0.4"
                 aria-label="Verified"
                 tabindex="0"
                 title="Verified · Leeds Quranic Arabic Corpus v0.4"
@@ -439,7 +451,7 @@
               <p>
                 Computed from Leeds Quranic Arabic Corpus v0.4: total count of
                 all token entries with this root across 114 morphology files
-                (77,429 tokens in the corpus; 49,967 carry a root, the rest
+                (<span data-num="totals.tokens">77,429</span> tokens in the corpus; <span data-num="totals.rootedTokens">49,967</span> carry a root, the rest
                 are particles, pronouns, and other unrooted forms).
               </p>
             </details>
@@ -451,6 +463,7 @@
               Makki / Madani distribution
               <span
                 class="badge ok"
+                data-source-ids="leeds-corpus-v0.4 quran-foundation-api-v4"
                 aria-label="Verified"
                 tabindex="0"
                 title="Verified · Leeds v0.4 + Quran.com API v4"
@@ -480,6 +493,7 @@
               Distribution by surah (114 surahs)
               <span
                 class="badge ok"
+                data-source-ids="leeds-corpus-v0.4"
                 aria-label="Verified"
                 tabindex="0"
                 title="Verified · Leeds Quranic Arabic Corpus v0.4"
@@ -546,6 +560,7 @@
               Derived forms
               <span
                 class="badge ok"
+                data-source-ids="leeds-corpus-v0.4"
                 aria-label="Verified"
                 tabindex="0"
                 title="Verified · Leeds Quranic Arabic Corpus v0.4"
@@ -594,6 +609,7 @@
               Top co-occurring roots
               <span
                 class="badge ok"
+                data-source-ids="leeds-corpus-v0.4"
                 aria-label="Verified"
                 tabindex="0"
                 title="Verified · Leeds Quranic Arabic Corpus v0.4"
@@ -627,6 +643,7 @@
               Verse references
               <span
                 class="badge ok"
+                data-source-ids="leeds-corpus-v0.4"
                 aria-label="Verified"
                 tabindex="0"
                 title="Verified · Leeds Quranic Arabic Corpus v0.4"
@@ -1324,5 +1341,6 @@
       })();
     </script>
     <script src="assets/glossary.js" defer></script>
+    <script src="assets/cite-badge.js" defer></script>
   </body>
 </html>

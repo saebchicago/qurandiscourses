@@ -526,6 +526,31 @@
     );
   }
 
+  // Corpus figures quoted in page prose bind to data/numbers.json via
+  // data-num="dot.path" so they can never drift from the generated
+  // data. The static text is the fallback; this overwrites it with the
+  // authoritative value. Fetches only on pages that use it.
+  function initDataNums() {
+    const els = document.querySelectorAll("[data-num]");
+    if (!els.length) return;
+    fetch("data/numbers.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (!data) return;
+        els.forEach(function (el) {
+          let v = data;
+          const parts = el.getAttribute("data-num").split(".");
+          for (let i = 0; i < parts.length && v != null; i++) v = v[parts[i]];
+          if (typeof v === "number") {
+            el.textContent = Number.isInteger(v)
+              ? v.toLocaleString("en-US")
+              : v.toFixed(1);
+          }
+        });
+      })
+      .catch(() => {});
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     load();
     applyTheme();
@@ -534,6 +559,7 @@
     initTooltips();
     initInlineDepth();
     initBackToTop();
+    initDataNums();
     applyDepth();
   });
 })();
