@@ -968,6 +968,10 @@
                 ? `https://qurandiscourse.netlify.app/s/surah/${s}.html`
                 : null,
             );
+          container.insertAdjacentHTML(
+            "beforeend",
+            `<p style="margin:0.6rem 0 0"><a href="replay.html?s=${s}">▶ Replay this surah</a> — recitation verse by verse, recurring roots lighting up as it unfolds.</p>`,
+          );
         } catch (e) {
           // Offline fallback: the Arabic word tokens are bundled locally
           // (Leeds corpus); render them so the reader is not left empty.

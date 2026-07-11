@@ -367,6 +367,15 @@
             .join("");
 
           var section = document.getElementById("outlineSection");
+          // Offered only after the reader has committed to their own
+          // reading — the replay shows the outline from the start.
+          var replayP = document.createElement("p");
+          replayP.style.marginTop = "0.8rem";
+          replayP.innerHTML =
+            '<a href="replay.html?s=' +
+            exercise.surah +
+            '">▶ Now watch it unfold — replay this surah with the outline overlaid.</a>';
+          section.appendChild(replayP);
           section.removeAttribute("hidden");
           section.scrollIntoView({ behavior: "smooth", block: "start" });
 
