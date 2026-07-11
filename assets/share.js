@@ -169,9 +169,50 @@
     else fab.removeAttribute("data-share-url");
   };
 
+  // iframe snippet for embed.html (the one page whose CSP allows
+  // foreign framing). Buttons with data-embed-type/data-embed-id copy it.
+  function embedSnippet(type, id, title) {
+    var src =
+      "https://qurandiscourse.netlify.app/embed.html?type=" +
+      encodeURIComponent(type) +
+      "&id=" +
+      encodeURIComponent(id);
+    return (
+      '<iframe src="' +
+      src +
+      '" width="100%" height="' +
+      (type === "theme" ? 340 : 300) +
+      '" style="border:1px solid #d9c8a8;border-radius:10px" loading="lazy" title="' +
+      (title || "Divine Discourses") +
+      '"></iframe>'
+    );
+  }
+
+  function initEmbedButtons(root) {
+    (root || document)
+      .querySelectorAll("[data-embed-type]")
+      .forEach(function (btn) {
+        if (btn.dataset.embedBound) return;
+        btn.dataset.embedBound = "1";
+        btn.addEventListener("click", function () {
+          copyText(
+            embedSnippet(
+              btn.getAttribute("data-embed-type"),
+              btn.getAttribute("data-embed-id"),
+              btn.getAttribute("data-embed-title") || "",
+            ),
+            function (ok) {
+              toast(ok ? "Embed code copied" : "Could not copy");
+            },
+          );
+        });
+      });
+  }
+
   window.qdInitShare = function (root) {
     initShareButtons(root);
     initCopyButtons(root);
+    initEmbedButtons(root);
   };
   window.qdToast = toast;
   window.qdCopyText = copyText;

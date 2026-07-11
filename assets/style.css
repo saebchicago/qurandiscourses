@@ -893,6 +893,71 @@ label {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+/* ── Embeddable cards (embed.html, iframe context) ─────────────── */
+.embed-body {
+  padding: 1rem 1.2rem;
+  min-height: auto;
+}
+.embed-card {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+.embed-loading {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.embed-title {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  margin: 0.2rem 0 0.4rem;
+}
+.embed-ar {
+  font-size: 1.9rem;
+  line-height: 1.9;
+  margin: 0.3rem 0 0.5rem;
+}
+.embed-ref {
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 0 0.2rem;
+  font-variant-numeric: tabular-nums;
+}
+.embed-meta {
+  margin: 0 0 0.5rem;
+  line-height: 1.6;
+}
+.embed-trans {
+  margin: 0 0 0.5rem;
+  line-height: 1.7;
+}
+.embed-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 0.5rem;
+}
+.embed-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.85rem;
+  background: var(--bg);
+}
+.embed-prov {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 0 0 0.6rem;
+}
+.embed-footer {
+  border-top: 1px solid var(--line);
+  padding-top: 0.55rem;
+  margin: 0;
+  font-size: 0.85rem;
+}
+
 .qd-chart-tip {
   position: absolute;
   z-index: 1100;

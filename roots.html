@@ -704,6 +704,19 @@
               View at corpus.quran.com →
             </a>
           </p>
+          <p class="share-row" style="margin: 0.4rem 0 0">
+            <button
+              type="button"
+              id="detailEmbedBtn"
+              class="button secondary share-btn"
+              data-embed-type="root"
+              data-embed-id=""
+              title="Copy an iframe snippet of this root's profile for your own site"
+              hidden
+            >
+              Embed this root
+            </button>
+          </p>
         </div>
 
         <div class="card encyclopedic-only">
@@ -929,6 +942,12 @@
             window.qdSetShareUrl(
               `https://qurandiscourse.netlify.app/s/root/${safeKey(bw)}.html`,
             );
+          const embedBtn = document.getElementById("detailEmbedBtn");
+          if (embedBtn) {
+            embedBtn.setAttribute("data-embed-id", safeKey(bw));
+            embedBtn.hidden = false;
+            if (window.qdInitShare) window.qdInitShare(embedBtn.parentElement);
+          }
           await loadRootDetail(bw);
           const panel = document.getElementById("rootDetail");
           if (panel && !panel.hidden) {
