@@ -568,13 +568,17 @@
             Object.keys(doneIds).length,
             EXERCISE_COUNT,
           );
-          if (!lastRead && !doneCount) return;
+          var pathsInProgress = Object.keys(progress.paths || {}).length;
+          if (!lastRead && !doneCount && !pathsInProgress) return;
 
           var section = document.getElementById("continueSection");
           var text = document.getElementById("continueText");
           var link = document.getElementById("continueLink");
           if (!section || !text || !link) return;
 
+          var pathNote = pathsInProgress
+            ? " A study path is in progress."
+            : "";
           if (lastRead) {
             text.textContent =
               "Continue reading — you were at " +
@@ -587,9 +591,19 @@
                   " of " +
                   EXERCISE_COUNT +
                   " exercises."
-                : ".");
+                : ".") +
+              pathNote;
             link.textContent = "Resume reading";
             link.href = "read.html?s=" + lastRead.s + "&a=" + lastRead.a;
+          } else if (pathsInProgress) {
+            text.textContent =
+              "You're partway through " +
+              (pathsInProgress === 1
+                ? "a study path"
+                : pathsInProgress + " study paths") +
+              ". Pick up where you left off.";
+            link.textContent = "Resume path";
+            link.href = "paths.html";
           } else {
             text.textContent =
               "You've tried " +

@@ -57,7 +57,8 @@
     // anywhere, cleared by the same "Clear preferences" button.
     progress: {
       lastRead: null, // { s: surahNumber, a: "1" | "1-7" }
-      exercises: {}, // { [exerciseId]: { at: isoString } }
+      exercises: {}, // { [exerciseId]: { at, attempts, score? } }
+      paths: {}, // { [pathId]: { steps: { [stepIndex]: true }, at } }
     },
   };
 
@@ -91,7 +92,7 @@
       showAudio: true,
       showTransliteration: false,
     };
-    state.progress = { lastRead: null, exercises: {} };
+    state.progress = { lastRead: null, exercises: {}, paths: {} };
   }
 
   // Called by read.html after a verse/range successfully loads.
@@ -116,6 +117,23 @@
     if (score) entry.score = score;
     else if (prev.score) entry.score = prev.score;
     state.progress.exercises[exerciseId] = entry;
+    save();
+  };
+
+  // Called by paths.html when a reader checks off a step. Browser-only,
+  // like all progress state.
+  window.qdMarkPathStep = function (pathId, stepIndex, done) {
+    if (!state.progress) state.progress = { lastRead: null, exercises: {}, paths: {} };
+    if (!state.progress.paths) state.progress.paths = {};
+    var p = state.progress.paths[pathId] || { steps: {} };
+    if (done) p.steps[stepIndex] = true;
+    else delete p.steps[stepIndex];
+    p.at = new Date().toISOString();
+    if (Object.keys(p.steps).length === 0) {
+      delete state.progress.paths[pathId];
+    } else {
+      state.progress.paths[pathId] = p;
+    }
     save();
   };
 
