@@ -46,9 +46,20 @@ aria-current), `assets/app.js` (settings gear: depth / palette / theme /
 translations, keyboard shortcuts 1/2/3, back-to-top, `qdEsc` HTML escaper,
 API fetch helpers, `qd_state.progress` — see below), `assets/cite-badge.js`
 (citation popovers, the *only* citation-popover implementation — do not
-add a second one bound to `.badge[data-source-ids]`), `assets/glossary.js`
+add a second one bound to `.badge[data-source-ids]`; handling is
+event-delegated, so dynamically inserted badges work — call
+`qdCiteEnhance(container)` after inserting to set role/tabindex),
+`assets/share.js` (floating share button, `[data-share]`/
+`[data-copy-target]` buttons, toast, `qdDownloadSvg`), `assets/glossary.js`
 (term popovers), `assets/fonts.css` + `assets/fonts/` (self-hosted Amiri,
-Cormorant Garamond, Inter).
+Cormorant Garamond, Inter). Chart-bearing pages add `assets/chart.js`
+(`qdChart`: revelation timeline, heat strip, scatter, ego network —
+theme-aware via `--chart-1..4`, which are dataviz-validated mark colors;
+every chart needs a method note beside it). `assets/notes.js` renders the
+Read page's local-only notes panel (storage key `qd_notes`, deliberately
+NOT cleared with preferences). Content registries rendered by pages:
+`data/exercises.json`, `data/paths.json`, `data/case-studies.json` — edit
+the JSON, not the pages' static fallback markup.
 
 `qd_state.progress` (in `assets/app.js`) remembers reading position and
 exercise attempts, browser-only, same as every other preference: `{
