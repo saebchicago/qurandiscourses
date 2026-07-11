@@ -127,6 +127,34 @@
           <h4>July</h4>
           <ul>
             <li>
+              <strong>Words became searchable.</strong> The
+              <a href="words.html">Words</a> page now searches all 4,832
+              dictionary forms in the Qur'an — by Arabic (with or without
+              vowel marks), transliteration, or root — showing each
+              lemma's frequency, part of speech, root link, and first
+              occurrences, computed from the already-cited Leeds corpus.
+              The Meaning column deliberately stays empty: English
+              glosses are one translator's interpretive choice, so they
+              wait behind the same licensing gate as the Read page's
+              gloss pipeline, and a research note now documents exactly
+              what the maintainer must verify before any gloss dataset
+              ships. Until then every row links to the corpus dictionary.
+            </li>
+            <li>
+              <strong>The pre-ship checklist became a machine.</strong>
+              The maintainer guide's manual verify-before-shipping
+              checklist — horizontal overflow on phones, console errors
+              with the verse API unreachable, dead internal links,
+              citation badges pointing at unregistered sources, keyboard
+              navigation, palette and dark-mode integrity — now runs as
+              one automated browser suite (144 checks across every
+              page). It also permanently re-tests the site's defense
+              against a hostile API response on every run, something
+              previously verified only once by hand. The full site
+              passes today; the suite exists so tomorrow's changes
+              can't quietly break what readers rely on.
+            </li>
+            <li>
               <strong>Verses you've read stay readable, and citations get a
               rot check.</strong> The Read and Compare pages now keep a
               browser-local cache of already-fetched verse text and

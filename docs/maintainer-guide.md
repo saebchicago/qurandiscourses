@@ -88,6 +88,7 @@ them only when their inputs change; commit their outputs.
 | build-surahs-js.mjs | surah-names.json, chronology, surah-meta, surah-profiles | assets/surahs.js | the ONE canonical surah dataset (navigate, read, ask box, refs, embeds) — edit data/surah-names.json, never assets/surahs.js |
 | build-share-pages.mjs | roots-summary, themes, chronology, surah-names, surah-profiles | s/ (1,789 pages) | per-entity link previews; share buttons hand these URLs out |
 | build-root-refs-index.mjs | roots-summary | assets/root-refs.js | refs.js root-mention detection (ambiguous ASCII folds deliberately absent) |
+| build-word-index.mjs | morphology, roots-summary, data/gloss (optional) | data/word-index.json | words.html vocabulary search — rerun after committing a gloss dataset so meanings join the index |
 
 Checkers (not generators — they gate shipping):
 
@@ -177,10 +178,13 @@ Once licensed: download the dump locally, shape it as documented at the
 top of `scripts/build-gloss.mjs` (with `_source` = a sources.json id you
 add and `_license`), run `node scripts/build-gloss.mjs <dump>` and
 review the alignment report (the script null-fills mismatched verses
-and fails above 2% — never ship a silently shifted alignment). Commit
-`data/gloss/` together with the sources.json entry, the sources.html
-bibliography line, the NOTICE.md addition, and a changelog note — one
-commit, so the data never exists uncited. Glosses render with a
+and fails above 2% — never ship a silently shifted alignment). Then
+rerun `node scripts/build-word-index.mjs` so the meanings join the
+words.html search index. Commit `data/gloss/` and the regenerated
+`data/word-index.json` together with the sources.json entry, the
+sources.html bibliography line, the NOTICE.md addition, and a changelog
+note — one commit, so the data never exists uncited.
+docs/gloss-dataset-research.md pre-chews the licensing legwork. Glosses render with a
 **Nuanced** badge: a gloss is a translator's choice, not "the meaning".
 Test path without any license: `node scripts/build-gloss.mjs
 scripts/fixtures/gloss-raw-sample.json --out /tmp/gloss-test` (the
@@ -235,22 +239,42 @@ committing. Register the palette in the `setPalette` select in
 
 ## 6. Verify before shipping (the checklist that caught real bugs)
 
+Most of this checklist is now one command:
+
 ```bash
-python3 -m http.server 8000    # then drive the site in a real browser
+node scripts/verify-site.mjs
 ```
 
-1. **Zero horizontal overflow** at 375px and 1280px on every page
-   (`document.documentElement.scrollWidth === clientWidth`).
-2. **Zero console errors** with the network up *and* with
-   api.alquran.cloud blocked (the site must degrade to its offline
-   fallbacks, not break).
-3. **Internal link crawl**: every `href`/`src` returns 200 locally.
+It serves the repo itself and drives headless Chromium (the globally
+installed Playwright — a dev-machine tool, never a shipped dependency)
+through checks 1–6 below on every root page, plus: sitemap⇄disk sync
+(the §4 "add a page" recipe, enforced), read.html's offline fallback
+with the API blocked, and a hostile-payload fixture pass that keeps the
+§5 qdEsc invariant a permanent regression test. `--page=`/`--only=`
+filter for fast iteration; `--shots` dumps palette×theme screenshots
+for the visual review; `--live` uses the real API instead of
+deterministic abort/stub routing. Exit 1 means do not ship.
+
+What it covers (the old manual list, for reference) and what's left:
+
+1. **Zero horizontal overflow** at 375px and 1280px on every page —
+   automated.
+2. **Zero console errors** with api.alquran.cloud blocked (offline
+   degradation) and with stubbed responses — automated. `--live` for a
+   real-network pass.
+3. **Internal link crawl**: every `href`/`src` returns 200 locally —
+   automated (named `#fragments` must resolve too; external liveness is
+   `check-source-links.mjs`, see §3).
 4. Badges: every `data-source-ids` value exists in `data/sources.json`;
-   popovers open by mouse *and* Enter/Space.
-5. Keyboard: hamburger menu, dropdown menus, Escape behavior, focus rings.
-6. If you touched palettes/themes: check all palette × light/dark
-   combinations actually change the background.
-7. Dark mode screenshots of any page you changed.
+   popovers open by mouse *and* Enter/Space, close on Escape —
+   automated.
+5. Keyboard: hamburger, dropdown menus, settings gear, Escape — automated
+   (on index.html + read.html; nav-sync guarantees the rest). Focus-ring
+   *presence* is proxy-checked; its visual quality stays human.
+6. Palette × light/dark combinations actually change the background —
+   automated.
+7. **Still manual:** dark-mode screenshots of any page you changed
+   (`--shots` helps), audio playback, overall visual judgment.
 8. `node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs`
    — mandatory after adding a page, touching the nav, or touching
    netlify.toml.
@@ -274,6 +298,9 @@ commit and push; Netlify redeploys the previous state.
 
 ## 8. Optimization backlog (known, deliberate deferrals)
 
-- `words.html` is a static explainer; a real word-search would need a
-  gloss dataset with a license worth citing.
+- words.html search covers Arabic/transliteration/root; searching by
+  English *meaning* stays dormant until the owner licenses a gloss
+  dataset (see "Add word-by-word glosses" and
+  docs/gloss-dataset-research.md — the verification is a ten-minute
+  task from an unrestricted connection).
 - Badge dot glyphs are at the WCAG 2.5.8 24px minimum, not 44px.
