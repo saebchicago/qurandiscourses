@@ -148,10 +148,17 @@ async function check(url) {
   }
 }
 
-// Concurrency 4, one in flight per host (politeness).
+// Concurrency 4, one in flight per host (politeness). A single
+// malformed URL must not crash the whole run — group unparsable ones
+// under a synthetic bucket so they still surface as a FAIL each.
 const byHost = new Map();
 for (const url of urls) {
-  const host = new URL(url).host;
+  let host;
+  try {
+    host = new URL(url).host;
+  } catch (e) {
+    host = "(unparsable)";
+  }
   if (!byHost.has(host)) byHost.set(host, []);
   byHost.get(host).push(url);
 }

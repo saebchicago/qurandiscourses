@@ -85,6 +85,10 @@
       localStorage.removeItem("qd_state");
       localStorage.removeItem("qd_apicache");
     } catch (e) {}
+    // apiCacheLoad() short-circuits on a truthy in-memory apiCache, so
+    // without this reset the next fetch would silently rewrite the
+    // "cleared" localStorage key from the stale in-memory copy.
+    apiCache = null;
     state.depth = "simple";
     state.theme = "auto";
     state.palette = "parchment";
@@ -359,14 +363,19 @@
     return json.data;
   }
 
-  window.qdFetchVerse = function (surah, ayah) {
+  // async (not a plain function returning apiCachedFetch's promise): a
+  // plain function would let a synchronous throw building the URL (e.g.
+  // state.translations corrupted into something non-iterable) escape as
+  // an uncaught exception instead of a rejection — callers like
+  // embed.js's bare `.then().catch(fail)` rely on rejection semantics.
+  window.qdFetchVerse = async function (surah, ayah) {
     const editions = ["quran-uthmani", ...state.translations];
     return apiCachedFetch(
       `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/editions/${editions.join(",")}`,
     );
   };
 
-  window.qdFetchSurah = function (surah) {
+  window.qdFetchSurah = async function (surah) {
     const editions = ["quran-uthmani", ...state.translations];
     return apiCachedFetch(
       `https://api.alquran.cloud/v1/surah/${surah}/editions/${editions.join(",")}`,
