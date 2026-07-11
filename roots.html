@@ -918,11 +918,17 @@
             hideDetail();
             render();
             history.replaceState(null, "", location.pathname);
+            if (window.qdSetShareUrl) window.qdSetShareUrl(null);
             return;
           }
           selectedBW = bw;
           render();
           history.replaceState(null, "", `?root=${safeKey(bw)}`);
+          // The share page carries this root's link-preview tags.
+          if (window.qdSetShareUrl)
+            window.qdSetShareUrl(
+              `https://qurandiscourse.netlify.app/s/root/${safeKey(bw)}.html`,
+            );
           await loadRootDetail(bw);
           const panel = document.getElementById("rootDetail");
           if (panel && !panel.hidden) {

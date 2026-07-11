@@ -959,6 +959,15 @@
           url.searchParams.set("a", aParam);
           history.replaceState({}, "", url);
           if (window.qdSaveLastRead) window.qdSaveLastRead(s, aParam);
+          // Whole-surah views (starting at verse 1) share via the surah's
+          // link-preview page; specific-verse views keep the live URL so
+          // the exact verse is never lost to a redirect.
+          if (window.qdSetShareUrl)
+            window.qdSetShareUrl(
+              ayahStart === 1
+                ? `https://qurandiscourse.netlify.app/s/surah/${s}.html`
+                : null,
+            );
         } catch (e) {
           // Offline fallback: the Arabic word tokens are bundled locally
           // (Leeds corpus); render them so the reader is not left empty.
@@ -1001,6 +1010,15 @@
             url.searchParams.set("a", aParam);
             history.replaceState({}, "", url);
             if (window.qdSaveLastRead) window.qdSaveLastRead(s, aParam);
+          // Whole-surah views (starting at verse 1) share via the surah's
+          // link-preview page; specific-verse views keep the live URL so
+          // the exact verse is never lost to a redirect.
+          if (window.qdSetShareUrl)
+            window.qdSetShareUrl(
+              ayahStart === 1
+                ? `https://qurandiscourse.netlify.app/s/surah/${s}.html`
+                : null,
+            );
           }
         }
       }
