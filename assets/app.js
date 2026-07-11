@@ -42,6 +42,10 @@
     depth: "simple",
     theme: "auto",
     palette: "parchment",
+    // First-visit flag: false until the reader interacts with the
+    // welcome banner or tour on the home page. A preference like every
+    // other field here — browser-only, reset by "Clear preferences".
+    seen: false,
     reciter: "ar.husary",
     translations: TRANSLATIONS.filter((t) => t.default).map((t) => t.id),
     features: {
@@ -83,6 +87,7 @@
     state.depth = "simple";
     state.theme = "auto";
     state.palette = "parchment";
+    state.seen = false;
     state.reciter = "ar.husary";
     state.translations = TRANSLATIONS.filter((t) => t.default).map((t) => t.id);
     state.features = {
@@ -445,6 +450,7 @@
   }
 
   window.qdState = state;
+  window.qdSaveState = save;
   window.qdTranslations = TRANSLATIONS;
   window.qdReciters = RECITERS;
 

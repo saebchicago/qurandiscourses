@@ -893,6 +893,73 @@ label {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+/* ── Welcome tour (index.html, assets/tour.js) ─────────────────── */
+.tour-highlight {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+.tour-card {
+  position: absolute;
+  z-index: 1300;
+  background: var(--card);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  box-shadow: var(--shadow-lg);
+}
+.tour-card h3 {
+  margin: 0 0 0.3rem;
+  font-size: 1.05rem;
+}
+.tour-card p {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+.tour-card .tour-step {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 0.2rem;
+}
+.tour-card .tour-actions {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+}
+.settings .tour-fab {
+  display: block;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  width: 52px;
+  height: 52px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 0.6rem;
+  transition: transform 0.15s ease;
+}
+.settings .tour-fab:hover {
+  transform: scale(1.08);
+  border-color: var(--accent);
+}
+@media print {
+  .tour-card,
+  .tour-fab {
+    display: none !important;
+  }
+}
+.begin-group-title {
+  margin: 1.1rem 0 0.4rem;
+  font-size: 1.02rem;
+  color: var(--accent);
+}
+.begin-group {
+  margin-bottom: 0.4rem;
+}
 /* ── Embeddable cards (embed.html, iframe context) ─────────────── */
 .embed-body {
   padding: 1rem 1.2rem;
