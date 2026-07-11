@@ -893,6 +893,93 @@ label {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+/* ── Root-family highlight palette (shared) ────────────────────── */
+/* Promoted from exercise-roots.html's inline styles so replay.html can
+   use the same four family colors. Backgrounds, not text colors — the
+   ink on top stays the page's own. */
+.rg-0 { background: rgba(214, 158, 46, 0.28); }
+.rg-1 { background: rgba(46, 139, 139, 0.28); }
+.rg-2 { background: rgba(155, 89, 182, 0.28); }
+.rg-3 { background: rgba(200, 80, 80, 0.28); }
+
+/* ── Guided replay (replay.html, assets/replay.js) ─────────────── */
+.replay-verse {
+  transition: opacity 0.25s ease;
+  opacity: 0.55;
+}
+.replay-verse.replay-active {
+  opacity: 1;
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+.replay-verse.replay-done {
+  opacity: 0.85;
+}
+.replay-transport {
+  position: sticky;
+  bottom: 0;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px 12px 0 0;
+  padding: 0.6rem 0.9rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  box-shadow: var(--shadow-lg);
+  z-index: 30;
+}
+.replay-transport button {
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 1rem;
+  cursor: pointer;
+}
+.replay-transport button.primary {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+  font-weight: 600;
+  padding: 0 1.1rem;
+}
+.replay-transport .replay-pos {
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-left: auto;
+}
+.replay-outline-banner {
+  border-left: 3px solid var(--accent);
+  background: var(--card);
+  border-radius: 0 8px 8px 0;
+  padding: 0.6rem 0.9rem;
+  margin: 0.9rem 0;
+}
+.replay-outline-banner h3 {
+  margin: 0 0 0.15rem;
+  font-size: 1rem;
+}
+.replay-outline-banner p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+@media (prefers-reduced-motion: reduce) {
+  .replay-verse {
+    transition: none;
+  }
+}
+@media print {
+  .replay-transport {
+    display: none !important;
+  }
+}
+
 /* ── Welcome tour (index.html, assets/tour.js) ─────────────────── */
 .tour-highlight {
   outline: 3px solid var(--accent);
