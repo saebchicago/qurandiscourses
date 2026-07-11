@@ -235,22 +235,42 @@ committing. Register the palette in the `setPalette` select in
 
 ## 6. Verify before shipping (the checklist that caught real bugs)
 
+Most of this checklist is now one command:
+
 ```bash
-python3 -m http.server 8000    # then drive the site in a real browser
+node scripts/verify-site.mjs
 ```
 
-1. **Zero horizontal overflow** at 375px and 1280px on every page
-   (`document.documentElement.scrollWidth === clientWidth`).
-2. **Zero console errors** with the network up *and* with
-   api.alquran.cloud blocked (the site must degrade to its offline
-   fallbacks, not break).
-3. **Internal link crawl**: every `href`/`src` returns 200 locally.
+It serves the repo itself and drives headless Chromium (the globally
+installed Playwright — a dev-machine tool, never a shipped dependency)
+through checks 1–6 below on every root page, plus: sitemap⇄disk sync
+(the §4 "add a page" recipe, enforced), read.html's offline fallback
+with the API blocked, and a hostile-payload fixture pass that keeps the
+§5 qdEsc invariant a permanent regression test. `--page=`/`--only=`
+filter for fast iteration; `--shots` dumps palette×theme screenshots
+for the visual review; `--live` uses the real API instead of
+deterministic abort/stub routing. Exit 1 means do not ship.
+
+What it covers (the old manual list, for reference) and what's left:
+
+1. **Zero horizontal overflow** at 375px and 1280px on every page —
+   automated.
+2. **Zero console errors** with api.alquran.cloud blocked (offline
+   degradation) and with stubbed responses — automated. `--live` for a
+   real-network pass.
+3. **Internal link crawl**: every `href`/`src` returns 200 locally —
+   automated (named `#fragments` must resolve too; external liveness is
+   `check-source-links.mjs`, see §3).
 4. Badges: every `data-source-ids` value exists in `data/sources.json`;
-   popovers open by mouse *and* Enter/Space.
-5. Keyboard: hamburger menu, dropdown menus, Escape behavior, focus rings.
-6. If you touched palettes/themes: check all palette × light/dark
-   combinations actually change the background.
-7. Dark mode screenshots of any page you changed.
+   popovers open by mouse *and* Enter/Space, close on Escape —
+   automated.
+5. Keyboard: hamburger, dropdown menus, settings gear, Escape — automated
+   (on index.html + read.html; nav-sync guarantees the rest). Focus-ring
+   *presence* is proxy-checked; its visual quality stays human.
+6. Palette × light/dark combinations actually change the background —
+   automated.
+7. **Still manual:** dark-mode screenshots of any page you changed
+   (`--shots` helps), audio playback, overall visual judgment.
 8. `node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs`
    — mandatory after adding a page, touching the nav, or touching
    netlify.toml.
