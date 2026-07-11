@@ -143,13 +143,16 @@
         </p>
       </section>
       <section>
-        <h2>How we verify: three worked examples</h2>
+        <h2>How we verify: worked examples</h2>
         <p>
           Each label carries a specific meaning. The examples below are drawn
           from published claims on this site so you can trace the reasoning end
           to end.
         </p>
-        <div class="verify-block">
+        <!-- Rendered from data/case-studies.json (single source of truth,
+             shared with index.html); the markup below is the static
+             fallback if that fetch fails. Edit the JSON, not this HTML. -->
+        <div class="verify-block" data-case-studies="full">
           <div class="verify-example">
             <h3>
               <span
@@ -452,6 +455,7 @@ Does Qur'an [INSERT VERSE] contain an instance of iltifat (grammatical shift in 
     </div>
     <script src="assets/app.js"></script>
     <script src="assets/share.js" defer></script>
+    <script src="assets/case-studies.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
   </body>
