@@ -118,7 +118,7 @@
     var styles = getComputedStyle(document.documentElement);
     var serialized = new XMLSerializer().serializeToString(clone);
     serialized = serialized.replace(
-      /var\((--[a-z-]+)\)/g,
+      /var\((--[a-z0-9-]+)\)/g,
       function (m, name) {
         var v = styles.getPropertyValue(name).trim();
         return v || "#888";

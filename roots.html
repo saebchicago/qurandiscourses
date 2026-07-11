@@ -502,6 +502,36 @@
             </details>
           </div>
 
+          <!-- Revelation-order timeline (chart.js) -->
+          <div class="stat-block" id="detailTimelineBlock">
+            <h4>
+              Across the revelation timeline
+              <span
+                class="badge ok"
+                data-source-ids="leeds-corpus-v0.4 cairo-1924"
+                aria-label="Verified"
+                tabindex="0"
+                title="Verified · Leeds corpus + Cairo 1924 revelation order"
+                >●</span
+              >
+            </h4>
+            <div id="detailTimeline"></div>
+            <p style="font-size: 0.78rem; color: var(--muted); margin: 0.2rem 0 0">
+              Same counts as above, reordered by the Cairo 1924 revelation
+              sequence and colored by period. Where does this root's usage
+              concentrate as the revelation unfolds?
+            </p>
+            <details class="method-note">
+              <summary>ℹ How computed — and what it does not say</summary>
+              <p>
+                Per-surah counts (Leeds v0.4) placed at each surah's Cairo
+                1924 revelation position. The Cairo ordering is a convention
+                (labeled Nuanced elsewhere on this site); and distribution
+                over time does not by itself establish meaning or emphasis.
+              </p>
+            </details>
+          </div>
+
           <!-- Derived forms table -->
           <div class="stat-block" id="detailFormsBlock">
             <h4>
@@ -648,6 +678,12 @@
               </p>
             </details>
             <ul class="co-root-list" id="detailCoFilteredList"></ul>
+            <div id="detailNetwork" style="margin-top: 0.6rem"></div>
+            <p style="font-size: 0.78rem; color: var(--muted); margin: 0.2rem 0 0">
+              The same filtered list as a map: closer to the center means
+              nothing — line thickness and node size carry the count. Click a
+              root to re-center on it.
+            </p>
           </div>
 
           <p class="prov" style="margin-top: 0.5rem">
@@ -710,6 +746,7 @@
     </div>
     <script src="assets/app.js"></script>
     <script src="assets/share.js" defer></script>
+    <script src="assets/chart.js" defer></script>
     <script src="assets/root-meanings.js"></script>
     <script>
       (function () {
@@ -962,6 +999,9 @@
           // Surah distribution SVG
           renderDistChart(d.bySurah, d.totalOccurrences);
 
+          // Revelation-order timeline
+          renderTimeline(d);
+
           // Derived forms table
           formsShowing = 10;
           renderForms(d.derivedForms);
@@ -972,6 +1012,51 @@
           // Verse references
           versesShowing = 50;
           renderVerses(d.verses);
+        }
+
+        let chronologyCache = null;
+        function loadChronology() {
+          if (chronologyCache) return Promise.resolve(chronologyCache);
+          return fetch("data/chronology.json")
+            .then((r) => (r.ok ? r.json() : null))
+            .then((d) => {
+              chronologyCache = d;
+              return d;
+            })
+            .catch(() => null);
+        }
+
+        function renderTimeline(d) {
+          const block = document.getElementById("detailTimelineBlock");
+          const container = document.getElementById("detailTimeline");
+          if (!container || !window.qdChart) return;
+          loadChronology().then((chron) => {
+            if (!chron) {
+              block.hidden = true;
+              return;
+            }
+            block.hidden = false;
+            const points = [];
+            for (let s = 1; s <= 114; s++) {
+              const meta = chron[String(s)];
+              if (!meta) continue;
+              points.push({
+                order: meta.revelationOrder,
+                surah: s,
+                name: meta.name,
+                period: meta.period,
+                count: d.bySurah[s] || d.bySurah[String(s)] || 0,
+              });
+            }
+            qdChart.revTimeline(container, {
+              points,
+              ariaLabel: `Occurrences of ${d.rootLatin} by revelation order`,
+              filename: `${d.safeKey || d.bw}-timeline.svg`,
+              onSurahClick: (s) => {
+                location.href = `read.html?s=${s}&a=1`;
+              },
+            });
+          });
         }
 
         function renderDistChart(bySurah, total) {
@@ -1061,10 +1146,23 @@
 
         function renderFilteredCoRoots(coRoots) {
           const list = document.getElementById("detailCoFilteredList");
+          const net = document.getElementById("detailNetwork");
           if (!coRoots || coRoots.length === 0) {
             list.innerHTML =
               '<li style="color:var(--muted);font-size:0.85rem">No co-occurrence data.</li>';
+            if (net) net.innerHTML = "";
             return;
+          }
+          if (net && window.qdChart && detailData) {
+            qdChart.egoNetwork(net, {
+              centerLabel: detailData.rootLatin,
+              filename: `${detailData.safeKey || detailData.bw}-cooccurrence.svg`,
+              nodes: coRoots.map((cr) => ({
+                label: cr.rootLatin,
+                weight: cr.count,
+                href: `roots.html?root=${cr.safeKey}`,
+              })),
+            });
           }
           list.innerHTML = coRoots
             .map((cr) => {

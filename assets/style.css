@@ -15,6 +15,30 @@
   --ar: "Amiri", "Scheherazade New", serif;
   --shadow: 0 2px 12px rgba(43, 29, 14, 0.08);
   --shadow-lg: 0 8px 32px rgba(43, 29, 14, 0.15);
+  /* Chart categorical tokens (chronology periods 1-4: early/middle/late
+     Meccan, Medinan). Mark colors, not text colors: validated ≥3:1
+     against all three palettes' light surfaces plus CVD-separation and
+     chroma checks (dataviz validator); chart text always uses ink/muted.
+     The dark-mode set below is separately validated against the dark
+     surfaces — do not swap one set onto the other mode's background. */
+  --chart-1: #3d6fa8;
+  --chart-2: #2e8054;
+  --chart-3: #96520a;
+  --chart-4: #a8447c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --chart-1: #4d88c9;
+    --chart-2: #3d9e64;
+    --chart-3: #bd8330;
+    --chart-4: #c25f8d;
+  }
+}
+:root[data-theme="dark"] {
+  --chart-1: #4d88c9;
+  --chart-2: #3d9e64;
+  --chart-3: #bd8330;
+  --chart-4: #c25f8d;
 }
 /* Dark palette: applies for system dark scheme unless the user forced
    light in Settings, and always when the user forced dark. Keep the two
@@ -868,6 +892,37 @@ label {
 .qd-toast.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+}
+.qd-chart-tip {
+  position: absolute;
+  z-index: 1100;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  max-width: 16rem;
+  pointer-events: none;
+}
+.qd-chart-legend {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  margin: 0.4rem 0 0.2rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.qd-chart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.qd-chart-legend-chip {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  display: inline-block;
 }
 .verse {
   background: var(--card);

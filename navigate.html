@@ -232,6 +232,37 @@
           than zero, since they are outside current coverage. These are
           descriptive corpus counts, not claims about meaning or emphasis.
         </div>
+        <div class="card scholar-only" id="surahScatterCard">
+          <h3>
+            The 114 surahs at a glance
+            <span
+              class="badge ok"
+              data-source-ids="leeds-corpus-v0.4 cairo-1924"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · Leeds corpus counts + Cairo 1924 classification"
+              >●</span
+            >
+          </h3>
+          <p style="font-size: 0.9rem; color: var(--muted); margin: 0.2rem 0 0.6rem">
+            Each dot is a surah: length (word tokens, log scale) against
+            lexical variety (distinct roots ÷ tokens), colored by
+            chronological period. Hover a dot for the surah; click to read
+            it. Notice for yourself how the periods separate — and where the
+            exceptions sit.
+          </p>
+          <div id="surahScatter"></div>
+          <details class="method-note">
+            <summary>ℹ How computed — and what it does not say</summary>
+            <p>
+              Token and distinct-root counts from the bundled Leeds v0.4
+              morphology (see the method note above); period from the Cairo
+              1924 convention. Longer texts repeat vocabulary, so diversity
+              falls with length for purely statistical reasons — the pattern
+              is descriptive, not a claim about style or meaning.
+            </p>
+          </details>
+        </div>
         <div class="table-scroll">
           <table class="data" id="surahTable" aria-label="114 surahs">
             <thead>
@@ -279,6 +310,7 @@
     </div>
     <script src="assets/app.js"></script>
     <script src="assets/share.js" defer></script>
+    <script src="assets/chart.js" defer></script>
     <script>
       const SURAHS = [
         [1, "al-Fatihah", "الفاتحة", 7, "m", 5],
@@ -482,6 +514,41 @@
         "meccan-late": "Meccan, late period",
         medinan: "Medinan",
       };
+
+      // ── Corpus scatter: length vs lexical variety, colored by period ──
+      profilesReady.then(() => {
+        const container = document.getElementById("surahScatter");
+        if (!container || !window.qdChart || !PROFILES) return;
+        const points = [];
+        for (let s = 1; s <= 114; s++) {
+          const p = PROFILES[String(s)];
+          if (!p || !p.tokenCount) continue;
+          const meta = SURAHS.find((x) => x.id === s);
+          points.push({
+            x: p.tokenCount,
+            y: p.rootDiversityRatio,
+            period: p.chronologyPeriod,
+            surah: s,
+            label: `Surah ${s}${meta ? " (" + meta.en + ")" : ""}`,
+            sublabel: `${p.tokenCount.toLocaleString()} tokens · ${p.distinctRootCount} distinct roots (ratio ${p.rootDiversityRatio})`,
+          });
+        }
+        qdChart.scatter(container, {
+          points,
+          xLog: true,
+          xTicks: [30, 100, 300, 1000, 3000],
+          yTicks: [0.2, 0.4, 0.6, 0.8],
+          xFormat: (v) => v.toLocaleString(),
+          xLabel: "Word tokens (log scale)",
+          yLabel: "Distinct roots ÷ tokens",
+          ariaLabel:
+            "Scatter of all 114 surahs: length in word tokens against root diversity ratio, colored by chronological period",
+          filename: "surahs-length-vs-diversity.svg",
+          onPointClick: (p) => {
+            location.href = `read.html?s=${p.surah}&a=1`;
+          },
+        });
+      });
 
       function topRootsChart(topRoots) {
         if (!topRoots || !topRoots.length) {
