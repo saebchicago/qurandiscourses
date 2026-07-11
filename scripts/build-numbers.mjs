@@ -80,6 +80,9 @@ const formCounts = new Map();
 const verseCounts = [];
 const periodTokens = {};
 const periodVerses = {};
+const lemmaSet = new Set();
+let totalTokens = 0;
+let rootedTokens = 0;
 for (let s = 1; s <= 114; s++) {
   const morph = JSON.parse(
     readFileSync(join(ROOT, "data", "morphology", `${s}.json`), "utf8"),
@@ -92,6 +95,9 @@ for (let s = 1; s <= 114; s++) {
     periodVerses[period] = (periodVerses[period] || 0) + 1;
     for (const w of morph[a]) {
       formCounts.set(w.ar, (formCounts.get(w.ar) || 0) + 1);
+      totalTokens++;
+      if (w.root) rootedTokens++;
+      if (w.lemma) lemmaSet.add(w.lemma);
     }
   }
 }
@@ -124,6 +130,14 @@ const out = {
   _generated: "build-numbers.mjs",
   _method:
     "All figures computed from data/morphology/ (Leeds Quranic Arabic Corpus v0.4, one token per morphology entry), data/roots-summary.json, and data/chronology.json (Cairo 1924 four-period classification). Verse counts follow Cairo numbering as tokenized by Leeds.",
+  totals: {
+    tokens: totalTokens,
+    rootedTokens,
+    roots: Object.keys(rootsSummary).length,
+    lemmas: lemmaSet.size,
+    verses: totalVerses,
+    surahs: verseCounts.length,
+  },
   namedRoots,
   topRoots,
   surahLength: {

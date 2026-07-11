@@ -20,7 +20,7 @@
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="Divine Discourses — toward direct engagement with the Qur'an. Every claim verified; 1,642 roots; 114 surahs."
+      content="Divine Discourses — toward direct engagement with the Qur'an. Every claim labeled and traceable to its source."
     />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
@@ -133,6 +133,7 @@
           to
           <span
             class="badge ok"
+            data-legend="true"
             aria-label="Verified"
             tabindex="0"
             title="Verified · confirmed from a primary source"
@@ -256,8 +257,8 @@
               Verified · hapax legomena
             </h3>
             <p class="claim">
-              12,004 surface forms (out of 18,993 unique forms) occur exactly
-              once in the Qur'an. 395 roots (out of 1,642) occur exactly once.
+              <span data-num="hapax.surfaceFormsOccurringOnce">12,004</span> surface forms (out of <span data-num="hapax.uniqueSurfaceForms">18,993</span> unique forms) occur exactly
+              once in the Qur'an. <span data-num="hapax.rootsOccurringOnce">395</span> roots (out of <span data-num="hapax.totalRoots">1,642</span>) occur exactly once.
             </p>
             <p class="trace">
               <strong>Source trace.</strong> Computed directly from the Leeds
@@ -416,6 +417,7 @@ Does Qur'an [INSERT VERSE] contain an instance of iltifat (grammatical shift in 
           to
           <span
             class="badge ok"
+            data-legend="true"
             aria-label="Verified"
             tabindex="0"
             title="Verified · confirmed from a primary source"

@@ -20,7 +20,7 @@
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="Divine Discourses — toward direct engagement with the Qur'an. Every claim verified; 1,642 roots; 114 surahs."
+      content="Divine Discourses — toward direct engagement with the Qur'an. Every claim labeled and traceable to its source."
     />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
@@ -482,15 +482,15 @@
 
         return `
           <div class="stat-block">
-            <h4>Verses <span class="badge ok" aria-label="Verified" tabindex="0" title="Verified · Tanzil Uthmani text">●</span></h4>
+            <h4>Verses <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · Leeds Corpus v0.4">●</span></h4>
             <p class="stat-value">${p.verseCount}</p>
           </div>
           <div class="stat-block">
-            <h4>Word tokens <span class="badge ok" aria-label="Verified" tabindex="0" title="Verified · Leeds Corpus v0.4">●</span></h4>
+            <h4>Word tokens <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · Leeds Corpus v0.4">●</span></h4>
             <p class="stat-value">${p.tokenCount}</p>
           </div>
           <div class="stat-block">
-            <h4>Distinct roots <span class="badge ok" aria-label="Verified" tabindex="0" title="Verified · Leeds Corpus v0.4">●</span></h4>
+            <h4>Distinct roots <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · Leeds Corpus v0.4">●</span></h4>
             <p class="stat-value">${p.distinctRootCount}</p>
           </div>
           <div class="stat-block">
@@ -506,7 +506,7 @@
             ${qursimHTML}
           </div>
           <div class="stat-block">
-            <h4>Top ${p.topRoots.length} roots by frequency <span class="badge ok" aria-label="Verified" tabindex="0" title="Verified · per-surah frequency">●</span></h4>
+            <h4>Top ${p.topRoots.length} roots by frequency <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · per-surah frequency">●</span></h4>
             ${topRootsChart(p.topRoots)}
           </div>
         `;

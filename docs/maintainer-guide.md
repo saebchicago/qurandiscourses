@@ -13,7 +13,14 @@ The site's value is trust. Three rules protect it:
 1. **Every factual claim gets a badge.**
    - ● **Verified** — confirmed from the primary source cited. The badge's
      `data-source-ids` attribute names entries in `data/sources.json`;
-     clicking it shows the full Chicago-style citation.
+     clicking it shows the full Chicago-style citation. **Every visible
+     Verified badge MUST carry `data-source-ids`** (verify-site.mjs
+     enforces this); the only exception is legend/demo chrome, which
+     must be marked `data-legend="true"`. Bibliography `<li>` entries in
+     sources.html carry no dot at all — the Chicago citation is the
+     verification there. Corpus figures quoted in page prose bind to
+     `data/numbers.json` via `data-num="dot.path"` (loader in app.js)
+     so they cannot drift from the generated data.
    - ○ **Pending** — sourced but awaiting a second independent
      confirmation. No `data-source-ids` needed.
    - ~ **Nuanced** — contested or dependent on a counting convention; the

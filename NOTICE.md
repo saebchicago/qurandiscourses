@@ -20,6 +20,49 @@ order, four-period classification following the Nöldeke-Bell tradition as
 documented in Watt, "Bell's Introduction to the Qur'an" (1970). This is
 public-domain reference data.
 
+## Tanzil Quran text (runtime)
+
+Verse text rendered on the Read and Compare pages is the Tanzil Uthmani
+text, served at runtime through the alquran.cloud API and cached in the
+visitor's browser. Tanzil distributes its text under **CC BY-ND 3.0**
+(attribution, no derivatives). This site does not modify the text and
+attributes Tanzil on every verse footer and in sources.html. No Tanzil
+text is bundled in this repository.
+
+## Cross-reference data (`data/qursim/` = Mishkat corpus)
+
+`data/qursim/` (110 per-surah files) powers the Related-verses feature.
+Despite the directory's historical name, the data it contains is derived
+from the **Mishkat Mutashābihāt corpus**
+(github.com/Alhassan777/Mishkat, 13 classical books,
+scholarly-attested), not from the QurSim dataset — QurSim (Sharaf &
+Atwell, LREC 2012) is cited as the methodological reference only, and
+none of its data is bundled. The Mishkat repository publishes **no
+license**; its status is recorded as license-pending in
+`data/sources.json`, the compiler is credited, and if the rights holder
+objects the data will be removed.
+
+## Surah metadata (Quran.com Foundation API)
+
+`data/surah-meta.json` (Makki/Madani classification) was retrieved from
+the Quran.com Foundation Content API v4 (`scripts/build-surah-meta.mjs`
+records the exact endpoint). It is factual reference metadata cached at
+build time; the API is credited in sources.html and data/sources.json.
+
+## Site-authored data
+
+The following files in `data/` are authored or computed by this project
+and carry the repository's MIT license (their *inputs* keep their own
+licenses, listed above): `case-studies.json`, `exercises.json`,
+`numbers.json`, `paths.json`, `rhetorical-features.json`,
+`root-analytics/`, `cooccurrence/`, `roots-index.json`,
+`surah-names.json`, `surah-profiles.json`, `themes.json`,
+`videos.json`, `word-index.json`, `sources.json`. Files derived from
+the GPL Leeds morphology (`root-analytics/`, `cooccurrence/`,
+`roots-index.json`, `word-index.json`, `numbers.json`,
+`surah-profiles.json`, `themes.json`, `rhetorical-features.json`)
+inherit the GPL for their data content.
+
 ## Other sources
 
 See `sources.html` for the full citation list of datasets, translations,

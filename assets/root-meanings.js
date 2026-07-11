@@ -1,4 +1,12 @@
-/* Root meanings lookup — shared by roots.html and compare.html */
+/* Root meanings lookup — shared by roots.html and compare.html.
+ *
+ * PROVENANCE: these are editorial working glosses (one or two common
+ * senses per root, written by the maintainers for orientation), NOT
+ * quotations from a citable dictionary. They are labeled Nuanced (~)
+ * wherever they render; the sourced path for lexicography is each
+ * root's corpus.quran.com dictionary link. Do not present these as
+ * Verified, and never expand this table by paraphrasing a copyrighted
+ * dictionary. */
 window.ROOT_MEANINGS = {
   Alh: "God, deity",
   qwl: "to say",
