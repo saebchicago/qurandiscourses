@@ -179,7 +179,6 @@ commit and push; Netlify redeploys the previous state.
 ## 8. Optimization backlog (known, deliberate deferrals)
 
 - External citation-link liveness checking (needs unrestricted network).
-- Verse-reference pagination beyond the current show-all pattern.
 - `words.html` is a static explainer; a real word-search would need a
   gloss dataset with a license worth citing.
 - Badge dot glyphs are at the WCAG 2.5.8 24px minimum, not 44px.

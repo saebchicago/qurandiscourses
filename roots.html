@@ -1081,6 +1081,8 @@
             .join("");
         }
 
+        const VERSE_BATCH = 200;
+
         function renderVerses(verses) {
           const grid = document.getElementById("detailVerseGrid");
           const note = document.getElementById("detailVersesNote");
@@ -1095,11 +1097,15 @@
             })
             .join("");
 
-          if (verses.length > versesShowing) {
+          const remaining = verses.length - shown.length;
+          if (remaining > 0) {
             btn.hidden = false;
-            btn.textContent = `Show all ${verses.length.toLocaleString()} verses`;
+            btn.textContent =
+              remaining <= VERSE_BATCH
+                ? `Show all ${verses.length.toLocaleString()} verses`
+                : `Show ${VERSE_BATCH} more (${shown.length.toLocaleString()} of ${verses.length.toLocaleString()} shown)`;
             btn.onclick = () => {
-              versesShowing = Infinity;
+              versesShowing += VERSE_BATCH;
               renderVerses(verses);
             };
           } else {
