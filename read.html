@@ -338,6 +338,34 @@
         SURAH_DISPLAY_NAMES[e.id] = e.translit;
       });
       const morphCache = {};
+      // Per-word gloss files (data/gloss/{s}.json) exist only after the
+      // owner commits a licensed dataset — see the maintainer guide. The
+      // manifest is consulted first so the dormant state never issues a
+      // failing request; null marks "checked, absent".
+      const glossCache = {};
+      let glossManifest;
+      function fetchGloss(s) {
+        if (glossCache[s] !== undefined) return Promise.resolve();
+        if (!glossManifest) {
+          glossManifest = fetch("data/gloss/index.json")
+            .then((r) => (r.ok ? r.json() : { surahs: [] }))
+            .catch(() => ({ surahs: [] }));
+        }
+        return glossManifest
+          .then((m) =>
+            m.surahs.includes(s)
+              ? fetch(`data/gloss/${s}.json`).then((r) =>
+                  r.ok ? r.json() : null,
+                )
+              : null,
+          )
+          .then((d) => {
+            glossCache[s] = d;
+          })
+          .catch(() => {
+            glossCache[s] = null;
+          });
+      }
       const xrefCache = {};
       const verseTransCache = {};
       const surahHighlightCache = {};
@@ -671,6 +699,7 @@
                   .catch(() => {}),
               );
             }
+            if (needsMorph) fetches.push(fetchGloss(s));
             const [data] = await Promise.all(fetches);
             const ar = data.find(
               (d) => d.edition.identifier === "quran-uthmani",
@@ -699,6 +728,7 @@
                   .catch(() => {}),
               );
             }
+            if (needsMorph) fetches.push(fetchGloss(s));
             const [surahData] = await Promise.all(fetches);
             const arEd = surahData.find(
               (d) => d.edition.identifier === "quran-uthmani",
@@ -766,14 +796,22 @@
               });
               if (needsMorph) {
                 const words = morphCache[s] && morphCache[s][String(ayahNum)];
+                // Per-word glosses (data/gloss/, owner-gated by licensing —
+                // see the maintainer guide). Absent until a licensed
+                // dataset is committed; everything below degrades to the
+                // dictionary-link column when it is.
+                const verseGlosses =
+                  glossCache[s] && glossCache[s][String(ayahNum)];
                 if (words && words.length) {
                   let rows = "";
-                  words.forEach((w) => {
+                  words.forEach((w, wi) => {
                     const rootLink = w.root
                       ? `<button class="root-detail-btn" data-root="${w.root}" style="background:none;border:none;color:var(--link);text-decoration:underline;cursor:pointer;font-family:inherit;font-size:inherit;padding:0;min-width:44px;min-height:44px">${rootToDisplay(w.root)}</button>`
                       : "—";
-                    const glossCell = w.gloss
-                      ? `<td>${w.gloss}</td>`
+                    const gloss =
+                      w.gloss || (verseGlosses && verseGlosses[wi]) || null;
+                    const glossCell = gloss
+                      ? `<td>${qdEsc(gloss)}</td>`
                       : w.root
                         ? `<td><a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(w.root)}" target="_blank" rel="noopener" style="color:var(--muted);font-size:0.88rem;text-decoration:underline dotted;text-underline-offset:3px">look up →</a></td>`
                         : `<td style="color:var(--muted)">—</td>`;
@@ -782,7 +820,11 @@
                       : "—";
                     rows += `<tr><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${w.ar}</span></td><td>${rootLink}</td><td>${lemmaCell}</td><td>${w.pos || "—"}</td>${glossCell}</tr>`;
                   });
-                  html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><table class="data"><thead><tr><th>Word</th><th>Root</th><th>Lemma</th><th>POS</th><th title="The Leeds corpus does not include English glosses. Links go to the corpus.quran.com dictionary for each root.">Meaning</th></tr></thead><tbody>${rows}</tbody></table><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> morphology and roots from the Leeds Quranic Arabic Corpus v0.4 (Kais Dukes, 2009–2017), GPL licensed. <span class="badge pending" aria-label="Pending" tabindex="0" title="Pending · awaiting a second independent source">○</span> English glosses. The Leeds corpus does not carry per-word English meanings; the Meaning column links to the corpus.quran.com dictionary entry for each root. Future versions may overlay a verified gloss dataset.</p></div>`;
+                  const glossProv =
+                    glossCache[s] && glossCache[s]._source
+                      ? `<span class="badge nuanced" data-source-ids="${qdEsc(glossCache[s]._source)}" aria-label="Nuanced" tabindex="0" title="Nuanced · a gloss is a translator's choice">~</span> English glosses. A gloss is one translator's choice of one English word for one Arabic word — an interpretation, not the meaning. Verses without glosses show a dictionary link instead.`
+                      : `<span class="badge pending" aria-label="Pending" tabindex="0" title="Pending · awaiting a second independent source">○</span> English glosses. The Leeds corpus does not carry per-word English meanings; the Meaning column links to the corpus.quran.com dictionary entry for each root. Future versions may overlay a verified gloss dataset.`;
+                  html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><table class="data"><thead><tr><th>Word</th><th>Root</th><th>Lemma</th><th>POS</th><th>Meaning</th></tr></thead><tbody>${rows}</tbody></table><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> morphology and roots from the Leeds Quranic Arabic Corpus v0.4 (Kais Dukes, 2009–2017), GPL licensed. ${glossProv}</p></div>`;
                 } else {
                   html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><p style="font-size:.9rem;color:var(--muted)">Word-level data unavailable for this verse — see the <a href="words.html">Words page</a> for the methodology.</p></div>`;
                 }

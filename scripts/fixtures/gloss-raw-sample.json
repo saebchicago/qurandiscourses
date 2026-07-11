@@ -1,0 +1,12 @@
+{
+ "_fixture": "TEST DATA — not a translation; do not build site data from this. Exists only so scripts/build-gloss.mjs can be exercised (including its mismatch path: verse 103:3 is deliberately one word short) without any licensed dataset. build-gloss.mjs refuses to write fixture input into data/gloss/.",
+ "_source": "fixture-not-a-source",
+ "_license": "none — placeholder test data",
+ "surahs": {
+  "103": {
+   "1": ["[test-gloss-1]"],
+   "2": ["[test-gloss-1]", "[test-gloss-2]", "[test-gloss-3]", "[test-gloss-4]"],
+   "3": ["[test-gloss-1]", "[test-gloss-2]", "[test-gloss-3]", "[test-gloss-4]", "[test-gloss-5]", "[test-gloss-6]", "[test-gloss-7]", "[test-gloss-8]"]
+  }
+ }
+}

@@ -156,6 +156,35 @@ it in `netlify.toml`** (the per-page CSP structure is fail-open — a page
 without its own block ships with no CSP). Then run
 `node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs`.
 
+### Add word-by-word glosses (owner-gated by licensing)
+The Read page's word table renders a Meaning column the moment
+`data/gloss/{surah}.json` exists — the integration ships dormant. The
+gate is the dataset license (this backlog item has always been "needs a
+license worth citing"). Candidate sources to evaluate — verify the
+license text yourself, never from memory:
+1. **QUL word-by-word translation datasets** (qul.tarteel.ai; already in
+   sources.json as `qul`) — check the license on the specific resource
+   page before downloading.
+2. **Shaikh & Khatri, *The Glorious Qur'an Word-for-Word Translation*** —
+   widely mirrored with a stated reproduction permission; confirm the
+   permission statement in the published volume itself.
+3. **corpus.quran.com word-by-word translations** (same project as the
+   Leeds corpus, GPL) — confirm the word-translation layer is actually
+   part of the GPL dump.
+
+Once licensed: download the dump locally, shape it as documented at the
+top of `scripts/build-gloss.mjs` (with `_source` = a sources.json id you
+add and `_license`), run `node scripts/build-gloss.mjs <dump>` and
+review the alignment report (the script null-fills mismatched verses
+and fails above 2% — never ship a silently shifted alignment). Commit
+`data/gloss/` together with the sources.json entry, the sources.html
+bibliography line, the NOTICE.md addition, and a changelog note — one
+commit, so the data never exists uncited. Glosses render with a
+**Nuanced** badge: a gloss is a translator's choice, not "the meaning".
+Test path without any license: `node scripts/build-gloss.mjs
+scripts/fixtures/gloss-raw-sample.json --out /tmp/gloss-test` (the
+fixture is refused for data/gloss/ by design).
+
 ### Publish a video (watch.html)
 1. Record from the entry's script in `docs/video-scripts/` — real screen
    capture of the live site, human voice, no stock footage or music, no
