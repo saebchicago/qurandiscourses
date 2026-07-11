@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Replay · Divine Discourses</title>
+    <title>Watch · Divine Discourses</title>
     <meta
       name="description"
-      content="Watch a surah unfold: recitation plays verse by verse while recurring roots light up and, where transcribed, Khan's outline appears at each pivot."
+      content="Short, human-made walkthroughs of Divine Discourses: real screen recordings with a human voice, captioned, no generated footage."
     />
-    <link rel="canonical" href="https://qurandiscourse.netlify.app/replay.html" />
+    <link rel="canonical" href="https://qurandiscourse.netlify.app/watch.html" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Divine Discourses" />
-    <meta property="og:title" content="Replay · Divine Discourses" />
-    <meta property="og:description" content="Watch a surah unfold: recitation plays verse by verse while recurring roots light up and, where transcribed, Khan's outline appears at each pivot." />
-    <meta property="og:url" content="https://qurandiscourse.netlify.app/replay.html" />
+    <meta property="og:title" content="Watch · Divine Discourses" />
+    <meta property="og:description" content="Short, human-made walkthroughs of Divine Discourses: real screen recordings with a human voice, captioned, no generated footage." />
+    <meta property="og:url" content="https://qurandiscourse.netlify.app/watch.html" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta property="og:image" content="https://qurandiscourse.netlify.app/assets/og/site-og.png" />
     <meta property="og:image:width" content="1200" />
@@ -84,92 +84,44 @@
     </nav>
     <main id="main">
       <section>
-        <h2 id="replayTitle">Replay</h2>
+        <h2>Watch</h2>
         <p class="lede">
-          Watch a surah unfold. The recitation plays verse by verse; words
-          from recurring root families light up as the discourse proceeds,
-          and where a transcribed outline exists, its sections appear at
-          their pivots.
+          Short walkthroughs of how to study with this site — each under two
+          minutes.
         </p>
-        <div style="margin: 0.6rem 0 1rem; display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center">
-          <label
-            >Surah:
-            <select id="surahSelect" aria-label="Choose a surah"></select>
-          </label>
-          <button
-            type="button"
-            id="reciterBtn"
-            class="button secondary"
-            style="min-height: 44px"
-            title="Change reciter"
-          >
-            🎤 <span id="reciterName"></span>
-          </button>
-        </div>
-        <p class="method-note" id="replayMethodNote">
-          Highlighted words are computed recurrence — a root appearing two or
-          more times in this surah, per the Leeds corpus. Recurrence and
-          distribution do not by themselves establish meaning; the reading is
-          yours.
+        <p class="method-note">
+          Every video here is a real screen recording of the live site with
+          a human voice. No generated footage, no stock music, no AI
+          narration — and captions, always. Videos are hosted on this site
+          itself: watching one sends nothing to any third party.
         </p>
       </section>
-
       <section>
-        <div id="outlineBanner" class="replay-outline-banner" hidden></div>
-        <div id="verseStack" aria-label="Surah verses">
-          <p style="color: var(--muted)">Loading…</p>
+        <!-- Rendered from data/videos.json; the cards below are the static
+             fallback if that fetch fails. Edit the JSON, not this HTML. -->
+        <div id="videoList">
+          <div class="card">
+            <h3>How to trust this site — in 90 seconds</h3>
+            <p>Planned — not yet recorded.</p>
+          </div>
+          <div class="card">
+            <h3>Find your theme — from a life question to the text</h3>
+            <p>Planned — not yet recorded.</p>
+          </div>
+          <div class="card">
+            <h3>Train your eye — the exercises</h3>
+            <p>Planned — not yet recorded.</p>
+          </div>
         </div>
-        <p
-          id="replayLive"
-          class="visually-hidden"
-          aria-live="polite"
-          style="position: absolute; left: -9999px"
-        ></p>
-        <div class="replay-transport" id="transport" hidden>
-          <button type="button" id="btnPlay" class="primary">▶ Play</button>
-          <button type="button" id="btnPrev" aria-label="Previous verse">‹</button>
-          <button type="button" id="btnNext" aria-label="Next verse">›</button>
-          <button type="button" id="btnRestart" aria-label="Restart from verse 1">⟲</button>
-          <span class="replay-pos" id="posLabel"></span>
-        </div>
-        <p id="audioNote" class="method-note" hidden>
-          Audio unavailable — step through the surah manually with the ‹ ›
-          buttons or arrow keys; the highlighting still works.
+      </section>
+      <section>
+        <p>
+          Prefer text? Everything the videos cover is written down:
+          <a href="how-to-use.html">How to use</a>,
+          <a href="how-it-works.html">How it works</a>, and
+          <a href="validation.html">Validation</a>.
         </p>
       </section>
-
-      <p class="prov" id="replayProv">
-        <span
-          class="badge ok"
-          data-source-ids="leeds-corpus-v0.4"
-          aria-label="Verified"
-          tabindex="0"
-          title="Verified · Leeds Quranic Arabic Corpus v0.4"
-          >●</span
-        >
-        Recurring-root families computed from the bundled Leeds morphology.
-        <span
-          class="badge ok"
-          data-source-ids="islamic-network-audio"
-          aria-label="Verified"
-          tabindex="0"
-          title="Verified · confirmed from a primary source"
-          >●</span
-        >
-        Recitation served from the Islamic Network audio CDN.
-        <span id="outlineProv" hidden>
-          <span
-            class="badge ok"
-            data-source-ids="khan-exercise-2013"
-            aria-label="Verified"
-            tabindex="0"
-            title="Verified · confirmed from a primary source"
-            >●</span
-          >
-          Outline transcribed from Irfan Ahmad Khan,
-          <em>An Exercise in Understanding the Qur'an</em> (2013).
-        </span>
-      </p>
     </main>
     <footer class="site">
       <p>Divine Discourses is built in memory of Dr. Irfan Ahmad Khan (1931–2018).</p>
@@ -198,10 +150,75 @@
         hidden
       ></div>
     </div>
-    <script src="assets/surahs.js"></script>
     <script src="assets/app.js"></script>
     <script src="assets/share.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
-    <script src="assets/replay.js" defer></script>
+    <script src="assets/glossary.js" defer></script>
+    <script>
+      (function () {
+        "use strict";
+        function esc(v) {
+          return window.qdEsc ? window.qdEsc(v) : v;
+        }
+        function card(v) {
+          var mins = Math.round(v.durationSec / 60 * 10) / 10;
+          var head =
+            "<h3>" +
+            esc(v.title) +
+            ' <span style="font-weight:400;color:var(--muted);font-size:0.82rem">' +
+            (v.durationSec < 120
+              ? v.durationSec + "s"
+              : mins + " min") +
+            "</span></h3>";
+          if (v.status === "published") {
+            return (
+              '<div class="card">' +
+              head +
+              '<video controls preload="none" poster="' +
+              esc(v.poster) +
+              '" style="width:100%;max-width:720px;border-radius:8px;border:1px solid var(--line)">' +
+              '<source src="' +
+              esc(v.src) +
+              '" type="video/mp4" />' +
+              '<track kind="captions" srclang="en" label="English" src="' +
+              esc(v.captions) +
+              '" default />' +
+              "</video>" +
+              "<p>" +
+              esc(v.summary) +
+              "</p></div>"
+            );
+          }
+          return (
+            '<div class="card">' +
+            head +
+            "<p>" +
+            esc(v.summary) +
+            "</p>" +
+            '<p style="color:var(--muted);font-size:0.9rem">Planned — not yet recorded. ' +
+            '<a href="' +
+            esc(v.scriptPath) +
+            '">Read the recording script</a>.</p></div>'
+          );
+        }
+        function init() {
+          fetch("data/videos.json")
+            .then(function (r) {
+              if (!r.ok) throw new Error("HTTP " + r.status);
+              return r.json();
+            })
+            .then(function (data) {
+              document.getElementById("videoList").innerHTML = data.videos
+                .map(card)
+                .join("");
+            })
+            .catch(function () {
+              /* static fallback cards stay in place */
+            });
+        }
+        if (document.readyState === "complete") init();
+        else document.addEventListener("DOMContentLoaded", init);
+      })();
+    </script>
   </body>
 </html>

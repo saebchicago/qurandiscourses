@@ -1,0 +1,38 @@
+{
+ "_comment": "Video registry rendered by watch.html. Every video on this site is a real screen recording of the live site with a human voice — no generated footage, no stock music, and captions always (scripts/check-videos.mjs refuses to publish an entry without an on-disk WEBVTT file). To publish: record per the entry's scriptPath, encode H.264/AAC at ~1280x800 (<= ~25 MB per clip), commit the mp4 + .vtt captions + poster jpg under assets/video/, set status to 'published', run node scripts/check-videos.mjs. status is 'planned' or 'published'.",
+ "videos": [
+  {
+   "id": "trust-in-90s",
+   "title": "How to trust this site — in 90 seconds",
+   "durationSec": 90,
+   "src": "assets/video/trust-in-90s.mp4",
+   "poster": "assets/video/trust-in-90s-poster.jpg",
+   "captions": "assets/video/trust-in-90s.vtt",
+   "scriptPath": "docs/video-scripts/trust-in-90s.md",
+   "summary": "One box that routes any question to the right tool, and a verification badge on every claim: what ● Verified, ○ Pending, and ~ Nuanced mean, and how to click through to the primary source yourself.",
+   "status": "planned"
+  },
+  {
+   "id": "find-your-theme",
+   "title": "Find your theme — from a life question to the text",
+   "durationSec": 75,
+   "src": "assets/video/find-your-theme.mp4",
+   "poster": "assets/video/find-your-theme-poster.jpg",
+   "captions": "assets/video/find-your-theme.vtt",
+   "scriptPath": "docs/video-scripts/find-your-theme.md",
+   "summary": "Pick forgiveness, marriage, trade, or peace: each theme maps to its root families and the computed passages where that vocabulary clusters — an honest lexical starting point for your own reading.",
+   "status": "planned"
+  },
+  {
+   "id": "train-your-eye",
+   "title": "Train your eye — the exercises",
+   "durationSec": 60,
+   "src": "assets/video/train-your-eye.mp4",
+   "poster": "assets/video/train-your-eye-poster.jpg",
+   "captions": "assets/video/train-your-eye.vtt",
+   "scriptPath": "docs/video-scripts/train-your-eye.md",
+   "summary": "Commit before you check: spot the recurring roots yourself, then reveal the computed answer; outline a surah's discourse yourself, then compare it with the outline in Dr. Khan's published book.",
+   "status": "planned"
+  }
+ ]
+}

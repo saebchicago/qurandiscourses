@@ -101,3 +101,7 @@ Book."
 - Total runtime lands 9–11 minutes at a calm pace.
 - Short-form cuts: Scenes 2+4 (90s, "how to trust it"), Scene 6 alone
   (75s, "find your theme"), Scene 7 alone (60s, "train your eye").
+  **These three cuts now have their own recording-ready scripts in
+  `docs/video-scripts/` and registry entries in `data/videos.json`
+  (rendered on watch.html) — record from those, and see the "Publish a
+  video" recipe in the maintainer guide.**

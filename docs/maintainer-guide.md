@@ -95,6 +95,7 @@ Checkers (not generators — they gate shipping):
 |---|---|
 | check-headers-sync.mjs | netlify.toml per-page CSP structure (fail-open for new pages: a page without its own block ships with NO CSP — run after adding any page) |
 | check-nav-sync.mjs | the by-design nav duplication: every page's primary nav must match index.html's (allowlist: embed.html, exercise-asr.html) |
+| check-videos.mjs | the video registry: an entry cannot be 'published' without its mp4, poster, AND a real WEBVTT captions file on disk — the anti-slop covenant, enforced mechanically |
 
 Determinism check for any script: run it twice, `git diff` must be empty.
 
@@ -154,6 +155,21 @@ design); add a `sitemap.xml` entry; **add a `[[headers]]` CSP block for
 it in `netlify.toml`** (the per-page CSP structure is fail-open — a page
 without its own block ships with no CSP). Then run
 `node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs`.
+
+### Publish a video (watch.html)
+1. Record from the entry's script in `docs/video-scripts/` — real screen
+   capture of the live site, human voice, no stock footage or music, no
+   AI narration. Re-record rather than patch.
+2. Encode H.264/AAC at ~1280×800 (CRF ≈ 26–28), target ≤ ~25 MB per
+   clip (GitHub blocks files over 100 MB; if a cut runs big, re-encode —
+   never LFS, the site has no build step).
+3. Author captions from the actual narration as WEBVTT; export a poster
+   frame as JPG.
+4. Commit `assets/video/<id>.mp4`, `<id>.vtt`, `<id>-poster.jpg`; set
+   the entry's `status` to `"published"` in `data/videos.json`.
+5. `node scripts/check-videos.mjs` — it refuses to publish without the
+   files and real captions. Self-hosted only: a YouTube embed would
+   break the CSP and the no-tracking promise.
 
 ### Regenerate the social-preview image (rare)
 `assets/og/site-og.png` (the og:image on every page and share page) is
