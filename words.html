@@ -14,7 +14,14 @@
     <meta property="og:title" content="Words · Divine Discourses" />
     <meta property="og:description" content="Word-by-word morphology of Qur'anic Arabic: root, lemma, part of speech, grammatical role." />
     <meta property="og:url" content="https://qurandiscourse.netlify.app/words.html" />
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:image" content="https://qurandiscourse.netlify.app/assets/og/site-og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Divine Discourses — toward direct engagement with the Qur'an. Every claim verified; 1,642 roots; 114 surahs."
+    />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
     <script src="assets/nav.js"></script>
@@ -59,6 +66,7 @@
             <li><a href="exercises.html">Exercises</a></li>
             <li><a href="paths.html">Study paths</a></li>
             <li><a href="glossary.html">Glossary</a></li>
+            <li><a href="watch.html">Watch</a></li>
           </ul>
         </li>
         <li class="nav-group" data-group="about">
@@ -241,6 +249,14 @@
             Haleem.
           </p>
         </div>
+        <!-- Rendered only when data/gloss/1.json exists (owner-gated
+             licensed dataset — see the maintainer guide). Until then this
+             section stays hidden and the static example above stands. -->
+        <div class="card" id="liveGlossCard" hidden>
+          <h3>Live example with glosses: al-Fatihah 1:1</h3>
+          <div id="liveGlossTable"></div>
+          <p class="prov" id="liveGlossProv"></p>
+        </div>
       </section>
     </main>
     <footer class="site">
@@ -274,5 +290,62 @@
     <script src="assets/share.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
+    <script>
+      (function () {
+        "use strict";
+        // Feature-detected: shows a live glossed word table for 1:1 only
+        // when the owner has committed a licensed gloss dataset.
+        function init() {
+          fetch("data/gloss/index.json")
+            .then(function (r) {
+              return r.ok ? r.json() : { surahs: [] };
+            })
+            .then(function (m) {
+              if (!m.surahs.includes(1)) throw new Error("no gloss data");
+              return Promise.all([
+                fetch("data/gloss/1.json").then(function (r) {
+                  return r.ok ? r.json() : null;
+                }),
+                fetch("data/morphology/1.json").then(function (r) {
+                  return r.ok ? r.json() : null;
+                }),
+              ]);
+            })
+            .then(function (res) {
+              var gloss = res[0];
+              var morph = res[1];
+              if (!gloss || !morph || !gloss["1"]) return;
+              var rows = morph["1"]
+                .map(function (w, i) {
+                  var g = gloss["1"][i];
+                  return (
+                    '<tr><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">' +
+                    qdEsc(w.ar) +
+                    "</span></td><td>" +
+                    (g ? qdEsc(g) : "—") +
+                    "</td></tr>"
+                  );
+                })
+                .join("");
+              document.getElementById("liveGlossTable").innerHTML =
+                '<table class="data"><thead><tr><th>Word</th><th>Gloss</th></tr></thead><tbody>' +
+                rows +
+                "</tbody></table>";
+              document.getElementById("liveGlossProv").innerHTML =
+                '<span class="badge nuanced" data-source-ids="' +
+                qdEsc(gloss._source || "") +
+                '" aria-label="Nuanced" tabindex="0" title="Nuanced · a gloss is a translator\'s choice">~</span> A gloss is one translator\'s choice of one English word for one Arabic word — an interpretation, not the meaning.';
+              document.getElementById("liveGlossCard").hidden = false;
+              if (window.qdCiteEnhance)
+                window.qdCiteEnhance(
+                  document.getElementById("liveGlossCard"),
+                );
+            })
+            .catch(function () {});
+        }
+        if (document.readyState === "complete") init();
+        else document.addEventListener("DOMContentLoaded", init);
+      })();
+    </script>
   </body>
 </html>

@@ -14,7 +14,14 @@
     <meta property="og:title" content="Roots · Divine Discourses" />
     <meta property="og:description" content="The 1,642 triliteral roots of the Qur'an with frequency, derived forms, surah distribution, Makki/Madani split, and co-occurrence data from the Leeds Corpus." />
     <meta property="og:url" content="https://qurandiscourse.netlify.app/roots.html" />
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:image" content="https://qurandiscourse.netlify.app/assets/og/site-og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Divine Discourses — toward direct engagement with the Qur'an. Every claim verified; 1,642 roots; 114 surahs."
+    />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
     <style>
@@ -272,6 +279,7 @@
             <li><a href="exercises.html">Exercises</a></li>
             <li><a href="paths.html">Study paths</a></li>
             <li><a href="glossary.html">Glossary</a></li>
+            <li><a href="watch.html">Watch</a></li>
           </ul>
         </li>
         <li class="nav-group" data-group="about">
@@ -697,6 +705,19 @@
               View at corpus.quran.com →
             </a>
           </p>
+          <p class="share-row" style="margin: 0.4rem 0 0">
+            <button
+              type="button"
+              id="detailEmbedBtn"
+              class="button secondary share-btn"
+              data-embed-type="root"
+              data-embed-id=""
+              title="Copy an iframe snippet of this root's profile for your own site"
+              hidden
+            >
+              Embed this root
+            </button>
+          </p>
         </div>
 
         <div class="card encyclopedic-only">
@@ -911,11 +932,23 @@
             hideDetail();
             render();
             history.replaceState(null, "", location.pathname);
+            if (window.qdSetShareUrl) window.qdSetShareUrl(null);
             return;
           }
           selectedBW = bw;
           render();
           history.replaceState(null, "", `?root=${safeKey(bw)}`);
+          // The share page carries this root's link-preview tags.
+          if (window.qdSetShareUrl)
+            window.qdSetShareUrl(
+              `https://qurandiscourse.netlify.app/s/root/${safeKey(bw)}.html`,
+            );
+          const embedBtn = document.getElementById("detailEmbedBtn");
+          if (embedBtn) {
+            embedBtn.setAttribute("data-embed-id", safeKey(bw));
+            embedBtn.hidden = false;
+            if (window.qdInitShare) window.qdInitShare(embedBtn.parentElement);
+          }
           await loadRootDetail(bw);
           const panel = document.getElementById("rootDetail");
           if (panel && !panel.hidden) {

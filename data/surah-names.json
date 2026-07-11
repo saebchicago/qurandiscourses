@@ -1,0 +1,1200 @@
+{
+ "_comment": "Hand-maintained display names for the 114 surahs: the canonical transliteration and Arabic display orthography (common mushaf forms, which differ from surah-meta.json's API forms in a few hamza seats), the English meaning (en), plus the Ask-box alias list. scripts/build-surahs-js.mjs merges this with chronology.json, surah-meta.json, and surah-profiles.json to generate assets/surahs.js - edit THIS file, then re-run the generator.",
+ "1": {
+  "translit": "al-Fatihah",
+  "ar": "الفاتحة",
+  "aliases": [
+   "al-fatihah",
+   "fatihah",
+   "fatiha",
+   "al-fatiha",
+   "opening"
+  ],
+  "en": "The Opening"
+ },
+ "2": {
+  "translit": "al-Baqarah",
+  "ar": "البقرة",
+  "aliases": [
+   "al-baqarah",
+   "baqarah",
+   "baqara",
+   "al-baqara",
+   "cow"
+  ],
+  "en": "The Cow"
+ },
+ "3": {
+  "translit": "Al ʿImran",
+  "ar": "آل عمران",
+  "aliases": [
+   "aal-imran",
+   "al-imran",
+   "ali-imran",
+   "imran",
+   "family of imran"
+  ],
+  "en": "Family of Imran"
+ },
+ "4": {
+  "translit": "al-Nisa'",
+  "ar": "النساء",
+  "aliases": [
+   "an-nisa",
+   "al-nisa",
+   "nisa",
+   "nisaa",
+   "women"
+  ],
+  "en": "The Women"
+ },
+ "5": {
+  "translit": "al-Ma'idah",
+  "ar": "المائدة",
+  "aliases": [
+   "al-maidah",
+   "maidah",
+   "ma'idah",
+   "al-maida",
+   "table"
+  ],
+  "en": "The Table Spread"
+ },
+ "6": {
+  "translit": "al-An'am",
+  "ar": "الأنعام",
+  "aliases": [
+   "al-anam",
+   "an'am",
+   "anam",
+   "cattle"
+  ],
+  "en": "The Cattle"
+ },
+ "7": {
+  "translit": "al-A'raf",
+  "ar": "الأعراف",
+  "aliases": [
+   "al-araf",
+   "a'raf",
+   "araf",
+   "heights"
+  ],
+  "en": "The Heights"
+ },
+ "8": {
+  "translit": "al-Anfal",
+  "ar": "الأنفال",
+  "aliases": [
+   "al-anfal",
+   "anfal",
+   "spoils"
+  ],
+  "en": "The Spoils of War"
+ },
+ "9": {
+  "translit": "al-Tawbah",
+  "ar": "التوبة",
+  "aliases": [
+   "at-tawbah",
+   "tawbah",
+   "tawba",
+   "tauba",
+   "repentance",
+   "bara'ah",
+   "baraah"
+  ],
+  "en": "The Repentance"
+ },
+ "10": {
+  "translit": "Yunus",
+  "ar": "يونس",
+  "aliases": [
+   "yunus",
+   "jonah"
+  ],
+  "en": "Jonah"
+ },
+ "11": {
+  "translit": "Hud",
+  "ar": "هود",
+  "aliases": [
+   "hud"
+  ],
+  "en": "Hud"
+ },
+ "12": {
+  "translit": "Yusuf",
+  "ar": "يوسف",
+  "aliases": [
+   "yusuf",
+   "joseph"
+  ],
+  "en": "Joseph"
+ },
+ "13": {
+  "translit": "al-Ra'd",
+  "ar": "الرعد",
+  "aliases": [
+   "ar-rad",
+   "rad",
+   "ra'd",
+   "thunder"
+  ],
+  "en": "The Thunder"
+ },
+ "14": {
+  "translit": "Ibrahim",
+  "ar": "إبراهيم",
+  "aliases": [
+   "ibrahim",
+   "abraham"
+  ],
+  "en": "Abraham"
+ },
+ "15": {
+  "translit": "al-Hijr",
+  "ar": "الحجر",
+  "aliases": [
+   "al-hijr",
+   "hijr",
+   "rocky tract"
+  ],
+  "en": "The Rocky Tract"
+ },
+ "16": {
+  "translit": "al-Nahl",
+  "ar": "النحل",
+  "aliases": [
+   "an-nahl",
+   "nahl",
+   "bee"
+  ],
+  "en": "The Bee"
+ },
+ "17": {
+  "translit": "al-Isra",
+  "ar": "الإسراء",
+  "aliases": [
+   "al-isra",
+   "isra",
+   "bani isra'il",
+   "night journey"
+  ],
+  "en": "The Night Journey"
+ },
+ "18": {
+  "translit": "al-Kahf",
+  "ar": "الكهف",
+  "aliases": [
+   "al-kahf",
+   "kahf",
+   "cave"
+  ],
+  "en": "The Cave"
+ },
+ "19": {
+  "translit": "Maryam",
+  "ar": "مريم",
+  "aliases": [
+   "maryam",
+   "mary"
+  ],
+  "en": "Mary"
+ },
+ "20": {
+  "translit": "Taha",
+  "ar": "طه",
+  "aliases": [
+   "ta-ha",
+   "taha"
+  ],
+  "en": "Ta-Ha"
+ },
+ "21": {
+  "translit": "al-Anbiya",
+  "ar": "الأنبياء",
+  "aliases": [
+   "al-anbiya",
+   "anbiya",
+   "anbiyaa",
+   "prophets"
+  ],
+  "en": "The Prophets"
+ },
+ "22": {
+  "translit": "al-Hajj",
+  "ar": "الحج",
+  "aliases": [
+   "al-hajj",
+   "hajj",
+   "pilgrimage"
+  ],
+  "en": "The Pilgrimage"
+ },
+ "23": {
+  "translit": "al-Mu'minun",
+  "ar": "المؤمنون",
+  "aliases": [
+   "al-muminun",
+   "mu'minun",
+   "muminoon",
+   "believers"
+  ],
+  "en": "The Believers"
+ },
+ "24": {
+  "translit": "al-Nur",
+  "ar": "النور",
+  "aliases": [
+   "an-nur",
+   "nur",
+   "light"
+  ],
+  "en": "The Light"
+ },
+ "25": {
+  "translit": "al-Furqan",
+  "ar": "الفرقان",
+  "aliases": [
+   "al-furqan",
+   "furqan",
+   "criterion"
+  ],
+  "en": "The Criterion"
+ },
+ "26": {
+  "translit": "al-Shu'ara",
+  "ar": "الشعراء",
+  "aliases": [
+   "ash-shuara",
+   "shuara",
+   "shu'ara",
+   "poets"
+  ],
+  "en": "The Poets"
+ },
+ "27": {
+  "translit": "al-Naml",
+  "ar": "النمل",
+  "aliases": [
+   "an-naml",
+   "naml",
+   "ant"
+  ],
+  "en": "The Ant"
+ },
+ "28": {
+  "translit": "al-Qasas",
+  "ar": "القصص",
+  "aliases": [
+   "al-qasas",
+   "qasas",
+   "stories",
+   "narration"
+  ],
+  "en": "The Stories"
+ },
+ "29": {
+  "translit": "al-'Ankabut",
+  "ar": "العنكبوت",
+  "aliases": [
+   "al-ankabut",
+   "ankabut",
+   "spider"
+  ],
+  "en": "The Spider"
+ },
+ "30": {
+  "translit": "al-Rum",
+  "ar": "الروم",
+  "aliases": [
+   "ar-rum",
+   "rum",
+   "romans",
+   "byzantines"
+  ],
+  "en": "The Romans"
+ },
+ "31": {
+  "translit": "Luqman",
+  "ar": "لقمان",
+  "aliases": [
+   "luqman",
+   "luqmaan"
+  ],
+  "en": "Luqman"
+ },
+ "32": {
+  "translit": "al-Sajdah",
+  "ar": "السجدة",
+  "aliases": [
+   "as-sajdah",
+   "sajdah",
+   "sajda",
+   "prostration"
+  ],
+  "en": "The Prostration"
+ },
+ "33": {
+  "translit": "al-Ahzab",
+  "ar": "الأحزاب",
+  "aliases": [
+   "al-ahzab",
+   "ahzab",
+   "confederates",
+   "clans"
+  ],
+  "en": "The Confederates"
+ },
+ "34": {
+  "translit": "Saba",
+  "ar": "سبأ",
+  "aliases": [
+   "saba",
+   "sheba"
+  ],
+  "en": "Sheba"
+ },
+ "35": {
+  "translit": "Fatir",
+  "ar": "فاطر",
+  "aliases": [
+   "fatir",
+   "faatir",
+   "originator",
+   "creator"
+  ],
+  "en": "The Originator"
+ },
+ "36": {
+  "translit": "Yasin",
+  "ar": "يس",
+  "aliases": [
+   "ya-sin",
+   "yasin",
+   "ya sin"
+  ],
+  "en": "Ya-Sin"
+ },
+ "37": {
+  "translit": "al-Saffat",
+  "ar": "الصافات",
+  "aliases": [
+   "as-saffat",
+   "saffat",
+   "ranks"
+  ],
+  "en": "Those Who Set the Ranks"
+ },
+ "38": {
+  "translit": "Sad",
+  "ar": "ص",
+  "aliases": [
+   "sad",
+   "saad"
+  ],
+  "en": "Sad"
+ },
+ "39": {
+  "translit": "al-Zumar",
+  "ar": "الزمر",
+  "aliases": [
+   "az-zumar",
+   "zumar",
+   "groups",
+   "throngs"
+  ],
+  "en": "The Groups"
+ },
+ "40": {
+  "translit": "Ghafir",
+  "ar": "غافر",
+  "aliases": [
+   "ghafir",
+   "al-mumin",
+   "mumin",
+   "forgiver"
+  ],
+  "en": "The Forgiver"
+ },
+ "41": {
+  "translit": "Fussilat",
+  "ar": "فصلت",
+  "aliases": [
+   "fussilat",
+   "ha-mim sajdah",
+   "explained"
+  ],
+  "en": "Explained in Detail"
+ },
+ "42": {
+  "translit": "al-Shura",
+  "ar": "الشورى",
+  "aliases": [
+   "ash-shura",
+   "shura",
+   "consultation"
+  ],
+  "en": "The Consultation"
+ },
+ "43": {
+  "translit": "al-Zukhruf",
+  "ar": "الزخرف",
+  "aliases": [
+   "az-zukhruf",
+   "zukhruf",
+   "gold"
+  ],
+  "en": "The Gold Adornments"
+ },
+ "44": {
+  "translit": "al-Dukhan",
+  "ar": "الدخان",
+  "aliases": [
+   "ad-dukhan",
+   "dukhan",
+   "smoke"
+  ],
+  "en": "The Smoke"
+ },
+ "45": {
+  "translit": "al-Jathiyah",
+  "ar": "الجاثية",
+  "aliases": [
+   "al-jathiyah",
+   "jathiyah",
+   "jathiya",
+   "kneeling"
+  ],
+  "en": "The Kneeling"
+ },
+ "46": {
+  "translit": "al-Ahqaf",
+  "ar": "الأحقاف",
+  "aliases": [
+   "al-ahqaf",
+   "ahqaf",
+   "sand dunes",
+   "dunes"
+  ],
+  "en": "The Curved Sand-hills"
+ },
+ "47": {
+  "translit": "Muhammad",
+  "ar": "محمد",
+  "aliases": [
+   "muhammad"
+  ],
+  "en": "Muhammad"
+ },
+ "48": {
+  "translit": "al-Fath",
+  "ar": "الفتح",
+  "aliases": [
+   "al-fath",
+   "fath",
+   "victory",
+   "conquest"
+  ],
+  "en": "The Victory"
+ },
+ "49": {
+  "translit": "al-Hujurat",
+  "ar": "الحجرات",
+  "aliases": [
+   "al-hujurat",
+   "hujurat",
+   "chambers",
+   "apartments"
+  ],
+  "en": "The Chambers"
+ },
+ "50": {
+  "translit": "Qaf",
+  "ar": "ق",
+  "aliases": [
+   "qaf",
+   "qaaf"
+  ],
+  "en": "Qaf"
+ },
+ "51": {
+  "translit": "al-Dhariyat",
+  "ar": "الذاريات",
+  "aliases": [
+   "adh-dhariyat",
+   "dhariyat",
+   "winnowing"
+  ],
+  "en": "The Winnowing Winds"
+ },
+ "52": {
+  "translit": "al-Tur",
+  "ar": "الطور",
+  "aliases": [
+   "at-tur",
+   "tur",
+   "mount"
+  ],
+  "en": "The Mount"
+ },
+ "53": {
+  "translit": "al-Najm",
+  "ar": "النجم",
+  "aliases": [
+   "an-najm",
+   "najm",
+   "star"
+  ],
+  "en": "The Star"
+ },
+ "54": {
+  "translit": "al-Qamar",
+  "ar": "القمر",
+  "aliases": [
+   "al-qamar",
+   "qamar",
+   "moon"
+  ],
+  "en": "The Moon"
+ },
+ "55": {
+  "translit": "al-Rahman",
+  "ar": "الرحمن",
+  "aliases": [
+   "ar-rahman",
+   "rahman",
+   "most gracious",
+   "merciful"
+  ],
+  "en": "The Most Gracious"
+ },
+ "56": {
+  "translit": "al-Waqi'ah",
+  "ar": "الواقعة",
+  "aliases": [
+   "al-waqiah",
+   "waqiah",
+   "waqia",
+   "inevitable"
+  ],
+  "en": "The Inevitable"
+ },
+ "57": {
+  "translit": "al-Hadid",
+  "ar": "الحديد",
+  "aliases": [
+   "al-hadid",
+   "hadid",
+   "iron"
+  ],
+  "en": "Iron"
+ },
+ "58": {
+  "translit": "al-Mujadilah",
+  "ar": "المجادلة",
+  "aliases": [
+   "al-mujadilah",
+   "mujadilah",
+   "pleading"
+  ],
+  "en": "The Pleading Woman"
+ },
+ "59": {
+  "translit": "al-Hashr",
+  "ar": "الحشر",
+  "aliases": [
+   "al-hashr",
+   "hashr",
+   "gathering",
+   "exile"
+  ],
+  "en": "The Gathering"
+ },
+ "60": {
+  "translit": "al-Mumtahanah",
+  "ar": "الممتحنة",
+  "aliases": [
+   "al-mumtahanah",
+   "mumtahanah",
+   "examined"
+  ],
+  "en": "She That Is to Be Examined"
+ },
+ "61": {
+  "translit": "al-Saff",
+  "ar": "الصف",
+  "aliases": [
+   "as-saff",
+   "saff",
+   "ranks",
+   "battle array"
+  ],
+  "en": "The Ranks"
+ },
+ "62": {
+  "translit": "al-Jumu'ah",
+  "ar": "الجمعة",
+  "aliases": [
+   "al-jumuah",
+   "jumuah",
+   "jumua",
+   "friday"
+  ],
+  "en": "The Friday"
+ },
+ "63": {
+  "translit": "al-Munafiqun",
+  "ar": "المنافقون",
+  "aliases": [
+   "al-munafiqun",
+   "munafiqun",
+   "hypocrites"
+  ],
+  "en": "The Hypocrites"
+ },
+ "64": {
+  "translit": "al-Taghabun",
+  "ar": "التغابن",
+  "aliases": [
+   "at-taghabun",
+   "taghabun",
+   "mutual loss"
+  ],
+  "en": "The Mutual Disillusion"
+ },
+ "65": {
+  "translit": "al-Talaq",
+  "ar": "الطلاق",
+  "aliases": [
+   "at-talaq",
+   "talaq",
+   "divorce"
+  ],
+  "en": "The Divorce"
+ },
+ "66": {
+  "translit": "al-Tahrim",
+  "ar": "التحريم",
+  "aliases": [
+   "at-tahrim",
+   "tahrim",
+   "prohibition"
+  ],
+  "en": "The Prohibition"
+ },
+ "67": {
+  "translit": "al-Mulk",
+  "ar": "الملك",
+  "aliases": [
+   "al-mulk",
+   "mulk",
+   "sovereignty",
+   "kingdom"
+  ],
+  "en": "The Sovereignty"
+ },
+ "68": {
+  "translit": "al-Qalam",
+  "ar": "القلم",
+  "aliases": [
+   "al-qalam",
+   "qalam",
+   "pen"
+  ],
+  "en": "The Pen"
+ },
+ "69": {
+  "translit": "al-Haqqah",
+  "ar": "الحاقة",
+  "aliases": [
+   "al-haqqah",
+   "haqqah",
+   "haqqa",
+   "reality",
+   "sure reality"
+  ],
+  "en": "The Reality"
+ },
+ "70": {
+  "translit": "al-Ma'arij",
+  "ar": "المعارج",
+  "aliases": [
+   "al-maarij",
+   "maarij",
+   "ma'arij",
+   "ways of ascent"
+  ],
+  "en": "The Ways of Ascent"
+ },
+ "71": {
+  "translit": "Nuh",
+  "ar": "نوح",
+  "aliases": [
+   "nuh",
+   "noah"
+  ],
+  "en": "Noah"
+ },
+ "72": {
+  "translit": "al-Jinn",
+  "ar": "الجن",
+  "aliases": [
+   "al-jinn",
+   "jinn"
+  ],
+  "en": "The Jinn"
+ },
+ "73": {
+  "translit": "al-Muzzammil",
+  "ar": "المزمل",
+  "aliases": [
+   "al-muzzammil",
+   "muzzammil",
+   "enshrouded"
+  ],
+  "en": "The Enshrouded One"
+ },
+ "74": {
+  "translit": "al-Muddaththir",
+  "ar": "المدثر",
+  "aliases": [
+   "al-muddaththir",
+   "muddaththir",
+   "cloaked"
+  ],
+  "en": "The Cloaked One"
+ },
+ "75": {
+  "translit": "al-Qiyamah",
+  "ar": "القيامة",
+  "aliases": [
+   "al-qiyamah",
+   "qiyamah",
+   "qiyama",
+   "resurrection"
+  ],
+  "en": "The Resurrection"
+ },
+ "76": {
+  "translit": "al-Insan",
+  "ar": "الإنسان",
+  "aliases": [
+   "al-insan",
+   "insan",
+   "ad-dahr",
+   "dahr",
+   "man",
+   "human"
+  ],
+  "en": "Man"
+ },
+ "77": {
+  "translit": "al-Mursalat",
+  "ar": "المرسلات",
+  "aliases": [
+   "al-mursalat",
+   "mursalat",
+   "sent forth"
+  ],
+  "en": "Those Sent Forth"
+ },
+ "78": {
+  "translit": "al-Naba'",
+  "ar": "النبأ",
+  "aliases": [
+   "an-naba",
+   "naba",
+   "great news",
+   "announcement"
+  ],
+  "en": "The Great News"
+ },
+ "79": {
+  "translit": "al-Nazi'at",
+  "ar": "النازعات",
+  "aliases": [
+   "an-naziat",
+   "naziat",
+   "naazi'aat"
+  ],
+  "en": "Those Who Pull Out"
+ },
+ "80": {
+  "translit": "'Abasa",
+  "ar": "عبس",
+  "aliases": [
+   "abasa",
+   "frowned"
+  ],
+  "en": "He Frowned"
+ },
+ "81": {
+  "translit": "al-Takwir",
+  "ar": "التكوير",
+  "aliases": [
+   "at-takwir",
+   "takwir",
+   "folding up",
+   "overthrowing"
+  ],
+  "en": "The Folding Up"
+ },
+ "82": {
+  "translit": "al-Infitar",
+  "ar": "الانفطار",
+  "aliases": [
+   "al-infitar",
+   "infitar",
+   "cleaving"
+  ],
+  "en": "The Cleaving"
+ },
+ "83": {
+  "translit": "al-Mutaffifin",
+  "ar": "المطففين",
+  "aliases": [
+   "al-mutaffifin",
+   "mutaffifin",
+   "defrauders",
+   "dealers in fraud"
+  ],
+  "en": "The Defrauders"
+ },
+ "84": {
+  "translit": "al-Inshiqaq",
+  "ar": "الانشقاق",
+  "aliases": [
+   "al-inshiqaq",
+   "inshiqaq",
+   "splitting",
+   "sundering"
+  ],
+  "en": "The Splitting Asunder"
+ },
+ "85": {
+  "translit": "al-Buruj",
+  "ar": "البروج",
+  "aliases": [
+   "al-buruj",
+   "buruj",
+   "constellations"
+  ],
+  "en": "The Constellations"
+ },
+ "86": {
+  "translit": "al-Tariq",
+  "ar": "الطارق",
+  "aliases": [
+   "at-tariq",
+   "tariq",
+   "night comer",
+   "morning star"
+  ],
+  "en": "The Night-Comer"
+ },
+ "87": {
+  "translit": "al-A'la",
+  "ar": "الأعلى",
+  "aliases": [
+   "al-ala",
+   "a'la",
+   "most high"
+  ],
+  "en": "The Most High"
+ },
+ "88": {
+  "translit": "al-Ghashiyah",
+  "ar": "الغاشية",
+  "aliases": [
+   "al-ghashiyah",
+   "ghashiyah",
+   "overwhelming"
+  ],
+  "en": "The Overwhelming"
+ },
+ "89": {
+  "translit": "al-Fajr",
+  "ar": "الفجر",
+  "aliases": [
+   "al-fajr",
+   "fajr",
+   "dawn"
+  ],
+  "en": "The Dawn"
+ },
+ "90": {
+  "translit": "al-Balad",
+  "ar": "البلد",
+  "aliases": [
+   "al-balad",
+   "balad",
+   "city"
+  ],
+  "en": "The City"
+ },
+ "91": {
+  "translit": "al-Shams",
+  "ar": "الشمس",
+  "aliases": [
+   "ash-shams",
+   "shams",
+   "sun"
+  ],
+  "en": "The Sun"
+ },
+ "92": {
+  "translit": "al-Layl",
+  "ar": "الليل",
+  "aliases": [
+   "al-layl",
+   "layl",
+   "lail",
+   "night"
+  ],
+  "en": "The Night"
+ },
+ "93": {
+  "translit": "al-Duha",
+  "ar": "الضحى",
+  "aliases": [
+   "ad-duha",
+   "duha",
+   "morning hours",
+   "forenoon"
+  ],
+  "en": "The Morning Hours"
+ },
+ "94": {
+  "translit": "al-Sharh",
+  "ar": "الشرح",
+  "aliases": [
+   "ash-sharh",
+   "sharh",
+   "al-inshirah",
+   "inshirah",
+   "relief",
+   "opening forth"
+  ],
+  "en": "The Relief"
+ },
+ "95": {
+  "translit": "al-Tin",
+  "ar": "التين",
+  "aliases": [
+   "at-tin",
+   "tin",
+   "fig"
+  ],
+  "en": "The Fig"
+ },
+ "96": {
+  "translit": "al-'Alaq",
+  "ar": "العلق",
+  "aliases": [
+   "al-alaq",
+   "alaq",
+   "clot",
+   "iqra"
+  ],
+  "en": "The Clot"
+ },
+ "97": {
+  "translit": "al-Qadr",
+  "ar": "القدر",
+  "aliases": [
+   "al-qadr",
+   "qadr",
+   "power",
+   "decree",
+   "night of decree"
+  ],
+  "en": "The Night of Decree"
+ },
+ "98": {
+  "translit": "al-Bayyinah",
+  "ar": "البينة",
+  "aliases": [
+   "al-bayyinah",
+   "bayyinah",
+   "clear evidence",
+   "proof"
+  ],
+  "en": "The Clear Evidence"
+ },
+ "99": {
+  "translit": "al-Zalzalah",
+  "ar": "الزلزلة",
+  "aliases": [
+   "az-zalzalah",
+   "zalzalah",
+   "zilzal",
+   "earthquake"
+  ],
+  "en": "The Earthquake"
+ },
+ "100": {
+  "translit": "al-'Adiyat",
+  "ar": "العاديات",
+  "aliases": [
+   "al-adiyat",
+   "adiyat",
+   "coursers"
+  ],
+  "en": "The Coursers"
+ },
+ "101": {
+  "translit": "al-Qari'ah",
+  "ar": "القارعة",
+  "aliases": [
+   "al-qariah",
+   "qariah",
+   "qaari'ah",
+   "striking hour",
+   "calamity"
+  ],
+  "en": "The Striking Hour"
+ },
+ "102": {
+  "translit": "al-Takathur",
+  "ar": "التكاثر",
+  "aliases": [
+   "at-takathur",
+   "takathur",
+   "piling up",
+   "rivalry"
+  ],
+  "en": "The Piling Up"
+ },
+ "103": {
+  "translit": "al-'Asr",
+  "ar": "العصر",
+  "aliases": [
+   "al-asr",
+   "asr",
+   "time",
+   "declining day"
+  ],
+  "en": "The Time"
+ },
+ "104": {
+  "translit": "al-Humazah",
+  "ar": "الهمزة",
+  "aliases": [
+   "al-humazah",
+   "humazah",
+   "slanderer",
+   "scandal-monger"
+  ],
+  "en": "The Slanderer"
+ },
+ "105": {
+  "translit": "al-Fil",
+  "ar": "الفيل",
+  "aliases": [
+   "al-fil",
+   "fil",
+   "elephant"
+  ],
+  "en": "The Elephant"
+ },
+ "106": {
+  "translit": "Quraysh",
+  "ar": "قريش",
+  "aliases": [
+   "quraysh",
+   "quraish"
+  ],
+  "en": "The Quraysh"
+ },
+ "107": {
+  "translit": "al-Ma'un",
+  "ar": "الماعون",
+  "aliases": [
+   "al-maun",
+   "maun",
+   "ma'un",
+   "small kindnesses",
+   "almsgiving"
+  ],
+  "en": "The Small Kindnesses"
+ },
+ "108": {
+  "translit": "al-Kawthar",
+  "ar": "الكوثر",
+  "aliases": [
+   "al-kawthar",
+   "kawthar",
+   "abundance"
+  ],
+  "en": "The Abundance"
+ },
+ "109": {
+  "translit": "al-Kafirun",
+  "ar": "الكافرون",
+  "aliases": [
+   "al-kafirun",
+   "kafirun",
+   "disbelievers"
+  ],
+  "en": "The Disbelievers"
+ },
+ "110": {
+  "translit": "al-Nasr",
+  "ar": "النصر",
+  "aliases": [
+   "an-nasr",
+   "nasr",
+   "help",
+   "succour"
+  ],
+  "en": "The Help"
+ },
+ "111": {
+  "translit": "al-Masad",
+  "ar": "المسد",
+  "aliases": [
+   "al-masad",
+   "masad",
+   "al-lahab",
+   "lahab",
+   "palm fibre",
+   "flame"
+  ],
+  "en": "The Palm Fibre"
+ },
+ "112": {
+  "translit": "al-Ikhlas",
+  "ar": "الإخلاص",
+  "aliases": [
+   "al-ikhlas",
+   "ikhlas",
+   "sincerity",
+   "purity of faith"
+  ],
+  "en": "The Sincerity"
+ },
+ "113": {
+  "translit": "al-Falaq",
+  "ar": "الفلق",
+  "aliases": [
+   "al-falaq",
+   "falaq",
+   "daybreak",
+   "dawn"
+  ],
+  "en": "The Daybreak"
+ },
+ "114": {
+  "translit": "al-Nas",
+  "ar": "الناس",
+  "aliases": [
+   "an-nas",
+   "nas",
+   "mankind",
+   "people"
+  ],
+  "en": "Mankind"
+ }
+}

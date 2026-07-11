@@ -14,7 +14,14 @@
     <meta property="og:title" content="Themes · Divine Discourses" />
     <meta property="og:description" content="33 theme gateways into the Qur'an, from forgiveness and gratitude to death and paradise: root families and computed key passages for self-study." />
     <meta property="og:url" content="https://qurandiscourse.netlify.app/themes.html" />
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:image" content="https://qurandiscourse.netlify.app/assets/og/site-og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Divine Discourses — toward direct engagement with the Qur'an. Every claim verified; 1,642 roots; 114 surahs."
+    />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
     <style>
@@ -155,6 +162,7 @@
             <li><a href="exercises.html">Exercises</a></li>
             <li><a href="paths.html">Study paths</a></li>
             <li><a href="glossary.html">Glossary</a></li>
+            <li><a href="watch.html">Watch</a></li>
           </ul>
         </li>
         <li class="nav-group" data-group="about">
@@ -374,9 +382,12 @@
               }
               card.innerHTML =
                 '<h3 style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap">' + t.title +
-                '<button type="button" class="button secondary share-btn" data-share data-share-url="https://qurandiscourse.netlify.app/themes.html#' +
+                '<button type="button" class="button secondary share-btn" data-share data-share-url="https://qurandiscourse.netlify.app/s/theme/' +
                 t.slug +
-                '" data-share-title="' + t.title + ' · Divine Discourses">Share</button></h3>' +
+                '.html" data-share-title="' + t.title + ' · Divine Discourses">Share</button>' +
+                '<button type="button" class="button secondary share-btn" data-embed-type="theme" data-embed-id="' +
+                t.slug +
+                '" data-embed-title="' + t.title + ' · Divine Discourses" title="Copy an iframe snippet for your own site">Embed</button></h3>' +
                 '<h4 style="margin:0 0 0.2rem">Root families</h4>' +
                 '<ul class="root-chips">' + rootChips + "</ul>" +
                 '<h4 style="margin:0 0 0.2rem">Key passages <span style="font-weight:400;color:var(--muted);font-size:0.82rem">(computed: theme vocabulary clusters here)</span></h4>' +

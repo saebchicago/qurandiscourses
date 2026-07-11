@@ -893,6 +893,225 @@ label {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+/* ── Root-family highlight palette (shared) ────────────────────── */
+/* Promoted from exercise-roots.html's inline styles so replay.html can
+   use the same four family colors. Backgrounds, not text colors — the
+   ink on top stays the page's own. */
+.rg-0 { background: rgba(214, 158, 46, 0.28); }
+.rg-1 { background: rgba(46, 139, 139, 0.28); }
+.rg-2 { background: rgba(155, 89, 182, 0.28); }
+.rg-3 { background: rgba(200, 80, 80, 0.28); }
+
+/* ── Guided replay (replay.html, assets/replay.js) ─────────────── */
+.replay-verse {
+  transition: opacity 0.25s ease;
+  opacity: 0.55;
+}
+.replay-verse.replay-active {
+  opacity: 1;
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+.replay-verse.replay-done {
+  opacity: 0.85;
+}
+.replay-transport {
+  position: sticky;
+  bottom: 0;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px 12px 0 0;
+  padding: 0.6rem 0.9rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  box-shadow: var(--shadow-lg);
+  z-index: 30;
+}
+.replay-transport button {
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 1rem;
+  cursor: pointer;
+}
+.replay-transport button.primary {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+  font-weight: 600;
+  padding: 0 1.1rem;
+}
+.replay-transport .replay-pos {
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-left: auto;
+}
+.replay-outline-banner {
+  border-left: 3px solid var(--accent);
+  background: var(--card);
+  border-radius: 0 8px 8px 0;
+  padding: 0.6rem 0.9rem;
+  margin: 0.9rem 0;
+}
+.replay-outline-banner h3 {
+  margin: 0 0 0.15rem;
+  font-size: 1rem;
+}
+.replay-outline-banner p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+@media (prefers-reduced-motion: reduce) {
+  .replay-verse {
+    transition: none;
+  }
+}
+@media print {
+  .replay-transport {
+    display: none !important;
+  }
+}
+
+/* ── Welcome tour (index.html, assets/tour.js) ─────────────────── */
+.tour-highlight {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+.tour-card {
+  position: absolute;
+  z-index: 1300;
+  background: var(--card);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  box-shadow: var(--shadow-lg);
+}
+.tour-card h3 {
+  margin: 0 0 0.3rem;
+  font-size: 1.05rem;
+}
+.tour-card p {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+.tour-card .tour-step {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 0.2rem;
+}
+.tour-card .tour-actions {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+}
+.settings .tour-fab {
+  display: block;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  width: 52px;
+  height: 52px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 0.6rem;
+  transition: transform 0.15s ease;
+}
+.settings .tour-fab:hover {
+  transform: scale(1.08);
+  border-color: var(--accent);
+}
+@media print {
+  .tour-card,
+  .tour-fab {
+    display: none !important;
+  }
+}
+.begin-group-title {
+  margin: 1.1rem 0 0.4rem;
+  font-size: 1.02rem;
+  color: var(--accent);
+}
+.begin-group {
+  margin-bottom: 0.4rem;
+}
+/* ── Embeddable cards (embed.html, iframe context) ─────────────── */
+.embed-body {
+  padding: 1rem 1.2rem;
+  min-height: auto;
+}
+.embed-card {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+.embed-loading {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.embed-title {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  margin: 0.2rem 0 0.4rem;
+}
+.embed-ar {
+  font-size: 1.9rem;
+  line-height: 1.9;
+  margin: 0.3rem 0 0.5rem;
+}
+.embed-ref {
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 0 0.2rem;
+  font-variant-numeric: tabular-nums;
+}
+.embed-meta {
+  margin: 0 0 0.5rem;
+  line-height: 1.6;
+}
+.embed-trans {
+  margin: 0 0 0.5rem;
+  line-height: 1.7;
+}
+.embed-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 0.5rem;
+}
+.embed-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.85rem;
+  background: var(--bg);
+}
+.embed-prov {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 0 0 0.6rem;
+}
+.embed-footer {
+  border-top: 1px solid var(--line);
+  padding-top: 0.55rem;
+  margin: 0;
+  font-size: 0.85rem;
+}
+
 .qd-chart-tip {
   position: absolute;
   z-index: 1100;
@@ -1324,6 +1543,21 @@ dd {
   cursor: help;
 }
 .gloss:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+/* Root/verse reference wraps (assets/refs.js): same affordance family
+   as .gloss, dashed to hint "reference" rather than "definition". */
+.qd-ref {
+  text-decoration: underline dashed;
+  text-decoration-color: var(--accent-soft);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+.qd-ref:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
   border-radius: 2px;

@@ -14,7 +14,14 @@
     <meta property="og:title" content="Changelog · Divine Discourses" />
     <meta property="og:description" content="Every correction and material change to Divine Discourses since launch. A public record of accountability." />
     <meta property="og:url" content="https://qurandiscourse.netlify.app/changelog.html" />
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:image" content="https://qurandiscourse.netlify.app/assets/og/site-og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Divine Discourses — toward direct engagement with the Qur'an. Every claim verified; 1,642 roots; 114 surahs."
+    />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
     <script src="assets/nav.js"></script>
@@ -83,6 +90,7 @@
             <li><a href="exercises.html">Exercises</a></li>
             <li><a href="paths.html">Study paths</a></li>
             <li><a href="glossary.html">Glossary</a></li>
+            <li><a href="watch.html">Watch</a></li>
           </ul>
         </li>
         <li class="nav-group" data-group="about">
@@ -118,6 +126,61 @@
           <h3>2026</h3>
           <h4>July</h4>
           <ul>
+            <li>
+              <strong>Guided replays, a Watch page, and the gloss
+              pipeline.</strong> New <a href="replay.html">Replay</a> tool:
+              the recitation plays a surah verse by verse through one
+              continuous player while words from recurring root families
+              light up progressively, and — for surahs whose outline has
+              been transcribed from Khan's book — the outline section
+              appears at each pivot. Everything shown is computed or
+              transcribed and badged; if audio is unavailable the replay
+              degrades to manual stepping. Reachable from Read, the
+              Exercises hub, and (after you commit to your own reading)
+              the outline exercise. New <a href="watch.html">Watch</a>
+              page for short, human-made walkthrough videos: three are
+              scripted and listed as planned; the site's covenant — real
+              screen recordings, human voice, no generated footage, no
+              stock music, captions always — is enforced by a checker
+              that refuses to publish a video without a captions file.
+              Videos are self-hosted; no third-party player, nothing
+              tracked. Under the hood, a word-by-word gloss pipeline
+              shipped dormant: the Read page's Meaning column will fill
+              in the moment a properly licensed gloss dataset is
+              committed (the license is the gate; candidate sources and
+              the citation requirements are documented for the
+              maintainer), labeled Nuanced — a gloss is a translator's
+              choice, not "the meaning."
+            </li>
+            <li>
+              <strong>Link previews, embeds, guided entry, and one surah
+              dataset.</strong> Shared links now unfurl properly everywhere:
+              a branded social image on every page, and 1,789 generated
+              per-entity share pages (<code>s/root|theme|surah/…</code>) so
+              a pasted root, theme, or surah link shows its own name and
+              stats — the share buttons hand these URLs out automatically.
+              A new <code>embed.html</code> lets teachers and bloggers
+              iframe a root profile, theme card, or verse on their own
+              site (one-click "Embed" copy buttons on Themes and Roots);
+              it is the only page whose security policy allows framing,
+              via a restructured per-page <code>netlify.toml</code> guarded
+              by <code>scripts/check-headers-sync.mjs</code>. New visitors
+              get a first-visit depth question and a reopenable 60-second
+              tour ("?" button, bottom right), and the home page's Begin
+              tiles are grouped by intent: Read, Study, Verify. Root
+              mentions (r-ḥ-m) and verse references (2:255) in page prose
+              are now live popovers with counts and one-tap navigation on
+              ten static pages. <em>Correction:</em> the three separate
+              surah-name lists were consolidated into one generated
+              dataset (<code>data/surah-names.json</code> &rarr;
+              <code>assets/surahs.js</code>); in the process, Navigate's
+              row for surah 55 (ar-Rahman) was corrected from Meccan to
+              Medinan, matching the Cairo 1924 convention both bundled
+              datasets follow (the classification is genuinely discussed
+              in the tradition — this site follows its cited convention),
+              and the Read page's handful of divergent display names now
+              match Navigate's romanization.
+            </li>
             <li>
               <strong>Sharing, self-learning, and analytics expansion.</strong>
               A share button on every page (each tool page's URL was already
