@@ -95,11 +95,16 @@
     state.progress = { lastRead: null, exercises: {}, paths: {} };
   }
 
-  // Called by read.html after a verse/range successfully loads.
+  // Called by read.html after a verse/range successfully loads. Also
+  // announces the loaded reference so decoupled features (the notes
+  // panel) can follow along without patching read.html's load flow.
   window.qdSaveLastRead = function (s, a) {
-    if (!state.progress) state.progress = { lastRead: null, exercises: {} };
+    if (!state.progress) state.progress = { lastRead: null, exercises: {}, paths: {} };
     state.progress.lastRead = { s: s, a: String(a) };
     save();
+    document.dispatchEvent(
+      new CustomEvent("qd:verse-loaded", { detail: { s: s, a: String(a) } }),
+    );
   };
 
   // Called by exercise pages once a reader has revealed/attempted the
