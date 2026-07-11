@@ -127,6 +127,17 @@
           <h4>July</h4>
           <ul>
             <li>
+              <strong>The Roots page loads five times lighter.</strong> The
+              full 1.9&nbsp;MB per-root dataset was downloaded before the
+              Roots list could render — and by the root popovers, embeds,
+              Compare suggestions, and the root-spotting exercise. Those
+              views only ever display a root's name, count, and period
+              distribution, so they now share a 0.4&nbsp;MB slim index
+              generated from the same corpus data; the full record still
+              loads per root when a detail panel opens. Nothing shown
+              changed — only how much a phone has to download first.
+            </li>
+            <li>
               <strong>The credibility system audited itself.</strong> A full
               integrity pass over the verification machinery found and fixed
               real gaps. Every Verified badge must now name its source: 70

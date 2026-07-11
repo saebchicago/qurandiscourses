@@ -743,7 +743,7 @@
         });
 
         // ── Boot ──────────────────────────────────────────────────────────────
-        fetch("data/roots-summary.json")
+        fetch("data/roots-list.json")
           .then((r) => r.json())
           .then((data) => {
             allRoots = Object.values(data).sort(
@@ -816,7 +816,7 @@
         let rootsSummaryP = null;
         function loadRootsSummary() {
           if (!rootsSummaryP) {
-            rootsSummaryP = fetch("data/roots-summary.json").then(function (r) {
+            rootsSummaryP = fetch("data/roots-list.json").then(function (r) {
               return r.json();
             });
           }

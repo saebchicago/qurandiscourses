@@ -10,7 +10,7 @@
   // it resolves in window.ROOT_REFS (generated from roots-summary.json;
   // ambiguous ASCII-folded forms are absent by construction) or, for
   // verse refs, when surah/verse are within the canonical bounds in
-  // window.SURAHS. The 1.9 MB roots-summary.json is fetched at most
+  // window.SURAHS. The slim data/roots-list.json is fetched at most
   // once, lazily, on the first root popover open — only for the count.
   //
   // Runs only over static DOMContentLoaded text like glossary.js;
@@ -181,7 +181,7 @@
 
   function loadSummary() {
     if (summaryPromise) return summaryPromise;
-    summaryPromise = fetch("data/roots-summary.json")
+    summaryPromise = fetch("data/roots-list.json")
       .then(function (r) {
         return r.ok ? r.json() : null;
       })

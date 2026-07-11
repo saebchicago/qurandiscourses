@@ -383,7 +383,7 @@
 
         function loadRootsSummary() {
           if (rootsSummary) return Promise.resolve(rootsSummary);
-          return fetch("data/roots-summary.json")
+          return fetch("data/roots-list.json")
             .then(function (r) {
               return r.ok ? r.json() : {};
             })

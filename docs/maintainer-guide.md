@@ -96,6 +96,7 @@ them only when their inputs change; commit their outputs.
 | build-share-pages.mjs | roots-summary, themes, chronology, surah-names, surah-profiles | s/ (1,789 pages) | per-entity link previews; share buttons hand these URLs out |
 | build-root-refs-index.mjs | roots-summary | assets/root-refs.js | refs.js root-mention detection (ambiguous ASCII folds deliberately absent) |
 | build-word-index.mjs | morphology, roots-summary, data/gloss (optional) | data/word-index.json | words.html vocabulary search — rerun after committing a gloss dataset so meanings join the index |
+| build-roots-list.mjs | roots-summary | data/roots-list.json | the slim per-root record every list-level consumer fetches (roots list, compare suggestions, refs popovers, embeds, exercise-roots) — rerun whenever roots-summary changes |
 
 Checkers (not generators — they gate shipping):
 
