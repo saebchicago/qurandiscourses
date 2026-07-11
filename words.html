@@ -473,9 +473,16 @@
         function matches(e, q, qFlat, qAr) {
           if (qAr && e._sk === undefined) e._sk = skeleton(e.ar);
           if (qAr && e._sk.indexOf(qAr) !== -1) return true;
-          var l = e.l.toLowerCase();
-          if (l.indexOf(qFlat) !== -1) return true;
-          if (e.r && e.r.toLowerCase().indexOf(qFlat) !== -1) return true;
+          // e.l/e.r are Buckwalter transliteration, where letter CASE is
+          // phonemic (s=س vs S=ص, h=ه vs H=ح, etc. — see safeKey() above,
+          // which treats them as distinct for the same reason). Matching
+          // case-insensitively here would conflate unrelated roots (e.g.
+          // "why" و-ه-ي vs "wHy" و-ح-ي, revelation) — compare raw case.
+          if (e.l.indexOf(q) !== -1) return true;
+          if (e.r && e.r.indexOf(q) !== -1) return true;
+          // e.rl (human-readable Latin, "r-h-m") and e.g (English gloss
+          // prose) carry no phonemic case, so folding case here is safe
+          // and expected.
           if (e.rl && e.rl.replace(/-/g, "").indexOf(qFlat) !== -1) return true;
           for (var i = 0; i < e.g.length; i++) {
             if (e.g[i].toLowerCase().indexOf(qFlat) !== -1) return true;

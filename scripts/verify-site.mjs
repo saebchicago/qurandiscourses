@@ -233,9 +233,13 @@ function attachConsoleCollector(page, errors) {
   page.on("pageerror", (e) => errors.push("pageerror: " + e.message));
   page.on("console", (m) => {
     if (m.type() !== "error") return;
-    const src = ((m.location() || {}).url || "") + " " + m.text();
-    if (!LIVE && BLOCKED_HOSTS.test(src)) return; // deliberately blocked
-    errors.push(src.trim().slice(0, 200));
+    const url = (m.location() || {}).url || "";
+    // Match only the resource URL, not the message text — a future
+    // console.error() that happens to mention "api.alquran.cloud" in
+    // its own text (e.g. a parse-failure message) must still fail the
+    // build; only errors FROM the deliberately blocked hosts are exempt.
+    if (!LIVE && BLOCKED_HOSTS.test(url)) return;
+    errors.push((url + " " + m.text()).trim().slice(0, 200));
   });
 }
 
