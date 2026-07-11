@@ -75,35 +75,175 @@ for (const e of Object.values(rootsSummary)) {
   if (medinan > 0 && meccan === 0) medinanOnly++;
 }
 
+// ── Revelation-period order + labels (used throughout below) ───────
+const PERIOD_ORDER = ["meccan-early", "meccan-middle", "meccan-late", "medinan"];
+const PERIOD_LABELS = {
+  "meccan-early": "Early Meccan",
+  "meccan-middle": "Middle Meccan",
+  "meccan-late": "Late Meccan",
+  medinan: "Medinan",
+};
+
 // ── Morphology sweep: surface forms, verse counts, tokens/period ───
 const formCounts = new Map();
 const verseCounts = [];
 const periodTokens = {};
 const periodVerses = {};
 const lemmaSet = new Set();
+const lemmaCounts = new Map(); // for lemma-level hapax
 let totalTokens = 0;
 let rootedTokens = 0;
+
+// Additional collectors for the extended analytics blocks below. Every
+// figure is a plain tally of a Leeds field (root/lemma/pos) or a verse
+// token length — no classification or interpretation, so all remain
+// "Verified · computed from the cited corpus".
+const posCounts = {}; // POS tag -> global count (all 33 Leeds tags)
+const posByPeriodCounts = {}; // period -> { tag -> count }
+const verseLengths = []; // { tokens, period } per verse, all 6236 verses
+const rootMinOrder = new Map(); // root (Buckwalter) -> earliest revelation order it appears in
+
 for (let s = 1; s <= 114; s++) {
   const morph = JSON.parse(
     readFileSync(join(ROOT, "data", "morphology", `${s}.json`), "utf8"),
   );
   const period = chronology[s] ? chronology[s].period : "unclassified";
+  const revOrder = chronology[s] ? chronology[s].revelationOrder : null;
   const ayahs = Object.keys(morph);
   verseCounts.push({ s, verses: ayahs.length });
+  if (!posByPeriodCounts[period]) posByPeriodCounts[period] = {};
   for (const a of ayahs) {
     periodTokens[period] = (periodTokens[period] || 0) + morph[a].length;
     periodVerses[period] = (periodVerses[period] || 0) + 1;
+    verseLengths.push({ tokens: morph[a].length, period });
     for (const w of morph[a]) {
       formCounts.set(w.ar, (formCounts.get(w.ar) || 0) + 1);
       totalTokens++;
-      if (w.root) rootedTokens++;
-      if (w.lemma) lemmaSet.add(w.lemma);
+      if (w.root) {
+        rootedTokens++;
+        if (revOrder != null) {
+          const prev = rootMinOrder.get(w.root);
+          if (prev == null || revOrder < prev) rootMinOrder.set(w.root, revOrder);
+        }
+      }
+      if (w.lemma) {
+        lemmaSet.add(w.lemma);
+        lemmaCounts.set(w.lemma, (lemmaCounts.get(w.lemma) || 0) + 1);
+      }
+      if (w.pos) {
+        posCounts[w.pos] = (posCounts[w.pos] || 0) + 1;
+        posByPeriodCounts[period][w.pos] =
+          (posByPeriodCounts[period][w.pos] || 0) + 1;
+      }
     }
   }
 }
 
 let hapaxForms = 0;
 for (const c of formCounts.values()) if (c === 1) hapaxForms++;
+let hapaxLemmas = 0;
+for (const c of lemmaCounts.values()) if (c === 1) hapaxLemmas++;
+
+// ── POS profile (grammatical texture) ──────────────────────────────
+// Full per-tag distribution (exact counts) plus a per-period noun/verb
+// density view built from the two unambiguous single tags N and V, so
+// nothing depends on a family taxonomy.
+const posProfile = {
+  totalTokens,
+  byTag: Object.fromEntries(
+    Object.entries(posCounts).sort((a, b) => b[1] - a[1]),
+  ),
+};
+const posByPeriod = PERIOD_ORDER.map((p) => {
+  const tags = posByPeriodCounts[p] || {};
+  const total = periodTokens[p] || 0;
+  const nouns = tags["N"] || 0;
+  const verbs = tags["V"] || 0;
+  return {
+    period: p,
+    label: PERIOD_LABELS[p],
+    tokens: total,
+    nouns,
+    verbs,
+    nounPct: total ? Math.round((nouns / total) * 1000) / 10 : 0,
+    verbPct: total ? Math.round((verbs / total) * 1000) / 10 : 0,
+    verbToNoun: nouns ? Math.round((verbs / nouns) * 100) / 100 : 0,
+  };
+});
+
+// ── Verse-length distribution ──────────────────────────────────────
+// Token-length of every verse, binned; overall and by revelation period.
+const LEN_BINS = [
+  { label: "1–5", lo: 1, hi: 5 },
+  { label: "6–10", lo: 6, hi: 10 },
+  { label: "11–20", lo: 11, hi: 20 },
+  { label: "21–40", lo: 21, hi: 40 },
+  { label: "41–80", lo: 41, hi: 80 },
+  { label: "81+", lo: 81, hi: Infinity },
+];
+function binOf(tokens) {
+  return LEN_BINS.findIndex((b) => tokens >= b.lo && tokens <= b.hi);
+}
+const histoOverall = LEN_BINS.map((b) => ({ label: b.label, count: 0 }));
+const histoByPeriod = {};
+for (const p of PERIOD_ORDER)
+  histoByPeriod[p] = LEN_BINS.map((b) => ({ label: b.label, count: 0 }));
+let maxVerseTokens = 0;
+for (const v of verseLengths) {
+  const bi = binOf(v.tokens);
+  if (bi >= 0) {
+    histoOverall[bi].count++;
+    if (histoByPeriod[v.period]) histoByPeriod[v.period][bi].count++;
+  }
+  if (v.tokens > maxVerseTokens) maxVerseTokens = v.tokens;
+}
+const verseLengthHistogram = {
+  bins: histoOverall,
+  byPeriod: PERIOD_ORDER.map((p) => ({
+    period: p,
+    label: PERIOD_LABELS[p],
+    bins: histoByPeriod[p],
+  })),
+  totalVerses: verseLengths.length,
+  maxVerseTokens,
+};
+
+// ── Vocabulary growth across revelation ────────────────────────────
+// For each of the 114 revelation-order steps, how many DISTINCT rooted
+// roots appear for the first time (earliest revelation order they occur
+// in), plus the running cumulative total. A "vocabulary accumulation"
+// curve grounded in Cairo 1924 order.
+const introByOrder = new Array(115).fill(0);
+for (const order of rootMinOrder.values()) introByOrder[order]++;
+const orderToSurah = {};
+for (let s = 1; s <= 114; s++) {
+  if (chronology[s]) orderToSurah[chronology[s].revelationOrder] = s;
+}
+let cumulative = 0;
+const rootIntroduction = [];
+for (let order = 1; order <= 114; order++) {
+  cumulative += introByOrder[order];
+  rootIntroduction.push({
+    order,
+    surah: orderToSurah[order] ?? null,
+    newRoots: introByOrder[order],
+    cumulativeRoots: cumulative,
+  });
+}
+
+// ── Hapax localization ─────────────────────────────────────────────
+// Every root occurring exactly once, with its single verse reference
+// (from roots-summary firstOccurrence), sorted by mushaf position.
+const hapaxRootList = Object.values(rootsSummary)
+  .filter((e) => e.totalCount === 1)
+  .map((e) => ({
+    bw: e.rootBuckwalter,
+    latin: e.rootLatin,
+    arabic: e.rootArabic,
+    surah: e.firstOccurrence ? e.firstOccurrence.surah : null,
+    verse: e.firstOccurrence ? e.firstOccurrence.verse : null,
+  }))
+  .sort((a, b) => (a.surah - b.surah) || (a.verse - b.verse));
 
 const totalVerses = verseCounts.reduce((sum, v) => sum + v.verses, 0);
 const sortedLengths = verseCounts.map((v) => v.verses).sort((a, b) => a - b);
@@ -112,13 +252,6 @@ const median =
 const minLen = sortedLengths[0];
 const maxEntry = verseCounts.reduce((a, b) => (b.verses > a.verses ? b : a));
 
-const PERIOD_ORDER = ["meccan-early", "meccan-middle", "meccan-late", "medinan"];
-const PERIOD_LABELS = {
-  "meccan-early": "Early Meccan",
-  "meccan-middle": "Middle Meccan",
-  "meccan-late": "Late Meccan",
-  medinan: "Medinan",
-};
 const verseLengthByPeriod = PERIOD_ORDER.map((p) => ({
   period: p,
   label: PERIOD_LABELS[p],
@@ -156,10 +289,20 @@ const out = {
     surfaceFormsOccurringOnce: hapaxForms,
     totalRoots: Object.keys(rootsSummary).length,
     rootsOccurringOnce: hapaxRoots,
+    lemmasOccurringOnce: hapaxLemmas,
   },
   periodUniqueRoots: {
     meccanOnly,
     medinanOnly,
+  },
+  posProfile,
+  posByPeriod,
+  verseLengthHistogram,
+  rootIntroduction,
+  hapaxLocalization: {
+    count: hapaxRootList.length,
+    lemmasOccurringOnce: hapaxLemmas,
+    roots: hapaxRootList,
   },
 };
 
@@ -185,4 +328,27 @@ console.log(
   `Verse length by period: ${verseLengthByPeriod
     .map((v) => `${v.label}=${v.avgTokensPerVerse}`)
     .join(", ")}`,
+);
+console.log(
+  `POS: ${Object.entries(posProfile.byTag)
+    .slice(0, 4)
+    .map(([t, c]) => `${t}=${c}`)
+    .join(", ")} (${Object.keys(posProfile.byTag).length} tags)`,
+);
+console.log(
+  `Noun/verb by period: ${posByPeriod
+    .map((p) => `${p.label} N=${p.nounPct}% V=${p.verbPct}%`)
+    .join("; ")}`,
+);
+console.log(
+  `Verse-length bins: ${verseLengthHistogram.bins
+    .map((b) => `${b.label}=${b.count}`)
+    .join(", ")} (max ${maxVerseTokens} tokens)`,
+);
+console.log(
+  `Vocabulary growth: ${rootIntroduction[0].cumulativeRoots} roots by step 1, ` +
+    `${rootIntroduction[113].cumulativeRoots} by step 114`,
+);
+console.log(
+  `Hapax localization: ${hapaxRootList.length} once-roots, ${hapaxLemmas} once-lemmas`,
 );

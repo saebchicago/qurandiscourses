@@ -124,10 +124,3700 @@
   "uniqueSurfaceForms": 18993,
   "surfaceFormsOccurringOnce": 12004,
   "totalRoots": 1642,
-  "rootsOccurringOnce": 395
+  "rootsOccurringOnce": 395,
+  "lemmasOccurringOnce": 1994
  },
  "periodUniqueRoots": {
   "meccanOnly": 547,
   "medinanOnly": 198
+ },
+ "posProfile": {
+  "totalTokens": 77429,
+  "byTag": {
+   "N": 25135,
+   "V": 19356,
+   "P": 7679,
+   "PN": 3911,
+   "REL": 3321,
+   "PRON": 3301,
+   "NEG": 2643,
+   "ACC": 2283,
+   "ADJ": 1961,
+   "T": 1166,
+   "DEM": 1059,
+   "COND": 1048,
+   "CONJ": 756,
+   "SUB": 680,
+   "LOC": 669,
+   "RES": 558,
+   "INTG": 433,
+   "CERT": 414,
+   "PRO": 327,
+   "RET": 122,
+   "EXP": 104,
+   "INC": 90,
+   "EXL": 66,
+   "AMD": 65,
+   "INT": 47,
+   "FUT": 42,
+   "ANS": 40,
+   "EXH": 40,
+   "SUR": 35,
+   "AVR": 33,
+   "INL": 30,
+   "SUP": 13,
+   "IMPN": 2
+  }
+ },
+ "posByPeriod": [
+  {
+   "period": "meccan-early",
+   "label": "Early Meccan",
+   "tokens": 2704,
+   "nouns": 960,
+   "verbs": 673,
+   "nounPct": 35.5,
+   "verbPct": 24.9,
+   "verbToNoun": 0.7
+  },
+  {
+   "period": "meccan-middle",
+   "label": "Middle Meccan",
+   "tokens": 14163,
+   "nouns": 4618,
+   "verbs": 3741,
+   "nounPct": 32.6,
+   "verbPct": 26.4,
+   "verbToNoun": 0.81
+  },
+  {
+   "period": "meccan-late",
+   "label": "Late Meccan",
+   "tokens": 30572,
+   "nouns": 10086,
+   "verbs": 7609,
+   "nounPct": 33,
+   "verbPct": 24.9,
+   "verbToNoun": 0.75
+  },
+  {
+   "period": "medinan",
+   "label": "Medinan",
+   "tokens": 29990,
+   "nouns": 9471,
+   "verbs": 7333,
+   "nounPct": 31.6,
+   "verbPct": 24.5,
+   "verbToNoun": 0.77
+  }
+ ],
+ "verseLengthHistogram": {
+  "bins": [
+   {
+    "label": "1–5",
+    "count": 1555
+   },
+   {
+    "label": "6–10",
+    "count": 1628
+   },
+   {
+    "label": "11–20",
+    "count": 2099
+   },
+   {
+    "label": "21–40",
+    "count": 855
+   },
+   {
+    "label": "41–80",
+    "count": 97
+   },
+   {
+    "label": "81+",
+    "count": 2
+   }
+  ],
+  "byPeriod": [
+   {
+    "period": "meccan-early",
+    "label": "Early Meccan",
+    "bins": [
+     {
+      "label": "1–5",
+      "count": 508
+     },
+     {
+      "label": "6–10",
+      "count": 76
+     },
+     {
+      "label": "11–20",
+      "count": 15
+     },
+     {
+      "label": "21–40",
+      "count": 2
+     },
+     {
+      "label": "41–80",
+      "count": 2
+     },
+     {
+      "label": "81+",
+      "count": 0
+     }
+    ]
+   },
+   {
+    "period": "meccan-middle",
+    "label": "Middle Meccan",
+    "bins": [
+     {
+      "label": "1–5",
+      "count": 387
+     },
+     {
+      "label": "6–10",
+      "count": 498
+     },
+     {
+      "label": "11–20",
+      "count": 411
+     },
+     {
+      "label": "21–40",
+      "count": 100
+     },
+     {
+      "label": "41–80",
+      "count": 5
+     },
+     {
+      "label": "81+",
+      "count": 0
+     }
+    ]
+   },
+   {
+    "period": "meccan-late",
+    "label": "Late Meccan",
+    "bins": [
+     {
+      "label": "1–5",
+      "count": 571
+     },
+     {
+      "label": "6–10",
+      "count": 784
+     },
+     {
+      "label": "11–20",
+      "count": 929
+     },
+     {
+      "label": "21–40",
+      "count": 314
+     },
+     {
+      "label": "41–80",
+      "count": 11
+     },
+     {
+      "label": "81+",
+      "count": 0
+     }
+    ]
+   },
+   {
+    "period": "medinan",
+    "label": "Medinan",
+    "bins": [
+     {
+      "label": "1–5",
+      "count": 89
+     },
+     {
+      "label": "6–10",
+      "count": 270
+     },
+     {
+      "label": "11–20",
+      "count": 744
+     },
+     {
+      "label": "21–40",
+      "count": 439
+     },
+     {
+      "label": "41–80",
+      "count": 79
+     },
+     {
+      "label": "81+",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "totalVerses": 6236,
+  "maxVerseTokens": 128
+ },
+ "rootIntroduction": [
+  {
+   "order": 1,
+   "surah": 96,
+   "newRoots": 32,
+   "cumulativeRoots": 32
+  },
+  {
+   "order": 2,
+   "surah": 68,
+   "newRoots": 109,
+   "cumulativeRoots": 141
+  },
+  {
+   "order": 3,
+   "surah": 73,
+   "newRoots": 59,
+   "cumulativeRoots": 200
+  },
+  {
+   "order": 4,
+   "surah": 74,
+   "newRoots": 57,
+   "cumulativeRoots": 257
+  },
+  {
+   "order": 5,
+   "surah": 1,
+   "newRoots": 4,
+   "cumulativeRoots": 261
+  },
+  {
+   "order": 6,
+   "surah": 111,
+   "newRoots": 9,
+   "cumulativeRoots": 270
+  },
+  {
+   "order": 7,
+   "surah": 81,
+   "newRoots": 30,
+   "cumulativeRoots": 300
+  },
+  {
+   "order": 8,
+   "surah": 87,
+   "newRoots": 15,
+   "cumulativeRoots": 315
+  },
+  {
+   "order": 9,
+   "surah": 92,
+   "newRoots": 12,
+   "cumulativeRoots": 327
+  },
+  {
+   "order": 10,
+   "surah": 89,
+   "newRoots": 30,
+   "cumulativeRoots": 357
+  },
+  {
+   "order": 11,
+   "surah": 93,
+   "newRoots": 7,
+   "cumulativeRoots": 364
+  },
+  {
+   "order": 12,
+   "surah": 94,
+   "newRoots": 9,
+   "cumulativeRoots": 373
+  },
+  {
+   "order": 13,
+   "surah": 103,
+   "newRoots": 5,
+   "cumulativeRoots": 378
+  },
+  {
+   "order": 14,
+   "surah": 100,
+   "newRoots": 11,
+   "cumulativeRoots": 389
+  },
+  {
+   "order": 15,
+   "surah": 108,
+   "newRoots": 3,
+   "cumulativeRoots": 392
+  },
+  {
+   "order": 16,
+   "surah": 102,
+   "newRoots": 3,
+   "cumulativeRoots": 395
+  },
+  {
+   "order": 17,
+   "surah": 107,
+   "newRoots": 3,
+   "cumulativeRoots": 398
+  },
+  {
+   "order": 18,
+   "surah": 109,
+   "newRoots": 0,
+   "cumulativeRoots": 398
+  },
+  {
+   "order": 19,
+   "surah": 105,
+   "newRoots": 6,
+   "cumulativeRoots": 404
+  },
+  {
+   "order": 20,
+   "surah": 113,
+   "newRoots": 8,
+   "cumulativeRoots": 412
+  },
+  {
+   "order": 21,
+   "surah": 114,
+   "newRoots": 2,
+   "cumulativeRoots": 414
+  },
+  {
+   "order": 22,
+   "surah": 112,
+   "newRoots": 2,
+   "cumulativeRoots": 416
+  },
+  {
+   "order": 23,
+   "surah": 53,
+   "newRoots": 40,
+   "cumulativeRoots": 456
+  },
+  {
+   "order": 24,
+   "surah": 80,
+   "newRoots": 21,
+   "cumulativeRoots": 477
+  },
+  {
+   "order": 25,
+   "surah": 97,
+   "newRoots": 4,
+   "cumulativeRoots": 481
+  },
+  {
+   "order": 26,
+   "surah": 91,
+   "newRoots": 10,
+   "cumulativeRoots": 491
+  },
+  {
+   "order": 27,
+   "surah": 85,
+   "newRoots": 14,
+   "cumulativeRoots": 505
+  },
+  {
+   "order": 28,
+   "surah": 95,
+   "newRoots": 4,
+   "cumulativeRoots": 509
+  },
+  {
+   "order": 29,
+   "surah": 106,
+   "newRoots": 5,
+   "cumulativeRoots": 514
+  },
+  {
+   "order": 30,
+   "surah": 101,
+   "newRoots": 9,
+   "cumulativeRoots": 523
+  },
+  {
+   "order": 31,
+   "surah": 75,
+   "newRoots": 18,
+   "cumulativeRoots": 541
+  },
+  {
+   "order": 32,
+   "surah": 104,
+   "newRoots": 4,
+   "cumulativeRoots": 545
+  },
+  {
+   "order": 33,
+   "surah": 77,
+   "newRoots": 20,
+   "cumulativeRoots": 565
+  },
+  {
+   "order": 34,
+   "surah": 50,
+   "newRoots": 39,
+   "cumulativeRoots": 604
+  },
+  {
+   "order": 35,
+   "surah": 90,
+   "newRoots": 9,
+   "cumulativeRoots": 613
+  },
+  {
+   "order": 36,
+   "surah": 86,
+   "newRoots": 8,
+   "cumulativeRoots": 621
+  },
+  {
+   "order": 37,
+   "surah": 54,
+   "newRoots": 32,
+   "cumulativeRoots": 653
+  },
+  {
+   "order": 38,
+   "surah": 38,
+   "newRoots": 59,
+   "cumulativeRoots": 712
+  },
+  {
+   "order": 39,
+   "surah": 7,
+   "newRoots": 133,
+   "cumulativeRoots": 845
+  },
+  {
+   "order": 40,
+   "surah": 72,
+   "newRoots": 10,
+   "cumulativeRoots": 855
+  },
+  {
+   "order": 41,
+   "surah": 36,
+   "newRoots": 27,
+   "cumulativeRoots": 882
+  },
+  {
+   "order": 42,
+   "surah": 25,
+   "newRoots": 29,
+   "cumulativeRoots": 911
+  },
+  {
+   "order": 43,
+   "surah": 35,
+   "newRoots": 19,
+   "cumulativeRoots": 930
+  },
+  {
+   "order": 44,
+   "surah": 19,
+   "newRoots": 27,
+   "cumulativeRoots": 957
+  },
+  {
+   "order": 45,
+   "surah": 20,
+   "newRoots": 43,
+   "cumulativeRoots": 1000
+  },
+  {
+   "order": 46,
+   "surah": 56,
+   "newRoots": 20,
+   "cumulativeRoots": 1020
+  },
+  {
+   "order": 47,
+   "surah": 26,
+   "newRoots": 22,
+   "cumulativeRoots": 1042
+  },
+  {
+   "order": 48,
+   "surah": 27,
+   "newRoots": 24,
+   "cumulativeRoots": 1066
+  },
+  {
+   "order": 49,
+   "surah": 28,
+   "newRoots": 29,
+   "cumulativeRoots": 1095
+  },
+  {
+   "order": 50,
+   "surah": 17,
+   "newRoots": 33,
+   "cumulativeRoots": 1128
+  },
+  {
+   "order": 51,
+   "surah": 10,
+   "newRoots": 11,
+   "cumulativeRoots": 1139
+  },
+  {
+   "order": 52,
+   "surah": 11,
+   "newRoots": 22,
+   "cumulativeRoots": 1161
+  },
+  {
+   "order": 53,
+   "surah": 12,
+   "newRoots": 45,
+   "cumulativeRoots": 1206
+  },
+  {
+   "order": 54,
+   "surah": 15,
+   "newRoots": 11,
+   "cumulativeRoots": 1217
+  },
+  {
+   "order": 55,
+   "surah": 6,
+   "newRoots": 31,
+   "cumulativeRoots": 1248
+  },
+  {
+   "order": 56,
+   "surah": 37,
+   "newRoots": 16,
+   "cumulativeRoots": 1264
+  },
+  {
+   "order": 57,
+   "surah": 31,
+   "newRoots": 6,
+   "cumulativeRoots": 1270
+  },
+  {
+   "order": 58,
+   "surah": 34,
+   "newRoots": 13,
+   "cumulativeRoots": 1283
+  },
+  {
+   "order": 59,
+   "surah": 39,
+   "newRoots": 9,
+   "cumulativeRoots": 1292
+  },
+  {
+   "order": 60,
+   "surah": 40,
+   "newRoots": 5,
+   "cumulativeRoots": 1297
+  },
+  {
+   "order": 61,
+   "surah": 41,
+   "newRoots": 7,
+   "cumulativeRoots": 1304
+  },
+  {
+   "order": 62,
+   "surah": 42,
+   "newRoots": 6,
+   "cumulativeRoots": 1310
+  },
+  {
+   "order": 63,
+   "surah": 43,
+   "newRoots": 5,
+   "cumulativeRoots": 1315
+  },
+  {
+   "order": 64,
+   "surah": 44,
+   "newRoots": 3,
+   "cumulativeRoots": 1318
+  },
+  {
+   "order": 65,
+   "surah": 45,
+   "newRoots": 1,
+   "cumulativeRoots": 1319
+  },
+  {
+   "order": 66,
+   "surah": 46,
+   "newRoots": 1,
+   "cumulativeRoots": 1320
+  },
+  {
+   "order": 67,
+   "surah": 51,
+   "newRoots": 4,
+   "cumulativeRoots": 1324
+  },
+  {
+   "order": 68,
+   "surah": 88,
+   "newRoots": 1,
+   "cumulativeRoots": 1325
+  },
+  {
+   "order": 69,
+   "surah": 18,
+   "newRoots": 25,
+   "cumulativeRoots": 1350
+  },
+  {
+   "order": 70,
+   "surah": 16,
+   "newRoots": 21,
+   "cumulativeRoots": 1371
+  },
+  {
+   "order": 71,
+   "surah": 71,
+   "newRoots": 4,
+   "cumulativeRoots": 1375
+  },
+  {
+   "order": 72,
+   "surah": 14,
+   "newRoots": 8,
+   "cumulativeRoots": 1383
+  },
+  {
+   "order": 73,
+   "surah": 21,
+   "newRoots": 10,
+   "cumulativeRoots": 1393
+  },
+  {
+   "order": 74,
+   "surah": 23,
+   "newRoots": 9,
+   "cumulativeRoots": 1402
+  },
+  {
+   "order": 75,
+   "surah": 32,
+   "newRoots": 2,
+   "cumulativeRoots": 1404
+  },
+  {
+   "order": 76,
+   "surah": 52,
+   "newRoots": 5,
+   "cumulativeRoots": 1409
+  },
+  {
+   "order": 77,
+   "surah": 67,
+   "newRoots": 1,
+   "cumulativeRoots": 1410
+  },
+  {
+   "order": 78,
+   "surah": 69,
+   "newRoots": 5,
+   "cumulativeRoots": 1415
+  },
+  {
+   "order": 79,
+   "surah": 70,
+   "newRoots": 3,
+   "cumulativeRoots": 1418
+  },
+  {
+   "order": 80,
+   "surah": 78,
+   "newRoots": 4,
+   "cumulativeRoots": 1422
+  },
+  {
+   "order": 81,
+   "surah": 79,
+   "newRoots": 9,
+   "cumulativeRoots": 1431
+  },
+  {
+   "order": 82,
+   "surah": 82,
+   "newRoots": 0,
+   "cumulativeRoots": 1431
+  },
+  {
+   "order": 83,
+   "surah": 84,
+   "newRoots": 2,
+   "cumulativeRoots": 1433
+  },
+  {
+   "order": 84,
+   "surah": 30,
+   "newRoots": 2,
+   "cumulativeRoots": 1435
+  },
+  {
+   "order": 85,
+   "surah": 29,
+   "newRoots": 3,
+   "cumulativeRoots": 1438
+  },
+  {
+   "order": 86,
+   "surah": 83,
+   "newRoots": 6,
+   "cumulativeRoots": 1444
+  },
+  {
+   "order": 87,
+   "surah": 2,
+   "newRoots": 43,
+   "cumulativeRoots": 1487
+  },
+  {
+   "order": 88,
+   "surah": 8,
+   "newRoots": 8,
+   "cumulativeRoots": 1495
+  },
+  {
+   "order": 89,
+   "surah": 3,
+   "newRoots": 20,
+   "cumulativeRoots": 1515
+  },
+  {
+   "order": 90,
+   "surah": 33,
+   "newRoots": 10,
+   "cumulativeRoots": 1525
+  },
+  {
+   "order": 91,
+   "surah": 60,
+   "newRoots": 1,
+   "cumulativeRoots": 1526
+  },
+  {
+   "order": 92,
+   "surah": 4,
+   "newRoots": 24,
+   "cumulativeRoots": 1550
+  },
+  {
+   "order": 93,
+   "surah": 99,
+   "newRoots": 0,
+   "cumulativeRoots": 1550
+  },
+  {
+   "order": 94,
+   "surah": 57,
+   "newRoots": 0,
+   "cumulativeRoots": 1550
+  },
+  {
+   "order": 95,
+   "surah": 47,
+   "newRoots": 9,
+   "cumulativeRoots": 1559
+  },
+  {
+   "order": 96,
+   "surah": 13,
+   "newRoots": 4,
+   "cumulativeRoots": 1563
+  },
+  {
+   "order": 97,
+   "surah": 55,
+   "newRoots": 12,
+   "cumulativeRoots": 1575
+  },
+  {
+   "order": 98,
+   "surah": 76,
+   "newRoots": 3,
+   "cumulativeRoots": 1578
+  },
+  {
+   "order": 99,
+   "surah": 65,
+   "newRoots": 0,
+   "cumulativeRoots": 1578
+  },
+  {
+   "order": 100,
+   "surah": 98,
+   "newRoots": 0,
+   "cumulativeRoots": 1578
+  },
+  {
+   "order": 101,
+   "surah": 59,
+   "newRoots": 1,
+   "cumulativeRoots": 1579
+  },
+  {
+   "order": 102,
+   "surah": 24,
+   "newRoots": 5,
+   "cumulativeRoots": 1584
+  },
+  {
+   "order": 103,
+   "surah": 22,
+   "newRoots": 18,
+   "cumulativeRoots": 1602
+  },
+  {
+   "order": 104,
+   "surah": 63,
+   "newRoots": 2,
+   "cumulativeRoots": 1604
+  },
+  {
+   "order": 105,
+   "surah": 58,
+   "newRoots": 2,
+   "cumulativeRoots": 1606
+  },
+  {
+   "order": 106,
+   "surah": 49,
+   "newRoots": 4,
+   "cumulativeRoots": 1610
+  },
+  {
+   "order": 107,
+   "surah": 66,
+   "newRoots": 2,
+   "cumulativeRoots": 1612
+  },
+  {
+   "order": 108,
+   "surah": 64,
+   "newRoots": 1,
+   "cumulativeRoots": 1613
+  },
+  {
+   "order": 109,
+   "surah": 61,
+   "newRoots": 2,
+   "cumulativeRoots": 1615
+  },
+  {
+   "order": 110,
+   "surah": 62,
+   "newRoots": 0,
+   "cumulativeRoots": 1615
+  },
+  {
+   "order": 111,
+   "surah": 48,
+   "newRoots": 0,
+   "cumulativeRoots": 1615
+  },
+  {
+   "order": 112,
+   "surah": 5,
+   "newRoots": 15,
+   "cumulativeRoots": 1630
+  },
+  {
+   "order": 113,
+   "surah": 9,
+   "newRoots": 12,
+   "cumulativeRoots": 1642
+  },
+  {
+   "order": 114,
+   "surah": 110,
+   "newRoots": 0,
+   "cumulativeRoots": 1642
+  }
+ ],
+ "hapaxLocalization": {
+  "count": 395,
+  "lemmasOccurringOnce": 1994,
+  "roots": [
+   {
+    "bw": "rbH",
+    "latin": "r-b-ḥ",
+    "arabic": "ر ب ح",
+    "surah": 2,
+    "verse": 16
+   },
+   {
+    "bw": "bql",
+    "latin": "b-q-l",
+    "arabic": "ب ق ل",
+    "surah": 2,
+    "verse": 61
+   },
+   {
+    "bw": "qvA",
+    "latin": "q-th-a",
+    "arabic": "ق ث ا",
+    "surah": 2,
+    "verse": 61
+   },
+   {
+    "bw": "fwm",
+    "latin": "f-w-m",
+    "arabic": "ف و م",
+    "surah": 2,
+    "verse": 61
+   },
+   {
+    "bw": "Eds",
+    "latin": "ʿ-d-s",
+    "arabic": "ع د س",
+    "surah": 2,
+    "verse": 61
+   },
+   {
+    "bw": "bSl",
+    "latin": "b-ṣ-l",
+    "arabic": "ب ص ل",
+    "surah": 2,
+    "verse": 61
+   },
+   {
+    "bw": "fqE",
+    "latin": "f-q-ʿ",
+    "arabic": "ف ق ع",
+    "surah": 2,
+    "verse": 69
+   },
+   {
+    "bw": "w$y",
+    "latin": "w-sh-y",
+    "arabic": "و ش ي",
+    "surah": 2,
+    "verse": 71
+   },
+   {
+    "bw": "nEq",
+    "latin": "n-ʿ-q",
+    "arabic": "ن ع ق",
+    "surah": 2,
+    "verse": 171
+   },
+   {
+    "bw": "wsn",
+    "latin": "w-s-n",
+    "arabic": "و س ن",
+    "surah": 2,
+    "verse": 255
+   },
+   {
+    "bw": "Awd",
+    "latin": "a-w-d",
+    "arabic": "ا و د",
+    "surah": 2,
+    "verse": 255
+   },
+   {
+    "bw": "fSm",
+    "latin": "f-ṣ-m",
+    "arabic": "ف ص م",
+    "surah": 2,
+    "verse": 256
+   },
+   {
+    "bw": "snh",
+    "latin": "s-n-h",
+    "arabic": "س ن ه",
+    "surah": 2,
+    "verse": 259
+   },
+   {
+    "bw": "Sld",
+    "latin": "ṣ-l-d",
+    "arabic": "ص ل د",
+    "surah": 2,
+    "verse": 264
+   },
+   {
+    "bw": "Tll",
+    "latin": "ṭ-l-l",
+    "arabic": "ط ل ل",
+    "surah": 2,
+    "verse": 265
+   },
+   {
+    "bw": "gmD",
+    "latin": "gh-m-ḍ",
+    "arabic": "غ م ض",
+    "surah": 2,
+    "verse": 267
+   },
+   {
+    "bw": "lHf",
+    "latin": "l-ḥ-f",
+    "arabic": "ل ح ف",
+    "surah": 2,
+    "verse": 273
+   },
+   {
+    "bw": "xbT",
+    "latin": "kh-b-ṭ",
+    "arabic": "خ ب ط",
+    "surah": 2,
+    "verse": 275
+   },
+   {
+    "bw": "rmz",
+    "latin": "r-m-z",
+    "arabic": "ر م ز",
+    "surah": 3,
+    "verse": 41
+   },
+   {
+    "bw": "*xr",
+    "latin": "dh-kh-r",
+    "arabic": "ذ خ ر",
+    "surah": 3,
+    "verse": 49
+   },
+   {
+    "bw": "bhl",
+    "latin": "b-h-l",
+    "arabic": "ب ه ل",
+    "surah": 3,
+    "verse": 61
+   },
+   {
+    "bw": "dnr",
+    "latin": "d-n-r",
+    "arabic": "د ن ر",
+    "surah": 3,
+    "verse": 75
+   },
+   {
+    "bw": "gzw",
+    "latin": "gh-z-w",
+    "arabic": "غ ز و",
+    "surah": 3,
+    "verse": 156
+   },
+   {
+    "bw": "fZZ",
+    "latin": "f-ẓ-ẓ",
+    "arabic": "ف ظ ظ",
+    "surah": 3,
+    "verse": 159
+   },
+   {
+    "bw": "Hwb",
+    "latin": "ḥ-w-b",
+    "arabic": "ح و ب",
+    "surah": 4,
+    "verse": 2
+   },
+   {
+    "bw": "Ewl",
+    "latin": "ʿ-w-l",
+    "arabic": "ع و ل",
+    "surah": 4,
+    "verse": 3
+   },
+   {
+    "bw": "bdr",
+    "latin": "b-d-r",
+    "arabic": "ب د ر",
+    "surah": 4,
+    "verse": 6
+   },
+   {
+    "bw": "fDw",
+    "latin": "f-ḍ-w",
+    "arabic": "ف ض و",
+    "surah": 4,
+    "verse": 21
+   },
+   {
+    "bw": "jbt",
+    "latin": "j-b-t",
+    "arabic": "ج ب ت",
+    "surah": 4,
+    "verse": 51
+   },
+   {
+    "bw": "nDj",
+    "latin": "n-ḍ-j",
+    "arabic": "ن ض ج",
+    "surah": 4,
+    "verse": 56
+   },
+   {
+    "bw": "vby",
+    "latin": "th-b-y",
+    "arabic": "ث ب ي",
+    "surah": 4,
+    "verse": 71
+   },
+   {
+    "bw": "bTA",
+    "latin": "b-ṭ-a",
+    "arabic": "ب ط ا",
+    "surah": 4,
+    "verse": 72
+   },
+   {
+    "bw": "*yE",
+    "latin": "dh-y-ʿ",
+    "arabic": "ذ ي ع",
+    "surah": 4,
+    "verse": 83
+   },
+   {
+    "bw": "nbT",
+    "latin": "n-b-ṭ",
+    "arabic": "ن ب ط",
+    "surah": 4,
+    "verse": 83
+   },
+   {
+    "bw": "rgm",
+    "latin": "r-gh-m",
+    "arabic": "ر غ م",
+    "surah": 4,
+    "verse": 100
+   },
+   {
+    "bw": "btk",
+    "latin": "b-t-k",
+    "arabic": "ب ت ك",
+    "surah": 4,
+    "verse": 119
+   },
+   {
+    "bw": "*b*b",
+    "latin": "dh-b-dh-b",
+    "arabic": "ذ ب ذ ب",
+    "surah": 4,
+    "verse": 143
+   },
+   {
+    "bw": "xnq",
+    "latin": "kh-n-q",
+    "arabic": "خ ن ق",
+    "surah": 5,
+    "verse": 3
+   },
+   {
+    "bw": "wq*",
+    "latin": "w-q-dh",
+    "arabic": "و ق ذ",
+    "surah": 5,
+    "verse": 3
+   },
+   {
+    "bw": "nTH",
+    "latin": "n-ṭ-ḥ",
+    "arabic": "ن ط ح",
+    "surah": 5,
+    "verse": 3
+   },
+   {
+    "bw": "*kw",
+    "latin": "dh-k-w",
+    "arabic": "ذ ك و",
+    "surah": 5,
+    "verse": 3
+   },
+   {
+    "bw": "tyh",
+    "latin": "t-y-h",
+    "arabic": "ت ي ه",
+    "surah": 5,
+    "verse": 26
+   },
+   {
+    "bw": "bHv",
+    "latin": "b-ḥ-th",
+    "arabic": "ب ح ث",
+    "surah": 5,
+    "verse": 31
+   },
+   {
+    "bw": "nfy",
+    "latin": "n-f-y",
+    "arabic": "ن ف ي",
+    "surah": 5,
+    "verse": 33
+   },
+   {
+    "bw": "nhj",
+    "latin": "n-h-j",
+    "arabic": "ن ه ج",
+    "surah": 5,
+    "verse": 48
+   },
+   {
+    "bw": "qss",
+    "latin": "q-s-s",
+    "arabic": "ق س س",
+    "surah": 5,
+    "verse": 82
+   },
+   {
+    "bw": "rmH",
+    "latin": "r-m-ḥ",
+    "arabic": "ر م ح",
+    "surah": 5,
+    "verse": 94
+   },
+   {
+    "bw": "syb",
+    "latin": "s-y-b",
+    "arabic": "س ي ب",
+    "surah": 5,
+    "verse": 103
+   },
+   {
+    "bw": "Hyr",
+    "latin": "ḥ-y-r",
+    "arabic": "ح ي ر",
+    "surah": 6,
+    "verse": 71
+   },
+   {
+    "bw": "nwy",
+    "latin": "n-w-y",
+    "arabic": "ن و ي",
+    "surah": 6,
+    "verse": 95
+   },
+   {
+    "bw": "qnw",
+    "latin": "q-n-w",
+    "arabic": "ق ن و",
+    "surah": 6,
+    "verse": 99
+   },
+   {
+    "bw": "ynE",
+    "latin": "y-n-ʿ",
+    "arabic": "ي ن ع",
+    "surah": 6,
+    "verse": 99
+   },
+   {
+    "bw": "DAn",
+    "latin": "ḍ-a-n",
+    "arabic": "ض ا ن",
+    "surah": 6,
+    "verse": 143
+   },
+   {
+    "bw": "mEz",
+    "latin": "m-ʿ-z",
+    "arabic": "م ع ز",
+    "surah": 6,
+    "verse": 143
+   },
+   {
+    "bw": "$Hm",
+    "latin": "sh-ḥ-m",
+    "arabic": "ش ح م",
+    "surah": 6,
+    "verse": 146
+   },
+   {
+    "bw": "*Am",
+    "latin": "dh-a-m",
+    "arabic": "ذ ا م",
+    "surah": 7,
+    "verse": 18
+   },
+   {
+    "bw": "ry$",
+    "latin": "r-y-sh",
+    "arabic": "ر ي ش",
+    "surah": 7,
+    "verse": 26
+   },
+   {
+    "bw": "Hvv",
+    "latin": "ḥ-th-th",
+    "arabic": "ح ث ث",
+    "surah": 7,
+    "verse": 54
+   },
+   {
+    "bw": "nkd",
+    "latin": "n-k-d",
+    "arabic": "ن ك د",
+    "surah": 7,
+    "verse": 58
+   },
+   {
+    "bw": "shl",
+    "latin": "s-h-l",
+    "arabic": "س ه ل",
+    "surah": 7,
+    "verse": 74
+   },
+   {
+    "bw": "qml",
+    "latin": "q-m-l",
+    "arabic": "ق م ل",
+    "surah": 7,
+    "verse": 133
+   },
+   {
+    "bw": "DfdE",
+    "latin": "ḍ-f-d-ʿ",
+    "arabic": "ض ف د ع",
+    "surah": 7,
+    "verse": 133
+   },
+   {
+    "bw": "jrr",
+    "latin": "j-r-r",
+    "arabic": "ج ر ر",
+    "surah": 7,
+    "verse": 150
+   },
+   {
+    "bw": "$mt",
+    "latin": "sh-m-t",
+    "arabic": "ش م ت",
+    "surah": 7,
+    "verse": 150
+   },
+   {
+    "bw": "skt",
+    "latin": "s-k-t",
+    "arabic": "س ك ت",
+    "surah": 7,
+    "verse": 154
+   },
+   {
+    "bw": "bjs",
+    "latin": "b-j-s",
+    "arabic": "ب ج س",
+    "surah": 7,
+    "verse": 160
+   },
+   {
+    "bw": "ntq",
+    "latin": "n-t-q",
+    "arabic": "ن ت ق",
+    "surah": 7,
+    "verse": 171
+   },
+   {
+    "bw": "Smt",
+    "latin": "ṣ-m-t",
+    "arabic": "ص م ت",
+    "surah": 7,
+    "verse": 193
+   },
+   {
+    "bw": "$wk",
+    "latin": "sh-w-k",
+    "arabic": "ش و ك",
+    "surah": 8,
+    "verse": 7
+   },
+   {
+    "bw": "zHf",
+    "latin": "z-ḥ-f",
+    "arabic": "ز ح ف",
+    "surah": 8,
+    "verse": 15
+   },
+   {
+    "bw": "Hwz",
+    "latin": "ḥ-w-z",
+    "arabic": "ح و ز",
+    "surah": 8,
+    "verse": 16
+   },
+   {
+    "bw": "mkw",
+    "latin": "m-k-w",
+    "arabic": "م ك و",
+    "surah": 8,
+    "verse": 35
+   },
+   {
+    "bw": "$rd",
+    "latin": "sh-r-d",
+    "arabic": "ش ر د",
+    "surah": 8,
+    "verse": 57
+   },
+   {
+    "bw": "ksd",
+    "latin": "k-s-d",
+    "arabic": "ك س د",
+    "surah": 9,
+    "verse": 24
+   },
+   {
+    "bw": "wTn",
+    "latin": "w-ṭ-n",
+    "arabic": "و ط ن",
+    "surah": 9,
+    "verse": 25
+   },
+   {
+    "bw": "njs",
+    "latin": "n-j-s",
+    "arabic": "ن ج س",
+    "surah": 9,
+    "verse": 28
+   },
+   {
+    "bw": "DhA",
+    "latin": "ḍ-h-a",
+    "arabic": "ض ه ا",
+    "surah": 9,
+    "verse": 30
+   },
+   {
+    "bw": "kwy",
+    "latin": "k-w-y",
+    "arabic": "ك و ي",
+    "surah": 9,
+    "verse": 35
+   },
+   {
+    "bw": "jbh",
+    "latin": "j-b-h",
+    "arabic": "ج ب ه",
+    "surah": 9,
+    "verse": 35
+   },
+   {
+    "bw": "vbT",
+    "latin": "th-b-ṭ",
+    "arabic": "ث ب ط",
+    "surah": 9,
+    "verse": 46
+   },
+   {
+    "bw": "jmH",
+    "latin": "j-m-ḥ",
+    "arabic": "ج م ح",
+    "surah": 9,
+    "verse": 57
+   },
+   {
+    "bw": "jrf",
+    "latin": "j-r-f",
+    "arabic": "ج ر ف",
+    "surah": 9,
+    "verse": 109
+   },
+   {
+    "bw": "zry",
+    "latin": "z-r-y",
+    "arabic": "ز ر ي",
+    "surah": 11,
+    "verse": 31
+   },
+   {
+    "bw": "blE",
+    "latin": "b-l-ʿ",
+    "arabic": "ب ل ع",
+    "surah": 11,
+    "verse": 44
+   },
+   {
+    "bw": "qlE",
+    "latin": "q-l-ʿ",
+    "arabic": "ق ل ع",
+    "surah": 11,
+    "verse": 44
+   },
+   {
+    "bw": "Hn*",
+    "latin": "ḥ-n-dh",
+    "arabic": "ح ن ذ",
+    "surah": 11,
+    "verse": 69
+   },
+   {
+    "bw": "rwE",
+    "latin": "r-w-ʿ",
+    "arabic": "ر و ع",
+    "surah": 11,
+    "verse": 74
+   },
+   {
+    "bw": "TrH",
+    "latin": "ṭ-r-ḥ",
+    "arabic": "ط ر ح",
+    "surah": 12,
+    "verse": 9
+   },
+   {
+    "bw": "rtE",
+    "latin": "r-t-ʿ",
+    "arabic": "ر ت ع",
+    "surah": 12,
+    "verse": 12
+   },
+   {
+    "bw": "drhm",
+    "latin": "d-r-h-m",
+    "arabic": "د ر ه م",
+    "surah": 12,
+    "verse": 20
+   },
+   {
+    "bw": "zhd",
+    "latin": "z-h-d",
+    "arabic": "ز ه د",
+    "surah": 12,
+    "verse": 20
+   },
+   {
+    "bw": "glq",
+    "latin": "gh-l-q",
+    "arabic": "غ ل ق",
+    "surah": 12,
+    "verse": 23
+   },
+   {
+    "bw": "hyt",
+    "latin": "h-y-t",
+    "arabic": "ه ي ت",
+    "surah": 12,
+    "verse": 23
+   },
+   {
+    "bw": "$gf",
+    "latin": "sh-gh-f",
+    "arabic": "ش غ ف",
+    "surah": 12,
+    "verse": 30
+   },
+   {
+    "bw": "xbz",
+    "latin": "kh-b-z",
+    "arabic": "خ ب ز",
+    "surah": 12,
+    "verse": 36
+   },
+   {
+    "bw": "HSHS",
+    "latin": "ḥ-ṣ-ḥ-ṣ",
+    "arabic": "ح ص ح ص",
+    "surah": 12,
+    "verse": 51
+   },
+   {
+    "bw": "myr",
+    "latin": "m-y-r",
+    "arabic": "م ي ر",
+    "surah": 12,
+    "verse": 65
+   },
+   {
+    "bw": "SwE",
+    "latin": "ṣ-w-ʿ",
+    "arabic": "ص و ع",
+    "surah": 12,
+    "verse": 72
+   },
+   {
+    "bw": "ftA",
+    "latin": "f-t-a",
+    "arabic": "ف ت ا",
+    "surah": 12,
+    "verse": 85
+   },
+   {
+    "bw": "vrb",
+    "latin": "th-r-b",
+    "arabic": "ث ر ب",
+    "surah": 12,
+    "verse": 92
+   },
+   {
+    "bw": "fnd",
+    "latin": "f-n-d",
+    "arabic": "ف ن د",
+    "surah": 12,
+    "verse": 94
+   },
+   {
+    "bw": "mHl",
+    "latin": "m-ḥ-l",
+    "arabic": "م ح ل",
+    "surah": 13,
+    "verse": 13
+   },
+   {
+    "bw": "jfA",
+    "latin": "j-f-a",
+    "arabic": "ج ف ا",
+    "surah": 13,
+    "verse": 17
+   },
+   {
+    "bw": "jrE",
+    "latin": "j-r-ʿ",
+    "arabic": "ج ر ع",
+    "surah": 14,
+    "verse": 17
+   },
+   {
+    "bw": "rmd",
+    "latin": "r-m-d",
+    "arabic": "ر م د",
+    "surah": 14,
+    "verse": 18
+   },
+   {
+    "bw": "frE",
+    "latin": "f-r-ʿ",
+    "arabic": "ف ر ع",
+    "surah": 14,
+    "verse": 24
+   },
+   {
+    "bw": "jvv",
+    "latin": "j-th-th",
+    "arabic": "ج ث ث",
+    "surah": 14,
+    "verse": 26
+   },
+   {
+    "bw": "lqH",
+    "latin": "l-q-ḥ",
+    "arabic": "ل ق ح",
+    "surah": 15,
+    "verse": 22
+   },
+   {
+    "bw": "fDH",
+    "latin": "f-ḍ-ḥ",
+    "arabic": "ف ض ح",
+    "surah": 15,
+    "verse": 68
+   },
+   {
+    "bw": "EDw",
+    "latin": "ʿ-ḍ-w",
+    "arabic": "ع ض و",
+    "surah": 15,
+    "verse": 91
+   },
+   {
+    "bw": "dfA",
+    "latin": "d-f-a",
+    "arabic": "د ف ا",
+    "surah": 16,
+    "verse": 5
+   },
+   {
+    "bw": "bgl",
+    "latin": "b-gh-l",
+    "arabic": "ب غ ل",
+    "surah": 16,
+    "verse": 8
+   },
+   {
+    "bw": "dss",
+    "latin": "d-s-s",
+    "arabic": "د س س",
+    "surah": 16,
+    "verse": 59
+   },
+   {
+    "bw": "frv",
+    "latin": "f-r-th",
+    "arabic": "ف ر ث",
+    "surah": 16,
+    "verse": 66
+   },
+   {
+    "bw": "Hfd",
+    "latin": "ḥ-f-d",
+    "arabic": "ح ف د",
+    "surah": 16,
+    "verse": 72
+   },
+   {
+    "bw": "jww",
+    "latin": "j-w-w",
+    "arabic": "ج و و",
+    "surah": 16,
+    "verse": 79
+   },
+   {
+    "bw": "ZEn",
+    "latin": "ẓ-ʿ-n",
+    "arabic": "ظ ع ن",
+    "surah": 16,
+    "verse": 80
+   },
+   {
+    "bw": "Swf",
+    "latin": "ṣ-w-f",
+    "arabic": "ص و ف",
+    "surah": 16,
+    "verse": 80
+   },
+   {
+    "bw": "wbr",
+    "latin": "w-b-r",
+    "arabic": "و ب ر",
+    "surah": 16,
+    "verse": 80
+   },
+   {
+    "bw": "wkd",
+    "latin": "w-k-d",
+    "arabic": "و ك د",
+    "surah": 16,
+    "verse": 91
+   },
+   {
+    "bw": "gzl",
+    "latin": "gh-z-l",
+    "arabic": "غ ز ل",
+    "surah": 16,
+    "verse": 92
+   },
+   {
+    "bw": "jws",
+    "latin": "j-w-s",
+    "arabic": "ج و س",
+    "surah": 17,
+    "verse": 5
+   },
+   {
+    "bw": "ngD",
+    "latin": "n-gh-ḍ",
+    "arabic": "ن غ ض",
+    "surah": 17,
+    "verse": 51
+   },
+   {
+    "bw": "Hnk",
+    "latin": "ḥ-n-k",
+    "arabic": "ح ن ك",
+    "surah": 17,
+    "verse": 62
+   },
+   {
+    "bw": "wfr",
+    "latin": "w-f-r",
+    "arabic": "و ف ر",
+    "surah": 17,
+    "verse": 63
+   },
+   {
+    "bw": "qSf",
+    "latin": "q-ṣ-f",
+    "arabic": "ق ص ف",
+    "surah": 17,
+    "verse": 69
+   },
+   {
+    "bw": "dlk",
+    "latin": "d-l-k",
+    "arabic": "د ل ك",
+    "surah": 17,
+    "verse": 78
+   },
+   {
+    "bw": "hjd",
+    "latin": "h-j-d",
+    "arabic": "ه ج د",
+    "surah": 17,
+    "verse": 79
+   },
+   {
+    "bw": "xbw",
+    "latin": "kh-b-w",
+    "arabic": "خ ب و",
+    "surah": 17,
+    "verse": 97
+   },
+   {
+    "bw": "fjw",
+    "latin": "f-j-w",
+    "arabic": "ف ج و",
+    "surah": 18,
+    "verse": 17
+   },
+   {
+    "bw": "yqZ",
+    "latin": "y-q-ẓ",
+    "arabic": "ي ق ظ",
+    "surah": 18,
+    "verse": 18
+   },
+   {
+    "bw": "srdq",
+    "latin": "s-r-d-q",
+    "arabic": "س ر د ق",
+    "surah": 18,
+    "verse": 29
+   },
+   {
+    "bw": "byd",
+    "latin": "b-y-d",
+    "arabic": "ب ي د",
+    "surah": 18,
+    "verse": 35
+   },
+   {
+    "bw": "wAl",
+    "latin": "w-a-l",
+    "arabic": "و ا ل",
+    "surah": 18,
+    "verse": 58
+   },
+   {
+    "bw": "qDD",
+    "latin": "q-ḍ-ḍ",
+    "arabic": "ق ض ض",
+    "surah": 18,
+    "verse": 77
+   },
+   {
+    "bw": "Eyb",
+    "latin": "ʿ-y-b",
+    "arabic": "ع ي ب",
+    "surah": 18,
+    "verse": 79
+   },
+   {
+    "bw": "gSb",
+    "latin": "gh-ṣ-b",
+    "arabic": "غ ص ب",
+    "surah": 18,
+    "verse": 79
+   },
+   {
+    "bw": "rdm",
+    "latin": "r-d-m",
+    "arabic": "ر د م",
+    "surah": 18,
+    "verse": 95
+   },
+   {
+    "bw": "$El",
+    "latin": "sh-ʿ-l",
+    "arabic": "ش ع ل",
+    "surah": 19,
+    "verse": 4
+   },
+   {
+    "bw": "Hnn",
+    "latin": "ḥ-n-n",
+    "arabic": "ح ن ن",
+    "surah": 19,
+    "verse": 13
+   },
+   {
+    "bw": "mxD",
+    "latin": "m-kh-ḍ",
+    "arabic": "م خ ض",
+    "surah": 19,
+    "verse": 23
+   },
+   {
+    "bw": "Htm",
+    "latin": "ḥ-t-m",
+    "arabic": "ح ت م",
+    "surah": 19,
+    "verse": 71
+   },
+   {
+    "bw": "Ddd",
+    "latin": "ḍ-d-d",
+    "arabic": "ض د د",
+    "surah": 19,
+    "verse": 82
+   },
+   {
+    "bw": "wfd",
+    "latin": "w-f-d",
+    "arabic": "و ف د",
+    "surah": 19,
+    "verse": 85
+   },
+   {
+    "bw": "Add",
+    "latin": "a-d-d",
+    "arabic": "ا د د",
+    "surah": 19,
+    "verse": 89
+   },
+   {
+    "bw": "hdd",
+    "latin": "h-d-d",
+    "arabic": "ه د د",
+    "surah": 19,
+    "verse": 90
+   },
+   {
+    "bw": "rkz",
+    "latin": "r-k-z",
+    "arabic": "ر ك ز",
+    "surah": 19,
+    "verse": 98
+   },
+   {
+    "bw": "vry",
+    "latin": "th-r-y",
+    "arabic": "ث ر ي",
+    "surah": 20,
+    "verse": 6
+   },
+   {
+    "bw": "xlE",
+    "latin": "kh-l-ʿ",
+    "arabic": "خ ل ع",
+    "surah": 20,
+    "verse": 12
+   },
+   {
+    "bw": "nEl",
+    "latin": "n-ʿ-l",
+    "arabic": "ن ع ل",
+    "surah": 20,
+    "verse": 12
+   },
+   {
+    "bw": "h$$",
+    "latin": "h-sh-sh",
+    "arabic": "ه ش ش",
+    "surah": 20,
+    "verse": 18
+   },
+   {
+    "bw": "sHl",
+    "latin": "s-ḥ-l",
+    "arabic": "س ح ل",
+    "surah": 20,
+    "verse": 39
+   },
+   {
+    "bw": "wny",
+    "latin": "w-n-y",
+    "arabic": "و ن ي",
+    "surah": 20,
+    "verse": 42
+   },
+   {
+    "bw": "lHy",
+    "latin": "l-ḥ-y",
+    "arabic": "ل ح ي",
+    "surah": 20,
+    "verse": 94
+   },
+   {
+    "bw": "zrq",
+    "latin": "z-r-q",
+    "arabic": "ز ر ق",
+    "surah": 20,
+    "verse": 102
+   },
+   {
+    "bw": "SfSf",
+    "latin": "ṣ-f-ṣ-f",
+    "arabic": "ص ف ص ف",
+    "surah": 20,
+    "verse": 106
+   },
+   {
+    "bw": "Amt",
+    "latin": "a-m-t",
+    "arabic": "ا م ت",
+    "surah": 20,
+    "verse": 107
+   },
+   {
+    "bw": "hms",
+    "latin": "h-m-s",
+    "arabic": "ه م س",
+    "surah": 20,
+    "verse": 108
+   },
+   {
+    "bw": "Enw",
+    "latin": "ʿ-n-w",
+    "arabic": "ع ن و",
+    "surah": 20,
+    "verse": 111
+   },
+   {
+    "bw": "Dnk",
+    "latin": "ḍ-n-k",
+    "arabic": "ض ن ك",
+    "surah": 20,
+    "verse": 124
+   },
+   {
+    "bw": "zhr",
+    "latin": "z-h-r",
+    "arabic": "ز ه ر",
+    "surah": 20,
+    "verse": 131
+   },
+   {
+    "bw": "qSm",
+    "latin": "q-ṣ-m",
+    "arabic": "ق ص م",
+    "surah": 21,
+    "verse": 11
+   },
+   {
+    "bw": "dmg",
+    "latin": "d-m-gh",
+    "arabic": "د م غ",
+    "surah": 21,
+    "verse": 18
+   },
+   {
+    "bw": "rtq",
+    "latin": "r-t-q",
+    "arabic": "ر ت ق",
+    "surah": 21,
+    "verse": 30
+   },
+   {
+    "bw": "ftq",
+    "latin": "f-t-q",
+    "arabic": "ف ت ق",
+    "surah": 21,
+    "verse": 30
+   },
+   {
+    "bw": "klA",
+    "latin": "k-l-a",
+    "arabic": "ك ل ا",
+    "surah": 21,
+    "verse": 42
+   },
+   {
+    "bw": "nfH",
+    "latin": "n-f-ḥ",
+    "arabic": "ن ف ح",
+    "surah": 21,
+    "verse": 46
+   },
+   {
+    "bw": "fhm",
+    "latin": "f-h-m",
+    "arabic": "ف ه م",
+    "surah": 21,
+    "verse": 79
+   },
+   {
+    "bw": "nwn",
+    "latin": "n-w-n",
+    "arabic": "ن و ن",
+    "surah": 21,
+    "verse": 87
+   },
+   {
+    "bw": "Hdb",
+    "latin": "ḥ-d-b",
+    "arabic": "ح د ب",
+    "surah": 21,
+    "verse": 96
+   },
+   {
+    "bw": "*hl",
+    "latin": "dh-h-l",
+    "arabic": "ذ ه ل",
+    "surah": 22,
+    "verse": 2
+   },
+   {
+    "bw": "hmd",
+    "latin": "h-m-d",
+    "arabic": "ه م د",
+    "surah": 22,
+    "verse": 5
+   },
+   {
+    "bw": "ETf",
+    "latin": "ʿ-ṭ-f",
+    "arabic": "ع ط ف",
+    "surah": 22,
+    "verse": 9
+   },
+   {
+    "bw": "mjs",
+    "latin": "m-j-s",
+    "arabic": "م ج س",
+    "surah": 22,
+    "verse": 17
+   },
+   {
+    "bw": "qmE",
+    "latin": "q-m-ʿ",
+    "arabic": "ق م ع",
+    "surah": 22,
+    "verse": 21
+   },
+   {
+    "bw": "Dmr",
+    "latin": "ḍ-m-r",
+    "arabic": "ض م ر",
+    "surah": 22,
+    "verse": 27
+   },
+   {
+    "bw": "Emq",
+    "latin": "ʿ-m-q",
+    "arabic": "ع م ق",
+    "surah": 22,
+    "verse": 27
+   },
+   {
+    "bw": "tfv",
+    "latin": "t-f-th",
+    "arabic": "ت ف ث",
+    "surah": 22,
+    "verse": 29
+   },
+   {
+    "bw": "wjb",
+    "latin": "w-j-b",
+    "arabic": "و ج ب",
+    "surah": 22,
+    "verse": 36
+   },
+   {
+    "bw": "hdm",
+    "latin": "h-d-m",
+    "arabic": "ه د م",
+    "surah": 22,
+    "verse": 40
+   },
+   {
+    "bw": "SmE",
+    "latin": "ṣ-m-ʿ",
+    "arabic": "ص م ع",
+    "surah": 22,
+    "verse": 40
+   },
+   {
+    "bw": "bAr",
+    "latin": "b-a-r",
+    "arabic": "ب ا ر",
+    "surah": 22,
+    "verse": 45
+   },
+   {
+    "bw": "sTw",
+    "latin": "s-ṭ-w",
+    "arabic": "س ط و",
+    "surah": 22,
+    "verse": 72
+   },
+   {
+    "bw": "slb",
+    "latin": "s-l-b",
+    "arabic": "س ل ب",
+    "surah": 22,
+    "verse": 73
+   },
+   {
+    "bw": "lfH",
+    "latin": "l-f-ḥ",
+    "arabic": "ل ف ح",
+    "surah": 23,
+    "verse": 104
+   },
+   {
+    "bw": "klH",
+    "latin": "k-l-ḥ",
+    "arabic": "ك ل ح",
+    "surah": 23,
+    "verse": 104
+   },
+   {
+    "bw": "Aym",
+    "latin": "a-y-m",
+    "arabic": "ا ي م",
+    "surah": 24,
+    "verse": 32
+   },
+   {
+    "bw": "*En",
+    "latin": "dh-ʿ-n",
+    "arabic": "ذ ع ن",
+    "surah": 24,
+    "verse": 49
+   },
+   {
+    "bw": "Hyf",
+    "latin": "ḥ-y-f",
+    "arabic": "ح ي ف",
+    "surah": 24,
+    "verse": 50
+   },
+   {
+    "bw": "lw*",
+    "latin": "l-w-dh",
+    "arabic": "ل و ذ",
+    "surah": 24,
+    "verse": 63
+   },
+   {
+    "bw": "fln",
+    "latin": "f-l-n",
+    "arabic": "ف ل ن",
+    "surah": 25,
+    "verse": 28
+   },
+   {
+    "bw": "fsr",
+    "latin": "f-s-r",
+    "arabic": "ف س ر",
+    "surah": 25,
+    "verse": 33
+   },
+   {
+    "bw": "EbA",
+    "latin": "ʿ-b-a",
+    "arabic": "ع ب ا",
+    "surah": 25,
+    "verse": 77
+   },
+   {
+    "bw": "Dyr",
+    "latin": "ḍ-y-r",
+    "arabic": "ض ي ر",
+    "surah": 26,
+    "verse": 50
+   },
+   {
+    "bw": "$r*m",
+    "latin": "sh-r-dh-m",
+    "arabic": "ش ر ذ م",
+    "surah": 26,
+    "verse": 54
+   },
+   {
+    "bw": "Twd",
+    "latin": "ṭ-w-d",
+    "arabic": "ط و د",
+    "surah": 26,
+    "verse": 63
+   },
+   {
+    "bw": "kbkb",
+    "latin": "k-b-k-b",
+    "arabic": "ك ب ك ب",
+    "surah": 26,
+    "verse": 94
+   },
+   {
+    "bw": "ryE",
+    "latin": "r-y-ʿ",
+    "arabic": "ر ي ع",
+    "surah": 26,
+    "verse": 128
+   },
+   {
+    "bw": "frh",
+    "latin": "f-r-h",
+    "arabic": "ف ر ه",
+    "surah": 26,
+    "verse": 149
+   },
+   {
+    "bw": "bsm",
+    "latin": "b-s-m",
+    "arabic": "ب س م",
+    "surah": 27,
+    "verse": 19
+   },
+   {
+    "bw": "hdhd",
+    "latin": "h-d-h-d",
+    "arabic": "ه د ه د",
+    "surah": 27,
+    "verse": 20
+   },
+   {
+    "bw": "xbA",
+    "latin": "kh-b-a",
+    "arabic": "خ ب ا",
+    "surah": 27,
+    "verse": 25
+   },
+   {
+    "bw": "Efr",
+    "latin": "ʿ-f-r",
+    "arabic": "ع ف ر",
+    "surah": 27,
+    "verse": 39
+   },
+   {
+    "bw": "jmd",
+    "latin": "j-m-d",
+    "arabic": "ج م د",
+    "surah": 27,
+    "verse": 88
+   },
+   {
+    "bw": "tqn",
+    "latin": "t-q-n",
+    "arabic": "ت ق ن",
+    "surah": 27,
+    "verse": 88
+   },
+   {
+    "bw": "wkz",
+    "latin": "w-k-z",
+    "arabic": "و ك ز",
+    "surah": 28,
+    "verse": 15
+   },
+   {
+    "bw": "*wd",
+    "latin": "dh-w-d",
+    "arabic": "ذ و د",
+    "surah": 28,
+    "verse": 23
+   },
+   {
+    "bw": "j*w",
+    "latin": "j-dh-w",
+    "arabic": "ج ذ و",
+    "surah": 28,
+    "verse": 29
+   },
+   {
+    "bw": "bqE",
+    "latin": "b-q-ʿ",
+    "arabic": "ب ق ع",
+    "surah": 28,
+    "verse": 30
+   },
+   {
+    "bw": "fSH",
+    "latin": "f-ṣ-ḥ",
+    "arabic": "ف ص ح",
+    "surah": 28,
+    "verse": 34
+   },
+   {
+    "bw": "rdA",
+    "latin": "r-d-a",
+    "arabic": "ر د ا",
+    "surah": 28,
+    "verse": 34
+   },
+   {
+    "bw": "qbH",
+    "latin": "q-b-ḥ",
+    "arabic": "ق ب ح",
+    "surah": 28,
+    "verse": 42
+   },
+   {
+    "bw": "nwA",
+    "latin": "n-w-a",
+    "arabic": "ن و ا",
+    "surah": 28,
+    "verse": 76
+   },
+   {
+    "bw": "xTT",
+    "latin": "kh-ṭ-ṭ",
+    "arabic": "خ ط ط",
+    "surah": 29,
+    "verse": 48
+   },
+   {
+    "bw": "msw",
+    "latin": "m-s-w",
+    "arabic": "م س و",
+    "surah": 30,
+    "verse": 17
+   },
+   {
+    "bw": "SEr",
+    "latin": "ṣ-ʿ-r",
+    "arabic": "ص ع ر",
+    "surah": 31,
+    "verse": 18
+   },
+   {
+    "bw": "xtr",
+    "latin": "kh-t-r",
+    "arabic": "خ ت ر",
+    "surah": 31,
+    "verse": 32
+   },
+   {
+    "bw": "jfw",
+    "latin": "j-f-w",
+    "arabic": "ج ف و",
+    "surah": 32,
+    "verse": 16
+   },
+   {
+    "bw": "jwf",
+    "latin": "j-w-f",
+    "arabic": "ج و ف",
+    "surah": 33,
+    "verse": 4
+   },
+   {
+    "bw": "Ewq",
+    "latin": "ʿ-w-q",
+    "arabic": "ع و ق",
+    "surah": 33,
+    "verse": 18
+   },
+   {
+    "bw": "slq",
+    "latin": "s-l-q",
+    "arabic": "س ل ق",
+    "surah": 33,
+    "verse": 19
+   },
+   {
+    "bw": "nHb",
+    "latin": "n-ḥ-b",
+    "arabic": "ن ح ب",
+    "surah": 33,
+    "verse": 23
+   },
+   {
+    "bw": "SyS",
+    "latin": "ṣ-y-ṣ",
+    "arabic": "ص ي ص",
+    "surah": 33,
+    "verse": 26
+   },
+   {
+    "bw": "srd",
+    "latin": "s-r-d",
+    "arabic": "س ر د",
+    "surah": 34,
+    "verse": 11
+   },
+   {
+    "bw": "jfn",
+    "latin": "j-f-n",
+    "arabic": "ج ف ن",
+    "surah": 34,
+    "verse": 13
+   },
+   {
+    "bw": "Erm",
+    "latin": "ʿ-r-m",
+    "arabic": "ع ر م",
+    "surah": 34,
+    "verse": 16
+   },
+   {
+    "bw": "xmT",
+    "latin": "kh-m-ṭ",
+    "arabic": "خ م ط",
+    "surah": 34,
+    "verse": 16
+   },
+   {
+    "bw": "Avl",
+    "latin": "a-th-l",
+    "arabic": "ا ث ل",
+    "surah": 34,
+    "verse": 16
+   },
+   {
+    "bw": "nw$",
+    "latin": "n-w-sh",
+    "arabic": "ن و ش",
+    "surah": 34,
+    "verse": 52
+   },
+   {
+    "bw": "qTmr",
+    "latin": "q-ṭ-m-r",
+    "arabic": "ق ط م ر",
+    "surah": 35,
+    "verse": 13
+   },
+   {
+    "bw": "qmH",
+    "latin": "q-m-ḥ",
+    "arabic": "ق م ح",
+    "surah": 36,
+    "verse": 8
+   },
+   {
+    "bw": "Erjn",
+    "latin": "ʿ-r-j-n",
+    "arabic": "ع ر ج ن",
+    "surah": 36,
+    "verse": 39
+   },
+   {
+    "bw": "msx",
+    "latin": "m-s-kh",
+    "arabic": "م س خ",
+    "surah": 36,
+    "verse": 67
+   },
+   {
+    "bw": "lzb",
+    "latin": "l-z-b",
+    "arabic": "ل ز ب",
+    "surah": 37,
+    "verse": 11
+   },
+   {
+    "bw": "gwl",
+    "latin": "gh-w-l",
+    "arabic": "غ و ل",
+    "surah": 37,
+    "verse": 47
+   },
+   {
+    "bw": "$wb",
+    "latin": "sh-w-b",
+    "arabic": "ش و ب",
+    "surah": 37,
+    "verse": 67
+   },
+   {
+    "bw": "zff",
+    "latin": "z-f-f",
+    "arabic": "ز ف ف",
+    "surah": 37,
+    "verse": 94
+   },
+   {
+    "bw": "tll",
+    "latin": "t-l-l",
+    "arabic": "ت ل ل",
+    "surah": 37,
+    "verse": 103
+   },
+   {
+    "bw": "jbn",
+    "latin": "j-b-n",
+    "arabic": "ج ب ن",
+    "surah": 37,
+    "verse": 103
+   },
+   {
+    "bw": "Abq",
+    "latin": "a-b-q",
+    "arabic": "ا ب ق",
+    "surah": 37,
+    "verse": 140
+   },
+   {
+    "bw": "shm",
+    "latin": "s-h-m",
+    "arabic": "س ه م",
+    "surah": 37,
+    "verse": 141
+   },
+   {
+    "bw": "lqm",
+    "latin": "l-q-m",
+    "arabic": "ل ق م",
+    "surah": 37,
+    "verse": 142
+   },
+   {
+    "bw": "swH",
+    "latin": "s-w-ḥ",
+    "arabic": "س و ح",
+    "surah": 37,
+    "verse": 177
+   },
+   {
+    "bw": "lwt",
+    "latin": "l-w-t",
+    "arabic": "ل و ت",
+    "surah": 38,
+    "verse": 3
+   },
+   {
+    "bw": "nwS",
+    "latin": "n-w-ṣ",
+    "arabic": "ن و ص",
+    "surah": 38,
+    "verse": 3
+   },
+   {
+    "bw": "qTT",
+    "latin": "q-ṭ-ṭ",
+    "arabic": "ق ط ط",
+    "surah": 38,
+    "verse": 16
+   },
+   {
+    "bw": "Sfn",
+    "latin": "ṣ-f-n",
+    "arabic": "ص ف ن",
+    "surah": 38,
+    "verse": 31
+   },
+   {
+    "bw": "jwd",
+    "latin": "j-w-d",
+    "arabic": "ج و د",
+    "surah": 38,
+    "verse": 31
+   },
+   {
+    "bw": "rxw",
+    "latin": "r-kh-w",
+    "arabic": "ر خ و",
+    "surah": 38,
+    "verse": 36
+   },
+   {
+    "bw": "q$Er",
+    "latin": "q-sh-ʿ-r",
+    "arabic": "ق ش ع ر",
+    "surah": 39,
+    "verse": 23
+   },
+   {
+    "bw": "$ks",
+    "latin": "sh-k-s",
+    "arabic": "ش ك س",
+    "surah": 39,
+    "verse": 29
+   },
+   {
+    "bw": "$mz",
+    "latin": "sh-m-z",
+    "arabic": "ش م ز",
+    "surah": 39,
+    "verse": 45
+   },
+   {
+    "bw": "fwD",
+    "latin": "f-w-ḍ",
+    "arabic": "ف و ض",
+    "surah": 40,
+    "verse": 44
+   },
+   {
+    "bw": "rkd",
+    "latin": "r-k-d",
+    "arabic": "ر ك د",
+    "surah": 42,
+    "verse": 33
+   },
+   {
+    "bw": "rhw",
+    "latin": "r-h-w",
+    "arabic": "ر ه و",
+    "surah": 44,
+    "verse": 24
+   },
+   {
+    "bw": "Hqf",
+    "latin": "ḥ-q-f",
+    "arabic": "ح ق ف",
+    "surah": 46,
+    "verse": 21
+   },
+   {
+    "bw": "tEs",
+    "latin": "t-ʿ-s",
+    "arabic": "ت ع س",
+    "surah": 47,
+    "verse": 8
+   },
+   {
+    "bw": "Asn",
+    "latin": "a-s-n",
+    "arabic": "ا س ن",
+    "surah": 47,
+    "verse": 15
+   },
+   {
+    "bw": "Esl",
+    "latin": "ʿ-s-l",
+    "arabic": "ع س ل",
+    "surah": 47,
+    "verse": 15
+   },
+   {
+    "bw": "mEy",
+    "latin": "m-ʿ-y",
+    "arabic": "م ع ي",
+    "surah": 47,
+    "verse": 15
+   },
+   {
+    "bw": "$rT",
+    "latin": "sh-r-ṭ",
+    "arabic": "ش ر ط",
+    "surah": 47,
+    "verse": 18
+   },
+   {
+    "bw": "qfl",
+    "latin": "q-f-l",
+    "arabic": "ق ف ل",
+    "surah": 47,
+    "verse": 24
+   },
+   {
+    "bw": "lHn",
+    "latin": "l-ḥ-n",
+    "arabic": "ل ح ن",
+    "surah": 47,
+    "verse": 30
+   },
+   {
+    "bw": "nbz",
+    "latin": "n-b-z",
+    "arabic": "ن ب ز",
+    "surah": 49,
+    "verse": 11
+   },
+   {
+    "bw": "lqb",
+    "latin": "l-q-b",
+    "arabic": "ل ق ب",
+    "surah": 49,
+    "verse": 11
+   },
+   {
+    "bw": "jss",
+    "latin": "j-s-s",
+    "arabic": "ج س س",
+    "surah": 49,
+    "verse": 12
+   },
+   {
+    "bw": "lyt",
+    "latin": "l-y-t",
+    "arabic": "ل ي ت",
+    "surah": 49,
+    "verse": 14
+   },
+   {
+    "bw": "bsq",
+    "latin": "b-s-q",
+    "arabic": "ب س ق",
+    "surah": 50,
+    "verse": 10
+   },
+   {
+    "bw": "lfZ",
+    "latin": "l-f-ẓ",
+    "arabic": "ل ف ظ",
+    "surah": 50,
+    "verse": 18
+   },
+   {
+    "bw": "Hyd",
+    "latin": "ḥ-y-d",
+    "arabic": "ح ي د",
+    "surah": 50,
+    "verse": 19
+   },
+   {
+    "bw": "Hbk",
+    "latin": "ḥ-b-k",
+    "arabic": "ح ب ك",
+    "surah": 51,
+    "verse": 7
+   },
+   {
+    "bw": "hjE",
+    "latin": "h-j-ʿ",
+    "arabic": "ه ج ع",
+    "surah": 51,
+    "verse": 17
+   },
+   {
+    "bw": "Skk",
+    "latin": "ṣ-k-k",
+    "arabic": "ص ك ك",
+    "surah": 51,
+    "verse": 29
+   },
+   {
+    "bw": "rqq",
+    "latin": "r-q-q",
+    "arabic": "ر ق ق",
+    "surah": 52,
+    "verse": 3
+   },
+   {
+    "bw": "Alt",
+    "latin": "a-l-t",
+    "arabic": "ا ل ت",
+    "surah": 52,
+    "verse": 21
+   },
+   {
+    "bw": "qwb",
+    "latin": "q-w-b",
+    "arabic": "ق و ب",
+    "surah": 53,
+    "verse": 9
+   },
+   {
+    "bw": "qws",
+    "latin": "q-w-s",
+    "arabic": "ق و س",
+    "surah": 53,
+    "verse": 9
+   },
+   {
+    "bw": "Dyz",
+    "latin": "ḍ-y-z",
+    "arabic": "ض ي ز",
+    "surah": 53,
+    "verse": 22
+   },
+   {
+    "bw": "kdy",
+    "latin": "k-d-y",
+    "arabic": "ك د ي",
+    "surah": 53,
+    "verse": 34
+   },
+   {
+    "bw": "qny",
+    "latin": "q-n-y",
+    "arabic": "ق ن ي",
+    "surah": 53,
+    "verse": 48
+   },
+   {
+    "bw": "smd",
+    "latin": "s-m-d",
+    "arabic": "س م د",
+    "surah": 53,
+    "verse": 61
+   },
+   {
+    "bw": "hmr",
+    "latin": "h-m-r",
+    "arabic": "ه م ر",
+    "surah": 54,
+    "verse": 11
+   },
+   {
+    "bw": "dsr",
+    "latin": "d-s-r",
+    "arabic": "د س ر",
+    "surah": 54,
+    "verse": 13
+   },
+   {
+    "bw": "qEr",
+    "latin": "q-ʿ-r",
+    "arabic": "ق ع ر",
+    "surah": 54,
+    "verse": 20
+   },
+   {
+    "bw": "dhy",
+    "latin": "d-h-y",
+    "arabic": "د ه ي",
+    "surah": 54,
+    "verse": 46
+   },
+   {
+    "bw": "Anm",
+    "latin": "a-n-m",
+    "arabic": "ا ن م",
+    "surah": 55,
+    "verse": 10
+   },
+   {
+    "bw": "fny",
+    "latin": "f-n-y",
+    "arabic": "ف ن ي",
+    "surah": 55,
+    "verse": 26
+   },
+   {
+    "bw": "$wZ",
+    "latin": "sh-w-ẓ",
+    "arabic": "ش و ظ",
+    "surah": 55,
+    "verse": 35
+   },
+   {
+    "bw": "fnn",
+    "latin": "f-n-n",
+    "arabic": "ف ن ن",
+    "surah": 55,
+    "verse": 48
+   },
+   {
+    "bw": "dhm",
+    "latin": "d-h-m",
+    "arabic": "د ه م",
+    "surah": 55,
+    "verse": 64
+   },
+   {
+    "bw": "nDx",
+    "latin": "n-ḍ-kh",
+    "arabic": "ن ض خ",
+    "surah": 55,
+    "verse": 66
+   },
+   {
+    "bw": "xym",
+    "latin": "kh-y-m",
+    "arabic": "خ ي م",
+    "surah": 55,
+    "verse": 72
+   },
+   {
+    "bw": "rfrf",
+    "latin": "r-f-r-f",
+    "arabic": "ر ف ر ف",
+    "surah": 55,
+    "verse": 76
+   },
+   {
+    "bw": "Ebqr",
+    "latin": "ʿ-b-q-r",
+    "arabic": "ع ب ق ر",
+    "surah": 55,
+    "verse": 76
+   },
+   {
+    "bw": "wDn",
+    "latin": "w-ḍ-n",
+    "arabic": "و ض ن",
+    "surah": 56,
+    "verse": 15
+   },
+   {
+    "bw": "xDd",
+    "latin": "kh-ḍ-d",
+    "arabic": "خ ض د",
+    "surah": 56,
+    "verse": 28
+   },
+   {
+    "bw": "TlH",
+    "latin": "ṭ-l-ḥ",
+    "arabic": "ط ل ح",
+    "surah": 56,
+    "verse": 29
+   },
+   {
+    "bw": "skb",
+    "latin": "s-k-b",
+    "arabic": "س ك ب",
+    "surah": 56,
+    "verse": 31
+   },
+   {
+    "bw": "mzn",
+    "latin": "m-z-n",
+    "arabic": "م ز ن",
+    "surah": 56,
+    "verse": 69
+   },
+   {
+    "bw": "jls",
+    "latin": "j-l-s",
+    "arabic": "ج ل س",
+    "surah": 58,
+    "verse": 11
+   },
+   {
+    "bw": "rSS",
+    "latin": "r-ṣ-ṣ",
+    "arabic": "ر ص ص",
+    "surah": 61,
+    "verse": 4
+   },
+   {
+    "bw": "x$b",
+    "latin": "kh-sh-b",
+    "arabic": "خ ش ب",
+    "surah": 63,
+    "verse": 4
+   },
+   {
+    "bw": "snd",
+    "latin": "s-n-d",
+    "arabic": "س ن د",
+    "surah": 63,
+    "verse": 4
+   },
+   {
+    "bw": "gbn",
+    "latin": "gh-b-n",
+    "arabic": "غ ب ن",
+    "surah": 64,
+    "verse": 9
+   },
+   {
+    "bw": "vyb",
+    "latin": "th-y-b",
+    "arabic": "ث ي ب",
+    "surah": 66,
+    "verse": 5
+   },
+   {
+    "bw": "nmm",
+    "latin": "n-m-m",
+    "arabic": "ن م م",
+    "surah": 68,
+    "verse": 11
+   },
+   {
+    "bw": "znm",
+    "latin": "z-n-m",
+    "arabic": "ز ن م",
+    "surah": 68,
+    "verse": 13
+   },
+   {
+    "bw": "xrTm",
+    "latin": "kh-r-ṭ-m",
+    "arabic": "خ ر ط م",
+    "surah": 68,
+    "verse": 16
+   },
+   {
+    "bw": "Hrd",
+    "latin": "ḥ-r-d",
+    "arabic": "ح ر د",
+    "surah": 68,
+    "verse": 25
+   },
+   {
+    "bw": "Hsm",
+    "latin": "ḥ-s-m",
+    "arabic": "ح س م",
+    "surah": 69,
+    "verse": 7
+   },
+   {
+    "bw": "SrE",
+    "latin": "ṣ-r-ʿ",
+    "arabic": "ص ر ع",
+    "surah": 69,
+    "verse": 7
+   },
+   {
+    "bw": "why",
+    "latin": "w-h-y",
+    "arabic": "و ه ي",
+    "surah": 69,
+    "verse": 16
+   },
+   {
+    "bw": "wtn",
+    "latin": "w-t-n",
+    "arabic": "و ت ن",
+    "surah": 69,
+    "verse": 46
+   },
+   {
+    "bw": "hlE",
+    "latin": "h-l-ʿ",
+    "arabic": "ه ل ع",
+    "surah": 70,
+    "verse": 19
+   },
+   {
+    "bw": "Ezw",
+    "latin": "ʿ-z-w",
+    "arabic": "ع ز و",
+    "surah": 70,
+    "verse": 37
+   },
+   {
+    "bw": "wfD",
+    "latin": "w-f-ḍ",
+    "arabic": "و ف ض",
+    "surah": 70,
+    "verse": 43
+   },
+   {
+    "bw": "nsr",
+    "latin": "n-s-r",
+    "arabic": "ن س ر",
+    "surah": 71,
+    "verse": 23
+   },
+   {
+    "bw": "Hrs",
+    "latin": "ḥ-r-s",
+    "arabic": "ح ر س",
+    "surah": 72,
+    "verse": 8
+   },
+   {
+    "bw": "hrb",
+    "latin": "h-r-b",
+    "arabic": "ه ر ب",
+    "surah": 72,
+    "verse": 12
+   },
+   {
+    "bw": "Hry",
+    "latin": "ḥ-r-y",
+    "arabic": "ح ر ي",
+    "surah": 72,
+    "verse": 14
+   },
+   {
+    "bw": "gdq",
+    "latin": "gh-d-q",
+    "arabic": "غ د ق",
+    "surah": 72,
+    "verse": 16
+   },
+   {
+    "bw": "zml",
+    "latin": "z-m-l",
+    "arabic": "ز م ل",
+    "surah": 73,
+    "verse": 1
+   },
+   {
+    "bw": "gSS",
+    "latin": "gh-ṣ-ṣ",
+    "arabic": "غ ص ص",
+    "surah": 73,
+    "verse": 13
+   },
+   {
+    "bw": "kvb",
+    "latin": "k-th-b",
+    "arabic": "ك ث ب",
+    "surah": 73,
+    "verse": 14
+   },
+   {
+    "bw": "hyl",
+    "latin": "h-y-l",
+    "arabic": "ه ي ل",
+    "surah": 73,
+    "verse": 14
+   },
+   {
+    "bw": "dvr",
+    "latin": "d-th-r",
+    "arabic": "د ث ر",
+    "surah": 74,
+    "verse": 1
+   },
+   {
+    "bw": "qsr",
+    "latin": "q-s-r",
+    "arabic": "ق س ر",
+    "surah": 74,
+    "verse": 51
+   },
+   {
+    "bw": "Hrk",
+    "latin": "ḥ-r-k",
+    "arabic": "ح ر ك",
+    "surah": 75,
+    "verse": 16
+   },
+   {
+    "bw": "trq",
+    "latin": "t-r-q",
+    "arabic": "ت ر ق",
+    "surah": 75,
+    "verse": 26
+   },
+   {
+    "bw": "mTw",
+    "latin": "m-ṭ-w",
+    "arabic": "م ط و",
+    "surah": 75,
+    "verse": 33
+   },
+   {
+    "bw": "sdy",
+    "latin": "s-d-y",
+    "arabic": "س د ي",
+    "surah": 75,
+    "verse": 36
+   },
+   {
+    "bw": "m$j",
+    "latin": "m-sh-j",
+    "arabic": "م ش ج",
+    "surah": 76,
+    "verse": 2
+   },
+   {
+    "bw": "qmTr",
+    "latin": "q-m-ṭ-r",
+    "arabic": "ق م ط ر",
+    "surah": 76,
+    "verse": 10
+   },
+   {
+    "bw": "zmhr",
+    "latin": "z-m-h-r",
+    "arabic": "ز م ه ر",
+    "surah": 76,
+    "verse": 13
+   },
+   {
+    "bw": "kft",
+    "latin": "k-f-t",
+    "arabic": "ك ف ت",
+    "surah": 77,
+    "verse": 25
+   },
+   {
+    "bw": "$mx",
+    "latin": "sh-m-kh",
+    "arabic": "ش م خ",
+    "surah": 77,
+    "verse": 27
+   },
+   {
+    "bw": "whj",
+    "latin": "w-h-j",
+    "arabic": "و ه ج",
+    "surah": 78,
+    "verse": 13
+   },
+   {
+    "bw": "vjj",
+    "latin": "th-j-j",
+    "arabic": "ث ج ج",
+    "surah": 78,
+    "verse": 14
+   },
+   {
+    "bw": "dhq",
+    "latin": "d-h-q",
+    "arabic": "د ه ق",
+    "surah": 78,
+    "verse": 34
+   },
+   {
+    "bw": "nxr",
+    "latin": "n-kh-r",
+    "arabic": "ن خ ر",
+    "surah": 79,
+    "verse": 11
+   },
+   {
+    "bw": "shr",
+    "latin": "s-h-r",
+    "arabic": "س ه ر",
+    "surah": 79,
+    "verse": 14
+   },
+   {
+    "bw": "smk",
+    "latin": "s-m-k",
+    "arabic": "س م ك",
+    "surah": 79,
+    "verse": 28
+   },
+   {
+    "bw": "gT$",
+    "latin": "gh-ṭ-sh",
+    "arabic": "غ ط ش",
+    "surah": 79,
+    "verse": 29
+   },
+   {
+    "bw": "dHw",
+    "latin": "d-ḥ-w",
+    "arabic": "د ح و",
+    "surah": 79,
+    "verse": 30
+   },
+   {
+    "bw": "Tmm",
+    "latin": "ṭ-m-m",
+    "arabic": "ط م م",
+    "surah": 79,
+    "verse": 34
+   },
+   {
+    "bw": "qDb",
+    "latin": "q-ḍ-b",
+    "arabic": "ق ض ب",
+    "surah": 80,
+    "verse": 28
+   },
+   {
+    "bw": "Abb",
+    "latin": "a-b-b",
+    "arabic": "ا ب ب",
+    "surah": 80,
+    "verse": 31
+   },
+   {
+    "bw": "Sxx",
+    "latin": "ṣ-kh-kh",
+    "arabic": "ص خ خ",
+    "surah": 80,
+    "verse": 33
+   },
+   {
+    "bw": "kdr",
+    "latin": "k-d-r",
+    "arabic": "ك د ر",
+    "surah": 81,
+    "verse": 2
+   },
+   {
+    "bw": "wH$",
+    "latin": "w-ḥ-sh",
+    "arabic": "و ح ش",
+    "surah": 81,
+    "verse": 5
+   },
+   {
+    "bw": "wAd",
+    "latin": "w-a-d",
+    "arabic": "و ا د",
+    "surah": 81,
+    "verse": 8
+   },
+   {
+    "bw": "k$T",
+    "latin": "k-sh-ṭ",
+    "arabic": "ك ش ط",
+    "surah": 81,
+    "verse": 11
+   },
+   {
+    "bw": "kns",
+    "latin": "k-n-s",
+    "arabic": "ك ن س",
+    "surah": 81,
+    "verse": 16
+   },
+   {
+    "bw": "EsEs",
+    "latin": "ʿ-s-ʿ-s",
+    "arabic": "ع س ع س",
+    "surah": 81,
+    "verse": 17
+   },
+   {
+    "bw": "Dnn",
+    "latin": "ḍ-n-n",
+    "arabic": "ض ن ن",
+    "surah": 81,
+    "verse": 24
+   },
+   {
+    "bw": "Tff",
+    "latin": "ṭ-f-f",
+    "arabic": "ط ف ف",
+    "surah": 83,
+    "verse": 1
+   },
+   {
+    "bw": "ryn",
+    "latin": "r-y-n",
+    "arabic": "ر ي ن",
+    "surah": 83,
+    "verse": 14
+   },
+   {
+    "bw": "rHq",
+    "latin": "r-ḥ-q",
+    "arabic": "ر ح ق",
+    "surah": 83,
+    "verse": 25
+   },
+   {
+    "bw": "snm",
+    "latin": "s-n-m",
+    "arabic": "س ن م",
+    "surah": 83,
+    "verse": 27
+   },
+   {
+    "bw": "gmz",
+    "latin": "gh-m-z",
+    "arabic": "غ م ز",
+    "surah": 83,
+    "verse": 30
+   },
+   {
+    "bw": "dfq",
+    "latin": "d-f-q",
+    "arabic": "د ف ق",
+    "surah": 86,
+    "verse": 6
+   },
+   {
+    "bw": "hzl",
+    "latin": "h-z-l",
+    "arabic": "ه ز ل",
+    "surah": 86,
+    "verse": 14
+   },
+   {
+    "bw": "sTH",
+    "latin": "s-ṭ-ḥ",
+    "arabic": "س ط ح",
+    "surah": 88,
+    "verse": 20
+   },
+   {
+    "bw": "swT",
+    "latin": "s-w-ṭ",
+    "arabic": "س و ط",
+    "surah": 89,
+    "verse": 13
+   },
+   {
+    "bw": "jmm",
+    "latin": "j-m-m",
+    "arabic": "ج م م",
+    "surah": 89,
+    "verse": 20
+   },
+   {
+    "bw": "kbd",
+    "latin": "k-b-d",
+    "arabic": "ك ب د",
+    "surah": 90,
+    "verse": 4
+   },
+   {
+    "bw": "$fh",
+    "latin": "sh-f-h",
+    "arabic": "ش ف ه",
+    "surah": 90,
+    "verse": 9
+   },
+   {
+    "bw": "njd",
+    "latin": "n-j-d",
+    "arabic": "ن ج د",
+    "surah": 90,
+    "verse": 10
+   },
+   {
+    "bw": "sgb",
+    "latin": "s-gh-b",
+    "arabic": "س غ ب",
+    "surah": 90,
+    "verse": 14
+   },
+   {
+    "bw": "THw",
+    "latin": "ṭ-ḥ-w",
+    "arabic": "ط ح و",
+    "surah": 91,
+    "verse": 6
+   },
+   {
+    "bw": "lhm",
+    "latin": "l-h-m",
+    "arabic": "ل ه م",
+    "surah": 91,
+    "verse": 8
+   },
+   {
+    "bw": "dsw",
+    "latin": "d-s-w",
+    "arabic": "د س و",
+    "surah": 91,
+    "verse": 10
+   },
+   {
+    "bw": "dmdm",
+    "latin": "d-m-d-m",
+    "arabic": "د م د م",
+    "surah": 91,
+    "verse": 14
+   },
+   {
+    "bw": "lZy",
+    "latin": "l-ẓ-y",
+    "arabic": "ل ظ ي",
+    "surah": 92,
+    "verse": 14
+   },
+   {
+    "bw": "sjw",
+    "latin": "s-j-w",
+    "arabic": "س ج و",
+    "surah": 93,
+    "verse": 2
+   },
+   {
+    "bw": "tyn",
+    "latin": "t-y-n",
+    "arabic": "ت ي ن",
+    "surah": 95,
+    "verse": 1
+   },
+   {
+    "bw": "sfE",
+    "latin": "s-f-ʿ",
+    "arabic": "س ف ع",
+    "surah": 96,
+    "verse": 15
+   },
+   {
+    "bw": "zbn",
+    "latin": "z-b-n",
+    "arabic": "ز ب ن",
+    "surah": 96,
+    "verse": 18
+   },
+   {
+    "bw": "DbH",
+    "latin": "ḍ-b-ḥ",
+    "arabic": "ض ب ح",
+    "surah": 100,
+    "verse": 1
+   },
+   {
+    "bw": "qdH",
+    "latin": "q-d-ḥ",
+    "arabic": "ق د ح",
+    "surah": 100,
+    "verse": 2
+   },
+   {
+    "bw": "nqE",
+    "latin": "n-q-ʿ",
+    "arabic": "ن ق ع",
+    "surah": 100,
+    "verse": 4
+   },
+   {
+    "bw": "knd",
+    "latin": "k-n-d",
+    "arabic": "ك ن د",
+    "surah": 100,
+    "verse": 6
+   },
+   {
+    "bw": "HSl",
+    "latin": "ḥ-ṣ-l",
+    "arabic": "ح ص ل",
+    "surah": 100,
+    "verse": 10
+   },
+   {
+    "bw": "fyl",
+    "latin": "f-y-l",
+    "arabic": "ف ي ل",
+    "surah": 105,
+    "verse": 1
+   },
+   {
+    "bw": "$tw",
+    "latin": "sh-t-w",
+    "arabic": "ش ت و",
+    "surah": 106,
+    "verse": 2
+   },
+   {
+    "bw": "Syf",
+    "latin": "ṣ-y-f",
+    "arabic": "ص ي ف",
+    "surah": 106,
+    "verse": 2
+   },
+   {
+    "bw": "mEn",
+    "latin": "m-ʿ-n",
+    "arabic": "م ع ن",
+    "surah": 107,
+    "verse": 7
+   },
+   {
+    "bw": "nHr",
+    "latin": "n-ḥ-r",
+    "arabic": "ن ح ر",
+    "surah": 108,
+    "verse": 2
+   },
+   {
+    "bw": "btr",
+    "latin": "b-t-r",
+    "arabic": "ب ت ر",
+    "surah": 108,
+    "verse": 3
+   },
+   {
+    "bw": "jyd",
+    "latin": "j-y-d",
+    "arabic": "ج ي د",
+    "surah": 111,
+    "verse": 5
+   },
+   {
+    "bw": "msd",
+    "latin": "m-s-d",
+    "arabic": "م س د",
+    "surah": 111,
+    "verse": 5
+   },
+   {
+    "bw": "Smd",
+    "latin": "ṣ-m-d",
+    "arabic": "ص م د",
+    "surah": 112,
+    "verse": 2
+   },
+   {
+    "bw": "kfA",
+    "latin": "k-f-a",
+    "arabic": "ك ف ا",
+    "surah": 112,
+    "verse": 4
+   },
+   {
+    "bw": "wqb",
+    "latin": "w-q-b",
+    "arabic": "و ق ب",
+    "surah": 113,
+    "verse": 3
+   },
+   {
+    "bw": "nfv",
+    "latin": "n-f-th",
+    "arabic": "ن ف ث",
+    "surah": 113,
+    "verse": 4
+   }
+  ]
  }
 }

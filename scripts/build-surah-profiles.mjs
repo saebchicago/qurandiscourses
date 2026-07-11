@@ -57,6 +57,13 @@ function buildProfile(surahNum) {
   const verseCount = Object.keys(morph).length;
   let tokenCount = 0;
   const rootFreq = new Map();
+  // Grammatical texture: exact counts of the two unambiguous single POS
+  // tags (N nouns, V verbs) and prepositions (P). "other" is the residual
+  // (all remaining function/particle tags), so no family taxonomy is
+  // asserted — every figure is a plain Leeds POS tally.
+  let posN = 0;
+  let posV = 0;
+  let posP = 0;
 
   for (const words of Object.values(morph)) {
     for (const word of words) {
@@ -65,8 +72,21 @@ function buildProfile(surahNum) {
       if (root) {
         rootFreq.set(root, (rootFreq.get(root) || 0) + 1);
       }
+      if (word.pos === "N") posN++;
+      else if (word.pos === "V") posV++;
+      else if (word.pos === "P") posP++;
     }
   }
+
+  const posMix = {
+    total: tokenCount,
+    nouns: posN,
+    verbs: posV,
+    prepositions: posP,
+    other: tokenCount - posN - posV - posP,
+    nounPct: tokenCount ? Math.round((posN / tokenCount) * 1000) / 10 : 0,
+    verbPct: tokenCount ? Math.round((posV / tokenCount) * 1000) / 10 : 0,
+  };
 
   const distinctRootCount = rootFreq.size;
   const rootDiversityRatio =
@@ -109,6 +129,7 @@ function buildProfile(surahNum) {
     distinctRootCount,
     rootDiversityRatio,
     topRoots,
+    posMix,
     chronologyPeriod,
     qursimConnectivity,
   };
