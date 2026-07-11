@@ -89,13 +89,21 @@
           <span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · counting method varies by source">~</span> with the counting method
           named.
         </div>
+        <p class="method-note" id="numbersMethod">
+          Every corpus figure on this page is recomputed from the datasets
+          bundled with this site (<code>data/numbers.json</code>, generated
+          deterministically by <code>scripts/build-numbers.mjs</code> from the
+          Leeds morphology). Nothing here is typed in by hand — if the data
+          changed, these cards would change with it. Externally sourced
+          claims keep their own citations.
+        </p>
         <div class="grid">
           <div class="card">
             <h3>Earth and sea</h3>
             <p>
               Root <em>a-r-ḍ</em> (earth, land):
-              <strong class="count">461</strong>. Root <em>b-ḥ-r</em> (sea):
-              <strong class="count">42</strong>.
+              <strong class="count" data-num="namedRoots.ArD.count">461</strong>. Root <em>b-ḥ-r</em> (sea):
+              <strong class="count" data-num="namedRoots.bHr.count">42</strong>.
             </p>
             <div class="barwrap">
               <span class="lbl">a-r-ḍ (land)</span>
@@ -130,23 +138,23 @@
               <tbody>
                 <tr>
                   <td>a-l-h (God)</td>
-                  <td class="count">2,851</td>
+                  <td class="count" data-num="topRoots.0.count">2,851</td>
                 </tr>
                 <tr>
                   <td>q-w-l (say)</td>
-                  <td class="count">1,722</td>
+                  <td class="count" data-num="topRoots.1.count">1,722</td>
                 </tr>
                 <tr>
                   <td>k-w-n (be)</td>
-                  <td class="count">1,390</td>
+                  <td class="count" data-num="topRoots.2.count">1,390</td>
                 </tr>
                 <tr>
                   <td>r-b-b (Lord)</td>
-                  <td class="count">980</td>
+                  <td class="count" data-num="topRoots.3.count">980</td>
                 </tr>
                 <tr>
                   <td>a-m-n (believe)</td>
-                  <td class="count">879</td>
+                  <td class="count" data-num="topRoots.4.count">879</td>
                 </tr>
               </tbody>
             </table>
@@ -168,11 +176,11 @@
           <div class="card">
             <h3>Day, month, year</h3>
             <p>
-              <strong>Day (y-w-m, root):</strong> 405 occurrences (Leeds
+              <strong>Day (y-w-m, root):</strong> <span data-num="namedRoots.ywm.count">405</span> occurrences (Leeds
               corpus); broader counts including compound forms such as
               <em>yawma-idhin</em> reach 475. Singular form <em>yawm</em>: 365
               by one widely cited counting.
-              <strong>Month (sh-h-r, root):</strong> 21. Singular
+              <strong>Month (sh-h-r, root):</strong> <span data-num="namedRoots.$hr.count">21</span>. Singular
               <em>shahr</em>: 12 by common counting method.
               <strong>Year:</strong> not a single canonical word in the Qur'an.
             </p>
@@ -195,23 +203,23 @@
               <tbody>
                 <tr>
                   <td>Justice (ʿ-d-l)</td>
-                  <td class="count">28</td>
+                  <td class="count" data-num="namedRoots.Edl.count">28</td>
                 </tr>
                 <tr>
                   <td>Patience (ṣ-b-r)</td>
-                  <td class="count">103</td>
+                  <td class="count" data-num="namedRoots.Sbr.count">103</td>
                 </tr>
                 <tr>
                   <td>Knowledge (ʿ-l-m)</td>
-                  <td class="count">854</td>
+                  <td class="count" data-num="namedRoots.Elm.count">854</td>
                 </tr>
                 <tr>
                   <td>Gratitude (sh-k-r)</td>
-                  <td class="count">75</td>
+                  <td class="count" data-num="namedRoots.$kr.count">75</td>
                 </tr>
                 <tr>
                   <td>Taqwa (w-q-y)</td>
-                  <td class="count">258</td>
+                  <td class="count" data-num="namedRoots.wqy.count">258</td>
                 </tr>
               </tbody>
             </table>
@@ -223,7 +231,7 @@
           <div class="card">
             <h3>Surah length</h3>
             <p>
-              Mean: <strong>54.7</strong> verses. Median: <strong>39</strong>.
+              Mean: <strong data-num="surahLength.meanVerses">54.7</strong> verses. Median: <strong data-num="surahLength.medianVerses">39</strong>.
               Longest: al-Baqarah (286). Shortest: al-Kawthar, al-'Asr, al-Nasr
               (3 each).
             </p>
@@ -244,19 +252,19 @@
               <tbody>
                 <tr>
                   <td>Early Meccan</td>
-                  <td class="count">4.5</td>
+                  <td class="count" data-num="verseLengthByPeriod.0.avgTokensPerVerse">4.5</td>
                 </tr>
                 <tr>
                   <td>Middle Meccan</td>
-                  <td class="count">10.1</td>
+                  <td class="count" data-num="verseLengthByPeriod.1.avgTokensPerVerse">10.1</td>
                 </tr>
                 <tr>
                   <td>Late Meccan</td>
-                  <td class="count">11.7</td>
+                  <td class="count" data-num="verseLengthByPeriod.2.avgTokensPerVerse">11.7</td>
                 </tr>
                 <tr>
                   <td>Medinan</td>
-                  <td class="count">18.5</td>
+                  <td class="count" data-num="verseLengthByPeriod.3.avgTokensPerVerse">18.5</td>
                 </tr>
               </tbody>
             </table>
@@ -269,8 +277,8 @@
           <div class="card scholar-only">
             <h3>Hapax legomena</h3>
             <p>
-              <strong>12,004</strong> surface forms (out of 18,993 unique forms)
-              occur exactly once. <strong>395</strong> roots (out of 1,642)
+              <strong data-num="hapax.surfaceFormsOccurringOnce">12,004</strong> surface forms (out of <span data-num="hapax.uniqueSurfaceForms">18,993</span> unique forms)
+              occur exactly once. <strong data-num="hapax.rootsOccurringOnce">395</strong> roots (out of <span data-num="hapax.totalRoots">1,642</span>)
               occur exactly once.
             </p>
             <p class="prov">
@@ -281,8 +289,8 @@
           <div class="card scholar-only">
             <h3>Roots unique to one period</h3>
             <p>
-              <strong>547</strong> roots appear only in Meccan surahs (zero
-              Medinan occurrences). <strong>198</strong> roots appear only in
+              <strong data-num="periodUniqueRoots.meccanOnly">547</strong> roots appear only in Meccan surahs (zero
+              Medinan occurrences). <strong data-num="periodUniqueRoots.medinanOnly">198</strong> roots appear only in
               Medinan surahs.
             </p>
             <p class="prov">
@@ -362,7 +370,36 @@
           }
         }
 
+        // Fill every [data-num] element from data/numbers.json (generated
+        // by scripts/build-numbers.mjs). The static text is the fallback if
+        // the fetch fails; the JSON is bundled, so this also works offline.
+        function fillNumbers() {
+          fetch("data/numbers.json")
+            .then(function (r) {
+              if (!r.ok) throw new Error("HTTP " + r.status);
+              return r.json();
+            })
+            .then(function (data) {
+              document.querySelectorAll("[data-num]").forEach(function (el) {
+                var v = data;
+                var parts = el.getAttribute("data-num").split(".");
+                for (var i = 0; i < parts.length && v != null; i++) {
+                  v = v[parts[i]];
+                }
+                if (typeof v === "number") {
+                  el.textContent = Number.isInteger(v)
+                    ? v.toLocaleString("en-US")
+                    : v.toFixed(1);
+                }
+              });
+            })
+            .catch(function () {
+              /* static fallback text stays in place */
+            });
+        }
+
         ready(function () {
+          fillNumbers();
           var details = document.getElementById("fawatihDetails");
           var list = document.getElementById("fawatihList");
           if (!details || !list) return;
