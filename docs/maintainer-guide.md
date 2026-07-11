@@ -46,9 +46,20 @@ aria-current), `assets/app.js` (settings gear: depth / palette / theme /
 translations, keyboard shortcuts 1/2/3, back-to-top, `qdEsc` HTML escaper,
 API fetch helpers, `qd_state.progress` — see below), `assets/cite-badge.js`
 (citation popovers, the *only* citation-popover implementation — do not
-add a second one bound to `.badge[data-source-ids]`), `assets/glossary.js`
+add a second one bound to `.badge[data-source-ids]`; handling is
+event-delegated, so dynamically inserted badges work — call
+`qdCiteEnhance(container)` after inserting to set role/tabindex),
+`assets/share.js` (floating share button, `[data-share]`/
+`[data-copy-target]` buttons, toast, `qdDownloadSvg`), `assets/glossary.js`
 (term popovers), `assets/fonts.css` + `assets/fonts/` (self-hosted Amiri,
-Cormorant Garamond, Inter).
+Cormorant Garamond, Inter). Chart-bearing pages add `assets/chart.js`
+(`qdChart`: revelation timeline, heat strip, scatter, ego network —
+theme-aware via `--chart-1..4`, which are dataviz-validated mark colors;
+every chart needs a method note beside it). `assets/notes.js` renders the
+Read page's local-only notes panel (storage key `qd_notes`, deliberately
+NOT cleared with preferences). Content registries rendered by pages:
+`data/exercises.json`, `data/paths.json`, `data/case-studies.json` — edit
+the JSON, not the pages' static fallback markup.
 
 `qd_state.progress` (in `assets/app.js`) remembers reading position and
 exercise attempts, browser-only, same as every other preference: `{
@@ -73,6 +84,7 @@ them only when their inputs change; commit their outputs.
 | build-surah-profiles.mjs | morphology, chronology, qursim | data/surah-profiles.json | navigate.html profiles |
 | build-themes.mjs | morphology, roots-summary | data/themes.json | themes.html |
 | build-rhetorical-features.mjs | morphology | data/rhetorical-features.json | patterns.html direct-address list, numbers.html fawatih list |
+| build-numbers.mjs | morphology, roots-summary, chronology | data/numbers.json | every corpus figure on numbers.html (`[data-num]` elements) |
 
 Determinism check for any script: run it twice, `git diff` must be empty.
 
@@ -106,11 +118,14 @@ output will already be correct and the migration script becomes a no-op.
 ### Add a Khan outline exercise (surahs 85–114)
 1. Transcribe the outline from *An Exercise in Understanding the Qur'an*
    (2013) — never paraphrase from memory.
-2. Copy `exercise-asr.html`, change the surah number in the API fetch and
-   the outline `<ol>`; keep the reveal flow and the
-   `data-source-ids="khan-exercise-2013"` provenance line.
-3. Add a tile to `exercises.html`; add the page to `sitemap.xml`; give it
-   canonical/OG tags like every page.
+2. Add an entry of `"type": "outline"` to `data/exercises.json`: id,
+   surah number, title, tileName/tileDesc, the outline items
+   (`startVerse`, `heading`, `note` — the transcription), and keep
+   `"sourceIds": "khan-exercise-2013"` with a provenanceHtml line. No new
+   page is needed: `exercise.html?id=<your-id>` renders it, and the tile
+   appears on `exercises.html` automatically.
+3. Open the exercise locally and check the reveal flow, the break
+   scoring, and that the provenance badge opens its citation.
 
 ### Add or adjust a theme gateway
 1. Edit the `THEMES` table at the top of `scripts/build-themes.mjs` —

@@ -249,7 +249,10 @@
           Every factual claim on this site carries a label. Three worked
           examples, each drawn from a published claim on the site.
         </p>
-        <div class="verify-block">
+        <!-- Rendered from data/case-studies.json (single source of truth,
+             shared with validation.html); the markup below is the static
+             fallback if that fetch fails. Edit the JSON, not this HTML. -->
+        <div class="verify-block" data-case-studies="home">
           <div class="verify-example">
             <h3>
               <span
@@ -526,12 +529,14 @@
       })();
     </script>
     <script src="assets/app.js"></script>
+    <script src="assets/share.js" defer></script>
+    <script src="assets/case-studies.js" defer></script>
     <script>
       (function () {
-        var EXERCISES = [
-          { id: "exercise-asr", href: "exercise-asr.html" },
-          { id: "exercise-roots", href: "exercise-roots.html" },
-        ];
+        // Keep ids in sync with data/exercises.json ("exercise-asr" is the
+        // pre-engine id kept so older saved progress still counts).
+        var EXERCISE_COUNT = 2;
+        var LEGACY_IDS = { "exercise-asr": "asr-outline" };
 
         function surahLabel(n) {
           var s =
@@ -555,14 +560,25 @@
           if (!progress) return;
 
           var lastRead = progress.lastRead;
-          var doneCount = Object.keys(progress.exercises || {}).length;
-          if (!lastRead && !doneCount) return;
+          var doneIds = {};
+          Object.keys(progress.exercises || {}).forEach(function (id) {
+            doneIds[LEGACY_IDS[id] || id] = true;
+          });
+          var doneCount = Math.min(
+            Object.keys(doneIds).length,
+            EXERCISE_COUNT,
+          );
+          var pathsInProgress = Object.keys(progress.paths || {}).length;
+          if (!lastRead && !doneCount && !pathsInProgress) return;
 
           var section = document.getElementById("continueSection");
           var text = document.getElementById("continueText");
           var link = document.getElementById("continueLink");
           if (!section || !text || !link) return;
 
+          var pathNote = pathsInProgress
+            ? " A study path is in progress."
+            : "";
           if (lastRead) {
             text.textContent =
               "Continue reading — you were at " +
@@ -573,17 +589,27 @@
                 ? ". You've tried " +
                   doneCount +
                   " of " +
-                  EXERCISES.length +
+                  EXERCISE_COUNT +
                   " exercises."
-                : ".");
+                : ".") +
+              pathNote;
             link.textContent = "Resume reading";
             link.href = "read.html?s=" + lastRead.s + "&a=" + lastRead.a;
+          } else if (pathsInProgress) {
+            text.textContent =
+              "You're partway through " +
+              (pathsInProgress === 1
+                ? "a study path"
+                : pathsInProgress + " study paths") +
+              ". Pick up where you left off.";
+            link.textContent = "Resume path";
+            link.href = "paths.html";
           } else {
             text.textContent =
               "You've tried " +
               doneCount +
               " of " +
-              EXERCISES.length +
+              EXERCISE_COUNT +
               " exercises. Pick up where you left off.";
             link.textContent = "See exercises";
             link.href = "exercises.html";

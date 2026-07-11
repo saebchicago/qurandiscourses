@@ -1,0 +1,81 @@
+{
+ "_comment": "Study paths rendered by paths.html. Each step's html is trusted site-authored content (never API or user text). Paths order existing, sourced material only — they must not introduce new claims; every linked page carries its own verification badges. Adding a path = adding an entry here.",
+ "paths": [
+  {
+   "id": "follow-root",
+   "title": "Follow a root through the Qur'an",
+   "intro": "Take r-ḥ-m (mercy) from a single verse to its full corpus distribution.",
+   "steps": [
+    {
+     "html": "Read it in context: <a href=\"read.html?s=1&a=1\">al-Fatihah 1:1</a> — two of the four words carry the root."
+    },
+    {
+     "html": "Open the root's profile: <a href=\"roots.html?q=r-h-m\">r-ḥ-m on Roots</a> — 339 occurrences, derived forms, Makki/Madani split, every verse reference."
+    },
+    {
+     "html": "See what it travels with: the co-occurring roots section on the same page — gh-f-r (forgiveness) is its most frequent verse-level companion."
+    },
+    {
+     "html": "Compare passages where it clusters: <a href=\"compare.html?mode=passages&p1=1:1-7&p2=19:1-15\">al-Fatihah vs the opening of Maryam</a> in Compare's Passages mode."
+    }
+   ]
+  },
+  {
+   "id": "profile-surah",
+   "title": "Profile a surah before reading it",
+   "intro": "Build a structural picture of a surah from the data, then read it with that frame.",
+   "steps": [
+    {
+     "html": "On <a href=\"navigate.html\">Navigate</a>, open the Profile panel for a surah (try 103, al-'Asr): verse count, distinct roots, top roots, chronological period."
+    },
+    {
+     "html": "Check its length band against the era pattern on <a href=\"numbers.html\">Numbers</a> (verse length by period)."
+    },
+    {
+     "html": "Read it end to end on <a href=\"read.html?s=103&a=1-3\">Read</a> at Scholar depth (press <kbd>2</kbd>) with word-by-word morphology on."
+    },
+    {
+     "html": "Test your structural reading in the <a href=\"exercise.html?id=asr-outline\">al-'Asr outline exercise</a>."
+    }
+   ]
+  },
+  {
+   "id": "trace-claim",
+   "title": "Trace a claim to its source",
+   "intro": "The site's core discipline: never take a number on trust — including ours.",
+   "steps": [
+    {
+     "html": "Pick a claim on <a href=\"numbers.html\">Numbers</a>, for example the top-five root frequencies."
+    },
+    {
+     "html": "Click its badge (●): the popover shows the full Chicago-style citation of the source."
+    },
+    {
+     "html": "Follow the source entry on <a href=\"sources.html\">Sources</a> to the primary corpus at corpus.quran.com and check one number yourself."
+    },
+    {
+     "html": "Run a triangulation prompt from <a href=\"validation.html\">Validation</a> against an independent tool, and see whether it converges on the same figure."
+    }
+   ]
+  },
+  {
+   "id": "study-theme",
+   "title": "Study a theme end to end",
+   "intro": "Move from a life theme to the passages where its vocabulary clusters, and form your own reading of what they agree on.",
+   "steps": [
+    {
+     "html": "Pick a gateway on <a href=\"themes.html\">Themes</a> (try <a href=\"themes.html#forgiveness\">Forgiveness</a>) and note its root families — the gateway is lexical, a starting point rather than an index."
+    },
+    {
+     "html": "Open two or three of its key passages on the Read page and read each whole discourse around the verse, not just the verse itself."
+    },
+    {
+     "html": "Use the theme card's \"top two passages side by side\" link to see, in Compare, which roots the passages actually share."
+    },
+    {
+     "html": "Follow the theme's most frequent root into <a href=\"roots.html\">Roots</a>: where else does it cluster, and in which period? Write down what the passages agree on and where they differ — that record is yours; the site only ordered the evidence."
+    }
+   ]
+  }
+ ]
+}

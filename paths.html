@@ -84,6 +84,10 @@
         </p>
       </section>
       <section>
+        <!-- Rendered from data/paths.json with per-step checkboxes; the
+             cards below are the static fallback if that fetch fails.
+             Edit the JSON, not this HTML. -->
+        <div id="pathCards">
         <div class="card">
           <h3>Path 1 · Follow a root through the Qur'an</h3>
           <p>
@@ -139,7 +143,7 @@
             </li>
             <li>
               Test your structural reading in the
-              <a href="exercise-asr.html">al-'Asr outline exercise</a>.
+              <a href="exercise.html?id=asr-outline">al-'Asr outline exercise</a>.
             </li>
           </ol>
         </div>
@@ -170,9 +174,13 @@
             </li>
           </ol>
         </div>
+        </div>
         <p class="method-note">
           Paths order existing, sourced material. They do not introduce new
-          claims; each linked page carries its own verification badges.
+          claims; each linked page carries its own verification badges. Step
+          checkmarks are saved in this browser only — same as every other
+          preference here — and cleared by the settings panel's "Clear
+          preferences".
         </p>
       </section>
     </main>
@@ -204,7 +212,97 @@
       ></div>
     </div>
     <script src="assets/app.js"></script>
+    <script src="assets/share.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
+    <script>
+      (function () {
+        "use strict";
+
+        function savedSteps(pathId) {
+          var progress = window.qdState && window.qdState.progress;
+          var p = progress && progress.paths && progress.paths[pathId];
+          return (p && p.steps) || {};
+        }
+
+        function updateCount(card, pathId, total) {
+          var done = Object.keys(savedSteps(pathId)).length;
+          var el = card.querySelector(".path-count");
+          if (!el) return;
+          el.textContent = done
+            ? done + " of " + total + " steps done"
+            : "";
+        }
+
+        function render(data) {
+          var wrap = document.getElementById("pathCards");
+          if (!wrap) return;
+          wrap.innerHTML = "";
+          data.paths.forEach(function (p, idx) {
+            var card = document.createElement("div");
+            card.className = "card";
+            var steps = savedSteps(p.id);
+            card.innerHTML =
+              '<h3 style="display:flex;align-items:baseline;gap:0.6rem;flex-wrap:wrap">Path ' +
+              (idx + 1) +
+              " · " +
+              p.title +
+              '<span class="path-count" style="font-size:0.78rem;font-weight:400;color:var(--accent)"></span></h3>' +
+              "<p>" +
+              p.intro +
+              "</p>" +
+              '<ol style="line-height:1.9;padding-left:1.3rem">' +
+              p.steps
+                .map(function (s, i) {
+                  return (
+                    '<li style="margin-bottom:0.35rem"><label style="display:flex;gap:0.55rem;align-items:baseline;cursor:pointer"><input type="checkbox" data-path="' +
+                    p.id +
+                    '" data-step="' +
+                    i +
+                    '"' +
+                    (steps[i] ? " checked" : "") +
+                    ' aria-label="Mark step ' +
+                    (i + 1) +
+                    ' done"><span>' +
+                    s.html +
+                    "</span></label></li>"
+                  );
+                })
+                .join("") +
+              "</ol>";
+            wrap.appendChild(card);
+            updateCount(card, p.id, p.steps.length);
+            card.querySelectorAll("input[data-path]").forEach(function (cb) {
+              cb.addEventListener("change", function () {
+                if (window.qdMarkPathStep)
+                  window.qdMarkPathStep(
+                    cb.dataset.path,
+                    cb.dataset.step,
+                    cb.checked,
+                  );
+                updateCount(card, p.id, p.steps.length);
+              });
+            });
+          });
+        }
+
+        function init() {
+          fetch("data/paths.json")
+            .then(function (r) {
+              if (!r.ok) throw new Error("HTTP " + r.status);
+              return r.json();
+            })
+            .then(render)
+            .catch(function () {
+              /* static fallback cards stay in place */
+            });
+        }
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", init);
+        } else {
+          init();
+        }
+      })();
+    </script>
   </body>
 </html>

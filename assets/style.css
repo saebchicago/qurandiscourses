@@ -15,6 +15,30 @@
   --ar: "Amiri", "Scheherazade New", serif;
   --shadow: 0 2px 12px rgba(43, 29, 14, 0.08);
   --shadow-lg: 0 8px 32px rgba(43, 29, 14, 0.15);
+  /* Chart categorical tokens (chronology periods 1-4: early/middle/late
+     Meccan, Medinan). Mark colors, not text colors: validated ≥3:1
+     against all three palettes' light surfaces plus CVD-separation and
+     chroma checks (dataviz validator); chart text always uses ink/muted.
+     The dark-mode set below is separately validated against the dark
+     surfaces — do not swap one set onto the other mode's background. */
+  --chart-1: #3d6fa8;
+  --chart-2: #2e8054;
+  --chart-3: #96520a;
+  --chart-4: #a8447c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --chart-1: #4d88c9;
+    --chart-2: #3d9e64;
+    --chart-3: #bd8330;
+    --chart-4: #c25f8d;
+  }
+}
+:root[data-theme="dark"] {
+  --chart-1: #4d88c9;
+  --chart-2: #3d9e64;
+  --chart-3: #bd8330;
+  --chart-4: #c25f8d;
 }
 /* Dark palette: applies for system dark scheme unless the user forced
    light in Settings, and always when the user forced dark. Keep the two
@@ -834,6 +858,72 @@ label {
   border-color: var(--accent);
   background: var(--card);
 }
+.share-btn {
+  font-size: 0.85rem;
+  padding: 0.35rem 0.8rem;
+  cursor: pointer;
+}
+.share-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0.75rem 0;
+}
+.qd-toast {
+  position: fixed;
+  bottom: 4.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--ink);
+  color: var(--bg);
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+  z-index: 1200;
+  max-width: min(90vw, 24rem);
+  text-align: center;
+}
+.qd-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.qd-chart-tip {
+  position: absolute;
+  z-index: 1100;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  max-width: 16rem;
+  pointer-events: none;
+}
+.qd-chart-legend {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  margin: 0.4rem 0 0.2rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.qd-chart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.qd-chart-legend-chip {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  display: inline-block;
+}
 .verse {
   background: var(--card);
   border: 1px solid var(--line);
@@ -891,6 +981,24 @@ label {
 }
 .settings .gear:hover {
   transform: rotate(45deg) scale(1.05);
+}
+.settings .share-fab {
+  display: block;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  width: 52px;
+  height: 52px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 0.6rem;
+  transition: transform 0.15s ease;
+}
+.settings .share-fab:hover {
+  transform: scale(1.08);
+  border-color: var(--accent);
 }
 .panel {
   position: fixed;
@@ -1053,7 +1161,13 @@ html[data-depth="encyclopedic"] li.encyclopedic-only {
 @media print {
   nav.primary,
   .settings,
-  .panel {
+  .panel,
+  .share-btn,
+  .share-row,
+  .copy-btn,
+  .back-to-top,
+  .skip,
+  .qd-toast {
     display: none !important;
   }
   body {

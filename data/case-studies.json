@@ -1,0 +1,61 @@
+{
+ "_comment": "Worked verification examples ('how we verify'). Single source of truth rendered by index.html (entries with onHome=true, using traceShort) and validation.html (all entries, using traceFull). claim/trace values are trusted site-authored HTML — never put API or user text here. Badge label values: ok=Verified, pending=Pending, nuanced=Nuanced. sourceIds feeds cite-badge.js and each id must exist in data/sources.json.",
+ "caseStudies": [
+  {
+   "id": "top-five-roots",
+   "label": "ok",
+   "labelText": "Verified",
+   "title": "top five roots",
+   "sourceIds": "leeds-corpus-v0.4",
+   "onHome": true,
+   "claimHome": "The five most frequent roots in the Qur'an: a-l-h (God, 2,851), q-w-l (say, 1,722), k-w-n (be, 1,390), r-b-b (Lord, 980), a-m-n (believe, 879).",
+   "claim": "a-l-h (God, 2,851), q-w-l (say, 1,722), k-w-n (be, 1,390), r-b-b (Lord, 980), a-m-n (believe, 879).",
+   "traceShort": "Traced to the Leeds Quranic Arabic Corpus (Dukes 2009–2017), corpus.quran.com dictionary. Full table on <a href=\"numbers.html\">Numbers</a>.",
+   "traceFull": "<strong>Source trace.</strong> Leeds Quranic Arabic Corpus, Kais Dukes 2009–2017, GPL-licensed. Dictionary interface at <a href=\"https://corpus.quran.com/qurandictionary.jsp\" target=\"_blank\" rel=\"noopener\">corpus.quran.com</a>. Full top-10 with per-root citations on <a href=\"numbers.html\">Numbers</a> and <a href=\"roots.html\">Roots</a>. One primary source; independent triangulation possible via any Qur'anic concordance."
+  },
+  {
+   "id": "farahi-pending",
+   "label": "pending",
+   "labelText": "Pending",
+   "title": "Farahi's Mufradat and Niẓām",
+   "sourceIds": "",
+   "onHome": true,
+   "claimHome": "Farahi's <em>Mufradat al-Qur'an</em> and <em>Niẓām al-Qur'an</em> are foundational to the coherence-based reading school.",
+   "claim": "Hamiduddin Farahi, <em>Mufradat al-Qur'an</em> and <em>Niẓām al-Qur'an</em>. Foundational to the coherence-based reading school.",
+   "traceShort": "Awaiting a second independent citation with edition and page references before upgrade to Verified. Listed on <a href=\"sources.html\">Sources</a>.",
+   "traceFull": "<strong>What would move this to Verified.</strong> A second independent bibliographic citation with edition, publisher, and page numbers for the specific claims we draw from Farahi. The entry is listed on <a href=\"sources.html\">Sources</a> under coherence-based reading; run Prompt 3 below (Islahi-school content) against ChatGPT and Gemini to locate the exact Farahi passage, then confirm the passage against a published edition before upgrading."
+  },
+  {
+   "id": "ywm-nuanced",
+   "label": "nuanced",
+   "labelText": "Nuanced",
+   "title": "y-w-m (day)",
+   "sourceIds": "leeds-corpus-v0.4",
+   "onHome": true,
+   "claimHome": "Root y-w-m (day): 405 occurrences by the Leeds corpus; broader counts including compound forms such as <em>yawma-idhin</em> reach 475.",
+   "claim": "405 occurrences by the Leeds corpus root count; broader counts including compound forms such as <em>yawma-idhin</em> reach 475.",
+   "traceShort": "The 405/475 difference turns on whether compound forms are included; both are defensible. See <a href=\"numbers.html\">Numbers</a>.",
+   "traceFull": "<strong>Why it stays Nuanced.</strong> The 405/475 difference turns on whether compound forms are included as separate occurrences; both counting rules are defensible and both are cited. There is no single \"correct\" answer. The label surfaces the disagreement rather than hiding it. Detail on <a href=\"numbers.html\">Numbers</a>."
+  },
+  {
+   "id": "hapax",
+   "label": "ok",
+   "labelText": "Verified",
+   "title": "hapax legomena",
+   "sourceIds": "leeds-corpus-v0.4",
+   "onHome": false,
+   "claim": "12,004 surface forms (out of 18,993 unique forms) occur exactly once in the Qur'an. 395 roots (out of 1,642) occur exactly once.",
+   "traceFull": "<strong>Source trace.</strong> Computed directly from the Leeds Quranic Arabic Corpus v0.4 word-form and root tables, which are bundled in this site's own <code>data/morphology/</code> files — so the claim is recomputable by anyone, from the data this site ships, without trusting us. Published on <a href=\"numbers.html\">Numbers</a> at Scholar depth."
+  },
+  {
+   "id": "two-source-claim",
+   "label": "ok",
+   "labelText": "Verified",
+   "title": "a two-source claim",
+   "sourceIds": "leeds-corpus-v0.4 cairo-1924",
+   "onHome": false,
+   "claim": "547 roots appear only in Meccan surahs; 198 appear only in Medinan surahs.",
+   "traceFull": "<strong>Why two sources.</strong> This claim combines the Leeds corpus (which roots occur in which surahs) with the Cairo 1924 edition's Meccan/Medinan classification. The badge cites both; click it to see the pair. A nuance rides along: a handful of surahs are classified differently in other traditions, so the boundary counts can shift by a few under other schemes — the claim on <a href=\"numbers.html\">Numbers</a> carries that note beside it."
+  }
+ ]
+}

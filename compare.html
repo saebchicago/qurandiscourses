@@ -295,6 +295,7 @@
                 style="font-size: 0.88rem; margin: 0 0 0.75rem"
               ></p>
               <div id="compareBars"></div>
+              <div id="compareTimelines" style="margin-top: 1rem"></div>
               <p class="prov" style="margin-top: 0.75rem">
                 <span
                   class="badge ok"
@@ -444,6 +445,8 @@
       ></div>
     </div>
     <script src="assets/app.js"></script>
+    <script src="assets/share.js" defer></script>
+    <script src="assets/chart.js" defer></script>
     <script src="assets/root-meanings.js"></script>
     <script>
       (function () {
@@ -616,6 +619,87 @@
           url.searchParams.set("a", selA.rootBuckwalter);
           url.searchParams.set("b", selB.rootBuckwalter);
           history.replaceState({}, "", url);
+
+          renderTimelines(selA, selB);
+        }
+
+        // ── Revelation-order small multiples ─────────────────────────────
+        // Two strips, one per root, same scale and same order axis — the
+        // 4-period bars above summarize; these show the full 114-surah
+        // texture. Data: per-root analytics + Cairo 1924 order.
+        function rootsSafeKey(bw) {
+          let out = "";
+          for (const c of bw) {
+            if (c === "*") out += "dh";
+            else if (c === "$") out += "sh";
+            else if (c >= "A" && c <= "Z") out += "u" + c;
+            else out += c;
+          }
+          return out;
+        }
+        let chronCache = null;
+        let timelineToken = 0;
+        function renderTimelines(a, b) {
+          const wrap = document.getElementById("compareTimelines");
+          if (!wrap || !window.qdChart) return;
+          const token = ++timelineToken;
+          wrap.innerHTML = "";
+          Promise.all([
+            chronCache
+              ? Promise.resolve(chronCache)
+              : fetch("data/chronology.json").then((r) => (r.ok ? r.json() : null)),
+            fetch(`data/root-analytics/${rootsSafeKey(a.rootBuckwalter)}.json`).then((r) => (r.ok ? r.json() : null)),
+            fetch(`data/root-analytics/${rootsSafeKey(b.rootBuckwalter)}.json`).then((r) => (r.ok ? r.json() : null)),
+          ])
+            .then(([chron, dA, dB]) => {
+              if (token !== timelineToken) return; // stale selection
+              if (!chron || !dA || !dB) return;
+              chronCache = chron;
+              const toPoints = (d) => {
+                const pts = [];
+                for (let s = 1; s <= 114; s++) {
+                  const meta = chron[String(s)];
+                  if (!meta) continue;
+                  pts.push({
+                    order: meta.revelationOrder,
+                    surah: s,
+                    name: meta.name,
+                    period: meta.period,
+                    count: d.bySurah[s] || d.bySurah[String(s)] || 0,
+                  });
+                }
+                return pts;
+              };
+              const pA = toPoints(dA);
+              const pB = toPoints(dB);
+              const sharedMax = Math.max(
+                ...pA.map((p) => p.count),
+                ...pB.map((p) => p.count),
+              );
+              [[a, pA, dA], [b, pB, dB]].forEach(([root, pts, d]) => {
+                const h = document.createElement("h4");
+                h.style.cssText = "margin:0.8rem 0 0.2rem;font-size:0.9rem";
+                h.textContent = `${root.rootLatin} across the revelation timeline (shared scale)`;
+                wrap.appendChild(h);
+                const div = document.createElement("div");
+                wrap.appendChild(div);
+                qdChart.revTimeline(div, {
+                  points: pts,
+                  max: sharedMax,
+                  ariaLabel: `Occurrences of ${root.rootLatin} by revelation order`,
+                  filename: `${rootsSafeKey(root.rootBuckwalter)}-timeline.svg`,
+                  onSurahClick: (s) => {
+                    location.href = `read.html?s=${s}&a=1`;
+                  },
+                });
+              });
+              const note = document.createElement("p");
+              note.className = "method-note";
+              note.textContent =
+                "Cairo 1924 revelation order (a convention); bar height = occurrences in that surah, same scale for both roots. Distribution does not by itself establish meaning.";
+              wrap.appendChild(note);
+            })
+            .catch(() => {});
         }
 
         // ── Example pair links ────────────────────────────────────────────────

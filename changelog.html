@@ -119,6 +119,39 @@
           <h4>July</h4>
           <ul>
             <li>
+              <strong>Sharing, self-learning, and analytics expansion.</strong>
+              A share button on every page (each tool page's URL was already
+              a permalink; now there's an affordance for it), per-theme share
+              links, and one-click copy for the Validation prompts. Every
+              corpus figure on Numbers is now recomputed from the bundled
+              data (<code>scripts/build-numbers.mjs</code> &rarr;
+              <code>data/numbers.json</code>) instead of hard-coded — all
+              values verified identical before the switch. The "how we
+              verify" worked examples moved to a single registry
+              (<code>data/case-studies.json</code>) rendered on both Home
+              and Validation. Exercises became a data-driven engine
+              (<code>data/exercises.json</code> + <code>exercise.html</code>):
+              outline attempts are now scored against the published outline,
+              scores persist locally, and the root-spotting exercise grew
+              from 6 to 26 surahs. Study paths are checkable step by step
+              (<code>data/paths.json</code>), with a fourth path on themes.
+              A local-only, exportable notes panel was added to the Read
+              page. New visualizations from a shared zero-dependency chart
+              library: a revelation-order timeline on Roots and Compare, a
+              co-occurrence network on Roots, per-theme distribution maps,
+              and a 114-surah length-vs-diversity scatter on Navigate —
+              every chart carries its method note and an SVG download.
+              Clarity fixes: the Patterns cross-reference card now leads
+              with the Mishkat corpus actually shipped (QurSim demoted to
+              conceptual lineage), Navigate says "Cross-reference
+              connectivity" instead of "QurSim connectivity", a dead
+              reference to a nonexistent "welcome tour" was removed, and
+              Validation is now named as the canonical definition of the
+              three verification labels. Under the hood, citation-badge
+              handling switched to event delegation, fixing popovers on
+              dynamically rendered badges.
+            </li>
+            <li>
               <strong>Arabic word display corrected sitewide.</strong> The
               Buckwalter→Arabic conversion table
               (<code>scripts/build-leeds.js</code>) was missing 14 characters
@@ -354,6 +387,7 @@
       ></div>
     </div>
     <script src="assets/app.js"></script>
+    <script src="assets/share.js" defer></script>
     <script src="assets/glossary.js" defer></script>
   </body>
 </html>

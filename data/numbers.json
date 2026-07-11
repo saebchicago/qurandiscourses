@@ -1,0 +1,125 @@
+{
+ "_generated": "build-numbers.mjs",
+ "_method": "All figures computed from data/morphology/ (Leeds Quranic Arabic Corpus v0.4, one token per morphology entry), data/roots-summary.json, and data/chronology.json (Cairo 1924 four-period classification). Verse counts follow Cairo numbering as tokenized by Leeds.",
+ "namedRoots": {
+  "ArD": {
+   "latin": "a-r-ḍ",
+   "count": 461
+  },
+  "bHr": {
+   "latin": "b-ḥ-r",
+   "count": 42
+  },
+  "ywm": {
+   "latin": "y-w-m",
+   "count": 405
+  },
+  "$hr": {
+   "latin": "sh-h-r",
+   "count": 21
+  },
+  "Edl": {
+   "latin": "ʿ-d-l",
+   "count": 28
+  },
+  "Sbr": {
+   "latin": "ṣ-b-r",
+   "count": 103
+  },
+  "Elm": {
+   "latin": "ʿ-l-m",
+   "count": 854
+  },
+  "$kr": {
+   "latin": "sh-k-r",
+   "count": 75
+  },
+  "wqy": {
+   "latin": "w-q-y",
+   "count": 258
+  }
+ },
+ "topRoots": [
+  {
+   "bw": "Alh",
+   "latin": "a-l-h",
+   "count": 2851
+  },
+  {
+   "bw": "qwl",
+   "latin": "q-w-l",
+   "count": 1722
+  },
+  {
+   "bw": "kwn",
+   "latin": "k-w-n",
+   "count": 1390
+  },
+  {
+   "bw": "rbb",
+   "latin": "r-b-b",
+   "count": 980
+  },
+  {
+   "bw": "Amn",
+   "latin": "a-m-n",
+   "count": 879
+  }
+ ],
+ "surahLength": {
+  "surahs": 114,
+  "totalVerses": 6236,
+  "meanVerses": 54.7,
+  "medianVerses": 39,
+  "longest": {
+   "s": 2,
+   "verses": 286
+  },
+  "shortest": [
+   {
+    "s": 103,
+    "verses": 3
+   },
+   {
+    "s": 108,
+    "verses": 3
+   },
+   {
+    "s": 110,
+    "verses": 3
+   }
+  ]
+ },
+ "verseLengthByPeriod": [
+  {
+   "period": "meccan-early",
+   "label": "Early Meccan",
+   "avgTokensPerVerse": 4.5
+  },
+  {
+   "period": "meccan-middle",
+   "label": "Middle Meccan",
+   "avgTokensPerVerse": 10.1
+  },
+  {
+   "period": "meccan-late",
+   "label": "Late Meccan",
+   "avgTokensPerVerse": 11.7
+  },
+  {
+   "period": "medinan",
+   "label": "Medinan",
+   "avgTokensPerVerse": 18.5
+  }
+ ],
+ "hapax": {
+  "uniqueSurfaceForms": 18993,
+  "surfaceFormsOccurringOnce": 12004,
+  "totalRoots": 1642,
+  "rootsOccurringOnce": 395
+ },
+ "periodUniqueRoots": {
+  "meccanOnly": 547,
+  "medinanOnly": 198
+ }
+}

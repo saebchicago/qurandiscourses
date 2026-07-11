@@ -57,7 +57,8 @@
     // anywhere, cleared by the same "Clear preferences" button.
     progress: {
       lastRead: null, // { s: surahNumber, a: "1" | "1-7" }
-      exercises: {}, // { [exerciseId]: { at: isoString } }
+      exercises: {}, // { [exerciseId]: { at, attempts, score? } }
+      paths: {}, // { [pathId]: { steps: { [stepIndex]: true }, at } }
     },
   };
 
@@ -91,23 +92,53 @@
       showAudio: true,
       showTransliteration: false,
     };
-    state.progress = { lastRead: null, exercises: {} };
+    state.progress = { lastRead: null, exercises: {}, paths: {} };
   }
 
-  // Called by read.html after a verse/range successfully loads.
+  // Called by read.html after a verse/range successfully loads. Also
+  // announces the loaded reference so decoupled features (the notes
+  // panel) can follow along without patching read.html's load flow.
   window.qdSaveLastRead = function (s, a) {
-    if (!state.progress) state.progress = { lastRead: null, exercises: {} };
+    if (!state.progress) state.progress = { lastRead: null, exercises: {}, paths: {} };
     state.progress.lastRead = { s: s, a: String(a) };
     save();
+    document.dispatchEvent(
+      new CustomEvent("qd:verse-loaded", { detail: { s: s, a: String(a) } }),
+    );
   };
 
   // Called by exercise pages once a reader has revealed/attempted the
-  // exercise. Marks intent to practice, not a graded score.
-  window.qdMarkExerciseDone = function (exerciseId) {
+  // exercise. `score` is optional: { hits, targets, falseMarks } from the
+  // exercises that grade the attempt. Attempts and last score are kept —
+  // browser-only, like everything else in qd_state — so the Exercises hub
+  // can show "attempted N times, last score X/Y".
+  window.qdMarkExerciseDone = function (exerciseId, score) {
     if (!state.progress) state.progress = { lastRead: null, exercises: {} };
-    state.progress.exercises[exerciseId] = {
+    var prev = state.progress.exercises[exerciseId] || {};
+    var entry = {
       at: new Date().toISOString(),
+      attempts: (prev.attempts || (prev.at ? 1 : 0)) + 1,
     };
+    if (score) entry.score = score;
+    else if (prev.score) entry.score = prev.score;
+    state.progress.exercises[exerciseId] = entry;
+    save();
+  };
+
+  // Called by paths.html when a reader checks off a step. Browser-only,
+  // like all progress state.
+  window.qdMarkPathStep = function (pathId, stepIndex, done) {
+    if (!state.progress) state.progress = { lastRead: null, exercises: {}, paths: {} };
+    if (!state.progress.paths) state.progress.paths = {};
+    var p = state.progress.paths[pathId] || { steps: {} };
+    if (done) p.steps[stepIndex] = true;
+    else delete p.steps[stepIndex];
+    p.at = new Date().toISOString();
+    if (Object.keys(p.steps).length === 0) {
+      delete state.progress.paths[pathId];
+    } else {
+      state.progress.paths[pathId] = p;
+    }
     save();
   };
 

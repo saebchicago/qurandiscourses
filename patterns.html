@@ -126,22 +126,25 @@
           </p>
         </div>
         <div class="card scholar-only">
-          <h3>Cross-references</h3>
+          <h3>Cross-references (Mishkat Mutashābihāt)</h3>
           <p>
-            The QurSim corpus identifies 7,679 pairs of related verses, ranked
-            by relatedness. This supports cross-textual study without requiring
-            tafsir traversal.
+            The cross-reference data shipped on this site — the expandable
+            "Related verses" panels on the Read page and the browser below —
+            is the Mishkat Mutashābihāt corpus: documented verse-to-verse
+            parallels, browsable without tafsir traversal. Coverage: 110 of
+            114 surahs (not yet covered: 104, 105, 106, 110).
           </p>
           <p class="prov">
-            <span class="badge ok" data-source-ids="qursim" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> dataset. Sharaf and Atwell,
-            <em>LREC</em> 2012. QurSim is cited as a conceptual reference; its
-            canonical host is no longer accessible.
+            <span class="badge ok" data-source-ids="mishkat" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> dataset. See
+            <a href="sources.html#mishkat">Sources</a>.
           </p>
           <p class="method-note">
-            The cross-reference data shipped on this site (Read page) is the
-            Mishkat Mutashābihāt corpus, not QurSim. Coverage: 110 of 114
-            surahs. Not yet covered: 104, 105, 106, 110. See
-            <a href="sources.html#mishkat">Sources</a>.
+            Conceptual lineage: the QurSim corpus (Sharaf and Atwell,
+            <em>LREC</em> 2012) pioneered this approach, identifying 7,679
+            pairs of related verses ranked by relatedness. QurSim is cited
+            here as a conceptual reference only — its canonical host is no
+            longer accessible, and it is <em>not</em> the data this site
+            ships.
           </p>
         </div>
         <div class="card scholar-only">
@@ -218,6 +221,7 @@
     </div>
     <script src="assets/surahs.js"></script>
     <script src="assets/app.js"></script>
+    <script src="assets/share.js" defer></script>
     <script>
       (function () {
         var NOT_COVERED = [104, 105, 106, 110];
@@ -321,7 +325,7 @@
               })
               .join("");
             html +=
-              '<p class="prov" style="margin-top:.75rem"><span class="badge ok" data-source-ids="qursim" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Cross-references from the <a href="sources.html#mishkat">Mishkat Mutashābihāt corpus</a> (13 classical books, scholarly-attested).</p>';
+              '<p class="prov" style="margin-top:.75rem"><span class="badge ok" data-source-ids="mishkat" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Cross-references from the <a href="sources.html#mishkat">Mishkat Mutashābihāt corpus</a> (13 classical books, scholarly-attested).</p>';
             results.innerHTML = html;
           }
 

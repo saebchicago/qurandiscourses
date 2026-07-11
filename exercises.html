@@ -84,8 +84,11 @@
         </p>
       </section>
       <section>
-        <div class="grid">
-          <a class="tile" href="exercise-asr.html"
+        <!-- Rendered from data/exercises.json; the tiles below are the
+             static fallback if that fetch fails. Edit the JSON, not this
+             HTML — new outline entries appear here automatically. -->
+        <div class="grid" id="exerciseGrid">
+          <a class="tile" href="exercise.html?id=asr-outline"
             ><span class="name">Outline a discourse: al-'Asr</span
             ><span class="desc"
               >Propose the structure of Surah 103 verse by verse, then compare
@@ -96,9 +99,9 @@
           <a class="tile" href="exercise-roots.html"
             ><span class="name">Spot the roots</span
             ><span class="desc"
-              >Six short surahs. Tap the words you think share a triliteral
-              root, then reveal the recurring root families computed from the
-              Leeds corpus morphology.</span
+              >Short surahs, one at a time. Tap the words you think share a
+              triliteral root, then reveal the recurring root families computed
+              from the Leeds corpus morphology.</span
             ></a
           >
         </div>
@@ -107,11 +110,12 @@
         <h3>Planned</h3>
         <p>
           Khan's <em>An Exercise in Understanding the Qur'an</em> outlines all
-          thirty of the final discourses (Surahs 85–114). Further outline
-          exercises in the al-'Asr format will be added as each outline is
-          transcribed from the book, so that every exercise remains traceable
-          to its published source. Corrections and transcription help are
-          welcome via the
+          thirty of the final discourses (Surahs 85–114). The exercise engine
+          is now data-driven: each new outline is a single entry in
+          <code>data/exercises.json</code>, added as it is transcribed from
+          the book — never paraphrased — so that every exercise remains
+          traceable to its published source. Corrections and transcription
+          help are welcome via the
           <a href="https://github.com/saebchicago/qurandiscourses" rel="noopener"
             >GitHub repository</a
           >.
@@ -146,7 +150,93 @@
       ></div>
     </div>
     <script src="assets/app.js"></script>
+    <script src="assets/share.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
+    <script>
+      (function () {
+        "use strict";
+        // The pre-engine exercise id, mapped so older saved progress
+        // still shows against the al-'Asr tile.
+        var LEGACY_IDS = { "exercise-asr": "asr-outline" };
+
+        function progressFor(id) {
+          var progress = window.qdState && window.qdState.progress;
+          if (!progress || !progress.exercises) return null;
+          var entry = progress.exercises[id];
+          if (!entry) {
+            for (var old in LEGACY_IDS) {
+              if (LEGACY_IDS[old] === id && progress.exercises[old])
+                entry = progress.exercises[old];
+            }
+          }
+          return entry || null;
+        }
+
+        function progressLine(entry) {
+          if (!entry) return "";
+          var attempts = entry.attempts || 1;
+          var txt =
+            "Attempted " +
+            (attempts === 1 ? "once" : attempts + " times");
+          if (entry.score && entry.score.targets) {
+            txt +=
+              " · last: " +
+              entry.score.hits +
+              "/" +
+              entry.score.targets +
+              (entry.score.falseMarks
+                ? " (+" + entry.score.falseMarks + " extra)"
+                : "");
+          }
+          return (
+            '<span class="desc" style="color:var(--accent);font-size:0.8rem">' +
+            txt +
+            "</span>"
+          );
+        }
+
+        function render(data) {
+          var grid = document.getElementById("exerciseGrid");
+          if (!grid) return;
+          grid.innerHTML = data.exercises
+            .map(function (e) {
+              var href =
+                e.type === "outline"
+                  ? "exercise.html?id=" + encodeURIComponent(e.id)
+                  : e.href;
+              return (
+                '<a class="tile" href="' +
+                href +
+                '"><span class="name">' +
+                e.tileName +
+                '</span><span class="desc">' +
+                e.tileDesc +
+                "</span>" +
+                progressLine(progressFor(e.id)) +
+                "</a>"
+              );
+            })
+            .join("");
+        }
+
+        function init() {
+          fetch("data/exercises.json")
+            .then(function (r) {
+              if (!r.ok) throw new Error("HTTP " + r.status);
+              return r.json();
+            })
+            .then(render)
+            .catch(function () {
+              /* static fallback tiles stay in place */
+            });
+        }
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", init);
+        } else {
+          init();
+        }
+      })();
+    </script>
   </body>
 </html>

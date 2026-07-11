@@ -236,6 +236,70 @@
           "Follow one root into the Roots explorer: where else does it cluster, and in which period?",
           "Write down, in your own words, what the passages agree on and where they differ. That record is yours; the site only ordered the evidence.",
         ];
+
+        // Filename-safe key (mirrors build-root-analytics.mjs).
+        function safeKey(bw) {
+          var out = "";
+          for (var i = 0; i < bw.length; i++) {
+            var c = bw[i];
+            if (c === "*") out += "dh";
+            else if (c === "$") out += "sh";
+            else if (c >= "A" && c <= "Z") out += "u" + c;
+            else out += c;
+          }
+          return out;
+        }
+
+        var chronCache = null;
+        function loadChron() {
+          if (chronCache) return Promise.resolve(chronCache);
+          return fetch("data/chronology.json")
+            .then(function (r) { return r.ok ? r.json() : {}; })
+            .then(function (d) { chronCache = d; return d; })
+            .catch(function () { return {}; });
+        }
+
+        // Lazy heat strip: summed per-surah counts of the theme's root
+        // family, fetched from data/root-analytics/ only when opened.
+        function renderThemeStrip(t, container) {
+          container.innerHTML = '<p style="color:var(--muted);font-size:0.85rem">Computing…</p>';
+          Promise.all(
+            t.roots
+              .map(function (r) {
+                return fetch("data/root-analytics/" + safeKey(r.bw) + ".json")
+                  .then(function (resp) { return resp.ok ? resp.json() : null; })
+                  .catch(function () { return null; });
+              })
+              .concat([loadChron()]),
+          ).then(function (results) {
+            var chron = results.pop();
+            var totals = {};
+            for (var s = 1; s <= 114; s++) totals[s] = 0;
+            results.filter(Boolean).forEach(function (d) {
+              for (var s in d.bySurah) totals[s] += d.bySurah[s];
+            });
+            var cells = [];
+            for (var s2 = 1; s2 <= 114; s2++) {
+              cells.push({
+                surah: s2,
+                name: chron[String(s2)] ? chron[String(s2)].name : "",
+                count: totals[s2],
+              });
+            }
+            if (!window.qdChart) {
+              container.innerHTML = "";
+              return;
+            }
+            qdChart.heatStrip(container, {
+              cells: cells,
+              ariaLabel: "Where the " + t.title + " root family concentrates across the 114 surahs",
+              filename: t.slug + "-distribution.svg",
+              onSurahClick: function (s) {
+                location.href = "read.html?s=" + s + "&a=1";
+              },
+            });
+          });
+        }
         fetch("data/themes.json")
           .then(function (r) {
             if (!r.ok) throw new Error("HTTP " + r.status);
@@ -309,22 +373,37 @@
                   '">Open the top two passages side by side \u2192</a></p>';
               }
               card.innerHTML =
-                "<h3>" + t.title + "</h3>" +
+                '<h3 style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap">' + t.title +
+                '<button type="button" class="button secondary share-btn" data-share data-share-url="https://qurandiscourse.netlify.app/themes.html#' +
+                t.slug +
+                '" data-share-title="' + t.title + ' · Divine Discourses">Share</button></h3>' +
                 '<h4 style="margin:0 0 0.2rem">Root families</h4>' +
                 '<ul class="root-chips">' + rootChips + "</ul>" +
                 '<h4 style="margin:0 0 0.2rem">Key passages <span style="font-weight:400;color:var(--muted);font-size:0.82rem">(computed: theme vocabulary clusters here)</span></h4>' +
                 '<div class="passage-grid">' + passages + "</div>" +
                 compareLink +
+                '<details class="method-note theme-dist"><summary>Show distribution map (114 surahs)</summary>' +
+                '<div class="theme-dist-chart" style="margin-top:0.5rem"></div>' +
+                '<p style="margin-top:0.3rem">Summed per-surah counts of this theme’s root family (Leeds corpus, mushaf order; darker = more). Vocabulary density, not a thematic index — distribution does not by itself establish meaning.</p>' +
+                "</details>" +
                 '<div class="study-kit"><strong>Self-study kit</strong><ol>' +
                 KIT.map(function (q) { return "<li>" + q + "</li>"; }).join("") +
                 "</ol></div>";
               sec.appendChild(card);
               wrap.appendChild(sec);
+              var dist = card.querySelector(".theme-dist");
+              dist.addEventListener("toggle", function () {
+                if (dist.open && !dist.dataset.loaded) {
+                  dist.dataset.loaded = "1";
+                  renderThemeStrip(t, card.querySelector(".theme-dist-chart"));
+                }
+              });
             });
             if (location.hash) {
               var el = document.getElementById(location.hash.slice(1));
               if (el) el.scrollIntoView();
             }
+            if (window.qdInitShare) window.qdInitShare();
           })
           .catch(function () {
             document.getElementById("themeSections").innerHTML =
@@ -333,6 +412,8 @@
       })();
     </script>
     <script src="assets/app.js"></script>
+    <script src="assets/share.js" defer></script>
+    <script src="assets/chart.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
   </body>

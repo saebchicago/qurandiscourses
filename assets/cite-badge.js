@@ -206,36 +206,61 @@
     }
   }
 
+  // Badges are focusable spans, not buttons: without role/tabindex,
+  // keyboard users can reach a badge but never open its citation. Pages
+  // that render badges dynamically (Roots detail, Patterns browser, the
+  // verify examples) can call window.qdCiteEnhance(container) after
+  // inserting HTML; click/keydown handling itself is delegated at the
+  // document level, so it needs no rebinding.
+  function enhance(root) {
+    (root || document)
+      .querySelectorAll(".badge[data-source-ids]")
+      .forEach((badge) => {
+        if (!badge.hasAttribute("role")) badge.setAttribute("role", "button");
+        if (!badge.hasAttribute("tabindex")) badge.setAttribute("tabindex", "0");
+      });
+  }
+
   function init() {
     injectStyle();
+    enhance(document);
     // Browsers may synthesize a click after Enter/Space on role="button"
     // (Chromium fires it on Space keyup), which would immediately toggle
     // the popover the keydown handler just opened.
     let lastKeyActivation = 0;
-    document.querySelectorAll(".badge[data-source-ids]").forEach((badge) => {
-      badge.addEventListener("click", (e) => {
+    document.addEventListener("click", (e) => {
+      const badge =
+        e.target.closest && e.target.closest(".badge[data-source-ids]");
+      if (badge) {
         if (Date.now() - lastKeyActivation < 500) return;
-        handleBadgeClick(e);
-      });
-      // Badges are focusable spans, not buttons: without this, keyboard
-      // users can reach a badge but never open its citation.
-      if (!badge.hasAttribute("role")) badge.setAttribute("role", "button");
-      if (!badge.hasAttribute("tabindex")) badge.setAttribute("tabindex", "0");
-      badge.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+        handleBadgeClick({
+          currentTarget: badge,
+          stopPropagation() {
+            e.stopPropagation();
+          },
+        });
+        return;
+      }
+      if (activePopover && !activePopover.contains(e.target)) closePopover();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closePopover();
+        return;
+      }
+      if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+        const badge =
+          e.target.closest && e.target.closest(".badge[data-source-ids]");
+        if (badge) {
           e.preventDefault();
           lastKeyActivation = Date.now();
           handleBadgeClick({ currentTarget: badge, stopPropagation() {} });
         }
-      });
-    });
-    document.addEventListener("click", (e) => {
-      if (activePopover && !activePopover.contains(e.target)) closePopover();
-    });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closePopover();
+      }
     });
   }
+
+  window.qdCiteEnhance = enhance;
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);

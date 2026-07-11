@@ -1,0 +1,41 @@
+{
+ "_comment": "Exercise registry. Outline exercises are rendered by exercise.html?id=<id>; adding one of Khan's remaining outlines (surahs 85-114) is a JSON entry here, NOT a new page — but the outline text MUST be transcribed from Irfan Ahmad Khan, 'An Exercise in Understanding the Qur'an' (2013), never paraphrased from memory, and must keep sourceIds=khan-exercise-2013. heading/note values are trusted site-authored HTML. The root-spotting entry configures exercise-roots.html; its surah list is safe to extend to any surah since the recurring-root answer key is computed live from data/morphology/.",
+ "exercises": [
+  {
+   "id": "asr-outline",
+   "type": "outline",
+   "surah": 103,
+   "surahName": "al-Asr",
+   "title": "Coherence reading: Surah al-Asr (103)",
+   "tileName": "Outline a discourse: al-'Asr",
+   "tileDesc": "Propose the structure of Surah 103 verse by verse, then compare your reading against the outline in Irfan Ahmad Khan's An Exercise in Understanding the Qur'an (2013).",
+   "sourceIds": "khan-exercise-2013",
+   "provenanceHtml": "outline structure from Irfan Ahmad Khan, <em>An Exercise in Understanding the Qur'an: An Outline Study of the Last Thirty Divine Discourses (Surah 85 to Surah 114)</em>, Association of Quranic Understanding, 2013. ISBN 9781567447736. Khan's outline for Surah al-Asr is one of thirty surah outlines in the volume; <a href=\"sources.html\">Sources</a> for the full citation.",
+   "outline": [
+    {
+     "startVerse": 1,
+     "heading": "Verse 1. Oath.",
+     "note": "Setting the cosmological frame by which the discourse will be measured."
+    },
+    {
+     "startVerse": 2,
+     "heading": "Verse 2. Negative claim.",
+     "note": "The universal condition of loss."
+    },
+    {
+     "startVerse": 3,
+     "heading": "Verse 3. Exception with conditions.",
+     "note": "Four conjoined qualifications that constitute the exception: faith, righteous deeds, mutual exhortation to truth, mutual exhortation to patience."
+    }
+   ]
+  },
+  {
+   "id": "exercise-roots",
+   "type": "roots",
+   "href": "exercise-roots.html",
+   "tileName": "Spot the roots",
+   "tileDesc": "Short surahs, one at a time. Tap the words you think share a triliteral root, then reveal the recurring root families computed from the Leeds corpus morphology.",
+   "surahs": [1, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114]
+  }
+ ]
+}
