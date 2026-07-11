@@ -1460,6 +1460,21 @@ dd {
   outline-offset: 2px;
   border-radius: 2px;
 }
+/* Root/verse reference wraps (assets/refs.js): same affordance family
+   as .gloss, dashed to hint "reference" rather than "definition". */
+.qd-ref {
+  text-decoration: underline dashed;
+  text-decoration-color: var(--accent-soft);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+.qd-ref:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
 .gloss-pop {
   position: absolute;
   z-index: 100;
