@@ -16,9 +16,11 @@ Live site: https://qurandiscourse.netlify.app/
    77,429 tokens (Leeds Quranic Arabic Corpus v0.4, GPL — see
    [NOTICE.md](NOTICE.md)) is bundled as JSON, so root counts, theme
    passages, and exercises are recomputable by anyone, offline.
-3. **No interpretation is generated.** The site orders evidence (roots,
+3. **No commentary is generated.** The site orders evidence (roots,
    frequencies, structure, cross-references) and points to published
-   scholarship; the reader does the engagement.
+   scholarship; the reader does the engagement. Where curation is
+   unavoidable — theme groupings and titles, short working glosses — it
+   is labeled as editorial (Nuanced), never presented as computed data.
 
 ## Architecture
 

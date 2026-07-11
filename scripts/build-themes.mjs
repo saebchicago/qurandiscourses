@@ -101,7 +101,7 @@ const THEMES = [
       Elm: "to know",
       fkr: "to reflect",
       Eql: "to reason",
-      dbr: "to consider; tadabbur",
+      dbr: "to consider, ponder",
     },
   },
   {

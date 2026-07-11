@@ -20,14 +20,26 @@ The site's value is trust. Three rules protect it:
      sources.html carry no dot at all — the Chicago citation is the
      verification there. Corpus figures quoted in page prose bind to
      `data/numbers.json` via `data-num="dot.path"` (loader in app.js)
-     so they cannot drift from the generated data.
+     so they cannot drift from the generated data. Badge title wording:
+     claims confirmed against a source text use "Verified · confirmed
+     from a primary source"; claims that are computations over the
+     bundled corpus use "Verified · computed from the cited corpus" —
+     recomputability proves faithful derivation, and correctness
+     inherits the corpus's own annotation accuracy.
    - ○ **Pending** — sourced but awaiting a second independent
      confirmation. No `data-source-ids` needed.
-   - ~ **Nuanced** — contested or dependent on a counting convention; the
-     surrounding text must say what the disagreement is.
-2. **No new interpretive content.** The site computes and cites; it never
-   asserts what a verse *means*. Anything presented as Khan's reading must
-   be transcribed from his published books with a citation. Structural
+   - ~ **Nuanced** — defensible but dependent on a specific counting rule,
+     classification scheme, or interpretive choice; the surrounding text
+     must state the dependency. (This is the canonical definition — keep
+     glossary.html, sources.html's legend, and this line in sync.)
+2. **No generated commentary; editorial curation is always labeled.** The
+   site computes and cites; it never asserts what a verse *means*. But be
+   precise about what that claim covers: theme groupings and titles,
+   working root glosses, and similar curation ARE editorial choices — the
+   rule is that such curation must always be labeled Nuanced with its
+   editorial nature stated in the adjacent text, never presented as
+   computed data. Anything presented as Khan's reading must be
+   transcribed from his published books with a citation. Structural
    observations (counts, co-occurrence, repetition) always carry a note
    that distribution does not by itself establish meaning.
 3. **AI tools screen, primary sources verify.** Chatbot triangulation
