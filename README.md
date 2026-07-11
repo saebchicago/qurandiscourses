@@ -1,8 +1,10 @@
 # Divine Discourses — qurandiscourses
 
-A Qur'an study platform built in memory of Dr. Irfan Ahmad Khan (1931–2018),
-directed at one goal: **direct, personal, evidence-based engagement with the
-Qur'an**, in the coherence-reading tradition Khan taught.
+A Qur'an study platform directed at one goal: **direct, personal,
+evidence-based engagement with the Qur'an** — each surah read whole, as one
+coherent discourse, with every claim traceable to its source. Built in the
+coherence-reading tradition of Dr. Irfan Ahmad Khan (1931–2018), in whose
+memory the site is maintained.
 
 Live site: https://qurandiscourse.netlify.app/
 
