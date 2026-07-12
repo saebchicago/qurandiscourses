@@ -641,7 +641,9 @@
                     : ref.cat === "lexical"
                       ? "lexical"
                       : ref.cat;
-              return `<div class="xref-item"><a href="read.html?s=${ref.s}&a=${ref.a}" class="xref-ref">${ref.s}:${ref.a} · ${sName}</a><span class="xref-cat">${catLabel}</span><span class="ar notranslate xref-ar" translate="no" lang="ar" dir="rtl">${ref.ar}</span><span class="xref-trans" style="color:var(--muted)">Loading translation…</span></div>`;
+              const rs = Number(ref.s);
+              const ra = Number(ref.a);
+              return `<div class="xref-item"><a href="read.html?s=${rs}&a=${ra}" class="xref-ref">${rs}:${ra} · ${qdEsc(sName)}</a><span class="xref-cat">${qdEsc(catLabel)}</span><span class="ar notranslate xref-ar" translate="no" lang="ar" dir="rtl">${qdEsc(ref.ar)}</span><span class="xref-trans" style="color:var(--muted)">Loading translation…</span></div>`;
             })
             .join("");
 
@@ -1123,15 +1125,37 @@
         load();
       });
       const params = new URLSearchParams(location.search);
-      const hasParams = !!(params.get("s") || params.get("a"));
+      const juzParam = params.get("j");
+      const hasParams = !!(params.get("s") || params.get("a") || juzParam);
       if (params.get("s"))
         document.getElementById("surahInput").value = params.get("s");
       if (params.get("a"))
         document.getElementById("ayahInput").value = params.get("a");
+      // Deep link ?j=N — resolve the juz's first verse from data/juz.json
+      // (Tanzil standard division) and load it. Only used when no explicit
+      // surah was given, so ?s=/?a= always win.
+      if (juzParam && !params.get("s")) {
+        fetch("data/juz.json")
+          .then((r) => (r.ok ? r.json() : null))
+          .then((d) => {
+            const j =
+              d && d.juz.find((x) => String(x.juz) === juzParam.trim());
+            if (j) {
+              document.getElementById("surahInput").value = j.startSurah;
+              document.getElementById("ayahInput").value = j.startAyah;
+              load();
+            }
+          })
+          .catch(() => {});
+      }
       if (hasParams) {
         document.addEventListener("qd:translations-changed", load);
         document.addEventListener("qd:depth-changed", load);
-        window.addEventListener("load", () => setTimeout(load, 200));
+        window.addEventListener("load", () =>
+          setTimeout(() => {
+            if (document.getElementById("surahInput").value.trim()) load();
+          }, 200),
+        );
       } else {
         document.addEventListener("qd:translations-changed", function () {
           if (document.getElementById("surahInput").value.trim()) load();

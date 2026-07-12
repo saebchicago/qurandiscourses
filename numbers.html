@@ -24,6 +24,28 @@
     />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
+    <style>
+      /* ── "How the Qur'an is counted" ladder ─────────────────────── */
+      .ladder-row {
+        display: grid;
+        grid-template-columns: 5.5rem 1fr;
+        gap: 0.1rem 1rem;
+        align-items: baseline;
+        border-left: 3px solid var(--accent);
+        padding: 0.4rem 0 0.4rem 0.9rem;
+        margin: 0.45rem 0;
+      }
+      .ladder-num {
+        font-size: 1.35rem;
+        font-variant-numeric: tabular-nums;
+        color: var(--ink);
+      }
+      .ladder-def {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-top: 0.1rem;
+      }
+    </style>
     <script src="assets/nav.js"></script>
     <link
       rel="icon"
@@ -90,6 +112,88 @@
           Frequency and distribution insights from the corpus. Each card ends
           with its verification status.
         </p>
+        <div class="card" id="countingLadder">
+          <h3>
+            How the Qur'an is counted
+            <span
+              class="badge ok"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · computed from the Leeds corpus"
+              >●</span
+            >
+          </h3>
+          <p style="margin: 0 0 0.8rem">
+            The same text can be counted at different grains, and the numbers on
+            this page use several. The key one is the <strong>word-unit</strong>
+            — the corpus term is <em>token</em> — the smallest piece the corpus
+            counts. Arabic often writes several word-units as a single word:
+            <em>bismi</em> ("in the name of") is one written word but two
+            word-units (<em>bi</em> + <em>ism</em>). That is why the Qur'an has
+            far more word-units than written words. From the largest grain to
+            the smallest:
+          </p>
+          <div class="ladder">
+            <div class="ladder-row">
+              <strong class="ladder-num" data-num="totals.verses">6,236</strong>
+              <div>
+                <strong>verses (ayat)</strong>
+                <div class="ladder-def">the numbered verses, by Cairo counting</div>
+              </div>
+            </div>
+            <div class="ladder-row">
+              <strong class="ladder-num" data-num="totals.tokens">77,429</strong>
+              <div>
+                <strong>word-units (tokens)</strong>
+                <div class="ladder-def">
+                  every morphological piece of running text — the raw building
+                  blocks
+                </div>
+              </div>
+            </div>
+            <div class="ladder-row">
+              <strong class="ladder-num" data-num="hapax.uniqueSurfaceForms">18,993</strong>
+              <div>
+                <strong>distinct spellings (surface forms)</strong>
+                <div class="ladder-def">
+                  how many different written forms appear at least once
+                </div>
+              </div>
+            </div>
+            <div class="ladder-row">
+              <strong class="ladder-num" data-num="totals.lemmas">4,832</strong>
+              <div>
+                <strong>dictionary words (lemmas)</strong>
+                <div class="ladder-def">
+                  distinct headwords you would look up in a dictionary
+                </div>
+              </div>
+            </div>
+            <div class="ladder-row">
+              <strong class="ladder-num" data-num="totals.roots">1,642</strong>
+              <div>
+                <strong>roots</strong>
+                <div class="ladder-def">
+                  the triliteral roots the whole vocabulary grows from
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="prov">
+            <span
+              class="badge ok"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · computed from the cited corpus"
+              >●</span
+            >
+            every figure recomputed from the bundled Leeds Quranic Arabic Corpus
+            v0.4 morphology. "Word-unit" is this site's plain-language name for a
+            corpus <a href="glossary.html#token">token</a>.
+          </p>
+        </div>
         <div class="banner note">
           <strong>Note on counting.</strong> Word counts in the Qur'an depend on
           whether one counts root occurrences, surface forms, definite vs
@@ -255,7 +359,7 @@
               <thead>
                 <tr>
                   <th>Band</th>
-                  <th>Avg. words/verse</th>
+                  <th>Avg. word-units/verse</th>
                 </tr>
               </thead>
               <tbody>
@@ -526,7 +630,7 @@
                   '<div class="barwrap">' +
                   '<span class="lbl">' +
                   b.label +
-                  " words</span>" +
+                  " word-units</span>" +
                   '<div class="bar"><span style="width:' +
                   pct +
                   '%"></span></div>' +

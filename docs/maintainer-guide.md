@@ -101,6 +101,7 @@ them only when their inputs change; commit their outputs.
 | build-root-analytics.mjs | morphology | data/root-analytics/ | roots.html detail |
 | build-cooccurrence.mjs | morphology, roots-summary | data/cooccurrence/ | roots.html co-occurrence |
 | build-surah-meta.mjs | Quran Foundation API | data/surah-meta.json | Makki/Madani |
+| build-juz.mjs | Tanzil standard division + surah-meta | data/juz.json | navigate.html juz grid, read.html `?j=` |
 | build-surah-profiles.mjs | morphology, chronology, qursim | data/surah-profiles.json | navigate.html profiles |
 | build-themes.mjs | morphology, roots-summary | data/themes.json | themes.html |
 | build-rhetorical-features.mjs | morphology | data/rhetorical-features.json | patterns.html direct-address list, numbers.html fawatih list |
@@ -148,6 +149,42 @@ output will already be correct and the migration script becomes a no-op.
    Publisher", year, url, license, accessed).
 3. Reference it from a badge: `data-source-ids="your-id"` (space-separate
    multiple ids for multi-source claims).
+
+### Add a case study (a "how we verify" example)
+The worked examples on the home page and `validation.html` come from one
+registry: `data/case-studies.json` (rendered by `assets/case-studies.js`).
+1. Pick a claim you can actually verify from a source or from the bundled
+   data — a count, a distribution, a bibliographic fact. Never an
+   interpretation of what a verse *means*. If it is a corpus number,
+   compute it first (e.g. from `data/cooccurrence/`, `data/roots-summary.json`)
+   and record how, so the trace is honest.
+2. Append an object to `caseStudies[]` with: `id`, `label`
+   (`ok`/`pending`/`nuanced`), `labelText` (Verified/Pending/Nuanced),
+   `title`, `sourceIds` (space-separated, each must exist in
+   `data/sources.json`; may be `""` only for Pending), `onHome`
+   (true→also shows on the home page), `claim`, and `traceFull`. If
+   `onHome`, also add `claimHome` and `traceShort`. `claim`/`trace` values
+   are trusted site-authored HTML — never route API or user text through
+   them.
+3. Choose the badge that is *actually* honest: `ok` when it is traceable
+   to a source or recomputable from bundled data; `nuanced` when it depends
+   on a counting rule (say so, and give the real numbers); `pending` when
+   it is sourced but awaiting a second independent citation (state what
+   would upgrade it). The label is the teaching point.
+4. Keep the static fallback markup in `index.html` and `validation.html`
+   in step with the JSON (it only shows if the fetch fails, but should not
+   go stale). The JS renders from the JSON on the normal path.
+5. `node scripts/verify-site.mjs` — it re-renders the badges and checks
+   every `data-source-ids` resolves and popovers open.
+
+### Regenerate the juz (para) divisions
+`data/juz.json` holds the 30 traditional juz boundaries, browsable on
+`navigate.html#juz` and deep-linkable as `read.html?j=<n>`.
+1. The start boundaries are the Tanzil standard division, transcribed in
+   the `STARTS` table of `scripts/build-juz.mjs` (cited to `tanzil`). End
+   boundaries are derived from `data/surah-meta.json` verse counts.
+2. `node scripts/build-juz.mjs` → writes `data/juz.json`. Only edit
+   `STARTS` if correcting a boundary; the file is otherwise stable.
 
 ### Add a Khan outline exercise (surahs 85–114)
 1. Transcribe the outline from *An Exercise in Understanding the Qur'an*
