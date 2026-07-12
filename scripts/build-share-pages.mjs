@@ -79,9 +79,6 @@ function page({ path, title, description, target }) {
     <p style="font-family: Georgia, serif; padding: 2rem; text-align: center">
       <a href="${esc(target)}">${esc(title)}</a>
     </p>
-    <script>
-      location.replace(${JSON.stringify(target)});
-    </script>
   </body>
 </html>
 `;

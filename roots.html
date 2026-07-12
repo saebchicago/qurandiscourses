@@ -912,7 +912,7 @@
                     : "") +
                   `>` +
                   `<td style="color:var(--muted);font-size:0.8rem">${i + 1}</td>` +
-                  `<td><a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(r.rootBuckwalter)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${r.rootLatin}</a></td>` +
+                  `<td><a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(r.rootBuckwalter)}" target="_blank" rel="noopener">${r.rootLatin}</a></td>` +
                   `<td><button type="button" class="root-select-btn" aria-pressed="${sel}" aria-label="Select root ${r.rootLatin}"><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${r.rootArabic}</span></button></td>` +
                   `<td style="color:${meaning === "—" ? "var(--muted)" : "inherit"}">${meaning}</td>` +
                   `<td class="spark-cell">${sparkline(r.byChronology)}</td>` +
