@@ -102,6 +102,7 @@ them only when their inputs change; commit their outputs.
 | build-cooccurrence.mjs | morphology, roots-summary | data/cooccurrence/ | roots.html co-occurrence |
 | build-surah-meta.mjs | Quran Foundation API | data/surah-meta.json | Makki/Madani |
 | build-juz.mjs | Tanzil standard division + surah-meta | data/juz.json | navigate.html juz grid, read.html `?j=` |
+| build-csp.mjs | every page's inline `<script>` blocks | netlify.toml `script-src` hashes | CSP authorizes inline scripts without `'unsafe-inline'` (`--check` guards staleness) |
 | build-surah-profiles.mjs | morphology, chronology, qursim | data/surah-profiles.json | navigate.html profiles |
 | build-themes.mjs | morphology, roots-summary | data/themes.json | themes.html |
 | build-rhetorical-features.mjs | morphology | data/rhetorical-features.json | patterns.html direct-address list, numbers.html fawatih list |
@@ -291,6 +292,15 @@ committing. Register the palette in the `setPalette` select in
   `netlify.toml`. If you add an external origin (API, CDN), you must add
   it to `connect-src`/`media-src` there or it will be blocked in
   production — and ask first whether it can be bundled locally instead.
+- **`script-src` carries no `'unsafe-inline'`.** Every inline `<script>`
+  is authorized by its SHA-256 hash, generated into each page's CSP by
+  `scripts/build-csp.mjs`. If you add, edit, or remove an inline
+  `<script>` on any page, rerun `node scripts/build-csp.mjs` or the page's
+  scripts will be refused in production. Inline event handlers
+  (`onclick=`, `onerror=`, …) are also refused — use `addEventListener`.
+  Generated share pages (`s/`) carry no inline script by construction, so
+  their CSP is `script-src 'self'`. (`style-src` still allows inline
+  styles; that is a separate, lower-value hardening left for later.)
 - No analytics, no cookies, no accounts. Preferences live in
   localStorage only; the privacy copy on about.html/credits.html must
   stay in sync with reality.
@@ -333,9 +343,11 @@ What it covers (the old manual list, for reference) and what's left:
    automated.
 7. **Still manual:** dark-mode screenshots of any page you changed
    (`--shots` helps), audio playback, overall visual judgment.
-8. `node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs`
-   — mandatory after adding a page, touching the nav, or touching
-   netlify.toml.
+8. `node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs
+   && node scripts/build-csp.mjs --check` — mandatory after adding a page,
+   touching the nav, an inline `<script>`, or netlify.toml. The last one
+   fails if any page's inline-script hashes are stale (rerun
+   `node scripts/build-csp.mjs` to fix).
 9. Re-run every generator you touched twice; `git diff` must be empty
    after the second run.
 10. If you touched netlify.toml: on the PR's deploy preview, `curl -sI`
