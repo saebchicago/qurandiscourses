@@ -148,7 +148,8 @@
     var item = currentOutlineItem();
     if (item) {
       banner.hidden = false;
-      banner.innerHTML = "<h3>" + item.heading + "</h3><p>" + item.note + "</p>";
+      banner.innerHTML =
+        "<h3>" + qdEsc(item.heading) + "</h3><p>" + qdEsc(item.note) + "</p>";
     } else {
       banner.hidden = true;
     }
