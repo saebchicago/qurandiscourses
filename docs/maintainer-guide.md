@@ -99,7 +99,8 @@ them only when their inputs change; commit their outputs.
 |---|---|---|---|
 | build-leeds.js | Leeds corpus dump | data/morphology/, roots-summary.json | everything |
 | build-root-analytics.mjs | morphology | data/root-analytics/ | roots.html detail |
-| build-cooccurrence.mjs | morphology, roots-summary | data/cooccurrence/ | roots.html co-occurrence |
+| build-cooccurrence.mjs | morphology, roots-summary, chronology | data/cooccurrence/ | roots.html co-occurrence (whole-corpus and per-chronological-period) |
+| build-discursive-pivots.mjs | morphology, roots-summary | data/discursive-pivots.json | patterns.html boundary-particle / shared-root list |
 | build-surah-meta.mjs | Quran Foundation API | data/surah-meta.json | Makki/Madani |
 | build-juz.mjs | Tanzil standard division + surah-meta | data/juz.json | navigate.html juz grid, read.html `?j=` |
 | build-csp.mjs | every page's inline `<script>` and `<style>` blocks | netlify.toml `script-src` + `style-src-elem` hashes | CSP authorizes inline scripts/styles without `'unsafe-inline'` (`--check` guards staleness) |
@@ -383,3 +384,45 @@ commit and push; Netlify redeploys the previous state.
   docs/gloss-dataset-research.md — the verification is a ten-minute
   task from an unrestricted connection).
 - Badge dot glyphs are at the WCAG 2.5.8 24px minimum, not 44px.
+
+## 9. Content layers deliberately not built (and what would unblock them)
+
+Two structural/rhetorical content layers were scoped and rejected rather
+than built with placeholder or invented data, because the site's rule is
+that every claim must trace to a real, checkable source (see §1 and the
+Verified/Nuanced/Pending framework). Recorded here so a future contributor
+with the right input doesn't have to re-derive why these are missing.
+
+**Per-word grammatical person (for iltifat / pronoun-shift tracking).**
+`data/morphology/*.json` carries `root`, `lemma`, and `pos` only. Words
+tagged `pos: "PRON"` almost never carry a usable `lemma`: a 20-surah sample
+found 280 blank vs. 4 filled. Detecting a real 3rd→2nd person (or any
+person) shift needs the Leeds corpus's full per-segment feature string
+(e.g. `PRON:2MS`), which `scripts/build-leeds.js` never parsed out (it only
+reads `ROOT:`/`LEM:`/`POS:` from `STEM|`-prefixed segments — see its
+"Parse Leeds raw file" section). The raw source file
+(`scripts/leeds-raw.txt`) is gitignored and was not present in the
+environment this was scoped in, and fetching it requires network access
+this project's CI/session sandbox does not have. To unblock: obtain
+`quranic-corpus-morphology-0.4.txt` (or a newer Leeds/QAC release with
+person/number/gender features), extend `build-leeds.js` to parse and emit
+those features per word, then a pronoun/verb person-shift detector becomes
+a straightforward mechanical pass like `build-rhetorical-features.mjs`.
+Until then, do not fabricate per-verse pronoun-shift claims — there is no
+bundled data backing them.
+
+**Named-scholar structural outlines (ring composition / surah symmetry
+comparison).** patterns.html already names ring composition as a
+documented phenomenon in the literature (Cuypers 2015 et al.) without
+asserting a specific structural breakdown. Going further — mapping actual
+verse-range outlines attributed to specific scholars (e.g., Iṣlāḥī, Farrin,
+or Dr. Khan's own coherence readings) — requires transcribing real,
+page-cited outlines from their published work, one surah at a time. This
+is a bibliographic sourcing task, not a data-computation one: it cannot be
+generated from the bundled corpus, and inventing verse ranges under a real
+scholar's name would misattribute content they never wrote. To unblock:
+someone with access to the primary texts (print or licensed digital)
+transcribes an outline with an exact edition/page citation per surah;
+follow the existing `case-studies.json` schema (`sourceIds` must resolve
+in `data/sources.json`) and add scholars incrementally, only for surahs
+where a real citation exists.

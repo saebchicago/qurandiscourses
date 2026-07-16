@@ -27,6 +27,15 @@
 //   - Ranking: remaining partners sorted by co-occurrence count descending,
 //     top 12 kept.
 //
+// Also writes byChronologyCoRoots: the same verse-level co-occurrence
+// computation, partitioned by data/chronology.json's four-period
+// classification (meccan-early/middle/late, medinan — Egyptian Standard
+// revelation order per Watt's "Bell's Introduction to the Qur'an", already
+// used elsewhere on this site for roots-summary.json's byChronology
+// counts). Same exclusion rule; top 6 kept per period since each period's
+// verse pool is smaller. A period is included only if roots-summary.json
+// already reports at least one attestation of the subject root in it.
+//
 // To reproduce: node scripts/build-cooccurrence.mjs
 //
 
@@ -41,8 +50,14 @@ const OUT = join(DATA, "cooccurrence");
 
 const FREQUENCY_CEILING = 700;
 const TOP_N = 12;
+const TOP_N_CHRON = 6;
+const PERIODS = ["meccan-early", "meccan-middle", "meccan-late", "medinan"];
 
 mkdirSync(OUT, { recursive: true });
+
+const chronology = JSON.parse(
+  readFileSync(join(DATA, "chronology.json"), "utf8"),
+);
 
 // Buckwalter encoding is case-sensitive but macOS filesystems are case-insensitive.
 // Scheme mirrors scripts/build-root-analytics.mjs exactly, so filenames here
@@ -105,13 +120,28 @@ console.log("\nPass 2: building verse-level co-occurrence counts…");
 
 // coOcc[r1][r2] = count of verses where both r1 and r2 are attested
 const coOcc = {};
-for (const roots of Object.values(verseRoots)) {
+// coOccByPeriod[period][r1][r2] = same, restricted to verses in that period
+const coOccByPeriod = {};
+for (const p of PERIODS) coOccByPeriod[p] = {};
+
+for (const [ref, roots] of Object.entries(verseRoots)) {
+  const surah = ref.split(":")[0];
+  const period = chronology[surah]?.period;
   const arr = [...roots];
   for (const r1 of arr) {
     if (!coOcc[r1]) coOcc[r1] = {};
     for (const r2 of arr) {
       if (r1 !== r2) {
         coOcc[r1][r2] = (coOcc[r1][r2] || 0) + 1;
+      }
+    }
+    if (period) {
+      if (!coOccByPeriod[period][r1]) coOccByPeriod[period][r1] = {};
+      for (const r2 of arr) {
+        if (r1 !== r2) {
+          coOccByPeriod[period][r1][r2] =
+            (coOccByPeriod[period][r1][r2] || 0) + 1;
+        }
       }
     }
   }
@@ -149,17 +179,39 @@ for (const bw of Object.keys(rootsSummary)) {
       count,
     }));
 
+  const byChronologyCoRoots = {};
+  for (const p of PERIODS) {
+    if (!meta.byChronology || !meta.byChronology[p]) continue;
+    const pMap = coOccByPeriod[p][bw] || {};
+    const partners = Object.entries(pMap)
+      .filter(([r2]) => !excludedRoots.has(r2))
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, TOP_N_CHRON)
+      .map(([r, count]) => ({
+        root: r,
+        safeKey: safeKey(r),
+        arabic: rootsSummary[r]?.rootArabic || "",
+        rootLatin: rootsSummary[r]?.rootLatin || r,
+        count,
+      }));
+    if (partners.length) byChronologyCoRoots[p] = partners;
+  }
+
   const output = {
     root: bw,
     safeKey: safeKey(bw),
     arabic: meta.rootArabic,
     rootLatin: meta.rootLatin,
     coRoots,
+    byChronologyCoRoots,
     _source: "Leeds Quranic Arabic Corpus v0.4 (Kais Dukes, corpus.quran.com, GPL)",
     _window: "verse-level (same-verse attestation)",
     _exclusionRule: `Corpus-wide frequency > ${FREQUENCY_CEILING} treated as function-word-like and excluded as a partner`,
     _excludedRoots: [...excludedRoots].map((r) => rootsSummary[r]?.rootLatin || r),
     _topN: TOP_N,
+    _chronologySource:
+      "Egyptian Standard (Cairo 1924) revelation order, four-period classification following Nöldeke-Bell tradition (Watt, \"Bell's Introduction to the Qur'an\", 1970) — same periodization as data/chronology.json.",
+    _chronologyTopN: TOP_N_CHRON,
     _method: METHOD_NOTE,
     _computed: COMPUTED_DATE,
   };

@@ -2115,3 +2115,136 @@ kbd {
   line-height: 1;
   padding: 0;
 }
+
+/* ── Workspace notebook (assets/notebook.js) — client-only pins/notes ──── */
+.notebook-toggle {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 40;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  width: 52px;
+  height: 52px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease;
+}
+.notebook-toggle:hover {
+  transform: scale(1.05);
+  border-color: var(--accent);
+}
+.notebook-count {
+  position: absolute;
+  top: -0.2rem;
+  right: -0.2rem;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  padding: 0 0.25rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--bg);
+  font-size: 0.62rem;
+  line-height: 1.1rem;
+  font-weight: 700;
+}
+.notebook-panel {
+  position: fixed;
+  left: 1rem;
+  bottom: 5.2rem;
+  width: min(360px, calc(100vw - 2rem));
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.1rem 1.2rem;
+  box-shadow: var(--shadow-lg);
+  z-index: 41;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+.notebook-panel[hidden] {
+  display: none;
+}
+.notebook-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.4rem;
+}
+.notebook-header h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+.notebook-close {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--muted);
+  padding: 0.2rem;
+}
+.notebook-note {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 0 0 0.7rem;
+}
+.notebook-empty {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.notebook-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.notebook-item {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.55rem 0.7rem;
+}
+.notebook-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.notebook-item-top a {
+  font-size: 0.88rem;
+  color: var(--link);
+}
+.notebook-remove {
+  background: none;
+  border: none;
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--muted);
+  padding: 0.1rem 0.3rem;
+}
+.notebook-actions {
+  margin-top: 0.8rem;
+  text-align: right;
+}
+.notebook-pin-btn {
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
+  color: var(--muted);
+  min-width: 44px;
+  min-height: 44px;
+}
+.notebook-pin-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
