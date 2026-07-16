@@ -162,6 +162,21 @@
         font-size: 0.75rem;
         color: var(--muted);
       }
+      .chron-co-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 0.9rem;
+        margin-top: 0.4rem;
+      }
+      .chron-co-period h5 {
+        margin: 0 0 0.3rem;
+        font-size: 0.8rem;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .chron-co-period .co-root-list {
+        margin: 0;
+      }
       .root-row {
         cursor: pointer;
       }
@@ -428,6 +443,15 @@
             ></span>
             <span class="root-latin" id="detailLatin"></span>
             <span class="root-count" id="detailCountBadge"></span>
+            <button
+              type="button"
+              class="notebook-pin-btn"
+              id="detailPinBtn"
+              title="Pin this root to your workspace"
+              aria-label="Pin this root to your workspace"
+            >
+              📌
+            </button>
           </div>
 
           <!-- Occurrence count with provenance -->
@@ -710,6 +734,36 @@
               nothing — line thickness and node size carry the count. Click a
               root to re-center on it.
             </p>
+          </div>
+
+          <!-- Co-occurring roots by chronological period -->
+          <div class="stat-block" id="detailChronCoBlock" hidden>
+            <h4>
+              Co-occurring roots by period
+              <span
+                class="badge nuanced"
+                aria-label="Nuanced"
+                tabindex="0"
+                title="Nuanced · verse-level window per period, function-word roots excluded"
+                >~</span
+              >
+            </h4>
+            <details class="method-note">
+              <summary>ℹ Method</summary>
+              <p>
+                The same verse-level co-occurrence count and function-word
+                exclusion as "Co-occurring roots" above, computed separately
+                within each of the four traditional revelation periods
+                (Egyptian Standard order, Nöldeke-Bell four-period
+                classification — the same periods used for the timeline
+                above). Only periods where this root is attested at all are
+                shown, top 6 partners each. A period with a smaller verse
+                pool naturally yields smaller counts; this shows how a
+                root's verse-mates shift or persist across the corpus's
+                traditional chronology, not what any verse means.
+              </p>
+            </details>
+            <div id="detailChronCoContainer" class="chron-co-grid"></div>
           </div>
 
           <p class="prov" style="margin-top: 0.5rem">
@@ -1011,8 +1065,10 @@
             const coResp = await fetch(`data/cooccurrence/${sk}.json`);
             const coData = coResp.ok ? await coResp.json() : null;
             renderFilteredCoRoots(coData ? coData.coRoots : []);
+            renderChronCoRoots(coData ? coData.byChronologyCoRoots : {});
           } catch {
             renderFilteredCoRoots([]);
+            renderChronCoRoots({});
           }
         }
 
@@ -1030,6 +1086,18 @@
           const link = document.getElementById("detailCorpusLink");
           if (link)
             link.href = `https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(d.bw)}`;
+
+          // Pin-to-workspace button: dataset updated on every render, then
+          // (re-)enhanced — qdNotebook.enhance() guards against double-binding
+          // and reads the dataset fresh at click time, so this stays correct
+          // across root switches without rebuilding the listener.
+          const pinBtn = document.getElementById("detailPinBtn");
+          if (pinBtn) {
+            pinBtn.dataset.notebookType = "root";
+            pinBtn.dataset.notebookRef = d.safeKey || d.bw;
+            pinBtn.dataset.notebookLabel = `${d.rootLatin} (${d.arabic})`;
+            if (window.qdNotebook) qdNotebook.enhance(pinBtn.parentElement);
+          }
 
           // Occurrence count
           document.getElementById("detailCountNum").textContent =
@@ -1231,6 +1299,57 @@
             .join("");
         }
 
+        // Same partners, four chronological periods (meccan-early → medinan)
+        // — data/cooccurrence/*.json's byChronologyCoRoots, filtered the same
+        // way as the whole-corpus list above. Lets a reader see, e.g., that
+        // a root's top verse-mate stays the same partner across periods but
+        // grows in count, or that a partner only appears from a given period
+        // onward — a text-internal fact, not an interpretation of it.
+        function renderChronCoRoots(byPeriod) {
+          const block = document.getElementById("detailChronCoBlock");
+          const container = document.getElementById("detailChronCoContainer");
+          if (!block || !container) return;
+          const periods =
+            (window.qdChart && qdChart.PERIODS) || [
+              { key: "meccan-early", label: "Early Meccan" },
+              { key: "meccan-middle", label: "Middle Meccan" },
+              { key: "meccan-late", label: "Late Meccan" },
+              { key: "medinan", label: "Medinan" },
+            ];
+          const present = periods.filter(
+            (p) => byPeriod && byPeriod[p.key] && byPeriod[p.key].length,
+          );
+          if (!present.length) {
+            block.hidden = true;
+            return;
+          }
+          block.hidden = false;
+          container.innerHTML = present
+            .map((p) => {
+              const items = byPeriod[p.key]
+                .map((cr) => {
+                  const meaning = MEANINGS[cr.root] || "";
+                  return (
+                    `<li>` +
+                    `<a href="roots.html?root=${cr.safeKey}">` +
+                    `<span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">${cr.arabic}</span>` +
+                    `<span>${cr.rootLatin}${meaning ? " (" + meaning + ")" : ""}</span>` +
+                    `<span class="co-count">${cr.count.toLocaleString()}×</span>` +
+                    `</a>` +
+                    `</li>`
+                  );
+                })
+                .join("");
+              return (
+                `<div class="chron-co-period">` +
+                `<h5>${p.label}</h5>` +
+                `<ul class="co-root-list">${items}</ul>` +
+                `</div>`
+              );
+            })
+            .join("");
+        }
+
         const VERSE_BATCH = 200;
 
         function renderVerses(verses) {
@@ -1343,5 +1462,6 @@
     </script>
     <script src="assets/glossary.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
+    <script src="assets/notebook.js" defer></script>
   </body>
 </html>

@@ -195,11 +195,27 @@
                 <div id="directAddressList" class="xref-list"></div>
               </details>
             </li>
+            <li>
+              <strong>Boundary particles and lexical continuity</strong>:
+              verses opening with <em>idh</em> ("when" / "recall") or
+              <em>lamma</em> ("when" / "once") — 203 occurrences combined. In
+              93 of those, the verse shares a content root with the verse
+              immediately before it (e.g., 2:29 and 2:30 both use the root
+              <em>a-r-ḍ</em>, "earth"). This records only where the marker
+              and the shared root co-occur — it does not assert that the
+              boundary is a thematic or rhetorical turning point; that
+              judgment is an interpretive one this site does not make.
+              <details id="discursivePivotDetails" class="xref-panel">
+                <summary>List all 93</summary>
+                <div id="discursivePivotList" class="xref-list"></div>
+              </details>
+            </li>
           </ul>
           <p class="prov">
             <span class="badge ok" data-source-ids="abdel-haleem-1999 neuwirth-1981 cuypers-2015" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> features documented in Abdel
             Haleem (1999), Neuwirth (1981), Cuypers (2015).
             <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> The 89-verse count is computed directly from the bundled morphology (a match on the three consecutive lemmas of this formula), not asserted — see it listed above.
+            <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> The boundary-particle and shared-root counts are likewise computed directly from the bundled morphology (verse-initial lemma match, then a root intersection with the preceding verse) — see it listed above.
           </p>
         </div>
       </section>
@@ -382,6 +398,58 @@
                 daList.innerHTML =
                   '<p style="color:var(--muted)">Could not load the list.</p>';
                 daLoaded = false;
+              }
+            });
+          }
+
+          // "List all 93" — same lazy-load pattern for the boundary-particle
+          // / shared-root occurrences.
+          var dpDetails = document.getElementById("discursivePivotDetails");
+          var dpList = document.getElementById("discursivePivotList");
+          if (dpDetails && dpList) {
+            var dpLoaded = false;
+            dpDetails.addEventListener("toggle", async function () {
+              if (!dpDetails.open || dpLoaded) return;
+              dpLoaded = true;
+              dpList.innerHTML =
+                '<p style="color:var(--muted)">Loading…</p>';
+              try {
+                var r2 = await fetch("data/discursive-pivots.json");
+                var data2 = await r2.json();
+                dpList.innerHTML = data2.occurrences
+                  .map(function (o) {
+                    var roots = o.sharedRoots
+                      .map(function (sr) {
+                        return qdEsc(sr.rootLatin);
+                      })
+                      .join(", ");
+                    return (
+                      '<div class="xref-item"><a href="read.html?s=' +
+                      o.s +
+                      "&a=" +
+                      o.a +
+                      '" class="xref-ref">' +
+                      o.s +
+                      ":" +
+                      o.a +
+                      " · " +
+                      qdEsc(surahLabel(o.s).replace(/^\d+\.\s*/, "")) +
+                      "</a><span class=\"xref-cat\">" +
+                      qdEsc(o.marker) +
+                      "; shares " +
+                      roots +
+                      " with " +
+                      o.s +
+                      ":" +
+                      o.prevA +
+                      "</span></div>"
+                    );
+                  })
+                  .join("");
+              } catch (e) {
+                dpList.innerHTML =
+                  '<p style="color:var(--muted)">Could not load the list.</p>';
+                dpLoaded = false;
               }
             });
           }

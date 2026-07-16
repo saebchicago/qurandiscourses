@@ -787,7 +787,7 @@
                     recurringRoots,
                   )
                 : arText;
-              let html = `<div class="verse" data-ayah="${ayahNum}"><div class="meta"><strong>${s}:${ayahNum}</strong><span>${surahName} · ${surahNameTranslation}</span></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button id="transBtn-${ayahNum}" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem">${transCount} selected ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arHtml}</p>`;
+              let html = `<div class="verse" data-ayah="${ayahNum}"><div class="meta"><strong>${s}:${ayahNum}</strong><span>${surahName} · ${surahNameTranslation}</span><button type="button" class="notebook-pin-btn" data-notebook-type="verse" data-notebook-ref="${s}:${ayahNum}" data-notebook-label="${qdEsc(s + ":" + ayahNum + " · " + surahName)}" title="Pin this verse to your workspace" aria-label="Pin verse ${s}:${ayahNum} to your workspace">📌</button></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button id="transBtn-${ayahNum}" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem">${transCount} selected ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arHtml}</p>`;
               if (qdState.features.showAudio) {
                 const reciterName =
                   qdReciters.find((r) => r.id === qdState.reciter)?.name ||
@@ -847,6 +847,7 @@
             },
           );
           container.innerHTML = allHtml;
+          if (window.qdNotebook) qdNotebook.enhance(container);
 
           verses.forEach(({ ayahNum }) => {
             const transBtn = document.getElementById(`transBtn-${ayahNum}`);
@@ -1167,5 +1168,6 @@
     </script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
+    <script src="assets/notebook.js" defer></script>
   </body>
 </html>

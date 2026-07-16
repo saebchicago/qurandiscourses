@@ -1,0 +1,1481 @@
+{
+ "_generated": "build-discursive-pivots.mjs",
+ "_method": "Verse-initial lemma match for two temporal particles (\"idh\", \"lamma\"), then a set intersection of content roots (root non-empty, corpus-wide frequency ≤ 700) between that verse and the immediately preceding verse in the same surah. Both steps are mechanical lookups against the bundled morphology; no claim is made about thematic or rhetorical significance beyond the marker and the shared root.",
+ "_excludedRoots": [
+  "a-l-h",
+  "r-b-b",
+  "ʿ-l-m",
+  "a-m-n",
+  "q-w-l",
+  "k-w-n"
+ ],
+ "markers": {
+  "idh": {
+   "lemma": "<i*",
+   "gloss": "\"when\" / \"recall\" (temporal, often opens a retrospective narrative unit)",
+   "totalOccurrences": 118
+  },
+  "lamma": {
+   "lemma": "lam~aA",
+   "gloss": "\"when\" / \"once\" (temporal)",
+   "totalOccurrences": 85
+  }
+ },
+ "continuityCount": 93,
+ "occurrences": [
+  {
+   "s": 2,
+   "a": 30,
+   "marker": "idh",
+   "prevA": 29,
+   "sharedRoots": [
+    {
+     "root": "ArD",
+     "arabic": "ا ر ض",
+     "rootLatin": "a-r-ḍ"
+    }
+   ]
+  },
+  {
+   "s": 2,
+   "a": 50,
+   "marker": "idh",
+   "prevA": 49,
+   "sharedRoots": [
+    {
+     "root": "njw",
+     "arabic": "ن ج و",
+     "rootLatin": "n-j-w"
+    },
+    {
+     "root": "Awl",
+     "arabic": "ا و ل",
+     "rootLatin": "a-w-l"
+    }
+   ]
+  },
+  {
+   "s": 2,
+   "a": 55,
+   "marker": "idh",
+   "prevA": 54,
+   "sharedRoots": [
+    {
+     "root": "Ax*",
+     "arabic": "ا خ ذ",
+     "rootLatin": "a-kh-dh"
+    }
+   ]
+  },
+  {
+   "s": 2,
+   "a": 58,
+   "marker": "idh",
+   "prevA": 57,
+   "sharedRoots": [
+    {
+     "root": "Akl",
+     "arabic": "ا ك ل",
+     "rootLatin": "a-k-l"
+    }
+   ]
+  },
+  {
+   "s": 2,
+   "a": 61,
+   "marker": "idh",
+   "prevA": 60,
+   "sharedRoots": [
+    {
+     "root": "ArD",
+     "arabic": "ا ر ض",
+     "rootLatin": "a-r-ḍ"
+    },
+    {
+     "root": "Drb",
+     "arabic": "ض ر ب",
+     "rootLatin": "ḍ-r-b"
+    }
+   ]
+  },
+  {
+   "s": 2,
+   "a": 84,
+   "marker": "idh",
+   "prevA": 83,
+   "sharedRoots": [
+    {
+     "root": "Ax*",
+     "arabic": "ا خ ذ",
+     "rootLatin": "a-kh-dh"
+    },
+    {
+     "root": "wvq",
+     "arabic": "و ث ق",
+     "rootLatin": "w-th-q"
+    }
+   ]
+  },
+  {
+   "s": 2,
+   "a": 89,
+   "marker": "lamma",
+   "prevA": 88,
+   "sharedRoots": [
+    {
+     "root": "kfr",
+     "arabic": "ك ف ر",
+     "rootLatin": "k-f-r"
+    },
+    {
+     "root": "lEn",
+     "arabic": "ل ع ن",
+     "rootLatin": "l-ʿ-n"
+    }
+   ]
+  },
+  {
+   "s": 2,
+   "a": 93,
+   "marker": "idh",
+   "prevA": 92,
+   "sharedRoots": [
+    {
+     "root": "Ax*",
+     "arabic": "ا خ ذ",
+     "rootLatin": "a-kh-dh"
+    },
+    {
+     "root": "Ejl",
+     "arabic": "ع ج ل",
+     "rootLatin": "ʿ-j-l"
+    }
+   ]
+  },
+  {
+   "s": 2,
+   "a": 101,
+   "marker": "lamma",
+   "prevA": 100,
+   "sharedRoots": [
+    {
+     "root": "nb*",
+     "arabic": "ن ب ذ",
+     "rootLatin": "n-b-dh"
+    },
+    {
+     "root": "frq",
+     "arabic": "ف ر ق",
+     "rootLatin": "f-r-q"
+    }
+   ]
+  },
+  {
+   "s": 2,
+   "a": 125,
+   "marker": "idh",
+   "prevA": 124,
+   "sharedRoots": [
+    {
+     "root": "jEl",
+     "arabic": "ج ع ل",
+     "rootLatin": "j-ʿ-l"
+    },
+    {
+     "root": "nws",
+     "arabic": "ن و س",
+     "rootLatin": "n-w-s"
+    },
+    {
+     "root": "Ehd",
+     "arabic": "ع ه د",
+     "rootLatin": "ʿ-h-d"
+    }
+   ]
+  },
+  {
+   "s": 2,
+   "a": 126,
+   "marker": "idh",
+   "prevA": 125,
+   "sharedRoots": [
+    {
+     "root": "jEl",
+     "arabic": "ج ع ل",
+     "rootLatin": "j-ʿ-l"
+    }
+   ]
+  },
+  {
+   "s": 2,
+   "a": 166,
+   "marker": "idh",
+   "prevA": 165,
+   "sharedRoots": [
+    {
+     "root": "rAy",
+     "arabic": "ر ا ي",
+     "rootLatin": "r-a-y"
+    },
+    {
+     "root": "E*b",
+     "arabic": "ع ذ ب",
+     "rootLatin": "ʿ-dh-b"
+    }
+   ]
+  },
+  {
+   "s": 2,
+   "a": 250,
+   "marker": "lamma",
+   "prevA": 249,
+   "sharedRoots": [
+    {
+     "root": "jnd",
+     "arabic": "ج ن د",
+     "rootLatin": "j-n-d"
+    },
+    {
+     "root": "Sbr",
+     "arabic": "ص ب ر",
+     "rootLatin": "ṣ-b-r"
+    }
+   ]
+  },
+  {
+   "s": 2,
+   "a": 260,
+   "marker": "idh",
+   "prevA": 259,
+   "sharedRoots": [
+    {
+     "root": "kyf",
+     "arabic": "ك ي ف",
+     "rootLatin": "k-y-f"
+    },
+    {
+     "root": "Hyy",
+     "arabic": "ح ي ي",
+     "rootLatin": "ḥ-y-y"
+    },
+    {
+     "root": "mwt",
+     "arabic": "م و ت",
+     "rootLatin": "m-w-t"
+    },
+    {
+     "root": "jEl",
+     "arabic": "ج ع ل",
+     "rootLatin": "j-ʿ-l"
+    },
+    {
+     "root": "kll",
+     "arabic": "ك ل ل",
+     "rootLatin": "k-l-l"
+    }
+   ]
+  },
+  {
+   "s": 3,
+   "a": 35,
+   "marker": "idh",
+   "prevA": 34,
+   "sharedRoots": [
+    {
+     "root": "smE",
+     "arabic": "س م ع",
+     "rootLatin": "s-m-ʿ"
+    }
+   ]
+  },
+  {
+   "s": 3,
+   "a": 81,
+   "marker": "idh",
+   "prevA": 80,
+   "sharedRoots": [
+    {
+     "root": "Ax*",
+     "arabic": "ا خ ذ",
+     "rootLatin": "a-kh-dh"
+    },
+    {
+     "root": "nbA",
+     "arabic": "ن ب ا",
+     "rootLatin": "n-b-a"
+    }
+   ]
+  },
+  {
+   "s": 3,
+   "a": 153,
+   "marker": "idh",
+   "prevA": 152,
+   "sharedRoots": [
+    {
+     "root": "Axr",
+     "arabic": "ا خ ر",
+     "rootLatin": "a-kh-r"
+    }
+   ]
+  },
+  {
+   "s": 3,
+   "a": 165,
+   "marker": "lamma",
+   "prevA": 164,
+   "sharedRoots": [
+    {
+     "root": "nfs",
+     "arabic": "ن ف س",
+     "rootLatin": "n-f-s"
+    }
+   ]
+  },
+  {
+   "s": 3,
+   "a": 187,
+   "marker": "idh",
+   "prevA": 186,
+   "sharedRoots": [
+    {
+     "root": "Aty",
+     "arabic": "ا ت ي",
+     "rootLatin": "a-t-y"
+    },
+    {
+     "root": "ktb",
+     "arabic": "ك ت ب",
+     "rootLatin": "k-t-b"
+    }
+   ]
+  },
+  {
+   "s": 5,
+   "a": 112,
+   "marker": "idh",
+   "prevA": 111,
+   "sharedRoots": [
+    {
+     "root": "Hwr",
+     "arabic": "ح و ر",
+     "rootLatin": "ḥ-w-r"
+    }
+   ]
+  },
+  {
+   "s": 6,
+   "a": 76,
+   "marker": "lamma",
+   "prevA": 75,
+   "sharedRoots": [
+    {
+     "root": "rAy",
+     "arabic": "ر ا ي",
+     "rootLatin": "r-a-y"
+    }
+   ]
+  },
+  {
+   "s": 6,
+   "a": 77,
+   "marker": "lamma",
+   "prevA": 76,
+   "sharedRoots": [
+    {
+     "root": "rAy",
+     "arabic": "ر ا ي",
+     "rootLatin": "r-a-y"
+    },
+    {
+     "root": "Afl",
+     "arabic": "ا ف ل",
+     "rootLatin": "a-f-l"
+    }
+   ]
+  },
+  {
+   "s": 6,
+   "a": 78,
+   "marker": "lamma",
+   "prevA": 77,
+   "sharedRoots": [
+    {
+     "root": "rAy",
+     "arabic": "ر ا ي",
+     "rootLatin": "r-a-y"
+    },
+    {
+     "root": "bzg",
+     "arabic": "ب ز غ",
+     "rootLatin": "b-z-gh"
+    },
+    {
+     "root": "Afl",
+     "arabic": "ا ف ل",
+     "rootLatin": "a-f-l"
+    },
+    {
+     "root": "qwm",
+     "arabic": "ق و م",
+     "rootLatin": "q-w-m"
+    }
+   ]
+  },
+  {
+   "s": 7,
+   "a": 134,
+   "marker": "lamma",
+   "prevA": 133,
+   "sharedRoots": [
+    {
+     "root": "rsl",
+     "arabic": "ر س ل",
+     "rootLatin": "r-s-l"
+    }
+   ]
+  },
+  {
+   "s": 7,
+   "a": 135,
+   "marker": "lamma",
+   "prevA": 134,
+   "sharedRoots": [
+    {
+     "root": "k$f",
+     "arabic": "ك ش ف",
+     "rootLatin": "k-sh-f"
+    },
+    {
+     "root": "rjz",
+     "arabic": "ر ج ز",
+     "rootLatin": "r-j-z"
+    }
+   ]
+  },
+  {
+   "s": 7,
+   "a": 143,
+   "marker": "lamma",
+   "prevA": 142,
+   "sharedRoots": [
+    {
+     "root": "wqt",
+     "arabic": "و ق ت",
+     "rootLatin": "w-q-t"
+    }
+   ]
+  },
+  {
+   "s": 7,
+   "a": 149,
+   "marker": "lamma",
+   "prevA": 148,
+   "sharedRoots": [
+    {
+     "root": "rAy",
+     "arabic": "ر ا ي",
+     "rootLatin": "r-a-y"
+    }
+   ]
+  },
+  {
+   "s": 7,
+   "a": 154,
+   "marker": "lamma",
+   "prevA": 153,
+   "sharedRoots": [
+    {
+     "root": "rHm",
+     "arabic": "ر ح م",
+     "rootLatin": "r-ḥ-m"
+    }
+   ]
+  },
+  {
+   "s": 7,
+   "a": 161,
+   "marker": "idh",
+   "prevA": 160,
+   "sharedRoots": [
+    {
+     "root": "Akl",
+     "arabic": "ا ك ل",
+     "rootLatin": "a-k-l"
+    }
+   ]
+  },
+  {
+   "s": 7,
+   "a": 165,
+   "marker": "lamma",
+   "prevA": 164,
+   "sharedRoots": [
+    {
+     "root": "E*b",
+     "arabic": "ع ذ ب",
+     "rootLatin": "ʿ-dh-b"
+    }
+   ]
+  },
+  {
+   "s": 7,
+   "a": 166,
+   "marker": "lamma",
+   "prevA": 165,
+   "sharedRoots": [
+    {
+     "root": "nhy",
+     "arabic": "ن ه ي",
+     "rootLatin": "n-h-y"
+    }
+   ]
+  },
+  {
+   "s": 7,
+   "a": 172,
+   "marker": "idh",
+   "prevA": 171,
+   "sharedRoots": [
+    {
+     "root": "Ax*",
+     "arabic": "ا خ ذ",
+     "rootLatin": "a-kh-dh"
+    }
+   ]
+  },
+  {
+   "s": 7,
+   "a": 190,
+   "marker": "lamma",
+   "prevA": 189,
+   "sharedRoots": [
+    {
+     "root": "Aty",
+     "arabic": "ا ت ي",
+     "rootLatin": "a-t-y"
+    },
+    {
+     "root": "SlH",
+     "arabic": "ص ل ح",
+     "rootLatin": "ṣ-l-ḥ"
+    },
+    {
+     "root": "jEl",
+     "arabic": "ج ع ل",
+     "rootLatin": "j-ʿ-l"
+    }
+   ]
+  },
+  {
+   "s": 8,
+   "a": 7,
+   "marker": "idh",
+   "prevA": 6,
+   "sharedRoots": [
+    {
+     "root": "Hqq",
+     "arabic": "ح ق ق",
+     "rootLatin": "ḥ-q-q"
+    }
+   ]
+  },
+  {
+   "s": 8,
+   "a": 11,
+   "marker": "idh",
+   "prevA": 10,
+   "sharedRoots": [
+    {
+     "root": "qlb",
+     "arabic": "ق ل ب",
+     "rootLatin": "q-l-b"
+    }
+   ]
+  },
+  {
+   "s": 8,
+   "a": 12,
+   "marker": "idh",
+   "prevA": 11,
+   "sharedRoots": [
+    {
+     "root": "vbt",
+     "arabic": "ث ب ت",
+     "rootLatin": "th-b-t"
+    },
+    {
+     "root": "qlb",
+     "arabic": "ق ل ب",
+     "rootLatin": "q-l-b"
+    }
+   ]
+  },
+  {
+   "s": 8,
+   "a": 30,
+   "marker": "idh",
+   "prevA": 29,
+   "sharedRoots": [
+    {
+     "root": "kfr",
+     "arabic": "ك ف ر",
+     "rootLatin": "k-f-r"
+    }
+   ]
+  },
+  {
+   "s": 8,
+   "a": 43,
+   "marker": "idh",
+   "prevA": 42,
+   "sharedRoots": [
+    {
+     "root": "Amr",
+     "arabic": "ا م ر",
+     "rootLatin": "a-m-r"
+    }
+   ]
+  },
+  {
+   "s": 8,
+   "a": 44,
+   "marker": "idh",
+   "prevA": 43,
+   "sharedRoots": [
+    {
+     "root": "rAy",
+     "arabic": "ر ا ي",
+     "rootLatin": "r-a-y"
+    },
+    {
+     "root": "qll",
+     "arabic": "ق ل ل",
+     "rootLatin": "q-l-l"
+    },
+    {
+     "root": "Amr",
+     "arabic": "ا م ر",
+     "rootLatin": "a-m-r"
+    }
+   ]
+  },
+  {
+   "s": 8,
+   "a": 48,
+   "marker": "idh",
+   "prevA": 47,
+   "sharedRoots": [
+    {
+     "root": "Eml",
+     "arabic": "ع م ل",
+     "rootLatin": "ʿ-m-l"
+    },
+    {
+     "root": "nws",
+     "arabic": "ن و س",
+     "rootLatin": "n-w-s"
+    },
+    {
+     "root": "rAy",
+     "arabic": "ر ا ي",
+     "rootLatin": "r-a-y"
+    }
+   ]
+  },
+  {
+   "s": 9,
+   "a": 76,
+   "marker": "lamma",
+   "prevA": 75,
+   "sharedRoots": [
+    {
+     "root": "Aty",
+     "arabic": "ا ت ي",
+     "rootLatin": "a-t-y"
+    },
+    {
+     "root": "fDl",
+     "arabic": "ف ض ل",
+     "rootLatin": "f-ḍ-l"
+    }
+   ]
+  },
+  {
+   "s": 10,
+   "a": 23,
+   "marker": "lamma",
+   "prevA": 22,
+   "sharedRoots": [
+    {
+     "root": "njw",
+     "arabic": "ن ج و",
+     "rootLatin": "n-j-w"
+    }
+   ]
+  },
+  {
+   "s": 10,
+   "a": 80,
+   "marker": "lamma",
+   "prevA": 79,
+   "sharedRoots": [
+    {
+     "root": "sHr",
+     "arabic": "س ح ر",
+     "rootLatin": "s-ḥ-r"
+    }
+   ]
+  },
+  {
+   "s": 10,
+   "a": 81,
+   "marker": "lamma",
+   "prevA": 80,
+   "sharedRoots": [
+    {
+     "root": "lqy",
+     "arabic": "ل ق ي",
+     "rootLatin": "l-q-y"
+    },
+    {
+     "root": "jyA",
+     "arabic": "ج ي ا",
+     "rootLatin": "j-y-a"
+    },
+    {
+     "root": "sHr",
+     "arabic": "س ح ر",
+     "rootLatin": "s-ḥ-r"
+    }
+   ]
+  },
+  {
+   "s": 11,
+   "a": 70,
+   "marker": "lamma",
+   "prevA": 69,
+   "sharedRoots": [
+    {
+     "root": "rsl",
+     "arabic": "ر س ل",
+     "rootLatin": "r-s-l"
+    }
+   ]
+  },
+  {
+   "s": 11,
+   "a": 77,
+   "marker": "lamma",
+   "prevA": 76,
+   "sharedRoots": [
+    {
+     "root": "jyA",
+     "arabic": "ج ي ا",
+     "rootLatin": "j-y-a"
+    }
+   ]
+  },
+  {
+   "s": 12,
+   "a": 8,
+   "marker": "idh",
+   "prevA": 7,
+   "sharedRoots": [
+    {
+     "root": "Axw",
+     "arabic": "ا خ و",
+     "rootLatin": "a-kh-w"
+    }
+   ]
+  },
+  {
+   "s": 12,
+   "a": 28,
+   "marker": "lamma",
+   "prevA": 27,
+   "sharedRoots": [
+    {
+     "root": "qmS",
+     "arabic": "ق م ص",
+     "rootLatin": "q-m-ṣ"
+    },
+    {
+     "root": "qdd",
+     "arabic": "ق د د",
+     "rootLatin": "q-d-d"
+    },
+    {
+     "root": "dbr",
+     "arabic": "د ب ر",
+     "rootLatin": "d-b-r"
+    }
+   ]
+  },
+  {
+   "s": 12,
+   "a": 31,
+   "marker": "lamma",
+   "prevA": 30,
+   "sharedRoots": [
+    {
+     "root": "rAy",
+     "arabic": "ر ا ي",
+     "rootLatin": "r-a-y"
+    }
+   ]
+  },
+  {
+   "s": 12,
+   "a": 59,
+   "marker": "lamma",
+   "prevA": 58,
+   "sharedRoots": [
+    {
+     "root": "Axw",
+     "arabic": "ا خ و",
+     "rootLatin": "a-kh-w"
+    }
+   ]
+  },
+  {
+   "s": 12,
+   "a": 63,
+   "marker": "lamma",
+   "prevA": 62,
+   "sharedRoots": [
+    {
+     "root": "rjE",
+     "arabic": "ر ج ع",
+     "rootLatin": "r-j-ʿ"
+    }
+   ]
+  },
+  {
+   "s": 12,
+   "a": 65,
+   "marker": "lamma",
+   "prevA": 64,
+   "sharedRoots": [
+    {
+     "root": "HfZ",
+     "arabic": "ح ف ظ",
+     "rootLatin": "ḥ-f-ẓ"
+    },
+    {
+     "root": "Axw",
+     "arabic": "ا خ و",
+     "rootLatin": "a-kh-w"
+    }
+   ]
+  },
+  {
+   "s": 12,
+   "a": 68,
+   "marker": "lamma",
+   "prevA": 67,
+   "sharedRoots": [
+    {
+     "root": "dxl",
+     "arabic": "د خ ل",
+     "rootLatin": "d-kh-l"
+    },
+    {
+     "root": "gny",
+     "arabic": "غ ن ي",
+     "rootLatin": "gh-n-y"
+    },
+    {
+     "root": "$yA",
+     "arabic": "ش ي ا",
+     "rootLatin": "sh-y-a"
+    }
+   ]
+  },
+  {
+   "s": 12,
+   "a": 69,
+   "marker": "lamma",
+   "prevA": 68,
+   "sharedRoots": [
+    {
+     "root": "dxl",
+     "arabic": "د خ ل",
+     "rootLatin": "d-kh-l"
+    }
+   ]
+  },
+  {
+   "s": 12,
+   "a": 70,
+   "marker": "lamma",
+   "prevA": 69,
+   "sharedRoots": [
+    {
+     "root": "Axw",
+     "arabic": "ا خ و",
+     "rootLatin": "a-kh-w"
+    }
+   ]
+  },
+  {
+   "s": 12,
+   "a": 80,
+   "marker": "lamma",
+   "prevA": 79,
+   "sharedRoots": [
+    {
+     "root": "Ax*",
+     "arabic": "ا خ ذ",
+     "rootLatin": "a-kh-dh"
+    }
+   ]
+  },
+  {
+   "s": 12,
+   "a": 94,
+   "marker": "lamma",
+   "prevA": 93,
+   "sharedRoots": [
+    {
+     "root": "Abw",
+     "arabic": "ا ب و",
+     "rootLatin": "a-b-w"
+    }
+   ]
+  },
+  {
+   "s": 14,
+   "a": 6,
+   "marker": "idh",
+   "prevA": 5,
+   "sharedRoots": [
+    {
+     "root": "qwm",
+     "arabic": "ق و م",
+     "rootLatin": "q-w-m"
+    },
+    {
+     "root": "*kr",
+     "arabic": "ذ ك ر",
+     "rootLatin": "dh-k-r"
+    }
+   ]
+  },
+  {
+   "s": 14,
+   "a": 7,
+   "marker": "idh",
+   "prevA": 6,
+   "sharedRoots": [
+    {
+     "root": "E*b",
+     "arabic": "ع ذ ب",
+     "rootLatin": "ʿ-dh-b"
+    }
+   ]
+  },
+  {
+   "s": 15,
+   "a": 28,
+   "marker": "idh",
+   "prevA": 27,
+   "sharedRoots": [
+    {
+     "root": "xlq",
+     "arabic": "خ ل ق",
+     "rootLatin": "kh-l-q"
+    }
+   ]
+  },
+  {
+   "s": 17,
+   "a": 60,
+   "marker": "idh",
+   "prevA": 59,
+   "sharedRoots": [
+    {
+     "root": "xwf",
+     "arabic": "خ و ف",
+     "rootLatin": "kh-w-f"
+    }
+   ]
+  },
+  {
+   "s": 18,
+   "a": 10,
+   "marker": "idh",
+   "prevA": 9,
+   "sharedRoots": [
+    {
+     "root": "khf",
+     "arabic": "ك ه ف",
+     "rootLatin": "k-h-f"
+    }
+   ]
+  },
+  {
+   "s": 18,
+   "a": 50,
+   "marker": "idh",
+   "prevA": 49,
+   "sharedRoots": [
+    {
+     "root": "Zlm",
+     "arabic": "ظ ل م",
+     "rootLatin": "ẓ-l-m"
+    }
+   ]
+  },
+  {
+   "s": 18,
+   "a": 61,
+   "marker": "lamma",
+   "prevA": 60,
+   "sharedRoots": [
+    {
+     "root": "blg",
+     "arabic": "ب ل غ",
+     "rootLatin": "b-l-gh"
+    },
+    {
+     "root": "jmE",
+     "arabic": "ج م ع",
+     "rootLatin": "j-m-ʿ"
+    },
+    {
+     "root": "bHr",
+     "arabic": "ب ح ر",
+     "rootLatin": "b-ḥ-r"
+    }
+   ]
+  },
+  {
+   "s": 19,
+   "a": 49,
+   "marker": "lamma",
+   "prevA": 48,
+   "sharedRoots": [
+    {
+     "root": "Ezl",
+     "arabic": "ع ز ل",
+     "rootLatin": "ʿ-z-l"
+    },
+    {
+     "root": "dwn",
+     "arabic": "د و ن",
+     "rootLatin": "d-w-n"
+    }
+   ]
+  },
+  {
+   "s": 20,
+   "a": 10,
+   "marker": "idh",
+   "prevA": 9,
+   "sharedRoots": [
+    {
+     "root": "Aty",
+     "arabic": "ا ت ي",
+     "rootLatin": "a-t-y"
+    }
+   ]
+  },
+  {
+   "s": 20,
+   "a": 11,
+   "marker": "lamma",
+   "prevA": 10,
+   "sharedRoots": [
+    {
+     "root": "Aty",
+     "arabic": "ا ت ي",
+     "rootLatin": "a-t-y"
+    }
+   ]
+  },
+  {
+   "s": 20,
+   "a": 40,
+   "marker": "idh",
+   "prevA": 39,
+   "sharedRoots": [
+    {
+     "root": "Eyn",
+     "arabic": "ع ي ن",
+     "rootLatin": "ʿ-y-n"
+    }
+   ]
+  },
+  {
+   "s": 22,
+   "a": 26,
+   "marker": "idh",
+   "prevA": 25,
+   "sharedRoots": [
+    {
+     "root": "sjd",
+     "arabic": "س ج د",
+     "rootLatin": "s-j-d"
+    }
+   ]
+  },
+  {
+   "s": 24,
+   "a": 15,
+   "marker": "idh",
+   "prevA": 14,
+   "sharedRoots": [
+    {
+     "root": "EZm",
+     "arabic": "ع ظ م",
+     "rootLatin": "ʿ-ẓ-m"
+    }
+   ]
+  },
+  {
+   "s": 26,
+   "a": 41,
+   "marker": "lamma",
+   "prevA": 40,
+   "sharedRoots": [
+    {
+     "root": "sHr",
+     "arabic": "س ح ر",
+     "rootLatin": "s-ḥ-r"
+    },
+    {
+     "root": "glb",
+     "arabic": "غ ل ب",
+     "rootLatin": "gh-l-b"
+    }
+   ]
+  },
+  {
+   "s": 27,
+   "a": 8,
+   "marker": "lamma",
+   "prevA": 7,
+   "sharedRoots": [
+    {
+     "root": "nwr",
+     "arabic": "ن و ر",
+     "rootLatin": "n-w-r"
+    }
+   ]
+  },
+  {
+   "s": 27,
+   "a": 13,
+   "marker": "lamma",
+   "prevA": 12,
+   "sharedRoots": [
+    {
+     "root": "Ayy",
+     "arabic": "ا ي ي",
+     "rootLatin": "a-y-y"
+    }
+   ]
+  },
+  {
+   "s": 27,
+   "a": 36,
+   "marker": "lamma",
+   "prevA": 35,
+   "sharedRoots": [
+    {
+     "root": "hdy",
+     "arabic": "ه د ي",
+     "rootLatin": "h-d-y"
+    }
+   ]
+  },
+  {
+   "s": 27,
+   "a": 42,
+   "marker": "lamma",
+   "prevA": 41,
+   "sharedRoots": [
+    {
+     "root": "Er$",
+     "arabic": "ع ر ش",
+     "rootLatin": "ʿ-r-sh"
+    }
+   ]
+  },
+  {
+   "s": 28,
+   "a": 29,
+   "marker": "lamma",
+   "prevA": 28,
+   "sharedRoots": [
+    {
+     "root": "qDy",
+     "arabic": "ق ض ي",
+     "rootLatin": "q-ḍ-y"
+    },
+    {
+     "root": "Ajl",
+     "arabic": "ا ج ل",
+     "rootLatin": "a-j-l"
+    }
+   ]
+  },
+  {
+   "s": 28,
+   "a": 30,
+   "marker": "lamma",
+   "prevA": 29,
+   "sharedRoots": [
+    {
+     "root": "Aty",
+     "arabic": "ا ت ي",
+     "rootLatin": "a-t-y"
+    }
+   ]
+  },
+  {
+   "s": 28,
+   "a": 36,
+   "marker": "lamma",
+   "prevA": 35,
+   "sharedRoots": [
+    {
+     "root": "Ayy",
+     "arabic": "ا ي ي",
+     "rootLatin": "a-y-y"
+    }
+   ]
+  },
+  {
+   "s": 29,
+   "a": 33,
+   "marker": "lamma",
+   "prevA": 32,
+   "sharedRoots": [
+    {
+     "root": "njw",
+     "arabic": "ن ج و",
+     "rootLatin": "n-j-w"
+    },
+    {
+     "root": "Ahl",
+     "arabic": "ا ه ل",
+     "rootLatin": "a-h-l"
+    },
+    {
+     "root": "mrA",
+     "arabic": "م ر ا",
+     "rootLatin": "m-r-a"
+    },
+    {
+     "root": "gbr",
+     "arabic": "غ ب ر",
+     "rootLatin": "gh-b-r"
+    }
+   ]
+  },
+  {
+   "s": 33,
+   "a": 7,
+   "marker": "idh",
+   "prevA": 6,
+   "sharedRoots": [
+    {
+     "root": "nbA",
+     "arabic": "ن ب ا",
+     "rootLatin": "n-b-a"
+    }
+   ]
+  },
+  {
+   "s": 33,
+   "a": 10,
+   "marker": "idh",
+   "prevA": 9,
+   "sharedRoots": [
+    {
+     "root": "jyA",
+     "arabic": "ج ي ا",
+     "rootLatin": "j-y-a"
+    },
+    {
+     "root": "bSr",
+     "arabic": "ب ص ر",
+     "rootLatin": "b-ṣ-r"
+    }
+   ]
+  },
+  {
+   "s": 33,
+   "a": 22,
+   "marker": "lamma",
+   "prevA": 21,
+   "sharedRoots": [
+    {
+     "root": "rsl",
+     "arabic": "ر س ل",
+     "rootLatin": "r-s-l"
+    }
+   ]
+  },
+  {
+   "s": 33,
+   "a": 37,
+   "marker": "idh",
+   "prevA": 36,
+   "sharedRoots": [
+    {
+     "root": "qDy",
+     "arabic": "ق ض ي",
+     "rootLatin": "q-ḍ-y"
+    },
+    {
+     "root": "Amr",
+     "arabic": "ا م ر",
+     "rootLatin": "a-m-r"
+    }
+   ]
+  },
+  {
+   "s": 36,
+   "a": 14,
+   "marker": "idh",
+   "prevA": 13,
+   "sharedRoots": [
+    {
+     "root": "rsl",
+     "arabic": "ر س ل",
+     "rootLatin": "r-s-l"
+    }
+   ]
+  },
+  {
+   "s": 38,
+   "a": 22,
+   "marker": "idh",
+   "prevA": 21,
+   "sharedRoots": [
+    {
+     "root": "xSm",
+     "arabic": "خ ص م",
+     "rootLatin": "kh-ṣ-m"
+    }
+   ]
+  },
+  {
+   "s": 40,
+   "a": 47,
+   "marker": "idh",
+   "prevA": 46,
+   "sharedRoots": [
+    {
+     "root": "nwr",
+     "arabic": "ن و ر",
+     "rootLatin": "n-w-r"
+    }
+   ]
+  },
+  {
+   "s": 43,
+   "a": 30,
+   "marker": "lamma",
+   "prevA": 29,
+   "sharedRoots": [
+    {
+     "root": "jyA",
+     "arabic": "ج ي ا",
+     "rootLatin": "j-y-a"
+    },
+    {
+     "root": "Hqq",
+     "arabic": "ح ق ق",
+     "rootLatin": "ḥ-q-q"
+    }
+   ]
+  },
+  {
+   "s": 43,
+   "a": 47,
+   "marker": "lamma",
+   "prevA": 46,
+   "sharedRoots": [
+    {
+     "root": "Ayy",
+     "arabic": "ا ي ي",
+     "rootLatin": "a-y-y"
+    }
+   ]
+  },
+  {
+   "s": 43,
+   "a": 57,
+   "marker": "lamma",
+   "prevA": 56,
+   "sharedRoots": [
+    {
+     "root": "mvl",
+     "arabic": "م ث ل",
+     "rootLatin": "m-th-l"
+    }
+   ]
+  },
+  {
+   "s": 43,
+   "a": 63,
+   "marker": "lamma",
+   "prevA": 62,
+   "sharedRoots": [
+    {
+     "root": "byn",
+     "arabic": "ب ي ن",
+     "rootLatin": "b-y-n"
+    }
+   ]
+  },
+  {
+   "s": 46,
+   "a": 24,
+   "marker": "lamma",
+   "prevA": 23,
+   "sharedRoots": [
+    {
+     "root": "rAy",
+     "arabic": "ر ا ي",
+     "rootLatin": "r-a-y"
+    }
+   ]
+  },
+  {
+   "s": 48,
+   "a": 26,
+   "marker": "idh",
+   "prevA": 25,
+   "sharedRoots": [
+    {
+     "root": "kfr",
+     "arabic": "ك ف ر",
+     "rootLatin": "k-f-r"
+    },
+    {
+     "root": "$yA",
+     "arabic": "ش ي ا",
+     "rootLatin": "sh-y-a"
+    }
+   ]
+  },
+  {
+   "s": 61,
+   "a": 6,
+   "marker": "idh",
+   "prevA": 5,
+   "sharedRoots": [
+    {
+     "root": "rsl",
+     "arabic": "ر س ل",
+     "rootLatin": "r-s-l"
+    }
+   ]
+  }
+ ]
+}
