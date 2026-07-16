@@ -1,0 +1,69 @@
+{
+ "_generated": "build-symmetry-test.mjs",
+ "_hypothesis": "Do a surah's rarest content roots (occurring exactly twice) sit at matching distances from the surah's start and end, more often than chance placement would predict?",
+ "_method": "Exact per-surah-length null distribution of position-pair variance (exhaustive enumeration, not simulation); one-sided p-value per candidate root pair; Benjamini-Hochberg FDR correction at q<0.05 across all candidates corpus-wide. Roots with corpus-wide frequency > 700 excluded as counting subjects (consistent with build-cooccurrence.mjs), though such roots essentially never occur exactly twice in one surah in practice.",
+ "_scope": "This tests one narrow, mechanical proxy for positional symmetry, not the literary ring-composition scholarship cited on patterns.html (which analyzes thematic and semantic parallels, not raw lexical position). A null result here says nothing about that literature.",
+ "totalCandidates": 3067,
+ "fdrQThreshold": 0.05,
+ "fdrSurvivors": 0,
+ "bonferroniAlpha": 0.000016302575806977505,
+ "bonferroniSurvivors": 0,
+ "survivors": [],
+ "closestMisses": [
+  {
+   "surah": 4,
+   "root": "nqr",
+   "rootLatin": "n-q-r",
+   "arabic": "ن ق ر",
+   "verseA": 53,
+   "verseB": 124,
+   "surahVerseCount": 176,
+   "variance": 0,
+   "pValue": 0.005714
+  },
+  {
+   "surah": 16,
+   "root": "lHm",
+   "rootLatin": "l-ḥ-m",
+   "arabic": "ل ح م",
+   "verseA": 14,
+   "verseB": 115,
+   "surahVerseCount": 128,
+   "variance": 0,
+   "pValue": 0.007874
+  },
+  {
+   "surah": 5,
+   "root": "kff",
+   "rootLatin": "k-f-f",
+   "arabic": "ك ف ف",
+   "verseA": 11,
+   "verseB": 110,
+   "surahVerseCount": 120,
+   "variance": 0,
+   "pValue": 0.008403
+  },
+  {
+   "surah": 5,
+   "root": "wHd",
+   "rootLatin": "w-ḥ-d",
+   "arabic": "و ح د",
+   "verseA": 48,
+   "verseB": 73,
+   "surahVerseCount": 120,
+   "variance": 0,
+   "pValue": 0.008403
+  },
+  {
+   "surah": 12,
+   "root": "fwq",
+   "rootLatin": "f-w-q",
+   "arabic": "ف و ق",
+   "verseA": 36,
+   "verseB": 76,
+   "surahVerseCount": 111,
+   "variance": 0,
+   "pValue": 0.009009
+  }
+ ]
+}

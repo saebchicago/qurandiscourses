@@ -101,6 +101,7 @@ them only when their inputs change; commit their outputs.
 | build-root-analytics.mjs | morphology | data/root-analytics/ | roots.html detail |
 | build-cooccurrence.mjs | morphology, roots-summary, chronology | data/cooccurrence/ | roots.html co-occurrence (whole-corpus and per-chronological-period) |
 | build-discursive-pivots.mjs | morphology, roots-summary | data/discursive-pivots.json | patterns.html boundary-particle / shared-root list |
+| build-symmetry-test.mjs | morphology, roots-summary | data/symmetry-test.json | patterns.html ring-composition proxy test (method + closest candidates) |
 | build-surah-meta.mjs | Quran Foundation API | data/surah-meta.json | Makki/Madani |
 | build-juz.mjs | Tanzil standard division + surah-meta | data/juz.json | navigate.html juz grid, read.html `?j=` |
 | build-csp.mjs | every page's inline `<script>` and `<style>` blocks | netlify.toml `script-src` + `style-src-elem` hashes | CSP authorizes inline scripts/styles without `'unsafe-inline'` (`--check` guards staleness) |
@@ -426,3 +427,21 @@ transcribes an outline with an exact edition/page citation per surah;
 follow the existing `case-studies.json` schema (`sourceIds` must resolve
 in `data/sources.json`) and add scholars incrementally, only for surahs
 where a real citation exists.
+
+A narrower, purely mechanical proxy *was* pursued and shipped:
+`build-symmetry-test.mjs` asks whether a surah's rarest content roots
+(occurring exactly twice) sit at matching distances from the surah's start
+and end more often than chance placement predicts. This is a properly
+significance-tested question — an exact per-surah-length null
+distribution (exhaustive enumeration, not simulation) plus
+Benjamini-Hochberg FDR correction across all 3,067 candidate pairs
+corpus-wide — not the naive fixed-tolerance version first proposed (which
+a random-shuffle check showed was indistinguishable from chance, 0.86–0.95×
+the baseline rate at every tolerance from 0–5). The rigorous version's
+result: **zero pairs reach significance at q<0.05** (closest candidate
+p≈0.0057, nowhere near the corrected threshold ≈1.6e-5). This is reported
+on patterns.html as a null result, not silently dropped — the closest
+candidates are listed so a reader can see how close the strongest one
+actually got. It answers a different, narrower question than the
+named-scholar outlines above and should not be read as evidence for or
+against that literary scholarship.

@@ -176,7 +176,22 @@
             </li>
             <li>
               <strong>Ring composition</strong>: chiastic structures where
-              openings and closings mirror.
+              openings and closings mirror. We tested one narrow, mechanical
+              proxy for this — whether a surah's rarest content roots
+              (occurring exactly twice) sit at matching distances from the
+              surah's start and end more often than random placement would
+              predict — across all 114 surahs (3,067 candidate root pairs,
+              an exact per-surah-length null distribution, Benjamini-Hochberg
+              correction at q&lt;0.05). Zero pairs reached significance; the
+              single closest candidate still fell short of the corrected
+              threshold. This does not evaluate the literary scholarship
+              cited below, which analyzes thematic and semantic parallels,
+              not raw word position — it only shows this specific narrow
+              proxy carries no corpus-level signal.
+              <details id="symmetryTestDetails" class="xref-panel">
+                <summary>Method and closest candidates</summary>
+                <div id="symmetryTestList" class="xref-list"></div>
+              </details>
             </li>
             <li><strong>Parallelism</strong>: balanced clause structures.</li>
             <li>
@@ -216,6 +231,7 @@
             Haleem (1999), Neuwirth (1981), Cuypers (2015).
             <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> The 89-verse count is computed directly from the bundled morphology (a match on the three consecutive lemmas of this formula), not asserted — see it listed above.
             <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> The boundary-particle and shared-root counts are likewise computed directly from the bundled morphology (verse-initial lemma match, then a root intersection with the preceding verse) — see it listed above.
+            <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> The ring-composition proxy test (0 of 3,067 candidates significant) is likewise computed directly from the bundled morphology — method and closest candidates listed above.
           </p>
         </div>
       </section>
@@ -450,6 +466,61 @@
                 dpList.innerHTML =
                   '<p style="color:var(--muted)">Could not load the list.</p>';
                 dpLoaded = false;
+              }
+            });
+          }
+
+          // "Method and closest candidates" — the ring-composition proxy
+          // test. closestMisses is shown as exactly that: the strongest
+          // candidates the test found, none of which reached significance.
+          var stDetails = document.getElementById("symmetryTestDetails");
+          var stList = document.getElementById("symmetryTestList");
+          if (stDetails && stList) {
+            var stLoaded = false;
+            stDetails.addEventListener("toggle", async function () {
+              if (!stDetails.open || stLoaded) return;
+              stLoaded = true;
+              stList.innerHTML =
+                '<p style="color:var(--muted)">Loading…</p>';
+              try {
+                var r3 = await fetch("data/symmetry-test.json");
+                var data3 = await r3.json();
+                var summary =
+                  '<p style="font-size:0.85rem;margin:0 0 0.6rem">' +
+                  qdEsc(data3.totalCandidates) +
+                  " candidate root pairs tested corpus-wide; " +
+                  qdEsc(data3.fdrSurvivors) +
+                  " reached significance after Benjamini-Hochberg correction (q<" +
+                  qdEsc(data3.fdrQThreshold) +
+                  "). Closest candidates, none significant:</p>";
+                var rows = data3.closestMisses
+                  .map(function (c) {
+                    return (
+                      '<div class="xref-item"><a href="read.html?s=' +
+                      c.surah +
+                      "&a=" +
+                      c.verseA +
+                      '" class="xref-ref">' +
+                      c.surah +
+                      ":" +
+                      c.verseA +
+                      "/" +
+                      c.verseB +
+                      "</a><span class=\"xref-cat\">" +
+                      qdEsc(c.rootLatin) +
+                      " · variance " +
+                      qdEsc(c.variance) +
+                      " · p=" +
+                      qdEsc(c.pValue) +
+                      " (not significant)</span></div>"
+                    );
+                  })
+                  .join("");
+                stList.innerHTML = summary + rows;
+              } catch (e) {
+                stList.innerHTML =
+                  '<p style="color:var(--muted)">Could not load the method detail.</p>';
+                stLoaded = false;
               }
             });
           }
