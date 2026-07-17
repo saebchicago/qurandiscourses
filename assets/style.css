@@ -2248,3 +2248,69 @@ kbd {
   border-color: var(--accent);
   color: var(--accent);
 }
+
+/* ── Discovery worksheet (assets/discovery-worksheet.js) ──────────────── */
+.discovery-worksheet label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+.discovery-worksheet input[type="text"],
+.discovery-worksheet textarea,
+.discovery-worksheet select {
+  width: 100%;
+  box-sizing: border-box;
+}
+.discovery-worksheet textarea {
+  font: inherit;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--ink);
+  resize: vertical;
+}
+.ws-khan-note {
+  font-size: 0.85rem;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  margin: 0.4rem 0 0.9rem;
+}
+.ws-section-row {
+  display: grid;
+  grid-template-columns: 1fr 6rem 6rem auto;
+  gap: 0.4rem;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+.ws-section-row input {
+  width: 100%;
+  box-sizing: border-box;
+}
+.ws-section-remove {
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  color: var(--muted);
+  min-width: 32px;
+  min-height: 32px;
+}
+.ws-section-remove:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+#wsAddSection {
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.8rem;
+}
+@media (max-width: 520px) {
+  .ws-section-row {
+    grid-template-columns: 1fr;
+  }
+}
