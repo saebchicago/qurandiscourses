@@ -33,6 +33,39 @@
    "scriptPath": "docs/video-scripts/train-your-eye.md",
    "summary": "Commit before you check: spot the recurring roots yourself, then reveal the computed answer; outline a surah's discourse yourself, then compare it with the outline in Dr. Khan's published book.",
    "status": "planned"
+  },
+  {
+   "id": "browse-by-juz",
+   "title": "Browse by juz",
+   "durationSec": 20,
+   "src": "assets/video/browse-by-juz.mp4",
+   "poster": "assets/video/browse-by-juz-poster.jpg",
+   "captions": "assets/video/browse-by-juz.vtt",
+   "scriptPath": "docs/video-scripts/browse-by-juz.md",
+   "summary": "The Qur'an's standard 30-part reading division, one click from the navigate page to the first verse of any juz.",
+   "status": "planned"
+  },
+  {
+   "id": "pin-your-workspace",
+   "title": "Pin a verse or root to your workspace",
+   "durationSec": 24,
+   "src": "assets/video/pin-your-workspace.mp4",
+   "poster": "assets/video/pin-your-workspace-poster.jpg",
+   "captions": "assets/video/pin-your-workspace.vtt",
+   "scriptPath": "docs/video-scripts/pin-your-workspace.md",
+   "summary": "Pin verses and roots you want to return to — a client-only bookmark list, saved to your browser, never sent anywhere.",
+   "status": "planned"
+  },
+  {
+   "id": "roots-across-time",
+   "title": "Does a root's company change over 23 years?",
+   "durationSec": 28,
+   "src": "assets/video/roots-across-time.mp4",
+   "poster": "assets/video/roots-across-time-poster.jpg",
+   "captions": "assets/video/roots-across-time.vtt",
+   "scriptPath": "docs/video-scripts/roots-across-time.md",
+   "summary": "Mercy and forgiveness are each other's closest companion in the text — broken out by the traditional revelation periods, the pairing strengthens from Middle Meccan to Medinan.",
+   "status": "planned"
   }
  ]
 }
