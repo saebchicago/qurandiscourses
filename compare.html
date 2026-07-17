@@ -1592,7 +1592,7 @@
         // N-way (2–6) side-by-side of committed per-surah fingerprints:
         // length, vocabulary spread, grammatical texture, cross-reference
         // reach. All figures come from data/surah-profiles.json (Leeds +
-        // Cairo 1924 + QurSim) and data/surah-meta.json (Quran.com API v4).
+        // Cairo 1924 + Mishkat) and data/surah-meta.json (Quran.com API v4).
 
         const MAX_SURAHS = 6;
         let profiles = null;
@@ -1806,9 +1806,9 @@
 
           html +=
             '<p class="prov" style="margin:0.75rem 0 0;font-size:0.82rem">' +
-            '<span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924 qursim quran-foundation-api-v4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> ' +
+            '<span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924 mishkat quran-foundation-api-v4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> ' +
             "Length, vocabulary, and grammatical texture computed from Leeds morphology; period and revelation order from Cairo 1924; " +
-            "cross-reference reach from QurSim/Mishkat (four surahs are outside that index); classification from the Quran.com API. " +
+            "cross-reference reach from the Mishkat corpus (four surahs are outside that index); classification from the Quran.com API. " +
             "Descriptive statistics, not a measure of merit.</p>";
           html += "</div>";
 
