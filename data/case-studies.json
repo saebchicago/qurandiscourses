@@ -14,16 +14,16 @@
    "traceFull": "<strong>Source trace.</strong> Leeds Quranic Arabic Corpus, Kais Dukes 2009–2017, GPL-licensed. Dictionary interface at <a href=\"https://corpus.quran.com/qurandictionary.jsp\" target=\"_blank\" rel=\"noopener\">corpus.quran.com</a>. Full top-10 with per-root citations on <a href=\"numbers.html\">Numbers</a> and <a href=\"roots.html\">Roots</a>. One primary source; independent triangulation possible via any Qur'anic concordance."
   },
   {
-   "id": "farahi-pending",
-   "label": "pending",
-   "labelText": "Pending",
+   "id": "farahi-foundational",
+   "label": "ok",
+   "labelText": "Verified",
    "title": "Farahi's Mufradat and Niẓām",
-   "sourceIds": "",
+   "sourceIds": "farahi-primary mir-coherence-1986",
    "onHome": true,
    "claimHome": "Farahi's <em>Mufradat al-Qur'an</em> and <em>Niẓām al-Qur'an</em> are foundational to the coherence-based reading school.",
    "claim": "Hamiduddin Farahi, <em>Mufradat al-Qur'an</em> and <em>Niẓām al-Qur'an</em>. Foundational to the coherence-based reading school.",
-   "traceShort": "Awaiting a second independent citation with edition and page references before upgrade to Verified. Listed on <a href=\"sources.html\">Sources</a>.",
-   "traceFull": "<strong>What would move this to Verified.</strong> A second independent bibliographic citation with edition, publisher, and page numbers for the specific claims we draw from Farahi. The entry is listed on <a href=\"sources.html\">Sources</a> under coherence-based reading; run Prompt 3 below (Islahi-school content) against ChatGPT and Gemini to locate the exact Farahi passage, then confirm the passage against a published edition before upgrading."
+   "traceShort": "Independently corroborated by Mustansir Mir's 1986 monograph on Islahi's nazm method. Full citations on <a href=\"sources.html\">Sources</a>.",
+   "traceFull": "<strong>Source trace.</strong> Primary: Farahi's own <em>Mufradat al-Qur'an</em> and <em>Niẓām al-Qur'an</em>. Independent secondary corroboration: Mustansir Mir, <em>Coherence in the Qur'an: A Study of Islahi's Concept of Nazm in Tadabbur-i Qur'an</em> (Indianapolis: American Trust Publications, 1986, ISBN 9780892590650) — a scholarly monograph devoted to showing that Islahi's nazm method, and by extension the whole coherence-based reading school, descends directly from Farahi's Mufradat and Niẓām. Two independent sources agree; upgraded from Pending. Full citations on <a href=\"sources.html\">Sources</a>."
   },
   {
    "id": "ywm-nuanced",

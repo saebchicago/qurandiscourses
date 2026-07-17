@@ -8,8 +8,10 @@ It exists so that anyone — an independent student, a teacher, a skeptical
 reader — can test the coherence of a discourse for themselves instead of
 taking assertions on trust. What the project needs is careful work, not
 money: corrections (via issues — every one is logged publicly), help
-transcribing Khan's remaining published outlines into exercises, and
-scholarly review of the method pages against their sources.
+transcribing Khan's remaining published outlines into exercises, scholarly
+review of the method pages against their sources, and — for the 84 surahs
+Khan never published an outline for — your own structural readings; see
+[CONTRIBUTING.md](CONTRIBUTING.md).
 
 Live site: https://qurandiscourse.netlify.app/
 

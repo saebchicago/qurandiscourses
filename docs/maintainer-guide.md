@@ -77,7 +77,16 @@ Cormorant Garamond, Inter). Chart-bearing pages add `assets/chart.js`
 theme-aware via `--chart-1..4`, which are dataviz-validated mark colors;
 every chart needs a method note beside it). `assets/notes.js` renders the
 Read page's local-only notes panel (storage key `qd_notes`, deliberately
-NOT cleared with preferences). Content registries rendered by pages:
+NOT cleared with preferences). `assets/discovery-worksheet.js` renders a
+per-surah "propose your own structure" form on the Read page (storage key
+`qd_discovery_v1`, keyed by surah number: theme, sectional divisions,
+evidence, cross-references, a reader-chosen confidence level) — distinct
+from both notes.js (per-verse free text) and notebook.js (bookmarks).
+Its content is deliberately never rendered with a ●/○/~ badge: it is the
+reader's own hypothesis, not a site claim. It reads `data/exercises.json`
+client-side to tell surahs 85–114 whether Khan's outline for that surah is
+already transcribed (link to the exercise), awaiting transcription, or (for
+surahs 1–84) that no Khan outline exists at all for that surah. Content registries rendered by pages:
 `data/exercises.json`, `data/paths.json`, `data/case-studies.json` — edit
 the JSON, not the pages' static fallback markup.
 
@@ -427,6 +436,14 @@ transcribes an outline with an exact edition/page citation per surah;
 follow the existing `case-studies.json` schema (`sourceIds` must resolve
 in `data/sources.json`) and add scholars incrementally, only for surahs
 where a real citation exists.
+
+For the 84 surahs Khan never wrote an outline for at all (his 2013 book
+covers only surahs 85–114), `assets/discovery-worksheet.js` gives the
+reader a place to attempt their own structural reading using the site's
+existing computed tooling (root/co-occurrence data, `discursive-pivots.json`
+boundary markers, `symmetry-test.json`) as evidence — explicitly framed as
+the reader's own unverified hypothesis, never a site claim, and never
+confused with Khan's actual outlines.
 
 A narrower, purely mechanical proxy *was* pursued and shipped:
 `build-symmetry-test.mjs` asks whether a surah's rarest content roots
