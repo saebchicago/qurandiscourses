@@ -598,12 +598,20 @@
               (d) => d.edition.identifier !== "quran-uthmani",
             );
             if (!trans.length) return;
+            // Prefer a translation the API actually served; only fall back
+            // to a mismatch placeholder if every requested edition failed.
+            const usable = trans.find((t) => !t._mismatchOf);
             const items = detailsEl.querySelectorAll(".xref-item");
             if (!items[i]) return;
             const el = items[i].querySelector(".xref-trans");
             if (el) {
-              el.textContent = trans[0].text;
-              el.style.color = "var(--text)";
+              if (usable) {
+                el.textContent = usable.text;
+                el.style.color = "var(--text)";
+              } else {
+                el.textContent = "Translation unavailable for this cross-reference.";
+                el.style.color = "var(--muted)";
+              }
             }
           }),
         );
@@ -716,6 +724,8 @@
                 surahName: SURAH_DISPLAY_NAMES[s] || qdEsc(ar.surah.englishName),
                 surahNameTranslation: qdEsc(ar.surah.englishNameTranslation),
                 arNumber: ar.number,
+                // Each entry carries _mismatchOf when the API substituted a
+                // different edition than requested (see qdFetchVerse).
                 translations: data.filter(
                   (d) => d.edition.identifier !== "quran-uthmani",
                 ),
@@ -759,6 +769,7 @@
                   text:
                     (ed.ayahs.find((v) => v.numberInSurah === a) || {}).text ||
                     "",
+                  _mismatchOf: ed._mismatchOf,
                 })),
               });
             }
@@ -797,7 +808,22 @@
                 html += `<div style="display:flex;gap:0.5rem;align-items:center;margin:.5rem 0"><audio controls style="flex:1"><source src="https://cdn.islamic.network/quran/audio/128/${qdState.reciter}/${arNumber}.mp3" type="audio/mpeg"></audio><button id="reciterBtn-${ayahNum}" style="min-width:44px;min-height:44px;padding:0.5rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem" title="Change reciter">\uD83C\uDFA4</button></div><div id="reciterName-${ayahNum}" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.5rem">${reciterName}</div>`;
               }
               translations.forEach((t) => {
-                html += `<div class="translation"><div class="label">${qdEsc(t.edition.englishName)} · ${qdEsc(t.edition.name)}</div><div class="text">${qdEsc(t.text)}</div></div>`;
+                if (t._mismatchOf) {
+                  html += `<div class="translation"><div class="label">Translation unavailable</div><div class="text" style="color:var(--muted)">The edition "${qdEsc(t._mismatchOf)}" could not be loaded — it no longer exists on the source API. See <a href="sources.html">Sources</a> for what's actually available.</div></div>`;
+                  return;
+                }
+                // Direction/language come from the API's own edition object,
+                // not a hard-coded list, so any future RTL edition renders
+                // correctly without a code change. Only Urdu also gets the
+                // Nastaliq webfont — other scripts (e.g. a future Persian
+                // or Sindhi edition) would want their own font eventually,
+                // but fall back to a readable default in the meantime.
+                const dirAttr = t.edition.direction === "rtl" ? ' dir="rtl"' : "";
+                const langAttr = t.edition.language
+                  ? ` lang="${qdEsc(t.edition.language)}"`
+                  : "";
+                const scriptClass = t.edition.language === "ur" ? " nastaliq" : "";
+                html += `<div class="translation"><div class="label">${qdEsc(t.edition.englishName)} · ${qdEsc(t.edition.name)}</div><div class="text${scriptClass}"${dirAttr}${langAttr}>${qdEsc(t.text)}</div></div>`;
               });
               if (needsMorph) {
                 const words = morphCache[s] && morphCache[s][String(ayahNum)];
@@ -855,11 +881,23 @@
             const transBtn = document.getElementById(`transBtn-${ayahNum}`);
             if (transBtn) {
               transBtn.addEventListener("click", () => {
-                const transList = qdTranslations
-                  .map(
-                    (t) =>
-                      `<label style="display:block;padding:0.75rem;border-bottom:1px solid var(--line);cursor:pointer"><input type="checkbox" data-trans="${t.id}" ${qdState.translations.includes(t.id) ? "checked" : ""}  style="margin-right:0.5rem"> ${t.name}</label>`,
-                  )
+                const LANG_LABELS = { en: "English", ur: "Urdu" };
+                const groups = new Map();
+                qdTranslations.forEach((t) => {
+                  const lang = t.lang || "en";
+                  if (!groups.has(lang)) groups.set(lang, []);
+                  groups.get(lang).push(t);
+                });
+                const transList = [...groups.entries()]
+                  .map(([lang, items]) => {
+                    const rows = items
+                      .map(
+                        (t) =>
+                          `<label style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem;border-bottom:1px solid var(--line);cursor:pointer"><input type="checkbox" data-trans="${t.id}" ${qdState.translations.includes(t.id) ? "checked" : ""}> <span style="flex:1">${t.name}</span><span style="font-size:0.7rem;padding:0.1rem 0.4rem;border-radius:4px;background:var(--card);border:1px solid var(--line);color:var(--muted)">${lang}</span></label>`,
+                      )
+                      .join("");
+                    return `<div style="padding:0.5rem 0.75rem;font-size:0.78rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:var(--muted);background:var(--bg)">${LANG_LABELS[lang] || lang}</div>${rows}`;
+                  })
                   .join("");
                 const modal = document.createElement("div");
                 modal.style.cssText =

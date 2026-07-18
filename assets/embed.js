@@ -167,13 +167,15 @@
             '<p class="ar embed-ar notranslate" translate="no" lang="ar" dir="rtl">' +
             qdEsc(arabic.text) +
             "</p>" +
-            (english
+            (english && !english._mismatchOf
               ? '<p class="embed-trans">' +
                 qdEsc(english.text) +
                 '</p><p class="embed-prov">' +
                 qdEsc(english.edition.englishName) +
                 " translation · text from api.alquran.cloud</p>"
-              : "") +
+              : english && english._mismatchOf
+                ? '<p class="embed-prov">Translation unavailable — that edition no longer exists on the source API.</p>'
+                : "") +
             link;
         })
         .catch(offline);
