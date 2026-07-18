@@ -72,6 +72,12 @@
   function onKey(e) {
     if (current < 0) return;
     if (e.key === "Escape") {
+      // This listener runs on the capture phase (registered with `true`
+      // below) so it fires before a nav dropdown's own bubble-phase Escape
+      // handler — without this check, Escape closed the dropdown AND
+      // ended the whole tour in one press. An open dropdown is the
+      // topmost layer; let it consume Escape for itself.
+      if (document.querySelector(".nav-menu:not([hidden])")) return;
       e.preventDefault();
       endTour();
     } else if (e.key === "ArrowRight") {
