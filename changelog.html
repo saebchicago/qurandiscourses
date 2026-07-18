@@ -128,6 +128,30 @@
           <h4>July</h4>
           <ul>
             <li>
+              <strong>A mislabeled translation, fixed — and Urdu
+              added.</strong> The "Abdel Haleem" translation option was
+              silently serving Arabic text mislabeled as English — the
+              edition ID behind it doesn't exist on the source API, which
+              substitutes a default Arabic edition instead of erroring
+              rather than failing loudly. Removed, replaced with
+              Wahiduddin Khan's translation, and hardened against any
+              future dead edition: every translation now gets checked
+              against what the API actually returned, with a plain
+              placeholder shown instead of trusting a silent substitution.
+              Added eight Urdu translations, rendered right-to-left in a
+              self-hosted Nastaliq typeface (not the Arabic Naskh face
+              used for the Qur'anic text) with a language-grouped picker.
+              Reduced the translations shown to new readers by default
+              from five to two (Saheeh International and Yusuf Ali) — the
+              rest stay one click away. The Khattab "Clear Quran"
+              citation was removed pending an actual license from its
+              rights holder (it was never available through the site's
+              data source and had drifted into carrying a Verified badge
+              it hadn't earned). Fixed a real bug in the welcome tour:
+              pressing Escape while a navigation menu was open closed the
+              whole tour instead of just the menu.
+            </li>
+            <li>
               <strong>A discovery worksheet, and one Pending claim
               resolved.</strong> The Read page gained a per-surah worksheet
               for proposing your own structural reading — theme, sectional

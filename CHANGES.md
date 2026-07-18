@@ -1,5 +1,57 @@
 # Changes — translation fix + Urdu support
 
+## Follow-up (consolidated UX & technical report)
+
+A follow-up report reiterated the `en.haleem` fix and Urdu support below
+(both already shipped) and added three concrete asks, resolved here:
+
+- **Reduced default translations from 5 to 2** (`assets/app.js`): only
+  `en.sahih` (Saheeh International) and `en.yusufali` (Yusuf Ali) —
+  the report's own "trusted standard" pairing — now carry `default:
+  true`. `en.pickthall`, `en.maududi`, and `en.asad` stay fully
+  selectable in the picker, just not pre-checked for new visitors. Note
+  the report said "4 → 2"; the actual prior count was 5 (verified
+  against the array), not 4.
+- **Removed the Khattab "Clear Quran" citation entirely** (`data/
+  sources.json`, `sources.html`) — the report's own investigation
+  confirmed it's exclusively licensed (Furqaan Institute) and not on
+  alquran.cloud under any ID; it also carried an over-claimed ● Verified
+  badge despite never being rendered. If a license is obtained later
+  (see theclearquran.org/copyright-information, QUL translation #426),
+  it would need to be self-hosted as a local JSON edition, not fetched
+  via alquran.cloud. `en.itani` (a genuinely different, already-free
+  "Clear Qur'an" by Talal Itani) is untouched.
+- **Fixed a real Escape-key bug in the welcome tour** (`assets/tour.js`):
+  reproduced and confirmed via a fresh-browser-context test — with a nav
+  dropdown open during the tour, pressing Escape closed both the
+  dropdown and the entire tour in one press, because the tour's Escape
+  listener runs on `document` with capture (so it always fires before
+  the dropdown's own bubble-phase handler). Fixed by having the tour
+  defer to an open dropdown as the topmost layer; a second Escape press
+  (nothing else open) now closes the tour as expected.
+
+**Two other claims in that report did not reproduce against the current
+code, verified empirically rather than assumed either way:**
+- "First-time visitors default to Encyclopedic depth" — a fresh
+  browser context (`localStorage` genuinely empty) loads `read.html`
+  with `data-depth="simple"`, matching `assets/app.js`'s `state.depth:
+  "simple"` default. Most likely explanation: the report's own manual
+  testing picked up leftover state from earlier exploration in the same
+  browser session, which would make a prior manual "Encyclopedic" click
+  look like "the default" on a later visit.
+- "Tour won't advance past Step 1 of 5" — a scripted run through all 5
+  steps via the Next button advanced cleanly every time
+  (1→2→3→4→5→done). Not reproduced; no change made.
+
+**Not touched in this pass** — the report's broader landing-page/
+onboarding UX items (navigation density, jargon before definition,
+merging the tour with the "new to the Qur'an?" page, depth-toggle
+previews, a few unlabeled inputs, hiding the discovery worksheet in
+Simple depth). These are legitimate P1–P3 findings but are design
+decisions, not verifiable bugs — worth a dedicated pass with explicit
+sign-off on the direction rather than a unilateral redesign bundled
+into a translation-bug fix.
+
 ## Removed dead edition, added its replacement
 
 `en.haleem` ("Abdel Haleem") was registered in `assets/app.js`'s
