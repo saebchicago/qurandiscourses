@@ -14,10 +14,10 @@
 
   const TRANSLATIONS = [
     { id: "en.sahih", name: "Saheeh International", lang: "en", default: true },
-    { id: "en.pickthall", name: "Pickthall", lang: "en", default: true },
+    { id: "en.pickthall", name: "Pickthall", lang: "en" },
     { id: "en.yusufali", name: "Yusuf Ali", lang: "en", default: true },
-    { id: "en.maududi", name: "Maududi", lang: "en", default: true },
-    { id: "en.asad", name: "Muhammad Asad", lang: "en", default: true },
+    { id: "en.maududi", name: "Maududi", lang: "en" },
+    { id: "en.asad", name: "Muhammad Asad", lang: "en" },
     { id: "en.shakir", name: "Shakir", lang: "en" },
     { id: "en.arberry", name: "Arberry", lang: "en" },
     { id: "en.ahmedali", name: "Ahmed Ali", lang: "en" },
