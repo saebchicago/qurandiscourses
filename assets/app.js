@@ -26,8 +26,16 @@
     { id: "en.hilali", name: "Hilali & Khan", lang: "en" },
     { id: "en.ahmedraza", name: "Ahmed Raza Khan", lang: "en" },
     { id: "en.itani", name: "Quran in English (Itani)", lang: "en" },
-    { id: "en.haleem", name: "Abdel Haleem", lang: "en" },
+    { id: "en.wahiduddin", name: "Wahiduddin Khan", lang: "en" },
     { id: "en.transliteration", name: "English Transliteration", lang: "en" },
+    { id: "ur.jalandhry", name: "Fateh Muhammad Jalandhry (Urdu)", lang: "ur" },
+    { id: "ur.kanzuliman", name: "Ahmed Raza Khan — Kanz-ul-Iman (Urdu)", lang: "ur" },
+    { id: "ur.maududi", name: "Abul A'la Maududi (Urdu)", lang: "ur" },
+    { id: "ur.junagarhi", name: "Muhammad Junagarhi (Urdu)", lang: "ur" },
+    { id: "ur.qadri", name: "Tahir ul-Qadri (Urdu)", lang: "ur" },
+    { id: "ur.jawadi", name: "Syed Zeeshan Haider Jawadi (Urdu)", lang: "ur" },
+    { id: "ur.ahmedali", name: "Ahmed Ali (Urdu)", lang: "ur" },
+    { id: "ur.najafi", name: "Najafi (Urdu)", lang: "ur" },
   ];
 
   const RECITERS = [
@@ -363,6 +371,30 @@
     return json.data;
   }
 
+  // alquran.cloud silently substitutes a default edition (Arabic
+  // quran-simple) for an invalid/removed edition ID instead of erroring —
+  // the exact failure mode that let a dead "en.haleem" ID serve Arabic
+  // text mislabeled as an English translation for as long as it was
+  // registered. The API returns editions in request order, so a
+  // by-position identifier check catches any substitution regardless of
+  // which edition ID goes bad next; a filter like "isn't quran-uthmani"
+  // would not (a substituted edition still isn't quran-uthmani). Returns
+  // the same array with a non-enumerable `_mismatchOf` marker set on any
+  // entry whose identifier doesn't match what was requested, so existing
+  // consumers that don't check for it keep working unchanged.
+  function qdMarkEditionMismatches(data, requestedIds) {
+    return data.map((entry, i) => {
+      const requested = requestedIds[i];
+      if (requested && entry.edition && entry.edition.identifier !== requested) {
+        console.warn(
+          `qdFetchVerse/qdFetchSurah: requested edition "${requested}" but the API returned "${entry.edition.identifier}" — this edition ID may no longer exist on alquran.cloud. Rendering a placeholder instead of the substituted text.`,
+        );
+        return Object.assign({}, entry, { _mismatchOf: requested });
+      }
+      return entry;
+    });
+  }
+
   // async (not a plain function returning apiCachedFetch's promise): a
   // plain function would let a synchronous throw building the URL (e.g.
   // state.translations corrupted into something non-iterable) escape as
@@ -370,16 +402,18 @@
   // embed.js's bare `.then().catch(fail)` rely on rejection semantics.
   window.qdFetchVerse = async function (surah, ayah) {
     const editions = ["quran-uthmani", ...state.translations];
-    return apiCachedFetch(
+    const data = await apiCachedFetch(
       `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/editions/${editions.join(",")}`,
     );
+    return qdMarkEditionMismatches(data, editions);
   };
 
   window.qdFetchSurah = async function (surah) {
     const editions = ["quran-uthmani", ...state.translations];
-    return apiCachedFetch(
+    const data = await apiCachedFetch(
       `https://api.alquran.cloud/v1/surah/${surah}/editions/${editions.join(",")}`,
     );
+    return qdMarkEditionMismatches(data, editions);
   };
 
   const TOOLTIPS = {

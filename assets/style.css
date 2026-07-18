@@ -1189,6 +1189,17 @@ label {
   font-size: 1.02rem;
   line-height: 1.6;
 }
+.verse .translation .text[dir="rtl"] {
+  text-align: right;
+}
+.verse .translation .text.nastaliq {
+  font-family: "Noto Nastaliq Urdu", "Amiri", serif;
+  /* Nastaliq stacks diagonally and clips against tight leading at normal
+     line-height; 2.1 gives each line room without the loose feel a wider
+     value would give the Latin-script translations sharing this page. */
+  line-height: 2.1;
+  font-size: 1.15rem;
+}
 .settings {
   position: fixed;
   right: 1rem;
