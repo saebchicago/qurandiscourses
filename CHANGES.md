@@ -1,0 +1,143 @@
+# Changes — translation fix + Urdu support
+
+## Removed dead edition, added its replacement
+
+`en.haleem` ("Abdel Haleem") was registered in `assets/app.js`'s
+`TRANSLATIONS` array but does not exist on alquran.cloud — the API
+silently substitutes its default Arabic edition (`quran-simple`) instead
+of erroring, so a reader who picked "Abdel Haleem" was shown Arabic text
+labeled as an English translation. Removed. This sandbox's outbound
+network is proxy-blocked to `api.alquran.cloud` specifically (confirmed:
+policy-level 403 on the CONNECT tunnel, not a code issue — the live site's
+own users hit this API fine from their browsers), so the exact substitution
+behavior is taken on trust from the task's own testing rather than
+independently reproduced here; the guard below makes that trust
+unnecessary going forward regardless.
+
+Replacement: **`en.wahiduddin`** (Wahiduddin Khan) — the task's own
+recommended default. Independently corroborated as a real alquran.cloud
+edition ID across a dozen+ unrelated public repos that reference the same
+identifier (Raycast's Quran extension, several Quran API wrapper libraries,
+etc.), since this sandbox couldn't query the live catalog directly.
+
+## Hardening: edition-mismatch guard
+
+`qdFetchVerse`/`qdFetchSurah` (`assets/app.js`) now compare each returned
+`edition.identifier` against the identifier that was actually requested,
+by array position (the API returns editions in request order). A mismatch
+— any future dead edition ID, not just this one — gets a non-enumerable
+`_mismatchOf` marker instead of being silently trusted, plus a
+`console.warn`. Every render path that consumes translation data was
+updated to check for it and show a placeholder instead of the substituted
+text:
+
+- `read.html`'s main verse/translation renderer
+- `read.html`'s cross-reference panel (`fetchXrefTranslations`) — a
+  separate code path that also renders translation snippets and would
+  otherwise have leaked the substitution independently of the fix above
+  (caught by the test below, not anticipated up front)
+- `assets/embed.js`'s embed-card renderer
+- `compare.html`'s passage-comparison view, which picks the first
+  available *valid* translation edition rather than assuming index 1 is
+  trustworthy
+
+`replay.js` only ever touches the Arabic (`quran-uthmani`) edition, so it
+was unaffected.
+
+### Test
+
+`node scripts/check-editions.mjs` — maintainer-run live check (mirrors
+`check-source-links.mjs`'s pattern): fetches all registered editions for
+one verse and asserts each returned `edition.identifier` matches what was
+requested. **Not runnable from this sandbox** (same proxy block); run it
+from an unrestricted machine before merging.
+
+A Playwright functional test (not committed — lives in this session's
+scratchpad, matching this repo's established ad hoc-verification pattern)
+exercised the guard against a fixture that deliberately simulates the
+exact `en.haleem` failure mode (API substitutes a different edition than
+requested) and confirmed: the main translation block shows a placeholder
+and never renders the substituted text; the cross-reference panel and
+console warning both behave correctly; Urdu renders with `dir="rtl"`,
+`lang="ur"`, and the Nastaliq font; the language-grouped picker shows both
+headers and a language chip; no horizontal overflow at 375px; zero CSP
+violations.
+
+## Urdu translations added
+
+Registered in `assets/app.js`, none pre-selected by default (see note
+below): `ur.jalandhry` (Fateh Muhammad Jalandhry), `ur.kanzuliman` (Ahmed
+Raza Khan — Kanz-ul-Iman), `ur.maududi` (Abul A'la Maududi), plus
+`ur.junagarhi`, `ur.qadri`, `ur.jawadi`, `ur.ahmedali`, `ur.najafi` as
+additional opt-in options. All corroborated the same way as
+`en.wahiduddin` above.
+
+**Interpretation note on "ship by default":** the task asked to "ship
+these three by default." I registered all three (and the five others) as
+selectable in the picker, but did **not** mark any of them
+`default: true` — that flag controls which translations a brand-new
+visitor sees pre-checked, and setting it would mean every new reader,
+regardless of language, gets 3 Urdu translations added to their initial
+view alongside the 5 existing English defaults. That reads as an
+unintended UX change rather than what was asked. If pre-selecting them for
+everyone was actually the intent, that's a one-line flip per entry — flag
+it and I'll make the change.
+
+### RTL + Nastaliq rendering
+
+Each translation's `dir`/`lang` attributes are now driven directly from
+the API response's own `edition.direction`/`edition.language` fields, not
+a hard-coded language list — a future RTL edition in any language renders
+correctly with no code change. Urdu specifically (`language === "ur"`)
+additionally gets a `nastaliq` class pulling in a self-hosted **Noto
+Nastaliq Urdu** webfont (`assets/fonts/notonastaliqurdu-arabic.woff2`,
+`assets/fonts.css`) at `line-height: 2.1` — Nastaliq's diagonal stacking
+clips against the site's normal 1.6 line-height. The Qur'anic Arabic
+ayah text is untouched — it keeps the existing Naskh-style Amiri face,
+which is correct for Arabic but would read as wrong for Urdu.
+
+### Picker
+
+The "Choose Translations" modal (`read.html`) now groups entries under
+"English"/"Urdu" headers with a small language chip per row, derived from
+each entry's own `lang` field so a future third language groups itself
+automatically.
+
+## Sources
+
+`sources.html`'s "Translations rendered on this site" list: removed the
+Abdel Haleem citation (no longer rendered), added Wahiduddin Khan and all
+8 Urdu translators. `data/sources.json` was **not** touched — individual
+translator citations for API-rendered editions were never tracked there
+(confirmed: none of the existing ~14 English translations have an entry
+either, only the anomalous `the-clear-quran` one — see below), so the new
+entries follow the same plain-bibliography convention as the existing
+Pickthall/Yusuf Ali/etc. entries rather than introducing a new pattern.
+
+## Open question: "The Clear Quran" — Khattab vs. Itani
+
+Per the task's own stop instruction, **not implemented, flagging only.**
+
+- `en.itani` (Talal Itani's "Clear Qur'an") is already shipping,
+  unaffected by anything in this change.
+- `data/sources.json`'s `the-clear-quran` entry cites Dr. Mustafa
+  Khattab's *The Clear Quran* (Book of Signs Foundation, 2016, ISBN
+  9780998539003) — confirmed still genuinely unavailable on
+  alquran.cloud (zero Khattab-style edition found anywhere in the public
+  repos cross-checked for this change either). It is in copyright;
+  wiring it in would need a licensed data source and permission, not an
+  API call.
+- Additionally confirmed (not just suspected): that entry currently
+  carries a **● Verified badge** on `sources.html`
+  (`data-source-ids="the-clear-quran"`) despite the translation not
+  actually being rendered anywhere on the site — exactly the over-claim
+  the task flagged. Left as-is pending your answer on which "Clear Quran"
+  you meant, since the fix (downgrade the badge vs. wire a licensed
+  source) depends on that answer.
+
+## Not touched
+
+Word-by-word morphology/gloss tables (English-only by design, per the
+task's scope guardrails); file permissions, sharing settings, credentials.
+No new tracking, no new network domains — the guard and Urdu additions
+only touch the existing `api.alquran.cloud` calls.
