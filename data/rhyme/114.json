@@ -1,0 +1,92 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 114,
+ "verseCount": 6,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "ٱلنَّاسِ",
+   "pausal": "الناس",
+   "k2": "اس",
+   "k1": "س"
+  },
+  {
+   "a": 2,
+   "ar": "ٱلنَّاسِ",
+   "pausal": "الناس",
+   "k2": "اس",
+   "k1": "س"
+  },
+  {
+   "a": 3,
+   "ar": "ٱلنَّاسِ",
+   "pausal": "الناس",
+   "k2": "اس",
+   "k1": "س"
+  },
+  {
+   "a": 4,
+   "ar": "ٱلْخَنَّاسِ",
+   "pausal": "الخناس",
+   "k2": "اس",
+   "k1": "س"
+  },
+  {
+   "a": 5,
+   "ar": "ٱلنَّاسِ",
+   "pausal": "الناس",
+   "k2": "اس",
+   "k1": "س"
+  },
+  {
+   "a": 6,
+   "ar": "وَٱلنَّاسِ",
+   "pausal": "والناس",
+   "k2": "اس",
+   "k1": "س"
+  }
+ ],
+ "families": [
+  {
+   "key": "اس",
+   "count": 6,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "س",
+   "count": 6,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  }
+ ],
+ "shifts": [],
+ "refrains": [
+  {
+   "pausal": "الناس",
+   "count": 4,
+   "verses": [
+    1,
+    2,
+    3,
+    5
+   ]
+  }
+ ]
+}

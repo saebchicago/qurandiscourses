@@ -1,0 +1,133 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 94,
+ "verseCount": 8,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "صَدْرَكَ",
+   "pausal": "صدرك",
+   "k2": "رك",
+   "k1": "ك"
+  },
+  {
+   "a": 2,
+   "ar": "وِزْرَكَ",
+   "pausal": "وزرك",
+   "k2": "رك",
+   "k1": "ك"
+  },
+  {
+   "a": 3,
+   "ar": "ظَهْرَكَ",
+   "pausal": "ظهرك",
+   "k2": "رك",
+   "k1": "ك"
+  },
+  {
+   "a": 4,
+   "ar": "ذِكْرَكَ",
+   "pausal": "ذكرك",
+   "k2": "رك",
+   "k1": "ك"
+  },
+  {
+   "a": 5,
+   "ar": "يُسْرًا",
+   "pausal": "يسرا",
+   "k2": "را",
+   "k1": "ا"
+  },
+  {
+   "a": 6,
+   "ar": "يُسْرًا",
+   "pausal": "يسرا",
+   "k2": "را",
+   "k1": "ا"
+  },
+  {
+   "a": 7,
+   "ar": "فَٱنصَبْ",
+   "pausal": "فانصب",
+   "k2": "صب",
+   "k1": "ب"
+  },
+  {
+   "a": 8,
+   "ar": "فَٱرْغَب",
+   "pausal": "فارغب",
+   "k2": "غب",
+   "k1": "ب"
+  }
+ ],
+ "families": [
+  {
+   "key": "رك",
+   "count": 4,
+   "verses": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "key": "را",
+   "count": 2,
+   "verses": [
+    5,
+    6
+   ]
+  },
+  {
+   "key": "صب",
+   "count": 1,
+   "verses": [
+    7
+   ]
+  },
+  {
+   "key": "غب",
+   "count": 1,
+   "verses": [
+    8
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ك",
+   "count": 4,
+   "verses": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "key": "ا",
+   "count": 2,
+   "verses": [
+    5,
+    6
+   ]
+  },
+  {
+   "key": "ب",
+   "count": 2,
+   "verses": [
+    7,
+    8
+   ]
+  }
+ ],
+ "shifts": [
+  5,
+  7,
+  8
+ ],
+ "refrains": []
+}

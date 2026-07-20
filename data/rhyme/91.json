@@ -1,0 +1,162 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 91,
+ "verseCount": 15,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "وَضُحَىٰهَا",
+   "pausal": "وضحىها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 2,
+   "ar": "تَلَىٰهَا",
+   "pausal": "تلىها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 3,
+   "ar": "جَلَّىٰهَا",
+   "pausal": "جلىها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 4,
+   "ar": "يَغْشَىٰهَا",
+   "pausal": "يغشىها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 5,
+   "ar": "بَنَىٰهَا",
+   "pausal": "بنىها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 6,
+   "ar": "طَحَىٰهَا",
+   "pausal": "طحىها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 7,
+   "ar": "سَوَّىٰهَا",
+   "pausal": "سوىها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 8,
+   "ar": "وَتَقْوَىٰهَا",
+   "pausal": "وتقوىها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 9,
+   "ar": "زَكَّىٰهَا",
+   "pausal": "زكىها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 10,
+   "ar": "دَسَّىٰهَا",
+   "pausal": "دسىها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 11,
+   "ar": "بِطَغْوَىٰهَآ",
+   "pausal": "بطغوىها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 12,
+   "ar": "أَشْقَىٰهَا",
+   "pausal": "أشقىها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 13,
+   "ar": "وَسُقْيَٰهَا",
+   "pausal": "وسقيها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 14,
+   "ar": "فَسَوَّىٰهَا",
+   "pausal": "فسوىها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 15,
+   "ar": "عُقْبَٰهَا",
+   "pausal": "عقبها",
+   "k2": "ها",
+   "k1": "ا"
+  }
+ ],
+ "families": [
+  {
+   "key": "ها",
+   "count": 15,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ا",
+   "count": 15,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ]
+  }
+ ],
+ "shifts": [],
+ "refrains": []
+}

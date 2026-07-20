@@ -1,0 +1,316 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 96,
+ "verseCount": 19,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "خَلَقَ",
+   "pausal": "خلق",
+   "k2": "لق",
+   "k1": "ق"
+  },
+  {
+   "a": 2,
+   "ar": "عَلَقٍ",
+   "pausal": "علق",
+   "k2": "لق",
+   "k1": "ق"
+  },
+  {
+   "a": 3,
+   "ar": "ٱلْأَكْرَمُ",
+   "pausal": "الأكرم",
+   "k2": "رم",
+   "k1": "م"
+  },
+  {
+   "a": 4,
+   "ar": "بِٱلْقَلَمِ",
+   "pausal": "بالقلم",
+   "k2": "لم",
+   "k1": "م"
+  },
+  {
+   "a": 5,
+   "ar": "يَعْلَمْ",
+   "pausal": "يعلم",
+   "k2": "لم",
+   "k1": "م"
+  },
+  {
+   "a": 6,
+   "ar": "لَيَطْغَىٰٓ",
+   "pausal": "ليطغى",
+   "k2": "غا",
+   "k1": "ا"
+  },
+  {
+   "a": 7,
+   "ar": "ٱسْتَغْنَىٰٓ",
+   "pausal": "استغنى",
+   "k2": "نا",
+   "k1": "ا"
+  },
+  {
+   "a": 8,
+   "ar": "ٱلرُّجْعَىٰٓ",
+   "pausal": "الرجعى",
+   "k2": "عا",
+   "k1": "ا"
+  },
+  {
+   "a": 9,
+   "ar": "يَنْهَىٰ",
+   "pausal": "ينهى",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 10,
+   "ar": "صَلَّىٰٓ",
+   "pausal": "صلى",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 11,
+   "ar": "ٱلْهُدَىٰٓ",
+   "pausal": "الهدى",
+   "k2": "دا",
+   "k1": "ا"
+  },
+  {
+   "a": 12,
+   "ar": "بِٱلتَّقْوَىٰٓ",
+   "pausal": "بالتقوى",
+   "k2": "وا",
+   "k1": "ا"
+  },
+  {
+   "a": 13,
+   "ar": "وَتَوَلَّىٰٓ",
+   "pausal": "وتولى",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 14,
+   "ar": "يَرَىٰ",
+   "pausal": "يرى",
+   "k2": "را",
+   "k1": "ا"
+  },
+  {
+   "a": 15,
+   "ar": "بِٱلنَّاصِيَةِ",
+   "pausal": "بالناصيه",
+   "k2": "يه",
+   "k1": "ه"
+  },
+  {
+   "a": 16,
+   "ar": "خَاطِئَةٍ",
+   "pausal": "خاطئه",
+   "k2": "ئه",
+   "k1": "ه"
+  },
+  {
+   "a": 17,
+   "ar": "نَادِيَهُۥ",
+   "pausal": "ناديه",
+   "k2": "يه",
+   "k1": "ه"
+  },
+  {
+   "a": 18,
+   "ar": "ٱلزَّبَانِيَةَ",
+   "pausal": "الزبانيه",
+   "k2": "يه",
+   "k1": "ه"
+  },
+  {
+   "a": 19,
+   "ar": "وَٱقْتَرِب",
+   "pausal": "واقترب",
+   "k2": "رب",
+   "k1": "ب"
+  }
+ ],
+ "families": [
+  {
+   "key": "يه",
+   "count": 3,
+   "verses": [
+    15,
+    17,
+    18
+   ]
+  },
+  {
+   "key": "لا",
+   "count": 2,
+   "verses": [
+    10,
+    13
+   ]
+  },
+  {
+   "key": "لق",
+   "count": 2,
+   "verses": [
+    1,
+    2
+   ]
+  },
+  {
+   "key": "لم",
+   "count": 2,
+   "verses": [
+    4,
+    5
+   ]
+  },
+  {
+   "key": "ئه",
+   "count": 1,
+   "verses": [
+    16
+   ]
+  },
+  {
+   "key": "دا",
+   "count": 1,
+   "verses": [
+    11
+   ]
+  },
+  {
+   "key": "را",
+   "count": 1,
+   "verses": [
+    14
+   ]
+  },
+  {
+   "key": "رب",
+   "count": 1,
+   "verses": [
+    19
+   ]
+  },
+  {
+   "key": "رم",
+   "count": 1,
+   "verses": [
+    3
+   ]
+  },
+  {
+   "key": "عا",
+   "count": 1,
+   "verses": [
+    8
+   ]
+  },
+  {
+   "key": "غا",
+   "count": 1,
+   "verses": [
+    6
+   ]
+  },
+  {
+   "key": "نا",
+   "count": 1,
+   "verses": [
+    7
+   ]
+  },
+  {
+   "key": "ها",
+   "count": 1,
+   "verses": [
+    9
+   ]
+  },
+  {
+   "key": "وا",
+   "count": 1,
+   "verses": [
+    12
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ا",
+   "count": 9,
+   "verses": [
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+   ]
+  },
+  {
+   "key": "ه",
+   "count": 4,
+   "verses": [
+    15,
+    16,
+    17,
+    18
+   ]
+  },
+  {
+   "key": "م",
+   "count": 3,
+   "verses": [
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "key": "ق",
+   "count": 2,
+   "verses": [
+    1,
+    2
+   ]
+  },
+  {
+   "key": "ب",
+   "count": 1,
+   "verses": [
+    19
+   ]
+  }
+ ],
+ "shifts": [
+  3,
+  4,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  19
+ ],
+ "refrains": []
+}

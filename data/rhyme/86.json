@@ -1,0 +1,308 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 86,
+ "verseCount": 17,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "وَٱلطَّارِقِ",
+   "pausal": "والطارق",
+   "k2": "رق",
+   "k1": "ق"
+  },
+  {
+   "a": 2,
+   "ar": "ٱلطَّارِقُ",
+   "pausal": "الطارق",
+   "k2": "رق",
+   "k1": "ق"
+  },
+  {
+   "a": 3,
+   "ar": "ٱلثَّاقِبُ",
+   "pausal": "الثاقب",
+   "k2": "قب",
+   "k1": "ب"
+  },
+  {
+   "a": 4,
+   "ar": "حَافِظٌ",
+   "pausal": "حافظ",
+   "k2": "فظ",
+   "k1": "ظ"
+  },
+  {
+   "a": 5,
+   "ar": "خُلِقَ",
+   "pausal": "خلق",
+   "k2": "لق",
+   "k1": "ق"
+  },
+  {
+   "a": 6,
+   "ar": "دَافِقٍ",
+   "pausal": "دافق",
+   "k2": "فق",
+   "k1": "ق"
+  },
+  {
+   "a": 7,
+   "ar": "وَٱلتَّرَآئِبِ",
+   "pausal": "والترائب",
+   "k2": "ئب",
+   "k1": "ب"
+  },
+  {
+   "a": 8,
+   "ar": "لَقَادِرٌ",
+   "pausal": "لقادر",
+   "k2": "در",
+   "k1": "ر"
+  },
+  {
+   "a": 9,
+   "ar": "ٱلسَّرَآئِرُ",
+   "pausal": "السرائر",
+   "k2": "ئر",
+   "k1": "ر"
+  },
+  {
+   "a": 10,
+   "ar": "نَاصِرٍ",
+   "pausal": "ناصر",
+   "k2": "صر",
+   "k1": "ر"
+  },
+  {
+   "a": 11,
+   "ar": "ٱلرَّجْعِ",
+   "pausal": "الرجع",
+   "k2": "جع",
+   "k1": "ع"
+  },
+  {
+   "a": 12,
+   "ar": "ٱلصَّدْعِ",
+   "pausal": "الصدع",
+   "k2": "دع",
+   "k1": "ع"
+  },
+  {
+   "a": 13,
+   "ar": "فَصْلٌ",
+   "pausal": "فصل",
+   "k2": "صل",
+   "k1": "ل"
+  },
+  {
+   "a": 14,
+   "ar": "بِٱلْهَزْلِ",
+   "pausal": "بالهزل",
+   "k2": "زل",
+   "k1": "ل"
+  },
+  {
+   "a": 15,
+   "ar": "كَيْدًا",
+   "pausal": "كيدا",
+   "k2": "دا",
+   "k1": "ا"
+  },
+  {
+   "a": 16,
+   "ar": "كَيْدًا",
+   "pausal": "كيدا",
+   "k2": "دا",
+   "k1": "ا"
+  },
+  {
+   "a": 17,
+   "ar": "رُوَيْدًۢا",
+   "pausal": "رويدا",
+   "k2": "دا",
+   "k1": "ا"
+  }
+ ],
+ "families": [
+  {
+   "key": "دا",
+   "count": 3,
+   "verses": [
+    15,
+    16,
+    17
+   ]
+  },
+  {
+   "key": "رق",
+   "count": 2,
+   "verses": [
+    1,
+    2
+   ]
+  },
+  {
+   "key": "ئب",
+   "count": 1,
+   "verses": [
+    7
+   ]
+  },
+  {
+   "key": "ئر",
+   "count": 1,
+   "verses": [
+    9
+   ]
+  },
+  {
+   "key": "جع",
+   "count": 1,
+   "verses": [
+    11
+   ]
+  },
+  {
+   "key": "در",
+   "count": 1,
+   "verses": [
+    8
+   ]
+  },
+  {
+   "key": "دع",
+   "count": 1,
+   "verses": [
+    12
+   ]
+  },
+  {
+   "key": "زل",
+   "count": 1,
+   "verses": [
+    14
+   ]
+  },
+  {
+   "key": "صر",
+   "count": 1,
+   "verses": [
+    10
+   ]
+  },
+  {
+   "key": "صل",
+   "count": 1,
+   "verses": [
+    13
+   ]
+  },
+  {
+   "key": "فظ",
+   "count": 1,
+   "verses": [
+    4
+   ]
+  },
+  {
+   "key": "فق",
+   "count": 1,
+   "verses": [
+    6
+   ]
+  },
+  {
+   "key": "قب",
+   "count": 1,
+   "verses": [
+    3
+   ]
+  },
+  {
+   "key": "لق",
+   "count": 1,
+   "verses": [
+    5
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ق",
+   "count": 4,
+   "verses": [
+    1,
+    2,
+    5,
+    6
+   ]
+  },
+  {
+   "key": "ا",
+   "count": 3,
+   "verses": [
+    15,
+    16,
+    17
+   ]
+  },
+  {
+   "key": "ر",
+   "count": 3,
+   "verses": [
+    8,
+    9,
+    10
+   ]
+  },
+  {
+   "key": "ب",
+   "count": 2,
+   "verses": [
+    3,
+    7
+   ]
+  },
+  {
+   "key": "ع",
+   "count": 2,
+   "verses": [
+    11,
+    12
+   ]
+  },
+  {
+   "key": "ل",
+   "count": 2,
+   "verses": [
+    13,
+    14
+   ]
+  },
+  {
+   "key": "ظ",
+   "count": 1,
+   "verses": [
+    4
+   ]
+  }
+ ],
+ "shifts": [
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "refrains": []
+}

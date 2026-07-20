@@ -1,0 +1,116 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 109,
+ "verseCount": 6,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "ٱلْكَٰفِرُونَ",
+   "pausal": "الكفرون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 2,
+   "ar": "تَعْبُدُونَ",
+   "pausal": "تعبدون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 3,
+   "ar": "أَعْبُدُ",
+   "pausal": "أعبد",
+   "k2": "بد",
+   "k1": "د"
+  },
+  {
+   "a": 4,
+   "ar": "عَبَدتُّمْ",
+   "pausal": "عبدتم",
+   "k2": "تم",
+   "k1": "م"
+  },
+  {
+   "a": 5,
+   "ar": "أَعْبُدُ",
+   "pausal": "أعبد",
+   "k2": "بد",
+   "k1": "د"
+  },
+  {
+   "a": 6,
+   "ar": "دِينِ",
+   "pausal": "دين",
+   "k2": "ين",
+   "k1": "ن"
+  }
+ ],
+ "families": [
+  {
+   "key": "بد",
+   "count": 2,
+   "verses": [
+    3,
+    5
+   ]
+  },
+  {
+   "key": "ون",
+   "count": 2,
+   "verses": [
+    1,
+    2
+   ]
+  },
+  {
+   "key": "تم",
+   "count": 1,
+   "verses": [
+    4
+   ]
+  },
+  {
+   "key": "ين",
+   "count": 1,
+   "verses": [
+    6
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ن",
+   "count": 3,
+   "verses": [
+    1,
+    2,
+    6
+   ]
+  },
+  {
+   "key": "د",
+   "count": 2,
+   "verses": [
+    3,
+    5
+   ]
+  },
+  {
+   "key": "م",
+   "count": 1,
+   "verses": [
+    4
+   ]
+  }
+ ],
+ "shifts": [
+  3,
+  4,
+  5,
+  6
+ ],
+ "refrains": []
+}

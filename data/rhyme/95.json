@@ -1,0 +1,123 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 95,
+ "verseCount": 8,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "وَٱلزَّيْتُونِ",
+   "pausal": "والزيتون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 2,
+   "ar": "سِينِينَ",
+   "pausal": "سينين",
+   "k2": "ين",
+   "k1": "ن"
+  },
+  {
+   "a": 3,
+   "ar": "ٱلْأَمِينِ",
+   "pausal": "الأمين",
+   "k2": "ين",
+   "k1": "ن"
+  },
+  {
+   "a": 4,
+   "ar": "تَقْوِيمٍ",
+   "pausal": "تقويم",
+   "k2": "يم",
+   "k1": "م"
+  },
+  {
+   "a": 5,
+   "ar": "سَٰفِلِينَ",
+   "pausal": "سفلين",
+   "k2": "ين",
+   "k1": "ن"
+  },
+  {
+   "a": 6,
+   "ar": "مَمْنُونٍ",
+   "pausal": "ممنون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 7,
+   "ar": "بِٱلدِّينِ",
+   "pausal": "بالدين",
+   "k2": "ين",
+   "k1": "ن"
+  },
+  {
+   "a": 8,
+   "ar": "ٱلْحَٰكِمِينَ",
+   "pausal": "الحكمين",
+   "k2": "ين",
+   "k1": "ن"
+  }
+ ],
+ "families": [
+  {
+   "key": "ين",
+   "count": 5,
+   "verses": [
+    2,
+    3,
+    5,
+    7,
+    8
+   ]
+  },
+  {
+   "key": "ون",
+   "count": 2,
+   "verses": [
+    1,
+    6
+   ]
+  },
+  {
+   "key": "يم",
+   "count": 1,
+   "verses": [
+    4
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ن",
+   "count": 7,
+   "verses": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "key": "م",
+   "count": 1,
+   "verses": [
+    4
+   ]
+  }
+ ],
+ "shifts": [
+  2,
+  4,
+  5,
+  6,
+  7
+ ],
+ "refrains": []
+}

@@ -1,0 +1,130 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 98,
+ "verseCount": 8,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "ٱلْبَيِّنَةُ",
+   "pausal": "البينه",
+   "k2": "نه",
+   "k1": "ه"
+  },
+  {
+   "a": 2,
+   "ar": "مُّطَهَّرَةً",
+   "pausal": "مطهره",
+   "k2": "ره",
+   "k1": "ه"
+  },
+  {
+   "a": 3,
+   "ar": "قَيِّمَةٌ",
+   "pausal": "قيمه",
+   "k2": "مه",
+   "k1": "ه"
+  },
+  {
+   "a": 4,
+   "ar": "ٱلْبَيِّنَةُ",
+   "pausal": "البينه",
+   "k2": "نه",
+   "k1": "ه"
+  },
+  {
+   "a": 5,
+   "ar": "ٱلْقَيِّمَةِ",
+   "pausal": "القيمه",
+   "k2": "مه",
+   "k1": "ه"
+  },
+  {
+   "a": 6,
+   "ar": "ٱلْبَرِيَّةِ",
+   "pausal": "البريه",
+   "k2": "يه",
+   "k1": "ه"
+  },
+  {
+   "a": 7,
+   "ar": "ٱلْبَرِيَّةِ",
+   "pausal": "البريه",
+   "k2": "يه",
+   "k1": "ه"
+  },
+  {
+   "a": 8,
+   "ar": "رَبَّهُۥ",
+   "pausal": "ربه",
+   "k2": "به",
+   "k1": "ه"
+  }
+ ],
+ "families": [
+  {
+   "key": "مه",
+   "count": 2,
+   "verses": [
+    3,
+    5
+   ]
+  },
+  {
+   "key": "نه",
+   "count": 2,
+   "verses": [
+    1,
+    4
+   ]
+  },
+  {
+   "key": "يه",
+   "count": 2,
+   "verses": [
+    6,
+    7
+   ]
+  },
+  {
+   "key": "به",
+   "count": 1,
+   "verses": [
+    8
+   ]
+  },
+  {
+   "key": "ره",
+   "count": 1,
+   "verses": [
+    2
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ه",
+   "count": 8,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ]
+  }
+ ],
+ "shifts": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  8
+ ],
+ "refrains": []
+}

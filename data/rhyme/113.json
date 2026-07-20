@@ -1,0 +1,106 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 113,
+ "verseCount": 5,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "ٱلْفَلَقِ",
+   "pausal": "الفلق",
+   "k2": "لق",
+   "k1": "ق"
+  },
+  {
+   "a": 2,
+   "ar": "خَلَقَ",
+   "pausal": "خلق",
+   "k2": "لق",
+   "k1": "ق"
+  },
+  {
+   "a": 3,
+   "ar": "وَقَبَ",
+   "pausal": "وقب",
+   "k2": "قب",
+   "k1": "ب"
+  },
+  {
+   "a": 4,
+   "ar": "ٱلْعُقَدِ",
+   "pausal": "العقد",
+   "k2": "قد",
+   "k1": "د"
+  },
+  {
+   "a": 5,
+   "ar": "حَسَدَ",
+   "pausal": "حسد",
+   "k2": "سد",
+   "k1": "د"
+  }
+ ],
+ "families": [
+  {
+   "key": "لق",
+   "count": 2,
+   "verses": [
+    1,
+    2
+   ]
+  },
+  {
+   "key": "سد",
+   "count": 1,
+   "verses": [
+    5
+   ]
+  },
+  {
+   "key": "قب",
+   "count": 1,
+   "verses": [
+    3
+   ]
+  },
+  {
+   "key": "قد",
+   "count": 1,
+   "verses": [
+    4
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "د",
+   "count": 2,
+   "verses": [
+    4,
+    5
+   ]
+  },
+  {
+   "key": "ق",
+   "count": 2,
+   "verses": [
+    1,
+    2
+   ]
+  },
+  {
+   "key": "ب",
+   "count": 1,
+   "verses": [
+    3
+   ]
+  }
+ ],
+ "shifts": [
+  3,
+  4,
+  5
+ ],
+ "refrains": []
+}

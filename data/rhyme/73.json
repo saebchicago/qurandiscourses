@@ -1,0 +1,260 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 73,
+ "verseCount": 20,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "ٱلْمُزَّمِّلُ",
+   "pausal": "المزمل",
+   "k2": "مل",
+   "k1": "ل"
+  },
+  {
+   "a": 2,
+   "ar": "قَلِيلًا",
+   "pausal": "قليلا",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 3,
+   "ar": "قَلِيلًا",
+   "pausal": "قليلا",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 4,
+   "ar": "تَرْتِيلًا",
+   "pausal": "ترتيلا",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 5,
+   "ar": "ثَقِيلًا",
+   "pausal": "ثقيلا",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 6,
+   "ar": "قِيلًا",
+   "pausal": "قيلا",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 7,
+   "ar": "طَوِيلًا",
+   "pausal": "طويلا",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 8,
+   "ar": "تَبْتِيلًا",
+   "pausal": "تبتيلا",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 9,
+   "ar": "وَكِيلًا",
+   "pausal": "وكيلا",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 10,
+   "ar": "جَمِيلًا",
+   "pausal": "جميلا",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 11,
+   "ar": "قَلِيلًا",
+   "pausal": "قليلا",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 12,
+   "ar": "وَجَحِيمًا",
+   "pausal": "وجحيما",
+   "k2": "ما",
+   "k1": "ا"
+  },
+  {
+   "a": 13,
+   "ar": "أَلِيمًا",
+   "pausal": "أليما",
+   "k2": "ما",
+   "k1": "ا"
+  },
+  {
+   "a": 14,
+   "ar": "مَّهِيلًا",
+   "pausal": "مهيلا",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 15,
+   "ar": "رَسُولًا",
+   "pausal": "رسولا",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 16,
+   "ar": "وَبِيلًا",
+   "pausal": "وبيلا",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 17,
+   "ar": "شِيبًا",
+   "pausal": "شيبا",
+   "k2": "با",
+   "k1": "ا"
+  },
+  {
+   "a": 18,
+   "ar": "مَفْعُولًا",
+   "pausal": "مفعولا",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 19,
+   "ar": "سَبِيلًا",
+   "pausal": "سبيلا",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 20,
+   "ar": "رَّحِيمٌۢ",
+   "pausal": "رحيم",
+   "k2": "يم",
+   "k1": "م"
+  }
+ ],
+ "families": [
+  {
+   "key": "لا",
+   "count": 15,
+   "verses": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    14,
+    15,
+    16,
+    18,
+    19
+   ]
+  },
+  {
+   "key": "ما",
+   "count": 2,
+   "verses": [
+    12,
+    13
+   ]
+  },
+  {
+   "key": "با",
+   "count": 1,
+   "verses": [
+    17
+   ]
+  },
+  {
+   "key": "مل",
+   "count": 1,
+   "verses": [
+    1
+   ]
+  },
+  {
+   "key": "يم",
+   "count": 1,
+   "verses": [
+    20
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ا",
+   "count": 18,
+   "verses": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+   ]
+  },
+  {
+   "key": "ل",
+   "count": 1,
+   "verses": [
+    1
+   ]
+  },
+  {
+   "key": "م",
+   "count": 1,
+   "verses": [
+    20
+   ]
+  }
+ ],
+ "shifts": [
+  2,
+  12,
+  14,
+  17,
+  18,
+  20
+ ],
+ "refrains": [
+  {
+   "pausal": "قليلا",
+   "count": 3,
+   "verses": [
+    2,
+    3,
+    11
+   ]
+  }
+ ]
+}

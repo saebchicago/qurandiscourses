@@ -1,0 +1,158 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 65,
+ "verseCount": 12,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "أَمْرًا",
+   "pausal": "أمرا",
+   "k2": "را",
+   "k1": "ا"
+  },
+  {
+   "a": 2,
+   "ar": "مَخْرَجًا",
+   "pausal": "مخرجا",
+   "k2": "جا",
+   "k1": "ا"
+  },
+  {
+   "a": 3,
+   "ar": "قَدْرًا",
+   "pausal": "قدرا",
+   "k2": "را",
+   "k1": "ا"
+  },
+  {
+   "a": 4,
+   "ar": "يُسْرًا",
+   "pausal": "يسرا",
+   "k2": "را",
+   "k1": "ا"
+  },
+  {
+   "a": 5,
+   "ar": "أَجْرًا",
+   "pausal": "أجرا",
+   "k2": "را",
+   "k1": "ا"
+  },
+  {
+   "a": 6,
+   "ar": "أُخْرَىٰ",
+   "pausal": "أخرى",
+   "k2": "را",
+   "k1": "ا"
+  },
+  {
+   "a": 7,
+   "ar": "يُسْرًا",
+   "pausal": "يسرا",
+   "k2": "را",
+   "k1": "ا"
+  },
+  {
+   "a": 8,
+   "ar": "نُّكْرًا",
+   "pausal": "نكرا",
+   "k2": "را",
+   "k1": "ا"
+  },
+  {
+   "a": 9,
+   "ar": "خُسْرًا",
+   "pausal": "خسرا",
+   "k2": "را",
+   "k1": "ا"
+  },
+  {
+   "a": 10,
+   "ar": "ذِكْرًا",
+   "pausal": "ذكرا",
+   "k2": "را",
+   "k1": "ا"
+  },
+  {
+   "a": 11,
+   "ar": "رِزْقًا",
+   "pausal": "رزقا",
+   "k2": "قا",
+   "k1": "ا"
+  },
+  {
+   "a": 12,
+   "ar": "عِلْمًۢا",
+   "pausal": "علما",
+   "k2": "ما",
+   "k1": "ا"
+  }
+ ],
+ "families": [
+  {
+   "key": "را",
+   "count": 9,
+   "verses": [
+    1,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ]
+  },
+  {
+   "key": "جا",
+   "count": 1,
+   "verses": [
+    2
+   ]
+  },
+  {
+   "key": "قا",
+   "count": 1,
+   "verses": [
+    11
+   ]
+  },
+  {
+   "key": "ما",
+   "count": 1,
+   "verses": [
+    12
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ا",
+   "count": 12,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  }
+ ],
+ "shifts": [
+  2,
+  3,
+  11,
+  12
+ ],
+ "refrains": []
+}

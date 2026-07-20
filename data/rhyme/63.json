@@ -1,0 +1,137 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 63,
+ "verseCount": 11,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "لَكَٰذِبُونَ",
+   "pausal": "لكذبون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 2,
+   "ar": "يَعْمَلُونَ",
+   "pausal": "يعملون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 3,
+   "ar": "يَفْقَهُونَ",
+   "pausal": "يفقهون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 4,
+   "ar": "يُؤْفَكُونَ",
+   "pausal": "يؤفكون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 5,
+   "ar": "مُّسْتَكْبِرُونَ",
+   "pausal": "مستكبرون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 6,
+   "ar": "ٱلْفَٰسِقِينَ",
+   "pausal": "الفسقين",
+   "k2": "ين",
+   "k1": "ن"
+  },
+  {
+   "a": 7,
+   "ar": "يَفْقَهُونَ",
+   "pausal": "يفقهون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 8,
+   "ar": "يَعْلَمُونَ",
+   "pausal": "يعلمون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 9,
+   "ar": "ٱلْخَٰسِرُونَ",
+   "pausal": "الخسرون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 10,
+   "ar": "ٱلصَّٰلِحِينَ",
+   "pausal": "الصلحين",
+   "k2": "ين",
+   "k1": "ن"
+  },
+  {
+   "a": 11,
+   "ar": "تَعْمَلُونَ",
+   "pausal": "تعملون",
+   "k2": "ون",
+   "k1": "ن"
+  }
+ ],
+ "families": [
+  {
+   "key": "ون",
+   "count": 9,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    11
+   ]
+  },
+  {
+   "key": "ين",
+   "count": 2,
+   "verses": [
+    6,
+    10
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ن",
+   "count": 11,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  }
+ ],
+ "shifts": [
+  6,
+  7,
+  10,
+  11
+ ],
+ "refrains": []
+}

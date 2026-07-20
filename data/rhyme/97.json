@@ -1,0 +1,94 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 97,
+ "verseCount": 5,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "ٱلْقَدْرِ",
+   "pausal": "القدر",
+   "k2": "در",
+   "k1": "ر"
+  },
+  {
+   "a": 2,
+   "ar": "ٱلْقَدْرِ",
+   "pausal": "القدر",
+   "k2": "در",
+   "k1": "ر"
+  },
+  {
+   "a": 3,
+   "ar": "شَهْرٍ",
+   "pausal": "شهر",
+   "k2": "هر",
+   "k1": "ر"
+  },
+  {
+   "a": 4,
+   "ar": "أَمْرٍ",
+   "pausal": "أمر",
+   "k2": "مر",
+   "k1": "ر"
+  },
+  {
+   "a": 5,
+   "ar": "ٱلْفَجْرِ",
+   "pausal": "الفجر",
+   "k2": "جر",
+   "k1": "ر"
+  }
+ ],
+ "families": [
+  {
+   "key": "در",
+   "count": 2,
+   "verses": [
+    1,
+    2
+   ]
+  },
+  {
+   "key": "جر",
+   "count": 1,
+   "verses": [
+    5
+   ]
+  },
+  {
+   "key": "مر",
+   "count": 1,
+   "verses": [
+    4
+   ]
+  },
+  {
+   "key": "هر",
+   "count": 1,
+   "verses": [
+    3
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ر",
+   "count": 5,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  }
+ ],
+ "shifts": [
+  3,
+  4,
+  5
+ ],
+ "refrains": []
+}

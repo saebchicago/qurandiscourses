@@ -1,0 +1,107 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 111,
+ "verseCount": 5,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "وَتَبَّ",
+   "pausal": "وتب",
+   "k2": "تب",
+   "k1": "ب"
+  },
+  {
+   "a": 2,
+   "ar": "كَسَبَ",
+   "pausal": "كسب",
+   "k2": "سب",
+   "k1": "ب"
+  },
+  {
+   "a": 3,
+   "ar": "لَهَبٍ",
+   "pausal": "لهب",
+   "k2": "هب",
+   "k1": "ب"
+  },
+  {
+   "a": 4,
+   "ar": "ٱلْحَطَبِ",
+   "pausal": "الحطب",
+   "k2": "طب",
+   "k1": "ب"
+  },
+  {
+   "a": 5,
+   "ar": "مَّسَدٍۭ",
+   "pausal": "مسد",
+   "k2": "سد",
+   "k1": "د"
+  }
+ ],
+ "families": [
+  {
+   "key": "تب",
+   "count": 1,
+   "verses": [
+    1
+   ]
+  },
+  {
+   "key": "سب",
+   "count": 1,
+   "verses": [
+    2
+   ]
+  },
+  {
+   "key": "سد",
+   "count": 1,
+   "verses": [
+    5
+   ]
+  },
+  {
+   "key": "طب",
+   "count": 1,
+   "verses": [
+    4
+   ]
+  },
+  {
+   "key": "هب",
+   "count": 1,
+   "verses": [
+    3
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ب",
+   "count": 4,
+   "verses": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "key": "د",
+   "count": 1,
+   "verses": [
+    5
+   ]
+  }
+ ],
+ "shifts": [
+  2,
+  3,
+  4,
+  5
+ ],
+ "refrains": []
+}

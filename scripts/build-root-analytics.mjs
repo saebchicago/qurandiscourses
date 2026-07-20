@@ -71,7 +71,7 @@ for (let s = 1; s <= 114; s++) {
       if (!bw) continue;
 
       if (!rootTokens[bw]) rootTokens[bw] = [];
-      rootTokens[bw].push({ surah: s, verse: Number(v), ref, form: w.ar, pos: w.pos });
+      rootTokens[bw].push({ surah: s, verse: Number(v), ref, form: w.ar, pos: w.pos, lemma: w.lemma });
 
       if (!verseRoots[ref]) verseRoots[ref] = new Set();
       verseRoots[ref].add(bw);
@@ -144,6 +144,35 @@ for (const [bw, meta] of Object.entries(rootsSummary)) {
   }
   const derivedForms = Object.values(formMap).sort((a, b) => b.count - a.count);
 
+  // Lemma families: the derivational level between root and surface form.
+  // Group by (lemma, pos) — every root-bearing token carries a lemma in
+  // Leeds v0.4 (verified 100% coverage), so nothing is dropped. Each
+  // family lists its most frequent surface forms (top 5) and sample
+  // verse refs (first 10 in mushaf order).
+  const lemmaMap = {};
+  for (const t of tokens) {
+    const key = `${t.lemma}|${t.pos}`;
+    if (!lemmaMap[key]) {
+      lemmaMap[key] = { lemma: t.lemma, pos: t.pos, count: 0, formCounts: {}, verses: [] };
+    }
+    const fam = lemmaMap[key];
+    fam.count++;
+    fam.formCounts[t.form] = (fam.formCounts[t.form] || 0) + 1;
+    if (fam.verses.length < 10 && !fam.verses.includes(t.ref)) fam.verses.push(t.ref);
+  }
+  const lemmaFamilies = Object.values(lemmaMap)
+    .map((f) => ({
+      lemma: f.lemma,
+      pos: f.pos,
+      count: f.count,
+      forms: Object.entries(f.formCounts)
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+        .slice(0, 5)
+        .map(([form, count]) => ({ form, count })),
+      verses: f.verses,
+    }))
+    .sort((a, b) => b.count - a.count || a.lemma.localeCompare(b.lemma));
+
   // Full verse list (unique, sorted)
   const verseSet = new Set(tokens.map((t) => t.ref));
   const verses = [...verseSet].sort((a, b) => {
@@ -175,11 +204,12 @@ for (const [bw, meta] of Object.entries(rootsSummary)) {
     madani,
     bySurah,
     derivedForms,
+    lemmaFamilies,
     coRoots,
     verses,
     _source: "Leeds Quranic Arabic Corpus v0.4 (Kais Dukes, corpus.quran.com, GPL)",
     _method:
-      "Tokenized all 77,429 morphological entries across 114 morphology files; grouped by root field (Buckwalter); co-occurrence counted per-verse.",
+      "Tokenized all 77,429 morphological entries across 114 morphology files; grouped by root field (Buckwalter); co-occurrence counted per-verse; lemma families grouped by (lemma, pos) — the derivational level between root and surface form.",
     _computed: COMPUTED_DATE,
   };
 
