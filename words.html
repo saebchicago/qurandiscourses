@@ -56,6 +56,7 @@
             <li><a href="words.html">Words</a></li>
             <li><a href="roots.html">Roots</a></li>
             <li><a href="patterns.html">Patterns</a></li>
+            <li><a href="formulas.html">Formulas</a></li>
             <li><a href="numbers.html">Numbers</a></li>
           </ul>
         </li>
@@ -76,6 +77,7 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="sources.html">Sources</a></li>
+            <li><a href="datasets.html">Datasets</a></li>
             <li><a href="validation.html">Validation</a></li>
             <li><a href="credits.html">Credits</a></li>
             <li><a href="changelog.html">Changelog</a></li>
@@ -135,6 +137,7 @@
                   <th>Meaning</th>
                   <th>Count</th>
                   <th>First verses</th>
+                  <th><abbr title="Keyword in context: every occurrence with surrounding words">Context</abbr></th>
                 </tr>
               </thead>
               <tbody id="wordResults"></tbody>
@@ -544,9 +547,142 @@
             e.n.toLocaleString() +
             "</td><td>" +
             refs +
-            "</td></tr>"
+            '</td><td><button type="button" class="kwic-btn" data-lemma="' +
+            qdEsc(e.l) +
+            '" style="background:none;border:1px solid var(--line);border-radius:4px;cursor:pointer;font-size:0.8rem;padding:0.25rem 0.5rem;min-height:32px">show</button></td></tr>'
           );
         }
+
+        // ── KWIC concordance: every occurrence with ±4 words of context.
+        // Morphology files are fetched per surah on demand and cached;
+        // matching is by lemma (the same key the index rows carry).
+        var morphCache = {};
+        function getMorph(s) {
+          if (morphCache[s]) return morphCache[s];
+          morphCache[s] = fetch("data/morphology/" + s + ".json").then(
+            function (r) {
+              if (!r.ok) throw new Error("HTTP " + r.status);
+              return r.json();
+            },
+          );
+          return morphCache[s];
+        }
+
+        var KWIC_MAX = 25;
+        var KWIC_WINDOW = 4;
+
+        function kwicLine(s, a, words, lemma) {
+          var hit = -1;
+          for (var i = 0; i < words.length; i++) {
+            if (words[i].lemma === lemma) {
+              hit = i;
+              break;
+            }
+          }
+          if (hit === -1) return "";
+          var from = Math.max(0, hit - KWIC_WINDOW);
+          var to = Math.min(words.length, hit + KWIC_WINDOW + 1);
+          var parts = [];
+          if (from > 0) parts.push("…");
+          for (var j = from; j < to; j++) {
+            if (words[j].lemma === lemma) {
+              parts.push(
+                '<mark style="background:none;color:var(--accent);font-weight:700">' +
+                  qdEsc(words[j].ar) +
+                  "</mark>",
+              );
+            } else {
+              parts.push(qdEsc(words[j].ar));
+            }
+          }
+          if (to < words.length) parts.push("…");
+          return (
+            '<div style="display:flex;gap:0.75rem;align-items:baseline;padding:0.3rem 0;border-bottom:1px solid var(--line)"><a href="read.html?s=' +
+            s +
+            "&a=" +
+            a +
+            '" style="flex-shrink:0;font-size:0.82rem">' +
+            s +
+            ":" +
+            a +
+            '</a><span class="ar notranslate" translate="no" lang="ar" dir="rtl" style="flex:1;text-align:right;line-height:2">' +
+            parts.join(" ") +
+            "</span></div>"
+          );
+        }
+
+        async function buildKwic(entry, cell) {
+          var seen = {};
+          var refs = [];
+          for (var i = 0; i < entry.refs.length; i++) {
+            var key = entry.refs[i][0] + ":" + entry.refs[i][1];
+            if (!seen[key]) {
+              seen[key] = true;
+              refs.push(entry.refs[i]);
+            }
+          }
+          var capped = refs.slice(0, KWIC_MAX);
+          var bySurah = {};
+          capped.forEach(function (r) {
+            (bySurah[r[0]] = bySurah[r[0]] || []).push(r);
+          });
+          await Promise.all(
+            Object.keys(bySurah).map(function (s) {
+              return getMorph(s);
+            }),
+          );
+          var lines = "";
+          for (var k = 0; k < capped.length; k++) {
+            var s = capped[k][0];
+            var a = capped[k][1];
+            var morph = await getMorph(s);
+            var words = morph[String(a)];
+            if (words) lines += kwicLine(s, a, words, entry.l);
+          }
+          var note =
+            refs.length > KWIC_MAX
+              ? '<p style="font-size:0.82rem;color:var(--muted);margin:0.4rem 0 0">Showing ' +
+                KWIC_MAX +
+                " of " +
+                refs.length +
+                " verses — open the root page for the full list.</p>"
+              : "";
+          cell.innerHTML =
+            '<div style="font-size:0.95rem">' + lines + "</div>" + note;
+        }
+
+        tbody.addEventListener("click", function (ev) {
+          var btn = ev.target.closest(".kwic-btn");
+          if (!btn) return;
+          var row = btn.closest("tr");
+          var next = row.nextElementSibling;
+          if (next && next.classList.contains("kwic-row")) {
+            next.remove();
+            btn.textContent = "show";
+            return;
+          }
+          var lemma = btn.getAttribute("data-lemma");
+          var entry = null;
+          for (var i = 0; i < current.length; i++) {
+            if (current[i].l === lemma) {
+              entry = current[i];
+              break;
+            }
+          }
+          if (!entry) return;
+          btn.textContent = "hide";
+          var kr = document.createElement("tr");
+          kr.className = "kwic-row";
+          var cell = document.createElement("td");
+          cell.colSpan = 7;
+          cell.innerHTML = '<p style="color:var(--muted);margin:0.3rem 0">Loading context…</p>';
+          kr.appendChild(cell);
+          row.parentNode.insertBefore(kr, row.nextSibling);
+          buildKwic(entry, cell).catch(function () {
+            cell.innerHTML =
+              '<p style="color:var(--muted);margin:0.3rem 0">Could not load the context.</p>';
+          });
+        });
 
         function render() {
           var q = input.value.trim();
