@@ -221,9 +221,9 @@
       </div>
       <h4>Depth</h4>
       <div class="row"><select id="setDepth" aria-label="Depth level">
-        <option value="simple" ${state.depth === "simple" ? "selected" : ""}>Simple</option>
-        <option value="scholar" ${state.depth === "scholar" ? "selected" : ""}>Scholar</option>
-        <option value="encyclopedic" ${state.depth === "encyclopedic" ? "selected" : ""}>Encyclopedic</option>
+        <option value="simple" ${state.depth === "simple" ? "selected" : ""}>Simple — just read</option>
+        <option value="scholar" ${state.depth === "scholar" ? "selected" : ""}>Scholar — study</option>
+        <option value="encyclopedic" ${state.depth === "encyclopedic" ? "selected" : ""}>Encyclopedic — verify</option>
       </select></div>
       <h4>Palette</h4>
       <div class="row"><select id="setPalette" aria-label="Color palette">

@@ -1,5 +1,57 @@
 # Changes — translation fix + Urdu support
 
+## Landing & onboarding pass (report items U4–U9)
+
+Each remaining report item was verified against the live code before
+anything changed (three earlier claims in the same report had already
+failed to reproduce).
+
+**Shipped:**
+
+- **One sequenced first-visit path (U6 + U4).** The welcome banner had
+  three competing actions — a demanded depth question, a tour button, and
+  a "new to the Qur'an?" link. It now leads with one plain sentence, then
+  exactly two outcome-labeled choices ("New to the Qur'an? Start here" →
+  the About page's no-background-assumed intro; "Take the 60-second
+  tour"), and a demoted one-line note that you start in Simple and can go
+  deeper anytime (gear or keys 1/2/3). The depth toggle is gone from the
+  banner — it remains in the gear, the depth-cards section, and How to
+  use. Clicking "Start here" also marks the banner as seen so it doesn't
+  re-nag on return (`assets/tour.js`).
+- **Plain language before jargon (U5).** Banner copy drops "workbench";
+  "discourse" — the one core term in the site's own name with no
+  definition wired — is now in `assets/glossary.js` (auto-wrapped for
+  tap-definitions on every page, including the banner itself) and has a
+  static entry on `glossary.html`. `surah`, `khitab`, `root`, and
+  `coherence` were already auto-glossed.
+- **Depth meaning at the point of choice (U7).** The gear panel's depth
+  select now reads "Simple — just read / Scholar — study / Encyclopedic —
+  verify," the same microcopy the depth cards and How-to-use teach.
+- **Worksheet gated to Scholar+ (U9).** The discovery worksheet rendered
+  its full structural-hypothesis form at Simple depth, contradicting the
+  site's own "Simple = the reading layer" contract. It now carries the
+  existing `scholar-only` class: hidden at Simple, appears live the
+  moment the reader steps up to Scholar or Encyclopedic (verified with
+  key-2 switch, no reload). The lightweight notes card stays at all
+  depths — the reader's own record is central to the method.
+
+**Verified, not a defect (no change):**
+
+- **U8 "6 of 9 inputs lack explicit programmatic labels"** — audited
+  every static `<input>/<select>/<textarea>` across all pages: the six
+  flagged inputs are each wrapped in a `<label>` element, which is a
+  valid programmatic association. No accessibility gap.
+
+**Deliberately not done:**
+
+- Scroll-triggered progressive reveal of the Begin grid — gimmicky,
+  layout-shift risk; the grid is already grouped into three labeled
+  outcome clusters.
+- Nav restructuring — the 21 links are already collapsed behind four
+  group buttons; the nav was not the overload source, the banner was.
+- Adding explicit `for=` attributes to the six wrapped-label inputs —
+  already programmatically labeled; churn without benefit.
+
 ## Follow-up (consolidated UX & technical report)
 
 A follow-up report reiterated the `en.haleem` fix and Urdu support below

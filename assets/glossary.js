@@ -20,6 +20,8 @@ window.GLOSSARY = {
   tafaseer: "Plural of tafsir.",
   khitab:
     "Direct address from speaker to hearer. Khan treated this as the proper unit of Qur'anic reading; the site's name, 'Divine Discourses,' renders God's khitab to the hearer.",
+  discourse:
+    "As used on this site: a surah read as one connected address (khitab) from speaker to hearer — a single speech with a beginning, development, and close — rather than a loose collection of verses.",
   surah:
     "A chapter of the Qur'an. There are 114, varying in length from 3 verses to 286.",
   ayah: "A verse of the Qur'an. The plural is ayat. The same word also means 'sign'.",
