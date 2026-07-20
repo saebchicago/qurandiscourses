@@ -169,55 +169,59 @@
           <div
             style="
               display: flex;
-              align-items: center;
+              align-items: flex-start;
               justify-content: space-between;
               gap: 0.75rem 1.25rem;
               flex-wrap: wrap;
             "
           >
             <div>
-              <p style="margin: 0 0 0.45rem">
-                <strong>First time here?</strong> This is a workbench for
-                studying the Qur'an one surah at a time, as one coherent
-                discourse — every claim traceable to its source.
-                <a href="about.html#new-here">Completely new to the
-                Qur'an?</a>
-              </p>
-              <p style="margin: 0 0 0.45rem">
-                How deep do you want to go? You can change this anytime with
-                the gear (or keys <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd>).
+              <p style="margin: 0 0 0.6rem">
+                <strong>First time here?</strong> This site is for studying
+                the Qur'an directly — one surah at a time, read as one
+                connected discourse — with every claim traceable to its
+                source.
               </p>
               <div
-                class="depth-toggle inline"
-                role="group"
-                aria-label="Choose a depth level"
-                style="flex-wrap: wrap"
+                style="
+                  display: flex;
+                  gap: 0.5rem;
+                  flex-wrap: wrap;
+                  margin: 0 0 0.6rem;
+                "
               >
-                <button data-depth="simple" style="min-height: 44px">
-                  Simple — just read
-                </button>
-                <button data-depth="scholar" style="min-height: 44px">
-                  Scholar — study
-                </button>
-                <button data-depth="encyclopedic" style="min-height: 44px">
-                  Encyclopedic — verify
+                <a
+                  class="button"
+                  id="welcomeNewHere"
+                  href="about.html#new-here"
+                  style="min-height: 44px; display: inline-flex; align-items: center"
+                  >New to the Qur'an? Start here</a
+                >
+                <button
+                  type="button"
+                  id="welcomeTourBtn"
+                  class="button secondary"
+                  style="min-height: 44px"
+                >
+                  Take the 60-second tour
                 </button>
               </div>
+              <p style="margin: 0; font-size: 0.88rem; color: var(--muted)">
+                You'll start in <strong>Simple</strong> — just reading. Go
+                deeper anytime with the gear ⚙ or keys
+                <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd>.
+              </p>
             </div>
-            <div style="display: flex; gap: 0.5rem; align-items: center; flex-shrink: 0">
-              <button type="button" id="welcomeTourBtn" class="button">
-                Take the 60-second tour
-              </button>
-              <button
-                type="button"
-                id="welcomeDismiss"
-                class="button secondary"
-                aria-label="Dismiss welcome"
-                title="Dismiss"
-              >
-                ×
-              </button>
-            </div>
+            <button
+              type="button"
+              id="welcomeDismiss"
+              class="button secondary"
+              aria-label="Dismiss welcome"
+              title="Dismiss"
+              style="flex-shrink: 0"
+            >
+              ×
+            </button>
           </div>
         </div>
       </section>

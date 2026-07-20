@@ -203,8 +203,16 @@
     if (!banner) return;
     if (window.qdState && window.qdState.seen) return; // returning reader
     banner.hidden = false;
-    // Any interaction counts as "seen": a depth pick (the buttons are
-    // wired by app.js initInlineDepth), the tour, or dismissal.
+    // Any interaction counts as "seen": the newcomer path, a depth pick
+    // (if a page's banner carries the toggle — wired by app.js
+    // initInlineDepth), the tour, or dismissal.
+    var newHere = document.getElementById("welcomeNewHere");
+    if (newHere)
+      newHere.addEventListener("click", function () {
+        // Runs before navigation; without this the banner re-nags the
+        // reader when they come back from the newcomer page.
+        markSeen();
+      });
     banner.querySelectorAll(".depth-toggle button").forEach(function (b) {
       b.addEventListener("click", function () {
         markSeen();
