@@ -1,0 +1,301 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 92,
+ "verseCount": 21,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "يَغْشَىٰ",
+   "pausal": "يغشى",
+   "k2": "شا",
+   "k1": "ا"
+  },
+  {
+   "a": 2,
+   "ar": "تَجَلَّىٰ",
+   "pausal": "تجلى",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 3,
+   "ar": "وَٱلْأُنثَىٰٓ",
+   "pausal": "والأنثى",
+   "k2": "ثا",
+   "k1": "ا"
+  },
+  {
+   "a": 4,
+   "ar": "لَشَتَّىٰ",
+   "pausal": "لشتى",
+   "k2": "تا",
+   "k1": "ا"
+  },
+  {
+   "a": 5,
+   "ar": "وَٱتَّقَىٰ",
+   "pausal": "واتقى",
+   "k2": "قا",
+   "k1": "ا"
+  },
+  {
+   "a": 6,
+   "ar": "بِٱلْحُسْنَىٰ",
+   "pausal": "بالحسنى",
+   "k2": "نا",
+   "k1": "ا"
+  },
+  {
+   "a": 7,
+   "ar": "لِلْيُسْرَىٰ",
+   "pausal": "لليسرى",
+   "k2": "را",
+   "k1": "ا"
+  },
+  {
+   "a": 8,
+   "ar": "وَٱسْتَغْنَىٰ",
+   "pausal": "واستغنى",
+   "k2": "نا",
+   "k1": "ا"
+  },
+  {
+   "a": 9,
+   "ar": "بِٱلْحُسْنَىٰ",
+   "pausal": "بالحسنى",
+   "k2": "نا",
+   "k1": "ا"
+  },
+  {
+   "a": 10,
+   "ar": "لِلْعُسْرَىٰ",
+   "pausal": "للعسرى",
+   "k2": "را",
+   "k1": "ا"
+  },
+  {
+   "a": 11,
+   "ar": "تَرَدَّىٰٓ",
+   "pausal": "تردى",
+   "k2": "دا",
+   "k1": "ا"
+  },
+  {
+   "a": 12,
+   "ar": "لَلْهُدَىٰ",
+   "pausal": "للهدى",
+   "k2": "دا",
+   "k1": "ا"
+  },
+  {
+   "a": 13,
+   "ar": "وَٱلْأُولَىٰ",
+   "pausal": "والأولى",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 14,
+   "ar": "تَلَظَّىٰ",
+   "pausal": "تلظى",
+   "k2": "ظا",
+   "k1": "ا"
+  },
+  {
+   "a": 15,
+   "ar": "ٱلْأَشْقَى",
+   "pausal": "الأشقى",
+   "k2": "قا",
+   "k1": "ا"
+  },
+  {
+   "a": 16,
+   "ar": "وَتَوَلَّىٰ",
+   "pausal": "وتولى",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 17,
+   "ar": "ٱلْأَتْقَى",
+   "pausal": "الأتقى",
+   "k2": "قا",
+   "k1": "ا"
+  },
+  {
+   "a": 18,
+   "ar": "يَتَزَكَّىٰ",
+   "pausal": "يتزكى",
+   "k2": "كا",
+   "k1": "ا"
+  },
+  {
+   "a": 19,
+   "ar": "تُجْزَىٰٓ",
+   "pausal": "تجزى",
+   "k2": "زا",
+   "k1": "ا"
+  },
+  {
+   "a": 20,
+   "ar": "ٱلْأَعْلَىٰ",
+   "pausal": "الأعلى",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 21,
+   "ar": "يَرْضَىٰ",
+   "pausal": "يرضى",
+   "k2": "ضا",
+   "k1": "ا"
+  }
+ ],
+ "families": [
+  {
+   "key": "لا",
+   "count": 4,
+   "verses": [
+    2,
+    13,
+    16,
+    20
+   ]
+  },
+  {
+   "key": "قا",
+   "count": 3,
+   "verses": [
+    5,
+    15,
+    17
+   ]
+  },
+  {
+   "key": "نا",
+   "count": 3,
+   "verses": [
+    6,
+    8,
+    9
+   ]
+  },
+  {
+   "key": "دا",
+   "count": 2,
+   "verses": [
+    11,
+    12
+   ]
+  },
+  {
+   "key": "را",
+   "count": 2,
+   "verses": [
+    7,
+    10
+   ]
+  },
+  {
+   "key": "تا",
+   "count": 1,
+   "verses": [
+    4
+   ]
+  },
+  {
+   "key": "ثا",
+   "count": 1,
+   "verses": [
+    3
+   ]
+  },
+  {
+   "key": "زا",
+   "count": 1,
+   "verses": [
+    19
+   ]
+  },
+  {
+   "key": "شا",
+   "count": 1,
+   "verses": [
+    1
+   ]
+  },
+  {
+   "key": "ضا",
+   "count": 1,
+   "verses": [
+    21
+   ]
+  },
+  {
+   "key": "ظا",
+   "count": 1,
+   "verses": [
+    14
+   ]
+  },
+  {
+   "key": "كا",
+   "count": 1,
+   "verses": [
+    18
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ا",
+   "count": 21,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21
+   ]
+  }
+ ],
+ "shifts": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  10,
+  11,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21
+ ],
+ "refrains": []
+}

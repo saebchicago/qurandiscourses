@@ -1,0 +1,195 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 93,
+ "verseCount": 11,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "وَٱلضُّحَىٰ",
+   "pausal": "والضحى",
+   "k2": "حا",
+   "k1": "ا"
+  },
+  {
+   "a": 2,
+   "ar": "سَجَىٰ",
+   "pausal": "سجى",
+   "k2": "جا",
+   "k1": "ا"
+  },
+  {
+   "a": 3,
+   "ar": "قَلَىٰ",
+   "pausal": "قلى",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 4,
+   "ar": "ٱلْأُولَىٰ",
+   "pausal": "الأولى",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 5,
+   "ar": "فَتَرْضَىٰٓ",
+   "pausal": "فترضى",
+   "k2": "ضا",
+   "k1": "ا"
+  },
+  {
+   "a": 6,
+   "ar": "فَـَٔاوَىٰ",
+   "pausal": "فاوى",
+   "k2": "وا",
+   "k1": "ا"
+  },
+  {
+   "a": 7,
+   "ar": "فَهَدَىٰ",
+   "pausal": "فهدى",
+   "k2": "دا",
+   "k1": "ا"
+  },
+  {
+   "a": 8,
+   "ar": "فَأَغْنَىٰ",
+   "pausal": "فأغنى",
+   "k2": "نا",
+   "k1": "ا"
+  },
+  {
+   "a": 9,
+   "ar": "تَقْهَرْ",
+   "pausal": "تقهر",
+   "k2": "هر",
+   "k1": "ر"
+  },
+  {
+   "a": 10,
+   "ar": "تَنْهَرْ",
+   "pausal": "تنهر",
+   "k2": "هر",
+   "k1": "ر"
+  },
+  {
+   "a": 11,
+   "ar": "فَحَدِّثْ",
+   "pausal": "فحدث",
+   "k2": "دث",
+   "k1": "ث"
+  }
+ ],
+ "families": [
+  {
+   "key": "لا",
+   "count": 2,
+   "verses": [
+    3,
+    4
+   ]
+  },
+  {
+   "key": "هر",
+   "count": 2,
+   "verses": [
+    9,
+    10
+   ]
+  },
+  {
+   "key": "جا",
+   "count": 1,
+   "verses": [
+    2
+   ]
+  },
+  {
+   "key": "حا",
+   "count": 1,
+   "verses": [
+    1
+   ]
+  },
+  {
+   "key": "دا",
+   "count": 1,
+   "verses": [
+    7
+   ]
+  },
+  {
+   "key": "دث",
+   "count": 1,
+   "verses": [
+    11
+   ]
+  },
+  {
+   "key": "ضا",
+   "count": 1,
+   "verses": [
+    5
+   ]
+  },
+  {
+   "key": "نا",
+   "count": 1,
+   "verses": [
+    8
+   ]
+  },
+  {
+   "key": "وا",
+   "count": 1,
+   "verses": [
+    6
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ا",
+   "count": 8,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "key": "ر",
+   "count": 2,
+   "verses": [
+    9,
+    10
+   ]
+  },
+  {
+   "key": "ث",
+   "count": 1,
+   "verses": [
+    11
+   ]
+  }
+ ],
+ "shifts": [
+  2,
+  3,
+  5,
+  6,
+  7,
+  8,
+  9,
+  11
+ ],
+ "refrains": []
+}

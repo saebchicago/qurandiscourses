@@ -1,0 +1,246 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 49,
+ "verseCount": 18,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "عَلِيمٌ",
+   "pausal": "عليم",
+   "k2": "يم",
+   "k1": "م"
+  },
+  {
+   "a": 2,
+   "ar": "تَشْعُرُونَ",
+   "pausal": "تشعرون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 3,
+   "ar": "عَظِيمٌ",
+   "pausal": "عظيم",
+   "k2": "يم",
+   "k1": "م"
+  },
+  {
+   "a": 4,
+   "ar": "يَعْقِلُونَ",
+   "pausal": "يعقلون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 5,
+   "ar": "رَّحِيمٌ",
+   "pausal": "رحيم",
+   "k2": "يم",
+   "k1": "م"
+  },
+  {
+   "a": 6,
+   "ar": "نَٰدِمِينَ",
+   "pausal": "ندمين",
+   "k2": "ين",
+   "k1": "ن"
+  },
+  {
+   "a": 7,
+   "ar": "ٱلرَّٰشِدُونَ",
+   "pausal": "الرشدون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 8,
+   "ar": "حَكِيمٌ",
+   "pausal": "حكيم",
+   "k2": "يم",
+   "k1": "م"
+  },
+  {
+   "a": 9,
+   "ar": "ٱلْمُقْسِطِينَ",
+   "pausal": "المقسطين",
+   "k2": "ين",
+   "k1": "ن"
+  },
+  {
+   "a": 10,
+   "ar": "تُرْحَمُونَ",
+   "pausal": "ترحمون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 11,
+   "ar": "ٱلظَّٰلِمُونَ",
+   "pausal": "الظلمون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 12,
+   "ar": "رَّحِيمٌ",
+   "pausal": "رحيم",
+   "k2": "يم",
+   "k1": "م"
+  },
+  {
+   "a": 13,
+   "ar": "خَبِيرٌ",
+   "pausal": "خبير",
+   "k2": "ير",
+   "k1": "ر"
+  },
+  {
+   "a": 14,
+   "ar": "رَّحِيمٌ",
+   "pausal": "رحيم",
+   "k2": "يم",
+   "k1": "م"
+  },
+  {
+   "a": 15,
+   "ar": "ٱلصَّٰدِقُونَ",
+   "pausal": "الصدقون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 16,
+   "ar": "عَلِيمٌ",
+   "pausal": "عليم",
+   "k2": "يم",
+   "k1": "م"
+  },
+  {
+   "a": 17,
+   "ar": "صَٰدِقِينَ",
+   "pausal": "صدقين",
+   "k2": "ين",
+   "k1": "ن"
+  },
+  {
+   "a": 18,
+   "ar": "تَعْمَلُونَ",
+   "pausal": "تعملون",
+   "k2": "ون",
+   "k1": "ن"
+  }
+ ],
+ "families": [
+  {
+   "key": "ون",
+   "count": 7,
+   "verses": [
+    2,
+    4,
+    7,
+    10,
+    11,
+    15,
+    18
+   ]
+  },
+  {
+   "key": "يم",
+   "count": 7,
+   "verses": [
+    1,
+    3,
+    5,
+    8,
+    12,
+    14,
+    16
+   ]
+  },
+  {
+   "key": "ين",
+   "count": 3,
+   "verses": [
+    6,
+    9,
+    17
+   ]
+  },
+  {
+   "key": "ير",
+   "count": 1,
+   "verses": [
+    13
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ن",
+   "count": 10,
+   "verses": [
+    2,
+    4,
+    6,
+    7,
+    9,
+    10,
+    11,
+    15,
+    17,
+    18
+   ]
+  },
+  {
+   "key": "م",
+   "count": 7,
+   "verses": [
+    1,
+    3,
+    5,
+    8,
+    12,
+    14,
+    16
+   ]
+  },
+  {
+   "key": "ر",
+   "count": 1,
+   "verses": [
+    13
+   ]
+  }
+ ],
+ "shifts": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18
+ ],
+ "refrains": [
+  {
+   "pausal": "رحيم",
+   "count": 3,
+   "verses": [
+    5,
+    12,
+    14
+   ]
+  }
+ ]
+}

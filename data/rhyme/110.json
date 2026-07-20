@@ -1,0 +1,75 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 110,
+ "verseCount": 3,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "وَٱلْفَتْحُ",
+   "pausal": "والفتح",
+   "k2": "تح",
+   "k1": "ح"
+  },
+  {
+   "a": 2,
+   "ar": "أَفْوَاجًا",
+   "pausal": "أفواجا",
+   "k2": "جا",
+   "k1": "ا"
+  },
+  {
+   "a": 3,
+   "ar": "تَوَّابًۢا",
+   "pausal": "توابا",
+   "k2": "با",
+   "k1": "ا"
+  }
+ ],
+ "families": [
+  {
+   "key": "با",
+   "count": 1,
+   "verses": [
+    3
+   ]
+  },
+  {
+   "key": "تح",
+   "count": 1,
+   "verses": [
+    1
+   ]
+  },
+  {
+   "key": "جا",
+   "count": 1,
+   "verses": [
+    2
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ا",
+   "count": 2,
+   "verses": [
+    2,
+    3
+   ]
+  },
+  {
+   "key": "ح",
+   "count": 1,
+   "verses": [
+    1
+   ]
+  }
+ ],
+ "shifts": [
+  2,
+  3
+ ],
+ "refrains": []
+}

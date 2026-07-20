@@ -1,0 +1,250 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 64,
+ "verseCount": 18,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "قَدِيرٌ",
+   "pausal": "قدير",
+   "k2": "ير",
+   "k1": "ر"
+  },
+  {
+   "a": 2,
+   "ar": "بَصِيرٌ",
+   "pausal": "بصير",
+   "k2": "ير",
+   "k1": "ر"
+  },
+  {
+   "a": 3,
+   "ar": "ٱلْمَصِيرُ",
+   "pausal": "المصير",
+   "k2": "ير",
+   "k1": "ر"
+  },
+  {
+   "a": 4,
+   "ar": "ٱلصُّدُورِ",
+   "pausal": "الصدور",
+   "k2": "ور",
+   "k1": "ر"
+  },
+  {
+   "a": 5,
+   "ar": "أَلِيمٌ",
+   "pausal": "أليم",
+   "k2": "يم",
+   "k1": "م"
+  },
+  {
+   "a": 6,
+   "ar": "حَمِيدٌ",
+   "pausal": "حميد",
+   "k2": "يد",
+   "k1": "د"
+  },
+  {
+   "a": 7,
+   "ar": "يَسِيرٌ",
+   "pausal": "يسير",
+   "k2": "ير",
+   "k1": "ر"
+  },
+  {
+   "a": 8,
+   "ar": "خَبِيرٌ",
+   "pausal": "خبير",
+   "k2": "ير",
+   "k1": "ر"
+  },
+  {
+   "a": 9,
+   "ar": "ٱلْعَظِيمُ",
+   "pausal": "العظيم",
+   "k2": "يم",
+   "k1": "م"
+  },
+  {
+   "a": 10,
+   "ar": "ٱلْمَصِيرُ",
+   "pausal": "المصير",
+   "k2": "ير",
+   "k1": "ر"
+  },
+  {
+   "a": 11,
+   "ar": "عَلِيمٌ",
+   "pausal": "عليم",
+   "k2": "يم",
+   "k1": "م"
+  },
+  {
+   "a": 12,
+   "ar": "ٱلْمُبِينُ",
+   "pausal": "المبين",
+   "k2": "ين",
+   "k1": "ن"
+  },
+  {
+   "a": 13,
+   "ar": "ٱلْمُؤْمِنُونَ",
+   "pausal": "المؤمنون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 14,
+   "ar": "رَّحِيمٌ",
+   "pausal": "رحيم",
+   "k2": "يم",
+   "k1": "م"
+  },
+  {
+   "a": 15,
+   "ar": "عَظِيمٌ",
+   "pausal": "عظيم",
+   "k2": "يم",
+   "k1": "م"
+  },
+  {
+   "a": 16,
+   "ar": "ٱلْمُفْلِحُونَ",
+   "pausal": "المفلحون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 17,
+   "ar": "حَلِيمٌ",
+   "pausal": "حليم",
+   "k2": "يم",
+   "k1": "م"
+  },
+  {
+   "a": 18,
+   "ar": "ٱلْحَكِيمُ",
+   "pausal": "الحكيم",
+   "k2": "يم",
+   "k1": "م"
+  }
+ ],
+ "families": [
+  {
+   "key": "يم",
+   "count": 7,
+   "verses": [
+    5,
+    9,
+    11,
+    14,
+    15,
+    17,
+    18
+   ]
+  },
+  {
+   "key": "ير",
+   "count": 6,
+   "verses": [
+    1,
+    2,
+    3,
+    7,
+    8,
+    10
+   ]
+  },
+  {
+   "key": "ون",
+   "count": 2,
+   "verses": [
+    13,
+    16
+   ]
+  },
+  {
+   "key": "ور",
+   "count": 1,
+   "verses": [
+    4
+   ]
+  },
+  {
+   "key": "يد",
+   "count": 1,
+   "verses": [
+    6
+   ]
+  },
+  {
+   "key": "ين",
+   "count": 1,
+   "verses": [
+    12
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ر",
+   "count": 7,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    7,
+    8,
+    10
+   ]
+  },
+  {
+   "key": "م",
+   "count": 7,
+   "verses": [
+    5,
+    9,
+    11,
+    14,
+    15,
+    17,
+    18
+   ]
+  },
+  {
+   "key": "ن",
+   "count": 3,
+   "verses": [
+    12,
+    13,
+    16
+   ]
+  },
+  {
+   "key": "د",
+   "count": 1,
+   "verses": [
+    6
+   ]
+  }
+ ],
+ "shifts": [
+  4,
+  5,
+  6,
+  7,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  16,
+  17
+ ],
+ "refrains": []
+}

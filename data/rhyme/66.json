@@ -1,0 +1,183 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 66,
+ "verseCount": 12,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "رَّحِيمٌ",
+   "pausal": "رحيم",
+   "k2": "يم",
+   "k1": "م"
+  },
+  {
+   "a": 2,
+   "ar": "ٱلْحَكِيمُ",
+   "pausal": "الحكيم",
+   "k2": "يم",
+   "k1": "م"
+  },
+  {
+   "a": 3,
+   "ar": "ٱلْخَبِيرُ",
+   "pausal": "الخبير",
+   "k2": "ير",
+   "k1": "ر"
+  },
+  {
+   "a": 4,
+   "ar": "ظَهِيرٌ",
+   "pausal": "ظهير",
+   "k2": "ير",
+   "k1": "ر"
+  },
+  {
+   "a": 5,
+   "ar": "وَأَبْكَارًا",
+   "pausal": "وأبكارا",
+   "k2": "را",
+   "k1": "ا"
+  },
+  {
+   "a": 6,
+   "ar": "يُؤْمَرُونَ",
+   "pausal": "يؤمرون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 7,
+   "ar": "تَعْمَلُونَ",
+   "pausal": "تعملون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 8,
+   "ar": "قَدِيرٌ",
+   "pausal": "قدير",
+   "k2": "ير",
+   "k1": "ر"
+  },
+  {
+   "a": 9,
+   "ar": "ٱلْمَصِيرُ",
+   "pausal": "المصير",
+   "k2": "ير",
+   "k1": "ر"
+  },
+  {
+   "a": 10,
+   "ar": "ٱلدَّٰخِلِينَ",
+   "pausal": "الدخلين",
+   "k2": "ين",
+   "k1": "ن"
+  },
+  {
+   "a": 11,
+   "ar": "ٱلظَّٰلِمِينَ",
+   "pausal": "الظلمين",
+   "k2": "ين",
+   "k1": "ن"
+  },
+  {
+   "a": 12,
+   "ar": "ٱلْقَٰنِتِينَ",
+   "pausal": "القنتين",
+   "k2": "ين",
+   "k1": "ن"
+  }
+ ],
+ "families": [
+  {
+   "key": "ير",
+   "count": 4,
+   "verses": [
+    3,
+    4,
+    8,
+    9
+   ]
+  },
+  {
+   "key": "ين",
+   "count": 3,
+   "verses": [
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "key": "ون",
+   "count": 2,
+   "verses": [
+    6,
+    7
+   ]
+  },
+  {
+   "key": "يم",
+   "count": 2,
+   "verses": [
+    1,
+    2
+   ]
+  },
+  {
+   "key": "را",
+   "count": 1,
+   "verses": [
+    5
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ن",
+   "count": 5,
+   "verses": [
+    6,
+    7,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "key": "ر",
+   "count": 4,
+   "verses": [
+    3,
+    4,
+    8,
+    9
+   ]
+  },
+  {
+   "key": "م",
+   "count": 2,
+   "verses": [
+    1,
+    2
+   ]
+  },
+  {
+   "key": "ا",
+   "count": 1,
+   "verses": [
+    5
+   ]
+  }
+ ],
+ "shifts": [
+  3,
+  5,
+  6,
+  8,
+  10
+ ],
+ "refrains": []
+}

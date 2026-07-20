@@ -1,0 +1,401 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 88,
+ "verseCount": 26,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "ٱلْغَٰشِيَةِ",
+   "pausal": "الغشيه",
+   "k2": "يه",
+   "k1": "ه"
+  },
+  {
+   "a": 2,
+   "ar": "خَٰشِعَةٌ",
+   "pausal": "خشعه",
+   "k2": "عه",
+   "k1": "ه"
+  },
+  {
+   "a": 3,
+   "ar": "نَّاصِبَةٌ",
+   "pausal": "ناصبه",
+   "k2": "به",
+   "k1": "ه"
+  },
+  {
+   "a": 4,
+   "ar": "حَامِيَةً",
+   "pausal": "حاميه",
+   "k2": "يه",
+   "k1": "ه"
+  },
+  {
+   "a": 5,
+   "ar": "ءَانِيَةٍ",
+   "pausal": "ءانيه",
+   "k2": "يه",
+   "k1": "ه"
+  },
+  {
+   "a": 6,
+   "ar": "ضَرِيعٍ",
+   "pausal": "ضريع",
+   "k2": "يع",
+   "k1": "ع"
+  },
+  {
+   "a": 7,
+   "ar": "جُوعٍ",
+   "pausal": "جوع",
+   "k2": "وع",
+   "k1": "ع"
+  },
+  {
+   "a": 8,
+   "ar": "نَّاعِمَةٌ",
+   "pausal": "ناعمه",
+   "k2": "مه",
+   "k1": "ه"
+  },
+  {
+   "a": 9,
+   "ar": "رَاضِيَةٌ",
+   "pausal": "راضيه",
+   "k2": "يه",
+   "k1": "ه"
+  },
+  {
+   "a": 10,
+   "ar": "عَالِيَةٍ",
+   "pausal": "عاليه",
+   "k2": "يه",
+   "k1": "ه"
+  },
+  {
+   "a": 11,
+   "ar": "لَٰغِيَةً",
+   "pausal": "لغيه",
+   "k2": "يه",
+   "k1": "ه"
+  },
+  {
+   "a": 12,
+   "ar": "جَارِيَةٌ",
+   "pausal": "جاريه",
+   "k2": "يه",
+   "k1": "ه"
+  },
+  {
+   "a": 13,
+   "ar": "مَّرْفُوعَةٌ",
+   "pausal": "مرفوعه",
+   "k2": "عه",
+   "k1": "ه"
+  },
+  {
+   "a": 14,
+   "ar": "مَّوْضُوعَةٌ",
+   "pausal": "موضوعه",
+   "k2": "عه",
+   "k1": "ه"
+  },
+  {
+   "a": 15,
+   "ar": "مَصْفُوفَةٌ",
+   "pausal": "مصفوفه",
+   "k2": "فه",
+   "k1": "ه"
+  },
+  {
+   "a": 16,
+   "ar": "مَبْثُوثَةٌ",
+   "pausal": "مبثوثه",
+   "k2": "ثه",
+   "k1": "ه"
+  },
+  {
+   "a": 17,
+   "ar": "خُلِقَتْ",
+   "pausal": "خلقت",
+   "k2": "قت",
+   "k1": "ت"
+  },
+  {
+   "a": 18,
+   "ar": "رُفِعَتْ",
+   "pausal": "رفعت",
+   "k2": "عت",
+   "k1": "ت"
+  },
+  {
+   "a": 19,
+   "ar": "نُصِبَتْ",
+   "pausal": "نصبت",
+   "k2": "بت",
+   "k1": "ت"
+  },
+  {
+   "a": 20,
+   "ar": "سُطِحَتْ",
+   "pausal": "سطحت",
+   "k2": "حت",
+   "k1": "ت"
+  },
+  {
+   "a": 21,
+   "ar": "مُذَكِّرٌ",
+   "pausal": "مذكر",
+   "k2": "كر",
+   "k1": "ر"
+  },
+  {
+   "a": 22,
+   "ar": "بِمُصَيْطِرٍ",
+   "pausal": "بمصيطر",
+   "k2": "طر",
+   "k1": "ر"
+  },
+  {
+   "a": 23,
+   "ar": "وَكَفَرَ",
+   "pausal": "وكفر",
+   "k2": "فر",
+   "k1": "ر"
+  },
+  {
+   "a": 24,
+   "ar": "ٱلْأَكْبَرَ",
+   "pausal": "الأكبر",
+   "k2": "بر",
+   "k1": "ر"
+  },
+  {
+   "a": 25,
+   "ar": "إِيَابَهُمْ",
+   "pausal": "إيابهم",
+   "k2": "هم",
+   "k1": "م"
+  },
+  {
+   "a": 26,
+   "ar": "حِسَابَهُم",
+   "pausal": "حسابهم",
+   "k2": "هم",
+   "k1": "م"
+  }
+ ],
+ "families": [
+  {
+   "key": "يه",
+   "count": 7,
+   "verses": [
+    1,
+    4,
+    5,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "key": "عه",
+   "count": 3,
+   "verses": [
+    2,
+    13,
+    14
+   ]
+  },
+  {
+   "key": "هم",
+   "count": 2,
+   "verses": [
+    25,
+    26
+   ]
+  },
+  {
+   "key": "بت",
+   "count": 1,
+   "verses": [
+    19
+   ]
+  },
+  {
+   "key": "بر",
+   "count": 1,
+   "verses": [
+    24
+   ]
+  },
+  {
+   "key": "به",
+   "count": 1,
+   "verses": [
+    3
+   ]
+  },
+  {
+   "key": "ثه",
+   "count": 1,
+   "verses": [
+    16
+   ]
+  },
+  {
+   "key": "حت",
+   "count": 1,
+   "verses": [
+    20
+   ]
+  },
+  {
+   "key": "طر",
+   "count": 1,
+   "verses": [
+    22
+   ]
+  },
+  {
+   "key": "عت",
+   "count": 1,
+   "verses": [
+    18
+   ]
+  },
+  {
+   "key": "فر",
+   "count": 1,
+   "verses": [
+    23
+   ]
+  },
+  {
+   "key": "فه",
+   "count": 1,
+   "verses": [
+    15
+   ]
+  },
+  {
+   "key": "قت",
+   "count": 1,
+   "verses": [
+    17
+   ]
+  },
+  {
+   "key": "كر",
+   "count": 1,
+   "verses": [
+    21
+   ]
+  },
+  {
+   "key": "مه",
+   "count": 1,
+   "verses": [
+    8
+   ]
+  },
+  {
+   "key": "وع",
+   "count": 1,
+   "verses": [
+    7
+   ]
+  },
+  {
+   "key": "يع",
+   "count": 1,
+   "verses": [
+    6
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ه",
+   "count": 14,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+   ]
+  },
+  {
+   "key": "ت",
+   "count": 4,
+   "verses": [
+    17,
+    18,
+    19,
+    20
+   ]
+  },
+  {
+   "key": "ر",
+   "count": 4,
+   "verses": [
+    21,
+    22,
+    23,
+    24
+   ]
+  },
+  {
+   "key": "ع",
+   "count": 2,
+   "verses": [
+    6,
+    7
+   ]
+  },
+  {
+   "key": "م",
+   "count": 2,
+   "verses": [
+    25,
+    26
+   ]
+  }
+ ],
+ "shifts": [
+  2,
+  3,
+  4,
+  6,
+  7,
+  8,
+  9,
+  13,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23,
+  24,
+  25
+ ],
+ "refrains": []
+}

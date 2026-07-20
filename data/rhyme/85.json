@@ -1,0 +1,316 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 85,
+ "verseCount": 22,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "ٱلْبُرُوجِ",
+   "pausal": "البروج",
+   "k2": "وج",
+   "k1": "ج"
+  },
+  {
+   "a": 2,
+   "ar": "ٱلْمَوْعُودِ",
+   "pausal": "الموعود",
+   "k2": "ود",
+   "k1": "د"
+  },
+  {
+   "a": 3,
+   "ar": "وَمَشْهُودٍ",
+   "pausal": "ومشهود",
+   "k2": "ود",
+   "k1": "د"
+  },
+  {
+   "a": 4,
+   "ar": "ٱلْأُخْدُودِ",
+   "pausal": "الأخدود",
+   "k2": "ود",
+   "k1": "د"
+  },
+  {
+   "a": 5,
+   "ar": "ٱلْوَقُودِ",
+   "pausal": "الوقود",
+   "k2": "ود",
+   "k1": "د"
+  },
+  {
+   "a": 6,
+   "ar": "قُعُودٌ",
+   "pausal": "قعود",
+   "k2": "ود",
+   "k1": "د"
+  },
+  {
+   "a": 7,
+   "ar": "شُهُودٌ",
+   "pausal": "شهود",
+   "k2": "ود",
+   "k1": "د"
+  },
+  {
+   "a": 8,
+   "ar": "ٱلْحَمِيدِ",
+   "pausal": "الحميد",
+   "k2": "يد",
+   "k1": "د"
+  },
+  {
+   "a": 9,
+   "ar": "شَهِيدٌ",
+   "pausal": "شهيد",
+   "k2": "يد",
+   "k1": "د"
+  },
+  {
+   "a": 10,
+   "ar": "ٱلْحَرِيقِ",
+   "pausal": "الحريق",
+   "k2": "يق",
+   "k1": "ق"
+  },
+  {
+   "a": 11,
+   "ar": "ٱلْكَبِيرُ",
+   "pausal": "الكبير",
+   "k2": "ير",
+   "k1": "ر"
+  },
+  {
+   "a": 12,
+   "ar": "لَشَدِيدٌ",
+   "pausal": "لشديد",
+   "k2": "يد",
+   "k1": "د"
+  },
+  {
+   "a": 13,
+   "ar": "وَيُعِيدُ",
+   "pausal": "ويعيد",
+   "k2": "يد",
+   "k1": "د"
+  },
+  {
+   "a": 14,
+   "ar": "ٱلْوَدُودُ",
+   "pausal": "الودود",
+   "k2": "ود",
+   "k1": "د"
+  },
+  {
+   "a": 15,
+   "ar": "ٱلْمَجِيدُ",
+   "pausal": "المجيد",
+   "k2": "يد",
+   "k1": "د"
+  },
+  {
+   "a": 16,
+   "ar": "يُرِيدُ",
+   "pausal": "يريد",
+   "k2": "يد",
+   "k1": "د"
+  },
+  {
+   "a": 17,
+   "ar": "ٱلْجُنُودِ",
+   "pausal": "الجنود",
+   "k2": "ود",
+   "k1": "د"
+  },
+  {
+   "a": 18,
+   "ar": "وَثَمُودَ",
+   "pausal": "وثمود",
+   "k2": "ود",
+   "k1": "د"
+  },
+  {
+   "a": 19,
+   "ar": "تَكْذِيبٍ",
+   "pausal": "تكذيب",
+   "k2": "يب",
+   "k1": "ب"
+  },
+  {
+   "a": 20,
+   "ar": "مُّحِيطٌۢ",
+   "pausal": "محيط",
+   "k2": "يط",
+   "k1": "ط"
+  },
+  {
+   "a": 21,
+   "ar": "مَّجِيدٌ",
+   "pausal": "مجيد",
+   "k2": "يد",
+   "k1": "د"
+  },
+  {
+   "a": 22,
+   "ar": "مَّحْفُوظٍۭ",
+   "pausal": "محفوظ",
+   "k2": "وظ",
+   "k1": "ظ"
+  }
+ ],
+ "families": [
+  {
+   "key": "ود",
+   "count": 9,
+   "verses": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    14,
+    17,
+    18
+   ]
+  },
+  {
+   "key": "يد",
+   "count": 7,
+   "verses": [
+    8,
+    9,
+    12,
+    13,
+    15,
+    16,
+    21
+   ]
+  },
+  {
+   "key": "وج",
+   "count": 1,
+   "verses": [
+    1
+   ]
+  },
+  {
+   "key": "وظ",
+   "count": 1,
+   "verses": [
+    22
+   ]
+  },
+  {
+   "key": "يب",
+   "count": 1,
+   "verses": [
+    19
+   ]
+  },
+  {
+   "key": "ير",
+   "count": 1,
+   "verses": [
+    11
+   ]
+  },
+  {
+   "key": "يط",
+   "count": 1,
+   "verses": [
+    20
+   ]
+  },
+  {
+   "key": "يق",
+   "count": 1,
+   "verses": [
+    10
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "د",
+   "count": 16,
+   "verses": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    21
+   ]
+  },
+  {
+   "key": "ب",
+   "count": 1,
+   "verses": [
+    19
+   ]
+  },
+  {
+   "key": "ج",
+   "count": 1,
+   "verses": [
+    1
+   ]
+  },
+  {
+   "key": "ر",
+   "count": 1,
+   "verses": [
+    11
+   ]
+  },
+  {
+   "key": "ط",
+   "count": 1,
+   "verses": [
+    20
+   ]
+  },
+  {
+   "key": "ظ",
+   "count": 1,
+   "verses": [
+    22
+   ]
+  },
+  {
+   "key": "ق",
+   "count": 1,
+   "verses": [
+    10
+   ]
+  }
+ ],
+ "shifts": [
+  2,
+  8,
+  10,
+  11,
+  12,
+  14,
+  15,
+  17,
+  19,
+  20,
+  21,
+  22
+ ],
+ "refrains": []
+}

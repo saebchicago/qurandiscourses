@@ -1,0 +1,126 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 99,
+ "verseCount": 8,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "زِلْزَالَهَا",
+   "pausal": "زلزالها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 2,
+   "ar": "أَثْقَالَهَا",
+   "pausal": "أثقالها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 3,
+   "ar": "لَهَا",
+   "pausal": "لها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 4,
+   "ar": "أَخْبَارَهَا",
+   "pausal": "أخبارها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 5,
+   "ar": "لَهَا",
+   "pausal": "لها",
+   "k2": "ها",
+   "k1": "ا"
+  },
+  {
+   "a": 6,
+   "ar": "أَعْمَٰلَهُمْ",
+   "pausal": "أعملهم",
+   "k2": "هم",
+   "k1": "م"
+  },
+  {
+   "a": 7,
+   "ar": "يَرَهُۥ",
+   "pausal": "يره",
+   "k2": "ره",
+   "k1": "ه"
+  },
+  {
+   "a": 8,
+   "ar": "يَرَهُۥ",
+   "pausal": "يره",
+   "k2": "ره",
+   "k1": "ه"
+  }
+ ],
+ "families": [
+  {
+   "key": "ها",
+   "count": 5,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "key": "ره",
+   "count": 2,
+   "verses": [
+    7,
+    8
+   ]
+  },
+  {
+   "key": "هم",
+   "count": 1,
+   "verses": [
+    6
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ا",
+   "count": 5,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "key": "ه",
+   "count": 2,
+   "verses": [
+    7,
+    8
+   ]
+  },
+  {
+   "key": "م",
+   "count": 1,
+   "verses": [
+    6
+   ]
+  }
+ ],
+ "shifts": [
+  6,
+  7
+ ],
+ "refrains": []
+}

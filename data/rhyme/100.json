@@ -1,0 +1,174 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 100,
+ "verseCount": 11,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "ضَبْحًا",
+   "pausal": "ضبحا",
+   "k2": "حا",
+   "k1": "ا"
+  },
+  {
+   "a": 2,
+   "ar": "قَدْحًا",
+   "pausal": "قدحا",
+   "k2": "حا",
+   "k1": "ا"
+  },
+  {
+   "a": 3,
+   "ar": "صُبْحًا",
+   "pausal": "صبحا",
+   "k2": "حا",
+   "k1": "ا"
+  },
+  {
+   "a": 4,
+   "ar": "نَقْعًا",
+   "pausal": "نقعا",
+   "k2": "عا",
+   "k1": "ا"
+  },
+  {
+   "a": 5,
+   "ar": "جَمْعًا",
+   "pausal": "جمعا",
+   "k2": "عا",
+   "k1": "ا"
+  },
+  {
+   "a": 6,
+   "ar": "لَكَنُودٌ",
+   "pausal": "لكنود",
+   "k2": "ود",
+   "k1": "د"
+  },
+  {
+   "a": 7,
+   "ar": "لَشَهِيدٌ",
+   "pausal": "لشهيد",
+   "k2": "يد",
+   "k1": "د"
+  },
+  {
+   "a": 8,
+   "ar": "لَشَدِيدٌ",
+   "pausal": "لشديد",
+   "k2": "يد",
+   "k1": "د"
+  },
+  {
+   "a": 9,
+   "ar": "ٱلْقُبُورِ",
+   "pausal": "القبور",
+   "k2": "ور",
+   "k1": "ر"
+  },
+  {
+   "a": 10,
+   "ar": "ٱلصُّدُورِ",
+   "pausal": "الصدور",
+   "k2": "ور",
+   "k1": "ر"
+  },
+  {
+   "a": 11,
+   "ar": "لَّخَبِيرٌۢ",
+   "pausal": "لخبير",
+   "k2": "ير",
+   "k1": "ر"
+  }
+ ],
+ "families": [
+  {
+   "key": "حا",
+   "count": 3,
+   "verses": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "key": "عا",
+   "count": 2,
+   "verses": [
+    4,
+    5
+   ]
+  },
+  {
+   "key": "ور",
+   "count": 2,
+   "verses": [
+    9,
+    10
+   ]
+  },
+  {
+   "key": "يد",
+   "count": 2,
+   "verses": [
+    7,
+    8
+   ]
+  },
+  {
+   "key": "ود",
+   "count": 1,
+   "verses": [
+    6
+   ]
+  },
+  {
+   "key": "ير",
+   "count": 1,
+   "verses": [
+    11
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ا",
+   "count": 5,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "key": "د",
+   "count": 3,
+   "verses": [
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "key": "ر",
+   "count": 3,
+   "verses": [
+    9,
+    10,
+    11
+   ]
+  }
+ ],
+ "shifts": [
+  4,
+  6,
+  7,
+  9,
+  11
+ ],
+ "refrains": []
+}

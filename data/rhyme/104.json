@@ -1,0 +1,124 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 104,
+ "verseCount": 9,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "لُّمَزَةٍ",
+   "pausal": "لمزه",
+   "k2": "زه",
+   "k1": "ه"
+  },
+  {
+   "a": 2,
+   "ar": "وَعَدَّدَهُۥ",
+   "pausal": "وعدده",
+   "k2": "ده",
+   "k1": "ه"
+  },
+  {
+   "a": 3,
+   "ar": "أَخْلَدَهُۥ",
+   "pausal": "أخلده",
+   "k2": "ده",
+   "k1": "ه"
+  },
+  {
+   "a": 4,
+   "ar": "ٱلْحُطَمَةِ",
+   "pausal": "الحطمه",
+   "k2": "مه",
+   "k1": "ه"
+  },
+  {
+   "a": 5,
+   "ar": "ٱلْحُطَمَةُ",
+   "pausal": "الحطمه",
+   "k2": "مه",
+   "k1": "ه"
+  },
+  {
+   "a": 6,
+   "ar": "ٱلْمُوقَدَةُ",
+   "pausal": "الموقده",
+   "k2": "ده",
+   "k1": "ه"
+  },
+  {
+   "a": 7,
+   "ar": "ٱلْأَفْـِٔدَةِ",
+   "pausal": "الأفده",
+   "k2": "ده",
+   "k1": "ه"
+  },
+  {
+   "a": 8,
+   "ar": "مُّؤْصَدَةٌ",
+   "pausal": "مؤصده",
+   "k2": "ده",
+   "k1": "ه"
+  },
+  {
+   "a": 9,
+   "ar": "مُّمَدَّدَةٍۭ",
+   "pausal": "ممدده",
+   "k2": "ده",
+   "k1": "ه"
+  }
+ ],
+ "families": [
+  {
+   "key": "ده",
+   "count": 6,
+   "verses": [
+    2,
+    3,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  {
+   "key": "مه",
+   "count": 2,
+   "verses": [
+    4,
+    5
+   ]
+  },
+  {
+   "key": "زه",
+   "count": 1,
+   "verses": [
+    1
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ه",
+   "count": 9,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  }
+ ],
+ "shifts": [
+  2,
+  4,
+  6
+ ],
+ "refrains": []
+}

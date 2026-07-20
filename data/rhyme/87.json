@@ -1,0 +1,276 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 87,
+ "verseCount": 19,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "ٱلْأَعْلَى",
+   "pausal": "الأعلى",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 2,
+   "ar": "فَسَوَّىٰ",
+   "pausal": "فسوى",
+   "k2": "وا",
+   "k1": "ا"
+  },
+  {
+   "a": 3,
+   "ar": "فَهَدَىٰ",
+   "pausal": "فهدى",
+   "k2": "دا",
+   "k1": "ا"
+  },
+  {
+   "a": 4,
+   "ar": "ٱلْمَرْعَىٰ",
+   "pausal": "المرعى",
+   "k2": "عا",
+   "k1": "ا"
+  },
+  {
+   "a": 5,
+   "ar": "أَحْوَىٰ",
+   "pausal": "أحوى",
+   "k2": "وا",
+   "k1": "ا"
+  },
+  {
+   "a": 6,
+   "ar": "تَنسَىٰٓ",
+   "pausal": "تنسى",
+   "k2": "سا",
+   "k1": "ا"
+  },
+  {
+   "a": 7,
+   "ar": "يَخْفَىٰ",
+   "pausal": "يخفى",
+   "k2": "فا",
+   "k1": "ا"
+  },
+  {
+   "a": 8,
+   "ar": "لِلْيُسْرَىٰ",
+   "pausal": "لليسرى",
+   "k2": "را",
+   "k1": "ا"
+  },
+  {
+   "a": 9,
+   "ar": "ٱلذِّكْرَىٰ",
+   "pausal": "الذكرى",
+   "k2": "را",
+   "k1": "ا"
+  },
+  {
+   "a": 10,
+   "ar": "يَخْشَىٰ",
+   "pausal": "يخشى",
+   "k2": "شا",
+   "k1": "ا"
+  },
+  {
+   "a": 11,
+   "ar": "ٱلْأَشْقَى",
+   "pausal": "الأشقى",
+   "k2": "قا",
+   "k1": "ا"
+  },
+  {
+   "a": 12,
+   "ar": "ٱلْكُبْرَىٰ",
+   "pausal": "الكبرى",
+   "k2": "را",
+   "k1": "ا"
+  },
+  {
+   "a": 13,
+   "ar": "يَحْيَىٰ",
+   "pausal": "يحيى",
+   "k2": "يا",
+   "k1": "ا"
+  },
+  {
+   "a": 14,
+   "ar": "تَزَكَّىٰ",
+   "pausal": "تزكى",
+   "k2": "كا",
+   "k1": "ا"
+  },
+  {
+   "a": 15,
+   "ar": "فَصَلَّىٰ",
+   "pausal": "فصلى",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 16,
+   "ar": "ٱلدُّنْيَا",
+   "pausal": "الدنيا",
+   "k2": "يا",
+   "k1": "ا"
+  },
+  {
+   "a": 17,
+   "ar": "وَأَبْقَىٰٓ",
+   "pausal": "وأبقى",
+   "k2": "قا",
+   "k1": "ا"
+  },
+  {
+   "a": 18,
+   "ar": "ٱلْأُولَىٰ",
+   "pausal": "الأولى",
+   "k2": "لا",
+   "k1": "ا"
+  },
+  {
+   "a": 19,
+   "ar": "وَمُوسَىٰ",
+   "pausal": "وموسى",
+   "k2": "سا",
+   "k1": "ا"
+  }
+ ],
+ "families": [
+  {
+   "key": "را",
+   "count": 3,
+   "verses": [
+    8,
+    9,
+    12
+   ]
+  },
+  {
+   "key": "لا",
+   "count": 3,
+   "verses": [
+    1,
+    15,
+    18
+   ]
+  },
+  {
+   "key": "سا",
+   "count": 2,
+   "verses": [
+    6,
+    19
+   ]
+  },
+  {
+   "key": "قا",
+   "count": 2,
+   "verses": [
+    11,
+    17
+   ]
+  },
+  {
+   "key": "وا",
+   "count": 2,
+   "verses": [
+    2,
+    5
+   ]
+  },
+  {
+   "key": "يا",
+   "count": 2,
+   "verses": [
+    13,
+    16
+   ]
+  },
+  {
+   "key": "دا",
+   "count": 1,
+   "verses": [
+    3
+   ]
+  },
+  {
+   "key": "شا",
+   "count": 1,
+   "verses": [
+    10
+   ]
+  },
+  {
+   "key": "عا",
+   "count": 1,
+   "verses": [
+    4
+   ]
+  },
+  {
+   "key": "فا",
+   "count": 1,
+   "verses": [
+    7
+   ]
+  },
+  {
+   "key": "كا",
+   "count": 1,
+   "verses": [
+    14
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ا",
+   "count": 19,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+   ]
+  }
+ ],
+ "shifts": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19
+ ],
+ "refrains": []
+}

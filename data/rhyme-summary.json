@@ -1,0 +1,1093 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Per-surah roll-up of data/rhyme/{n}.json: family count and dominant fine-key share of verse endings, shift count, top refrain. See any per-surah file for the full method note.",
+ "surahs": {
+  "1": {
+   "verseCount": 7,
+   "familyCount": 2,
+   "dominantKey": "ين",
+   "dominantShare": 0.571,
+   "shiftCount": 5,
+   "topRefrain": null
+  },
+  "2": {
+   "verseCount": 286,
+   "familyCount": 16,
+   "dominantKey": "ون",
+   "dominantShare": 0.451,
+   "shiftCount": 171,
+   "topRefrain": {
+    "pausal": "عليم",
+    "count": 16
+   }
+  },
+  "3": {
+   "verseCount": 200,
+   "familyCount": 20,
+   "dominantKey": "ين",
+   "dominantShare": 0.31,
+   "shiftCount": 138,
+   "topRefrain": {
+    "pausal": "الحكيم",
+    "count": 5
+   }
+  },
+  "4": {
+   "verseCount": 176,
+   "familyCount": 21,
+   "dominantKey": "ما",
+   "dominantShare": 0.29,
+   "shiftCount": 137,
+   "topRefrain": {
+    "pausal": "عظيما",
+    "count": 14
+   }
+  },
+  "5": {
+   "verseCount": 120,
+   "familyCount": 11,
+   "dominantKey": "ون",
+   "dominantShare": 0.35,
+   "shiftCount": 70,
+   "topRefrain": {
+    "pausal": "رحيم",
+    "count": 5
+   }
+  },
+  "6": {
+   "verseCount": 165,
+   "familyCount": 6,
+   "dominantKey": "ون",
+   "dominantShare": 0.545,
+   "shiftCount": 84,
+   "topRefrain": {
+    "pausal": "يؤمنون",
+    "count": 6
+   }
+  },
+  "7": {
+   "verseCount": 206,
+   "familyCount": 5,
+   "dominantKey": "ون",
+   "dominantShare": 0.481,
+   "shiftCount": 97,
+   "topRefrain": {
+    "pausal": "العلمين",
+    "count": 7
+   }
+  },
+  "8": {
+   "verseCount": 75,
+   "familyCount": 12,
+   "dominantKey": "ون",
+   "dominantShare": 0.32,
+   "shiftCount": 47,
+   "topRefrain": {
+    "pausal": "حكيم",
+    "count": 5
+   }
+  },
+  "9": {
+   "verseCount": 129,
+   "familyCount": 6,
+   "dominantKey": "ون",
+   "dominantShare": 0.419,
+   "shiftCount": 69,
+   "topRefrain": {
+    "pausal": "حكيم",
+    "count": 8
+   }
+  },
+  "10": {
+   "verseCount": 109,
+   "familyCount": 4,
+   "dominantKey": "ون",
+   "dominantShare": 0.541,
+   "shiftCount": 52,
+   "topRefrain": {
+    "pausal": "الظلمين",
+    "count": 3
+   }
+  },
+  "11": {
+   "verseCount": 123,
+   "familyCount": 18,
+   "dominantKey": "ون",
+   "dominantShare": 0.228,
+   "shiftCount": 80,
+   "topRefrain": {
+    "pausal": "مبين",
+    "count": 4
+   }
+  },
+  "12": {
+   "verseCount": 111,
+   "familyCount": 7,
+   "dominantKey": "ين",
+   "dominantShare": 0.423,
+   "shiftCount": 70,
+   "topRefrain": {
+    "pausal": "المحسنين",
+    "count": 5
+   }
+  },
+  "13": {
+   "verseCount": 43,
+   "familyCount": 13,
+   "dominantKey": "اب",
+   "dominantShare": 0.256,
+   "shiftCount": 33,
+   "topRefrain": {
+    "pausal": "الدار",
+    "count": 4
+   }
+  },
+  "14": {
+   "verseCount": 52,
+   "familyCount": 20,
+   "dominantKey": "يد",
+   "dominantShare": 0.192,
+   "shiftCount": 37,
+   "topRefrain": null
+  },
+  "15": {
+   "verseCount": 99,
+   "familyCount": 5,
+   "dominantKey": "ين",
+   "dominantShare": 0.495,
+   "shiftCount": 62,
+   "topRefrain": {
+    "pausal": "أجمعين",
+    "count": 4
+   }
+  },
+  "16": {
+   "verseCount": 128,
+   "familyCount": 4,
+   "dominantKey": "ون",
+   "dominantShare": 0.664,
+   "shiftCount": 63,
+   "topRefrain": {
+    "pausal": "رحيم",
+    "count": 6
+   }
+  },
+  "17": {
+   "verseCount": 111,
+   "familyCount": 12,
+   "dominantKey": "را",
+   "dominantShare": 0.45,
+   "shiftCount": 66,
+   "topRefrain": {
+    "pausal": "سبيلا",
+    "count": 6
+   }
+  },
+  "18": {
+   "verseCount": 110,
+   "familyCount": 15,
+   "dominantKey": "دا",
+   "dominantShare": 0.264,
+   "shiftCount": 73,
+   "topRefrain": {
+    "pausal": "أحدا",
+    "count": 8
+   }
+  },
+  "19": {
+   "verseCount": 98,
+   "familyCount": 7,
+   "dominantKey": "يا",
+   "dominantShare": 0.673,
+   "shiftCount": 12,
+   "topRefrain": {
+    "pausal": "نبيا",
+    "count": 7
+   }
+  },
+  "20": {
+   "verseCount": 135,
+   "familyCount": 23,
+   "dominantKey": "را",
+   "dominantShare": 0.207,
+   "shiftCount": 119,
+   "topRefrain": {
+    "pausal": "يموسى",
+    "count": 8
+   }
+  },
+  "21": {
+   "verseCount": 112,
+   "familyCount": 4,
+   "dominantKey": "ون",
+   "dominantShare": 0.545,
+   "shiftCount": 41,
+   "topRefrain": {
+    "pausal": "فعلين",
+    "count": 4
+   }
+  },
+  "22": {
+   "verseCount": 78,
+   "familyCount": 14,
+   "dominantKey": "ير",
+   "dominantShare": 0.218,
+   "shiftCount": 64,
+   "topRefrain": null
+  },
+  "23": {
+   "verseCount": 118,
+   "familyCount": 3,
+   "dominantKey": "ون",
+   "dominantShare": 0.686,
+   "shiftCount": 47,
+   "topRefrain": {
+    "pausal": "الأولين",
+    "count": 3
+   }
+  },
+  "24": {
+   "verseCount": 64,
+   "familyCount": 8,
+   "dominantKey": "يم",
+   "dominantShare": 0.359,
+   "shiftCount": 40,
+   "topRefrain": {
+    "pausal": "عليم",
+    "count": 6
+   }
+  },
+  "25": {
+   "verseCount": 77,
+   "familyCount": 6,
+   "dominantKey": "را",
+   "dominantShare": 0.558,
+   "shiftCount": 29,
+   "topRefrain": {
+    "pausal": "سبيلا",
+    "count": 6
+   }
+  },
+  "26": {
+   "verseCount": 227,
+   "familyCount": 6,
+   "dominantKey": "ين",
+   "dominantShare": 0.511,
+   "shiftCount": 136,
+   "topRefrain": {
+    "pausal": "العلمين",
+    "count": 12
+   }
+  },
+  "27": {
+   "verseCount": 93,
+   "familyCount": 3,
+   "dominantKey": "ون",
+   "dominantShare": 0.538,
+   "shiftCount": 45,
+   "topRefrain": {
+    "pausal": "مبين",
+    "count": 4
+   }
+  },
+  "28": {
+   "verseCount": 88,
+   "familyCount": 6,
+   "dominantKey": "ين",
+   "dominantShare": 0.477,
+   "shiftCount": 54,
+   "topRefrain": {
+    "pausal": "الظلمين",
+    "count": 4
+   }
+  },
+  "29": {
+   "verseCount": 69,
+   "familyCount": 5,
+   "dominantKey": "ون",
+   "dominantShare": 0.493,
+   "shiftCount": 37,
+   "topRefrain": {
+    "pausal": "العلمين",
+    "count": 3
+   }
+  },
+  "30": {
+   "verseCount": 60,
+   "familyCount": 6,
+   "dominantKey": "ون",
+   "dominantShare": 0.75,
+   "shiftCount": 27,
+   "topRefrain": {
+    "pausal": "يشركون",
+    "count": 3
+   }
+  },
+  "31": {
+   "verseCount": 34,
+   "familyCount": 8,
+   "dominantKey": "ير",
+   "dominantShare": 0.265,
+   "shiftCount": 21,
+   "topRefrain": {
+    "pausal": "خبير",
+    "count": 3
+   }
+  },
+  "32": {
+   "verseCount": 30,
+   "familyCount": 5,
+   "dominantKey": "ون",
+   "dominantShare": 0.733,
+   "shiftCount": 11,
+   "topRefrain": null
+  },
+  "33": {
+   "verseCount": 73,
+   "familyCount": 12,
+   "dominantKey": "را",
+   "dominantShare": 0.288,
+   "shiftCount": 57,
+   "topRefrain": {
+    "pausal": "رحيما",
+    "count": 6
+   }
+  },
+  "34": {
+   "verseCount": 54,
+   "familyCount": 10,
+   "dominantKey": "ون",
+   "dominantShare": 0.204,
+   "shiftCount": 37,
+   "topRefrain": {
+    "pausal": "مبين",
+    "count": 3
+   }
+  },
+  "35": {
+   "verseCount": 45,
+   "familyCount": 10,
+   "dominantKey": "ير",
+   "dominantShare": 0.356,
+   "shiftCount": 25,
+   "topRefrain": null
+  },
+  "36": {
+   "verseCount": 83,
+   "familyCount": 4,
+   "dominantKey": "ون",
+   "dominantShare": 0.663,
+   "shiftCount": 34,
+   "topRefrain": {
+    "pausal": "مبين",
+    "count": 6
+   }
+  },
+  "37": {
+   "verseCount": 182,
+   "familyCount": 14,
+   "dominantKey": "ين",
+   "dominantShare": 0.456,
+   "shiftCount": 112,
+   "topRefrain": {
+    "pausal": "الءاخرين",
+    "count": 6
+   }
+  },
+  "38": {
+   "verseCount": 88,
+   "familyCount": 18,
+   "dominantKey": "اب",
+   "dominantShare": 0.352,
+   "shiftCount": 55,
+   "topRefrain": {
+    "pausal": "أواب",
+    "count": 4
+   }
+  },
+  "39": {
+   "verseCount": 75,
+   "familyCount": 12,
+   "dominantKey": "ون",
+   "dominantShare": 0.44,
+   "shiftCount": 42,
+   "topRefrain": {
+    "pausal": "الألبب",
+    "count": 3
+   }
+  },
+  "40": {
+   "verseCount": 85,
+   "familyCount": 20,
+   "dominantKey": "ون",
+   "dominantShare": 0.282,
+   "shiftCount": 60,
+   "topRefrain": {
+    "pausal": "النار",
+    "count": 4
+   }
+  },
+  "41": {
+   "verseCount": 54,
+   "familyCount": 14,
+   "dominantKey": "ون",
+   "dominantShare": 0.389,
+   "shiftCount": 29,
+   "topRefrain": null
+  },
+  "42": {
+   "verseCount": 53,
+   "familyCount": 13,
+   "dominantKey": "ير",
+   "dominantShare": 0.245,
+   "shiftCount": 39,
+   "topRefrain": {
+    "pausal": "سبيل",
+    "count": 3
+   }
+  },
+  "43": {
+   "verseCount": 89,
+   "familyCount": 5,
+   "dominantKey": "ون",
+   "dominantShare": 0.584,
+   "shiftCount": 51,
+   "topRefrain": {
+    "pausal": "مبين",
+    "count": 5
+   }
+  },
+  "44": {
+   "verseCount": 59,
+   "familyCount": 5,
+   "dominantKey": "ين",
+   "dominantShare": 0.424,
+   "shiftCount": 32,
+   "topRefrain": {
+    "pausal": "مبين",
+    "count": 4
+   }
+  },
+  "45": {
+   "verseCount": 37,
+   "familyCount": 4,
+   "dominantKey": "ون",
+   "dominantShare": 0.541,
+   "shiftCount": 19,
+   "topRefrain": null
+  },
+  "46": {
+   "verseCount": 35,
+   "familyCount": 5,
+   "dominantKey": "ون",
+   "dominantShare": 0.371,
+   "shiftCount": 25,
+   "topRefrain": {
+    "pausal": "مبين",
+    "count": 3
+   }
+  },
+  "47": {
+   "verseCount": 38,
+   "familyCount": 3,
+   "dominantKey": "هم",
+   "dominantShare": 0.684,
+   "shiftCount": 15,
+   "topRefrain": {
+    "pausal": "لهم",
+    "count": 8
+   }
+  },
+  "48": {
+   "verseCount": 29,
+   "familyCount": 7,
+   "dominantKey": "ما",
+   "dominantShare": 0.448,
+   "shiftCount": 21,
+   "topRefrain": {
+    "pausal": "أليما",
+    "count": 3
+   }
+  },
+  "49": {
+   "verseCount": 18,
+   "familyCount": 4,
+   "dominantKey": "ون",
+   "dominantShare": 0.389,
+   "shiftCount": 16,
+   "topRefrain": {
+    "pausal": "رحيم",
+    "count": 3
+   }
+  },
+  "50": {
+   "verseCount": 45,
+   "familyCount": 10,
+   "dominantKey": "يد",
+   "dominantShare": 0.533,
+   "shiftCount": 26,
+   "topRefrain": {
+    "pausal": "بعيد",
+    "count": 3
+   }
+  },
+  "51": {
+   "verseCount": 60,
+   "familyCount": 11,
+   "dominantKey": "ون",
+   "dominantShare": 0.4,
+   "shiftCount": 36,
+   "topRefrain": {
+    "pausal": "مبين",
+    "count": 3
+   }
+  },
+  "52": {
+   "verseCount": 49,
+   "familyCount": 10,
+   "dominantKey": "ون",
+   "dominantShare": 0.469,
+   "shiftCount": 28,
+   "topRefrain": null
+  },
+  "53": {
+   "verseCount": 62,
+   "familyCount": 21,
+   "dominantKey": "را",
+   "dominantShare": 0.161,
+   "shiftCount": 52,
+   "topRefrain": {
+    "pausal": "يرى",
+    "count": 3
+   }
+  },
+  "54": {
+   "verseCount": 55,
+   "familyCount": 17,
+   "dominantKey": "ذر",
+   "dominantShare": 0.2,
+   "shiftCount": 51,
+   "topRefrain": {
+    "pausal": "مدكر",
+    "count": 6
+   }
+  },
+  "55": {
+   "verseCount": 78,
+   "familyCount": 9,
+   "dominantKey": "ان",
+   "dominantShare": 0.808,
+   "shiftCount": 24,
+   "topRefrain": {
+    "pausal": "تكذبان",
+    "count": 31
+   }
+  },
+  "56": {
+   "verseCount": 96,
+   "familyCount": 20,
+   "dominantKey": "ون",
+   "dominantShare": 0.344,
+   "shiftCount": 60,
+   "topRefrain": {
+    "pausal": "اليمين",
+    "count": 4
+   }
+  },
+  "57": {
+   "verseCount": 29,
+   "familyCount": 8,
+   "dominantKey": "يم",
+   "dominantShare": 0.345,
+   "shiftCount": 22,
+   "topRefrain": {
+    "pausal": "العظيم",
+    "count": 3
+   }
+  },
+  "58": {
+   "verseCount": 22,
+   "familyCount": 7,
+   "dominantKey": "ون",
+   "dominantShare": 0.409,
+   "shiftCount": 16,
+   "topRefrain": null
+  },
+  "59": {
+   "verseCount": 24,
+   "familyCount": 7,
+   "dominantKey": "ون",
+   "dominantShare": 0.458,
+   "shiftCount": 15,
+   "topRefrain": null
+  },
+  "60": {
+   "verseCount": 13,
+   "familyCount": 7,
+   "dominantKey": "يم",
+   "dominantShare": 0.308,
+   "shiftCount": 11,
+   "topRefrain": null
+  },
+  "61": {
+   "verseCount": 14,
+   "familyCount": 4,
+   "dominantKey": "ون",
+   "dominantShare": 0.357,
+   "shiftCount": 8,
+   "topRefrain": null
+  },
+  "62": {
+   "verseCount": 11,
+   "familyCount": 3,
+   "dominantKey": "ين",
+   "dominantShare": 0.455,
+   "shiftCount": 5,
+   "topRefrain": null
+  },
+  "63": {
+   "verseCount": 11,
+   "familyCount": 2,
+   "dominantKey": "ون",
+   "dominantShare": 0.818,
+   "shiftCount": 4,
+   "topRefrain": null
+  },
+  "64": {
+   "verseCount": 18,
+   "familyCount": 6,
+   "dominantKey": "يم",
+   "dominantShare": 0.389,
+   "shiftCount": 12,
+   "topRefrain": null
+  },
+  "65": {
+   "verseCount": 12,
+   "familyCount": 4,
+   "dominantKey": "را",
+   "dominantShare": 0.75,
+   "shiftCount": 4,
+   "topRefrain": null
+  },
+  "66": {
+   "verseCount": 12,
+   "familyCount": 5,
+   "dominantKey": "ير",
+   "dominantShare": 0.333,
+   "shiftCount": 5,
+   "topRefrain": null
+  },
+  "67": {
+   "verseCount": 30,
+   "familyCount": 5,
+   "dominantKey": "ير",
+   "dominantShare": 0.433,
+   "shiftCount": 15,
+   "topRefrain": {
+    "pausal": "السعير",
+    "count": 3
+   }
+  },
+  "68": {
+   "verseCount": 52,
+   "familyCount": 4,
+   "dominantKey": "ون",
+   "dominantShare": 0.481,
+   "shiftCount": 31,
+   "topRefrain": null
+  },
+  "69": {
+   "verseCount": 52,
+   "familyCount": 10,
+   "dominantKey": "يه",
+   "dominantShare": 0.404,
+   "shiftCount": 19,
+   "topRefrain": {
+    "pausal": "الحاقه",
+    "count": 3
+   }
+  },
+  "70": {
+   "verseCount": 44,
+   "familyCount": 18,
+   "dominantKey": "ون",
+   "dominantShare": 0.318,
+   "shiftCount": 26,
+   "topRefrain": null
+  },
+  "71": {
+   "verseCount": 28,
+   "familyCount": 9,
+   "dominantKey": "را",
+   "dominantShare": 0.607,
+   "shiftCount": 12,
+   "topRefrain": null
+  },
+  "72": {
+   "verseCount": 28,
+   "familyCount": 4,
+   "dominantKey": "دا",
+   "dominantShare": 0.679,
+   "shiftCount": 13,
+   "topRefrain": {
+    "pausal": "أحدا",
+    "count": 5
+   }
+  },
+  "73": {
+   "verseCount": 20,
+   "familyCount": 5,
+   "dominantKey": "لا",
+   "dominantShare": 0.75,
+   "shiftCount": 6,
+   "topRefrain": {
+    "pausal": "قليلا",
+    "count": 3
+   }
+  },
+  "74": {
+   "verseCount": 56,
+   "familyCount": 21,
+   "dominantKey": "ين",
+   "dominantShare": 0.161,
+   "shiftCount": 33,
+   "topRefrain": {
+    "pausal": "سقر",
+    "count": 3
+   }
+  },
+  "75": {
+   "verseCount": 40,
+   "familyCount": 20,
+   "dominantKey": "ره",
+   "dominantShare": 0.175,
+   "shiftCount": 23,
+   "topRefrain": null
+  },
+  "76": {
+   "verseCount": 31,
+   "familyCount": 3,
+   "dominantKey": "را",
+   "dominantShare": 0.645,
+   "shiftCount": 8,
+   "topRefrain": null
+  },
+  "77": {
+   "verseCount": 50,
+   "familyCount": 18,
+   "dominantKey": "ين",
+   "dominantShare": 0.34,
+   "shiftCount": 33,
+   "topRefrain": {
+    "pausal": "للمكذبين",
+    "count": 10
+   }
+  },
+  "78": {
+   "verseCount": 40,
+   "familyCount": 11,
+   "dominantKey": "با",
+   "dominantShare": 0.425,
+   "shiftCount": 22,
+   "topRefrain": null
+  },
+  "79": {
+   "verseCount": 46,
+   "familyCount": 20,
+   "dominantKey": "ها",
+   "dominantShare": 0.239,
+   "shiftCount": 29,
+   "topRefrain": null
+  },
+  "80": {
+   "verseCount": 42,
+   "familyCount": 17,
+   "dominantKey": "ره",
+   "dominantShare": 0.381,
+   "shiftCount": 24,
+   "topRefrain": null
+  },
+  "81": {
+   "verseCount": 29,
+   "familyCount": 11,
+   "dominantKey": "رت",
+   "dominantShare": 0.276,
+   "shiftCount": 21,
+   "topRefrain": null
+  },
+  "82": {
+   "verseCount": 19,
+   "familyCount": 7,
+   "dominantKey": "ين",
+   "dominantShare": 0.368,
+   "shiftCount": 8,
+   "topRefrain": {
+    "pausal": "الدين",
+    "count": 3
+   }
+  },
+  "83": {
+   "verseCount": 36,
+   "familyCount": 4,
+   "dominantKey": "ون",
+   "dominantShare": 0.472,
+   "shiftCount": 25,
+   "topRefrain": null
+  },
+  "84": {
+   "verseCount": 25,
+   "familyCount": 13,
+   "dominantKey": "را",
+   "dominantShare": 0.24,
+   "shiftCount": 16,
+   "topRefrain": null
+  },
+  "85": {
+   "verseCount": 22,
+   "familyCount": 8,
+   "dominantKey": "ود",
+   "dominantShare": 0.409,
+   "shiftCount": 12,
+   "topRefrain": null
+  },
+  "86": {
+   "verseCount": 17,
+   "familyCount": 14,
+   "dominantKey": "دا",
+   "dominantShare": 0.176,
+   "shiftCount": 13,
+   "topRefrain": null
+  },
+  "87": {
+   "verseCount": 19,
+   "familyCount": 11,
+   "dominantKey": "را",
+   "dominantShare": 0.158,
+   "shiftCount": 17,
+   "topRefrain": null
+  },
+  "88": {
+   "verseCount": 26,
+   "familyCount": 17,
+   "dominantKey": "يه",
+   "dominantShare": 0.269,
+   "shiftCount": 19,
+   "topRefrain": null
+  },
+  "89": {
+   "verseCount": 30,
+   "familyCount": 20,
+   "dominantKey": "اد",
+   "dominantShare": 0.2,
+   "shiftCount": 25,
+   "topRefrain": null
+  },
+  "90": {
+   "verseCount": 20,
+   "familyCount": 9,
+   "dominantKey": "به",
+   "dominantShare": 0.3,
+   "shiftCount": 10,
+   "topRefrain": null
+  },
+  "91": {
+   "verseCount": 15,
+   "familyCount": 1,
+   "dominantKey": "ها",
+   "dominantShare": 1,
+   "shiftCount": 0,
+   "topRefrain": null
+  },
+  "92": {
+   "verseCount": 21,
+   "familyCount": 12,
+   "dominantKey": "لا",
+   "dominantShare": 0.19,
+   "shiftCount": 18,
+   "topRefrain": null
+  },
+  "93": {
+   "verseCount": 11,
+   "familyCount": 9,
+   "dominantKey": "لا",
+   "dominantShare": 0.182,
+   "shiftCount": 8,
+   "topRefrain": null
+  },
+  "94": {
+   "verseCount": 8,
+   "familyCount": 4,
+   "dominantKey": "رك",
+   "dominantShare": 0.5,
+   "shiftCount": 3,
+   "topRefrain": null
+  },
+  "95": {
+   "verseCount": 8,
+   "familyCount": 3,
+   "dominantKey": "ين",
+   "dominantShare": 0.625,
+   "shiftCount": 5,
+   "topRefrain": null
+  },
+  "96": {
+   "verseCount": 19,
+   "familyCount": 14,
+   "dominantKey": "يه",
+   "dominantShare": 0.158,
+   "shiftCount": 15,
+   "topRefrain": null
+  },
+  "97": {
+   "verseCount": 5,
+   "familyCount": 4,
+   "dominantKey": "در",
+   "dominantShare": 0.4,
+   "shiftCount": 3,
+   "topRefrain": null
+  },
+  "98": {
+   "verseCount": 8,
+   "familyCount": 5,
+   "dominantKey": "مه",
+   "dominantShare": 0.25,
+   "shiftCount": 6,
+   "topRefrain": null
+  },
+  "99": {
+   "verseCount": 8,
+   "familyCount": 3,
+   "dominantKey": "ها",
+   "dominantShare": 0.625,
+   "shiftCount": 2,
+   "topRefrain": null
+  },
+  "100": {
+   "verseCount": 11,
+   "familyCount": 6,
+   "dominantKey": "حا",
+   "dominantShare": 0.273,
+   "shiftCount": 5,
+   "topRefrain": null
+  },
+  "101": {
+   "verseCount": 11,
+   "familyCount": 5,
+   "dominantKey": "يه",
+   "dominantShare": 0.364,
+   "shiftCount": 6,
+   "topRefrain": {
+    "pausal": "القارعه",
+    "count": 3
+   }
+  },
+  "102": {
+   "verseCount": 8,
+   "familyCount": 5,
+   "dominantKey": "ون",
+   "dominantShare": 0.25,
+   "shiftCount": 6,
+   "topRefrain": null
+  },
+  "103": {
+   "verseCount": 3,
+   "familyCount": 3,
+   "dominantKey": "بر",
+   "dominantShare": 0.333,
+   "shiftCount": 2,
+   "topRefrain": null
+  },
+  "104": {
+   "verseCount": 9,
+   "familyCount": 3,
+   "dominantKey": "ده",
+   "dominantShare": 0.667,
+   "shiftCount": 3,
+   "topRefrain": null
+  },
+  "105": {
+   "verseCount": 5,
+   "familyCount": 2,
+   "dominantKey": "يل",
+   "dominantShare": 0.8,
+   "shiftCount": 1,
+   "topRefrain": null
+  },
+  "106": {
+   "verseCount": 4,
+   "familyCount": 4,
+   "dominantKey": "وف",
+   "dominantShare": 0.25,
+   "shiftCount": 3,
+   "topRefrain": null
+  },
+  "107": {
+   "verseCount": 7,
+   "familyCount": 3,
+   "dominantKey": "ون",
+   "dominantShare": 0.429,
+   "shiftCount": 3,
+   "topRefrain": null
+  },
+  "108": {
+   "verseCount": 3,
+   "familyCount": 3,
+   "dominantKey": "تر",
+   "dominantShare": 0.333,
+   "shiftCount": 2,
+   "topRefrain": null
+  },
+  "109": {
+   "verseCount": 6,
+   "familyCount": 4,
+   "dominantKey": "بد",
+   "dominantShare": 0.333,
+   "shiftCount": 4,
+   "topRefrain": null
+  },
+  "110": {
+   "verseCount": 3,
+   "familyCount": 3,
+   "dominantKey": "با",
+   "dominantShare": 0.333,
+   "shiftCount": 2,
+   "topRefrain": null
+  },
+  "111": {
+   "verseCount": 5,
+   "familyCount": 5,
+   "dominantKey": "تب",
+   "dominantShare": 0.2,
+   "shiftCount": 4,
+   "topRefrain": null
+  },
+  "112": {
+   "verseCount": 4,
+   "familyCount": 3,
+   "dominantKey": "حد",
+   "dominantShare": 0.5,
+   "shiftCount": 3,
+   "topRefrain": null
+  },
+  "113": {
+   "verseCount": 5,
+   "familyCount": 4,
+   "dominantKey": "لق",
+   "dominantShare": 0.4,
+   "shiftCount": 3,
+   "topRefrain": null
+  },
+  "114": {
+   "verseCount": 6,
+   "familyCount": 1,
+   "dominantKey": "اس",
+   "dominantShare": 1,
+   "shiftCount": 0,
+   "topRefrain": {
+    "pausal": "الناس",
+    "count": 4
+   }
+  }
+ }
+}

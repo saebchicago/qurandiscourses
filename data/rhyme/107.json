@@ -1,0 +1,112 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 107,
+ "verseCount": 7,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "بِٱلدِّينِ",
+   "pausal": "بالدين",
+   "k2": "ين",
+   "k1": "ن"
+  },
+  {
+   "a": 2,
+   "ar": "ٱلْيَتِيمَ",
+   "pausal": "اليتيم",
+   "k2": "يم",
+   "k1": "م"
+  },
+  {
+   "a": 3,
+   "ar": "ٱلْمِسْكِينِ",
+   "pausal": "المسكين",
+   "k2": "ين",
+   "k1": "ن"
+  },
+  {
+   "a": 4,
+   "ar": "لِّلْمُصَلِّينَ",
+   "pausal": "للمصلين",
+   "k2": "ين",
+   "k1": "ن"
+  },
+  {
+   "a": 5,
+   "ar": "سَاهُونَ",
+   "pausal": "ساهون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 6,
+   "ar": "يُرَآءُونَ",
+   "pausal": "يراءون",
+   "k2": "ون",
+   "k1": "ن"
+  },
+  {
+   "a": 7,
+   "ar": "ٱلْمَاعُونَ",
+   "pausal": "الماعون",
+   "k2": "ون",
+   "k1": "ن"
+  }
+ ],
+ "families": [
+  {
+   "key": "ون",
+   "count": 3,
+   "verses": [
+    5,
+    6,
+    7
+   ]
+  },
+  {
+   "key": "ين",
+   "count": 3,
+   "verses": [
+    1,
+    3,
+    4
+   ]
+  },
+  {
+   "key": "يم",
+   "count": 1,
+   "verses": [
+    2
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ن",
+   "count": 6,
+   "verses": [
+    1,
+    3,
+    4,
+    5,
+    6,
+    7
+   ]
+  },
+  {
+   "key": "م",
+   "count": 1,
+   "verses": [
+    2
+   ]
+  }
+ ],
+ "shifts": [
+  2,
+  3,
+  5
+ ],
+ "refrains": []
+}

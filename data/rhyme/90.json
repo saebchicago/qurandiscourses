@@ -1,0 +1,284 @@
+{
+ "_generated": "build-rhyme-map.mjs",
+ "_source": "leeds-corpus-v0.4",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "surah": 90,
+ "verseCount": 20,
+ "verses": [
+  {
+   "a": 1,
+   "ar": "ٱلْبَلَدِ",
+   "pausal": "البلد",
+   "k2": "لد",
+   "k1": "د"
+  },
+  {
+   "a": 2,
+   "ar": "ٱلْبَلَدِ",
+   "pausal": "البلد",
+   "k2": "لد",
+   "k1": "د"
+  },
+  {
+   "a": 3,
+   "ar": "وَلَدَ",
+   "pausal": "ولد",
+   "k2": "لد",
+   "k1": "د"
+  },
+  {
+   "a": 4,
+   "ar": "كَبَدٍ",
+   "pausal": "كبد",
+   "k2": "بد",
+   "k1": "د"
+  },
+  {
+   "a": 5,
+   "ar": "أَحَدٌ",
+   "pausal": "أحد",
+   "k2": "حد",
+   "k1": "د"
+  },
+  {
+   "a": 6,
+   "ar": "لُّبَدًا",
+   "pausal": "لبدا",
+   "k2": "دا",
+   "k1": "ا"
+  },
+  {
+   "a": 7,
+   "ar": "أَحَدٌ",
+   "pausal": "أحد",
+   "k2": "حد",
+   "k1": "د"
+  },
+  {
+   "a": 8,
+   "ar": "عَيْنَيْنِ",
+   "pausal": "عينين",
+   "k2": "ين",
+   "k1": "ن"
+  },
+  {
+   "a": 9,
+   "ar": "وَشَفَتَيْنِ",
+   "pausal": "وشفتين",
+   "k2": "ين",
+   "k1": "ن"
+  },
+  {
+   "a": 10,
+   "ar": "ٱلنَّجْدَيْنِ",
+   "pausal": "النجدين",
+   "k2": "ين",
+   "k1": "ن"
+  },
+  {
+   "a": 11,
+   "ar": "ٱلْعَقَبَةَ",
+   "pausal": "العقبه",
+   "k2": "به",
+   "k1": "ه"
+  },
+  {
+   "a": 12,
+   "ar": "ٱلْعَقَبَةُ",
+   "pausal": "العقبه",
+   "k2": "به",
+   "k1": "ه"
+  },
+  {
+   "a": 13,
+   "ar": "رَقَبَةٍ",
+   "pausal": "رقبه",
+   "k2": "به",
+   "k1": "ه"
+  },
+  {
+   "a": 14,
+   "ar": "مَسْغَبَةٍ",
+   "pausal": "مسغبه",
+   "k2": "به",
+   "k1": "ه"
+  },
+  {
+   "a": 15,
+   "ar": "مَقْرَبَةٍ",
+   "pausal": "مقربه",
+   "k2": "به",
+   "k1": "ه"
+  },
+  {
+   "a": 16,
+   "ar": "مَتْرَبَةٍ",
+   "pausal": "متربه",
+   "k2": "به",
+   "k1": "ه"
+  },
+  {
+   "a": 17,
+   "ar": "بِٱلْمَرْحَمَةِ",
+   "pausal": "بالمرحمه",
+   "k2": "مه",
+   "k1": "ه"
+  },
+  {
+   "a": 18,
+   "ar": "ٱلْمَيْمَنَةِ",
+   "pausal": "الميمنه",
+   "k2": "نه",
+   "k1": "ه"
+  },
+  {
+   "a": 19,
+   "ar": "ٱلْمَشْـَٔمَةِ",
+   "pausal": "المشمه",
+   "k2": "مه",
+   "k1": "ه"
+  },
+  {
+   "a": 20,
+   "ar": "مُّؤْصَدَةٌۢ",
+   "pausal": "مؤصده",
+   "k2": "ده",
+   "k1": "ه"
+  }
+ ],
+ "families": [
+  {
+   "key": "به",
+   "count": 6,
+   "verses": [
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+   ]
+  },
+  {
+   "key": "لد",
+   "count": 3,
+   "verses": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "key": "ين",
+   "count": 3,
+   "verses": [
+    8,
+    9,
+    10
+   ]
+  },
+  {
+   "key": "حد",
+   "count": 2,
+   "verses": [
+    5,
+    7
+   ]
+  },
+  {
+   "key": "مه",
+   "count": 2,
+   "verses": [
+    17,
+    19
+   ]
+  },
+  {
+   "key": "بد",
+   "count": 1,
+   "verses": [
+    4
+   ]
+  },
+  {
+   "key": "دا",
+   "count": 1,
+   "verses": [
+    6
+   ]
+  },
+  {
+   "key": "ده",
+   "count": 1,
+   "verses": [
+    20
+   ]
+  },
+  {
+   "key": "نه",
+   "count": 1,
+   "verses": [
+    18
+   ]
+  }
+ ],
+ "familiesCoarse": [
+  {
+   "key": "ه",
+   "count": 10,
+   "verses": [
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+   ]
+  },
+  {
+   "key": "د",
+   "count": 6,
+   "verses": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    7
+   ]
+  },
+  {
+   "key": "ن",
+   "count": 3,
+   "verses": [
+    8,
+    9,
+    10
+   ]
+  },
+  {
+   "key": "ا",
+   "count": 1,
+   "verses": [
+    6
+   ]
+  }
+ ],
+ "shifts": [
+  4,
+  5,
+  6,
+  7,
+  8,
+  11,
+  17,
+  18,
+  19,
+  20
+ ],
+ "refrains": []
+}
