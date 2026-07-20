@@ -276,6 +276,7 @@
             <li><a href="words.html">Words</a></li>
             <li><a href="roots.html">Roots</a></li>
             <li><a href="patterns.html">Patterns</a></li>
+            <li><a href="formulas.html">Formulas</a></li>
             <li><a href="numbers.html">Numbers</a></li>
           </ul>
         </li>
@@ -312,6 +313,7 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="sources.html">Sources</a></li>
+            <li><a href="datasets.html">Datasets</a></li>
             <li><a href="validation.html">Validation</a></li>
             <li><a href="credits.html">Credits</a></li>
             <li><a href="changelog.html">Changelog</a></li>
@@ -626,6 +628,36 @@
                 sorted by frequency descending.
               </p>
             </details>
+          </div>
+
+          <!-- Lemma families (derivational level between root and form) -->
+          <div class="stat-block" id="detailLemmaBlock" hidden>
+            <h4>
+              Word family — the root's lemmas
+              <span
+                class="badge ok"
+                data-source-ids="leeds-corpus-v0.4"
+                aria-label="Verified"
+                tabindex="0"
+                title="Verified · Leeds Quranic Arabic Corpus v0.4"
+                >●</span
+              >
+            </h4>
+            <p
+              style="
+                font-size: 0.85rem;
+                color: var(--muted);
+                margin: 0 0 0.4rem;
+              "
+            >
+              Between the root and its inflected surface forms sits the
+              lemma — the dictionary headword. Grouping this root's tokens
+              by lemma and part of speech shows its actual derivational
+              family: which nouns, adjectives, and verbs the root produces,
+              and how often each is used. Every root-bearing token in the
+              corpus carries a lemma, so nothing is omitted.
+            </p>
+            <div id="detailLemmaList"></div>
           </div>
 
           <!-- Co-occurring roots -->
@@ -1121,6 +1153,7 @@
           // Revelation-order timeline
           renderTimeline(d);
 
+          renderLemmaFamilies(d.lemmaFamilies);
           // Derived forms table
           formsShowing = 10;
           renderForms(d.derivedForms);
@@ -1206,6 +1239,51 @@
             `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Surah distribution for ${total} occurrences across 114 surahs">` +
             rects +
             `</svg>`;
+        }
+
+        function renderLemmaFamilies(fams) {
+          const block = document.getElementById("detailLemmaBlock");
+          const list = document.getElementById("detailLemmaList");
+          if (!block || !list) return;
+          if (!fams || fams.length === 0) {
+            // Older cached analytics files may predate this field.
+            block.hidden = true;
+            return;
+          }
+          block.hidden = false;
+          list.innerHTML = fams
+            .map((f) => {
+              const posLabel = POS_LABELS[f.pos] || f.pos || "—";
+              const headForm = f.forms && f.forms[0] ? f.forms[0].form : "";
+              const formsHtml = (f.forms || [])
+                .map(
+                  (fm) =>
+                    `<span style="display:inline-block;border:1px solid var(--line);border-radius:999px;padding:0.1rem 0.55rem;margin:0 0.3rem 0.3rem 0;font-size:0.85rem"><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${fm.form}</span> ×${fm.count}</span>`,
+                )
+                .join("");
+              const verseLinks = (f.verses || [])
+                .map((ref) => {
+                  const [s, a] = String(ref).split(":");
+                  return `<a href="read.html?s=${parseInt(s, 10)}&a=${parseInt(a, 10)}">${qdEsc(ref)}</a>`;
+                })
+                .join(" · ");
+              return (
+                `<details style="border-bottom:1px solid var(--line);padding:0.35rem 0">` +
+                `<summary style="display:flex;gap:0.6rem;align-items:baseline;flex-wrap:wrap;cursor:pointer">` +
+                `<span class="ar notranslate" translate="no" lang="ar" dir="rtl" style="font-size:1.1rem">${headForm}</span>` +
+                `<span style="color:var(--muted);font-size:0.85rem">${qdEsc(posLabel)}</span>` +
+                `<span class="scholar-only" style="color:var(--muted);font-size:0.8rem;font-family:monospace">${qdEsc(f.lemma)}</span>` +
+                `<span style="margin-left:auto;font-size:0.85rem">×${f.count.toLocaleString()}</span>` +
+                `</summary>` +
+                `<div style="padding:0.4rem 0 0.2rem">` +
+                `<p style="margin:0 0 0.3rem">${formsHtml}</p>` +
+                (verseLinks
+                  ? `<p style="margin:0;font-size:0.85rem">First verses: ${verseLinks}</p>`
+                  : "") +
+                `</div></details>`
+              );
+            })
+            .join("");
         }
 
         function renderForms(forms) {

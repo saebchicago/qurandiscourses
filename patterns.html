@@ -56,6 +56,7 @@
             <li><a href="words.html">Words</a></li>
             <li><a href="roots.html">Roots</a></li>
             <li><a href="patterns.html">Patterns</a></li>
+            <li><a href="formulas.html">Formulas</a></li>
             <li><a href="numbers.html">Numbers</a></li>
           </ul>
         </li>
@@ -76,6 +77,7 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="sources.html">Sources</a></li>
+            <li><a href="datasets.html">Datasets</a></li>
             <li><a href="validation.html">Validation</a></li>
             <li><a href="credits.html">Credits</a></li>
             <li><a href="changelog.html">Changelog</a></li>
@@ -166,6 +168,48 @@
             <select id="xrefBrowseSelect" aria-label="Choose a surah"></select>
           </div>
           <div id="xrefBrowseResults" aria-live="polite"></div>
+        </div>
+        <div class="card scholar-only">
+          <h3>Sound and rhyme — the verse endings (fawāṣil)</h3>
+          <p>
+            Most surahs end their verses on recurring sound patterns —
+            rhyme or assonance on the verse-final word (the
+            <em>fāṣila</em>). Rhyme is one of the features scholarship
+            reads structure from (Neuwirth's study of the Meccan surahs
+            builds on it extensively). Pick a surah to see every verse
+            ending, the rhyme families it groups into under two mechanical
+            keys, where the ending pattern shifts, and any refrains
+            (identical endings recurring three or more times).
+          </p>
+          <p class="method-note">
+            <span
+              class="badge nuanced"
+              data-source-ids="leeds-corpus-v0.4 neuwirth-1981"
+              aria-label="Nuanced"
+              tabindex="0"
+              title="Nuanced · orthographic proxy for pausal pronunciation"
+              >~</span
+            >
+            Computed from the bundled morphology
+            (<code>scripts/build-rhyme-map.mjs</code>): each verse-final
+            word is reduced to an approximate pausal form (vowel marks
+            stripped — which also drops the case endings, as pause does —
+            final <em>tā marbūṭa</em> read as <em>-ah</em>), then keyed
+            two ways: <strong>fine</strong> (last two letters) and
+            <strong>coarse</strong> (final letter only). These are
+            orthographic proxies, not a phonological transcription of
+            recitation — endings that rhyme in recitation can split under
+            the fine key (the coarse key exists to show exactly that
+            tension). A shift in the key is a mechanical fact, not an
+            asserted structural boundary.
+          </p>
+          <label
+            >Surah
+            <select id="rhymeSurah" style="margin-left: 0.4rem">
+              <option value="">Choose…</option>
+            </select></label
+          >
+          <div id="rhymePanel" style="margin-top: 0.75rem"></div>
         </div>
         <div class="card encyclopedic-only">
           <h3>Other documented features</h3>
@@ -521,6 +565,122 @@
                 stList.innerHTML =
                   '<p style="color:var(--muted)">Could not load the method detail.</p>';
                 stLoaded = false;
+              }
+            });
+          }
+
+          // ── Sound & rhyme: per-surah verse-ending map ──────────────
+          var rhymeSel = document.getElementById("rhymeSurah");
+          var rhymePanel = document.getElementById("rhymePanel");
+          if (rhymeSel && rhymePanel && window.SURAHS) {
+            window.SURAHS.forEach(function (su) {
+              var opt = document.createElement("option");
+              opt.value = String(su.id);
+              opt.textContent = su.id + " · " + su.en;
+              rhymeSel.appendChild(opt);
+            });
+
+            // Stable, theme-safe distinction between adjacent rhyme
+            // families: alternate row background bands per family run.
+            function renderRhyme(d) {
+              var famColors = {};
+              d.families.forEach(function (f, i) {
+                famColors[f.key] = i % 2 === 0 ? "transparent" : "var(--card)";
+              });
+              var chips = d.families
+                .slice(0, 12)
+                .map(function (f) {
+                  return (
+                    '<span style="display:inline-block;border:1px solid var(--line);border-radius:999px;padding:0.1rem 0.6rem;margin:0 0.3rem 0.3rem 0;font-size:0.85rem"><span class="ar notranslate" translate="no" lang="ar" dir="rtl">-' +
+                    qdEsc(f.key) +
+                    "</span> × " +
+                    f.count +
+                    "</span>"
+                  );
+                })
+                .join("");
+              var extra =
+                d.families.length > 12
+                  ? '<span style="color:var(--muted);font-size:0.85rem">+ ' +
+                    (d.families.length - 12) +
+                    " more</span>"
+                  : "";
+              var refrainNote = d.refrains.length
+                ? '<p style="margin:0.5rem 0 0;font-size:0.9rem">Refrain: <span class="ar notranslate" translate="no" lang="ar" dir="rtl">' +
+                  qdEsc(d.refrains[0].pausal) +
+                  "</span> recurs ×" +
+                  d.refrains[0].count +
+                  "</p>"
+                : "";
+              var shiftSet = {};
+              d.shifts.forEach(function (a) {
+                shiftSet[a] = true;
+              });
+              var rows = d.verses
+                .map(function (v) {
+                  return (
+                    '<tr style="background:' +
+                    famColors[v.k2] +
+                    (shiftSet[v.a]
+                      ? ";border-top:2px solid var(--accent)"
+                      : "") +
+                    '"><td><a href="read.html?s=' +
+                    d.surah +
+                    "&a=" +
+                    v.a +
+                    '">' +
+                    d.surah +
+                    ":" +
+                    v.a +
+                    '</a></td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">' +
+                    qdEsc(v.ar) +
+                    '</span></td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">' +
+                    qdEsc(v.pausal) +
+                    '</span></td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">-' +
+                    qdEsc(v.k2) +
+                    '</span></td><td class="scholar-only"><span class="ar notranslate" translate="no" lang="ar" dir="rtl">-' +
+                    qdEsc(v.k1) +
+                    "</span></td></tr>"
+                  );
+                })
+                .join("");
+              rhymePanel.innerHTML =
+                '<p style="margin:0 0 0.4rem;font-size:0.9rem">' +
+                d.verseCount +
+                " verses · " +
+                d.families.length +
+                " fine-key famil" +
+                (d.families.length === 1 ? "y" : "ies") +
+                " · " +
+                d.shifts.length +
+                " shift" +
+                (d.shifts.length === 1 ? "" : "s") +
+                " (marked with an accent border)</p>" +
+                "<p style=\"margin:0 0 0.6rem\">" +
+                chips +
+                extra +
+                "</p>" +
+                refrainNote +
+                '<div style="overflow-x:auto;margin-top:0.6rem"><table class="data"><thead><tr><th>Verse</th><th>Final word</th><th>Pausal</th><th>Fine key</th><th class="scholar-only">Coarse</th></tr></thead><tbody>' +
+                rows +
+                "</tbody></table></div>";
+            }
+
+            rhymeSel.addEventListener("change", async function () {
+              var s = parseInt(rhymeSel.value, 10);
+              if (!s) {
+                rhymePanel.innerHTML = "";
+                return;
+              }
+              rhymePanel.innerHTML =
+                '<p style="color:var(--muted)">Loading…</p>';
+              try {
+                var rr = await fetch("data/rhyme/" + s + ".json");
+                if (!rr.ok) throw new Error("HTTP " + rr.status);
+                renderRhyme(await rr.json());
+              } catch (e) {
+                rhymePanel.innerHTML =
+                  '<p style="color:var(--muted)">Could not load the rhyme data.</p>';
               }
             });
           }

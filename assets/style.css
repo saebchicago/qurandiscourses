@@ -1388,8 +1388,11 @@ html[data-depth="encyclopedic"] .encyclopedic-only {
   display: block;
 }
 html[data-depth="scholar"] td.scholar-only,
+html[data-depth="scholar"] th.scholar-only,
 html[data-depth="encyclopedic"] td.scholar-only,
-html[data-depth="encyclopedic"] td.encyclopedic-only {
+html[data-depth="encyclopedic"] th.scholar-only,
+html[data-depth="encyclopedic"] td.encyclopedic-only,
+html[data-depth="encyclopedic"] th.encyclopedic-only {
   display: table-cell;
 }
 html[data-depth="scholar"] li.scholar-only,
