@@ -322,6 +322,9 @@
             "
           >
             <a id="dailyReadLink" class="button" href="#">Read this surah</a>
+            <a id="dailyDossierLink" class="button secondary" href="dossier.html"
+              >Its full dossier</a
+            >
             <a id="dailyLensLink" class="button secondary" href="#">Learn more</a>
           </div>
           <p id="dailyProv" class="method-note" style="min-height: 4.9em">
@@ -868,6 +871,8 @@
             ".";
           document.getElementById("dailyReadLink").href =
             "read.html?s=" + surahNum + "&a=1";
+          document.getElementById("dailyDossierLink").href =
+            "dossier.html?s=" + surahNum;
 
           var lensEl = document.getElementById("dailyLens");
           var lensLink = document.getElementById("dailyLensLink");

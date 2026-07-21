@@ -450,6 +450,17 @@ nav.primary .nav-toggle.is-open .nav-toggle-icon::after {
   nav.primary {
     flex-wrap: wrap;
   }
+  /* Reserve the hydrated height before nav.js injects the Menu toggle
+     on DOMContentLoaded: pre-hydration the nav is empty at this width
+     (.nav-groups is display:none below, toggle not yet in the DOM), so
+     without this the whole page jumps ~44px when the toggle lands —
+     a measured layout shift on every page, and a race against first
+     paint. js-nav is set synchronously in <head>, so this applies from
+     the first frame. 44px toggle + 2 × 0.6rem nav padding. */
+  html.js-nav nav.primary {
+    min-height: calc(44px + 1.2rem);
+    box-sizing: border-box;
+  }
   nav.primary .nav-toggle {
     display: inline-flex;
   }
