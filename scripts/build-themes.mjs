@@ -330,7 +330,20 @@ function verseSort(a, b) {
   return as - bs || aa - ba;
 }
 
+// Per-surah normalization denominator (Leeds token counts).
+const profiles = JSON.parse(
+  readFileSync(join(ROOT, "data", "surah-profiles.json"), "utf8"),
+).surahs;
+
+const TOP_SURAHS = 8;
+const MIN_SURAH_TOKENS = 2; // a lone mention is not "clustering"
+
 const out = { _generated: "build-themes.mjs", themes: [] };
+// surah -> [{slug, title, perThousand}] — the reverse index the dossier
+// fetches (data/theme-surah-index.json), so it never needs the full
+// themes.json or 33 root-analytics files at runtime.
+const surahThemes = {};
+for (let s = 1; s <= 114; s++) surahThemes[String(s)] = [];
 for (const theme of THEMES) {
   const roots = Object.keys(theme.roots);
   const scored = [];
@@ -359,6 +372,37 @@ for (const theme of THEMES) {
       roots: p.present.map((r) => byBW[r].rootLatin),
     };
   });
+  // Where the theme's vocabulary clusters: theme-root tokens summed per
+  // surah, normalized per 1,000 surah tokens so long surahs don't win on
+  // sheer length. Mechanical counting of an editorially-grouped root
+  // family — clustering is counted, not interpreted.
+  const bySurah = {};
+  for (const [key, counts] of Object.entries(verseRoots)) {
+    const s = Number(key.split(":")[0]);
+    for (const r of roots) {
+      if (counts[r]) bySurah[s] = (bySurah[s] || 0) + counts[r];
+    }
+  }
+  const topSurahs = Object.entries(bySurah)
+    .map(([s, tokens]) => ({
+      s: Number(s),
+      tokens,
+      perThousand:
+        Math.round((tokens / profiles[s].tokenCount) * 1000 * 10) / 10,
+    }))
+    .filter((x) => x.tokens >= MIN_SURAH_TOKENS)
+    .sort(
+      (a, b) => b.perThousand - a.perThousand || b.tokens - a.tokens || a.s - b.s,
+    )
+    .slice(0, TOP_SURAHS);
+  for (const x of topSurahs) {
+    surahThemes[String(x.s)].push({
+      slug: theme.slug,
+      title: theme.title,
+      perThousand: x.perThousand,
+    });
+  }
+
   out.themes.push({
     slug: theme.slug,
     title: theme.title,
@@ -370,6 +414,7 @@ for (const theme of THEMES) {
       count: byBW[r].totalCount,
     })),
     passages,
+    topSurahs,
     verseCoverage: Object.entries(verseRoots).filter(([, c]) =>
       roots.some((r) => c[r]),
     ).length,
@@ -379,6 +424,30 @@ for (const theme of THEMES) {
 writeFileSync(
   join(ROOT, "data", "themes.json"),
   JSON.stringify(out, null, 1) + "\n",
+);
+
+// Reverse index: each surah's themes ranked by density. Only surahs that
+// made a theme's topSurahs appear with entries — the rest stay [] so a
+// consumer can distinguish "no clustering" from "file missing".
+for (const list of Object.values(surahThemes)) {
+  list.sort((a, b) => b.perThousand - a.perThousand || a.slug.localeCompare(b.slug));
+}
+writeFileSync(
+  join(ROOT, "data", "theme-surah-index.json"),
+  JSON.stringify({
+    _generated: "build-themes.mjs",
+    _method:
+      "Reverse of themes.json's topSurahs: for each surah, the themes " +
+      "whose root-family vocabulary clusters in it, ranked by density " +
+      "(theme-root tokens per 1,000 surah tokens, Leeds counts; " +
+      `minimum ${MIN_SURAH_TOKENS} tokens; a theme lists at most its ` +
+      `top ${TOP_SURAHS} surahs, so absence here means the surah is ` +
+      "not among that theme's densest, not that the vocabulary is " +
+      "absent). Root-to-theme grouping is editorial (see themes.html); " +
+      "the counting is mechanical — clustering is counted, not " +
+      "interpreted.",
+    surahs: surahThemes,
+  }) + "\n",
 );
 for (const t of out.themes) {
   console.log(

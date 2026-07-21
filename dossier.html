@@ -150,14 +150,14 @@
          match the common case). This is what keeps the fill-in-place
          from registering as layout shift — the daily-card CLS lesson. */
       #secIdentity { min-height: 6.9em; }
-      #secVocab { min-height: 28.8em; }
+      #secVocab { min-height: 32em; }
       #secRhyme { min-height: 4.9em; }
       #secFormulas { min-height: 20em; }
       #secXref { min-height: 8em; }
       #secStructure { min-height: 7em; }
       @media (max-width: 600px) {
         #secIdentity { min-height: 21.4em; }
-        #secVocab { min-height: 45.2em; }
+        #secVocab { min-height: 50em; }
         #secRhyme { min-height: 7.9em; }
         #secFormulas { min-height: 41.7em; }
         #secXref { min-height: 14.5em; }
@@ -456,9 +456,28 @@
           return `<ul class="top-roots-chart">${items}</ul>`;
         }
 
-        function renderVocab(s, profiles) {
+        function renderVocab(s, profiles, themeIndex) {
           const p = profiles && profiles.surahs && profiles.surahs[String(s)];
           if (!p) return fail("secVocab", "Vocabulary profile");
+          // Themes whose root-family vocabulary clusters here (from the
+          // build-time reverse index; a theme lists only its top-8
+          // densest surahs, so absence means "not among the densest",
+          // not "vocabulary absent" — the empty state says so).
+          let themesHtml = "";
+          const myThemes =
+            themeIndex && themeIndex.surahs && themeIndex.surahs[String(s)];
+          if (myThemes) {
+            const body = myThemes.length
+              ? myThemes
+                  .slice(0, 6)
+                  .map(
+                    (t) =>
+                      `<a href="themes.html#${qdEsc(t.slug)}">${qdEsc(t.title)}</a> <span style="color:var(--muted);font-size:0.82rem">(${t.perThousand} / 1,000 words)</span>`,
+                  )
+                  .join(" · ")
+              : `<span style="color:var(--muted)">This surah is not among any theme's densest — which says only that, not that thematic vocabulary is absent.</span>`;
+            themesHtml = `<div class="stat-block"><h4>Themes clustering here ${NUANCED("mechanical count of each theme's root family per 1,000 words — root grouping is editorial")}</h4><p style="margin:0.2rem 0 0;font-size:0.92rem;line-height:1.9">${body}</p></div>`;
+          }
           fill(
             "secVocab",
             `<div class="stat-grid">` +
@@ -469,7 +488,8 @@
                 ? `<div class="stat-block"><h4>Grammatical texture ${OK("leeds-corpus-v0.4", "Leeds POS tags")}</h4><p class="stat-value" style="font-size:1rem">${p.posMix.nounPct}% nouns · ${p.posMix.verbPct}% verbs</p></div>`
                 : "") +
               `</div>` +
-              `<div class="stat-block"><h4>Top ${p.topRoots.length} roots by frequency ${OK("leeds-corpus-v0.4", "per-surah frequency")}</h4>${topRootsChart(p.topRoots)}</div>`,
+              `<div class="stat-block"><h4>Top ${p.topRoots.length} roots by frequency ${OK("leeds-corpus-v0.4", "per-surah frequency")}</h4>${topRootsChart(p.topRoots)}</div>` +
+              themesHtml,
           );
         }
 
@@ -664,10 +684,16 @@
             .catch(() => fail("secIdentity", "Identity data"));
 
           fetchJson("data/surah-profiles.json")
-            .then((profiles) => {
-              renderVocab(s, profiles);
-              renderXref(s, profiles);
-            })
+            .then((profiles) =>
+              // The theme index is optional garnish on the vocab section:
+              // its failure must not take the whole section down.
+              fetchJson("data/theme-surah-index.json")
+                .catch(() => null)
+                .then((themeIndex) => {
+                  renderVocab(s, profiles, themeIndex);
+                  renderXref(s, profiles);
+                }),
+            )
             .catch(() => {
               fail("secVocab", "Vocabulary profile");
               fail("secXref", "Cross-reference profile");
