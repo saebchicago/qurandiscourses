@@ -3,13 +3,13 @@
 // output). Purpose: a pasted link to a root, theme, or surah should
 // unfurl in WhatsApp/Slack/etc. with that entity's own title and
 // stats. Crawlers read static <head> tags only, so the interactive
-// pages (roots.html?root=..., themes.html#..., read.html?s=...) can
+// pages (roots.html?root=..., themes.html#..., dossier.html?s=...) can
 // never unfurl per-entity; these tiny pages carry the tags and bounce
 // humans straight to the interactive page.
 //
 //   s/root/<safeKey>.html   -> roots.html?root=<safeKey>   (1,642)
 //   s/theme/<slug>.html     -> themes.html#<slug>          (33)
-//   s/surah/<n>.html        -> read.html?s=<n>&a=1         (114)
+//   s/surah/<n>.html        -> dossier.html?s=<n>           (114)
 //
 // Share pages are noindex and deliberately NOT in sitemap.xml (1,789
 // thin near-duplicates would hurt search, and noindex requires
@@ -139,7 +139,11 @@ for (let n = 1; n <= 114; n++) {
       path: `s/surah/${n}.html`,
       title: `${nm.translit} (${nm.ar}) · Divine Discourses`,
       description,
-      target: `../../read.html?s=${n}&a=1`,
+      // The dossier IS the surah's profile page — the share description
+      // above already reads like its teaser, and the dossier's first
+      // action is "Read this surah", so nothing is lost for a reader
+      // who wanted the text itself.
+      target: `../../dossier.html?s=${n}`,
     }),
   );
 }
