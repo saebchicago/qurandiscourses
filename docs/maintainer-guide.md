@@ -220,14 +220,23 @@ registry: `data/case-studies.json` (rendered by `assets/case-studies.js`).
    `STARTS` if correcting a boundary; the file is otherwise stable.
 
 ### Add a Khan outline exercise (surahs 85–114)
-1. Transcribe the outline from *An Exercise in Understanding the Qur'an*
-   (2013) — never paraphrase from memory.
+1. Transcribe the outline from a published Khan volume — never
+   paraphrase from memory. Two volumes are transcribed so far: *An
+   Exercise in Understanding the Qur'an* (2013, all thirty surahs
+   85–114; `sourceIds: khan-exercise-2013`) and *An Introduction to
+   Understanding the Qur'an with Examples* (2011, six worked surahs —
+   96, 103, 107, 108, 109, 112; `sourceIds: khan-introduction-2011`,
+   outline page number in provenanceHtml). Where both books cover a
+   surah, one entry per surah: the consumers (dossier, worksheet,
+   replay) look up outlines by surah number and take the first.
 2. Add an entry of `"type": "outline"` to `data/exercises.json`: id,
    surah number, title, tileName/tileDesc, the outline items
-   (`startVerse`, `heading`, `note` — the transcription), and keep
-   `"sourceIds": "khan-exercise-2013"` with a provenanceHtml line. No new
+   (`startVerse`, `heading`, `note` — the transcription), the matching
+   `sourceIds`, and a provenanceHtml line. No new
    page is needed: `exercise.html?id=<your-id>` renders it, and the tile
    appears on `exercises.html` automatically.
+   Bump `EXERCISE_COUNT` in index.html's continue-card script — it is a
+   hand-kept count of the registry entries.
 3. Open the exercise locally and check the reveal flow, the break
    scoring, and that the provenance badge opens its citation.
 
