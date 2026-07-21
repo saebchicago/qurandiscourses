@@ -1742,6 +1742,14 @@ dd {
   background: rgba(122, 90, 43, 0.18);
   text-decoration-color: rgba(122, 90, 43, 0.65);
 }
+/* Deep-link target words (?hl= on read.html) — a distinct class from
+   .recurring-word.highlighted above, which the vocabulary panel toggles
+   on/off per root and would otherwise clear this on an unrelated click. */
+.ar .qd-hl {
+  background: rgba(122, 90, 43, 0.22);
+  border-radius: 3px;
+  box-shadow: 0 0 0 2px rgba(122, 90, 43, 0.45);
+}
 #rootTooltip {
   position: fixed;
   z-index: 1000;
@@ -2327,4 +2335,27 @@ kbd {
   .ws-section-row {
     grid-template-columns: 1fr;
   }
+}
+
+/* ── Focus mode (read.html, html[data-focus]) ─────────────────────── */
+html[data-focus] header.site,
+html[data-focus] nav.primary,
+html[data-focus] footer.site,
+html[data-focus] .settings,
+html[data-focus] .banner,
+html[data-focus] .xref-panel,
+html[data-focus] #notesSection,
+html[data-focus] #discoveryWorksheetSection,
+html[data-focus] #vocabPanel,
+html[data-focus] .back-to-top {
+  display: none !important;
+}
+html[data-focus] main {
+  max-width: 46rem;
+  margin: 2.5rem auto;
+  padding: 0 1rem;
+}
+html[data-focus] .ar.xl {
+  font-size: 3.4rem;
+  line-height: 2.15;
 }
