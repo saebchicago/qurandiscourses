@@ -62,6 +62,14 @@ segment glosses are merged per whole word to align with the Leeds
 tokenization; each file records this in its `_license` field. These
 glosses are quoted source material, not site-authored data.
 
+## Khan interpretation excerpts (`data/khan-interpretations.json`)
+
+`data/khan-interpretations.json` carries short verbatim excerpts (with
+ellipses marking omitted material) from the "Understanding and
+Interpretation" essays in the same 2011 volume, one per worked surah.
+Quoted, not site-authored; see the citation above for the source and
+license context.
+
 ## Site-authored data
 
 The following files in `data/` are authored or computed by this project

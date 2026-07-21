@@ -154,14 +154,14 @@
       #secRhyme { min-height: 4.9em; }
       #secFormulas { min-height: 20em; }
       #secXref { min-height: 8em; }
-      #secStructure { min-height: 7em; }
+      #secStructure { min-height: 20.5em; }
       @media (max-width: 600px) {
         #secIdentity { min-height: 21.4em; }
         #secVocab { min-height: 50em; }
         #secRhyme { min-height: 7.9em; }
         #secFormulas { min-height: 41.7em; }
         #secXref { min-height: 14.5em; }
-        #secStructure { min-height: 14.7em; }
+        #secStructure { min-height: 48.5em; }
       }
     </style>
     <script src="assets/nav.js"></script>
@@ -283,7 +283,7 @@
       </section>
     </main>
     <footer class="site">
-      <p>Divine Discourses is built in memory of Dr. Irfan Ahmad Khan (1931–2018).</p>
+      <p>Divine Discourses — toward direct engagement with the Qur'an.</p>
       <p class="footer-links">
         <a href="about.html">About</a> · <a href="sources.html">Sources</a> ·
         <a href="credits.html">Credits</a> ·
@@ -609,7 +609,7 @@
             .catch(() => fail("xrefDetail", "Cross-reference detail"));
         }
 
-        function renderStructure(s, exercises, pivots) {
+        function renderStructure(s, exercises, pivots, interpretations) {
           let outlineHtml;
           const outline =
             exercises &&
@@ -618,7 +618,12 @@
               (e) => e.type === "outline" && e.surah === s,
             );
           if (outline) {
-            outlineHtml = `<p style="margin:0">${OK("khan-exercise-2013", "Khan 2013, transcribed")} Dr. Khan published a sectional outline for this surah — <a href="exercise.html?id=${qdEsc(outline.id)}">work through it as an exercise</a>.</p>`;
+            const srcIds = outline.sourceIds || "khan-exercise-2013";
+            const yearMatch = srcIds.match(/(\d{4})/);
+            const srcLabel = yearMatch
+              ? `Khan ${yearMatch[1]}, transcribed`
+              : "Khan, transcribed";
+            outlineHtml = `<p style="margin:0">${OK(qdEsc(srcIds), srcLabel)} Dr. Khan published a sectional outline for this surah — <a href="exercise.html?id=${qdEsc(outline.id)}">work through it as an exercise</a>.</p>`;
           } else if (s >= 85) {
             outlineHtml = `<p style="margin:0">${PENDING("awaiting transcription")} Khan's <em>An Exercise in Understanding the Qur'an</em> (2013) covers surahs 85–114, so a published outline for this surah exists — it just hasn't been transcribed into the site yet.</p>`;
           } else {
@@ -648,7 +653,11 @@
           } else {
             pivotHtml = `<p style="margin:0.8rem 0 0;font-size:0.92rem;color:var(--muted)">No verse here opens with the tracked temporal particles (<em>idh</em>/<em>lammā</em>) — the mechanical pivot detector finds nothing, which is itself a datum, not a judgment.</p>`;
           }
-          fill("secStructure", outlineHtml + pivotHtml);
+          const interp = interpretations && interpretations[String(s)];
+          const interpHtml = interp
+            ? `<div style="margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid var(--line)"><p style="margin:0 0 0.3rem;font-size:0.85rem;color:var(--muted)">Khan's reading of this surah:</p><blockquote class="khan" style="margin:0">${qdEsc(interp.excerpt)}<cite style="display:block;margin-top:0.4rem;font-size:0.82rem;color:var(--muted);font-style:italic">Irfan Ahmad Khan, <em>An Introduction to Understanding the Qur'an with Examples</em> (2011), p. ${qdEsc(String(interp.page))}. ${OK("khan-introduction-2011", "quoted verbatim from the published work")}</cite></blockquote></div>`
+            : "";
+          fill("secStructure", outlineHtml + pivotHtml + interpHtml);
         }
 
         // ── Boot ─────────────────────────────────────────────────────
@@ -709,9 +718,10 @@
 
           fetchJson("data/exercises.json")
             .then((ex) =>
-              fetchJson("data/discursive-pivots.json")
-                .then((piv) => renderStructure(s, ex, piv))
-                .catch(() => renderStructure(s, ex, null)),
+              Promise.all([
+                fetchJson("data/discursive-pivots.json").catch(() => null),
+                fetchJson("data/khan-interpretations.json").catch(() => null),
+              ]).then(([piv, interp]) => renderStructure(s, ex, piv, interp)),
             )
             .catch(() => fail("secStructure", "Structural notes"));
         }
