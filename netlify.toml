@@ -95,7 +95,7 @@
 [[headers]]
   for = "/dossier.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-UEEPblWAVSo9szAp65nVETTB7cvKh6+k7cPb01oSZrY='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-g3fbW4xn0/CrMRzq3cluuPEUU8DHP1xowF0Uw9svteo='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-Qrcf/yng7iyxLZuj5IGUs/9tEo+GBgEEuF5PiyEwKjE='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-Ue8aMZIUb5sQmmwFsjFp9JUwPNv3LdgNFkQiTpmQtg8='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/datasets.html"

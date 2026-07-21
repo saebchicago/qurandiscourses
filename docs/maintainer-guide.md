@@ -240,6 +240,23 @@ registry: `data/case-studies.json` (rendered by `assets/case-studies.js`).
 3. Open the exercise locally and check the reveal flow, the break
    scoring, and that the provenance badge opens its citation.
 
+### Add a Khan interpretation excerpt (dossier "Khan's reading of this surah")
+1. Transcribe a short excerpt verbatim from the "Understanding and
+   Interpretation" essay in the source volume — mark any omitted
+   material with an ellipsis (`…` or `[…]`), never paraphrase or
+   summarize into your own words.
+2. Add an entry to `data/khan-interpretations.json` keyed by surah
+   number: `{ "excerpt": "...", "page": N }`. dossier.html's
+   `renderStructure` picks it up automatically — no new page needed.
+3. This is quoted source material, not site-authored data — record it
+   in NOTICE.md alongside the citation, not the site-authored-data
+   list.
+4. If the excerpt is long, re-measure `#secStructure`'s reserved
+   `min-height` at 375px and >600px against all 114 surahs (a
+   Playwright sweep — see prior CLS calibrations in this guide) before
+   committing; a taller excerpt than previously calibrated will shift
+   layout on load for every surah that now has one.
+
 ### Add or adjust a theme gateway
 1. Edit the `THEMES` table at the top of `scripts/build-themes.mjs` —
    roots are Buckwalter keys; the script fails loudly if a root doesn't
