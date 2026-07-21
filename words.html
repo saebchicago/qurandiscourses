@@ -323,11 +323,12 @@
             Haleem.
           </p>
         </div>
-        <!-- Rendered only when data/gloss/1.json exists (owner-gated
-             licensed dataset — see the maintainer guide). Until then this
-             section stays hidden and the static example above stands. -->
+        <!-- Rendered only when data/gloss/ carries at least one surah
+             (owner-gated licensed dataset — see the maintainer guide).
+             Until then this section stays hidden and the static example
+             above stands. -->
         <div class="card" id="liveGlossCard" hidden>
-          <h3>Live example with glosses: al-Fatihah 1:1</h3>
+          <h3 id="liveGlossTitle">Live example with glosses</h3>
           <div id="liveGlossTable"></div>
           <p class="prov" id="liveGlossProv"></p>
         </div>
@@ -367,22 +368,30 @@
     <script>
       (function () {
         "use strict";
-        // Feature-detected: shows a live glossed word table for 1:1 only
-        // when the owner has committed a licensed gloss dataset.
+        // Feature-detected: shows a live glossed word table (verse 1 of
+        // the first glossed surah) only when the owner has committed a
+        // licensed gloss dataset.
+        var glossSurah = null;
         function init() {
           fetch("data/gloss/index.json")
             .then(function (r) {
               return r.ok ? r.json() : { surahs: [] };
             })
             .then(function (m) {
-              if (!m.surahs.includes(1)) throw new Error("no gloss data");
+              glossSurah =
+                m.surahs && m.surahs.length ? m.surahs[0] : null;
+              if (!glossSurah) throw new Error("no gloss data");
               return Promise.all([
-                fetch("data/gloss/1.json").then(function (r) {
-                  return r.ok ? r.json() : null;
-                }),
-                fetch("data/morphology/1.json").then(function (r) {
-                  return r.ok ? r.json() : null;
-                }),
+                fetch("data/gloss/" + glossSurah + ".json").then(
+                  function (r) {
+                    return r.ok ? r.json() : null;
+                  },
+                ),
+                fetch("data/morphology/" + glossSurah + ".json").then(
+                  function (r) {
+                    return r.ok ? r.json() : null;
+                  },
+                ),
               ]);
             })
             .then(function (res) {
@@ -401,6 +410,10 @@
                   );
                 })
                 .join("");
+              document.getElementById("liveGlossTitle").textContent =
+                "Live example with glosses: Sūrah " +
+                glossSurah +
+                ", verse 1";
               document.getElementById("liveGlossTable").innerHTML =
                 '<table class="data"><thead><tr><th>Word</th><th>Gloss</th></tr></thead><tbody>' +
                 rows +
