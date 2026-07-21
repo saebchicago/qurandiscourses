@@ -2336,3 +2336,26 @@ kbd {
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Focus mode (read.html, html[data-focus]) ─────────────────────── */
+html[data-focus] header.site,
+html[data-focus] nav.primary,
+html[data-focus] footer.site,
+html[data-focus] .settings,
+html[data-focus] .banner,
+html[data-focus] .xref-panel,
+html[data-focus] #notesSection,
+html[data-focus] #discoveryWorksheetSection,
+html[data-focus] #vocabPanel,
+html[data-focus] .back-to-top {
+  display: none !important;
+}
+html[data-focus] main {
+  max-width: 46rem;
+  margin: 2.5rem auto;
+  padding: 0 1rem;
+}
+html[data-focus] .ar.xl {
+  font-size: 3.4rem;
+  line-height: 2.15;
+}

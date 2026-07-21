@@ -569,6 +569,38 @@
     );
   }
 
+  // Focus mode (read.html): hides everything but the passage being read.
+  // In-memory only — no localStorage, no cross-page persistence — so a
+  // reload or navigating away always starts from the normal view. A
+  // no-op on every page without the button (i.e. every page but
+  // read.html), since it's gated entirely on the button's presence.
+  function initFocusMode() {
+    const btn = document.getElementById("focusToggleBtn");
+    if (!btn) return;
+    function setFocus(on) {
+      document.documentElement.toggleAttribute("data-focus", on);
+      btn.setAttribute("aria-pressed", String(on));
+    }
+    btn.addEventListener("click", () => {
+      setFocus(!document.documentElement.hasAttribute("data-focus"));
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && document.documentElement.hasAttribute("data-focus")) {
+        setFocus(false);
+        return;
+      }
+      if (
+        (e.key === "f" || e.key === "F") &&
+        !e.ctrlKey &&
+        !e.metaKey &&
+        !e.altKey &&
+        !e.target.matches("input,select,textarea")
+      ) {
+        setFocus(!document.documentElement.hasAttribute("data-focus"));
+      }
+    });
+  }
+
   // Corpus figures quoted in page prose bind to data/numbers.json via
   // data-num="dot.path" so they can never drift from the generated
   // data. The static text is the fallback; this overwrites it with the
@@ -603,6 +635,7 @@
     initInlineDepth();
     initBackToTop();
     initDataNums();
+    initFocusMode();
     applyDepth();
   });
 
