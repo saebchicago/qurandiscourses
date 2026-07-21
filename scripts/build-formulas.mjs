@@ -63,8 +63,14 @@ function surfaceStream(words) {
   return words.map((x) => ({ key: stripDiacritics(x.ar), w: x.w }));
 }
 
-function collect(streamFn) {
-  // seq join -> { n, seq, count, refs: [[s, a, w]] }
+function collect(streamFn, allPositions) {
+  // seq join -> { n, seq, count, refs }
+  // allPositions=false (surface): refs are [s, a, w] -- the first token's
+  // position; the rest of the run is w..w+n-1 since surface tokens are
+  // contiguous. allPositions=true (root): refs are [s, a, w1, w2, ...wn] --
+  // every matched token's position, since root tokens skip particles and
+  // pronouns and so are NOT contiguous; a single first-word index would
+  // not identify which words to highlight.
   const grams = new Map();
   for (let s = 1; s <= 114; s++) {
     const morph = JSON.parse(
@@ -77,7 +83,8 @@ function collect(streamFn) {
       const toks = streamFn(morph[String(a)] || []);
       for (const n of NS) {
         for (let i = 0; i + n <= toks.length; i++) {
-          const seq = toks.slice(i, i + n).map((t) => t.key);
+          const window = toks.slice(i, i + n);
+          const seq = window.map((t) => t.key);
           const id = n + "|" + seq.join("");
           let g = grams.get(id);
           if (!g) {
@@ -85,7 +92,11 @@ function collect(streamFn) {
             grams.set(id, g);
           }
           g.count++;
-          g.refs.push([s, a, toks[i].w]);
+          g.refs.push(
+            allPositions
+              ? [s, a, ...window.map((t) => t.w)]
+              : [s, a, window[0].w],
+          );
         }
       }
     }
@@ -109,7 +120,7 @@ const methodShared =
   "site does not make (see Bannister 2014 for that literature).";
 
 // ── ROOT stream ─────────────────────────────────────────────────────
-const rootGrams = collect(rootStream).map((g) => ({
+const rootGrams = collect(rootStream, true).map((g) => ({
   n: g.n,
   seq: g.seq,
   display: g.seq.map((r) => rootsSummary[r]?.rootLatin || r).join(" · "),
@@ -126,7 +137,10 @@ writeFileSync(
       _method:
         "ROOT stream: token = consonantal root; words with no root " +
         "(particles, pronouns) are skipped, so a root sequence may span " +
-        "them. Then " + methodShared,
+        "them. Because matched words are therefore not consecutive in " +
+        "the verse, each ref is [surah, ayah, w1, w2, ...wN] — every " +
+        "matched word's 1-based position, not just the first. Then " +
+        methodShared,
       _params: { n: NS, minFreq: MIN_FREQ },
       totalRecurring: rootGrams.length,
       ngrams: rootGrams,
@@ -135,7 +149,7 @@ writeFileSync(
 );
 
 // ── SURFACE stream ──────────────────────────────────────────────────
-const surfaceGrams = collect(surfaceStream).map((g) => ({
+const surfaceGrams = collect(surfaceStream, false).map((g) => ({
   n: g.n,
   seq: g.seq,
   display: g.seq.join(" "),
@@ -150,7 +164,10 @@ writeFileSync(
       _generated: "build-formulas.mjs",
       _method:
         "SURFACE stream: token = diacritic-stripped surface form, all " +
-        "words included (particles too). Then " + methodShared,
+        "words included (particles too), so matched words are always " +
+        "consecutive. Each ref is [surah, ayah, w] — the first matched " +
+        "word's 1-based position; the remaining n-1 words are w+1..w+n-1. " +
+        "Then " + methodShared,
       _params: { n: NS, minFreq: MIN_FREQ },
       totalRecurring: surfaceGrams.length,
       ngrams: surfaceGrams,
