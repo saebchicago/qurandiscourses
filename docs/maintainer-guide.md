@@ -51,15 +51,19 @@ Citations follow the **Chicago Manual of Style, bibliography form**:
 When a detail can't be confirmed against the work itself, omit it — never
 guess. sources.html is the reference implementation.
 
-## 2. Site map (25 pages)
+## 2. Site map (27 pages)
 
 | Group | Pages | Notes |
 |---|---|---|
 | Study | read, navigate, compare, themes, replay | API-backed reading; local-data everything else |
-| Analyze | words, roots, patterns, numbers | fully local data |
+| Analyze | words, roots, patterns, numbers, formulas | fully local data |
 | Learn | how-to-use, how-it-works, exercises (hub), exercise, exercise-roots, paths, glossary, watch | exercises are data-driven or book-cited; exercise-asr.html is a redirect stub |
-| About | index, about, sources, validation, credits, changelog | credibility pages |
+| About | index, about, sources, datasets, validation, credits, changelog | credibility pages |
 | Unlisted | embed (iframe card, the one frameable page), exercise-asr (redirect stub) | outside nav and sitemap by design |
+
+Site-wide, not pages: `manifest.webmanifest` + `sw.js` (repo root) make
+the site installable and give it an offline shell — see "Service worker
+(sw.js) and SW_VERSION" in §4.
 
 Shared building blocks every page uses: `assets/nav.js` (menus, hamburger,
 aria-current), `assets/app.js` (settings gear: depth / palette / theme /
@@ -123,6 +127,8 @@ them only when their inputs change; commit their outputs.
 | build-root-refs-index.mjs | roots-summary | assets/root-refs.js | refs.js root-mention detection (ambiguous ASCII folds deliberately absent) |
 | build-word-index.mjs | morphology, roots-summary, data/gloss (optional) | data/word-index.json | words.html vocabulary search — rerun after committing a gloss dataset so meanings join the index |
 | build-roots-list.mjs | roots-summary | data/roots-list.json | the slim per-root record every list-level consumer fetches (roots list, compare suggestions, refs popovers, embeds, exercise-roots) — rerun whenever roots-summary changes |
+| build-formulas.mjs | morphology | data/formulas-root.json, data/formulas-surface.json | formulas.html. Root-stream refs are `[surah, ayah, w1..wn]` — every matched word's position, since root sequences skip particles/pronouns and so are NOT contiguous. Surface-stream refs are `[surah, ayah, w]` — the first matched word only, since surface matches ARE contiguous (`w..w+n-1`). Both are consumed by read.html's `?hl=` deep-link highlighting (§5) |
+| build-rhyme-map.mjs | morphology | data/rhyme/{1-114}.json, data/rhyme-summary.json | patterns.html rhyme explorer; rhyme-summary.json also feeds index.html's daily discourse card (below) |
 
 Checkers (not generators — they gate shipping):
 
@@ -152,6 +158,19 @@ need to be run again unless a future contributor reverts `BW_MAP` or
 reruns `build-leeds.js` against a raw dump older than this fix. If you
 ever do have `leeds-raw.txt` and re-run `build-leeds.js` from scratch, its
 output will already be correct and the migration script becomes a no-op.
+
+**Daily discourse card (index.html) determinism.** The surah shown is
+`1 + (days-since-Unix-epoch mod 114)`. `Date.now()` is always
+milliseconds since the epoch in UTC regardless of the visitor's local
+timezone, so this changes at midnight UTC for every visitor everywhere —
+the card's "same passage for everyone" claim is literally true, not
+timezone-forked. The rotating "lens" (top root / root-diversity ratio /
+dominant rhyme family) is chosen by `new Date().getUTCDay() % 3` and
+reads only `surah-profiles.json` and `rhyme-summary.json` — the
+multi-megabyte formula files are deliberately excluded as too heavy for
+a homepage fetch. No localStorage/sessionStorage writes; degrades to
+just the header line (from the already-loaded `assets/surahs.js`) if the
+data fetch fails.
 
 ## 4. Recipes
 
@@ -284,6 +303,45 @@ browser and screenshot at exactly 1200×630 (Playwright viewport capture
 or devtools device capture), overwrite the PNG, commit. Do not add a
 package.json for this.
 
+### Regenerate the PWA icons (rare)
+`assets/icons/icon-{192,512}.png` are captured from
+`assets/icons/icon-template.html` the same one-time-manual way as the
+og-image above: open with `?size=192` or `?size=512`, viewport set to
+match, screenshot the full page, overwrite, commit. One PNG per size
+covers both the manifest's `"any"` and `"maskable"` purposes — the
+letter is sized to Android's ~80% maskable safe zone so it still reads
+correctly if the OS applies its own mask shape over the full square.
+
+### Service worker (sw.js) and SW_VERSION
+`sw.js` (repo root) gives the site an offline shell: cross-origin
+requests (api.alquran.cloud, cdn.islamic.network) are never intercepted
+— that's what keeps the existing localStorage API cache and audio
+range requests working — while same-origin HTML is network-first with
+cache fallback (keyed by path, query string stripped), `data/*.json` is
+also network-first with cache fallback (deliberately NOT
+stale-while-revalidate, so a data schema change is never paired with a
+stale cached copy just because the network was slow), and `assets/*` is
+stale-while-revalidate.
+
+**Bump `SW_VERSION` in `sw.js`** whenever you ship a change that an
+old cached copy would render incorrectly against fresh page code:
+- any `data/*.json` schema change (field added/removed/renamed, ref
+  format changed — e.g. this repo's root-formula refs going from
+  first-position-only to all-positions)
+- any change to what `assets/*.js`/`.css` expects from the HTML shell
+
+Bumping it prunes every old-version cache on the next `activate` (see
+`sw.js`'s `OWN_CACHES` filter) — a returning visitor's stale offline
+copy self-heals on their next successful online visit; it does not
+require a version-mismatch check anywhere else.
+
+**If you ever add or change what `sw.js` intercepts:**
+`scripts/verify-site.mjs` passes `serviceWorkers: "block"` to every
+browser context it creates, specifically so the SW can never silently
+intercept the abort/stub routing those checks depend on. Do not remove
+that option; if a check needs to exercise the SW itself, give it its
+own context with SWs allowed rather than changing the shared default.
+
 ### Change colors / add a palette
 Palettes live in `assets/style.css` as custom-property blocks keyed off
 `[data-palette]` × `[data-theme]`. A palette needs three blocks: light,
@@ -300,6 +358,16 @@ committing. Register the palette in the `setPalette` select in
   against a dataset or reduced with `parseInt`/regex before any use.
   These invariants were verified by tracing every source→sink flow and by
   a simulated hostile-API test; keep them true.
+- **read.html's `?hl=` deep-link highlight param** follows the same
+  whitelist rule: grammar is a comma list (max 50 items) of single
+  1-based word indices, ranges, or the literal `end` sentinel —
+  `/^(\d{1,3}(-\d{1,3})?|end)(,(\d{1,3}(-\d{1,3})?|end)){0,49}$/` — a
+  failed match is silently ignored (never partially applied), resolved
+  indices are capped at 200, and every value is used only as a numeric
+  array index — never interpolated into HTML or a CSS selector. formulas/
+  patterns/words.html are the producers; see build-formulas.mjs's row in
+  §3 for the root-vs-surface ref-format distinction that decides what
+  each producer emits.
 - Security headers (CSP, frame-ancestors, nosniff, HSTS) are set in
   `netlify.toml`. If you add an external origin (API, CDN), you must add
   it to `connect-src`/`media-src` there or it will be blocked in
@@ -380,6 +448,28 @@ What it covers (the old manual list, for reference) and what's left:
     and any other page (blocked). Do not merge on assumptions — Netlify
     emits every matching rule's headers and browsers enforce multiple
     CSPs as their intersection.
+11. **Not covered by `verify-site.mjs` itself** (its browser contexts
+    pass `serviceWorkers: "block"`, so none of this runs inside it —
+    verify by hand, e.g. a scratch Playwright script, before shipping a
+    change to any of these):
+    - `?hl=` deep-link highlighting — check it at **Simple depth
+      specifically** (the site's default), not just Scholar/
+      Encyclopedic: `buildArHtml` early-returns unmodified text
+      whenever there's no scholar-depth root data, so a highlight
+      implementation that only composed with `buildArHtml`'s output
+      would silently do nothing for most first-time visitors following
+      a formula/rhyme/KWIC link. `applyHighlight` runs independently of
+      it for exactly this reason — don't refactor that away.
+    - The daily discourse card — two contexts clocked to the same UTC
+      instant should render an identical surah and lens; a different
+      UTC weekday should rotate the lens.
+    - The service worker — install, `context.setOffline(true)`, reload
+      (shell + bundled data should still render); confirm a cross-origin
+      request still reaches the network unintercepted; bump
+      `SW_VERSION` and confirm the old cache is pruned on activate.
+    - Focus mode — toggle hides chrome, `aria-pressed` tracks state,
+      Escape/`f`/re-click all exit, and a reload always resets it (no
+      persistence).
 
 ## 7. Deployment
 
