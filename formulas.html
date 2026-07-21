@@ -230,12 +230,22 @@
             });
         }
 
-        function refLink(ref) {
+        function refLink(ref, n) {
+          // Surface refs are [s, a, w] — the first matched word; the rest
+          // of the run is the contiguous range w..w+n-1. Root refs are
+          // [s, a, w1, w2, ...wn] — every matched word, since root
+          // sequences skip particles/pronouns and so are not contiguous.
+          var hl =
+            stream === "surface"
+              ? ref[2] + "-" + (ref[2] + n - 1)
+              : ref.slice(2).join(",");
           return (
             '<a href="read.html?s=' +
             ref[0] +
             "&a=" +
             ref[1] +
+            "&hl=" +
+            hl +
             '">' +
             ref[0] +
             ":" +
@@ -257,7 +267,7 @@
                 "</span>";
           var refs = g.refs
             .map(function (r) {
-              return refLink(r);
+              return refLink(r, g.n);
             })
             .join(" · ");
           return (
