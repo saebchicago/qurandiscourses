@@ -201,8 +201,12 @@
   function initBanner() {
     var banner = document.getElementById("welcomeBanner");
     if (!banner) return;
-    if (window.qdState && window.qdState.seen) return; // returning reader
-    banner.hidden = false;
+    // Visibility itself is already decided by the inline script right
+    // after the banner's markup in index.html (synchronously, before
+    // paint, to avoid a hidden->shown layout shift) — this just wires up
+    // its interactive elements, so skip that for a returning reader
+    // (nothing to wire on a banner that's staying hidden).
+    if (window.qdState && window.qdState.seen) return;
     // Any interaction counts as "seen": the newcomer path, a depth pick
     // (if a page's banner carries the toggle — wired by app.js
     // initInlineDepth), the tour, or dismissal.

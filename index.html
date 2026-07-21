@@ -32,6 +32,19 @@
       property="og:image:alt"
       content="Divine Discourses — toward direct engagement with the Qur'an. Every claim labeled and traceable to its source."
     />
+    <!-- The daily discourse card renders Arabic text above the fold on
+         first paint (assets/surahs.js's .ar surah name) — preload the
+         Amiri subset that covers it (basic Arabic, U+0600-06FF) so the
+         font-display:swap fallback-to-Amiri reflow (assets/fonts.css)
+         resolves before paint instead of after, which otherwise shows up
+         as a real, measured layout shift on this page specifically. -->
+    <link
+      rel="preload"
+      href="assets/fonts/J7aRnpd8CGxBHpUrtLMA7w.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
     <script src="assets/nav.js"></script>
@@ -229,6 +242,22 @@
           </div>
         </div>
       </section>
+      <script>
+        // Decide whether to show the welcome banner synchronously, right
+        // here, rather than leaving it to tour.js (loaded `defer`, so it
+        // only runs after the whole page has parsed) — a hidden section
+        // that a later script unhides is a real, measured layout shift
+        // (the whole page below it jumps down once it appears), not just
+        // a theoretical one. Reading localStorage directly here avoids
+        // waiting on assets/app.js's qdState to be built.
+        (function () {
+          try {
+            var raw = localStorage.getItem("qd_state");
+            var seen = raw && JSON.parse(raw).seen;
+            if (!seen) document.getElementById("welcomeBanner").hidden = false;
+          } catch (e) {}
+        })();
+      </script>
 
       <section id="continueSection" hidden aria-live="polite">
         <div
@@ -257,7 +286,7 @@
         </div>
       </section>
 
-      <section id="dailySection" hidden aria-live="polite">
+      <section id="dailySection" aria-live="polite">
         <div class="card">
           <div
             style="
@@ -273,13 +302,30 @@
               >Same passage for everyone, changes at midnight UTC</span
             >
           </div>
-          <p id="dailyIntro" style="margin: 0.6rem 0"></p>
-          <p id="dailyLens" style="margin: 0.6rem 0"></p>
-          <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.4rem">
+          <p id="dailyIntro" style="margin: 0.6rem 0; min-height: 4.9em">
+            Loading today's discourse…
+          </p>
+          <p
+            id="dailyLens"
+            style="margin: 0.6rem 0; min-height: 4.9em; color: var(--muted)"
+          >
+            Loading today's companion fact…
+          </p>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 0.6rem;
+              margin-top: 0.4rem;
+            "
+          >
             <a id="dailyReadLink" class="button" href="#">Read this surah</a>
-            <a id="dailyLensLink" class="button secondary" href="#" hidden></a>
+            <a id="dailyLensLink" class="button secondary" href="#">Learn more</a>
           </div>
-          <p id="dailyProv" class="method-note"></p>
+          <p id="dailyProv" class="method-note" style="min-height: 4.9em">
+            Loading source citation…
+          </p>
         </div>
       </section>
 
@@ -846,7 +892,11 @@
             var rhyme = results[1] && results[1].surahs;
             var p = profiles ? profiles[String(surahNum)] : null;
             var r = rhyme ? rhyme[String(surahNum)] : null;
-            lensLink.hidden = false;
+            // Real content replaces the muted placeholder text now that
+            // it's ready — its min-height (set in the HTML) already
+            // reserved this box's footprint, so filling it in here does
+            // not shift anything below it.
+            lensEl.style.color = "";
 
             if (lensIndex === 0 && p && p.topRoots && p.topRoots[0]) {
               var top = p.topRoots[0];
@@ -903,8 +953,6 @@
             }
             if (window.qdCiteEnhance) window.qdCiteEnhance(section);
           });
-
-          section.hidden = false;
         });
       })();
     </script>
