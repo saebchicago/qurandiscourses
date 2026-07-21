@@ -172,7 +172,7 @@
           </div>
           <div id="xrefBrowseResults" aria-live="polite"></div>
         </div>
-        <div class="card scholar-only">
+        <div class="card scholar-only" id="rhyme">
           <h3>Sound and rhyme — the verse endings (fawāṣil)</h3>
           <p>
             Most surahs end their verses on recurring sound patterns —
@@ -686,6 +686,19 @@
                   '<p style="color:var(--muted)">Could not load the rhyme data.</p>';
               }
             });
+
+            // Deep link ?s=N (e.g. a dossier's "full verse-ending map"
+            // link): preselect the surah and load its map. The section
+            // itself is scholar-only — at Simple depth the preselection
+            // is simply waiting when the reader steps up a depth.
+            var sParam = parseInt(
+              new URLSearchParams(location.search).get("s"),
+              10,
+            );
+            if (sParam >= 1 && sParam <= 114) {
+              rhymeSel.value = String(sParam);
+              rhymeSel.dispatchEvent(new Event("change"));
+            }
           }
         });
       })();

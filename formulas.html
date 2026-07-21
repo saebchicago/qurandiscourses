@@ -354,6 +354,13 @@
         });
         moreBtn.addEventListener("click", renderMore);
 
+        // Deep link ?q= (e.g. from a dossier's formula rows): pre-fill
+        // the search box before the first stream load so applyFilters
+        // picks it up on that load's completion. The value lands in a
+        // text input via .value — never interpolated into HTML.
+        var qParam = new URLSearchParams(location.search).get("q");
+        if (qParam) document.getElementById("searchBox").value = qParam.slice(0, 80);
+
         setStream("root");
       })();
     </script>
