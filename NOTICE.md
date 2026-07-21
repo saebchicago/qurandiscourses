@@ -49,6 +49,19 @@ the Quran.com Foundation Content API v4 (`scripts/build-surah-meta.mjs`
 records the exact endpoint). It is factual reference metadata cached at
 build time; the API is credited in sources.html and data/sources.json.
 
+## Khan word-by-word glosses (`data/gloss/`)
+
+Files in `data/gloss/` carry per-word English glosses transcribed from
+Irfan Ahmad Khan, *An Introduction to Understanding the Qur'an with
+Examples* (compiled by Tanveer Azmat, Chicago: Association for Qur'anic
+Understanding, 2011), © 2011 Association for Qur'anic Understanding.
+The volume is distributed free of charge at quranicunderstanding.com;
+the transcription was made by the site maintainer (Dr. Khan's
+grandson). Where the book glosses sub-word segments (clitics), the
+segment glosses are merged per whole word to align with the Leeds
+tokenization; each file records this in its `_license` field. These
+glosses are quoted source material, not site-authored data.
+
 ## Site-authored data
 
 The following files in `data/` are authored or computed by this project
