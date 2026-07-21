@@ -623,7 +623,7 @@
             const srcLabel = yearMatch
               ? `Khan ${yearMatch[1]}, transcribed`
               : "Khan, transcribed";
-            outlineHtml = `<p style="margin:0">${OK(srcIds, srcLabel)} Dr. Khan published a sectional outline for this surah — <a href="exercise.html?id=${qdEsc(outline.id)}">work through it as an exercise</a>.</p>`;
+            outlineHtml = `<p style="margin:0">${OK(qdEsc(srcIds), srcLabel)} Dr. Khan published a sectional outline for this surah — <a href="exercise.html?id=${qdEsc(outline.id)}">work through it as an exercise</a>.</p>`;
           } else if (s >= 85) {
             outlineHtml = `<p style="margin:0">${PENDING("awaiting transcription")} Khan's <em>An Exercise in Understanding the Qur'an</em> (2013) covers surahs 85–114, so a published outline for this surah exists — it just hasn't been transcribed into the site yet.</p>`;
           } else {
@@ -718,13 +718,10 @@
 
           fetchJson("data/exercises.json")
             .then((ex) =>
-              fetchJson("data/discursive-pivots.json")
-                .catch(() => null)
-                .then((piv) =>
-                  fetchJson("data/khan-interpretations.json")
-                    .catch(() => null)
-                    .then((interp) => renderStructure(s, ex, piv, interp)),
-                ),
+              Promise.all([
+                fetchJson("data/discursive-pivots.json").catch(() => null),
+                fetchJson("data/khan-interpretations.json").catch(() => null),
+              ]).then(([piv, interp]) => renderStructure(s, ex, piv, interp)),
             )
             .catch(() => fail("secStructure", "Structural notes"));
         }

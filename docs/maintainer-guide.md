@@ -246,8 +246,10 @@ registry: `data/case-studies.json` (rendered by `assets/case-studies.js`).
    material with an ellipsis (`…` or `[…]`), never paraphrase or
    summarize into your own words.
 2. Add an entry to `data/khan-interpretations.json` keyed by surah
-   number: `{ "excerpt": "...", "page": N }`. dossier.html's
-   `renderStructure` picks it up automatically — no new page needed.
+   number: `{ "excerpt": "...", "page": N }` — `page` may be a single
+   number or a range string (e.g. `"49–50"`) when the excerpt spans
+   pages. dossier.html's `renderStructure` picks it up automatically —
+   no new page needed.
 3. This is quoted source material, not site-authored data — record it
    in NOTICE.md alongside the citation, not the site-authored-data
    list.
