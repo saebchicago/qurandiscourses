@@ -179,6 +179,7 @@
           <ul id="nav-menu-study" class="nav-menu">
             <li><a href="read.html">Read</a></li>
             <li><a href="navigate.html">Navigate</a></li>
+            <li><a href="dossier.html">Dossier</a></li>
             <li><a href="compare.html">Compare</a></li>
             <li><a href="themes.html">Themes</a></li>
             <li><a href="replay.html">Replay</a></li>
@@ -587,6 +588,7 @@
             <h4>Top ${p.topRoots.length} roots by frequency <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · per-surah frequency">●</span></h4>
             ${topRootsChart(p.topRoots)}
           </div>
+          <p style="margin:0.6rem 0 0"><a href="dossier.html?s=${p.surah}">Full dossier for this surah →</a></p>
         `;
       }
 

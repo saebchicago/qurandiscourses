@@ -51,11 +51,11 @@ Citations follow the **Chicago Manual of Style, bibliography form**:
 When a detail can't be confirmed against the work itself, omit it — never
 guess. sources.html is the reference implementation.
 
-## 2. Site map (27 pages)
+## 2. Site map (28 pages)
 
 | Group | Pages | Notes |
 |---|---|---|
-| Study | read, navigate, compare, themes, replay | API-backed reading; local-data everything else |
+| Study | read, navigate, dossier, compare, themes, replay | API-backed reading; local-data everything else. dossier.html?s=N is the per-surah synthesis page (roots.html-style client-side param; invalid/absent ?s= renders a 114-surah picker); its recurring-phrases section reads data/formula-summary.json, and s/surah/{n}.html share pages bounce to it |
 | Analyze | words, roots, patterns, numbers, formulas | fully local data |
 | Learn | how-to-use, how-it-works, exercises (hub), exercise, exercise-roots, paths, glossary, watch | exercises are data-driven or book-cited; exercise-asr.html is a redirect stub |
 | About | index, about, sources, datasets, validation, credits, changelog | credibility pages |
@@ -129,6 +129,7 @@ them only when their inputs change; commit their outputs.
 | build-roots-list.mjs | roots-summary | data/roots-list.json | the slim per-root record every list-level consumer fetches (roots list, compare suggestions, refs popovers, embeds, exercise-roots) — rerun whenever roots-summary changes |
 | build-formulas.mjs | morphology | data/formulas-root.json, data/formulas-surface.json | formulas.html. Root-stream refs are `[surah, ayah, w1..wn]` — every matched word's position, since root sequences skip particles/pronouns and so are NOT contiguous. Surface-stream refs are `[surah, ayah, w]` — the first matched word only, since surface matches ARE contiguous (`w..w+n-1`). Both are consumed by read.html's `?hl=` deep-link highlighting (§5) |
 | build-rhyme-map.mjs | morphology | data/rhyme/{1-114}.json, data/rhyme-summary.json | patterns.html rhyme explorer; rhyme-summary.json also feeds index.html's daily discourse card (below) |
+| build-formula-summary.mjs | formulas-root.json, formulas-surface.json | data/formula-summary.json | dossier.html's recurring-phrases section — a ~75 KB per-surah roll-up (counts + top-5 phrases with first-occurrence refs) so the page never fetches the megabyte parent files. Rerun whenever build-formulas.mjs reruns |
 
 Checkers (not generators — they gate shipping):
 
