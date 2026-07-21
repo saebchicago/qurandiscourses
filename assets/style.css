@@ -1742,6 +1742,14 @@ dd {
   background: rgba(122, 90, 43, 0.18);
   text-decoration-color: rgba(122, 90, 43, 0.65);
 }
+/* Deep-link target words (?hl= on read.html) — a distinct class from
+   .recurring-word.highlighted above, which the vocabulary panel toggles
+   on/off per root and would otherwise clear this on an unrelated click. */
+.ar .qd-hl {
+  background: rgba(122, 90, 43, 0.22);
+  border-radius: 3px;
+  box-shadow: 0 0 0 2px rgba(122, 90, 43, 0.45);
+}
 #rootTooltip {
   position: fixed;
   z-index: 1000;

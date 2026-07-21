@@ -412,6 +412,73 @@
           .join(" ");
       }
 
+      // ── Deep-link highlight (?hl=) ──────────────────────────────────
+      // Grammar: comma list (max 50 items) of single 1-based word indices,
+      // ranges, or the literal "end" sentinel (last word — used by rhyme
+      // links, since a verse-final word's index isn't stored in the rhyme
+      // data). Strict whitelist; values are used only as array indices,
+      // never interpolated into HTML or a selector.
+      const HL_GRAMMAR =
+        /^(\d{1,3}(-\d{1,3})?|end)(,(\d{1,3}(-\d{1,3})?|end)){0,49}$/;
+      function parseHlSpec(raw) {
+        if (!raw || raw.length > 700 || !HL_GRAMMAR.test(raw)) return null;
+        return raw.split(",").map((part) => {
+          if (part === "end") return { end: true };
+          const range = part.match(/^(\d{1,3})-(\d{1,3})$/);
+          if (range)
+            return { a: parseInt(range[1], 10), b: parseInt(range[2], 10) };
+          return { n: parseInt(part, 10) };
+        });
+      }
+      function resolveHlSet(spec, tokenCount) {
+        const set = new Set();
+        for (const t of spec) {
+          if (set.size >= 200) break;
+          if (t.end) {
+            if (tokenCount > 0) set.add(tokenCount);
+          } else if (t.n !== undefined) {
+            if (t.n >= 1 && t.n <= tokenCount) set.add(t.n);
+          } else {
+            const lo = Math.min(t.a, t.b);
+            const hi = Math.max(t.a, t.b);
+            for (let i = lo; i <= hi && set.size < 200; i++) {
+              if (i >= 1 && i <= tokenCount) set.add(i);
+            }
+          }
+        }
+        return set;
+      }
+      // Runs independently of buildArHtml: buildArHtml early-returns the
+      // plain text whenever there's no scholar-depth root data (the common
+      // case, since Simple is the default), so a deep link must not depend
+      // on that pass having run. Composes with it when it did: an already
+      // root-wrapped token gets "qd-hl" merged into its existing class
+      // list rather than being re-wrapped.
+      function applyHighlight(arHtml, hlSet) {
+        if (!hlSet || !hlSet.size) return arHtml;
+        return arHtml
+          .split(/\s+/)
+          .map((tok, i) => {
+            if (!tok || !hlSet.has(i + 1)) return tok;
+            const spanOpen = tok.match(/^<span class="([^"]*)"/);
+            if (spanOpen)
+              return tok.replace(
+                spanOpen[0],
+                `<span class="${spanOpen[1]} qd-hl"`,
+              );
+            return `<span class="qd-hl">${tok}</span>`;
+          })
+          .join(" ");
+      }
+      let hlScrolled = false;
+      function maybeScrollToHighlight(container) {
+        if (hlScrolled) return;
+        const el = container.querySelector(".qd-hl");
+        if (!el) return;
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        hlScrolled = true;
+      }
+
       // Single reusable tooltip element
       const rootTip = document.createElement("div");
       rootTip.id = "rootTooltip";
@@ -786,22 +853,37 @@
           if (vocabPanelEl) vocabPanelEl.innerHTML = "";
           let allHtml = "";
           verses.forEach(
-            ({
-              ayahNum,
-              arText,
-              surahName,
-              surahNameTranslation,
-              arNumber,
-              translations,
-            }) => {
+            (
+              {
+                ayahNum,
+                arText,
+                surahName,
+                surahNameTranslation,
+                arNumber,
+                translations,
+              },
+              vi,
+            ) => {
               const transCount = translations.length;
-              const arHtml = needsMorph
+              let arHtml = needsMorph
                 ? buildArHtml(
                     arText,
                     morphCache[s] && morphCache[s][String(ayahNum)],
                     recurringRoots,
                   )
                 : arText;
+              if (
+                vi === 0 &&
+                deepLinkHl &&
+                s === deepLinkHl.surah &&
+                ayahNum === deepLinkHl.ayah
+              ) {
+                const tokenCount = arText.split(/\s+/).filter(Boolean).length;
+                arHtml = applyHighlight(
+                  arHtml,
+                  resolveHlSet(deepLinkHl.spec, tokenCount),
+                );
+              }
               let html = `<div class="verse" data-ayah="${ayahNum}"><div class="meta"><strong>${s}:${ayahNum}</strong><span>${surahName} · ${surahNameTranslation}</span><button type="button" class="notebook-pin-btn" data-notebook-type="verse" data-notebook-ref="${s}:${ayahNum}" data-notebook-label="${qdEsc(s + ":" + ayahNum + " · " + surahName)}" title="Pin this verse to your workspace" aria-label="Pin verse ${s}:${ayahNum} to your workspace">📌</button></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button id="transBtn-${ayahNum}" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem">${transCount} selected ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arHtml}</p>`;
               if (qdState.features.showAudio) {
                 const reciterName =
@@ -877,6 +959,7 @@
             },
           );
           container.innerHTML = allHtml;
+          maybeScrollToHighlight(container);
           if (window.qdNotebook) qdNotebook.enhance(container);
 
           verses.forEach(({ ayahNum }) => {
@@ -1074,7 +1157,13 @@
               for (let a = ayahStart; a <= ayahEnd; a++) {
                 const words = morph[String(a)];
                 if (!words) continue;
-                const arabic = words.map((w) => w.ar).join(" ");
+                let arabic = words.map((w) => w.ar).join(" ");
+                if (deepLinkHl && s === deepLinkHl.surah && a === deepLinkHl.ayah) {
+                  arabic = applyHighlight(
+                    arabic,
+                    resolveHlSet(deepLinkHl.spec, words.length),
+                  );
+                }
                 cards.push(
                   `<div class="card"><p style="color:var(--muted);font-size:0.8rem;margin:0 0 0.3rem">${s}:${a}</p>` +
                     `<p class="ar xl notranslate" translate="no" lang="ar" dir="rtl" style="margin:0">${arabic}</p></div>`,
@@ -1091,6 +1180,7 @@
             '<div class="card"><p style="color:var(--nuanced)">Could not reach the text service (api.alquran.cloud). This is usually a connection problem, not a problem with your surah or verse numbers.</p>' +
             '<p><button type="button" id="retryLoad" class="button">Try again</button></p></div>' +
             fallback;
+          maybeScrollToHighlight(container);
           const retry = document.getElementById("retryLoad");
           if (retry) retry.addEventListener("click", load);
           if (fallback) {
@@ -1174,6 +1264,26 @@
         document.getElementById("surahInput").value = params.get("s");
       if (params.get("a"))
         document.getElementById("ayahInput").value = params.get("a");
+      // ?hl= targets the exact surah:ayah resolved from ?s=/?a= at page
+      // load — whichever ayah renders first (the range's start, if a
+      // range). Deliberately not re-derived on later load() calls, so
+      // navigating away (prev/next, a fresh search) silently drops it
+      // rather than mis-highlighting a different verse.
+      let deepLinkHl = null;
+      {
+        const hlSpec = parseHlSpec(params.get("hl"));
+        const sNum = parseInt(params.get("s"), 10);
+        const aRaw = (params.get("a") || "").trim();
+        const aRange = aRaw.match(/^(\d+)-(\d+)$/);
+        const aSingle = aRaw.match(/^(\d+)$/);
+        const aNum = aRange
+          ? parseInt(aRange[1], 10)
+          : aSingle
+            ? parseInt(aSingle[1], 10)
+            : NaN;
+        if (hlSpec && sNum >= 1 && sNum <= 114 && aNum >= 1)
+          deepLinkHl = { surah: sNum, ayah: aNum, spec: hlSpec };
+      }
       // Deep link ?j=N — resolve the juz's first verse from data/juz.json
       // (Tanzil standard division) and load it. Only used when no explicit
       // surah was given, so ?s=/?a= always win.
