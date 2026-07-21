@@ -51,11 +51,11 @@ Citations follow the **Chicago Manual of Style, bibliography form**:
 When a detail can't be confirmed against the work itself, omit it — never
 guess. sources.html is the reference implementation.
 
-## 2. Site map (27 pages)
+## 2. Site map (28 pages)
 
 | Group | Pages | Notes |
 |---|---|---|
-| Study | read, navigate, compare, themes, replay | API-backed reading; local-data everything else |
+| Study | read, navigate, dossier, compare, themes, replay | API-backed reading; local-data everything else. dossier.html?s=N is the per-surah synthesis page (roots.html-style client-side param; invalid/absent ?s= renders a 114-surah picker); its recurring-phrases section reads data/formula-summary.json, and s/surah/{n}.html share pages bounce to it |
 | Analyze | words, roots, patterns, numbers, formulas | fully local data |
 | Learn | how-to-use, how-it-works, exercises (hub), exercise, exercise-roots, paths, glossary, watch | exercises are data-driven or book-cited; exercise-asr.html is a redirect stub |
 | About | index, about, sources, datasets, validation, credits, changelog | credibility pages |
