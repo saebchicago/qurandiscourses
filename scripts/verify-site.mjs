@@ -207,7 +207,11 @@ const browser = await chromium.launch(
 const BLOCKED_HOSTS = /api\.alquran\.cloud|cdn\.islamic\.network/;
 
 async function newContext({ apiMode = "abort", seenState = true } = {}) {
-  const ctx = await browser.newContext();
+  // Blocked, not just ignored: sw.js (introduced alongside this option)
+  // would otherwise intercept fetches in every check below, silently
+  // bypassing the apiMode abort/stub routing and the offline-regression
+  // test's assumptions about what a fresh page load actually does.
+  const ctx = await browser.newContext({ serviceWorkers: "block" });
   if (!LIVE) {
     await ctx.route(BLOCKED_HOSTS, (route) => {
       if (apiMode === "stub") {

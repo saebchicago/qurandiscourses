@@ -34,6 +34,23 @@
   [headers.values]
     Content-Type = "text/plain"
 
+# The service worker script itself must never be cached by the browser's
+# HTTP cache (only by the SW machinery's own update check) - "no-cache"
+# forces a revalidation on every request so an SW_VERSION bump is picked
+# up promptly. No CSP block: not an HTML page, script-src 'self' already
+# covers registering it.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+    Content-Type = "text/javascript"
+
+# No CSP block: not an HTML page.
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json"
+
 # Always-safe security headers for every response.
 [[headers]]
   for = "/*"

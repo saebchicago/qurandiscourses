@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>PWA icon template · Divine Discourses</title>
+    <!-- Source template for assets/icons/icon-{192,512}.png.
+         Regenerating these PNGs is a ONE-TIME MANUAL step, not part of
+         the deterministic build pipeline (same convention as
+         assets/og/og-template.html): open this file with ?size=N, set the
+         viewport to exactly NxN, and screenshot the full page.
+
+         Same mark and colors as the site favicon (index.html's inline
+         SVG): dark ink background (#2b1d0e), parchment letter ق
+         (#f6efe2), Amiri serif. Full-bleed square, no transparency, and
+         the letter is sized to Android's ~80% maskable safe-zone — so
+         the single PNG serves both the manifest's "any" purpose (shown
+         as-is) and "maskable" purpose (OS applies its own mask shape
+         over the full square) without needing separate files. Fonts are
+         system/serif fallbacks, same reasoning as the og-image template:
+         capture should not depend on self-hosted webfonts being loaded. -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        background: #2b1d0e;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      #mark {
+        color: #f6efe2;
+        font-family: "Amiri", "Scheherazade New", Georgia, serif;
+        line-height: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="mark">ق</div>
+    <script>
+      var params = new URLSearchParams(location.search);
+      var size = parseInt(params.get("size"), 10) || 512;
+      document.body.style.width = size + "px";
+      document.body.style.height = size + "px";
+      document.getElementById("mark").style.fontSize =
+        Math.round(size * 0.44) + "px";
+    </script>
+  </body>
+</html>

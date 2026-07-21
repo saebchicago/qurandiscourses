@@ -605,4 +605,13 @@
     initDataNums();
     applyDepth();
   });
+
+  // Offline shell + bundled-data caching. Feature-detected; a browser
+  // without SW support (or one that fails to register, e.g. private
+  // browsing in some browsers) just runs the site exactly as before.
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/sw.js").catch(() => {});
+    });
+  }
 })();
