@@ -1,185 +1,194 @@
 {
-  "sources": [
-    {
-      "id": "leeds-corpus-v0.4",
-      "author": "Dukes, Kais",
-      "name": "The Quranic Arabic Corpus",
-      "edition": "version 0.4",
-      "publisher": "Language Research Group, University of Leeds",
-      "year": "2009–2017",
-      "url": "https://corpus.quran.com",
-      "license": "GNU GPL",
-      "accessed": "2026-05-19"
-    },
-    {
-      "id": "tanzil",
-      "author": "Tanzil Project",
-      "name": "Tanzil Quran Text",
-      "edition": "Uthmani script",
-      "year": "2007–",
-      "url": "https://tanzil.net",
-      "license": "CC BY-ND 3.0",
-      "accessed": "2026-05-19"
-    },
-    {
-      "id": "qul",
-      "author": "Tarteel AI and Quran.com Foundation",
-      "name": "Quranic Universal Library (QUL)",
-      "year": "2024",
-      "url": "https://qul.tarteel.ai",
-      "accessed": "2026-05-19"
-    },
-    {
-      "id": "qul-mutashabihat",
-      "author": "Tarteel AI and Quran.com Foundation",
-      "name": "QUL Mutashabihat Dataset",
-      "year": "2024",
-      "url": "https://qul.tarteel.ai",
-      "note": "Approximately 5,277 entries of similar-phrase annotations.",
-      "accessed": "2026-05-19"
-    },
-    {
-      "id": "mishkat",
-      "author": "Alhassan (Threadwork)",
-      "name": "Mishkat Mutashābihāt Corpus",
-      "year": "2024",
-      "url": "https://github.com/Alhassan777/Mishkat",
-      "license": "License pending: none published in the source repository",
-      "note": "Verse-to-verse cross-references compiled from 13 classical books of mutashābihāt scholarship; 1,905 verse nodes, 3,294 directed edges.",
-      "accessed": "2026-07-07"
-    },
-    {
-      "id": "qursim",
-      "author": "Sharaf, Abdul-Baquee, and Eric Atwell",
-      "name": "QurSim: A Corpus for Evaluation of Relatedness in Short Texts",
-      "publisher": "In Proceedings of the Eighth International Conference on Language Resources and Evaluation (LREC 2012). Istanbul: European Language Resources Association",
-      "year": "2012",
-      "note": "Methodological reference for the verse-relatedness approach. The dataset's canonical host, corpus.quran.com/qursim.jsp, is no longer accessible; no QurSim data is bundled. The cross-reference files in data/qursim/ carry that directory name for historical reasons but contain the Mishkat corpus (see the mishkat entry and NOTICE.md).",
-      "accessed": "2026-05-19"
-    },
-    {
-      "id": "quran-foundation-api-v4",
-      "author": "Quran.com Foundation",
-      "name": "Quran.com Foundation Content API",
-      "edition": "v4",
-      "year": "2025",
-      "url": "https://api-docs.quran.foundation",
-      "accessed": "2026-05-19"
-    },
-    {
-      "id": "alquran-cloud-api",
-      "author": "Islamic Network",
-      "name": "AlQuran.cloud API",
-      "edition": "v1",
-      "year": "2024",
-      "url": "https://alquran.cloud/api",
-      "accessed": "2026-05-19"
-    },
-    {
-      "id": "islamic-network-audio",
-      "author": "Islamic Network",
-      "name": "Recitation audio CDN (per-ayah MP3, multiple reciters)",
-      "url": "https://cdn.islamic.network",
-      "accessed": "2026-07-11"
-    },
-    {
-      "id": "cairo-1924",
-      "name": "Chronological Order of Surahs, Cairo Edition",
-      "publisher": "Cairo: al-Maṭbaʿa al-Amīrīyya",
-      "year": "1924",
-      "note": "The revelation-order classification printed in the 1924 Cairo edition of the Qur'an."
-    },
-    {
-      "id": "khan-reflections-2005",
-      "author": "Khan, Irfan Ahmad",
-      "name": "Reflections on the Qur'an: Understanding Surahs al-Fatihah and al-Baqarah",
-      "publisher": "Markfield, Leicestershire: Islamic Foundation",
-      "year": "2005"
-    },
-    {
-      "id": "khan-exercise-2013",
-      "author": "Khan, Irfan Ahmad",
-      "name": "An Exercise in Understanding the Qur'an: An Outline Study of the Last Thirty Divine Discourses (Surah 85 to Surah 114)",
-      "publisher": "Chicago: Association of Quranic Understanding",
-      "year": "2013",
-      "isbn": "9781567447736",
-      "note": "Foreword by Mustansir Mir. 213 pp."
-    },
-    {
-      "id": "farahi-primary",
-      "author": "Farahi, Hamiduddin (Ḥamīd al-Dīn al-Farāhī)",
-      "name": "Mufradat al-Qur'an; Niẓām al-Qur'an wa-taʾwīl al-furqān bi-l-furqān",
-      "note": "Farahi's writings on Qur'anic vocabulary and discourse coherence, left unfinished at his death in 1930 and completed/edited posthumously by his students. No independently verifiable modern edition/publisher/page reference is asserted here; see the mir-coherence-1986 entry for independent secondary corroboration of these works' foundational role."
-    },
-    {
-      "id": "mir-coherence-1986",
-      "author": "Mir, Mustansir",
-      "name": "Coherence in the Qur'an: A Study of Islahi's Concept of Nazm in Tadabbur-i Qur'an",
-      "publisher": "Indianapolis: American Trust Publications",
-      "year": "1986",
-      "isbn": "9780892590650",
-      "note": "Independent scholarly monograph (125 pp., paperback) establishing Farahi's Mufradat al-Qur'an and Niẓām al-Qur'an as the direct conceptual foundation of Islahi's nazm-based method — the second, independent source used to move the farahi-primary claim from Pending to Verified. Mir also wrote the foreword to Khan's 2013 An Exercise (see khan-exercise-2013)."
-    },
-    {
-      "id": "suyuti-itqan",
-      "author": "al-Suyuti, Jalal al-Din (d. 911/1505)",
-      "name": "al-Itqān fī ʿulūm al-Qurʾān"
-    },
-    {
-      "id": "abdel-haleem-1992",
-      "author": "Abdel Haleem, Muhammad",
-      "name": "Grammatical Shift for Rhetorical Purposes: Iltifāt and Related Features in the Qur'ān",
-      "publisher": "Bulletin of the School of Oriental and African Studies 55, no. 3, pp. 407–32",
-      "year": "1992"
-    },
-    {
-      "id": "tabari-jami",
-      "author": "al-Tabari, Muhammad ibn Jarir (d. 310/923)",
-      "name": "Jāmiʿ al-bayān ʿan taʾwīl āy al-Qurʾān",
-      "note": "Classical multi-volume tafsir, organized by verse rather than a fixed page range shared across editions. The claims cited from this work here are found in its commentary on Qur'an 1:1 (al-Fatihah), locatable in any standard print or digital edition (e.g. altafsir.com) without a specific edition/page pin."
-    },
-    {
-      "id": "zamakhshari-kashshaf",
-      "author": "al-Zamakhshari, Mahmud ibn ʿUmar (d. 538/1144)",
-      "name": "al-Kashshāf ʿan ḥaqāʾiq ghawāmiḍ al-tanzīl",
-      "note": "Classical multi-volume tafsir, organized by verse. The claims cited from this work here are found in its commentary on Qur'an 1:1 (al-Fatihah), locatable in any standard print or digital edition (e.g. altafsir.com) without a specific edition/page pin."
-    },
-    {
-      "id": "ibn-kathir-tafsir",
-      "author": "Ibn Kathir, Ismaʿil ibn ʿUmar (d. 774/1373)",
-      "name": "Tafsīr al-Qurʾān al-ʿAẓīm",
-      "note": "Classical multi-volume tafsir, organized by verse. The claims cited from this work here are found in its commentary on Qur'an 1:1 (al-Fatihah), locatable in any standard print or digital edition (e.g. altafsir.com) without a specific edition/page pin."
-    },
-    {
-      "id": "abdel-haleem-1999",
-      "author": "Abdel Haleem, Muhammad",
-      "name": "Understanding the Qur'an: Themes and Style",
-      "publisher": "London: I. B. Tauris",
-      "year": "1999"
-    },
-    {
-      "id": "neuwirth-1981",
-      "author": "Neuwirth, Angelika",
-      "name": "Studien zur Komposition der mekkanischen Suren",
-      "publisher": "Berlin: Walter de Gruyter",
-      "year": "1981"
-    },
-    {
-      "id": "bannister-2014",
-      "author": "Bannister, Andrew G.",
-      "name": "An Oral-Formulaic Study of the Qur'an",
-      "publisher": "Lanham, MD: Lexington Books",
-      "year": "2014",
-      "isbn": "9780739183571",
-      "note": "332 pp. Computerized oral-formulaic analysis of the Qur'an. Cited as context for the site's mechanical recurring-phrase index (data/formulas-*.json): the index records recurrence; whether recurrence constitutes formulaic composition is the scholarly question this book argues."
-    },
-    {
-      "id": "cuypers-2015",
-      "author": "Cuypers, Michel",
-      "name": "The Composition of the Qur'an: Rhetorical Analysis",
-      "edition": "translated by Jerry Ryan",
-      "publisher": "London: Bloomsbury Academic",
-      "year": "2015"
-    }
-  ]
+ "sources": [
+  {
+   "id": "leeds-corpus-v0.4",
+   "author": "Dukes, Kais",
+   "name": "The Quranic Arabic Corpus",
+   "edition": "version 0.4",
+   "publisher": "Language Research Group, University of Leeds",
+   "year": "2009–2017",
+   "url": "https://corpus.quran.com",
+   "license": "GNU GPL",
+   "accessed": "2026-05-19"
+  },
+  {
+   "id": "tanzil",
+   "author": "Tanzil Project",
+   "name": "Tanzil Quran Text",
+   "edition": "Uthmani script",
+   "year": "2007–",
+   "url": "https://tanzil.net",
+   "license": "CC BY-ND 3.0",
+   "accessed": "2026-05-19"
+  },
+  {
+   "id": "qul",
+   "author": "Tarteel AI and Quran.com Foundation",
+   "name": "Quranic Universal Library (QUL)",
+   "year": "2024",
+   "url": "https://qul.tarteel.ai",
+   "accessed": "2026-05-19"
+  },
+  {
+   "id": "qul-mutashabihat",
+   "author": "Tarteel AI and Quran.com Foundation",
+   "name": "QUL Mutashabihat Dataset",
+   "year": "2024",
+   "url": "https://qul.tarteel.ai",
+   "note": "Approximately 5,277 entries of similar-phrase annotations.",
+   "accessed": "2026-05-19"
+  },
+  {
+   "id": "mishkat",
+   "author": "Alhassan (Threadwork)",
+   "name": "Mishkat Mutashābihāt Corpus",
+   "year": "2024",
+   "url": "https://github.com/Alhassan777/Mishkat",
+   "license": "License pending: none published in the source repository",
+   "note": "Verse-to-verse cross-references compiled from 13 classical books of mutashābihāt scholarship; 1,905 verse nodes, 3,294 directed edges.",
+   "accessed": "2026-07-07"
+  },
+  {
+   "id": "qursim",
+   "author": "Sharaf, Abdul-Baquee, and Eric Atwell",
+   "name": "QurSim: A Corpus for Evaluation of Relatedness in Short Texts",
+   "publisher": "In Proceedings of the Eighth International Conference on Language Resources and Evaluation (LREC 2012). Istanbul: European Language Resources Association",
+   "year": "2012",
+   "note": "Methodological reference for the verse-relatedness approach. The dataset's canonical host, corpus.quran.com/qursim.jsp, is no longer accessible; no QurSim data is bundled. The cross-reference files in data/qursim/ carry that directory name for historical reasons but contain the Mishkat corpus (see the mishkat entry and NOTICE.md).",
+   "accessed": "2026-05-19"
+  },
+  {
+   "id": "quran-foundation-api-v4",
+   "author": "Quran.com Foundation",
+   "name": "Quran.com Foundation Content API",
+   "edition": "v4",
+   "year": "2025",
+   "url": "https://api-docs.quran.foundation",
+   "accessed": "2026-05-19"
+  },
+  {
+   "id": "alquran-cloud-api",
+   "author": "Islamic Network",
+   "name": "AlQuran.cloud API",
+   "edition": "v1",
+   "year": "2024",
+   "url": "https://alquran.cloud/api",
+   "accessed": "2026-05-19"
+  },
+  {
+   "id": "islamic-network-audio",
+   "author": "Islamic Network",
+   "name": "Recitation audio CDN (per-ayah MP3, multiple reciters)",
+   "url": "https://cdn.islamic.network",
+   "accessed": "2026-07-11"
+  },
+  {
+   "id": "cairo-1924",
+   "name": "Chronological Order of Surahs, Cairo Edition",
+   "publisher": "Cairo: al-Maṭbaʿa al-Amīrīyya",
+   "year": "1924",
+   "note": "The revelation-order classification printed in the 1924 Cairo edition of the Qur'an."
+  },
+  {
+   "id": "khan-reflections-2005",
+   "author": "Khan, Irfan Ahmad",
+   "name": "Reflections on the Qur'an: Understanding Surahs al-Fatihah and al-Baqarah",
+   "publisher": "Markfield, Leicestershire: Islamic Foundation",
+   "year": "2005"
+  },
+  {
+   "id": "khan-exercise-2013",
+   "author": "Khan, Irfan Ahmad",
+   "name": "An Exercise in Understanding the Qur'an: An Outline Study of the Last Thirty Divine Discourses (Surah 85 to Surah 114)",
+   "publisher": "Chicago: Association of Quranic Understanding",
+   "year": "2013",
+   "isbn": "9781567447736",
+   "note": "Foreword by Mustansir Mir. 213 pp."
+  },
+  {
+   "id": "khan-introduction-2011",
+   "author": "Khan, Irfan Ahmad",
+   "name": "An Introduction to Understanding the Qur'an with Examples",
+   "publisher": "Chicago: Association for Qur'anic Understanding",
+   "year": "2011",
+   "url": "https://www.quranicunderstanding.com/",
+   "note": "Compiled by Tanveer Azmat. Two methodological chapters plus six worked surahs (96, 103, 107, 108, 109, 112), each with Arabic text, word-by-word gloss, an outline structure, and an interpretation. Distributed by the AQU."
+  },
+  {
+   "id": "farahi-primary",
+   "author": "Farahi, Hamiduddin (Ḥamīd al-Dīn al-Farāhī)",
+   "name": "Mufradat al-Qur'an; Niẓām al-Qur'an wa-taʾwīl al-furqān bi-l-furqān",
+   "note": "Farahi's writings on Qur'anic vocabulary and discourse coherence, left unfinished at his death in 1930 and completed/edited posthumously by his students. No independently verifiable modern edition/publisher/page reference is asserted here; see the mir-coherence-1986 entry for independent secondary corroboration of these works' foundational role."
+  },
+  {
+   "id": "mir-coherence-1986",
+   "author": "Mir, Mustansir",
+   "name": "Coherence in the Qur'an: A Study of Islahi's Concept of Nazm in Tadabbur-i Qur'an",
+   "publisher": "Indianapolis: American Trust Publications",
+   "year": "1986",
+   "isbn": "9780892590650",
+   "note": "Independent scholarly monograph (125 pp., paperback) establishing Farahi's Mufradat al-Qur'an and Niẓām al-Qur'an as the direct conceptual foundation of Islahi's nazm-based method — the second, independent source used to move the farahi-primary claim from Pending to Verified. Mir also wrote the foreword to Khan's 2013 An Exercise (see khan-exercise-2013)."
+  },
+  {
+   "id": "suyuti-itqan",
+   "author": "al-Suyuti, Jalal al-Din (d. 911/1505)",
+   "name": "al-Itqān fī ʿulūm al-Qurʾān"
+  },
+  {
+   "id": "abdel-haleem-1992",
+   "author": "Abdel Haleem, Muhammad",
+   "name": "Grammatical Shift for Rhetorical Purposes: Iltifāt and Related Features in the Qur'ān",
+   "publisher": "Bulletin of the School of Oriental and African Studies 55, no. 3, pp. 407–32",
+   "year": "1992"
+  },
+  {
+   "id": "tabari-jami",
+   "author": "al-Tabari, Muhammad ibn Jarir (d. 310/923)",
+   "name": "Jāmiʿ al-bayān ʿan taʾwīl āy al-Qurʾān",
+   "note": "Classical multi-volume tafsir, organized by verse rather than a fixed page range shared across editions. The claims cited from this work here are found in its commentary on Qur'an 1:1 (al-Fatihah), locatable in any standard print or digital edition (e.g. altafsir.com) without a specific edition/page pin."
+  },
+  {
+   "id": "zamakhshari-kashshaf",
+   "author": "al-Zamakhshari, Mahmud ibn ʿUmar (d. 538/1144)",
+   "name": "al-Kashshāf ʿan ḥaqāʾiq ghawāmiḍ al-tanzīl",
+   "note": "Classical multi-volume tafsir, organized by verse. The claims cited from this work here are found in its commentary on Qur'an 1:1 (al-Fatihah), locatable in any standard print or digital edition (e.g. altafsir.com) without a specific edition/page pin."
+  },
+  {
+   "id": "ibn-kathir-tafsir",
+   "author": "Ibn Kathir, Ismaʿil ibn ʿUmar (d. 774/1373)",
+   "name": "Tafsīr al-Qurʾān al-ʿAẓīm",
+   "note": "Classical multi-volume tafsir, organized by verse. The claims cited from this work here are found in its commentary on Qur'an 1:1 (al-Fatihah), locatable in any standard print or digital edition (e.g. altafsir.com) without a specific edition/page pin."
+  },
+  {
+   "id": "abdel-haleem-1999",
+   "author": "Abdel Haleem, Muhammad",
+   "name": "Understanding the Qur'an: Themes and Style",
+   "publisher": "London: I. B. Tauris",
+   "year": "1999"
+  },
+  {
+   "id": "neuwirth-1981",
+   "author": "Neuwirth, Angelika",
+   "name": "Studien zur Komposition der mekkanischen Suren",
+   "publisher": "Berlin: Walter de Gruyter",
+   "year": "1981"
+  },
+  {
+   "id": "bannister-2014",
+   "author": "Bannister, Andrew G.",
+   "name": "An Oral-Formulaic Study of the Qur'an",
+   "publisher": "Lanham, MD: Lexington Books",
+   "year": "2014",
+   "isbn": "9780739183571",
+   "note": "332 pp. Computerized oral-formulaic analysis of the Qur'an. Cited as context for the site's mechanical recurring-phrase index (data/formulas-*.json): the index records recurrence; whether recurrence constitutes formulaic composition is the scholarly question this book argues."
+  },
+  {
+   "id": "cuypers-2015",
+   "author": "Cuypers, Michel",
+   "name": "The Composition of the Qur'an: Rhetorical Analysis",
+   "edition": "translated by Jerry Ryan",
+   "publisher": "London: Bloomsbury Academic",
+   "year": "2015"
+  }
+ ]
 }

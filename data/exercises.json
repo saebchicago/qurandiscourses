@@ -1,5 +1,5 @@
 {
- "_comment": "Exercise registry. Outline exercises are rendered by exercise.html?id=<id>; adding one of Khan's remaining outlines (surahs 85-114) is a JSON entry here, NOT a new page — but the outline text MUST be transcribed from Irfan Ahmad Khan, 'An Exercise in Understanding the Qur'an' (2013), never paraphrased from memory, and must keep sourceIds=khan-exercise-2013. heading/note values are trusted site-authored HTML. The root-spotting entry configures exercise-roots.html; its surah list is safe to extend to any surah since the recurring-root answer key is computed live from data/morphology/.",
+ "_comment": "Exercise registry. Outline exercises are rendered by exercise.html?id=<id>; adding one of Khan's outlines is a JSON entry here, NOT a new page — but the outline text MUST be transcribed verbatim from a published Khan volume, never paraphrased from memory. Two volumes are transcribed so far: 'An Exercise in Understanding the Qur'an' (2013, surahs 85-114; sourceIds=khan-exercise-2013) and 'An Introduction to Understanding the Qur'an with Examples' (2011, six worked surahs; sourceIds=khan-introduction-2011, page number in provenanceHtml). heading/note values are trusted site-authored HTML. The root-spotting entry configures exercise-roots.html; its surah list is safe to extend to any surah since the recurring-root answer key is computed live from data/morphology/.",
  "exercises": [
   {
    "id": "asr-outline",
@@ -30,12 +30,199 @@
    ]
   },
   {
+   "id": "alaq-outline",
+   "type": "outline",
+   "surah": 96,
+   "surahName": "al-'Alaq",
+   "title": "Coherence reading: Surah al-'Alaq (96)",
+   "tileName": "Outline a discourse: al-'Alaq",
+   "tileDesc": "Propose the structure of Surah 96 verse by verse, then compare your reading against the outline in Irfan Ahmad Khan's An Introduction to Understanding the Qur'an with Examples (2011).",
+   "sourceIds": "khan-introduction-2011",
+   "provenanceHtml": "outline structure from Irfan Ahmad Khan, <em>An Introduction to Understanding the Qur'an with Examples</em> (compiled by Tanveer Azmat), Association for Qur'anic Understanding, 2011, p. 38. Distributed by the AQU at <a href=\"https://www.quranicunderstanding.com/\" rel=\"noopener\">quranicunderstanding.com</a>; <a href=\"sources.html\">Sources</a> for the full citation.",
+   "outline": [
+    {
+     "startVerse": 1,
+     "heading": "[<em>Āyāt</em> 1–5] “Read in the name of your Lord",
+     "note": "Who created Man from a clot.” God, The Most Generous, taught Man to read and write. The Divine Book will teach Man What Man couldn't have learned by himself?"
+    },
+    {
+     "startVerse": 6,
+     "heading": "[<em>Āyāt</em> 6–8] The human situation",
+     "note": "Transgression in the human world: No sense of accountability. Those who are well-off act arrogantly. Tell them: “To your Lord is the Return”."
+    },
+    {
+     "startVerse": 9,
+     "heading": "[<em>Āyāt</em> 9–14] Reading of the Book creates a reaction — The Divine review on the reaction",
+     "note": "'Just see: how immoral and irrational it is! (This transgressor) would not even let a <em>servant</em> pray!! Did he not even consider: maybe the reader is on the right path, calling people to piety? If it was the case, and even then, this opponent turns away and gives him a lie, does he not know that God is watching?'"
+    },
+    {
+     "startVerse": 15,
+     "heading": "[<em>Āyāt</em> 15–18] Warning to the transgressor, to embolden the Reader",
+     "note": "If he does not stop, God will take an action and then none will be able to help him."
+    },
+    {
+     "startVerse": 19,
+     "heading": "[<em>Ayah</em> 19] The concluding remark",
+     "note": "No compromise in delivering the <em>Tawhidic</em> message. The reading aims at bringing the servant nearer to his Lord: 'Prostrate and get nearness to God'."
+    }
+   ]
+  },
+  {
+   "id": "maun-outline",
+   "type": "outline",
+   "surah": 107,
+   "surahName": "al-Ma'un",
+   "title": "Coherence reading: Surah al-Ma'un (107)",
+   "tileName": "Outline a discourse: al-Mā'ūn",
+   "tileDesc": "Propose the structure of Surah 107 verse by verse, then compare your reading against the outline in Irfan Ahmad Khan's An Introduction to Understanding the Qur'an with Examples (2011).",
+   "sourceIds": "khan-introduction-2011",
+   "provenanceHtml": "outline structure from Irfan Ahmad Khan, <em>An Introduction to Understanding the Qur'an with Examples</em> (compiled by Tanveer Azmat), Association for Qur'anic Understanding, 2011, p. 45. Distributed by the AQU at <a href=\"https://www.quranicunderstanding.com/\" rel=\"noopener\">quranicunderstanding.com</a>; <a href=\"sources.html\">Sources</a> for the full citation.",
+   "outline": [
+    {
+     "startVerse": 1,
+     "heading": "[<em>Ayah</em> 1] introduces the subject: Who are the opponents?",
+     "note": "If you know who the people are, that stands in the way of the Qur'anic Movement, then you can understand why they are doing so."
+    },
+    {
+     "startVerse": 2,
+     "heading": "[<em>Ayah</em> 2 &amp; <em>āyah</em> 3] together provide the answer:",
+     "note": "These are the same people who are unconcerned with the plight of the alienated or marginalized sections of human society. They would not care for the establishment of a system that would eliminate poverty and hunger. [They may look like very religious people. They became enemies of the Religion because it emphasizes their duty to the deprived and marginalized people.]"
+    },
+    {
+     "startVerse": 4,
+     "heading": "[<em>Āyāt</em> 4–6] remove the misunderstanding of the simple-minded who wonder why some traditionally religious people are standing in the way of the Religion.",
+     "note": "[These central <em>āyāt</em> underline: False religiosity is doomed. Worship is not a cultural function. If hearts are devoid of the presence of God, the traditional prayer is of no value, however impressive it may look from the outside!]"
+    },
+    {
+     "startVerse": 7,
+     "heading": "[<em>Ayah</em> 7] concludes:",
+     "note": "What good is their religion if they would not help the needy even with a small act of kindness!"
+    }
+   ]
+  },
+  {
+   "id": "kauthar-outline",
+   "type": "outline",
+   "surah": 108,
+   "surahName": "al-Kauthar",
+   "title": "Coherence reading: Surah al-Kauthar (108)",
+   "tileName": "Outline a discourse: al-Kauthar",
+   "tileDesc": "Propose the structure of Surah 108 verse by verse, then compare your reading against the outline in Irfan Ahmad Khan's An Introduction to Understanding the Qur'an with Examples (2011).",
+   "sourceIds": "khan-introduction-2011",
+   "provenanceHtml": "outline structure from Irfan Ahmad Khan, <em>An Introduction to Understanding the Qur'an with Examples</em> (compiled by Tanveer Azmat), Association for Qur'anic Understanding, 2011, p. 48. Distributed by the AQU at <a href=\"https://www.quranicunderstanding.com/\" rel=\"noopener\">quranicunderstanding.com</a>; <a href=\"sources.html\">Sources</a> for the full citation.",
+   "outline": [
+    {
+     "startVerse": 1,
+     "heading": "[<em>Ayah</em> 1] Proclamation from the Divine Authority:",
+     "note": "“We have granted you (O Prophet!) the <em>Kauthar</em>, i.e. something whose blessings will go on increasing!” [The understanding of the Quran will grow with the progress in human knowledge. As humanity will strive to follow its guidance, the whole world will be filled with blessings: peace, justice and happiness.]"
+    },
+    {
+     "startVerse": 2,
+     "heading": "[<em>Ayah</em> 2] The central <em>āyah</em> explains what the Recipient should, therefore, do:",
+     "note": "i) make <em>salah</em> (a statement full of meaning!), ii) make sacrifice (a statement full of meaning!)."
+    },
+    {
+     "startVerse": 3,
+     "heading": "[<em>Ayah</em> 3] The concluding <em>āyah</em> tells the Recipient of the <em>Kauthar</em> not to worry",
+     "note": "about the opposition of the Qur'anic Movement: As the movement shall proceed further, gradually all the opposition will wither away."
+    }
+   ]
+  },
+  {
+   "id": "kafirun-outline",
+   "type": "outline",
+   "surah": 109,
+   "surahName": "al-Kafirun",
+   "title": "Coherence reading: Surah al-Kafirun (109)",
+   "tileName": "Outline a discourse: al-Kāfirūn",
+   "tileDesc": "Propose the structure of Surah 109 verse by verse, then compare your reading against the outline in Irfan Ahmad Khan's An Introduction to Understanding the Qur'an with Examples (2011).",
+   "sourceIds": "khan-introduction-2011",
+   "provenanceHtml": "outline structure from Irfan Ahmad Khan, <em>An Introduction to Understanding the Qur'an with Examples</em> (compiled by Tanveer Azmat), Association for Qur'anic Understanding, 2011, p. 53. Distributed by the AQU at <a href=\"https://www.quranicunderstanding.com/\" rel=\"noopener\">quranicunderstanding.com</a>; <a href=\"sources.html\">Sources</a> for the full citation.",
+   "outline": [
+    {
+     "startVerse": 1,
+     "heading": "[<em>Ayah</em> 1] The very first <em>āyah</em> introduces the subject:",
+     "note": "What to say to those who rejected our message and who are putting pressure upon us to leave our <em>Tawhidic</em> mission altogether or make some adjustment in our stand. [In fact, they have already rejected our message; but they are eager to talk to us in order to make a bargain!]"
+    },
+    {
+     "startVerse": 2,
+     "heading": "[<em>Āyāt</em> 2–5] Tell them: no good shall come out of our trying to convert each other:",
+     "note": "<em>Ayah</em> 2 and <em>āyah</em> 3 state: we have fundamental religious differences. '(When I, i.e., the Prophet, received the Divine Guidance that God and God alone is to be worshiped), as your well-wisher, I invited you to it, but now it is quite clear that you are not going to change your religious position'. <em>Ayah</em> 4 and <em>āyah</em> 5 repeat, it is quite clear that each of the two parties is quite firm in its stand. No one is going to change, however, hard you try that I change my religion or I try that you change your religion."
+    },
+    {
+     "startVerse": 6,
+     "heading": "[<em>Ayah</em> 6] Peaceful co-existence is possible:",
+     "note": "The present conflict can be resolved, if we agree that every individual is free to choose his/her religion and that we should not put any kind of pressure on anyone to change one's religion."
+    }
+   ]
+  },
+  {
+   "id": "ikhlas-outline",
+   "type": "outline",
+   "surah": 112,
+   "surahName": "al-Ikhlas",
+   "title": "Coherence reading: Surah al-Ikhlas (112)",
+   "tileName": "Outline a discourse: al-Ikhlās",
+   "tileDesc": "Propose the structure of Surah 112 verse by verse, then compare your reading against the outline in Irfan Ahmad Khan's An Introduction to Understanding the Qur'an with Examples (2011).",
+   "sourceIds": "khan-introduction-2011",
+   "provenanceHtml": "outline structure from Irfan Ahmad Khan, <em>An Introduction to Understanding the Qur'an with Examples</em> (compiled by Tanveer Azmat), Association for Qur'anic Understanding, 2011, p. 56. Distributed by the AQU at <a href=\"https://www.quranicunderstanding.com/\" rel=\"noopener\">quranicunderstanding.com</a>; <a href=\"sources.html\">Sources</a> for the full citation.",
+   "outline": [
+    {
+     "startVerse": 1,
+     "heading": "[<em>Ayah</em> 1] The introductory <em>āyah</em> states in clear terms that God is <em>just one</em>.",
+     "note": "Any effort to bring plurality or duality in the Being of God is not permitted at all."
+    },
+    {
+     "startVerse": 2,
+     "heading": "[<em>Ayah</em> 2] states the essential point explaining the nature of the Being of God:",
+     "note": "God is the <em>Samad</em> — the Being upon Whom all beings depend and Who does not depend upon anyone else."
+    },
+    {
+     "startVerse": 3,
+     "heading": "[<em>Ayah</em> 3] clarifies that it is confusing to use, in connection with God, a language that we use to designate human relations.",
+     "note": "God is not father or mother of someone; nor is God, son or daughter of someone."
+    },
+    {
+     "startVerse": 4,
+     "heading": "[<em>Ayah</em> 4] Concludes:",
+     "note": "No being is like (matching) God!"
+    }
+   ]
+  },
+  {
    "id": "exercise-roots",
    "type": "roots",
    "href": "exercise-roots.html",
    "tileName": "Spot the roots",
    "tileDesc": "Short surahs, one at a time. Tap the words you think share a triliteral root, then reveal the recurring root families computed from the Leeds corpus morphology.",
-   "surahs": [1, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114]
+   "surahs": [
+    1,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114
+   ]
   }
  ]
 }
