@@ -1225,8 +1225,18 @@
       // with the other reading progress and reset by Clear preferences.
       function maybeShowMethodStrip() {
         try {
-          if (!window.qdState || !qdState.progress) return;
-          if (qdState.progress.methodStripDismissed) return;
+          // Dismissal is read straight from localStorage, not qdState:
+          // this now also runs mid-parse (deep-linked arrivals, before
+          // first paint), when app.js hasn't yet hydrated qdState from
+          // storage — the in-memory default would resurrect a dismissed
+          // strip. The dismiss handler below still persists through
+          // qdState/qdSaveState, which writes the same storage key.
+          let dismissed = false;
+          try {
+            const raw = JSON.parse(localStorage.getItem("qd_state"));
+            dismissed = !!(raw && raw.progress && raw.progress.methodStripDismissed);
+          } catch (e2) {}
+          if (dismissed) return;
           if (document.getElementById("methodStrip")) return;
           const container = document.getElementById("verseContainer");
           if (!container || !container.firstChild) return;
@@ -1276,6 +1286,24 @@
         document.getElementById("surahInput").value = params.get("s");
       if (params.get("a"))
         document.getElementById("ayahInput").value = params.get("a");
+      // Deep-linked arrivals: swap the tall "Start reading" welcome card
+      // for a compact loading card NOW — this script runs mid-parse
+      // (non-deferred, after #verseContainer), so the swap lands before
+      // first paint and the welcome card never renders. Waiting for
+      // load()'s own interim card (window load + 200ms) painted the
+      // welcome card first and replaced it later — a measured layout
+      // shift of ~0.26 at 412px. The min-height pushes below-container
+      // content (the "Want depth?" banner, footer) under the fold so the
+      // verse render doesn't shift anything visible either. Also show
+      // the one-time method strip now, for the same reason — its
+      // post-load insertion point is ABOVE the container, which shifted
+      // the whole page down (maybeShowMethodStrip's duplicate guard
+      // makes the later call a no-op).
+      if (hasParams) {
+        document.getElementById("verseContainer").innerHTML =
+          '<div class="card" style="min-height:55vh"><p style="color:var(--muted)">Loading...</p></div>';
+        maybeShowMethodStrip();
+      }
       // ?hl= targets the exact surah:ayah resolved from ?s=/?a= at page
       // load — whichever ayah renders first (the range's start, if a
       // range). Deliberately not re-derived on later load() calls, so
