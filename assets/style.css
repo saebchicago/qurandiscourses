@@ -404,7 +404,7 @@ nav.primary .nav-toggle {
   font: inherit;
   font-size: 0.85rem;
   color: var(--ink);
-  min-height: 40px;
+  min-height: 44px;
   cursor: pointer;
 }
 nav.primary .nav-toggle-icon {
@@ -843,7 +843,10 @@ label {
   cursor: pointer;
 }
 .button {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
   padding: 0.5rem 1rem;
   background: var(--accent);
   color: var(--bg);
@@ -853,6 +856,7 @@ label {
   font-weight: 500;
   font-size: 0.92rem;
   transition: all 0.15s ease;
+  box-sizing: border-box;
 }
 .button:hover {
   background: var(--ink);
