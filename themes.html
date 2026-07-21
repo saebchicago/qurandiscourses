@@ -242,6 +242,7 @@
         hidden
       ></div>
     </div>
+    <script src="assets/surahs.js"></script>
     <script>
       (function () {
         "use strict";
@@ -386,6 +387,28 @@
                   p1.s + ":" + p1.a + "&p2=" + p2.s + ":" + p2.a +
                   '">Open the top two passages side by side \u2192</a></p>';
               }
+              // "Where it clusters": the theme's densest surahs, from
+              // themes.json's precomputed topSurahs (no extra fetches).
+              var clusterHtml = "";
+              if (t.topSurahs && t.topSurahs.length) {
+                var surahName = function (n) {
+                  var su = window.SURAHS && window.SURAHS.find(function (x) { return x.id === n; });
+                  return su ? su.translit : "Surah " + n;
+                };
+                clusterHtml =
+                  '<h4 style="margin:0.6rem 0 0.2rem">Where it clusters <span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · mechanical count of the theme’s root family per 1,000 words — root grouping is editorial">~</span></h4>' +
+                  '<p style="margin:0 0 0.4rem;font-size:0.9rem;line-height:1.9">' +
+                  t.topSurahs
+                    .slice(0, 6)
+                    .map(function (x) {
+                      return (
+                        '<a href="dossier.html?s=' + x.s + '">' + surahName(x.s) + "</a>" +
+                        ' <span style="color:var(--muted);font-size:0.82rem">(' + x.perThousand + " / 1,000 words)</span>"
+                      );
+                    })
+                    .join(" · ") +
+                  "</p>";
+              }
               card.innerHTML =
                 '<h3 style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap">' + t.title +
                 '<button type="button" class="button secondary share-btn" data-share data-share-url="https://qurandiscourse.netlify.app/s/theme/' +
@@ -399,6 +422,7 @@
                 '<h4 style="margin:0 0 0.2rem">Key passages <span style="font-weight:400;color:var(--muted);font-size:0.82rem">(computed: theme vocabulary clusters here)</span></h4>' +
                 '<div class="passage-grid">' + passages + "</div>" +
                 compareLink +
+                clusterHtml +
                 '<details class="method-note theme-dist"><summary>Show distribution map (114 surahs)</summary>' +
                 '<div class="theme-dist-chart" style="margin-top:0.5rem"></div>' +
                 '<p style="margin-top:0.3rem">Summed per-surah counts of this theme’s root family (Leeds corpus, mushaf order; darker = more). Vocabulary density, not a thematic index — distribution does not by itself establish meaning.</p>' +
