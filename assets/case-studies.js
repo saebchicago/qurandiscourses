@@ -32,9 +32,9 @@
     "method-dependent": "Method-dependent",
     "classification-dependent": "Classification-dependent",
     contested: "Contested",
-    none: "No generated content",
-    "research-discovery": "AI-assisted discovery disclosed",
-    "language-editing": "AI-assisted language edit disclosed",
+    none: "Independent editorial work",
+    "research-discovery": "Research assistance disclosed",
+    "language-editing": "Language editing disclosed",
   };
 
   function esc(value) {
