@@ -148,38 +148,52 @@
       </ul>
     </nav>
     <main id="main">
-      <section class="ask-section hero">
-        <label for="ask-input" class="ask-label">Ask</label>
-        <p class="ask-help">
-          Search a surah (Al-Fatihah), a verse (2:255), a root (r-h-m), or an
-          English word (mercy).
-        </p>
-        <div class="ask-row">
-          <input
-            type="text"
-            id="ask-input"
-            class="ask-input"
-            autocomplete="off"
-            spellcheck="false"
-            placeholder="Al-Fatihah"
-            aria-label="Ask Divine Discourses"
-          />
-          <button type="button" id="ask-go" class="ask-go">Go</button>
+      <section class="research-hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">A reader-led Qur'an research workspace</p>
+          <h2 id="hero-title">Read a surah as one connected discourse.</h2>
+          <p class="hero-lede">
+            Examine its words, recurrences, structure, and sources—then record
+            your own reading. The site orders evidence; it does not generate
+            commentary or decide what the text means.
+          </p>
+          <div class="hero-actions">
+            <a class="button hero-primary" href="read.html">Open a surah</a>
+            <a class="text-action" href="how-to-use.html">Follow the method <span aria-hidden="true">→</span></a>
+          </div>
         </div>
-        <div class="ask-chips">
-          <button type="button" class="chip" data-fill="Fatihah">
-            Fatihah
-          </button>
-          <button type="button" class="chip" data-fill="1:1">1:1</button>
-          <button type="button" class="chip" data-fill="r-h-m">r-h-m</button>
-          <button type="button" class="chip" data-fill="mercy">mercy</button>
+        <div class="ask-section hero" role="search" aria-labelledby="ask-label">
+          <label for="ask-input" class="ask-label" id="ask-label">Find your starting point</label>
+          <p class="ask-help">
+            Enter a surah, verse, root, or English keyword.
+          </p>
+          <div class="ask-row">
+            <input
+              type="text"
+              id="ask-input"
+              class="ask-input"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="Try Al-Fatihah, 2:255, or r-h-m"
+              aria-label="Find a surah, verse, root, or keyword"
+            />
+            <button type="button" id="ask-go" class="ask-go">Explore</button>
+          </div>
+          <div class="ask-chips" aria-label="Example searches">
+            <button type="button" class="chip" data-fill="Fatihah">Al-Fatihah</button>
+            <button type="button" class="chip" data-fill="1:1">1:1</button>
+            <button type="button" class="chip" data-fill="r-h-m">r-h-m</button>
+            <button type="button" class="chip" data-fill="mercy">mercy</button>
+          </div>
+          <div id="ask-feedback" class="ask-feedback" role="status" aria-live="polite"></div>
         </div>
-        <div
-          id="ask-feedback"
-          class="ask-feedback"
-          role="status"
-          aria-live="polite"
-        ></div>
+      </section>
+
+      <section class="trust-bar" aria-label="Research commitments">
+        <div><strong>No generated commentary</strong><span>Interpretation stays human and attributed.</span></div>
+        <div><strong>Recomputable evidence</strong><span>Corpus data and deterministic scripts ship with the site.</span></div>
+        <div><strong>Visible limits</strong><span>Method dependencies and source uncertainties stay attached.</span></div>
+        <div><strong>Private by default</strong><span>Notes and progress remain in this browser.</span></div>
       </section>
 
       <section id="welcomeBanner" hidden>
@@ -333,111 +347,45 @@
         </div>
       </section>
 
-      <section>
-        <p class="aqu-bridge">
-          Divine Discourses serves direct engagement with the Qur'an through
-          a coherence-based method: read each surah as one discourse, not a
-          string of isolated quotations, and verify every claim against a
-          labeled source. The method draws on the Association of Quranic
-          Understanding (<a
-            href="https://quranicunderstanding.com"
-            rel="noopener"
-            >quranicunderstanding.com</a
-          >) — <a href="about.html">more about its origin</a>.
-        </p>
-      </section>
-
-      <section id="beginSection">
-        <h2>Begin</h2>
-        <p style="margin: 0 0 0.4rem; color: var(--muted); font-size: 0.95rem">
-          Three ways in, by what you want to do right now.
-        </p>
-        <h3 class="begin-group-title">Read — sit with the text</h3>
-        <div class="grid begin-group">
-          <a class="tile" href="read.html"
-            ><span class="name">Read</span
-            ><span class="desc"
-              >Any verse, side by side in up to 13 translations.</span
-            ></a
-          >
-          <a class="tile" href="navigate.html"
-            ><span class="name">Navigate</span
-            ><span class="desc"
-              >The 114 surahs with chronology, length, and group filters.</span
-            ></a
-          >
+      <section id="beginSection" class="workflow-section">
+        <div class="section-heading">
+          <p class="eyebrow">Choose the work, not a feature</p>
+          <h2>Four ways into the text</h2>
+          <p>Begin with a reading, a question, a pattern, or a claim you want to check.</p>
         </div>
-        <h3 class="begin-group-title">Study — follow a question</h3>
-        <div class="grid begin-group">
-          <a class="tile" href="themes.html"
-            ><span class="name">Themes</span
-            ><span class="desc"
-              >From a life theme (forgiveness, marriage, trade) to the
-              passages where its vocabulary clusters.</span
-            ></a
-          >
-          <a class="tile" href="compare.html"
-            ><span class="name">Compare</span
-            ><span class="desc"
-              >Two roots or two passages side by side.</span
-            ></a
-          >
-          <a class="tile" href="exercises.html"
-            ><span class="name">Exercises</span
-            ><span class="desc"
-              >Commit to a reading first, then check it against a published
-              outline or the corpus itself.</span
-            ></a
-          >
-          <a class="tile" href="paths.html"
-            ><span class="name">Study paths</span
-            ><span class="desc"
-              >Guided walkthroughs that chain the tools into a method, step
-              by checkable step.</span
-            ></a
-          >
-        </div>
-        <h3 class="begin-group-title">Verify — check the evidence</h3>
-        <div class="grid begin-group">
-          <a class="tile" href="roots.html"
-            ><span class="name">Roots</span
-            ><span class="desc"
-              >The triliteral roots that organize Qur'anic vocabulary.</span
-            ></a
-          >
-          <a class="tile" href="words.html"
-            ><span class="name">Words</span
-            ><span class="desc"
-              >Word-by-word morphology, lemma, and grammar.</span
-            ></a
-          >
-          <a class="tile" href="patterns.html"
-            ><span class="name">Patterns</span
-            ><span class="desc"
-              >Structural and rhetorical features across the text.</span
-            ></a
-          >
-          <a class="tile" href="numbers.html"
-            ><span class="name">Numbers</span
-            ><span class="desc"
-              >Frequency and distribution insights from the corpus.</span
-            ></a
-          >
-          <a class="tile" href="validation.html"
-            ><span class="name">Validation</span
-            ><span class="desc"
-              >How every claim gets its label, and the prompts to
-              triangulate any of them yourself.</span
-            ></a
-          >
+        <div class="workflow-grid">
+          <a class="workflow-card workflow-featured" href="read.html">
+            <span class="workflow-number" aria-hidden="true">01</span>
+            <span class="workflow-title">Read the discourse</span>
+            <span class="workflow-desc">Open any surah or passage with parallel translations, audio, local notes, and optional evidence layers.</span>
+            <span class="workflow-link">Enter the reading workspace <span aria-hidden="true">→</span></span>
+          </a>
+          <a class="workflow-card" href="themes.html">
+            <span class="workflow-number" aria-hidden="true">02</span>
+            <span class="workflow-title">Follow a question</span>
+            <span class="workflow-desc">Move from a theme to the passages where its selected root-family vocabulary clusters.</span>
+            <span class="workflow-link">Explore themes <span aria-hidden="true">→</span></span>
+          </a>
+          <a class="workflow-card" href="roots.html">
+            <span class="workflow-number" aria-hidden="true">03</span>
+            <span class="workflow-title">Test a pattern</span>
+            <span class="workflow-desc">Inspect roots, morphology, recurring phrases, distributions, and cross-references without turning frequency into meaning.</span>
+            <span class="workflow-link">Open the evidence tools <span aria-hidden="true">→</span></span>
+          </a>
+          <a class="workflow-card" href="validation.html">
+            <span class="workflow-number" aria-hidden="true">04</span>
+            <span class="workflow-title">Audit a claim</span>
+            <span class="workflow-desc">See the source check, reproduction method, dependencies, and known limits behind a published assertion.</span>
+            <span class="workflow-link">Inspect claim provenance <span aria-hidden="true">→</span></span>
+          </a>
         </div>
       </section>
 
       <section>
         <h2>How we verify</h2>
         <p>
-          Every factual claim on this site carries a label. Three worked
-          examples, each drawn from a published claim on the site.
+          Published research claims expose separate source, reproduction, and
+          dependency statuses—not one undifferentiated promise of certainty.
         </p>
         <!-- Rendered from data/case-studies.json (single source of truth,
              shared with validation.html); the markup below is the static
@@ -617,7 +565,7 @@
             <p style="margin: 0">
               Divine Discourses is a tool for direct, evidence-based study of the
               Qur'an. It surfaces roots, word morphology, structural patterns,
-              and cross-references with a verification label on every claim.
+              and cross-references with provenance attached to its research claims.
             </p>
           </div>
           <div>

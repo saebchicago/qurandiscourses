@@ -20,9 +20,12 @@ Live site: https://qurandiscourse.netlify.app/
 
 ## What makes it different
 
-1. **Every factual claim carries a verification badge** — Verified (●),
-   Pending (○), or Nuanced (~). Clicking a badge opens the full
-   Chicago-style citation of its source. The method is documented on
+1. **Research claims expose their evidence status.** A compact ●/○/~ marker
+   opens the cited source, while canonical records separately state whether
+   the source was checked, a computation was reproduced, the result is
+   method-dependent, and which limitations remain. The machine-readable
+   ledger is `data/claims.json`; its integrity gate is
+   `node scripts/check-claims.mjs`. The reader-facing method is documented on
    [Validation](https://qurandiscourse.netlify.app/validation.html).
 2. **The data ships with the site.** Word-by-word morphology for all
    77,429 tokens (Leeds Quranic Arabic Corpus v0.4, GPL — see

@@ -1,4 +1,33 @@
-# Changes — translation fix + Urdu support
+# Changes — research-led home and claim provenance
+
+## Evidence status is now multidimensional
+
+- Added a canonical, versioned claim ledger (`data/claims.json`) for every
+  worked verification example. Records distinguish source inspection,
+  computational reproduction, corpus/method/classification dependency,
+  interpretive status, AI involvement, derivation, and known limits.
+- Added `scripts/check-claims.mjs` to reject missing or duplicate claim IDs,
+  unknown source references, invalid statuses, missing limitations, nonexistent
+  derivation artifacts, case-study drift, and AI-assisted interpretive content.
+- Updated worked examples to render evidence chips and expandable claim records
+  rather than asking one “Verified” marker to carry several different meanings.
+- Tightened the contribution and validation guidance: assistant output may help
+  locate candidate material but never becomes an authoritative interpretation,
+  citation, translation, gloss, or scholarly attribution.
+
+## The home page now begins with the research workflow
+
+- Replaced the feature-directory opening with a clear reading proposition, a
+  primary “Open a surah” action, and a scoped search for surahs, verses, roots,
+  and keywords.
+- Added a four-part research commitment strip: no generated commentary,
+  recomputable evidence, visible limitations, and local-only reader work.
+- Consolidated eleven equal-weight destination tiles into four outcome-led
+  routes: read a discourse, follow a question, test a pattern, or audit a claim.
+- Added responsive, reduced-motion-compatible visual components and expanded
+  visible keyboard focus to textareas, summaries, and custom tabindex controls.
+
+# Earlier changes — translation fix + Urdu support
 
 ## Landing & onboarding pass (report items U4–U9)
 
