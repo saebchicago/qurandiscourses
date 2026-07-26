@@ -3,6 +3,7 @@
  "caseStudies": [
   {
    "id": "top-five-roots",
+   "claimId": "claim.root-frequency.top-five.v1",
    "label": "ok",
    "labelText": "Verified",
    "title": "top five roots",
@@ -15,6 +16,7 @@
   },
   {
    "id": "farahi-foundational",
+   "claimId": "claim.scholarship.farahi-foundational.v1",
    "label": "ok",
    "labelText": "Verified",
    "title": "Farahi's Mufradat and Niẓām",
@@ -27,6 +29,7 @@
   },
   {
    "id": "ywm-nuanced",
+   "claimId": "claim.root-frequency.ywm.v1",
    "label": "nuanced",
    "labelText": "Nuanced",
    "title": "y-w-m (day)",
@@ -39,6 +42,7 @@
   },
   {
    "id": "mercy-forgiveness",
+   "claimId": "claim.cooccurrence.rhm-ghfr.v1",
    "label": "ok",
    "labelText": "Verified",
    "title": "mercy travels with forgiveness",
@@ -51,6 +55,7 @@
   },
   {
    "id": "hapax",
+   "claimId": "claim.hapax.surface-and-root.v1",
    "label": "ok",
    "labelText": "Verified",
    "title": "hapax legomena",
@@ -61,6 +66,7 @@
   },
   {
    "id": "two-source-claim",
+   "claimId": "claim.chronology.exclusive-roots.v1",
    "label": "ok",
    "labelText": "Verified",
    "title": "a two-source claim",
@@ -71,6 +77,7 @@
   },
   {
    "id": "world-hereafter-count",
+   "claimId": "claim.parity.world-hereafter.v1",
    "label": "nuanced",
    "labelText": "Nuanced",
    "title": "\"this world\" and \"the hereafter\"",

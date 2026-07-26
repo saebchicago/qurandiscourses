@@ -8,30 +8,19 @@ any future contributor (human or AI assistant).
 
 ## 1. The method, in one page
 
-The site's value is trust. Three rules protect it:
+The site's value is trust. Four rules protect it:
 
-1. **Every factual claim gets a badge.**
-   - ● **Verified** — confirmed from the primary source cited. The badge's
-     `data-source-ids` attribute names entries in `data/sources.json`;
-     clicking it shows the full Chicago-style citation. **Every visible
-     Verified badge MUST carry `data-source-ids`** (verify-site.mjs
-     enforces this); the only exception is legend/demo chrome, which
-     must be marked `data-legend="true"`. Bibliography `<li>` entries in
-     sources.html carry no dot at all — the Chicago citation is the
-     verification there. Corpus figures quoted in page prose bind to
-     `data/numbers.json` via `data-num="dot.path"` (loader in app.js)
-     so they cannot drift from the generated data. Badge title wording:
-     claims confirmed against a source text use "Verified · confirmed
-     from a primary source"; claims that are computations over the
-     bundled corpus use "Verified · computed from the cited corpus" —
-     recomputability proves faithful derivation, and correctness
-     inherits the corpus's own annotation accuracy.
-   - ○ **Pending** — sourced but awaiting a second independent
-     confirmation. No `data-source-ids` needed.
-   - ~ **Nuanced** — defensible but dependent on a specific counting rule,
-     classification scheme, or interpretive choice; the surrounding text
-     must state the dependency. (This is the canonical definition — keep
-     glossary.html, sources.html's legend, and this line in sync.)
+1. **Research claims expose dimensions, not an undifferentiated promise.**
+   Worked research claims have canonical records in `data/claims.json`.
+   Each record separately declares its claim type, source check, computational
+   reproduction, agreement/dependency, interpretive status, AI involvement,
+   derivation, and known limits. `scripts/check-claims.mjs` enforces this
+   structure and joins each record to `data/case-studies.json`. The legacy
+   ●/○/~ glyph remains a compact summary and opens source citations; it is not
+   a claim that every evidence dimension is independently verified. Every
+   visible ● must still carry `data-source-ids` (verify-site enforces this).
+   Corpus figures in prose continue to bind to `data/numbers.json` through
+   `data-num="dot.path"`, preventing display drift from generated data.
 2. **No generated commentary; editorial curation is always labeled.** The
    site computes and cites; it never asserts what a verse *means*. But be
    precise about what that claim covers: theme groupings and titles,
@@ -42,9 +31,14 @@ The site's value is trust. Three rules protect it:
    transcribed from his published books with a citation. Structural
    observations (counts, co-occurrence, repetition) always carry a note
    that distribution does not by itself establish meaning.
-3. **AI tools screen, primary sources verify.** Chatbot triangulation
-   (see validation.html) tells you where to look. A claim becomes
-   Verified only when the primary source itself confirms it.
+3. **AI output is never authoritative content.** An assistant may help locate
+   a candidate source, check code, or flag unclear language. It may not
+   originate a theme, structure, interpretation, translation, root meaning,
+   citation, or scholarly attribution. Assistant agreement is not a review
+   stage. A human must inspect the artifact and write from that evidence.
+4. **Reproduction has a precise scope.** Recomputing a result establishes that
+   it follows from named inputs under the recorded method. It does not validate
+   the corpus annotations, counting unit, chronology, or an interpretation.
 
 Citations follow the **Chicago Manual of Style, bibliography form**:
 `Author-inverted. Title, edition. Place: Publisher, year. URL. License.`
@@ -91,7 +85,8 @@ reader's own hypothesis, not a site claim. It reads `data/exercises.json`
 client-side to tell surahs 85–114 whether Khan's outline for that surah is
 already transcribed (link to the exercise), awaiting transcription, or (for
 surahs 1–84) that no Khan outline exists at all for that surah. Content registries rendered by pages:
-`data/exercises.json`, `data/paths.json`, `data/case-studies.json` — edit
+`data/exercises.json`, `data/paths.json`, `data/case-studies.json`, and
+`data/claims.json` — edit
 the JSON, not the pages' static fallback markup.
 
 `qd_state.progress` (in `assets/app.js`) remembers reading position and
@@ -137,6 +132,7 @@ Checkers (not generators — they gate shipping):
 |---|---|
 | check-headers-sync.mjs | netlify.toml per-page CSP structure (fail-open for new pages: a page without its own block ships with NO CSP — run after adding any page) |
 | check-nav-sync.mjs | the by-design nav duplication: every page's primary nav must match index.html's (allowlist: embed.html, exercise-asr.html) |
+| check-claims.mjs | worked-claim provenance: stable IDs, allowed evidence dimensions, valid source IDs, limitations, derivation paths, and the case-study join |
 | check-videos.mjs | the video registry: an entry cannot be 'published' without its mp4, poster, AND a real WEBVTT captions file on disk — the anti-slop covenant, enforced mechanically |
 | check-source-links.mjs | external citation liveness: every sources.json `url` and every external href on every page still answers (404/410 = FAIL, 403/429 = WARN for bot-shielding). Needs real outbound network — run from an unrestricted machine, not a sandboxed session; a good habit before any release and every few months |
 | check-editions.mjs | every translation edition ID in assets/app.js's TRANSLATIONS array still resolves to itself on alquran.cloud — the API silently substitutes a default Arabic edition for an invalid ID instead of erroring (the "en.haleem" bug), so this catches the next one before a reader does. Needs real outbound network — run from an unrestricted machine, not a sandboxed session; run after adding any new edition ID and every few months otherwise |
@@ -191,7 +187,12 @@ registry: `data/case-studies.json` (rendered by `assets/case-studies.js`).
    interpretation of what a verse *means*. If it is a corpus number,
    compute it first (e.g. from `data/cooccurrence/`, `data/roots-summary.json`)
    and record how, so the trace is honest.
-2. Append an object to `caseStudies[]` with: `id`, `label`
+2. First append a canonical record to `data/claims.json`. Use a stable,
+   versioned `claim.*.vN` ID; choose the claim/evidence dimensions honestly;
+   list at least one limitation; and, for a reproduced computation, name the
+   existing script, output, and method. AI involvement describes process only
+   and can never authorize AI-originated content.
+3. Append an object to `caseStudies[]` with: `id`, `claimId`, `label`
    (`ok`/`pending`/`nuanced`), `labelText` (Verified/Pending/Nuanced),
    `title`, `sourceIds` (space-separated, each must exist in
    `data/sources.json`; may be `""` only for Pending), `onHome`
@@ -199,16 +200,17 @@ registry: `data/case-studies.json` (rendered by `assets/case-studies.js`).
    `onHome`, also add `claimHome` and `traceShort`. `claim`/`trace` values
    are trusted site-authored HTML — never route API or user text through
    them.
-3. Choose the badge that is *actually* honest: `ok` when it is traceable
+4. Choose the badge that is *actually* honest: `ok` when it is traceable
    to a source or recomputable from bundled data; `nuanced` when it depends
    on a counting rule (say so, and give the real numbers); `pending` when
    it is sourced but awaiting a second independent citation (state what
    would upgrade it). The label is the teaching point.
-4. Keep the static fallback markup in `index.html` and `validation.html`
+5. Keep the static fallback markup in `index.html` and `validation.html`
    in step with the JSON (it only shows if the fetch fails, but should not
    go stale). The JS renders from the JSON on the normal path.
-5. `node scripts/verify-site.mjs` — it re-renders the badges and checks
-   every `data-source-ids` resolves and popovers open.
+6. Run `node scripts/check-claims.mjs`, then `node scripts/verify-site.mjs` —
+   the first validates the canonical record; the second re-renders badges and
+   checks that source IDs resolve and popovers open.
 
 ### Regenerate the juz (para) divisions
 `data/juz.json` holds the 30 traditional juz boundaries, browsable on
@@ -461,7 +463,7 @@ What it covers (the old manual list, for reference) and what's left:
    automated.
 7. **Still manual:** dark-mode screenshots of any page you changed
    (`--shots` helps), audio playback, overall visual judgment.
-8. `node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs
+8. `node scripts/check-claims.mjs && node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs
    && node scripts/build-csp.mjs --check` — mandatory after adding a page,
    touching the nav, an inline `<script>` or `<style>`, or netlify.toml.
    The last one fails if any page's inline-script or inline-style hashes
