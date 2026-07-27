@@ -1,0 +1,66 @@
+name: Site audit
+
+on:
+  push:
+  pull_request:
+  schedule:
+    # Citation and translation endpoints can drift without a code change.
+    - cron: "17 9 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-audit-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  integrity:
+    name: Content, security, and browser integrity
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install browser audit harness
+        run: |
+          npm install --global playwright@1.54.1
+          playwright install --with-deps chromium
+
+      - name: Validate claims and site registries
+        run: |
+          node scripts/check-claims.mjs
+          node scripts/check-videos.mjs
+
+      - name: Validate navigation and deployment headers
+        run: |
+          node scripts/check-nav-sync.mjs
+          node scripts/check-headers-sync.mjs
+          node scripts/build-csp.mjs --check
+
+      - name: Run end-to-end browser audit
+        run: |
+          # setup-node's exact install path can vary across runner images.
+          export QD_PLAYWRIGHT="$(npm root --global)/playwright/index.mjs"
+          node scripts/verify-site.mjs
+
+  external-evidence:
+    name: External citation and edition health
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check citation links
+        run: node scripts/check-source-links.mjs --timeout 20000
+
+      - name: Check translation edition identities
+        run: node scripts/check-editions.mjs
