@@ -48,11 +48,11 @@
       "derivation": {
         "script": "scripts/build-numbers.mjs",
         "output": "data/numbers.json",
-        "method": "Compare Leeds root-field frequency with broader surface-form counting rules."
+        "method": "Count tokens whose Leeds root field is ywm; the resulting root total is the only numerical total this record reproduces."
       },
       "limitations": [
-        "The total changes when compound forms are included or excluded.",
-        "The two totals answer different counting questions."
+        "The total changes when the unit is changed from annotated roots to selected surface or compound forms.",
+        "Widely circulated 365 and 475 totals have not been reproduced here and lack an inspected source in this evidence record."
       ]
     },
     {

@@ -1,4 +1,16 @@
-# Changes — research-led home and claim provenance
+# Changes — evidence audit corrections
+
+## Unsupported numerical totals are no longer presented as findings
+
+- Retained the reproducible Leeds root totals for y-w-m (405) and sh-h-r
+  (21), but explicitly identified the popular 365, 475, and 12 totals as
+  unreproduced surface-form claims rather than equally supported results.
+- Corrected the y-w-m worked example and canonical claim record so its
+  reproduction method describes only what the bundled build actually computes.
+- Synchronized the home and Validation fallback copy with the canonical case
+  study, preserving the same caveat if the JSON request fails.
+
+# Earlier changes — research-led home and claim provenance
 
 ## Evidence status is now multidimensional
 
