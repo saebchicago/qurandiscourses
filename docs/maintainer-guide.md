@@ -128,6 +128,12 @@ them only when their inputs change; commit their outputs.
 
 Checkers (not generators — they gate shipping):
 
+The repository runs the local integrity checks and the full Playwright E2E
+audit on every push and pull request via `.github/workflows/audit.yml`.
+Because third-party availability is nondeterministic, external citation-link
+and translation-edition checks run on the weekly schedule and by manual
+dispatch instead of blocking every contribution.
+
 | Script | Guards |
 |---|---|
 | check-headers-sync.mjs | netlify.toml per-page CSP structure (fail-open for new pages: a page without its own block ships with NO CSP — run after adding any page) |
