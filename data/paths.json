@@ -76,6 +76,25 @@
      "html": "Follow the theme's most frequent root into <a href=\"roots.html\">Roots</a>: where else does it cluster, and in which period? Write down what the passages agree on and where they differ — that record is yours; the site only ordered the evidence."
     }
    ]
+  },
+  {
+   "id": "test-khan-outline",
+   "title": "Test a Khan outline against the site's own computed signals",
+   "intro": "Propose your own structure, reveal Dr. Khan's published outline, then see what the site's mechanical tools find — or don't find — in the same surah.",
+   "steps": [
+    {
+     "html": "Work through the <a href=\"exercise.html?id=asr-outline\">al-'Asr outline exercise</a>: propose your own verse-by-verse structure before revealing Khan's."
+    },
+    {
+     "html": "Open the same surah's <a href=\"dossier.html?s=103\">Dossier</a>. Its Structure section shows the site's own computed discursive pivots, rhetorical features, and ring-composition test for this exact surah; its Rhyme and Formulas sections show the verse-ending pattern and recurring-phrase data. Not every mechanical detector finds something in every surah — an empty section is itself a datum, not a gap."
+    },
+    {
+     "html": "Follow whichever signal caught your eye to its full method and corpus-wide result on <a href=\"patterns.html\">Patterns</a>."
+    },
+    {
+     "html": "Return to <a href=\"read.html?s=103&a=1\">Read</a> at Study depth and write in the discovery worksheet where Khan's outline and the site's computed signals agree, diverge, or simply don't overlap — that record is yours; the site only ordered the evidence."
+    }
+   ]
   }
  ]
 }

@@ -1,4 +1,29 @@
-# Changes — the Dossier now shows its own computed structure alongside Khan's
+# Changes — a study path chaining Khan's method with the site's own tools
+
+## New Study Path + a static-fallback drift bug found and fixed along the way
+
+- Added a fifth Study Path, "Test a Khan outline against the site's own
+  computed signals": work the al-'Asr outline exercise, open that surah's
+  Dossier (now showing its computed structural signals per the prior
+  entry), follow any signal to its full method on Patterns, then record in
+  the discovery worksheet where Khan's outline and the computed signals
+  agree, diverge, or don't overlap at all. Zero new claims — it only
+  chains existing, already-verified tools, per the "Add a study path"
+  recipe.
+- While adding it, found that `paths.html`'s static fallback markup (shown
+  only if the `data/paths.json` fetch fails) had already silently fallen
+  behind the registry — the fourth path, "Study a theme end to end", had
+  no matching card at all. Added it, and the new fifth path's card.
+- `scripts/check-paths.mjs` now also asserts every path's title appears in
+  `paths.html`'s static fallback, so this class of drift fails the build
+  instead of sitting invisible until a reader hits it with the network
+  down. Verified the check catches the exact bug just found (removed a
+  title, confirmed the failure, restored it).
+- Verified the new path renders correctly from the live JSON (5 cards,
+  screenshot confirms clean layout) and reran the full `verify-site.mjs`
+  suite (161 checks, zero regressions).
+
+# Earlier changes — the Dossier now shows its own computed structure alongside Khan's
 
 ## Two already-computed, already-labeled signals were siloed on Patterns — now they're on every surah's Dossier too
 

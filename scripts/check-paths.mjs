@@ -17,6 +17,10 @@
 //     or verse range is given, verse numbers within that surah's verse
 //     count (data/surah-meta.json)
 //   - any other internal page reference exists on disk
+// Also asserts every path's title appears in paths.html's static fallback
+// markup (the cards shown if the data/paths.json fetch fails) — nothing
+// else catches that fallback silently falling behind the registry (a path
+// added to the JSON without a matching card, as happened once already).
 //
 // Run: node scripts/check-paths.mjs   (exit 1 on any failure)
 
@@ -103,6 +107,13 @@ for (const path of paths) {
         checkSurahVerse(`${stepLabel} (${href}, ${key})`, surah, verses);
       }
     }
+  }
+}
+
+const pathsHtml = readFileSync(join(ROOT, "paths.html"), "utf8");
+for (const path of paths) {
+  if (path.title && !pathsHtml.includes(path.title)) {
+    failures.push(`${path.id}: title "${path.title}" not found in paths.html's static fallback markup — add or update its card`);
   }
 }
 
