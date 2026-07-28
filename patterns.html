@@ -214,6 +214,32 @@
           >
           <div id="rhymePanel" style="margin-top: 0.75rem"></div>
         </div>
+        <div class="card study-only" id="rhymeRegularity">
+          <h3>Rhyme regularity across surahs</h3>
+          <p>
+            The panel above shows one surah at a time; this ranks all 114
+            by <strong>mean run length</strong> — the average number of
+            consecutive verses that share a fine rhyme key before it
+            changes (verse count ÷ (shift count + 1)). A high value means
+            long, sustained runs on one ending (near-monorhyme); a low
+            value means the ending pattern changes almost every verse.
+          </p>
+          <div id="rhymeRegularityLists" style="margin-top: 0.6rem"></div>
+          <p class="prov">
+            <span
+              class="badge nuanced"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Nuanced"
+              tabindex="0"
+              title="Nuanced · derived scalar from the same orthographic proxy above"
+              >~</span
+            >
+            computed purely from the fine-key shift counts already shown
+            above (<code>data/rhyme-summary.json</code>) — same
+            orthographic-proxy caveats apply, and a short surah reaching a
+            high value from very few verses is noted, not hidden.
+          </p>
+        </div>
         <div class="card encyclopedic-only">
           <h3>Other documented features</h3>
           <ul>
@@ -699,6 +725,83 @@
               rhymeSel.value = String(sParam);
               rhymeSel.dispatchEvent(new Event("change"));
             }
+          }
+
+          // ── Rhyme regularity: cross-surah ranking by mean run length ──
+          var regularityHost = document.getElementById(
+            "rhymeRegularityLists",
+          );
+          if (regularityHost) {
+            fetch("data/rhyme-summary.json")
+              .then(function (r) {
+                if (!r.ok) throw new Error("HTTP " + r.status);
+                return r.json();
+              })
+              .then(function (data) {
+                var rows = Object.keys(data.surahs || {}).map(function (k) {
+                  var n = parseInt(k, 10);
+                  var row = data.surahs[k];
+                  return {
+                    surah: n,
+                    meanRunLength: row.meanRunLength,
+                    verseCount: row.verseCount,
+                    shiftCount: row.shiftCount,
+                  };
+                });
+
+                function listOf(sorted) {
+                  return (
+                    '<ol style="margin:0.3rem 0 0;padding-left:1.4rem">' +
+                    sorted
+                      .slice(0, 8)
+                      .map(function (row) {
+                        return (
+                          "<li><a href=\"dossier.html?s=" +
+                          row.surah +
+                          '">' +
+                          surahLabel(row.surah).replace(
+                            " (not yet covered)",
+                            "",
+                          ) +
+                          "</a> — " +
+                          row.meanRunLength +
+                          " verses/run (" +
+                          row.shiftCount +
+                          " shifts over " +
+                          row.verseCount +
+                          " verses)</li>"
+                        );
+                      })
+                      .join("") +
+                    "</ol>"
+                  );
+                }
+
+                var mostRegular = rows
+                  .slice()
+                  .sort(function (a, b) {
+                    return b.meanRunLength - a.meanRunLength;
+                  });
+                var mostVaried = rows
+                  .slice()
+                  .sort(function (a, b) {
+                    return a.meanRunLength - b.meanRunLength;
+                  });
+
+                regularityHost.innerHTML =
+                  '<div class="stat-grid">' +
+                  '<div class="stat-block"><h4>Most regular (longest runs)</h4>' +
+                  listOf(mostRegular) +
+                  "</div>" +
+                  '<div class="stat-block"><h4>Most varied (shortest runs)</h4>' +
+                  listOf(mostVaried) +
+                  "</div>" +
+                  "</div>";
+              })
+              .catch(function () {
+                regularityHost.innerHTML =
+                  '<p style="color:var(--muted)">Could not load the rhyme regularity ranking.</p>';
+              });
           }
         });
       })();

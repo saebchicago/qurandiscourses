@@ -1,4 +1,36 @@
-# Changes — lexical diversity (type-token ratio) by surah and by period
+# Changes — a rhyme-regularity index, ranked across all 114 surahs
+
+## patterns.html's rhyme explorer gains a cross-surah view
+
+- The existing rhyme explorer (`data/rhyme/{n}.json`, built by
+  `scripts/build-rhyme-map.mjs`) only ever shows one surah at a time — its
+  `shiftCount` (how many times the verse-final rhyme key changes) had no
+  way to be compared across surahs. Added **mean run length** —
+  `verseCount / (shiftCount + 1)`, the average number of consecutive
+  verses sharing a fine rhyme key before it changes — as a single
+  regularity scalar per surah, computed purely from the shift data the
+  generator already produces (no new source data, no new claim about
+  structure).
+- New "Rhyme regularity across surahs" card on `patterns.html`: ranks all
+  114 surahs by mean run length, showing the 8 most regular (longest
+  sustained runs — surah 91, "The Sun", tops the list at 15 with zero
+  shifts across all 15 verses, i.e. one rhyme key the whole surah) and the
+  8 most varied (shortest runs — several 3-verse surahs land here
+  trivially, and are shown with their verse/shift counts alongside so
+  that's visible, not hidden). Labeled ~ Nuanced, same orthographic-proxy
+  caveats as the per-surah panel above it.
+- Verified the formula by hand for two surahs at opposite extremes: surah
+  91 (15 verses, 0 shifts → 15/1 = 15, exact match) and surah 103 (3
+  verses, 2 shifts → 3/3 = 1, exact match). Verified the generator is
+  deterministic (identical file hashes across two full regenerations of
+  all 114 `data/rhyme/*.json` files plus the summary). Verified live in
+  the browser: both ranked lists render with the expected surahs at the
+  extremes, correct per-row detail, zero console errors.
+- Regenerated CSP hashes (`patterns.html`'s inline script changed). Full
+  check suite and the full `verify-site.mjs` suite (161 checks) pass with
+  zero regressions.
+
+# Earlier changes — lexical diversity (type-token ratio) by surah and by period
 
 ## A new corpus-linguistics measure: vocabulary variety vs. repetition
 

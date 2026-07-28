@@ -111,6 +111,17 @@ for (let s = 1; s <= 114; s++) {
     .map(([pausal, vs]) => ({ pausal, count: vs.length, verses: vs }))
     .sort((x, y) => y.count - x.count || x.pausal.localeCompare(y.pausal));
 
+  // Regularity index: mean run length = how many consecutive verses, on
+  // average, share the same fine key before it shifts. A shift divides
+  // the surah into (shifts.length + 1) runs; verses.length / runs is the
+  // mean of those run lengths. Purely a function of the shift count
+  // already computed above — no new source data, no new claim about
+  // structure, just a single summary scalar for cross-surah comparison
+  // (the per-surah view above only ever shows one surah at a time).
+  const meanRunLength = verses.length
+    ? Math.round((verses.length / (shifts.length + 1)) * 100) / 100
+    : 0;
+
   const out = {
     _generated: "build-rhyme-map.mjs",
     _source: "leeds-corpus-v0.4",
@@ -121,7 +132,10 @@ for (let s = 1; s <= 114; s++) {
       "after collapsing hamza seats and word-final alif maqsura to alif; " +
       "coarse key = final letter. Orthographic proxy, not a phonological " +
       "transcription of recitation; rhyme shifts are mechanical " +
-      "ending-pattern changes, not asserted structural boundaries.",
+      "ending-pattern changes, not asserted structural boundaries. Mean " +
+      "run length = verseCount / (shiftCount + 1): the average number of " +
+      "consecutive verses sharing a fine key before it changes — higher " +
+      "means a more sustained, regular rhyme scheme.",
     surah: s,
     verseCount: verses.length,
     verses,
@@ -129,6 +143,7 @@ for (let s = 1; s <= 114; s++) {
     familiesCoarse,
     shifts,
     refrains,
+    meanRunLength,
   };
 
   writeFileSync(
@@ -148,6 +163,7 @@ for (let s = 1; s <= 114; s++) {
     topRefrain: refrains[0]
       ? { pausal: refrains[0].pausal, count: refrains[0].count }
       : null,
+    meanRunLength,
   };
 }
 
@@ -160,7 +176,10 @@ writeFileSync(
       _method:
         "Per-surah roll-up of data/rhyme/{n}.json: family count and " +
         "dominant fine-key share of verse endings, shift count, top " +
-        "refrain. See any per-surah file for the full method note.",
+        "refrain, mean run length (verseCount / (shiftCount + 1), the " +
+        "average consecutive-verse run before the rhyme changes — a " +
+        "regularity index for comparing across surahs). See any " +
+        "per-surah file for the full method note.",
       surahs: summary,
     },
     null,
@@ -179,5 +198,8 @@ console.log(
   `Surah 55: top refrain ${s55.topRefrain ? `"${s55.topRefrain.pausal}" x${s55.topRefrain.count}` : "none"}`,
 );
 console.log(
-  `Surah 2: dominant "${s2.dominantKey}" share ${s2.dominantShare}, ${s2.shiftCount} shifts`,
+  `Surah 2: dominant "${s2.dominantKey}" share ${s2.dominantShare}, ${s2.shiftCount} shifts, meanRunLength ${s2.meanRunLength}`,
+);
+console.log(
+  `Surah 91 meanRunLength: ${s91.meanRunLength}; Surah 55 meanRunLength: ${s55.meanRunLength}`,
 );
