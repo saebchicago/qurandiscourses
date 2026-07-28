@@ -12,6 +12,12 @@
 - Both the "Add a Khan outline exercise" and "Add a Khan interpretation
   excerpt" recipes now open with a step 0 pointing at the gate, so the
   requirement is unmissable rather than implied by scattered wording.
+- Corrected two review findings before merge: the gate's structuring step
+  now describes the outline and excerpt schemas separately (they don't
+  share fields), and its labeling guidance now matches the actual UI — a
+  transcribed excerpt's ● badge (dossier.html, exercise.html) verifies the
+  transcription's fidelity to its cited source, not the interpretive
+  content, rather than claiming quoted text carries no ●/○/~ at all.
 - No exercise or interpretation content changed; this formalizes an existing
   practice, it doesn't introduce a new one.
 

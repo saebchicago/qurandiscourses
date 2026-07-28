@@ -241,18 +241,19 @@ excerpt".
    or reconstructs this content from memory or inference; if the exact
    text isn't in hand, the entry doesn't get added yet.
 2. **The assistant only structures it.** Fitting the supplied text into
-   `data/exercises.json`'s outline schema or `data/khan-interpretations.json`'s
-   excerpt schema — splitting into `startVerse`/`heading`/`note` items,
-   filling `sourceIds` and `provenanceHtml`, adding the NOTICE.md line —
-   is a mechanical transcription-formatting step. It must not add,
-   drop, reorder, or reword anything from what was supplied.
+   the outline schema (`data/exercises.json`: `startVerse`/`heading`/`note`
+   items, `sourceIds`, `provenanceHtml`) or the excerpt schema
+   (`data/khan-interpretations.json`: `{ "excerpt", "page" }`, plus the
+   NOTICE.md line) is a mechanical transcription-formatting step. It must
+   not add, drop, reorder, or reword anything from what was supplied.
 3. **Verify before merge:**
    - Every `sourceIds` value resolves in `data/sources.json`; every
      citation has a real page number from the actual volume.
-   - The label is honest: a transcribed outline/excerpt is quoted
-     source material (cite-badge, not ●/○/~ on the quote itself); a
-     structural or interpretive claim built *from* it is ○ Pending or
-     ~ Nuanced, never ● Verified.
+   - The label is honest: the ● Verified badge on a transcribed
+     outline/excerpt (per §1.1) claims only that the text is a faithful,
+     source-traceable transcription — never that its structural or
+     interpretive content is settled. A structural or interpretive claim
+     built *from* the transcription is ○ Pending or ~ Nuanced, never ●.
    - `node scripts/check-exercises.mjs` (outlines) passes, and for
      interpretation excerpts the NOTICE.md entry exists alongside the
      citation.
