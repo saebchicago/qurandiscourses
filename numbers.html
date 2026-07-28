@@ -393,7 +393,7 @@
               pattern across periods is widely observed in academic literature.
             </p>
           </div>
-          <div class="card scholar-only">
+          <div class="card study-only">
             <h3>Grammatical texture</h3>
             <p>
               Of <span data-num="posProfile.totalTokens">77,429</span> word-tokens,
@@ -440,6 +440,61 @@
               other function words, so no family taxonomy is asserted.
             </p>
           </div>
+          <div class="card study-only">
+            <h3>Lexical diversity by period</h3>
+            <p>
+              Type-token ratio (distinct surface forms, or distinct lemmas,
+              divided by all word-tokens) measures vocabulary variety versus
+              repetition. It falls mechanically as sample size grows, and
+              these four periods differ greatly in token count, so treat the
+              declining trend — not the absolute values — as the signal.
+            </p>
+            <table class="data" id="ttrByPeriodTable">
+              <thead>
+                <tr>
+                  <th>Period</th>
+                  <th class="count">Tokens</th>
+                  <th class="count">Form TTR</th>
+                  <th class="count">Lemma TTR</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Early Meccan</td>
+                  <td class="count" data-num="ttrByPeriod.0.tokens">2,704</td>
+                  <td class="count" id="ttrForm-0">0.6202</td>
+                  <td class="count" id="ttrLemma-0">0.3528</td>
+                </tr>
+                <tr>
+                  <td>Middle Meccan</td>
+                  <td class="count" data-num="ttrByPeriod.1.tokens">14,163</td>
+                  <td class="count" id="ttrForm-1">0.4081</td>
+                  <td class="count" id="ttrLemma-1">0.1466</td>
+                </tr>
+                <tr>
+                  <td>Late Meccan</td>
+                  <td class="count" data-num="ttrByPeriod.2.tokens">30,572</td>
+                  <td class="count" id="ttrForm-2">0.3073</td>
+                  <td class="count" id="ttrLemma-2">0.0926</td>
+                </tr>
+                <tr>
+                  <td>Medinan</td>
+                  <td class="count" data-num="ttrByPeriod.3.tokens">29,990</td>
+                  <td class="count" id="ttrForm-3">0.3005</td>
+                  <td class="count" id="ttrLemma-3">0.0902</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="prov">
+              <span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
+              distinct surface forms / lemmas ÷ word-tokens, by Cairo 1924
+              period.
+              <span class="badge nuanced" data-source-ids="leeds-corpus-v0.4" aria-label="Nuanced" tabindex="0" title="Nuanced · counting method varies by source">~</span>
+              type-token ratio is sensitive to sample size; these periods
+              range from 2,704 to 30,572 tokens, so the falling ratio partly
+              reflects length, not style alone.
+            </p>
+          </div>
           <div class="card">
             <h3>Verse-length distribution</h3>
             <p>
@@ -456,7 +511,7 @@
               bands.
             </p>
           </div>
-          <div class="card scholar-only">
+          <div class="card study-only">
             <h3>Vocabulary growth across revelation</h3>
             <p>
               Following Cairo 1924 order, the first revealed surah already
@@ -474,7 +529,7 @@
               claim about composition.
             </p>
           </div>
-          <div class="card scholar-only">
+          <div class="card study-only">
             <h3>Where the rare words are</h3>
             <p>
               <strong data-num="hapaxLocalization.count">395</strong> roots occur
@@ -492,7 +547,7 @@
               single occurrence.
             </p>
           </div>
-          <div class="card scholar-only">
+          <div class="card study-only">
             <h3>Hapax legomena</h3>
             <p>
               <strong data-num="hapax.surfaceFormsOccurringOnce">12,004</strong> surface forms (out of <span data-num="hapax.uniqueSurfaceForms">18,993</span> unique forms)
@@ -504,7 +559,7 @@
               and root counts.
             </p>
           </div>
-          <div class="card scholar-only">
+          <div class="card study-only">
             <h3>Roots unique to one period</h3>
             <p>
               <strong data-num="periodUniqueRoots.meccanOnly">547</strong> roots appear only in Meccan surahs (zero
@@ -646,6 +701,18 @@
                 );
               })
               .join("");
+          }
+
+          // Form/lemma TTR need 4 decimal places, not the site-wide
+          // 1-decimal data-num convention (percentages), so they are filled
+          // here at full precision rather than via [data-num].
+          if (data.ttrByPeriod) {
+            data.ttrByPeriod.forEach(function (row, i) {
+              var formEl = document.getElementById("ttrForm-" + i);
+              var lemmaEl = document.getElementById("ttrLemma-" + i);
+              if (formEl) formEl.textContent = row.formTTR.toFixed(4);
+              if (lemmaEl) lemmaEl.textContent = row.lemmaTTR.toFixed(4);
+            });
           }
 
           var grow = document.getElementById("vocabGrowth");

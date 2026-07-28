@@ -321,6 +321,19 @@
             })) ||
           null;
         $("outlineProv").hidden = !outline;
+        if (outline) {
+          // Each outline names its own source (khan-exercise-2013 for most
+          // surahs, khan-introduction-2011 for the six worked examples) —
+          // never hardcode one book here, exercise.html reads the same two
+          // fields per-entry for exactly this reason.
+          if (outline.sourceIds) {
+            $("outlineProvBadge").setAttribute(
+              "data-source-ids",
+              outline.sourceIds,
+            );
+          }
+          $("outlineProvText").innerHTML = outline.provenanceHtml || "";
+        }
 
         arabicByAyah = {};
         var offline = true;

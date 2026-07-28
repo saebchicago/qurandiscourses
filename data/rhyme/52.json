@@ -1,7 +1,7 @@
 {
  "_generated": "build-rhyme-map.mjs",
  "_source": "leeds-corpus-v0.4",
- "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries.",
+ "_method": "Verse-final word per verse, diacritics/tatweel stripped (drops tanwin and short case vowels, approximating pausal form), final ta marbuta -> ha, alif wasla -> alif. Fine key = last two letters after collapsing hamza seats and word-final alif maqsura to alif; coarse key = final letter. Orthographic proxy, not a phonological transcription of recitation; rhyme shifts are mechanical ending-pattern changes, not asserted structural boundaries. Mean run length = verseCount / (shiftCount + 1): the average number of consecutive verses sharing a fine key before it changes — higher means a more sustained, regular rhyme scheme.",
  "surah": 52,
  "verseCount": 49,
  "verses": [
@@ -571,5 +571,6 @@
   45,
   48
  ],
- "refrains": []
+ "refrains": [],
+ "meanRunLength": 1.69
 }

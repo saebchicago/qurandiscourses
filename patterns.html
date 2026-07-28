@@ -131,7 +131,7 @@
             multiple surahs with subtle context differences.
           </p>
           <p>
-            Related-verse data is surfaced inline on the Read page at Scholar
+            Related-verse data is surfaced inline on the Read page at Study
             depth and above.
           </p>
           <p class="prov">
@@ -139,7 +139,7 @@
             mutashabihat (~5,277 entries), Tarteel.
           </p>
         </div>
-        <div class="card scholar-only">
+        <div class="card study-only">
           <h3>Cross-references (Mishkat Mutashābihāt)</h3>
           <p>
             The cross-reference data shipped on this site — the expandable
@@ -161,7 +161,7 @@
             ships.
           </p>
         </div>
-        <div class="card scholar-only">
+        <div class="card study-only">
           <h3>Browse cross-references by surah</h3>
           <p>
             The same Mishkat data, browsable a surah at a time: every verse in
@@ -172,7 +172,7 @@
           </div>
           <div id="xrefBrowseResults" aria-live="polite"></div>
         </div>
-        <div class="card scholar-only" id="rhyme">
+        <div class="card study-only" id="rhyme">
           <h3>Sound and rhyme — the verse endings (fawāṣil)</h3>
           <p>
             Most surahs end their verses on recurring sound patterns —
@@ -213,6 +213,32 @@
             </select></label
           >
           <div id="rhymePanel" style="margin-top: 0.75rem"></div>
+        </div>
+        <div class="card study-only" id="rhymeRegularity">
+          <h3>Rhyme regularity across surahs</h3>
+          <p>
+            The panel above shows one surah at a time; this ranks all 114
+            by <strong>mean run length</strong> — the average number of
+            consecutive verses that share a fine rhyme key before it
+            changes (verse count ÷ (shift count + 1)). A high value means
+            long, sustained runs on one ending (near-monorhyme); a low
+            value means the ending pattern changes almost every verse.
+          </p>
+          <div id="rhymeRegularityLists" style="margin-top: 0.6rem"></div>
+          <p class="prov">
+            <span
+              class="badge nuanced"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Nuanced"
+              tabindex="0"
+              title="Nuanced · derived scalar from the same orthographic proxy above"
+              >~</span
+            >
+            computed purely from the fine-key shift counts already shown
+            above (<code>data/rhyme-summary.json</code>) — same
+            orthographic-proxy caveats apply, and a short surah reaching a
+            high value from very few verses is noted, not hidden.
+          </p>
         </div>
         <div class="card encyclopedic-only">
           <h3>Other documented features</h3>
@@ -259,16 +285,20 @@
             </li>
             <li>
               <strong>Boundary particles and lexical continuity</strong>:
-              verses opening with <em>idh</em> ("when" / "recall") or
-              <em>lamma</em> ("when" / "once") — 203 occurrences combined. In
-              93 of those, the verse shares a content root with the verse
+              verses opening with <em>idh</em> ("when" / "recall"),
+              <em>idha</em> ("when" / "if" — same clause-initial temporal
+              family as <em>idh</em>, deliberately not extended to a
+              sequencing word like <em>thumma</em>, "then", which marks
+              continuation rather than a new temporal clause), or
+              <em>lamma</em> ("when" / "once") — 350 occurrences combined. In
+              137 of those, the verse shares a content root with the verse
               immediately before it (e.g., 2:29 and 2:30 both use the root
               <em>a-r-ḍ</em>, "earth"). This records only where the marker
               and the shared root co-occur — it does not assert that the
               boundary is a thematic or rhetorical turning point; that
               judgment is an interpretive one this site does not make.
               <details id="discursivePivotDetails" class="xref-panel">
-                <summary>List all 93</summary>
+                <summary>List all 137</summary>
                 <div id="discursivePivotList" class="xref-list"></div>
               </details>
             </li>
@@ -641,7 +671,7 @@
                     qdEsc(v.pausal) +
                     '</span></td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">-' +
                     qdEsc(v.k2) +
-                    '</span></td><td class="scholar-only"><span class="ar notranslate" translate="no" lang="ar" dir="rtl">-' +
+                    '</span></td><td class="study-only"><span class="ar notranslate" translate="no" lang="ar" dir="rtl">-' +
                     qdEsc(v.k1) +
                     "</span></td></tr>"
                   );
@@ -664,7 +694,7 @@
                 extra +
                 "</p>" +
                 refrainNote +
-                '<div style="overflow-x:auto;margin-top:0.6rem"><table class="data"><thead><tr><th>Verse</th><th>Final word</th><th>Pausal</th><th>Fine key</th><th class="scholar-only">Coarse</th></tr></thead><tbody>' +
+                '<div style="overflow-x:auto;margin-top:0.6rem"><table class="data"><thead><tr><th>Verse</th><th>Final word</th><th>Pausal</th><th>Fine key</th><th class="study-only">Coarse</th></tr></thead><tbody>' +
                 rows +
                 "</tbody></table></div>";
             }
@@ -689,7 +719,7 @@
 
             // Deep link ?s=N (e.g. a dossier's "full verse-ending map"
             // link): preselect the surah and load its map. The section
-            // itself is scholar-only — at Simple depth the preselection
+            // itself is study-only — at Simple depth the preselection
             // is simply waiting when the reader steps up a depth.
             var sParam = parseInt(
               new URLSearchParams(location.search).get("s"),
@@ -699,6 +729,83 @@
               rhymeSel.value = String(sParam);
               rhymeSel.dispatchEvent(new Event("change"));
             }
+          }
+
+          // ── Rhyme regularity: cross-surah ranking by mean run length ──
+          var regularityHost = document.getElementById(
+            "rhymeRegularityLists",
+          );
+          if (regularityHost) {
+            fetch("data/rhyme-summary.json")
+              .then(function (r) {
+                if (!r.ok) throw new Error("HTTP " + r.status);
+                return r.json();
+              })
+              .then(function (data) {
+                var rows = Object.keys(data.surahs || {}).map(function (k) {
+                  var n = parseInt(k, 10);
+                  var row = data.surahs[k];
+                  return {
+                    surah: n,
+                    meanRunLength: row.meanRunLength,
+                    verseCount: row.verseCount,
+                    shiftCount: row.shiftCount,
+                  };
+                });
+
+                function listOf(sorted) {
+                  return (
+                    '<ol style="margin:0.3rem 0 0;padding-left:1.4rem">' +
+                    sorted
+                      .slice(0, 8)
+                      .map(function (row) {
+                        return (
+                          "<li><a href=\"dossier.html?s=" +
+                          row.surah +
+                          '">' +
+                          surahLabel(row.surah).replace(
+                            " (not yet covered)",
+                            "",
+                          ) +
+                          "</a> — " +
+                          row.meanRunLength +
+                          " verses/run (" +
+                          row.shiftCount +
+                          " shifts over " +
+                          row.verseCount +
+                          " verses)</li>"
+                        );
+                      })
+                      .join("") +
+                    "</ol>"
+                  );
+                }
+
+                var mostRegular = rows
+                  .slice()
+                  .sort(function (a, b) {
+                    return b.meanRunLength - a.meanRunLength;
+                  });
+                var mostVaried = rows
+                  .slice()
+                  .sort(function (a, b) {
+                    return a.meanRunLength - b.meanRunLength;
+                  });
+
+                regularityHost.innerHTML =
+                  '<div class="stat-grid">' +
+                  '<div class="stat-block"><h4>Most regular (longest runs)</h4>' +
+                  listOf(mostRegular) +
+                  "</div>" +
+                  '<div class="stat-block"><h4>Most varied (shortest runs)</h4>' +
+                  listOf(mostVaried) +
+                  "</div>" +
+                  "</div>";
+              })
+              .catch(function () {
+                regularityHost.innerHTML =
+                  '<p style="color:var(--muted)">Could not load the rhyme regularity ranking.</p>';
+              });
           }
         });
       })();

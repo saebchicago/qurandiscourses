@@ -211,6 +211,44 @@
    "verbToNoun": 0.77
   }
  ],
+ "ttrByPeriod": [
+  {
+   "period": "meccan-early",
+   "label": "Early Meccan",
+   "tokens": 2704,
+   "distinctForms": 1677,
+   "distinctLemmas": 954,
+   "formTTR": 0.6202,
+   "lemmaTTR": 0.3528
+  },
+  {
+   "period": "meccan-middle",
+   "label": "Middle Meccan",
+   "tokens": 14163,
+   "distinctForms": 5780,
+   "distinctLemmas": 2077,
+   "formTTR": 0.4081,
+   "lemmaTTR": 0.1466
+  },
+  {
+   "period": "meccan-late",
+   "label": "Late Meccan",
+   "tokens": 30572,
+   "distinctForms": 9395,
+   "distinctLemmas": 2832,
+   "formTTR": 0.3073,
+   "lemmaTTR": 0.0926
+  },
+  {
+   "period": "medinan",
+   "label": "Medinan",
+   "tokens": 29990,
+   "distinctForms": 9013,
+   "distinctLemmas": 2704,
+   "formTTR": 0.3005,
+   "lemmaTTR": 0.0902
+  }
+ ],
  "verseLengthHistogram": {
   "bins": [
    {

@@ -80,6 +80,17 @@
       if (raw) {
         const saved = JSON.parse(raw);
         Object.assign(state, saved);
+        // One-time migration: the middle depth tier was renamed from
+        // "scholar" to "study" (its stored value, matching the rename of
+        // every "Scholar" label/class/data-attribute across the site). A
+        // returning visitor's saved preference otherwise stops matching
+        // any known depth and silently falls back to Simple. Persist the
+        // fix immediately so this only runs once per visitor, not once
+        // per page load.
+        if (state.depth === "scholar") {
+          state.depth = "study";
+          save();
+        }
       }
     } catch (e) {}
   }
@@ -222,7 +233,7 @@
       <h4>Depth</h4>
       <div class="row"><select id="setDepth" aria-label="Depth level">
         <option value="simple" ${state.depth === "simple" ? "selected" : ""}>Simple — just read</option>
-        <option value="scholar" ${state.depth === "scholar" ? "selected" : ""}>Scholar — study</option>
+        <option value="study" ${state.depth === "study" ? "selected" : ""}>Study — analyze</option>
         <option value="encyclopedic" ${state.depth === "encyclopedic" ? "selected" : ""}>Encyclopedic — verify</option>
       </select></div>
       <h4>Palette</h4>
@@ -309,7 +320,7 @@
           applyDepth();
         }
         if (e.key === "2") {
-          state.depth = "scholar";
+          state.depth = "study";
           save();
           applyDepth();
         }
@@ -419,7 +430,7 @@
   const TOOLTIPS = {
     "depth-simple":
       "Shows verse text, translations, and audio. No morphology or annotations.",
-    "depth-scholar":
+    "depth-study":
       "Adds word-by-word morphology, root links, and chronological period distribution.",
     "depth-encyclopedic":
       "Adds full structural pattern notes and complete source provenance for every claim.",

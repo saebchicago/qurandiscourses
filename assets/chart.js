@@ -347,7 +347,8 @@
       width: "100%",
       role: "img",
       "aria-label":
-        "Co-occurrence network: " + opts.centerLabel + " with its " + nodes.length + " most frequent companion roots",
+        opts.ariaLabel ||
+        ("Co-occurrence network: " + opts.centerLabel + " with its " + nodes.length + " most frequent companion roots"),
     });
     svg.style.maxWidth = W + "px";
 
@@ -382,7 +383,9 @@
         fill: "color-mix(in oklab, var(--accent) " + Math.round(35 + 55 * (n.weight / maxW)) + "%, var(--bg))",
         stroke: "var(--card)", "stroke-width": 2,
       });
-      var label = n.label + " · appears in " + n.weight + " shared verse" + (n.weight === 1 ? "" : "s") + " with " + opts.centerLabel;
+      var label = opts.tooltipFn
+        ? opts.tooltipFn(n)
+        : n.label + " · appears in " + n.weight + " shared verse" + (n.weight === 1 ? "" : "s") + " with " + opts.centerLabel;
       var t = svgEl("title", {});
       t.textContent = label;
       c.appendChild(t);

@@ -1,4 +1,298 @@
-# Changes — wider badge tap targets
+# Changes — a root-family clustering visualization for the PMI ranking
+
+## roots.html's distinctive-partner list gets its own network map
+
+- The PMI (pointwise mutual information) partner ranking shipped earlier
+  this session only ever rendered as a text list — the existing
+  co-occurrence network map (`qdChart.egoNetwork`, already used for the
+  raw shared-verse-count partners) had no counterpart for it. Wired the
+  same chart primitive to the already-computed `coRootsPmi` data: pure UI,
+  zero new computation.
+- The two networks now tell visually different stories from the same
+  root: the count-based map sizes nodes by how *often* two roots
+  co-occur, the new PMI map sizes them by how much *more than chance*
+  they co-occur — a root can be a small node on one map and a large node
+  on the other, and the page now shows both side by side.
+- Extended `assets/chart.js`'s `egoNetwork()` with two optional,
+  backward-compatible parameters — `ariaLabel` and `tooltipFn` — since the
+  raw-count version's hardcoded tooltip ("appears in N shared verses")
+  would have been meaningless for a PMI score. The existing count-network
+  call site is unchanged and untouched by this.
+- Verified live in the browser: for r-ḥ-m (the site's flagship
+  co-occurrence example), the network renders with the correct PMI-scored
+  tooltip text and aria-label; for a root below the 3-shared-verse PMI
+  ranking floor, the network area hides cleanly with no leftover markup;
+  the pre-existing raw-count network is unaffected. Zero console errors
+  in all three cases.
+- Regenerated CSP hashes (`roots.html`'s inline script content changed).
+  Full check suite and the full `verify-site.mjs` suite (161 checks) pass
+  with zero regressions.
+
+# Earlier changes — extended the discourse-particle taxonomy to a third temporal marker
+
+## Boundary-particle detection now also tracks "idhā"
+
+- `scripts/build-discursive-pivots.mjs` previously tracked two verse-initial
+  temporal particles, "idh" and "lammā". Added a third, grammatically
+  identical family member: "idhā" (same clause-initial temporal
+  subordinator category — "when"/"if", general/future rather than
+  past-narrative). The generator's own comment now states explicitly why a
+  sequencing conjunction like "thumma" ("then") is deliberately *not*
+  included: it marks continuation, not a new temporal clause, and folding
+  it in would blur what this feature precisely measures.
+- Combined verse-initial occurrences rise from 203 (idh + lammā) to 350
+  (idh 118, idhā 147, lammā 85); root-continuity matches with the
+  preceding verse rise from 93 to 137. Updated the count text and detail
+  list on `patterns.html`'s "Other documented features" card and the
+  no-pivots fallback message on `dossier.html`.
+- Verified idhā's verse-initial count (147) by an independent hand count
+  over the raw morphology (not the generator's own logic) — exact match.
+  Verified the generator is deterministic (identical file hash across two
+  runs). Verified live in the browser: the expanded detail list shows all
+  137 entries with all three marker labels present, the dossier fallback
+  text updated correctly for a surah with no pivots, zero console errors.
+- Regenerated CSP hashes (`patterns.html`'s inline script content
+  changed). Full check suite and the full `verify-site.mjs` suite (161
+  checks) pass with zero regressions.
+
+# Earlier changes — a rhyme-regularity index, ranked across all 114 surahs
+
+## patterns.html's rhyme explorer gains a cross-surah view
+
+- The existing rhyme explorer (`data/rhyme/{n}.json`, built by
+  `scripts/build-rhyme-map.mjs`) only ever shows one surah at a time — its
+  `shiftCount` (how many times the verse-final rhyme key changes) had no
+  way to be compared across surahs. Added **mean run length** —
+  `verseCount / (shiftCount + 1)`, the average number of consecutive
+  verses sharing a fine rhyme key before it changes — as a single
+  regularity scalar per surah, computed purely from the shift data the
+  generator already produces (no new source data, no new claim about
+  structure).
+- New "Rhyme regularity across surahs" card on `patterns.html`: ranks all
+  114 surahs by mean run length, showing the 8 most regular (longest
+  sustained runs — surah 91, "The Sun", tops the list at 15 with zero
+  shifts across all 15 verses, i.e. one rhyme key the whole surah) and the
+  8 most varied (shortest runs — several 3-verse surahs land here
+  trivially, and are shown with their verse/shift counts alongside so
+  that's visible, not hidden). Labeled ~ Nuanced, same orthographic-proxy
+  caveats as the per-surah panel above it.
+- Verified the formula by hand for two surahs at opposite extremes: surah
+  91 (15 verses, 0 shifts → 15/1 = 15, exact match) and surah 103 (3
+  verses, 2 shifts → 3/3 = 1, exact match). Verified the generator is
+  deterministic (identical file hashes across two full regenerations of
+  all 114 `data/rhyme/*.json` files plus the summary). Verified live in
+  the browser: both ranked lists render with the expected surahs at the
+  extremes, correct per-row detail, zero console errors.
+- Regenerated CSP hashes (`patterns.html`'s inline script changed). Full
+  check suite and the full `verify-site.mjs` suite (161 checks) pass with
+  zero regressions.
+
+# Earlier changes — lexical diversity (type-token ratio) by surah and by period
+
+## A new corpus-linguistics measure: vocabulary variety vs. repetition
+
+- Added type-token ratio (TTR) — distinct surface forms, and distinct
+  lemmas, each divided by all word-tokens — at two granularities:
+  - **Per surah**, in `scripts/build-surah-profiles.mjs` /
+    `data/surah-profiles.json`: `distinctFormCount`, `formDiversityRatio`,
+    `distinctLemmaCount`, `lemmaDiversityRatio`, computed from the same
+    per-token pass the existing `rootDiversityRatio` already uses, so all
+    three ratios (root/form/lemma) are directly comparable. Surfaced on
+    `dossier.html`'s Vocab section, next to the existing root diversity
+    ratio.
+  - **Per chronological period**, in `scripts/build-numbers.mjs` /
+    `data/numbers.json`'s new `ttrByPeriod` array: mirrors the existing
+    `posByPeriod` structure (same four Cairo 1924 periods, same token
+    counts). Surfaced on `numbers.html` as a new "Lexical diversity by
+    period" table, showing tokens alongside form/lemma TTR at full
+    (4-decimal) precision — the site-wide `[data-num]` 1-decimal
+    convention would have flattened these into visually-identical values,
+    so this table fills its ratio cells via a small dedicated script
+    instead.
+- TTR is well known to be sensitive to sample size — it falls mechanically
+  as text grows, independent of any real change in vocabulary richness.
+  Both surfaced views state this caveat plainly (~ Nuanced) rather than
+  present the numbers as a clean ranking: the per-surah ratio is framed as
+  a within-similar-length comparison, and the per-period table shows each
+  period's token count right next to its ratio so the length confound is
+  visible, not hidden.
+- Verified the exact formula by hand against raw morphology data for one
+  surah (103: 14 tokens, 13 distinct forms, 13 distinct lemmas → 0.9286 /
+  0.9286, exact match) and one period (Early Meccan: 2,704 tokens, 1,677
+  distinct forms, 954 distinct lemmas → 0.6202 / 0.3528, exact match).
+  Cross-checked that `ttrByPeriod`'s token counts exactly match the
+  pre-existing `posByPeriod` counts for the same periods (internal
+  consistency between two independently-built aggregates). Verified both
+  generators are deterministic (identical file hashes across two runs).
+  Verified live in the browser on both pages: correct values render,
+  matching the hand calculations exactly, with zero console errors.
+- Regenerated CSP hashes (`numbers.html`'s inline script changed). Full
+  check suite (`check-claims`, `check-exercises`, `check-data-nums`,
+  `check-paths`, `check-nav-sync`, `check-headers-sync`,
+  `build-csp --check`) and the full `verify-site.mjs` suite (161 checks)
+  pass with zero regressions.
+
+# Earlier changes — a distinctiveness ranking for root co-occurrence (PMI)
+
+## roots.html now ranks co-occurring roots by distinctiveness, not just frequency
+
+- Added pointwise mutual information (PMI) as a second ranking of the same
+  verse-level co-occurrence data already computed in
+  `scripts/build-cooccurrence.mjs`: PMI(r1,r2) = log2(P(r1,r2) /
+  (P(r1)·P(r2))), where each root's marginal probability is its share of
+  all 6,236 verses (computed independently from the exact same verse-root
+  pass the existing count is built from — not from `roots-summary.json`'s
+  `totalCount`, which is a token count and the wrong unit for a verse-level
+  probability model). A pair needs ≥3 shared verses before it's ranked, to
+  keep a single coincidental shared verse between two rare roots from
+  producing an enormous but meaningless score.
+- This asks a different question than the existing count-sorted list — how
+  much *more than chance* two roots co-occur, not how *often* — and can
+  disagree with it: r-ḥ-m/gh-f-r (mercy/forgiveness, the site's own
+  flagship co-occurrence example) is r-ḥ-m's highest-count partner at 91
+  shared verses, but ranks only 5th by PMI (score 3.17) behind several
+  much rarer, more tightly-paired roots — exactly the "frequent ≠
+  distinctive" tension PMI exists to surface. Both lists are kept side by
+  side; neither replaces the other.
+- New `roots.html` panel, "Distinctive partners (PMI)", labeled ~ Nuanced
+  (a chosen statistic, not a settled count) with its own method note.
+  Hidden entirely for roots with no partner reaching the 3-shared-verse
+  floor.
+- Verified the exact PMI formula by an independent hand calculation
+  against the r-ḥ-m/gh-f-r pair (script: 3.17, manual: 3.1660 → matches to
+  rounding); verified the generator is deterministic (identical file
+  hashes across two runs); verified live in the browser that the panel
+  renders correctly, hides correctly for a sparse root, and produces no
+  console errors.
+- Regenerated all 1,642 `data/cooccurrence/*.json` files (adds
+  `coRootsPmi` and `verseCount` fields; existing `coRoots` and
+  `byChronologyCoRoots` fields unchanged). Regenerated CSP hashes. Full
+  `verify-site.mjs` suite (161 checks) passes with zero regressions.
+
+# Earlier changes — a study path chaining Khan's method with the site's own tools
+
+## New Study Path + a static-fallback drift bug found and fixed along the way
+
+- Added a fifth Study Path, "Test a Khan outline against the site's own
+  computed signals": work the al-'Asr outline exercise, open that surah's
+  Dossier (now showing its computed structural signals per the prior
+  entry), follow any signal to its full method on Patterns, then record in
+  the discovery worksheet where Khan's outline and the computed signals
+  agree, diverge, or don't overlap at all. Zero new claims — it only
+  chains existing, already-verified tools, per the "Add a study path"
+  recipe.
+- While adding it, found that `paths.html`'s static fallback markup (shown
+  only if the `data/paths.json` fetch fails) had already silently fallen
+  behind the registry — the fourth path, "Study a theme end to end", had
+  no matching card at all. Added it, and the new fifth path's card.
+- `scripts/check-paths.mjs` now also asserts every path's title appears in
+  `paths.html`'s static fallback, so this class of drift fails the build
+  instead of sitting invisible until a reader hits it with the network
+  down. Verified the check catches the exact bug just found (removed a
+  title, confirmed the failure, restored it).
+- Verified the new path renders correctly from the live JSON (5 cards,
+  screenshot confirms clean layout) and reran the full `verify-site.mjs`
+  suite (161 checks, zero regressions).
+
+# Earlier changes — the Dossier now shows its own computed structure alongside Khan's
+
+## Two already-computed, already-labeled signals were siloed on Patterns — now they're on every surah's Dossier too
+
+- `data/rhetorical-features.json` (fawātiḥ letters, the believers'-vocative
+  direct-address count) and `data/symmetry-test.json` (the ring-composition
+  proxy test's closest, still-not-significant candidates) were each fully
+  computed and already rendered — but only on `patterns.html`, reachable
+  only by a reader who already knew to look there. Neither ever appeared
+  on `dossier.html`, the page whose whole premise is "everything the site
+  knows about one surah, on one page" — so a reader testing Khan's outline
+  (or proposing their own structure in the discovery worksheet) had no way
+  to see the site's own mechanical tooling corroborate or diverge from it,
+  for that same surah, without a separate trip to Patterns.
+- `dossier.html`'s `renderStructure()` now also fetches both files and, for
+  surahs where they have something to say, renders them in the same
+  Structure section as the outline/pivots/interpretation: a ●-Verified
+  "Rhetorical features" block (fawātiḥ, direct-address verses with links)
+  and a ~-Nuanced "Ring-composition proxy test" block (explicitly stated as
+  not significant — this must never read as a positive finding). Surahs
+  with nothing in either dataset show nothing extra, same as the existing
+  pivots/interpretation sections' honest-empty pattern.
+- No new computation, no new claims — both datasets and their labels
+  already existed and already passed `check-claims.mjs`; this is purely
+  cross-linking. Reuses the page's existing `fill()` helper, so citation
+  badges on the new content are automatically wired up
+  (`qdCiteEnhance`) — verified live that the new badge's popover opens.
+- Found and built from a broader audit of how tightly the site's own
+  computed tooling is cross-linked with Khan's transcribed outlines (see
+  also the Replay citation fix, below).
+- Regenerated CSP `script-src` hashes; full `verify-site.mjs` suite (161
+  checks) passes with zero regressions.
+
+# Earlier changes — fix Replay's hardcoded outline citation
+
+## Replay was citing the wrong Khan book for 5 of its 6 outlines
+
+- `replay.html`'s outline-provenance badge and citation sentence were
+  hardcoded to always name *An Exercise in Understanding the Qur'an*
+  (2013, `khan-exercise-2013`) — correct for surah 103 (al-'Asr), but
+  wrong for the other five surahs with a transcribed outline (96, 107,
+  108, 109, 112), which are all sourced from the different volume *An
+  Introduction to Understanding the Qur'an with Examples* (2011,
+  `khan-introduction-2011`). Every one of those five showed a ● Verified
+  badge citing a book that isn't where that outline actually came from —
+  a real provenance error on a page whose premise is that everything
+  shown is traceable.
+- `assets/replay.js` now sets the badge's `data-source-ids` and the
+  citation text from the matched outline's own `sourceIds`/
+  `provenanceHtml` fields, the same fields `exercise.html` already reads
+  correctly per entry, instead of hardcoding one book in the HTML.
+- Verified live for surah 96 (now correctly cites khan-introduction-2011),
+  surah 103 (still correctly cites khan-exercise-2013 — no regression),
+  and surah 90 (no outline — the citation stays hidden, as before).
+- Found during a broader audit of how tightly the site's own computed
+  tooling is cross-linked with Khan's transcribed outlines.
+
+# Earlier changes — the middle depth tier is now "Study," not "Scholar"
+
+## Renamed the analytical depth tier site-wide
+
+- Renamed the middle depth tier (Simple / **Scholar** / Encyclopedic) to
+  Simple / **Study** / Encyclopedic, at the maintainer's request. "Scholar"
+  read as gatekeeping for a site whose whole premise is that any reader can
+  do this work; "Study" names what the tier actually does (word-by-word
+  morphology, root links, chronological period distribution) without
+  implying a credential.
+- Renamed everywhere the tier is represented, not just its visible label:
+  the `.scholar-only` CSS class → `.study-only`, the `data-depth="scholar"`
+  attribute/state value → `"study"`, the settings-gear option, the
+  `read.html` depth-toggle button, every `data-tip="depth-scholar"` /
+  `aria-label` reference, the onboarding tour copy, `how-to-use.html`'s and
+  `how-it-works.html`'s explainer cards, and every "at Scholar depth" prose
+  mention across `dossier.html`, `words.html`, `patterns.html`, `paths.html`
+  (registry and static fallback), `validation.html`, and
+  `data/case-studies.json`. Left untouched, deliberately: `CHANGES.md` and
+  `changelog.html`'s existing historical entries (they describe the site as
+  it was on the date they were written), and every generic use of
+  "scholar/scholarly/scholarship" as an ordinary English word (Khan's own
+  scholarly lineage, bibliography descriptions, claim-type vocabulary like
+  `scholarly-attribution` — none of those name the UI tier).
+- The settings-gear option text needed new copy, not just a relabel:
+  "Scholar — study" would have become the redundant "Study — study." It's
+  now "Study — analyze," matching the terse verb-phrase pattern of the
+  other two options ("Simple — just read," "Encyclopedic — verify").
+- Added a one-time migration in `assets/app.js`'s state loader: a
+  returning visitor's `localStorage` may still hold the old `"scholar"`
+  value, which would otherwise match none of the three valid depths and
+  silently fall back to Simple. The migration rewrites and persists the
+  value on first load post-deploy.
+- Verified live with Playwright: the renamed button sets `data-depth`
+  correctly, `.study-only` content toggles correctly at each tier, the
+  migration both applies mid-session and persists to `localStorage` (not
+  just once per page load), and the full `verify-site.mjs` suite (161
+  checks across all 28 pages) passes with zero regressions.
+- Regenerated `netlify.toml`'s CSP script-src hashes (`build-csp.mjs`) —
+  several inline `<script>` blocks changed.
+
+# Earlier changes — wider badge tap targets
 
 ## Citation badges are easier to tap without risking accidental clicks nearby
 

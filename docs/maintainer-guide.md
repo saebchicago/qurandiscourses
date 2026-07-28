@@ -107,23 +107,23 @@ them only when their inputs change; commit their outputs.
 |---|---|---|---|
 | build-leeds.js | Leeds corpus dump | data/morphology/, roots-summary.json | everything |
 | build-root-analytics.mjs | morphology | data/root-analytics/ | roots.html detail |
-| build-cooccurrence.mjs | morphology, roots-summary, chronology | data/cooccurrence/ | roots.html co-occurrence (whole-corpus and per-chronological-period) |
-| build-discursive-pivots.mjs | morphology, roots-summary | data/discursive-pivots.json | patterns.html boundary-particle / shared-root list |
+| build-cooccurrence.mjs | morphology, roots-summary, chronology | data/cooccurrence/ | roots.html co-occurrence (whole-corpus and per-chronological-period), plus `coRootsPmi` — the same partners ranked by pointwise mutual information (distinctiveness) instead of raw count, minimum 3 shared verses to rank, roots.html's "Distinctive partners (PMI)" panel |
+| build-discursive-pivots.mjs | morphology, roots-summary | data/discursive-pivots.json | patterns.html boundary-particle / shared-root list — three clause-initial temporal subordinators (idh, idha, lamma); deliberately excludes sequencing conjunctions (e.g. thumma), which mark continuation, not a new temporal clause |
 | build-symmetry-test.mjs | morphology, roots-summary | data/symmetry-test.json | patterns.html ring-composition proxy test (method + closest candidates) |
 | build-surah-meta.mjs | Quran Foundation API | data/surah-meta.json | Makki/Madani |
 | build-juz.mjs | Tanzil standard division + surah-meta | data/juz.json | navigate.html juz grid, read.html `?j=` |
 | build-csp.mjs | every page's inline `<script>` and `<style>` blocks | netlify.toml `script-src` + `style-src-elem` hashes | CSP authorizes inline scripts/styles without `'unsafe-inline'` (`--check` guards staleness) |
-| build-surah-profiles.mjs | morphology, chronology, qursim | data/surah-profiles.json | navigate.html profiles |
+| build-surah-profiles.mjs | morphology, chronology, qursim | data/surah-profiles.json | navigate.html profiles; also `formDiversityRatio`/`lemmaDiversityRatio` (type-token ratio at the surface-form and lemma level, alongside the existing root-level ratio), surfaced on dossier.html's Vocab section |
 | build-themes.mjs | morphology, roots-summary, surah-profiles | data/themes.json, data/theme-surah-index.json | themes.html (each theme's `topSurahs` = where its root-family vocabulary clusters, tokens per 1,000 normalized by surah length); the reverse index feeds dossier.html's "themes touching this surah" line. Absence from a theme's top-8 means "not among its densest", not "vocabulary absent" — the `_method` strings state this |
 | build-rhetorical-features.mjs | morphology | data/rhetorical-features.json | patterns.html direct-address list, numbers.html fawatih list |
-| build-numbers.mjs | morphology, roots-summary, chronology | data/numbers.json | every corpus figure on numbers.html (`[data-num]` elements) |
+| build-numbers.mjs | morphology, roots-summary, chronology | data/numbers.json | every corpus figure on numbers.html (`[data-num]` elements); also `ttrByPeriod` — form/lemma type-token ratio by Cairo 1924 period, numbers.html's "Lexical diversity by period" table (filled at 4-decimal precision outside the `[data-num]` convention, since that convention rounds to 1 decimal) |
 | build-surahs-js.mjs | surah-names.json, chronology, surah-meta, surah-profiles | assets/surahs.js | the ONE canonical surah dataset (navigate, read, ask box, refs, embeds) — edit data/surah-names.json, never assets/surahs.js |
 | build-share-pages.mjs | roots-summary, themes, chronology, surah-names, surah-profiles | s/ (1,789 pages) | per-entity link previews; share buttons hand these URLs out |
 | build-root-refs-index.mjs | roots-summary | assets/root-refs.js | refs.js root-mention detection (ambiguous ASCII folds deliberately absent) |
 | build-word-index.mjs | morphology, roots-summary, data/gloss (optional) | data/word-index.json | words.html vocabulary search — rerun after committing a gloss dataset so meanings join the index |
 | build-roots-list.mjs | roots-summary | data/roots-list.json | the slim per-root record every list-level consumer fetches (roots list, compare suggestions, refs popovers, embeds, exercise-roots) — rerun whenever roots-summary changes |
 | build-formulas.mjs | morphology | data/formulas-root.json, data/formulas-surface.json | formulas.html. Root-stream refs are `[surah, ayah, w1..wn]` — every matched word's position, since root sequences skip particles/pronouns and so are NOT contiguous. Surface-stream refs are `[surah, ayah, w]` — the first matched word only, since surface matches ARE contiguous (`w..w+n-1`). Both are consumed by read.html's `?hl=` deep-link highlighting (§5) |
-| build-rhyme-map.mjs | morphology | data/rhyme/{1-114}.json, data/rhyme-summary.json | patterns.html rhyme explorer; rhyme-summary.json also feeds index.html's daily discourse card (below) |
+| build-rhyme-map.mjs | morphology | data/rhyme/{1-114}.json, data/rhyme-summary.json | patterns.html rhyme explorer; rhyme-summary.json also feeds index.html's daily discourse card (below), plus `meanRunLength` (verseCount / (shiftCount + 1), a regularity index) feeding patterns.html's cross-surah "Rhyme regularity across surahs" ranking |
 | build-formula-summary.mjs | formulas-root.json, formulas-surface.json | data/formula-summary.json | dossier.html's recurring-phrases section — a ~75 KB per-surah roll-up (counts + top-5 phrases with first-occurrence refs) so the page never fetches the megabyte parent files. Rerun whenever build-formulas.mjs reruns |
 
 Checkers (not generators — they gate shipping):
@@ -556,9 +556,9 @@ What it covers (the old manual list, for reference) and what's left:
     verify by hand, e.g. a scratch Playwright script, before shipping a
     change to any of these):
     - `?hl=` deep-link highlighting — check it at **Simple depth
-      specifically** (the site's default), not just Scholar/
+      specifically** (the site's default), not just Study/
       Encyclopedic: `buildArHtml` early-returns unmodified text
-      whenever there's no scholar-depth root data, so a highlight
+      whenever there's no study-depth root data, so a highlight
       implementation that only composed with `buildArHtml`'s output
       would silently do nothing for most first-time visitors following
       a formula/rhyme/KWIC link. `applyHighlight` runs independently of

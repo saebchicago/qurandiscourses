@@ -33,7 +33,7 @@
     {
       sel: ".settings .gear",
       title: "Depth, translations, palette",
-      body: "The gear sets your depth (Simple / Scholar / Encyclopedic — or keys 1/2/3), translations, and colors. Saved in this browser only.",
+      body: "The gear sets your depth (Simple / Study / Encyclopedic — or keys 1/2/3), translations, and colors. Saved in this browser only.",
     },
   ];
 

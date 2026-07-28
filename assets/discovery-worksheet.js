@@ -87,12 +87,12 @@
     var entry = all[currentSurah] || emptyEntry();
 
     var html =
-      // scholar-only: Simple depth is the site's "just read" contract
+      // study-only: Simple depth is the site's "just read" contract
       // (index.html's own depth cards call it "the reading layer"), and a
       // structural-hypothesis form is not part of reading. The existing
       // html[data-depth] CSS convention shows it again the moment the
-      // reader steps up to Scholar or Encyclopedic — no JS re-render.
-      '<div class="card discovery-worksheet scholar-only" style="margin-top:1.5rem">' +
+      // reader steps up to Study or Encyclopedic — no JS re-render.
+      '<div class="card discovery-worksheet study-only" style="margin-top:1.5rem">' +
       '<h3 style="display:flex;align-items:baseline;gap:0.6rem;flex-wrap:wrap">Discovery worksheet' +
       '<span style="font-size:0.78rem;font-weight:400;color:var(--muted)">your own reading, saved in this browser only — never sent anywhere, never a site claim</span></h3>' +
       khanNoteHtml(currentSurah) +
