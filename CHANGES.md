@@ -1,4 +1,41 @@
-# Changes — a study path chaining Khan's method with the site's own tools
+# Changes — a distinctiveness ranking for root co-occurrence (PMI)
+
+## roots.html now ranks co-occurring roots by distinctiveness, not just frequency
+
+- Added pointwise mutual information (PMI) as a second ranking of the same
+  verse-level co-occurrence data already computed in
+  `scripts/build-cooccurrence.mjs`: PMI(r1,r2) = log2(P(r1,r2) /
+  (P(r1)·P(r2))), where each root's marginal probability is its share of
+  all 6,236 verses (computed independently from the exact same verse-root
+  pass the existing count is built from — not from `roots-summary.json`'s
+  `totalCount`, which is a token count and the wrong unit for a verse-level
+  probability model). A pair needs ≥3 shared verses before it's ranked, to
+  keep a single coincidental shared verse between two rare roots from
+  producing an enormous but meaningless score.
+- This asks a different question than the existing count-sorted list — how
+  much *more than chance* two roots co-occur, not how *often* — and can
+  disagree with it: r-ḥ-m/gh-f-r (mercy/forgiveness, the site's own
+  flagship co-occurrence example) is r-ḥ-m's highest-count partner at 91
+  shared verses, but ranks only 5th by PMI (score 3.17) behind several
+  much rarer, more tightly-paired roots — exactly the "frequent ≠
+  distinctive" tension PMI exists to surface. Both lists are kept side by
+  side; neither replaces the other.
+- New `roots.html` panel, "Distinctive partners (PMI)", labeled ~ Nuanced
+  (a chosen statistic, not a settled count) with its own method note.
+  Hidden entirely for roots with no partner reaching the 3-shared-verse
+  floor.
+- Verified the exact PMI formula by an independent hand calculation
+  against the r-ḥ-m/gh-f-r pair (script: 3.17, manual: 3.1660 → matches to
+  rounding); verified the generator is deterministic (identical file
+  hashes across two runs); verified live in the browser that the panel
+  renders correctly, hides correctly for a sparse root, and produces no
+  console errors.
+- Regenerated all 1,642 `data/cooccurrence/*.json` files (adds
+  `coRootsPmi` and `verseCount` fields; existing `coRoots` and
+  `byChronologyCoRoots` fields unchanged). Regenerated CSP hashes. Full
+  `verify-site.mjs` suite (161 checks) passes with zero regressions.
+
+# Earlier changes — a study path chaining Khan's method with the site's own tools
 
 ## New Study Path + a static-fallback drift bug found and fixed along the way
 

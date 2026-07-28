@@ -771,6 +771,39 @@
             </p>
           </div>
 
+          <!-- Distinctive co-occurring roots (pointwise mutual information) -->
+          <div class="stat-block" id="detailPmiBlock" hidden>
+            <h4>
+              Distinctive partners (PMI)
+              <span
+                class="badge nuanced"
+                aria-label="Nuanced"
+                tabindex="0"
+                title="Nuanced · a chosen statistic, sensitive to low co-occurrence counts"
+                >~</span
+              >
+            </h4>
+            <details class="method-note">
+              <summary>ℹ Method</summary>
+              <p>
+                Pointwise mutual information (PMI) over the same verse-level
+                attestation as the count list above: it asks how much
+                <em>more than chance</em> two roots co-occur, not how often.
+                A very frequent partner can top the count-sorted list while
+                scoring low here — nothing distinguishes co-occurring with
+                something that co-occurs with nearly everything. A rare,
+                tightly paired root can do the opposite. This ranks a
+                different question, not a more-correct version of the count
+                list; both are kept side by side on purpose. Same
+                function-word exclusion as the count list; a pair needs at
+                least 3 shared verses before it's ranked at all — below
+                that, a single shared verse between two rare roots produces
+                an enormous but meaningless score.
+              </p>
+            </details>
+            <ul class="co-root-list" id="detailPmiList"></ul>
+          </div>
+
           <!-- Co-occurring roots by chronological period -->
           <div class="stat-block" id="detailChronCoBlock" hidden>
             <h4>
@@ -1100,9 +1133,11 @@
             const coResp = await fetch(`data/cooccurrence/${sk}.json`);
             const coData = coResp.ok ? await coResp.json() : null;
             renderFilteredCoRoots(coData ? coData.coRoots : []);
+            renderPmiCoRoots(coData ? coData.coRootsPmi : []);
             renderChronCoRoots(coData ? coData.byChronologyCoRoots : {});
           } catch {
             renderFilteredCoRoots([]);
+            renderPmiCoRoots([]);
             renderChronCoRoots({});
           }
         }
@@ -1373,6 +1408,39 @@
                 `<span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">${cr.arabic}</span>` +
                 `<span>${cr.rootLatin}${meaning ? " (" + meaning + ")" : ""}</span>` +
                 `<span class="co-count">${cr.count.toLocaleString()}×</span>` +
+                `</a>` +
+                `</li>`
+              );
+            })
+            .join("");
+        }
+
+        // Same partner pool as renderFilteredCoRoots, ranked by pointwise
+        // mutual information instead of raw co-occurrence count — how much
+        // MORE than chance two roots co-occur, not how OFTEN. A frequent
+        // root can top the count-sorted list while scoring low here
+        // (nothing distinguishing about pairing with something that pairs
+        // with everything); a rare, tightly-paired root can do the
+        // opposite. Deliberately not a replacement for the count list —
+        // both stay visible so the reader sees that tension directly.
+        function renderPmiCoRoots(coRootsPmi) {
+          const block = document.getElementById("detailPmiBlock");
+          const list = document.getElementById("detailPmiList");
+          if (!block || !list) return;
+          if (!coRootsPmi || coRootsPmi.length === 0) {
+            block.hidden = true;
+            return;
+          }
+          block.hidden = false;
+          list.innerHTML = coRootsPmi
+            .map((cr) => {
+              const meaning = MEANINGS[cr.root] || "";
+              return (
+                `<li>` +
+                `<a href="roots.html?root=${cr.safeKey}">` +
+                `<span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">${cr.arabic}</span>` +
+                `<span>${cr.rootLatin}${meaning ? " (" + meaning + ")" : ""}</span>` +
+                `<span class="co-count">${cr.count}× · PMI ${cr.pmi}</span>` +
                 `</a>` +
                 `</li>`
               );

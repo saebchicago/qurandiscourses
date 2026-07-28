@@ -36,6 +36,26 @@
 // verse pool is smaller. A period is included only if roots-summary.json
 // already reports at least one attestation of the subject root in it.
 //
+// Also writes coRootsPmi: pointwise mutual information, PMI(r1,r2) =
+// log2( P(r1,r2) / (P(r1)*P(r2)) ), over the same verse-level attestation
+// events. P(r) = (distinct verses containing r) / N, N = 6,236 (every
+// verse in the corpus, including the 22 that carry no root-annotated
+// token at all — e.g. isolated fawātiḥ verses — which legitimately count
+// as "root absent" for every root's marginal probability). This is a
+// DIFFERENT unit than coRoots' raw co-occurrence count: PMI answers "how
+// much more often do these two co-occur than chance predicts," not "how
+// often do they co-occur" — a frequent root can dominate the count-sorted
+// list while scoring low on PMI (nothing distinguishing about co-occurring
+// with something that co-occurs with everything), and a rare, tightly
+// paired root can score very high on PMI while barely registering by raw
+// count. Both lists are kept (not one replacing the other) so a reader
+// sees that tension directly, the same didactic choice the rhyme
+// explorer's fine/coarse key duality already makes. Same
+// FREQUENCY_CEILING partner exclusion as coRoots. A pair needs at least
+// MIN_COOCCURRENCE shared verses before it's PMI-ranked at all — below
+// that, a single shared verse between two rare roots can produce an
+// enormous but meaningless PMI score.
+//
 // To reproduce: node scripts/build-cooccurrence.mjs
 //
 
@@ -51,6 +71,9 @@ const OUT = join(DATA, "cooccurrence");
 const FREQUENCY_CEILING = 700;
 const TOP_N = 12;
 const TOP_N_CHRON = 6;
+const TOP_N_PMI = 10;
+const MIN_COOCCURRENCE = 3;
+const TOTAL_VERSES = 6236;
 const PERIODS = ["meccan-early", "meccan-middle", "meccan-late", "medinan"];
 
 mkdirSync(OUT, { recursive: true });
@@ -123,12 +146,19 @@ const coOcc = {};
 // coOccByPeriod[period][r1][r2] = same, restricted to verses in that period
 const coOccByPeriod = {};
 for (const p of PERIODS) coOccByPeriod[p] = {};
+// rootVerseCount[r] = number of distinct verses (out of TOTAL_VERSES) that
+// attest r at least once — the marginal used for PMI. Deliberately built
+// from this same verseRoots pass (not from roots-summary.json's totalCount,
+// which is a TOKEN count and therefore the wrong unit for a verse-level
+// probability model).
+const rootVerseCount = {};
 
 for (const [ref, roots] of Object.entries(verseRoots)) {
   const surah = ref.split(":")[0];
   const period = chronology[surah]?.period;
   const arr = [...roots];
   for (const r1 of arr) {
+    rootVerseCount[r1] = (rootVerseCount[r1] || 0) + 1;
     if (!coOcc[r1]) coOcc[r1] = {};
     for (const r2 of arr) {
       if (r1 !== r2) {
@@ -145,6 +175,12 @@ for (const [ref, roots] of Object.entries(verseRoots)) {
       }
     }
   }
+}
+
+// PMI(r1,r2) = log2( P(r1,r2) / (P(r1)*P(r2)) )
+//            = log2( count(r1,r2) * TOTAL_VERSES / (verseCount(r1) * verseCount(r2)) )
+function pmi(count, v1, v2) {
+  return Math.log2((count * TOTAL_VERSES) / (v1 * v2));
 }
 
 console.log("\nPass 3: writing filtered co-occurrence files…");
@@ -197,6 +233,21 @@ for (const bw of Object.keys(rootsSummary)) {
     if (partners.length) byChronologyCoRoots[p] = partners;
   }
 
+  const v1 = rootVerseCount[bw] || 0;
+  const coRootsPmi = Object.entries(coMap)
+    .filter(([r2, count]) => !excludedRoots.has(r2) && count >= MIN_COOCCURRENCE)
+    .map(([r2, count]) => [r2, count, pmi(count, v1, rootVerseCount[r2] || 0)])
+    .sort((a, b) => b[2] - a[2])
+    .slice(0, TOP_N_PMI)
+    .map(([r, count, score]) => ({
+      root: r,
+      safeKey: safeKey(r),
+      arabic: rootsSummary[r]?.rootArabic || "",
+      rootLatin: rootsSummary[r]?.rootLatin || r,
+      count,
+      pmi: Math.round(score * 100) / 100,
+    }));
+
   const output = {
     root: bw,
     safeKey: safeKey(bw),
@@ -204,6 +255,8 @@ for (const bw of Object.keys(rootsSummary)) {
     rootLatin: meta.rootLatin,
     coRoots,
     byChronologyCoRoots,
+    coRootsPmi,
+    verseCount: v1,
     _source: "Leeds Quranic Arabic Corpus v0.4 (Kais Dukes, corpus.quran.com, GPL)",
     _window: "verse-level (same-verse attestation)",
     _exclusionRule: `Corpus-wide frequency > ${FREQUENCY_CEILING} treated as function-word-like and excluded as a partner`,
@@ -213,6 +266,10 @@ for (const bw of Object.keys(rootsSummary)) {
       "Egyptian Standard (Cairo 1924) revelation order, four-period classification following Nöldeke-Bell tradition (Watt, \"Bell's Introduction to the Qur'an\", 1970) — same periodization as data/chronology.json.",
     _chronologyTopN: TOP_N_CHRON,
     _method: METHOD_NOTE,
+    _pmiMethod:
+      `Pointwise mutual information over the same verse-level attestation events: PMI(r1,r2) = log2( count(r1,r2) × ${TOTAL_VERSES} / (verseCount(r1) × verseCount(r2)) ), base 2, rounded to 2 decimals. ${TOTAL_VERSES} is every verse in the corpus (22 carry no root-annotated token at all and legitimately count toward every root's "absent" side). Same function-word exclusion as coRoots; a pair needs at least ${MIN_COOCCURRENCE} shared verses to be ranked, since below that a single shared verse between two rare roots produces an enormous but meaningless score. This ranks by distinctiveness, not frequency — it is a different question from coRoots, not a more-correct version of it; both are kept.`,
+    _pmiTopN: TOP_N_PMI,
+    _pmiMinCooccurrence: MIN_COOCCURRENCE,
     _computed: COMPUTED_DATE,
   };
 
@@ -245,8 +302,13 @@ console.log("\nSpot-check (top 5 shown):");
 for (const bw of ["rHm", "Sbr"]) {
   const sk = safeKey(bw);
   const data = JSON.parse(readFileSync(join(OUT, sk + ".json"), "utf8"));
-  console.log(`  ${data.arabic} (${data.rootLatin}):`);
+  console.log(`  ${data.arabic} (${data.rootLatin}) — verseCount ${data.verseCount}:`);
+  console.log("  by count:");
   for (const cr of data.coRoots.slice(0, 5)) {
     console.log(`    ${cr.arabic} (${cr.rootLatin}): ${cr.count}`);
+  }
+  console.log("  by PMI:");
+  for (const cr of data.coRootsPmi.slice(0, 5)) {
+    console.log(`    ${cr.arabic} (${cr.rootLatin}): count ${cr.count}, pmi ${cr.pmi}`);
   }
 }
