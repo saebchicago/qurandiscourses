@@ -228,7 +228,42 @@ registry: `data/case-studies.json` (rendered by `assets/case-studies.js`).
 2. `node scripts/build-juz.mjs` → writes `data/juz.json`. Only edit
    `STARTS` if correcting a boundary; the file is otherwise stable.
 
+### The Transcription Gate (required before any Khan outline or interpretation excerpt)
+Both recipes below turn a page of a published Khan volume into site data.
+This gate is what keeps that mechanical, not generative — it applies
+identically to "Add a Khan outline exercise" and "Add a Khan interpretation
+excerpt".
+
+1. **Human supplies the source.** A person with the physical or licensed
+   digital volume in hand transcribes or pastes the exact text — heading
+   wording, verse groupings, excerpt sentences — with the page number(s).
+   An assistant (human or AI) never originates, paraphrases, summarizes,
+   or reconstructs this content from memory or inference; if the exact
+   text isn't in hand, the entry doesn't get added yet.
+2. **The assistant only structures it.** Fitting the supplied text into
+   `data/exercises.json`'s outline schema or `data/khan-interpretations.json`'s
+   excerpt schema — splitting into `startVerse`/`heading`/`note` items,
+   filling `sourceIds` and `provenanceHtml`, adding the NOTICE.md line —
+   is a mechanical transcription-formatting step. It must not add,
+   drop, reorder, or reword anything from what was supplied.
+3. **Verify before merge:**
+   - Every `sourceIds` value resolves in `data/sources.json`; every
+     citation has a real page number from the actual volume.
+   - The label is honest: a transcribed outline/excerpt is quoted
+     source material (cite-badge, not ●/○/~ on the quote itself); a
+     structural or interpretive claim built *from* it is ○ Pending or
+     ~ Nuanced, never ● Verified.
+   - `node scripts/check-exercises.mjs` (outlines) passes, and for
+     interpretation excerpts the NOTICE.md entry exists alongside the
+     citation.
+   - The human who supplied the source re-reads the rendered page
+     against the physical/licensed text once before merge — the gate is
+     a process, not just a script, and a checker can't catch a
+     mistranscription it has no ground truth to compare against.
+
 ### Add a Khan outline exercise (surahs 85–114)
+0. Pass the Transcription Gate above — the outline text must already be
+   supplied by a human from the actual volume before starting here.
 1. Transcribe the outline from a published Khan volume — never
    paraphrase from memory. Two volumes are transcribed so far: *An
    Exercise in Understanding the Qur'an* (2013, all thirty surahs
@@ -254,6 +289,8 @@ registry: `data/case-studies.json` (rendered by `assets/case-studies.js`).
    Catches the schema mistakes by construction instead of at review time.
 
 ### Add a Khan interpretation excerpt (dossier "Khan's reading of this surah")
+0. Pass the Transcription Gate above — the excerpt text must already be
+   supplied by a human from the actual volume before starting here.
 1. Transcribe a short excerpt verbatim from the "Understanding and
    Interpretation" essay in the source volume — mark any omitted
    material with an ellipsis (`…` or `[…]`), never paraphrase or

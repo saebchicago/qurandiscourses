@@ -1,4 +1,21 @@
-# Changes — exercise registry integrity check
+# Changes — the Transcription Gate
+
+## Documented the human-in-the-loop process that keeps Khan transcriptions mechanical
+
+- Added "The Transcription Gate" to `docs/maintainer-guide.md`: a required
+  3-step process before any Khan outline or interpretation excerpt is added —
+  a human supplies the exact source text from the physical/licensed volume
+  first; an assistant only structures already-supplied text into the data
+  schema, never originating or paraphrasing; and a pre-merge checklist
+  (source IDs resolve, labels are honest, `check-exercises.mjs` passes, the
+  human re-reads the rendered page against the source) closes the loop.
+- Both the "Add a Khan outline exercise" and "Add a Khan interpretation
+  excerpt" recipes now open with a step 0 pointing at the gate, so the
+  requirement is unmissable rather than implied by scattered wording.
+- No exercise or interpretation content changed; this formalizes an existing
+  practice, it doesn't introduce a new one.
+
+# Earlier changes — exercise registry integrity check
 
 ## Every exercise now stays source-traceable by construction, not by review
 
