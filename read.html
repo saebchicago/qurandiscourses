@@ -151,10 +151,10 @@
               Simple
             </button>
             <button
-              data-depth="scholar"
+              data-depth="study"
               style="min-width: 44px; min-height: 44px"
             >
-              Scholar
+              Study
             </button>
             <button
               data-depth="encyclopedic"
@@ -461,7 +461,7 @@
         return set;
       }
       // Runs independently of buildArHtml: buildArHtml early-returns the
-      // plain text whenever there's no scholar-depth root data (the common
+      // plain text whenever there's no study-depth root data (the common
       // case, since Simple is the default), so a deep link must not depend
       // on that pass having run. Composes with it when it did: an already
       // root-wrapped token gets "qd-hl" merged into its existing class
@@ -709,7 +709,7 @@
           }
         }
         const surahXrefs = xrefCache[surahNum];
-        const autoExpand = depth === "scholar" || depth === "encyclopedic";
+        const autoExpand = depth === "study" || depth === "encyclopedic";
 
         for (const ayahNum of ayahNums) {
           const refs = surahXrefs[`${surahNum}:${ayahNum}`];
@@ -778,7 +778,7 @@
         try {
           const depth =
             document.documentElement.getAttribute("data-depth") || "simple";
-          const needsMorph = depth === "scholar" || depth === "encyclopedic";
+          const needsMorph = depth === "study" || depth === "encyclopedic";
           let verses;
 
           if (!isRange) {

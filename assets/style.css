@@ -1417,25 +1417,25 @@ footer.site a {
   border-radius: 3px;
   padding: 0.05rem 0.35rem;
 }
-.scholar-only,
+.study-only,
 .encyclopedic-only {
   display: none;
 }
-html[data-depth="scholar"] .scholar-only,
-html[data-depth="encyclopedic"] .scholar-only,
+html[data-depth="study"] .study-only,
+html[data-depth="encyclopedic"] .study-only,
 html[data-depth="encyclopedic"] .encyclopedic-only {
   display: block;
 }
-html[data-depth="scholar"] td.scholar-only,
-html[data-depth="scholar"] th.scholar-only,
-html[data-depth="encyclopedic"] td.scholar-only,
-html[data-depth="encyclopedic"] th.scholar-only,
+html[data-depth="study"] td.study-only,
+html[data-depth="study"] th.study-only,
+html[data-depth="encyclopedic"] td.study-only,
+html[data-depth="encyclopedic"] th.study-only,
 html[data-depth="encyclopedic"] td.encyclopedic-only,
 html[data-depth="encyclopedic"] th.encyclopedic-only {
   display: table-cell;
 }
-html[data-depth="scholar"] li.scholar-only,
-html[data-depth="encyclopedic"] li.scholar-only,
+html[data-depth="study"] li.study-only,
+html[data-depth="encyclopedic"] li.study-only,
 html[data-depth="encyclopedic"] li.encyclopedic-only {
   display: list-item;
 }

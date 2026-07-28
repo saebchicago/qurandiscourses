@@ -1,4 +1,45 @@
-# Changes — wider badge tap targets
+# Changes — the middle depth tier is now "Study," not "Scholar"
+
+## Renamed the analytical depth tier site-wide
+
+- Renamed the middle depth tier (Simple / **Scholar** / Encyclopedic) to
+  Simple / **Study** / Encyclopedic, at the maintainer's request. "Scholar"
+  read as gatekeeping for a site whose whole premise is that any reader can
+  do this work; "Study" names what the tier actually does (word-by-word
+  morphology, root links, chronological period distribution) without
+  implying a credential.
+- Renamed everywhere the tier is represented, not just its visible label:
+  the `.scholar-only` CSS class → `.study-only`, the `data-depth="scholar"`
+  attribute/state value → `"study"`, the settings-gear option, the
+  `read.html` depth-toggle button, every `data-tip="depth-scholar"` /
+  `aria-label` reference, the onboarding tour copy, `how-to-use.html`'s and
+  `how-it-works.html`'s explainer cards, and every "at Scholar depth" prose
+  mention across `dossier.html`, `words.html`, `patterns.html`, `paths.html`
+  (registry and static fallback), `validation.html`, and
+  `data/case-studies.json`. Left untouched, deliberately: `CHANGES.md` and
+  `changelog.html`'s existing historical entries (they describe the site as
+  it was on the date they were written), and every generic use of
+  "scholar/scholarly/scholarship" as an ordinary English word (Khan's own
+  scholarly lineage, bibliography descriptions, claim-type vocabulary like
+  `scholarly-attribution` — none of those name the UI tier).
+- The settings-gear option text needed new copy, not just a relabel:
+  "Scholar — study" would have become the redundant "Study — study." It's
+  now "Study — analyze," matching the terse verb-phrase pattern of the
+  other two options ("Simple — just read," "Encyclopedic — verify").
+- Added a one-time migration in `assets/app.js`'s state loader: a
+  returning visitor's `localStorage` may still hold the old `"scholar"`
+  value, which would otherwise match none of the three valid depths and
+  silently fall back to Simple. The migration rewrites and persists the
+  value on first load post-deploy.
+- Verified live with Playwright: the renamed button sets `data-depth`
+  correctly, `.study-only` content toggles correctly at each tier, the
+  migration both applies mid-session and persists to `localStorage` (not
+  just once per page load), and the full `verify-site.mjs` suite (161
+  checks across all 28 pages) passes with zero regressions.
+- Regenerated `netlify.toml`'s CSP script-src hashes (`build-csp.mjs`) —
+  several inline `<script>` blocks changed.
+
+# Earlier changes — wider badge tap targets
 
 ## Citation badges are easier to tap without risking accidental clicks nearby
 

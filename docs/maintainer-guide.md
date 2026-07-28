@@ -556,9 +556,9 @@ What it covers (the old manual list, for reference) and what's left:
     verify by hand, e.g. a scratch Playwright script, before shipping a
     change to any of these):
     - `?hl=` deep-link highlighting — check it at **Simple depth
-      specifically** (the site's default), not just Scholar/
+      specifically** (the site's default), not just Study/
       Encyclopedic: `buildArHtml` early-returns unmodified text
-      whenever there's no scholar-depth root data, so a highlight
+      whenever there's no study-depth root data, so a highlight
       implementation that only composed with `buildArHtml`'s output
       would silently do nothing for most first-time visitors following
       a formula/rhyme/KWIC link. `applyHighlight` runs independently of

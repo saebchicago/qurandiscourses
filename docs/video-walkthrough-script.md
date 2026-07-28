@@ -30,10 +30,10 @@ right tool."
 
 ## Scene 3 — Read, depths, and settings (2:00–3:30)
 **Show:** `/read.html?s=103&a=1-3`.
-**Do:** Read at Simple. Press `2` (Scholar) — word-by-word morphology
+**Do:** Read at Simple. Press `2` (Study) — word-by-word morphology
 appears. Open the gear (bottom right): show Depth, Palette (switch to
 Sage and back), Theme, translations. Point at the privacy line.
-**Say:** "Three depths: Simple is just reading; Scholar adds morphology,
+**Say:** "Three depths: Simple is just reading; Study adds morphology,
 roots, and related verses; Encyclopedic adds full provenance. Keyboard
 1-2-3 switches anywhere. Settings also has palettes and themes — and
 notice: preferences stay in your browser; nothing is tracked."

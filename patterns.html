@@ -131,7 +131,7 @@
             multiple surahs with subtle context differences.
           </p>
           <p>
-            Related-verse data is surfaced inline on the Read page at Scholar
+            Related-verse data is surfaced inline on the Read page at Study
             depth and above.
           </p>
           <p class="prov">
@@ -139,7 +139,7 @@
             mutashabihat (~5,277 entries), Tarteel.
           </p>
         </div>
-        <div class="card scholar-only">
+        <div class="card study-only">
           <h3>Cross-references (Mishkat Mutashābihāt)</h3>
           <p>
             The cross-reference data shipped on this site — the expandable
@@ -161,7 +161,7 @@
             ships.
           </p>
         </div>
-        <div class="card scholar-only">
+        <div class="card study-only">
           <h3>Browse cross-references by surah</h3>
           <p>
             The same Mishkat data, browsable a surah at a time: every verse in
@@ -172,7 +172,7 @@
           </div>
           <div id="xrefBrowseResults" aria-live="polite"></div>
         </div>
-        <div class="card scholar-only" id="rhyme">
+        <div class="card study-only" id="rhyme">
           <h3>Sound and rhyme — the verse endings (fawāṣil)</h3>
           <p>
             Most surahs end their verses on recurring sound patterns —
@@ -641,7 +641,7 @@
                     qdEsc(v.pausal) +
                     '</span></td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">-' +
                     qdEsc(v.k2) +
-                    '</span></td><td class="scholar-only"><span class="ar notranslate" translate="no" lang="ar" dir="rtl">-' +
+                    '</span></td><td class="study-only"><span class="ar notranslate" translate="no" lang="ar" dir="rtl">-' +
                     qdEsc(v.k1) +
                     "</span></td></tr>"
                   );
@@ -664,7 +664,7 @@
                 extra +
                 "</p>" +
                 refrainNote +
-                '<div style="overflow-x:auto;margin-top:0.6rem"><table class="data"><thead><tr><th>Verse</th><th>Final word</th><th>Pausal</th><th>Fine key</th><th class="scholar-only">Coarse</th></tr></thead><tbody>' +
+                '<div style="overflow-x:auto;margin-top:0.6rem"><table class="data"><thead><tr><th>Verse</th><th>Final word</th><th>Pausal</th><th>Fine key</th><th class="study-only">Coarse</th></tr></thead><tbody>' +
                 rows +
                 "</tbody></table></div>";
             }
@@ -689,7 +689,7 @@
 
             // Deep link ?s=N (e.g. a dossier's "full verse-ending map"
             // link): preselect the surah and load its map. The section
-            // itself is scholar-only — at Simple depth the preselection
+            // itself is study-only — at Simple depth the preselection
             // is simply waiting when the reader steps up a depth.
             var sParam = parseInt(
               new URLSearchParams(location.search).get("s"),

@@ -311,7 +311,7 @@
           than zero, since they are outside current coverage. These are
           descriptive corpus counts, not claims about meaning or emphasis.
         </div>
-        <div class="card scholar-only" id="surahScatterCard">
+        <div class="card study-only" id="surahScatterCard">
           <h3>
             The 114 surahs at a glance
             <span
@@ -351,7 +351,7 @@
                 <th>Arabic</th>
                 <th><button type="button" class="th-sort" data-key="3">Verses</button></th>
                 <th><button type="button" class="th-sort" data-key="4">Class</button></th>
-                <th class="scholar-only"><button type="button" class="th-sort" data-key="5">Cairo order</button></th>
+                <th class="study-only"><button type="button" class="th-sort" data-key="5">Cairo order</button></th>
               </tr>
             </thead>
             <tbody id="surahBody"></tbody>
@@ -431,7 +431,7 @@
           })
           .map(
             (s) =>
-              `<tr><td>${s.id}</td><td><a href="read.html?s=${s.id}">${s.translit}</a> <button type="button" class="profile-toggle" data-surah="${s.id}" data-name="${s.translit}" aria-expanded="false" aria-controls="surahProfilePanel">Profile ▾</button></td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${s.ar}</span></td><td>${s.verseCount}</td><td>${s.cls === "m" ? "Meccan" : "Medinan"}</td><td class="scholar-only">${s.revOrder}</td></tr>`,
+              `<tr><td>${s.id}</td><td><a href="read.html?s=${s.id}">${s.translit}</a> <button type="button" class="profile-toggle" data-surah="${s.id}" data-name="${s.translit}" aria-expanded="false" aria-controls="surahProfilePanel">Profile ▾</button></td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${s.ar}</span></td><td>${s.verseCount}</td><td>${s.cls === "m" ? "Meccan" : "Medinan"}</td><td class="study-only">${s.revOrder}</td></tr>`,
           )
           .join("");
         body.innerHTML =
