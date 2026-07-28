@@ -1,4 +1,27 @@
-# Changes — data-num drift guard
+# Changes — Study Paths integrity guard
+
+## A study path's links into other tools can no longer silently rot
+
+- Added `scripts/check-paths.mjs`. Each of the four registered study paths
+  (`data/paths.json`) chains hand-authored links into other tools — an
+  exercise id, a theme slug, a surah/verse reference, a `compare.html`
+  passage pair. None of that was schema-checked, and none of it is caught
+  by `verify-site.mjs`'s HTTP-level link crawl: every one of those pages
+  returns 200 regardless of whether the id/slug/verse embedded in it is
+  real, since the page just renders a client-side "not found" state.
+- The new checker resolves every `exercise.html?id=` against
+  `data/exercises.json`, every `themes.html#slug` against
+  `data/themes.json`, and every surah/verse number (including
+  `compare.html`'s `p1=`/`p2=` passage pairs) against
+  `data/surah-meta.json`'s verse counts. Verified it catches breakage by
+  deliberately corrupting an id, a slug, and two verse references, then
+  restoring the file.
+- Wired into `.github/workflows/audit.yml` alongside the other registry
+  checks. Documented in the maintainer guide's checker table, a new "Add a
+  study path" recipe, and the pre-ship checklist.
+- No path content changed; all 4 current paths pass.
+
+# Earlier changes — data-num drift guard
 
 ## Corpus figures in prose can no longer silently fall out of sync with the generated data
 

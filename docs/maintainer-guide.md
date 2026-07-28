@@ -141,6 +141,7 @@ dispatch instead of blocking every contribution.
 | check-claims.mjs | worked-claim provenance: stable IDs, allowed evidence dimensions, valid source IDs, limitations, derivation paths, and the case-study join |
 | check-data-nums.mjs | every `data-num="dot.path"` binding across every page: the path must resolve to a number in `data/numbers.json`, and the element's static fallback text must match that number under `initDataNums()`'s own formatting — catches a stale prose figure or a typo'd path, both of which `initDataNums()` fails on silently in the browser (it only overwrites when the path resolves to a number) |
 | check-exercises.mjs | the exercise registry: unique IDs; outline entries have a valid surah number, resolvable sourceIds, a sources.html citation in provenanceHtml, and strictly-increasing in-bounds startVerse values; at most one outline per surah; roots entries' href/surahs are valid; index.html's hand-kept EXERCISE_COUNT matches the registry length |
+| check-paths.mjs | the Study Paths registry (`data/paths.json`): every step's hand-authored `html` linking into another tool — an `exercise.html?id=` resolves in `data/exercises.json`, a `themes.html#slug` resolves in `data/themes.json`, and every embedded surah/verse (`s=`/`a=`, and `compare.html`'s `p1=`/`p2=` passage pairs) is in range — none of which verify-site.mjs's HTTP-level link crawl catches, since every one of those pages returns 200 regardless of whether the id/slug/verse embedded in it is real |
 | check-videos.mjs | the video registry: an entry cannot be 'published' without its mp4, poster, AND a real WEBVTT captions file on disk — the anti-slop covenant, enforced mechanically |
 | check-source-links.mjs | external citation liveness: every sources.json `url` and every external href on every page still answers (404/410 = FAIL, 403/429 = WARN for bot-shielding). Needs real outbound network — run from an unrestricted machine, not a sandboxed session; a good habit before any release and every few months |
 | check-editions.mjs | every translation edition ID in assets/app.js's TRANSLATIONS array still resolves to itself on alquran.cloud — the API silently substitutes a default Arabic edition for an invalid ID instead of erroring (the "en.haleem" bug), so this catches the next one before a reader does. Needs real outbound network — run from an unrestricted machine, not a sandboxed session; run after adding any new edition ID and every few months otherwise |
@@ -219,6 +220,24 @@ registry: `data/case-studies.json` (rendered by `assets/case-studies.js`).
 6. Run `node scripts/check-claims.mjs`, then `node scripts/verify-site.mjs` —
    the first validates the canonical record; the second re-renders badges and
    checks that source IDs resolve and popovers open.
+
+### Add a study path
+Paths chain existing, already-verified tools into a guided sequence; they
+must never introduce a new claim (`data/paths.json`, rendered by
+`paths.html`).
+1. Pick a sequence of 3-5 steps across existing pages that teaches the
+   method — each step's `html` is trusted site-authored markup linking
+   into a tool the site already has (Read, Roots, Compare, an exercise,
+   Validation, ...). Never assert a new fact in a step; every claim a
+   step touches must already carry its own badge on its own page.
+2. Append an object to `paths[]`: `id`, `title`, `intro`, and `steps[]`
+   (each `{ "html": "..." }`). No new page is needed — `paths.html`
+   renders the registry.
+3. `node scripts/check-paths.mjs` — validates every embedded
+   `exercise.html?id=`, `themes.html#slug`, and surah/verse reference
+   (including `compare.html`'s `p1=`/`p2=` passage pairs) actually
+   resolves; these silently 200 even when broken, so this is the only
+   thing that catches a stale reference.
 
 ### Regenerate the juz (para) divisions
 `data/juz.json` holds the 30 traditional juz boundaries, browsable on
@@ -514,10 +533,11 @@ What it covers (the old manual list, for reference) and what's left:
 7. **Still manual:** dark-mode screenshots of any page you changed
    (`--shots` helps), audio playback, overall visual judgment.
 8. `node scripts/check-claims.mjs && node scripts/check-exercises.mjs && node scripts/check-data-nums.mjs
-   && node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs && node scripts/build-csp.mjs --check`
-   — mandatory after adding a page, touching the nav, an inline `<script>` or `<style>`, or netlify.toml. Also
-   rerun `check-data-nums.mjs` alone whenever `data/numbers.json` regenerates, to catch prose that fell out of
-   sync with the new figures.
+   && node scripts/check-paths.mjs && node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs
+   && node scripts/build-csp.mjs --check` — mandatory after adding a page, touching the nav, an inline
+   `<script>` or `<style>`, or netlify.toml. Also rerun `check-data-nums.mjs` alone whenever
+   `data/numbers.json` regenerates, and `check-paths.mjs` alone whenever an exercise id or theme slug
+   changes, to catch what fell out of sync.
    The last one fails if any page's inline-script or inline-style hashes
    are stale (rerun `node scripts/build-csp.mjs` to fix).
 9. Re-run every generator you touched twice; `git diff` must be empty
