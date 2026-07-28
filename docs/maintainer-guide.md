@@ -587,7 +587,13 @@ commit and push; Netlify redeploys the previous state.
   dataset (see "Add word-by-word glosses" and
   docs/gloss-dataset-research.md — the verification is a ten-minute
   task from an unrestricted connection).
-- Badge dot glyphs are at the WCAG 2.5.8 24px minimum, not 44px.
+- Badge dot glyphs are ~44px wide but ~20px tall for tap purposes: `.badge::before`
+  extends the horizontal hit area toward the 44px AAA guidance, but not vertically —
+  a full Playwright sweep of every badge-bearing page (desktop + mobile viewports)
+  found the site's fluid text reflow puts some badges within ~2px of an interactive
+  element on the very next wrapped line at some widths (e.g. numbers.html's citation
+  line), which no static margin can stay safely clear of across every viewport. The
+  rendered glyph already meets the WCAG 2.5.8 24px minimum on both axes.
 
 ## 9. Content layers deliberately not built (and what would unblock them)
 
