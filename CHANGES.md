@@ -1,4 +1,28 @@
-# Changes — the middle depth tier is now "Study," not "Scholar"
+# Changes — fix Replay's hardcoded outline citation
+
+## Replay was citing the wrong Khan book for 5 of its 6 outlines
+
+- `replay.html`'s outline-provenance badge and citation sentence were
+  hardcoded to always name *An Exercise in Understanding the Qur'an*
+  (2013, `khan-exercise-2013`) — correct for surah 103 (al-'Asr), but
+  wrong for the other five surahs with a transcribed outline (96, 107,
+  108, 109, 112), which are all sourced from the different volume *An
+  Introduction to Understanding the Qur'an with Examples* (2011,
+  `khan-introduction-2011`). Every one of those five showed a ● Verified
+  badge citing a book that isn't where that outline actually came from —
+  a real provenance error on a page whose premise is that everything
+  shown is traceable.
+- `assets/replay.js` now sets the badge's `data-source-ids` and the
+  citation text from the matched outline's own `sourceIds`/
+  `provenanceHtml` fields, the same fields `exercise.html` already reads
+  correctly per entry, instead of hardcoding one book in the HTML.
+- Verified live for surah 96 (now correctly cites khan-introduction-2011),
+  surah 103 (still correctly cites khan-exercise-2013 — no regression),
+  and surah 90 (no outline — the citation stays hidden, as before).
+- Found during a broader audit of how tightly the site's own computed
+  tooling is cross-linked with Khan's transcribed outlines.
+
+# Earlier changes — the middle depth tier is now "Study," not "Scholar"
 
 ## Renamed the analytical depth tier site-wide
 
