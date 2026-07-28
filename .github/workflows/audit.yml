@@ -36,6 +36,8 @@ jobs:
           node scripts/check-claims.mjs
           node scripts/check-videos.mjs
           node scripts/check-exercises.mjs
+          node scripts/check-data-nums.mjs
+          node scripts/check-paths.mjs
 
       - name: Validate navigation and deployment headers
         run: |

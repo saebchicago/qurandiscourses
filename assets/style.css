@@ -642,6 +642,27 @@ blockquote.khan cite {
   line-height: 1.3;
   vertical-align: middle;
 }
+/* Widen the tap target on the horizontal axis only, toward the WCAG 2.5.8
+   AAA 44px guidance (rendered glyph stays ~21x20px, unchanged — this only
+   adds an invisible pseudo-element extending the hit area). Vertical
+   expansion was tried and reverted: this site's fluid text reflow means a
+   badge can end a wrapped line with another interactive element starting
+   the very next line, at line-gaps as small as ~2px depending on viewport
+   width — verified with a full Playwright sweep of every badge-bearing
+   page at desktop and mobile widths (data/numbers.json's citation line on
+   numbers.html is one such spot). No amount of static margin can stay
+   guaranteed-safe against every reflow width, so height stays at its
+   already-WCAG-2.5.8-compliant ~20px. Horizontal position is stable
+   regardless of reflow, so it was safe to fix the handful of pages where
+   real content sat too close (about.html's badge legend, sources.html's
+   bibliography, datasets.html, how-to-use.html) and expand fully here —
+   verified zero overlaps with any interactive element site-wide, both
+   viewports, after those fixes. */
+.badge::before {
+  content: "";
+  position: absolute;
+  inset: 0 -12px;
+}
 /* Badges carrying a source are clickable (cite-badge.js opens the full
    citation and marks them role="button"). The default help cursor above
    signals only the hover tooltip; a pointer cursor is what tells a

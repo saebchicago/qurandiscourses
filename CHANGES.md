@@ -1,4 +1,75 @@
-# Changes — the Transcription Gate
+# Changes — wider badge tap targets
+
+## Citation badges are easier to tap without risking accidental clicks nearby
+
+- Widened every ●/○/~ citation badge's tap target horizontally toward the
+  WCAG 2.5.8 AAA 44px guidance (`.badge::before`, an invisible pseudo-element
+  — the rendered glyph is unchanged, still ~21x20px). Vertical expansion was
+  attempted and reverted: a full Playwright sweep of every badge-bearing page
+  at desktop and mobile widths found the site's fluid text reflow puts some
+  badges within ~2px of an interactive element on the next wrapped line at
+  certain viewport widths (e.g. numbers.html's citation line), which no
+  static margin can stay safely clear of everywhere — so height stays at the
+  glyph's already WCAG-2.5.8-compliant ~20px.
+- Before widening, the same sweep found the horizontal expansion would have
+  intercepted clicks meant for something else in 4 places where a badge sat
+  right against a link or another badge: `about.html`'s badge legend,
+  `sources.html`'s bibliography (two citations) and its own badge legend,
+  and `datasets.html`'s Formulas citation. Added real spacing (a small
+  margin on the badge, not a layout change) at each. `how-to-use.html`'s
+  legend table needed slightly more cell padding for the same reason on
+  mobile widths specifically.
+- Verified with real click simulation (`document.elementFromPoint` just
+  outside the visible glyph resolves to the badge) and screenshots in both
+  light and dark mode, not just bounding-box math.
+- Documented the axis-specific reasoning in `docs/maintainer-guide.md`'s
+  optimization backlog, replacing the old "not 44px" note.
+
+# Earlier changes — Study Paths integrity guard
+
+## A study path's links into other tools can no longer silently rot
+
+- Added `scripts/check-paths.mjs`. Each of the four registered study paths
+  (`data/paths.json`) chains hand-authored links into other tools — an
+  exercise id, a theme slug, a surah/verse reference, a `compare.html`
+  passage pair. None of that was schema-checked, and none of it is caught
+  by `verify-site.mjs`'s HTTP-level link crawl: every one of those pages
+  returns 200 regardless of whether the id/slug/verse embedded in it is
+  real, since the page just renders a client-side "not found" state.
+- The new checker resolves every `exercise.html?id=` against
+  `data/exercises.json`, every `themes.html#slug` against
+  `data/themes.json`, and every surah/verse number (including
+  `compare.html`'s `p1=`/`p2=` passage pairs) against
+  `data/surah-meta.json`'s verse counts. Verified it catches breakage by
+  deliberately corrupting an id, a slug, and two verse references, then
+  restoring the file.
+- Wired into `.github/workflows/audit.yml` alongside the other registry
+  checks. Documented in the maintainer guide's checker table, a new "Add a
+  study path" recipe, and the pre-ship checklist.
+- No path content changed; all 4 current paths pass.
+
+# Earlier changes — data-num drift guard
+
+## Corpus figures in prose can no longer silently fall out of sync with the generated data
+
+- Added `scripts/check-data-nums.mjs`. Every `data-num="dot.path"` binding
+  (sources.html, validation.html, words.html, roots.html, numbers.html,
+  credits.html) is supposed to bind a prose figure to `data/numbers.json` so
+  it can never drift — but `assets/app.js`'s `initDataNums()` only overwrites
+  the static fallback text when the path resolves to a number, and fails
+  silently otherwise. A typo'd path or a stale fallback left behind after
+  `data/numbers.json` regenerates would previously go undetected.
+- The new checker resolves every binding's path and recomputes the expected
+  display value with `initDataNums()`'s own formatting (`toLocaleString` for
+  integers, `.toFixed(1)` otherwise), then fails if the static text doesn't
+  match. Verified it actually catches drift by deliberately corrupting a
+  figure and confirming the failure, then restoring the file.
+- Wired into `.github/workflows/audit.yml` alongside the other registry
+  checks, and documented in the maintainer guide's checker table and
+  pre-ship checklist.
+- No page content changed; all current bindings across all 28 pages pass.
+
+# Earlier changes — the Transcription Gate
 
 ## Documented the human-in-the-loop process that keeps Khan transcriptions mechanical
 
