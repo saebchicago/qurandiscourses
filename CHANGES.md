@@ -1,4 +1,34 @@
-# Changes — extended the discourse-particle taxonomy to a third temporal marker
+# Changes — a root-family clustering visualization for the PMI ranking
+
+## roots.html's distinctive-partner list gets its own network map
+
+- The PMI (pointwise mutual information) partner ranking shipped earlier
+  this session only ever rendered as a text list — the existing
+  co-occurrence network map (`qdChart.egoNetwork`, already used for the
+  raw shared-verse-count partners) had no counterpart for it. Wired the
+  same chart primitive to the already-computed `coRootsPmi` data: pure UI,
+  zero new computation.
+- The two networks now tell visually different stories from the same
+  root: the count-based map sizes nodes by how *often* two roots
+  co-occur, the new PMI map sizes them by how much *more than chance*
+  they co-occur — a root can be a small node on one map and a large node
+  on the other, and the page now shows both side by side.
+- Extended `assets/chart.js`'s `egoNetwork()` with two optional,
+  backward-compatible parameters — `ariaLabel` and `tooltipFn` — since the
+  raw-count version's hardcoded tooltip ("appears in N shared verses")
+  would have been meaningless for a PMI score. The existing count-network
+  call site is unchanged and untouched by this.
+- Verified live in the browser: for r-ḥ-m (the site's flagship
+  co-occurrence example), the network renders with the correct PMI-scored
+  tooltip text and aria-label; for a root below the 3-shared-verse PMI
+  ranking floor, the network area hides cleanly with no leftover markup;
+  the pre-existing raw-count network is unaffected. Zero console errors
+  in all three cases.
+- Regenerated CSP hashes (`roots.html`'s inline script content changed).
+  Full check suite and the full `verify-site.mjs` suite (161 checks) pass
+  with zero regressions.
+
+# Earlier changes — extended the discourse-particle taxonomy to a third temporal marker
 
 ## Boundary-particle detection now also tracks "idhā"
 

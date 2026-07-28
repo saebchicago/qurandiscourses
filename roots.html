@@ -802,6 +802,13 @@
               </p>
             </details>
             <ul class="co-root-list" id="detailPmiList"></ul>
+            <div id="detailPmiNetwork" style="margin-top: 0.6rem"></div>
+            <p style="font-size: 0.78rem; color: var(--muted); margin: 0.2rem 0 0">
+              The same distinctive partners as a map: node size and edge
+              thickness carry the PMI score this time, not the raw count —
+              a small node here can still be a high-count partner above.
+              Click a root to re-center on it.
+            </p>
           </div>
 
           <!-- Co-occurring roots by chronological period -->
@@ -1426,12 +1433,29 @@
         function renderPmiCoRoots(coRootsPmi) {
           const block = document.getElementById("detailPmiBlock");
           const list = document.getElementById("detailPmiList");
+          const net = document.getElementById("detailPmiNetwork");
           if (!block || !list) return;
           if (!coRootsPmi || coRootsPmi.length === 0) {
             block.hidden = true;
+            if (net) net.innerHTML = "";
             return;
           }
           block.hidden = false;
+          if (net && window.qdChart && detailData) {
+            qdChart.egoNetwork(net, {
+              centerLabel: detailData.rootLatin,
+              filename: `${detailData.safeKey || detailData.bw}-pmi-network.svg`,
+              ariaLabel: `Distinctiveness network: ${detailData.rootLatin} with its ${coRootsPmi.length} most distinctive companion roots (by pointwise mutual information)`,
+              nodes: coRootsPmi.map((cr) => ({
+                label: cr.rootLatin,
+                weight: cr.pmi,
+                count: cr.count,
+                href: `roots.html?root=${cr.safeKey}`,
+              })),
+              tooltipFn: (n) =>
+                `${n.label} · PMI ${n.weight.toFixed(2)} (co-occurs in ${n.count} shared verse${n.count === 1 ? "" : "s"}) with ${detailData.rootLatin}`,
+            });
+          }
           list.innerHTML = coRootsPmi
             .map((cr) => {
               const meaning = MEANINGS[cr.root] || "";
