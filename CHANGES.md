@@ -1,4 +1,25 @@
-# Changes — evidence audit corrections
+# Changes — exercise registry integrity check
+
+## Every exercise now stays source-traceable by construction, not by review
+
+- Added `scripts/check-exercises.mjs`, a deterministic guard for
+  `data/exercises.json` in the same family as `check-claims.mjs` and
+  `check-videos.mjs`: unique entry IDs; outline entries carry a valid
+  1–114 surah number, sourceIds that resolve in `data/sources.json`, a
+  `provenanceHtml` citation linking to sources.html, and an `outline`
+  array whose `startVerse` values strictly increase and stay within the
+  surah's verse count (`data/surah-meta.json`); at most one outline entry
+  per surah, matching the maintainer guide's "consumers take the first
+  match" rule; roots entries' `href` and `surahs` are valid; and
+  `index.html`'s hand-kept `EXERCISE_COUNT` matches the registry length.
+- Wired the new check into `.github/workflows/audit.yml` alongside the
+  other registry validators, and documented it in the maintainer guide's
+  checker table, the "Add a Khan outline exercise" recipe, and the
+  pre-ship checklist.
+- No exercise content changed; the current 7 registry entries (6 Khan
+  outlines, 1 root-spotting configuration) all pass.
+
+# Earlier changes — evidence audit corrections
 
 ## Unsupported numerical totals are no longer presented as findings
 

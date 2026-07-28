@@ -139,6 +139,7 @@ dispatch instead of blocking every contribution.
 | check-headers-sync.mjs | netlify.toml per-page CSP structure (fail-open for new pages: a page without its own block ships with NO CSP — run after adding any page) |
 | check-nav-sync.mjs | the by-design nav duplication: every page's primary nav must match index.html's (allowlist: embed.html, exercise-asr.html) |
 | check-claims.mjs | worked-claim provenance: stable IDs, allowed evidence dimensions, valid source IDs, limitations, derivation paths, and the case-study join |
+| check-exercises.mjs | the exercise registry: unique IDs; outline entries have a valid surah number, resolvable sourceIds, a sources.html citation in provenanceHtml, and strictly-increasing in-bounds startVerse values; at most one outline per surah; roots entries' href/surahs are valid; index.html's hand-kept EXERCISE_COUNT matches the registry length |
 | check-videos.mjs | the video registry: an entry cannot be 'published' without its mp4, poster, AND a real WEBVTT captions file on disk — the anti-slop covenant, enforced mechanically |
 | check-source-links.mjs | external citation liveness: every sources.json `url` and every external href on every page still answers (404/410 = FAIL, 403/429 = WARN for bot-shielding). Needs real outbound network — run from an unrestricted machine, not a sandboxed session; a good habit before any release and every few months |
 | check-editions.mjs | every translation edition ID in assets/app.js's TRANSLATIONS array still resolves to itself on alquran.cloud — the API silently substitutes a default Arabic edition for an invalid ID instead of erroring (the "en.haleem" bug), so this catches the next one before a reader does. Needs real outbound network — run from an unrestricted machine, not a sandboxed session; run after adding any new edition ID and every few months otherwise |
@@ -247,6 +248,10 @@ registry: `data/case-studies.json` (rendered by `assets/case-studies.js`).
    hand-kept count of the registry entries.
 3. Open the exercise locally and check the reveal flow, the break
    scoring, and that the provenance badge opens its citation.
+4. `node scripts/check-exercises.mjs` — validates the new entry's surah
+   number, sourceIds, provenance citation, and strictly-increasing
+   in-bounds `startVerse` values, and that `EXERCISE_COUNT` was bumped.
+   Catches the schema mistakes by construction instead of at review time.
 
 ### Add a Khan interpretation excerpt (dossier "Khan's reading of this surah")
 1. Transcribe a short excerpt verbatim from the "Understanding and
@@ -469,8 +474,8 @@ What it covers (the old manual list, for reference) and what's left:
    automated.
 7. **Still manual:** dark-mode screenshots of any page you changed
    (`--shots` helps), audio playback, overall visual judgment.
-8. `node scripts/check-claims.mjs && node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs
-   && node scripts/build-csp.mjs --check` — mandatory after adding a page,
+8. `node scripts/check-claims.mjs && node scripts/check-exercises.mjs && node scripts/check-nav-sync.mjs
+   && node scripts/check-headers-sync.mjs && node scripts/build-csp.mjs --check` — mandatory after adding a page,
    touching the nav, an inline `<script>` or `<style>`, or netlify.toml.
    The last one fails if any page's inline-script or inline-style hashes
    are stale (rerun `node scripts/build-csp.mjs` to fix).
