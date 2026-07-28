@@ -1,4 +1,37 @@
-# Changes — fix Replay's hardcoded outline citation
+# Changes — the Dossier now shows its own computed structure alongside Khan's
+
+## Two already-computed, already-labeled signals were siloed on Patterns — now they're on every surah's Dossier too
+
+- `data/rhetorical-features.json` (fawātiḥ letters, the believers'-vocative
+  direct-address count) and `data/symmetry-test.json` (the ring-composition
+  proxy test's closest, still-not-significant candidates) were each fully
+  computed and already rendered — but only on `patterns.html`, reachable
+  only by a reader who already knew to look there. Neither ever appeared
+  on `dossier.html`, the page whose whole premise is "everything the site
+  knows about one surah, on one page" — so a reader testing Khan's outline
+  (or proposing their own structure in the discovery worksheet) had no way
+  to see the site's own mechanical tooling corroborate or diverge from it,
+  for that same surah, without a separate trip to Patterns.
+- `dossier.html`'s `renderStructure()` now also fetches both files and, for
+  surahs where they have something to say, renders them in the same
+  Structure section as the outline/pivots/interpretation: a ●-Verified
+  "Rhetorical features" block (fawātiḥ, direct-address verses with links)
+  and a ~-Nuanced "Ring-composition proxy test" block (explicitly stated as
+  not significant — this must never read as a positive finding). Surahs
+  with nothing in either dataset show nothing extra, same as the existing
+  pivots/interpretation sections' honest-empty pattern.
+- No new computation, no new claims — both datasets and their labels
+  already existed and already passed `check-claims.mjs`; this is purely
+  cross-linking. Reuses the page's existing `fill()` helper, so citation
+  badges on the new content are automatically wired up
+  (`qdCiteEnhance`) — verified live that the new badge's popover opens.
+- Found and built from a broader audit of how tightly the site's own
+  computed tooling is cross-linked with Khan's transcribed outlines (see
+  also the Replay citation fix, below).
+- Regenerated CSP `script-src` hashes; full `verify-site.mjs` suite (161
+  checks) passes with zero regressions.
+
+# Earlier changes — fix Replay's hardcoded outline citation
 
 ## Replay was citing the wrong Khan book for 5 of its 6 outlines
 

@@ -609,7 +609,14 @@
             .catch(() => fail("xrefDetail", "Cross-reference detail"));
         }
 
-        function renderStructure(s, exercises, pivots, interpretations) {
+        function renderStructure(
+          s,
+          exercises,
+          pivots,
+          interpretations,
+          rhetorical,
+          symmetry,
+        ) {
           let outlineHtml;
           const outline =
             exercises &&
@@ -657,7 +664,64 @@
           const interpHtml = interp
             ? `<div style="margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid var(--line)"><p style="margin:0 0 0.3rem;font-size:0.85rem;color:var(--muted)">Khan's reading of this surah:</p><blockquote class="khan" style="margin:0">${qdEsc(interp.excerpt)}<cite style="display:block;margin-top:0.4rem;font-size:0.82rem;color:var(--muted);font-style:italic">Irfan Ahmad Khan, <em>An Introduction to Understanding the Qur'an with Examples</em> (2011), p. ${qdEsc(String(interp.page))}. ${OK("khan-introduction-2011", "quoted verbatim from the published work")}</cite></blockquote></div>`
             : "";
-          fill("secStructure", outlineHtml + pivotHtml + interpHtml);
+
+          // Two more of the site's own computed structural signals for
+          // this SAME surah, so a reader testing Khan's outline (or
+          // proposing their own in the discovery worksheet) can see
+          // where the site's mechanical tooling does and doesn't
+          // corroborate it — previously these only lived on patterns.html,
+          // reachable only by a reader who already knew to look there.
+          let rhetHtml = "";
+          const fawatihEntry =
+            rhetorical &&
+            rhetorical.fawatih &&
+            rhetorical.fawatih.entries &&
+            rhetorical.fawatih.entries.find((f) => f.s === s);
+          const daVerses =
+            (rhetorical &&
+              rhetorical.directAddress &&
+              rhetorical.directAddress.verses &&
+              rhetorical.directAddress.verses.filter((v) => v.s === s)) ||
+            [];
+          if (fawatihEntry || daVerses.length) {
+            const items = [];
+            if (fawatihEntry) {
+              items.push(
+                `<li>Opens with the "mysterious letters" (<em>fawātiḥ</em>) <span class="ar notranslate" translate="no" lang="ar" dir="rtl">${qdEsc(fawatihEntry.letters)}</span> — one of ${qdEsc(String(rhetorical.fawatih.surahCount))} surahs that do.</li>`,
+              );
+            }
+            if (daVerses.length) {
+              const links = daVerses
+                .slice(0, 4)
+                .map((v) => `<a href="read.html?s=${s}&a=${v.a}">${s}:${v.a}</a>`)
+                .join(", ");
+              items.push(
+                `<li>${daVerses.length} verse${daVerses.length === 1 ? "" : "s"} open${daVerses.length === 1 ? "s" : ""} with the believers' vocative (<em>ya ayyuha al-ladhina amanu</em>, "O you who believe"): ${links}${daVerses.length > 4 ? ` + ${daVerses.length - 4} more` : ""}.</li>`,
+              );
+            }
+            rhetHtml = `<div style="margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid var(--line)"><p style="margin:0 0 0.3rem;font-size:0.85rem;color:var(--muted)">Rhetorical features ${OK("leeds-corpus-v0.4", "computed from the cited corpus")} — more on the <a href="patterns.html">Patterns page</a>:</p><ul style="margin:0.2rem 0 0;padding-left:1.2rem;font-size:0.9rem;line-height:1.7">${items.join("")}</ul></div>`;
+          }
+
+          let symHtml = "";
+          const myClosestMisses =
+            (symmetry &&
+              symmetry.closestMisses &&
+              symmetry.closestMisses.filter((c) => c.surah === s)) ||
+            [];
+          if (myClosestMisses.length) {
+            const items = myClosestMisses
+              .map(
+                (c) =>
+                  `<li>root <em>${qdEsc(c.rootLatin)}</em> at ${s}:${c.verseA} and ${s}:${c.verseB} (p=${qdEsc(String(c.pValue))}, not significant)</li>`,
+              )
+              .join("");
+            symHtml = `<div style="margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid var(--line)"><p style="margin:0 0 0.3rem;font-size:0.85rem;color:var(--muted)">Ring-composition proxy test ${NUANCED("narrow positional proxy; zero corpus-wide significant pairs")}: this surah's closest — still not significant — candidate${myClosestMisses.length === 1 ? "" : "s"} for a rare root sitting at matching distances from the surah's start and end:</p><ul style="margin:0.2rem 0 0;padding-left:1.2rem;font-size:0.9rem;line-height:1.7">${items}</ul><p style="margin:0.3rem 0 0;font-size:0.82rem;color:var(--muted)">Zero pairs reached significance anywhere in the corpus after correction — method and full result on the <a href="patterns.html">Patterns page</a>.</p></div>`;
+          }
+
+          fill(
+            "secStructure",
+            outlineHtml + pivotHtml + rhetHtml + symHtml + interpHtml,
+          );
         }
 
         // ── Boot ─────────────────────────────────────────────────────
@@ -721,7 +785,11 @@
               Promise.all([
                 fetchJson("data/discursive-pivots.json").catch(() => null),
                 fetchJson("data/khan-interpretations.json").catch(() => null),
-              ]).then(([piv, interp]) => renderStructure(s, ex, piv, interp)),
+                fetchJson("data/rhetorical-features.json").catch(() => null),
+                fetchJson("data/symmetry-test.json").catch(() => null),
+              ]).then(([piv, interp, rhet, sym]) =>
+                renderStructure(s, ex, piv, interp, rhet, sym),
+              ),
             )
             .catch(() => fail("secStructure", "Structural notes"));
         }
