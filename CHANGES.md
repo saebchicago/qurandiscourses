@@ -1,4 +1,31 @@
-# Changes — a rhyme-regularity index, ranked across all 114 surahs
+# Changes — extended the discourse-particle taxonomy to a third temporal marker
+
+## Boundary-particle detection now also tracks "idhā"
+
+- `scripts/build-discursive-pivots.mjs` previously tracked two verse-initial
+  temporal particles, "idh" and "lammā". Added a third, grammatically
+  identical family member: "idhā" (same clause-initial temporal
+  subordinator category — "when"/"if", general/future rather than
+  past-narrative). The generator's own comment now states explicitly why a
+  sequencing conjunction like "thumma" ("then") is deliberately *not*
+  included: it marks continuation, not a new temporal clause, and folding
+  it in would blur what this feature precisely measures.
+- Combined verse-initial occurrences rise from 203 (idh + lammā) to 350
+  (idh 118, idhā 147, lammā 85); root-continuity matches with the
+  preceding verse rise from 93 to 137. Updated the count text and detail
+  list on `patterns.html`'s "Other documented features" card and the
+  no-pivots fallback message on `dossier.html`.
+- Verified idhā's verse-initial count (147) by an independent hand count
+  over the raw morphology (not the generator's own logic) — exact match.
+  Verified the generator is deterministic (identical file hash across two
+  runs). Verified live in the browser: the expanded detail list shows all
+  137 entries with all three marker labels present, the dossier fallback
+  text updated correctly for a surah with no pivots, zero console errors.
+- Regenerated CSP hashes (`patterns.html`'s inline script content
+  changed). Full check suite and the full `verify-site.mjs` suite (161
+  checks) pass with zero regressions.
+
+# Earlier changes — a rhyme-regularity index, ranked across all 114 surahs
 
 ## patterns.html's rhyme explorer gains a cross-surah view
 

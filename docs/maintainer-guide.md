@@ -108,7 +108,7 @@ them only when their inputs change; commit their outputs.
 | build-leeds.js | Leeds corpus dump | data/morphology/, roots-summary.json | everything |
 | build-root-analytics.mjs | morphology | data/root-analytics/ | roots.html detail |
 | build-cooccurrence.mjs | morphology, roots-summary, chronology | data/cooccurrence/ | roots.html co-occurrence (whole-corpus and per-chronological-period), plus `coRootsPmi` — the same partners ranked by pointwise mutual information (distinctiveness) instead of raw count, minimum 3 shared verses to rank, roots.html's "Distinctive partners (PMI)" panel |
-| build-discursive-pivots.mjs | morphology, roots-summary | data/discursive-pivots.json | patterns.html boundary-particle / shared-root list |
+| build-discursive-pivots.mjs | morphology, roots-summary | data/discursive-pivots.json | patterns.html boundary-particle / shared-root list — three clause-initial temporal subordinators (idh, idha, lamma); deliberately excludes sequencing conjunctions (e.g. thumma), which mark continuation, not a new temporal clause |
 | build-symmetry-test.mjs | morphology, roots-summary | data/symmetry-test.json | patterns.html ring-composition proxy test (method + closest candidates) |
 | build-surah-meta.mjs | Quran Foundation API | data/surah-meta.json | Makki/Madani |
 | build-juz.mjs | Tanzil standard division + surah-meta | data/juz.json | navigate.html juz grid, read.html `?j=` |
