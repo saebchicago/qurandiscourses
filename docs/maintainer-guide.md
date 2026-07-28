@@ -113,10 +113,10 @@ them only when their inputs change; commit their outputs.
 | build-surah-meta.mjs | Quran Foundation API | data/surah-meta.json | Makki/Madani |
 | build-juz.mjs | Tanzil standard division + surah-meta | data/juz.json | navigate.html juz grid, read.html `?j=` |
 | build-csp.mjs | every page's inline `<script>` and `<style>` blocks | netlify.toml `script-src` + `style-src-elem` hashes | CSP authorizes inline scripts/styles without `'unsafe-inline'` (`--check` guards staleness) |
-| build-surah-profiles.mjs | morphology, chronology, qursim | data/surah-profiles.json | navigate.html profiles |
+| build-surah-profiles.mjs | morphology, chronology, qursim | data/surah-profiles.json | navigate.html profiles; also `formDiversityRatio`/`lemmaDiversityRatio` (type-token ratio at the surface-form and lemma level, alongside the existing root-level ratio), surfaced on dossier.html's Vocab section |
 | build-themes.mjs | morphology, roots-summary, surah-profiles | data/themes.json, data/theme-surah-index.json | themes.html (each theme's `topSurahs` = where its root-family vocabulary clusters, tokens per 1,000 normalized by surah length); the reverse index feeds dossier.html's "themes touching this surah" line. Absence from a theme's top-8 means "not among its densest", not "vocabulary absent" — the `_method` strings state this |
 | build-rhetorical-features.mjs | morphology | data/rhetorical-features.json | patterns.html direct-address list, numbers.html fawatih list |
-| build-numbers.mjs | morphology, roots-summary, chronology | data/numbers.json | every corpus figure on numbers.html (`[data-num]` elements) |
+| build-numbers.mjs | morphology, roots-summary, chronology | data/numbers.json | every corpus figure on numbers.html (`[data-num]` elements); also `ttrByPeriod` — form/lemma type-token ratio by Cairo 1924 period, numbers.html's "Lexical diversity by period" table (filled at 4-decimal precision outside the `[data-num]` convention, since that convention rounds to 1 decimal) |
 | build-surahs-js.mjs | surah-names.json, chronology, surah-meta, surah-profiles | assets/surahs.js | the ONE canonical surah dataset (navigate, read, ask box, refs, embeds) — edit data/surah-names.json, never assets/surahs.js |
 | build-share-pages.mjs | roots-summary, themes, chronology, surah-names, surah-profiles | s/ (1,789 pages) | per-entity link previews; share buttons hand these URLs out |
 | build-root-refs-index.mjs | roots-summary | assets/root-refs.js | refs.js root-mention detection (ambiguous ASCII folds deliberately absent) |

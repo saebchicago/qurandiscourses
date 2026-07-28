@@ -1,4 +1,49 @@
-# Changes — a distinctiveness ranking for root co-occurrence (PMI)
+# Changes — lexical diversity (type-token ratio) by surah and by period
+
+## A new corpus-linguistics measure: vocabulary variety vs. repetition
+
+- Added type-token ratio (TTR) — distinct surface forms, and distinct
+  lemmas, each divided by all word-tokens — at two granularities:
+  - **Per surah**, in `scripts/build-surah-profiles.mjs` /
+    `data/surah-profiles.json`: `distinctFormCount`, `formDiversityRatio`,
+    `distinctLemmaCount`, `lemmaDiversityRatio`, computed from the same
+    per-token pass the existing `rootDiversityRatio` already uses, so all
+    three ratios (root/form/lemma) are directly comparable. Surfaced on
+    `dossier.html`'s Vocab section, next to the existing root diversity
+    ratio.
+  - **Per chronological period**, in `scripts/build-numbers.mjs` /
+    `data/numbers.json`'s new `ttrByPeriod` array: mirrors the existing
+    `posByPeriod` structure (same four Cairo 1924 periods, same token
+    counts). Surfaced on `numbers.html` as a new "Lexical diversity by
+    period" table, showing tokens alongside form/lemma TTR at full
+    (4-decimal) precision — the site-wide `[data-num]` 1-decimal
+    convention would have flattened these into visually-identical values,
+    so this table fills its ratio cells via a small dedicated script
+    instead.
+- TTR is well known to be sensitive to sample size — it falls mechanically
+  as text grows, independent of any real change in vocabulary richness.
+  Both surfaced views state this caveat plainly (~ Nuanced) rather than
+  present the numbers as a clean ranking: the per-surah ratio is framed as
+  a within-similar-length comparison, and the per-period table shows each
+  period's token count right next to its ratio so the length confound is
+  visible, not hidden.
+- Verified the exact formula by hand against raw morphology data for one
+  surah (103: 14 tokens, 13 distinct forms, 13 distinct lemmas → 0.9286 /
+  0.9286, exact match) and one period (Early Meccan: 2,704 tokens, 1,677
+  distinct forms, 954 distinct lemmas → 0.6202 / 0.3528, exact match).
+  Cross-checked that `ttrByPeriod`'s token counts exactly match the
+  pre-existing `posByPeriod` counts for the same periods (internal
+  consistency between two independently-built aggregates). Verified both
+  generators are deterministic (identical file hashes across two runs).
+  Verified live in the browser on both pages: correct values render,
+  matching the hand calculations exactly, with zero console errors.
+- Regenerated CSP hashes (`numbers.html`'s inline script changed). Full
+  check suite (`check-claims`, `check-exercises`, `check-data-nums`,
+  `check-paths`, `check-nav-sync`, `check-headers-sync`,
+  `build-csp --check`) and the full `verify-site.mjs` suite (161 checks)
+  pass with zero regressions.
+
+# Earlier changes — a distinctiveness ranking for root co-occurrence (PMI)
 
 ## roots.html now ranks co-occurring roots by distinctiveness, not just frequency
 

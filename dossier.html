@@ -484,6 +484,7 @@
               `<div class="stat-block"><h4>Word tokens ${OK("leeds-corpus-v0.4", "Leeds Corpus v0.4")}</h4><p class="stat-value">${p.tokenCount}</p></div>` +
               `<div class="stat-block"><h4>Distinct roots ${OK("leeds-corpus-v0.4", "Leeds Corpus v0.4")}</h4><p class="stat-value">${p.distinctRootCount}</p></div>` +
               `<div class="stat-block"><h4>Root diversity ratio ${NUANCED("roots over all tokens")}</h4><p class="stat-value">${p.rootDiversityRatio}</p></div>` +
+              `<div class="stat-block"><h4>Form / lemma diversity ratio ${NUANCED("type-token ratio; sensitive to surah length")}</h4><p class="stat-value" style="font-size:1rem">${p.formDiversityRatio} form · ${p.lemmaDiversityRatio} lemma</p></div>` +
               (p.posMix
                 ? `<div class="stat-block"><h4>Grammatical texture ${OK("leeds-corpus-v0.4", "Leeds POS tags")}</h4><p class="stat-value" style="font-size:1rem">${p.posMix.nounPct}% nouns · ${p.posMix.verbPct}% verbs</p></div>`
                 : "") +

@@ -102,6 +102,8 @@ const posCounts = {}; // POS tag -> global count (all 33 Leeds tags)
 const posByPeriodCounts = {}; // period -> { tag -> count }
 const verseLengths = []; // { tokens, period } per verse, all 6236 verses
 const rootMinOrder = new Map(); // root (Buckwalter) -> earliest revelation order it appears in
+const periodFormSets = {}; // period -> Set<word.ar>, for type-token ratio by period
+const periodLemmaSets = {}; // period -> Set<word.lemma>, same
 
 for (let s = 1; s <= 114; s++) {
   const morph = JSON.parse(
@@ -119,6 +121,8 @@ for (let s = 1; s <= 114; s++) {
     for (const w of morph[a]) {
       formCounts.set(w.ar, (formCounts.get(w.ar) || 0) + 1);
       totalTokens++;
+      if (!periodFormSets[period]) periodFormSets[period] = new Set();
+      if (w.ar) periodFormSets[period].add(w.ar);
       if (w.root) {
         rootedTokens++;
         if (revOrder != null) {
@@ -129,6 +133,8 @@ for (let s = 1; s <= 114; s++) {
       if (w.lemma) {
         lemmaSet.add(w.lemma);
         lemmaCounts.set(w.lemma, (lemmaCounts.get(w.lemma) || 0) + 1);
+        if (!periodLemmaSets[period]) periodLemmaSets[period] = new Set();
+        periodLemmaSets[period].add(w.lemma);
       }
       if (w.pos) {
         posCounts[w.pos] = (posCounts[w.pos] || 0) + 1;
@@ -168,6 +174,29 @@ const posByPeriod = PERIOD_ORDER.map((p) => {
     nounPct: total ? Math.round((nouns / total) * 1000) / 10 : 0,
     verbPct: total ? Math.round((verbs / total) * 1000) / 10 : 0,
     verbToNoun: nouns ? Math.round((verbs / nouns) * 100) / 100 : 0,
+  };
+});
+
+// ── Vocabulary richness by period (type-token ratio) ────────────────
+// Distinct surface forms and distinct lemmas as a fraction of all tokens
+// in that period — the same two-level TTR as data/surah-profiles.json's
+// per-surah formDiversityRatio/lemmaDiversityRatio, aggregated instead by
+// chronological period. Sensitive to token-pool size like any TTR (the
+// four periods are similar orders of magnitude in token count, unlike
+// individual surahs, which is why this aggregate view is meaningful
+// where a single corpus-wide per-surah ranking would not be).
+const ttrByPeriod = PERIOD_ORDER.map((p) => {
+  const total = periodTokens[p] || 0;
+  const forms = periodFormSets[p] ? periodFormSets[p].size : 0;
+  const lemmas = periodLemmaSets[p] ? periodLemmaSets[p].size : 0;
+  return {
+    period: p,
+    label: PERIOD_LABELS[p],
+    tokens: total,
+    distinctForms: forms,
+    distinctLemmas: lemmas,
+    formTTR: total ? Math.round((forms / total) * 10000) / 10000 : 0,
+    lemmaTTR: total ? Math.round((lemmas / total) * 10000) / 10000 : 0,
   };
 });
 
@@ -297,6 +326,7 @@ const out = {
   },
   posProfile,
   posByPeriod,
+  ttrByPeriod,
   verseLengthHistogram,
   rootIntroduction,
   hapaxLocalization: {
@@ -324,6 +354,11 @@ console.log(
   `Hapax: ${hapaxForms}/${formCounts.size} forms, ${hapaxRoots}/${out.hapax.totalRoots} roots`,
 );
 console.log(`Period-unique roots: ${meccanOnly} Meccan-only, ${medinanOnly} Medinan-only`);
+console.log(
+  `TTR by period: ${ttrByPeriod
+    .map((t) => `${t.label} form=${t.formTTR} lemma=${t.lemmaTTR}`)
+    .join(", ")}`,
+);
 console.log(
   `Verse length by period: ${verseLengthByPeriod
     .map((v) => `${v.label}=${v.avgTokensPerVerse}`)

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 //
 // build-surah-profiles.mjs — generate data/surah-profiles.json, a per-surah
-// analytics fingerprint: verse count, word-token count, distinct root count,
-// root diversity ratio, top 10 roots by frequency, chronology period, and
-// QurSim cross-reference connectivity.
+// analytics fingerprint: verse count, word-token count, distinct root/
+// surface-form/lemma counts and their type-token ratios, top 10 roots by
+// frequency, chronology period, and QurSim cross-reference connectivity.
 //
 // Sources (all local, already-committed data; no network access):
 //   data/morphology/{1..114}.json — Leeds Quranic Arabic Corpus v0.4 tokens
@@ -18,9 +18,15 @@
 //     surah's morphology file (Uthmani tokenization as segmented by Leeds).
 //   - Distinct root count: number of unique non-empty `root` values among
 //     that surah's tokens.
-//   - Root diversity ratio: distinct root count / word-token count. The
-//     denominator is ALL tokens, including function words with no tagged
-//     root, not just rooted tokens.
+//   - Root/form/lemma diversity ratio: distinct count / word-token count
+//     (a type-token ratio) at each of three levels — root, surface form
+//     (word.ar, unnormalized, same field build-numbers.mjs's corpus-wide
+//     hapax count uses), and lemma. The denominator is ALL tokens,
+//     including function words with no tagged root, not just rooted
+//     tokens. TTR is sensitive to text length — shorter surahs score
+//     mechanically higher — so it is a within-surah-length-band
+//     comparison, not a single ranking across surahs of very different
+//     lengths.
 //   - Top 10 roots: per-surah frequency tally of the `root` field, sorted
 //     descending, ties broken by first appearance order.
 //   - Chronology period: chronology.json's period field (Cairo 1924
@@ -57,6 +63,12 @@ function buildProfile(surahNum) {
   const verseCount = Object.keys(morph).length;
   let tokenCount = 0;
   const rootFreq = new Map();
+  // Distinct surface forms (word.ar, used as-is — same field and same
+  // no-further-normalization convention as build-numbers.mjs's corpus-wide
+  // hapax count, so per-surah and corpus-wide "form" always mean the same
+  // thing) and distinct lemmas, for a type-token ratio at each level.
+  const formSet = new Set();
+  const lemmaSet = new Set();
   // Grammatical texture: exact counts of the two unambiguous single POS
   // tags (N nouns, V verbs) and prepositions (P). "other" is the residual
   // (all remaining function/particle tags), so no family taxonomy is
@@ -72,6 +84,8 @@ function buildProfile(surahNum) {
       if (root) {
         rootFreq.set(root, (rootFreq.get(root) || 0) + 1);
       }
+      if (word.ar) formSet.add(word.ar);
+      if (word.lemma) lemmaSet.add(word.lemma);
       if (word.pos === "N") posN++;
       else if (word.pos === "V") posV++;
       else if (word.pos === "P") posP++;
@@ -92,6 +106,16 @@ function buildProfile(surahNum) {
   const rootDiversityRatio =
     tokenCount > 0
       ? Math.round((distinctRootCount / tokenCount) * 10000) / 10000
+      : 0;
+  const distinctFormCount = formSet.size;
+  const formDiversityRatio =
+    tokenCount > 0
+      ? Math.round((distinctFormCount / tokenCount) * 10000) / 10000
+      : 0;
+  const distinctLemmaCount = lemmaSet.size;
+  const lemmaDiversityRatio =
+    tokenCount > 0
+      ? Math.round((distinctLemmaCount / tokenCount) * 10000) / 10000
       : 0;
 
   const topRoots = [...rootFreq.entries()]
@@ -128,6 +152,10 @@ function buildProfile(surahNum) {
     tokenCount,
     distinctRootCount,
     rootDiversityRatio,
+    distinctFormCount,
+    formDiversityRatio,
+    distinctLemmaCount,
+    lemmaDiversityRatio,
     topRoots,
     posMix,
     chronologyPeriod,
@@ -166,7 +194,7 @@ function main() {
       "Leeds Quranic Arabic Corpus v0.4 (morphology/roots); chronology.json (Egyptian Standard, Cairo 1924); data/qursim (Mishkat cross-reference index, 110/114 surahs)",
     _generated: new Date().toISOString().slice(0, 10),
     _note:
-      "Descriptive corpus statistics only. Root diversity ratio divides distinct roots by all word-tokens, including function words with no tagged root. QurSim connectivity counts distinct other surahs cross-referenced; null means the surah is outside current QurSim/Mishkat coverage (104, 105, 106, 110), not zero connections.",
+      "Descriptive corpus statistics only. Root/form/lemma diversity ratios (type-token ratios) divide distinct count by all word-tokens, including function words with no tagged root — sensitive to text length, so compare within similar surah lengths, not as a single corpus-wide ranking. QurSim connectivity counts distinct other surahs cross-referenced; null means the surah is outside current QurSim/Mishkat coverage (104, 105, 106, 110), not zero connections.",
     surahs,
   };
 
@@ -178,7 +206,7 @@ function main() {
   for (const n of [2, 103, 110, 104]) {
     const p = surahs[String(n)];
     console.log(
-      `  Surah ${n}: verses=${p.verseCount} tokens=${p.tokenCount} distinctRoots=${p.distinctRootCount} ratio=${p.rootDiversityRatio} period=${p.chronologyPeriod} qursim=${p.qursimConnectivity} topRoot=${p.topRoots[0]?.root || "n/a"}(${p.topRoots[0]?.count || 0})`,
+      `  Surah ${n}: verses=${p.verseCount} tokens=${p.tokenCount} distinctRoots=${p.distinctRootCount} rootTTR=${p.rootDiversityRatio} formTTR=${p.formDiversityRatio} lemmaTTR=${p.lemmaDiversityRatio} period=${p.chronologyPeriod} qursim=${p.qursimConnectivity} topRoot=${p.topRoots[0]?.root || "n/a"}(${p.topRoots[0]?.count || 0})`,
     );
   }
 }
