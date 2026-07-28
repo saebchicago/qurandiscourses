@@ -139,6 +139,7 @@ dispatch instead of blocking every contribution.
 | check-headers-sync.mjs | netlify.toml per-page CSP structure (fail-open for new pages: a page without its own block ships with NO CSP — run after adding any page) |
 | check-nav-sync.mjs | the by-design nav duplication: every page's primary nav must match index.html's (allowlist: embed.html, exercise-asr.html) |
 | check-claims.mjs | worked-claim provenance: stable IDs, allowed evidence dimensions, valid source IDs, limitations, derivation paths, and the case-study join |
+| check-data-nums.mjs | every `data-num="dot.path"` binding across every page: the path must resolve to a number in `data/numbers.json`, and the element's static fallback text must match that number under `initDataNums()`'s own formatting — catches a stale prose figure or a typo'd path, both of which `initDataNums()` fails on silently in the browser (it only overwrites when the path resolves to a number) |
 | check-exercises.mjs | the exercise registry: unique IDs; outline entries have a valid surah number, resolvable sourceIds, a sources.html citation in provenanceHtml, and strictly-increasing in-bounds startVerse values; at most one outline per surah; roots entries' href/surahs are valid; index.html's hand-kept EXERCISE_COUNT matches the registry length |
 | check-videos.mjs | the video registry: an entry cannot be 'published' without its mp4, poster, AND a real WEBVTT captions file on disk — the anti-slop covenant, enforced mechanically |
 | check-source-links.mjs | external citation liveness: every sources.json `url` and every external href on every page still answers (404/410 = FAIL, 403/429 = WARN for bot-shielding). Needs real outbound network — run from an unrestricted machine, not a sandboxed session; a good habit before any release and every few months |
@@ -512,9 +513,11 @@ What it covers (the old manual list, for reference) and what's left:
    automated.
 7. **Still manual:** dark-mode screenshots of any page you changed
    (`--shots` helps), audio playback, overall visual judgment.
-8. `node scripts/check-claims.mjs && node scripts/check-exercises.mjs && node scripts/check-nav-sync.mjs
-   && node scripts/check-headers-sync.mjs && node scripts/build-csp.mjs --check` — mandatory after adding a page,
-   touching the nav, an inline `<script>` or `<style>`, or netlify.toml.
+8. `node scripts/check-claims.mjs && node scripts/check-exercises.mjs && node scripts/check-data-nums.mjs
+   && node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs && node scripts/build-csp.mjs --check`
+   — mandatory after adding a page, touching the nav, an inline `<script>` or `<style>`, or netlify.toml. Also
+   rerun `check-data-nums.mjs` alone whenever `data/numbers.json` regenerates, to catch prose that fell out of
+   sync with the new figures.
    The last one fails if any page's inline-script or inline-style hashes
    are stale (rerun `node scripts/build-csp.mjs` to fix).
 9. Re-run every generator you touched twice; `git diff` must be empty

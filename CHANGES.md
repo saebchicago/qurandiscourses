@@ -1,4 +1,25 @@
-# Changes — the Transcription Gate
+# Changes — data-num drift guard
+
+## Corpus figures in prose can no longer silently fall out of sync with the generated data
+
+- Added `scripts/check-data-nums.mjs`. Every `data-num="dot.path"` binding
+  (sources.html, validation.html, words.html, roots.html, numbers.html,
+  credits.html) is supposed to bind a prose figure to `data/numbers.json` so
+  it can never drift — but `assets/app.js`'s `initDataNums()` only overwrites
+  the static fallback text when the path resolves to a number, and fails
+  silently otherwise. A typo'd path or a stale fallback left behind after
+  `data/numbers.json` regenerates would previously go undetected.
+- The new checker resolves every binding's path and recomputes the expected
+  display value with `initDataNums()`'s own formatting (`toLocaleString` for
+  integers, `.toFixed(1)` otherwise), then fails if the static text doesn't
+  match. Verified it actually catches drift by deliberately corrupting a
+  figure and confirming the failure, then restoring the file.
+- Wired into `.github/workflows/audit.yml` alongside the other registry
+  checks, and documented in the maintainer guide's checker table and
+  pre-ship checklist.
+- No page content changed; all current bindings across all 28 pages pass.
+
+# Earlier changes — the Transcription Gate
 
 ## Documented the human-in-the-loop process that keeps Khan transcriptions mechanical
 
