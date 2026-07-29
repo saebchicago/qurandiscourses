@@ -249,9 +249,9 @@
         <option value="dark" ${state.theme === "dark" ? "selected" : ""}>Dark</option>
       </select></div>
       <div class="actions">
-        <button id="clearPrefs">Clear preferences</button>
+        <button id="clearPrefs">Clear preferences &amp; reading history</button>
       </div>
-      <p class="small">Preferences are saved in this browser only and never sent anywhere. Clear them anytime above.</p>
+      <p class="small">This clears display choices, reading progress, and the passage cache from this browser. It does not delete study notes. <a href="about.html#privacy">Privacy and data controls</a>.</p>
     `;
 
     panel.querySelectorAll("[data-feature]").forEach((cb) => {
@@ -330,6 +330,20 @@
           applyDepth();
         }
       }
+    });
+  }
+
+  function enhanceTrustLinks() {
+    document.querySelectorAll("footer.site .footer-links").forEach((links) => {
+      if (links.querySelector("[data-trust-link]")) return;
+      const about = links.querySelector('a[href$="about.html"]');
+      if (!about) return;
+      const trust = document.createElement("a");
+      trust.href = about.getAttribute("href") + "#trust";
+      trust.textContent = "Trust & access";
+      trust.setAttribute("data-trust-link", "");
+      links.appendChild(document.createTextNode(" · "));
+      links.appendChild(trust);
     });
   }
 
@@ -647,6 +661,7 @@
     initBackToTop();
     initDataNums();
     initFocusMode();
+    enhanceTrustLinks();
     applyDepth();
   });
 

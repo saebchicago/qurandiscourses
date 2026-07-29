@@ -46,7 +46,8 @@
     var html =
       '<div class="card" style="margin-top:1.5rem">' +
       '<h3 style="display:flex;align-items:baseline;gap:0.6rem;flex-wrap:wrap">My notes' +
-      '<span style="font-size:0.78rem;font-weight:400;color:var(--muted)">saved in this browser only — never sent anywhere</span></h3>';
+      '<span style="font-size:0.78rem;font-weight:400;color:var(--muted)">saved on this device only — never sent anywhere</span></h3>' +
+      '<p class="method-note">Export notes before clearing browser data or changing devices. Notes do not sync. <a href="about.html#privacy">How storage works</a></p>';
 
     if (currentRef) {
       html +=
@@ -99,6 +100,9 @@
         (currentRef && current
           ? '<button type="button" class="button secondary share-btn" id="noteDelete">Delete this note</button>'
           : "") +
+        (refs.length
+          ? '<button type="button" class="button secondary share-btn" id="notesDeleteAll">Delete all notes</button>'
+          : "") +
         "</div>";
     }
     html += "</div>";
@@ -127,6 +131,16 @@
     }
     var exp = document.getElementById("notesExport");
     if (exp) exp.addEventListener("click", exportMarkdown);
+    var deleteAll = document.getElementById("notesDeleteAll");
+    if (deleteAll)
+      deleteAll.addEventListener("click", function () {
+        if (!window.confirm("Delete every study note saved in this browser? This cannot be undone.")) return;
+        try {
+          localStorage.removeItem(KEY);
+        } catch (e) {}
+        render();
+        if (window.qdToast) window.qdToast("All notes deleted");
+      });
     var del = document.getElementById("noteDelete");
     if (del)
       del.addEventListener("click", function () {

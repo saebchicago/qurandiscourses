@@ -274,17 +274,87 @@
           (plural <em>khitabat</em>) as God's address to the hearer, the unit
           he held to be the proper basis of Qur'anic reading.
         </p>
-        <h3>Privacy</h3>
+        <h3 id="privacy">Privacy and data</h3>
         <p>
           No analytics, no cookies, no tracking. Visitor preferences (depth
           level, translations, theme), reading progress, a cache of
-          already-fetched verse text (so repeat reads load instantly), and
-          any study notes you write on the Read page are saved in your
-          browser's local storage and are never sent anywhere. Preferences,
-          progress, and the cache can be cleared anytime with the Clear
-          preferences button in Settings (the gear icon); notes are kept
-          separately so that button cannot delete them — remove or export
-          them from the notes panel itself.
+          already-fetched verse text, pinned references, reader-authored
+          worksheets, and study notes are saved in your browser's local
+          storage and are never sent by this site. They are deliberately kept
+          in separate stores so clearing display settings cannot erase writing
+          unexpectedly.
+        </p>
+        <p>
+          Opening a passage or playing recitation may request content from
+          <strong>api.alquran.cloud</strong>. Like any direct web request, that
+          provider receives technical connection information such as your IP
+          address and browser headers. The request contains the surah, verse,
+          and selected edition—not your notes, preferences, or reading history.
+          Previously loaded passages are cached in your browser, and the bundled
+          Arabic word data provides a limited offline fallback. You can use the
+          site's bundled research pages without enabling accounts, analytics, or
+          advertising services because none exist.
+        </p>
+        <div class="card" aria-labelledby="data-controls-title">
+          <h4 id="data-controls-title">Your data controls</h4>
+          <ul>
+            <li><strong>Preferences, progress, and passage cache:</strong> open Settings (the gear) and choose <em>Clear preferences &amp; reading history</em>.</li>
+            <li><strong>Study notes:</strong> export, delete one, or delete all from <a href="read.html#notesSection">My notes</a>. Notes are kept separate so clearing display settings cannot erase writing unexpectedly.</li>
+            <li><strong>Reader-authored worksheets:</strong> export all or clear the current surah from the worksheet on the <a href="read.html#discoveryWorksheetSection">Read page</a>.</li>
+            <li><strong>Pinned references:</strong> open the Workspace tray on a page that offers pins and choose <em>Clear all</em>.</li>
+            <li><strong>Device boundary:</strong> nothing synchronizes. Clearing this browser's site data, using another browser, or changing devices will not carry saved work with you.</li>
+          </ul>
+        </div>
+
+        <h3 id="trust">Trust, access, and accountability</h3>
+        <p>
+          Trust should be inspectable, not requested. Use the routes below to
+          verify the work, ask for correction, or report a barrier. This is a
+          young, single-maintainer project; these are public commitments, not a
+          claim of independent certification.
+        </p>
+        <div class="grid two trust-actions">
+          <article class="card">
+            <h4>Check a claim</h4>
+            <p>Open its evidence badge, inspect the named source, then review the site's methods and known limits.</p>
+            <p><a class="button secondary" href="validation.html">Review validation</a></p>
+          </article>
+          <article class="card">
+            <h4>Report a correction</h4>
+            <p>Include the page, exact claim, proposed correction, and source if available. Do not include private study notes.</p>
+            <p><a class="button secondary" href="https://github.com/saebchicago/qurandiscourses/issues/new?template=correction.md" rel="noopener">Open a correction</a></p>
+          </article>
+          <article class="card">
+            <h4>Report an access barrier</h4>
+            <p>Describe the page, task, browser or assistive technology, and what blocked you—only what you are comfortable sharing.</p>
+            <p><a class="button secondary" href="https://github.com/saebchicago/qurandiscourses/issues/new?template=accessibility.md" rel="noopener">Report an accessibility issue</a></p>
+          </article>
+          <article class="card">
+            <h4>Trace changes and rights</h4>
+            <p>Review corrections and releases publicly, or inspect source, dataset, font, and license attribution.</p>
+            <p><a href="changelog.html">Changelog</a> · <a href="sources.html">Sources</a> · <a href="credits.html">Credits</a></p>
+          </article>
+        </div>
+
+        <h3 id="accessibility">Accessibility statement</h3>
+        <p>
+          The intended baseline is WCAG 2.2 Level AA and an equivalent core
+          study journey for keyboard, screen-reader, low-vision, reduced-motion,
+          mobile, and low-bandwidth readers. The site uses semantic landmarks,
+          a skip link, keyboard-operable navigation, visible focus, self-hosted
+          fonts, and text alternatives alongside many data views. Automated
+          integrity checks run on the repository, but the project has
+          <strong>not yet completed an independent conformance audit</strong>;
+          charts, mixed Arabic/English reading order, dynamic citations, and
+          high zoom remain priority manual-test areas.
+        </p>
+        <p>
+          If something prevents study, please
+          <a href="https://github.com/saebchicago/qurandiscourses/issues/new?template=accessibility.md" rel="noopener">report the barrier</a>.
+          The maintainer aims to acknowledge access-blocking and source-integrity
+          reports within two working days, then publish a fix, workaround, or
+          candid status update within ten working days. These targets may be
+          revised transparently as the project's capacity changes.
         </p>
         <h3 id="mission">Mission</h3>
         <p>

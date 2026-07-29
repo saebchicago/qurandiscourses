@@ -70,6 +70,9 @@ badges are assigned, Chicago citation format), every build script, and the
 step-by-step recipes for common tasks (adding a source, an exercise, a
 theme). A ready-to-record walkthrough script for a training video is in
 **[docs/video-walkthrough-script.md](docs/video-walkthrough-script.md)**.
+The prioritized cross-disciplinary roadmap for accessibility, scholarship,
+governance, privacy, learning, reach, and operational resilience is in the
+**[public-engagement and excellence review](docs/multidisciplinary-excellence-review.md)**.
 
 ## Licensing
 
