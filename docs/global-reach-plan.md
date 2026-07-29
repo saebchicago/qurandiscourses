@@ -49,21 +49,55 @@ research instrument for the text they read natively — that is the value
 proposition, and outreach material aimed at Arabic-speaking audiences
 should lead with it.
 
-**Shipped with this plan:** the Ask box now routes Arabic-script surah
-names — `الفاتحة`, `سورة يس`, `فاتحة` (article dropped), names typed with
-tashkeel, and Arabic-Indic verse references like `٢:٥` — via the same
-deterministic character mapping the box uses for transliteration. No model
-involved (`assets/ask.js`).
+**Shipped:** the Ask box routes Arabic-script surah names — `الفاتحة`,
+`سورة يس`, `فاتحة` (article dropped), names typed with tashkeel, and
+Arabic-Indic verse references like `٢:٥` — via the same deterministic
+character mapping the box uses for transliteration. No model involved
+(`assets/ask.js`).
 
-**Open editorial question (owner decision; not shipped):** should an
-Arabic edition such as Tafsīr al-Muyassar be offered in the Translations
-panel for Arabic readers who want a modern-Arabic paraphrase alongside the
-Uthmani text? It would be genuinely useful — and it is a tafsir, not a
-translation. Listing it under "Translations" without qualification blurs
-exactly the line this site's method draws between text and interpretation.
-Recommendation: either leave it out, or add it with an explicit label in
-the name itself — e.g. "al-Muyassar (tafsīr — not a translation)" — and a
-distinct chip in the picker. Do not ship it without deciding.
+**Shipped: Arabic-script root entry.** The root is an Arabic reader's
+natural way into the corpus, so `رحم`, `ر ح م`, and `رَحِمَ` now route to
+the Roots page, which resolves the letters against `rootArabic` and
+selects the root directly. `roots.html`'s live filter compares skeletons
+too, so `سمو` matches the stored `س م و`. All 1,642 root skeletons are
+unique, so an exact match is never ambiguous. Ordering matters and is
+asserted in the routing tests: `نوح` and `فجر` are each three Arabic
+letters *and* plausible roots, and the surah wins — the same precedence
+the Latin path already gives `fajr`.
+
+### 2.1 Arabic orientation note — specified, awaiting a translator
+
+The one thing an Arabic reader still meets in English is the explanation
+of *why* these tools exist. That note should be written, but under §1's
+third rule this project does not author it: interface and editorial prose
+in any language comes from a named human translator, credited like any
+other contributor.
+
+- **Home:** a new `how-it-works.html#arabic-readers` section, linked from
+  the Arabic-script routing hint in the Ask box help text.
+- **Source text to translate** (English, final — a translator renders this
+  and nothing more): *"If you read Arabic, you do not need this site's
+  translations. What it offers you is the text's structure made countable:
+  every root and where it recurs, which words keep company with which,
+  the phrases that repeat across surahs, the rhyme families that close
+  verses, and the order in which surahs were revealed. Each figure is
+  computed from a named corpus and carries a badge showing what has been
+  verified and what has not. The site does not tell you what a verse
+  means; it shows you what is there, and leaves the reading to you."*
+- **Requirement:** a named translator, credited on `credits.html`. Until
+  one supplies it, the section does not ship — an untranslated placeholder
+  is worse than its absence. See `CONTRIBUTING.md` for the call.
+
+**Settled: no tafsir edition.** The question was whether an Arabic edition
+such as Tafsīr al-Muyassar should join the Translations panel for Arabic
+readers wanting a modern-Arabic paraphrase alongside the Uthmani text. It
+would be useful, and it is a tafsir, not a translation — listing it under
+"Translations" would blur exactly the line this site's method draws between
+text and interpretation, and no labeling scheme removes the ambiguity
+entirely once it sits in that list. Decision (owner, July 2026): **leave it
+out.** The Translations panel stays strictly translations; the site carries
+no commentary surface. Revisit only as a deliberately separate, differently
+named surface — never as an entry in the translation list.
 
 **Deferred:** Arabic UI chrome (navigation, buttons, explanatory prose in
 Arabic). See §4 — the same reasoning applies to every interface language,

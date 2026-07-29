@@ -1,4 +1,35 @@
-# Changes — five new translation languages, Arabic-script search, and a global-reach plan
+# Changes — Arabic root entry, citation repair, and a call for translators
+
+## The Ask box learns Arabic roots; four dead citations are retired
+
+- An Arabic reader's natural way into the corpus is the root, so `رحم`,
+  `ر ح م`, and `رَحِمَ` now route from the Ask box to the Roots page, which
+  resolves the letters against the stored Arabic root and selects it
+  directly. The Roots search box compares skeletons too, so `سمو` matches
+  the space-separated `س م و` it is stored as. All 1,642 root skeletons are
+  distinct, so an exact match is never ambiguous. Surah names still win the
+  tie: `نوح` and `فجر` are each three Arabic letters and a plausible root,
+  and both route to the surah — the precedence the Latin path already gave
+  `fajr`, now asserted in the routing tests.
+- Retired four external citation links that no longer resolve: Lane's
+  Lexicon and Mawdudi's *Tafheem* (host certificate and TLS failures), a
+  404'd archive.org identifier for Penrice's *Dictionary and Glossary*, and
+  a link to repository discussions that were never enabled. Each
+  bibliographic record stays exactly as it was — only the dead URL is gone,
+  since a replacement could not be confirmed against the work itself, and
+  the guide's rule is to omit rather than guess. Lane remains cited on
+  Sources; the Roots page now points readers to the morphology browser that
+  is actually reachable.
+- Recorded the decision not to offer an Arabic tafsir edition: the
+  Translations panel stays strictly translations, and no labeling scheme
+  makes a commentary sitting in that list unambiguous.
+- Specified the Arabic orientation note for native readers — its home, its
+  exact English source text, and the requirement that a named human
+  translator supply the Arabic — and added a call for translators to
+  CONTRIBUTING.md. The note does not ship until a translator writes it; an
+  untranslated placeholder would be worse than its absence.
+
+# Earlier changes — five new translation languages, Arabic-script search, and a global-reach plan
 
 ## Bengali, Malay, Indonesian, French, and Spanish translations; the Ask box learns Arabic
 

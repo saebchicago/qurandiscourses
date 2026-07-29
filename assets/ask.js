@@ -110,6 +110,17 @@
           type: "surah-name",
           match: surahAr.en,
         };
+
+      // Arabic-script root: "رحم", "ر ح م", "رَحِمَ". Deliberately placed
+      // after the surah-name check above: نوح and فجر are each three
+      // Arabic letters and a plausible root, and the surah must win —
+      // the same precedence the Latin path gives "fajr". roots.html
+      // resolves the letters against rootArabic; no Buckwalter table
+      // is duplicated here.
+      const bare = qa.replace(/[\s\-.]/g, "");
+      if (/^[ء-ي]{3,4}$/.test(bare)) {
+        return { route: `roots.html?q=${encodeURIComponent(bare)}`, type: "root" };
+      }
     }
 
     // Theme keywords route to the theme gateways page
