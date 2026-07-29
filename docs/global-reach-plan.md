@@ -73,8 +73,9 @@ third rule this project does not author it: interface and editorial prose
 in any language comes from a named human translator, credited like any
 other contributor.
 
-- **Home:** a new `how-it-works.html#arabic-readers` section, linked from
-  the Arabic-script routing hint in the Ask box help text.
+- **Home:** a new `how-it-works.html#arabic-readers` section. The Ask box
+  help text now shows Arabic examples; once the section exists, that hint
+  is where its link belongs.
 - **Source text to translate** (English, final — a translator renders this
   and nothing more): *"If you read Arabic, you do not need this site's
   translations. What it offers you is the text's structure made countable:
@@ -249,5 +250,5 @@ Verification checklist for this change and any future language addition:
   Ask box routes `الفاتحة` and `سورة يس`.
 
 Non-goals, restated once: machine-translated content of any kind (§1);
-tafsir presented as translation (§2, pending the owner's decision);
+tafsir presented as translation (§2, settled July 2026: excluded);
 interface forks per locale (§4); generated or stock video footage (§5).

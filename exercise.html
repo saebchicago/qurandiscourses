@@ -414,6 +414,20 @@
               history.replaceState(null, "", "?id=" + exercise.id);
 
               document.getElementById("exTitle").textContent = exercise.title;
+              // A stale or mistyped link must not silently hand the
+              // reader a different surah's exercise.
+              if (requested && exercise.id !== requested) {
+                document
+                  .getElementById("exTitle")
+                  .insertAdjacentHTML(
+                    "afterend",
+                    '<p class="method-note">No exercise named "' +
+                      qdEsc(requested) +
+                      '" — showing ' +
+                      qdEsc(exercise.title) +
+                      " instead.</p>",
+                  );
+              }
               document.title = exercise.title + " · Divine Discourses";
               var prov = document.getElementById("provLine");
               document.getElementById("provText").innerHTML =

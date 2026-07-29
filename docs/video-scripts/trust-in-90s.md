@@ -14,9 +14,9 @@ Derived from Scenes 2 and 4 of `docs/video-walkthrough-script.md`
 | Time | Show | Do | Say |
 |---|---|---|---|
 | 0:00–0:10 | `/` (home) | Nothing; let the page sit. | "Divine Discourses gives no interpretation. It orders the evidence — and labels every claim so you can check it yourself. Ninety seconds, two things." |
-| 0:10–0:40 | Ask box on home | Type `2:255` → Enter (Read). Back. Type `mercy` → Enter (Roots, r-ḥ-m). Back. Type `business` → Enter (Trade & wealth theme). | "One box, four kinds of input: a verse reference, a surah name, a root, an English word — and a life theme. It routes you to the right tool." |
+| 0:10–0:40 | Ask box on home | Type `2:255` → Enter (Read). Back. Type `mercy` → Enter (Roots, r-ḥ-m). Back. Type `رحم` → Enter (Roots again — Arabic script works). Back. Type `business` → Enter (Trade & wealth theme). | "One box, five kinds of input: a verse reference, a surah name, a root — in Latin letters or Arabic script — an English word, and a life theme. It routes you to the right tool." |
 | 0:40–1:15 | `/numbers.html` | Hover a ● badge (tooltip), then click it — the Chicago citation popover opens. | "This is the heart of the method. Every statistic carries a badge: Verified means confirmed from the primary source cited — click and you get the full citation. Pending means awaiting a second source. Nuanced means scholars genuinely count differently, and the note tells you why." |
-| 1:15–1:30 | `/validation.html` | Scroll the worked examples. | "The Validation page shows worked examples and gives you prompts to cross-examine our claims — but chatbot agreement never verifies anything; only the primary source does." |
+| 1:15–1:30 | `/validation.html` | Scroll the worked examples. | "The Validation page shows worked examples and gives you prompts to cross-examine our claims with whatever tools you trust — but only the primary source verifies anything." |
 
 ## Anti-slop checklist (all mandatory before publishing)
 - [ ] Real screen capture of the **live site** — no mockups, no motion graphics.

@@ -165,7 +165,10 @@
         <div class="ask-section hero" role="search" aria-labelledby="ask-label">
           <label for="ask-input" class="ask-label" id="ask-label">Find your starting point</label>
           <p class="ask-help">
-            Enter a surah, verse, root, or English keyword.
+            Enter a surah, verse, or root — in English or Arabic script
+            (<span class="ar notranslate" translate="no" lang="ar" dir="rtl">الفاتحة</span>,
+            <span class="ar notranslate" translate="no" lang="ar" dir="rtl">رحم</span>) —
+            or an English keyword.
           </p>
           <div class="ask-row">
             <input
@@ -184,6 +187,7 @@
             <button type="button" class="chip" data-fill="1:1">1:1</button>
             <button type="button" class="chip" data-fill="r-h-m">r-h-m</button>
             <button type="button" class="chip" data-fill="mercy">mercy</button>
+            <button type="button" class="chip" data-fill="الفاتحة"><span class="ar notranslate" translate="no" lang="ar" dir="rtl">الفاتحة</span></button>
           </div>
           <div id="ask-feedback" class="ask-feedback" role="status" aria-live="polite"></div>
         </div>
@@ -624,7 +628,7 @@
             feedback.textContent = result.message;
           } else {
             feedback.textContent =
-              "Not recognized. Try a surah name, a verse like 1:1, a root like r-h-m, or an English word.";
+              "Not recognized. Try a surah name (Fatihah or الفاتحة), a verse like 1:1 or ٢:٥, a root like r-h-m or رحم, or an English word.";
           }
         }
 
@@ -640,7 +644,7 @@
           });
         });
 
-        var PLACEHOLDERS = ["Al-Fatihah", "2:255", "r-h-m", "mercy"];
+        var PLACEHOLDERS = ["Al-Fatihah", "2:255", "r-h-m", "mercy", "الفاتحة"];
         var reduce = false;
         try {
           reduce =

@@ -546,9 +546,20 @@
         }
 
         // ── Typeahead ─────────────────────────────────────────────────────────
+        // Arabic query skeleton: strip tashkeel/tatweel, fold alef and ya
+        // variants, drop separators — so "رحم" and "رَحِم" both match the
+        // space-separated stored form "ر ح م". Mirrors roots.html.
+        function arSkeleton(s) {
+          return String(s)
+            .replace(/[ً-ٰٟۖ-ۭـ]/g, "")
+            .replace(/[آأإٱ]/g, "ا")
+            .replace(/ى/g, "ي")
+            .replace(/[\s\-.]/g, "");
+        }
         function matchRoots(term, limit) {
           if (!term) return [];
           const t = term.toLowerCase();
+          const tAr = /[؀-ۿ]/.test(t) ? arSkeleton(t) : "";
           // Accept the site's canonical hyphenated form (r-h-m) and
           // diacritics (r-ḥ-m): strip separators and fold to plain latin,
           // then match against the Buckwalter key the same way.
@@ -573,6 +584,7 @@
                     .replace(/[^a-z]/g, "")
                     .includes(tRoot)) ||
                 r.rootArabic.includes(t) ||
+                (tAr && arSkeleton(r.rootArabic).includes(tAr)) ||
                 (MEANINGS[r.rootBuckwalter] || "").toLowerCase().includes(t),
             )
             .slice(0, limit || 8);

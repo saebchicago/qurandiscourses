@@ -1,5 +1,5 @@
 // Deterministic client-side router for the Ask box.
-// No LLM. No external API. Pattern-matches input, returns a route.
+// Pattern-matching only — no external calls, nothing composes answers.
 
 (function () {
   const SURAHS = window.SURAHS || [];
@@ -42,22 +42,40 @@
 
   function parseAsk(input) {
     const raw = (input || "").trim();
-    if (!raw) return { route: null, reason: "empty" };
+    if (!raw)
+      return {
+        route: null,
+        reason: "empty",
+        message:
+          "Type a surah name or number, a verse like 1:1, a root like r-h-m, or a keyword.",
+      };
     const q = normalize(raw);
 
     // Verse: 1:1, 1.1, 1 1
-    const verseMatch = q.match(/^(\d{1,3})\s*[:.\s]\s*(\d{1,3})$/);
+    const verseMatch = q.match(/^(\d{1,3})\s*[:.\s]\s*(\d{1,4})$/);
     if (verseMatch) {
       const s = +verseMatch[1],
         a = +verseMatch[2];
-      if (s >= 1 && s <= 114 && a >= 1)
-        return { route: `read.html?s=${s}&a=${a}`, type: "verse" };
       if (s < 1 || s > 114)
         return {
           route: null,
           reason: "range",
           message: "Surah numbers run 1 to 114.",
         };
+      if (a < 1)
+        return {
+          route: null,
+          reason: "range",
+          message: "Verse numbers start at 1.",
+        };
+      const meta = SURAHS.find((x) => x.id === s);
+      if (meta && a > meta.verseCount)
+        return {
+          route: null,
+          reason: "range",
+          message: `${meta.translit} (surah ${s}) has ${meta.verseCount} verses.`,
+        };
+      return { route: `read.html?s=${s}&a=${a}`, type: "verse" };
     }
 
     // Bare surah number
@@ -73,6 +91,23 @@
       };
     }
 
+    // Exact surah name FIRST: 20 documented aliases are exactly three
+    // Latin letters (hud, nas, asr, sun, pen, …), so the bare-root rule
+    // below would otherwise capture them — surah 11 has no name that
+    // isn't. Exact-name-then-root is also the Arabic branch's precedence
+    // (نوح is the surah, not a root guess). The separated spelling
+    // (a-s-r) never equals an alias, so it still reaches the Roots page.
+    const surahExact = SURAHS.find(
+      (s) =>
+        s.names.some((n) => normalize(n) === q) || normalize(s.en) === q,
+    );
+    if (surahExact)
+      return {
+        route: `read.html?s=${surahExact.id}&a=1`,
+        type: "surah-name",
+        match: surahExact.en,
+      };
+
     // Root: r-h-m, r.h.m, rhm (3 latin letters separated or bare)
     const rootMatch = q.match(/^([a-z])[-.\s]?([a-z])[-.\s]?([a-z])$/);
     if (rootMatch && q.replace(/[-.\s]/g, "").length === 3) {
@@ -80,12 +115,12 @@
       return { route: `roots.html?q=${root}`, type: "root" };
     }
 
-    // Surah name fuzzy match (names list + full English name field)
+    // Surah name prefix fuzzing, after the root rule — a 3-letter string
+    // that is merely the START of a name (fat, kaf, nab…) stays a root
+    // query, as it always has.
     const surah = SURAHS.find(
       (s) =>
-        s.names.some((n) => normalize(n) === q) ||
         s.names.some((n) => normalize(n).startsWith(q) && q.length >= 3) ||
-        normalize(s.en) === q ||
         (q.length >= 4 && normalize(s.en).startsWith(q)),
     );
     if (surah)
@@ -114,12 +149,23 @@
       // Arabic-script root: "رحم", "ر ح م", "رَحِمَ". Deliberately placed
       // after the surah-name check above: نوح and فجر are each three
       // Arabic letters and a plausible root, and the surah must win —
-      // the same precedence the Latin path gives "fajr". roots.html
-      // resolves the letters against rootArabic; no Buckwalter table
-      // is duplicated here.
+      // the exact-name-first precedence the Latin path uses. roots.html
+      // resolves the letters against rootArabic; no Buckwalter table is
+      // duplicated here. The bare form is tried first so real roots that
+      // begin alif-lam (اله) are untouched; only when it fails the shape
+      // test is the definite article dropped, so الرحمة finds رحمة.
       const bare = qa.replace(/[\s\-.]/g, "");
-      if (/^[ء-ي]{3,4}$/.test(bare)) {
-        return { route: `roots.html?q=${encodeURIComponent(bare)}`, type: "root" };
+      const rootShape = /^[ء-ي]{3,4}$/;
+      const arRoot = rootShape.test(bare)
+        ? bare
+        : rootShape.test(dropAl(bare))
+          ? dropAl(bare)
+          : null;
+      if (arRoot) {
+        return {
+          route: `roots.html?q=${encodeURIComponent(arRoot)}`,
+          type: "root",
+        };
       }
     }
 

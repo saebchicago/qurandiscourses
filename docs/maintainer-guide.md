@@ -69,8 +69,12 @@ event-delegated, so dynamically inserted badges work — call
 `qdCiteEnhance(container)` after inserting to set role/tabindex),
 `assets/share.js` (floating share button, `[data-share]`/
 `[data-copy-target]` buttons, toast, `qdDownloadSvg`), `assets/glossary.js`
-(term popovers), `assets/fonts.css` + `assets/fonts/` (self-hosted Amiri,
-Cormorant Garamond, Inter). Chart-bearing pages add `assets/chart.js`
+(term popovers — note it wraps only the FIRST occurrence of each term per
+page, so a term used early in a page gets no popover in later sections;
+popover "Glossary →" links resolve via slugified ids plus the ANCHORS
+alias map in that file), `assets/fonts.css` + `assets/fonts/` (self-hosted
+Amiri, Cormorant Garamond, Inter, Noto Nastaliq Urdu, Noto Serif Bengali —
+each face's OFL text is bundled beside the binaries). Chart-bearing pages add `assets/chart.js`
 (`qdChart`: revelation timeline, heat strip, scatter, ego network —
 theme-aware via `--chart-1..4`, which are dataviz-validated mark colors;
 every chart needs a method note beside it). `assets/notes.js` renders the
@@ -596,7 +600,7 @@ commit and push; Netlify redeploys the previous state.
   rendered glyph already meets the WCAG 2.5.8 24px minimum on both axes.
 
 - Interface localization (navigation chrome in Bengali, Malay, Indonesian,
-  French, Spanish, or Arabic) stays deferred until human-translated strings
+  French, Spanish, Urdu, or Arabic) stays deferred until human-translated strings
   exist and the new translation editions show sustained non-English
   readership — machine translation of interface or editorial text is
   excluded by the method's third rule, and per-locale page forks would

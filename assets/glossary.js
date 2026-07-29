@@ -38,6 +38,12 @@ window.GLOSSARY = {
     "To cross-check a claim against two or more independent sources. Agreement moves a claim from Pending to Verified; disagreement keeps it Nuanced with the disagreement recorded.",
   "period distribution":
     "How a word or root's occurrences distribute across the Meccan and Medinan revelation periods, based on a chosen chronology such as the Cairo 1924 edition or Noldeke-Schwally.",
+  deterministic:
+    "Producing the same output for the same input, every time, by following fixed rules. The Ask box is deterministic: pattern-matching routes your question to a tool, and nothing composes an answer on the site's behalf.",
+  "evidence dimensions":
+    "The separately recorded aspects of a research claim's support: what source was checked, whether the computation was reproduced, what the result depends on, and its known limits. Badges summarize these; the Validation page decomposes them.",
+  provenance:
+    "Where a figure or claim comes from: the named source, edition, and method it can be traced to. Every research claim on this site carries a citation you can follow and a badge stating how far it has been checked.",
 };
 
 (function () {
@@ -145,9 +151,16 @@ window.GLOSSARY = {
       closePop();
       var def = el.getAttribute("data-def");
       var term = el.getAttribute("data-term") || el.textContent;
+      // glossary.html ids are lowercase-hyphenated slugs of the entry
+      // headings; a couple of GLOSSARY keys differ from their entry
+      // (the "coherence" definition lives under nazm), so map those
+      // explicitly and slugify the rest.
+      var ANCHORS = { coherence: "nazm" };
+      var anchor =
+        ANCHORS[term] || term.toLowerCase().replace(/\s+/g, "-");
       pop.innerHTML =
         '<strong class="gloss-pop-term"></strong><span class="gloss-pop-def"></span> <a class="gloss-pop-more" href="glossary.html#' +
-        encodeURIComponent(term) +
+        encodeURIComponent(anchor) +
         '">Glossary →</a>';
       pop.querySelector(".gloss-pop-term").textContent =
         term.charAt(0).toUpperCase() + term.slice(1) + ". ";

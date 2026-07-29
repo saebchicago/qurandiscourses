@@ -1,4 +1,60 @@
-# Changes — Arabic root entry, citation repair, and a call for translators
+# Changes — audit fixes: honest errors, durable clearing, reachable surahs, keyboard-safe dialogs
+
+## What a full end-to-end audit found, and what it fixed
+
+- A verse number past a surah's end — including simply clicking Next on the
+  surah's last verse — used to produce an error blaming the reader's
+  connection ("not a problem with your surah or verse numbers") with a
+  retry that could never succeed. The Read page now checks the reference
+  against the surah's length before any request and says plainly which
+  verse doesn't exist, with a link to the surah's last verse; ranges clamp
+  to the surah's end; Next stops at the last verse the way Prev stops at
+  the first; and a not-found response from the text service is now
+  explained as a reference problem, not a network one. The Ask box applies
+  the same bound ("al-Fatihah (surah 1) has 7 verses") instead of routing
+  to a dead end.
+- "Clear preferences & reading history" did not survive on the Read page:
+  the re-render it triggers immediately re-saved the state and passage
+  cache it had just cleared. Persistence now pauses after clearing until
+  the reader's next deliberate interaction, and a stray duplicate of the
+  state that older builds wrote to session storage is cleared with it.
+  Translation and reciter choices, which previously persisted only by
+  accident, are now saved properly when chosen.
+- Twenty surah name aliases that are exactly three letters — hud, nas,
+  nuh, asr, sun, pen, and the rest — were captured by the root-search rule
+  before the surah lookup ran, leaving surah 11 unreachable by name and
+  al-'Asr's own alias landing on "No roots match." Exact surah names now
+  win in both scripts, the root rule keeps every genuine root query
+  (separated spellings like a-s-r still reach Roots), and prefix matching
+  is unchanged.
+- The reciter picker was unusable by keyboard: no close control, no
+  Escape, options that only a mouse could activate. All three of the Read
+  page's dialogs now share one accessible scaffold — dialog semantics, a
+  close button, Escape returning focus to what opened them — and the depth
+  hotkeys no longer re-render the page behind an open dialog.
+- Smaller repairs: Arabic-script root search on Compare now works as its
+  instructions promised; two glossary popover links that pointed at
+  nonexistent anchors resolve; a mistyped exercise link says it fell back
+  instead of silently serving a different surah; empty Ask input gets a
+  gentle prompt instead of "Not recognized"; and الرحمة finds رحمة.
+- The Ask box's own copy caught up with what it accepts: Arabic examples
+  in the help text, chips, rotating placeholder, tour, and How to Use.
+  The changelog page — which promises to log every correction — was five
+  releases behind and is now current, including the four retired citation
+  links. Every bundled typeface now ships with its license text
+  (previously only Bengali did), the Credits page lists all five faces,
+  and the glossary defines provenance, evidence dimensions, and
+  deterministic — terms the comparison section leans on.
+- The site's framing of software assistance was consolidated: one clear
+  statement on How It Works — research and tooling may use software
+  assistance, including language models, to locate candidates and check
+  work, and everything published is verified by a person against the
+  cited source — while page copy elsewhere describes what the site does
+  (computes, cites, routes; never answers in its own voice) rather than
+  what it doesn't use. The working rules in the maintainer guide and
+  CONTRIBUTING are unchanged in force.
+
+# Earlier changes — Arabic root entry, citation repair, and a call for translators
 
 ## The Ask box learns Arabic roots; four dead citations are retired
 

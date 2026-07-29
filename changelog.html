@@ -128,10 +128,94 @@
           Logged here as a record of accountability. Site maintainers commit to
           logging future corrections in the same place.
         </p>
+        <p class="method-note">
+          Historical entries keep the vocabulary of their day — for example,
+          the middle depth tier appears as "Scholar" in entries written
+          before it was renamed "Study".
+        </p>
         <div class="card">
           <h3>2026</h3>
           <h4>July</h4>
           <ul>
+            <li>
+              <strong>Audit corrections: honest errors, durable clearing,
+              reachable surahs, keyboard-safe dialogs.</strong> A verse
+              number past a surah's end used to be blamed on the reader's
+              connection; the <a href="read.html">Read</a> page now says
+              which verse doesn't exist and links to the surah's last
+              verse, and Next stops at the end the way Prev stops at the
+              beginning. "Clear preferences &amp; reading history" was
+              silently undone on the Read page by its own re-render; it now
+              clears durably. Twenty three-letter surah names (hud, nas,
+              asr…) were captured by root search before the surah lookup
+              ran — surah 11 was unreachable by name; exact names now win
+              in both scripts. The reciter picker was unusable by keyboard;
+              all three Read-page dialogs now open with dialog semantics,
+              close on Escape, and return focus. Arabic root search on
+              <a href="compare.html">Compare</a> now works as promised, two
+              glossary links that pointed nowhere resolve, and a mistyped
+              exercise link says it fell back instead of silently serving a
+              different surah.
+            </li>
+            <li>
+              <strong>Arabic-script root entry, and four citation links
+              retired.</strong> The Ask box now routes Arabic-typed roots —
+              <span class="ar notranslate" translate="no" lang="ar" dir="rtl">رحم</span>,
+              spaced letters, or forms with vowel marks — to the
+              <a href="roots.html">Roots</a> page, which selects the root
+              directly; the Roots search box accepts the same forms. Surah
+              names keep priority over root guesses in both scripts.
+              Correction: four external citation links that no longer
+              resolve were removed from <a href="sources.html">Sources</a>
+              and <a href="roots.html">Roots</a> — Lane's Lexicon and
+              Mawdudi's <em>Tafheem</em> (their hosts' certificates
+              failed), an archive.org copy of Penrice's dictionary (404),
+              and a link to repository discussions that were never enabled.
+              Each bibliographic record remains; only the dead links were
+              removed, since replacements could not be verified against the
+              works themselves.
+            </li>
+            <li>
+              <strong>Five new translation languages.</strong> Six published
+              translations joined the <a href="read.html">Read</a> page's
+              picker: Muhiuddin Khan and Zohurul Hoque (Bengali), Abdullah
+              Muhammad Basmeih (Malay), Kementerian Agama (Indonesian),
+              Muhammad Hamidullah (French), and Julio Cortés (Spanish) —
+              each cited on <a href="sources.html">Sources</a>. Bengali text
+              renders in a bundled Noto Serif Bengali face whose license
+              ships with it. The Ask box learned Arabic-script surah names
+              and Arabic-Indic verse numbers, and
+              <a href="how-it-works.html#different">How It Works</a> gained
+              a section comparing this site's design policies to other
+              Qur'an tools.
+            </li>
+            <li>
+              <strong>Trust and reader-data controls.</strong> The
+              <a href="about.html">About</a> page became a trust and access
+              hub: exact statements of what stays in the browser and what a
+              passage request necessarily exposes, correction and
+              accessibility routes, and storage, export, and deletion
+              guidance — with the Settings panel's destructive boundary
+              clarified and note-safety controls added.
+            </li>
+            <li>
+              <strong>Depth tier renamed, and deeper pattern analysis.</strong>
+              The middle depth tier was renamed from "Scholar" to "Study" to
+              describe the work rather than claim a rank. The
+              <a href="roots.html">Roots</a> page gained a distinctive-partner
+              (PMI) ranking with a network map, <a href="dossier.html">Dossier</a>
+              and <a href="patterns.html">Patterns</a> were linked both ways,
+              and new lexical-diversity, rhyme-regularity, and
+              discourse-particle measures were added with their methods
+              stated.
+            </li>
+            <li>
+              <strong>The Transcription Gate, documented.</strong> The rule
+              that governs all quoted scholarship on this site — outline text
+              and interpretation excerpts are transcribed verbatim from the
+              published volumes, never paraphrased from memory — was written
+              into the maintainer guide as a named, checkable procedure.
+            </li>
             <li>
               <strong>Numerical-claim evidence correction.</strong> The
               <a href="numbers.html">Numbers</a> page and its worked validation
