@@ -924,9 +924,9 @@
                 const langAttr = t.edition.language
                   ? ` lang="${qdEsc(t.edition.language)}"`
                   : "";
-                // Script-specific font classes. Urdu gets Nastaliq; Bengali
-                // gets its own line-height rule (system Bengali font until a
-                // self-hosted face ships). Latin-script editions need nothing.
+                // Script-specific font classes. Urdu gets Nastaliq, Bengali
+                // gets Noto Serif Bengali — both self-hosted, each with its
+                // own line-height. Latin-script editions need nothing.
                 const scriptClass =
                   { ur: " nastaliq", bn: " bengali" }[t.edition.language] || "";
                 html += `<div class="translation"><div class="label">${qdEsc(t.edition.englishName)} · ${qdEsc(t.edition.name)}</div><div class="text${scriptClass}"${dirAttr}${langAttr}>${qdEsc(t.text)}</div></div>`;

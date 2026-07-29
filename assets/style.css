@@ -1241,9 +1241,9 @@ label {
 }
 .verse .translation .text.bengali {
   /* Bengali script carries stacked conjuncts and marks above and below
-     the headline; the default 1.6 leading clips them. No self-hosted
-     Bengali face yet (see the maintainer guide's backlog) — the system
-     serif renders the script correctly in the meantime. */
+     the headline; the default 1.6 leading clips them. Noto Serif Bengali
+     is self-hosted (see fonts.css); the generic serif is the fallback if
+     that subset fails to load. */
   font-family: "Noto Serif Bengali", serif;
   line-height: 1.9;
   font-size: 1.05rem;
