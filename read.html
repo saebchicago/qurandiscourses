@@ -924,7 +924,11 @@
                 const langAttr = t.edition.language
                   ? ` lang="${qdEsc(t.edition.language)}"`
                   : "";
-                const scriptClass = t.edition.language === "ur" ? " nastaliq" : "";
+                // Script-specific font classes. Urdu gets Nastaliq, Bengali
+                // gets Noto Serif Bengali — both self-hosted, each with its
+                // own line-height. Latin-script editions need nothing.
+                const scriptClass =
+                  { ur: " nastaliq", bn: " bengali" }[t.edition.language] || "";
                 html += `<div class="translation"><div class="label">${qdEsc(t.edition.englishName)} · ${qdEsc(t.edition.name)}</div><div class="text${scriptClass}"${dirAttr}${langAttr}>${qdEsc(t.text)}</div></div>`;
               });
               if (needsMorph) {
@@ -984,7 +988,15 @@
             const transBtn = document.getElementById(`transBtn-${ayahNum}`);
             if (transBtn) {
               transBtn.addEventListener("click", () => {
-                const LANG_LABELS = { en: "English", ur: "Urdu" };
+                const LANG_LABELS = {
+                  en: "English",
+                  ur: "Urdu",
+                  bn: "Bengali",
+                  ms: "Malay",
+                  id: "Indonesian",
+                  fr: "French",
+                  es: "Spanish",
+                };
                 const groups = new Map();
                 qdTranslations.forEach((t) => {
                   const lang = t.lang || "en";

@@ -70,6 +70,30 @@ Interpretation" essays in the same 2011 volume, one per worked surah.
 Quoted, not site-authored; see the citation above for the source and
 license context.
 
+## Bundled webfonts (`assets/fonts/`)
+
+The site self-hosts its typefaces rather than calling a font CDN, so the
+font binaries are redistributed with the repository and each keeps its
+own license. All of them are under the SIL Open Font License 1.1, which
+permits redistribution only when the copyright notice and license
+accompany the font.
+
+- **Noto Serif Bengali** (`notoserifbengali-bengali.woff2`, Bengali-block
+  subset) — Copyright 2022 The Noto Project Authors
+  (https://github.com/notofonts/bengali). Full license text:
+  `assets/fonts/OFL-NotoSerifBengali.txt`.
+- **Noto Nastaliq Urdu** (`notonastaliqurdu-arabic.woff2`) — The Noto
+  Project Authors (https://github.com/notofonts/nastaliq).
+- **Amiri** — Khaled Hosny and contributors
+  (https://github.com/aliftype/amiri).
+- **Cormorant Garamond** — Christian Thalmann, Catharsis Fonts
+  (https://github.com/CatharsisFonts/Cormorant).
+- **Inter** — Rasmus Andersson (https://github.com/rsms/inter).
+
+The OFL requires that the fonts not be sold on their own and that any
+derivative keep the license; nothing here modifies the font outlines —
+the files are upstream subsets served unchanged.
+
 ## Site-authored data
 
 The following files in `data/` are authored or computed by this project

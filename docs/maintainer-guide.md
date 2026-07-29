@@ -595,6 +595,14 @@ commit and push; Netlify redeploys the previous state.
   line), which no static margin can stay safely clear of across every viewport. The
   rendered glyph already meets the WCAG 2.5.8 24px minimum on both axes.
 
+- Interface localization (navigation chrome in Bengali, Malay, Indonesian,
+  French, Spanish, or Arabic) stays deferred until human-translated strings
+  exist and the new translation editions show sustained non-English
+  readership — machine translation of interface or editorial text is
+  excluded by the method's third rule, and per-locale page forks would
+  multiply every integrity-guarded surface in this guide. Sequencing and
+  the eventual dictionary-swap design are in docs/global-reach-plan.md §4.
+
 ## 9. Content layers deliberately not built (and what would unblock them)
 
 Two structural/rhetorical content layers were scoped and rejected rather

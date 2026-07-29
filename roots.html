@@ -871,11 +871,9 @@
           <h3>Explore further</h3>
           <p>
             For any root, the canonical English reference is Lane's
-            <em>Arabic-English Lexicon</em>. Use the search at
-            <a href="https://lexicon.quranic-research.net/" rel="noopener"
-              >lexicon.quranic-research.net</a
-            >
-            or the morphology browser at
+            <em>Arabic-English Lexicon</em> (see the
+            <a href="sources.html">Sources</a> page). Use the morphology
+            browser at
             <a
               href="https://corpus.quran.com/qurandictionary.jsp"
               rel="noopener"
@@ -933,6 +931,21 @@
             else out += c;
           }
           return out;
+        }
+
+        // ── Arabic root skeleton ───────────────────────────────────────────────
+        // Readers type a root as "سمو" or "س م و", with or without
+        // tashkeel; rootArabic stores it space-separated ("س م و"). Fold
+        // both to a bare letter sequence before comparing. Mirrors
+        // skeleton() in words.html, plus separator stripping — roots are
+        // letter triples, not running text. (Verified: no rootArabic
+        // value contains آ أ إ ٱ ى, so only the query needs folding.)
+        function arSkeleton(s) {
+          return String(s)
+            .replace(/[ً-ٰٟۖ-ۭـ]/g, "")
+            .replace(/[آأإٱ]/g, "ا")
+            .replace(/ى/g, "ي")
+            .replace(/[\s\-.]/g, "");
         }
 
         const PERIOD_ORDER = [
@@ -1008,11 +1021,15 @@
         function filtered() {
           if (!searchTerm) return allRoots;
           const t = searchTerm.toLowerCase();
+          // An Arabic term is compared skeleton-to-skeleton so "سمو" and
+          // "س م و" both match the space-separated stored form.
+          const ta = /[؀-ۿ]/.test(t) ? arSkeleton(t) : "";
           return allRoots.filter(
             (r) =>
               r.rootLatin.toLowerCase().includes(t) ||
               r.rootBuckwalter.toLowerCase().includes(t) ||
               r.rootArabic.includes(t) ||
+              (ta && arSkeleton(r.rootArabic).includes(ta)) ||
               (MEANINGS[r.rootBuckwalter] || "").toLowerCase().includes(t),
           );
         }
@@ -1590,6 +1607,22 @@
               );
               if (match) {
                 selectRoot(match.rootBuckwalter);
+              }
+            } else if (query && /[؀-ۿ]/.test(query)) {
+              // Arabic deep link from the Ask box ("?q=سمو"). norm() below
+              // strips every non-[a-z] character, so Arabic would collapse
+              // to "" and never auto-select — match on the skeleton first.
+              const qa = arSkeleton(query);
+              const hit = allRoots.filter(
+                (r) => arSkeleton(r.rootArabic) === qa,
+              );
+              if (hit.length === 1) {
+                selectRoot(hit[0].rootBuckwalter);
+              } else {
+                searchTerm = query;
+                const input = document.getElementById("rootSearch");
+                if (input) input.value = query;
+                render();
               }
             } else if (query) {
               const norm = (s) =>

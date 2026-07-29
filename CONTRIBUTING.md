@@ -53,6 +53,30 @@ Confidence: [draft / tentative / confident — your own rating]
 License: [CC0 or CC-BY — your choice; state which]
 ```
 
+## The other thing this project needs: translators
+
+Structural readings are the main ask, but not the only one. The site now
+carries Qur'an translations in seven languages while every word of its own
+interface and explanatory prose is English. That gap is deliberate rather
+than neglected: this project does not machine-translate its own text, and
+it does not let an assistant originate a translation (see
+[docs/maintainer-guide.md](docs/maintainer-guide.md) §1, rule 3). Interface
+text arrives the same way a structural reading does — from a named person
+who takes responsibility for it.
+
+The first concrete piece is a short orientation note for native Arabic
+readers, explaining what the computed layers offer someone who does not
+need a translation. The exact English source text is specified in
+[docs/global-reach-plan.md](docs/global-reach-plan.md) §2.1 — a translator
+renders that paragraph and nothing more; it is orientation copy, not
+interpretation of the Qur'an, and it must not acquire commentary in
+translation. Translators are credited by name on the Credits page.
+
+If you would like to take it — for Arabic or for any of the site's
+translation languages (Bengali, Malay, Indonesian, French, Spanish, Urdu)
+— open an issue saying which language and how you would like to be
+credited.
+
 ## License
 
 Pick either **CC0** (public domain dedication) or **CC-BY** (attribution

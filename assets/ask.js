@@ -8,6 +8,8 @@
     return s
       .toLowerCase()
       .trim()
+      .replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 0x0660))
+      .replace(/[۰-۹]/g, (d) => String(d.charCodeAt(0) - 0x06f0))
       .replace(/[''`]/g, "")
       .replace(/[ʿʾ]/g, "")
       .replace(/[āáà]/g, "a")
@@ -18,6 +20,24 @@
       .replace(/[ḍ]/g, "d")
       .replace(/[ṭ]/g, "t")
       .replace(/[ẓ]/g, "z");
+  }
+
+  // Arabic-script normalization: strip tashkeel, superscript alef, and
+  // tatweel; unify alef and ya variants; drop a leading "سورة ". A
+  // deterministic character mapping, like normalize() above — no lookup
+  // beyond the mushaf orthography already carried in surahs.js.
+  function normalizeArabic(s) {
+    return s
+      .replace(/[ً-ٰٟـ]/g, "")
+      .replace(/[آأإٱ]/g, "ا")
+      .replace(/ى/g, "ي")
+      .replace(/^\s*سورة\s+/, "")
+      .trim();
+  }
+
+  // Strip a leading definite article so "فاتحة" still finds "الفاتحة".
+  function dropAl(s) {
+    return s.replace(/^ال/, "");
   }
 
   function parseAsk(input) {
@@ -74,6 +94,34 @@
         type: "surah-name",
         match: surah.en,
       };
+
+    // Arabic-script surah name: "الفاتحة", "سورة يس", or "فاتحة"
+    if (/[؀-ۿ]/.test(raw)) {
+      const qa = normalizeArabic(raw);
+      const surahAr = SURAHS.find(
+        (s) =>
+          s.ar &&
+          (normalizeArabic(s.ar) === qa ||
+            dropAl(normalizeArabic(s.ar)) === dropAl(qa)),
+      );
+      if (surahAr)
+        return {
+          route: `read.html?s=${surahAr.id}&a=1`,
+          type: "surah-name",
+          match: surahAr.en,
+        };
+
+      // Arabic-script root: "رحم", "ر ح م", "رَحِمَ". Deliberately placed
+      // after the surah-name check above: نوح and فجر are each three
+      // Arabic letters and a plausible root, and the surah must win —
+      // the same precedence the Latin path gives "fajr". roots.html
+      // resolves the letters against rootArabic; no Buckwalter table
+      // is duplicated here.
+      const bare = qa.replace(/[\s\-.]/g, "");
+      if (/^[ء-ي]{3,4}$/.test(bare)) {
+        return { route: `roots.html?q=${encodeURIComponent(bare)}`, type: "root" };
+      }
+    }
 
     // Theme keywords route to the theme gateways page
     const THEME_WORDS = {

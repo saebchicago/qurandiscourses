@@ -1,4 +1,62 @@
-# Changes — trust, privacy, correction, and note-safety controls
+# Changes — Arabic root entry, citation repair, and a call for translators
+
+## The Ask box learns Arabic roots; four dead citations are retired
+
+- An Arabic reader's natural way into the corpus is the root, so `رحم`,
+  `ر ح م`, and `رَحِمَ` now route from the Ask box to the Roots page, which
+  resolves the letters against the stored Arabic root and selects it
+  directly. The Roots search box compares skeletons too, so `سمو` matches
+  the space-separated `س م و` it is stored as. All 1,642 root skeletons are
+  distinct, so an exact match is never ambiguous. Surah names still win the
+  tie: `نوح` and `فجر` are each three Arabic letters and a plausible root,
+  and both route to the surah — the precedence the Latin path already gave
+  `fajr`, now asserted in the routing tests.
+- Retired four external citation links that no longer resolve: Lane's
+  Lexicon and Mawdudi's *Tafheem* (host certificate and TLS failures), a
+  404'd archive.org identifier for Penrice's *Dictionary and Glossary*, and
+  a link to repository discussions that were never enabled. Each
+  bibliographic record stays exactly as it was — only the dead URL is gone,
+  since a replacement could not be confirmed against the work itself, and
+  the guide's rule is to omit rather than guess. Lane remains cited on
+  Sources; the Roots page now points readers to the morphology browser that
+  is actually reachable.
+- Recorded the decision not to offer an Arabic tafsir edition: the
+  Translations panel stays strictly translations, and no labeling scheme
+  makes a commentary sitting in that list unambiguous.
+- Specified the Arabic orientation note for native readers — its home, its
+  exact English source text, and the requirement that a named human
+  translator supply the Arabic — and added a call for translators to
+  CONTRIBUTING.md. The note does not ship until a translator writes it; an
+  untranslated placeholder would be worse than its absence.
+
+# Earlier changes — five new translation languages, Arabic-script search, and a global-reach plan
+
+## Bengali, Malay, Indonesian, French, and Spanish translations; the Ask box learns Arabic
+
+- Registered six published human translations in five new languages:
+  Muhiuddin Khan and Zohurul Hoque (Bengali), Abdullah Muhammad Basmeih
+  (Malay), Kementerian Agama (Indonesian), Muhammad Hamidullah (French),
+  and Julio Cortés (Spanish). The reader page already takes each edition's
+  direction and language from the API's own edition object, so the change
+  is registry entries plus language labels — the recipe any future language
+  follows. Bengali ships with a self-hosted Noto Serif Bengali subset and
+  its own line-height rule, mirroring the Urdu Nastaliq precedent.
+- The Ask box now routes Arabic-script surah names — with or without
+  tashkeel, the definite article, or a leading "سورة" — and Arabic-Indic
+  digit verse references like ٢:٥, via the same deterministic character
+  mapping it uses for transliteration. No model involved.
+- Added "How this compares to other Qur'an tools" to How It Works
+  (#different): the site's design policies — no generated commentary, a
+  deterministic Ask box, provenance badges, no accounts — stated as
+  differences a reader can weigh, not verdicts on other tools.
+- New docs/global-reach-plan.md records the strategy behind all of this:
+  the Arabic-speaker value proposition, the language-expansion recipe and
+  its check-editions safety net, why interface localization is deferred
+  until human translators exist (machine translation of editorial text is
+  excluded by the method), the demo-video production runbook, and the open
+  editorial question of offering a tafsir edition to Arabic readers.
+
+# Earlier changes — trust, privacy, correction, and note-safety controls
 
 ## The multidisciplinary review's first P0 recommendations become reader controls
 
