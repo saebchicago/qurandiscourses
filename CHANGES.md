@@ -1,4 +1,29 @@
-# Changes — a root-family clustering visualization for the PMI ranking
+# Changes — trust, privacy, correction, and note-safety controls
+
+## The multidisciplinary review's first P0 recommendations become reader controls
+
+- Expanded About into a compact trust and access hub: verification, correction,
+  accessibility-barrier, rights, and change routes are now gathered beside
+  candid response targets and a statement that independent accessibility
+  conformance has not yet been established.
+- Replaced the incomplete “no personal data is sent” description with an exact
+  boundary: notes and preferences remain local, while an optional direct
+  alquran.cloud request necessarily exposes connection metadata and contains the
+  requested passage/edition. Added explicit storage, clearing, export, deletion,
+  cache, offline, and device-change guidance, both centrally and at the point a
+  passage is requested.
+- Added correction and accessibility GitHub issue templates that discourage
+  publishing study notes or sensitive personal information. Citation popovers
+  now provide both validation context and a source-prefilled correction route.
+- Clarified Settings' destructive boundary and gave the notes panel prominent
+  device-loss guidance plus export, per-note deletion, and confirmed delete-all.
+  A shared footer enhancement makes Trust & access discoverable across standard
+  pages without duplicating page markup.
+- Updated the review itself with an implementation record that distinguishes a
+  shipped control from a validated outcome and preserves the outstanding reader,
+  accessibility, privacy, and security gates.
+
+# Earlier changes — a root-family clustering visualization for the PMI ranking
 
 ## roots.html's distinctive-partner list gets its own network map
 

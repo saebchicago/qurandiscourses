@@ -215,15 +215,19 @@
           <ul>
             <li>No analytics. No tracking. No cookies.</li>
             <li>
-              Preferences (depth, translations, theme), reading progress,
-              and study notes are saved in the browser's local storage and
-              never sent anywhere. Preferences clear via Settings; notes
-              are stored separately and are removed or exported from the
-              notes panel on the Read page.
+              Preferences, reading progress, passage cache, pinned references,
+              reader-authored worksheets, and study notes are saved in the
+              browser's local storage and are not sent by the site. Each
+              reader-authored store has its own clear control so changing
+              display settings cannot erase writing unexpectedly.
             </li>
             <li>
               The site makes API calls to alquran.cloud for verse text and
-              translations. No personal data is sent or stored.
+              translations. Requests contain the selected passage and edition,
+              not notes or preferences; as with any direct web request, the
+              provider receives connection data such as the visitor's IP
+              address and browser headers. See
+              <a href="about.html#privacy">Privacy and data</a>.
             </li>
           </ul>
         </div>

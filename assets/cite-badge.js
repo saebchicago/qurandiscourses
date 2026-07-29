@@ -54,7 +54,7 @@
     return parts.join(" ");
   }
 
-  function buildPopover(sources) {
+  function buildPopover(sources, sourceIds) {
     const pop = document.createElement("div");
     pop.className = "cite-popover";
     pop.setAttribute("role", "dialog");
@@ -90,6 +90,30 @@
       }
     }
     pop.appendChild(ul);
+
+    const actions = document.createElement("p");
+    actions.className = "cite-actions";
+    const validation = document.createElement("a");
+    validation.href = "validation.html";
+    validation.textContent = "How claims are checked";
+    actions.appendChild(validation);
+    actions.appendChild(document.createTextNode(" · "));
+    const correction = document.createElement("a");
+    const issue = new URL(
+      "https://github.com/saebchicago/qurandiscourses/issues/new",
+    );
+    issue.searchParams.set("template", "correction.md");
+    issue.searchParams.set("title", "Correction: " + sourceIds.join(", "));
+    issue.searchParams.set(
+      "body",
+      "Page: " + window.location.href + "\n\nSource badge: " + sourceIds.join(", "),
+    );
+    correction.href = issue.toString();
+    correction.target = "_blank";
+    correction.rel = "noopener";
+    correction.textContent = "Report this claim";
+    actions.appendChild(correction);
+    pop.appendChild(actions);
     return pop;
   }
 
@@ -143,7 +167,7 @@
       if (sources.length === 0) return;
 
       e.stopPropagation();
-      const pop = buildPopover(sources);
+      const pop = buildPopover(sources, ids);
       activePopover = pop;
       positionPopover(pop, badge);
     } finally {

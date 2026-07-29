@@ -2164,6 +2164,12 @@ kbd {
   color: var(--accent, #4a7c59);
   word-break: break-all;
 }
+.cite-popover .cite-actions {
+  margin: 0.75rem 0 0;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--line, #eee);
+  font-size: 0.82rem;
+}
 .cite-popover .cite-close {
   position: absolute;
   top: 0.3rem;
