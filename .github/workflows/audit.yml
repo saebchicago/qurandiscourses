@@ -66,4 +66,9 @@ jobs:
         run: node scripts/check-source-links.mjs --timeout 20000
 
       - name: Check translation edition identities
+        # Runs even when citation links have rotted: the two checks are
+        # independent, and a dead external link must not mask a silently
+        # substituted translation edition (the failure mode that once
+        # shipped Arabic mislabeled as English).
+        if: ${{ !cancelled() }}
         run: node scripts/check-editions.mjs
