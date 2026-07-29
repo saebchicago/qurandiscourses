@@ -1239,6 +1239,15 @@ label {
   line-height: 2.1;
   font-size: 1.15rem;
 }
+.verse .translation .text.bengali {
+  /* Bengali script carries stacked conjuncts and marks above and below
+     the headline; the default 1.6 leading clips them. No self-hosted
+     Bengali face yet (see the maintainer guide's backlog) — the system
+     serif renders the script correctly in the meantime. */
+  font-family: "Noto Serif Bengali", serif;
+  line-height: 1.9;
+  font-size: 1.05rem;
+}
 .settings {
   position: fixed;
   right: 1rem;

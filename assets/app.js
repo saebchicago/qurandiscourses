@@ -36,6 +36,12 @@
     { id: "ur.jawadi", name: "Syed Zeeshan Haider Jawadi (Urdu)", lang: "ur" },
     { id: "ur.ahmedali", name: "Ahmed Ali (Urdu)", lang: "ur" },
     { id: "ur.najafi", name: "Najafi (Urdu)", lang: "ur" },
+    { id: "bn.bengali", name: "Muhiuddin Khan (Bengali)", lang: "bn" },
+    { id: "bn.hoque", name: "Zohurul Hoque (Bengali)", lang: "bn" },
+    { id: "ms.basmeih", name: "Abdullah Muhammad Basmeih (Malay)", lang: "ms" },
+    { id: "id.indonesian", name: "Kementerian Agama (Indonesian)", lang: "id" },
+    { id: "fr.hamidullah", name: "Muhammad Hamidullah (French)", lang: "fr" },
+    { id: "es.cortes", name: "Julio Cortés (Spanish)", lang: "es" },
   ];
 
   const RECITERS = [

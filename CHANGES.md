@@ -1,4 +1,31 @@
-# Changes — trust, privacy, correction, and note-safety controls
+# Changes — five new translation languages, Arabic-script search, and a global-reach plan
+
+## Bengali, Malay, Indonesian, French, and Spanish translations; the Ask box learns Arabic
+
+- Registered six published human translations in five new languages:
+  Muhiuddin Khan and Zohurul Hoque (Bengali), Abdullah Muhammad Basmeih
+  (Malay), Kementerian Agama (Indonesian), Muhammad Hamidullah (French),
+  and Julio Cortés (Spanish). The reader page already takes each edition's
+  direction and language from the API's own edition object, so the change
+  is registry entries plus language labels — the recipe any future language
+  follows. Bengali ships with a self-hosted Noto Serif Bengali subset and
+  its own line-height rule, mirroring the Urdu Nastaliq precedent.
+- The Ask box now routes Arabic-script surah names — with or without
+  tashkeel, the definite article, or a leading "سورة" — and Arabic-Indic
+  digit verse references like ٢:٥, via the same deterministic character
+  mapping it uses for transliteration. No model involved.
+- Added "How this compares to other Qur'an tools" to How It Works
+  (#different): the site's design policies — no generated commentary, a
+  deterministic Ask box, provenance badges, no accounts — stated as
+  differences a reader can weigh, not verdicts on other tools.
+- New docs/global-reach-plan.md records the strategy behind all of this:
+  the Arabic-speaker value proposition, the language-expansion recipe and
+  its check-editions safety net, why interface localization is deferred
+  until human translators exist (machine translation of editorial text is
+  excluded by the method), the demo-video production runbook, and the open
+  editorial question of offering a tafsir edition to Arabic readers.
+
+# Earlier changes — trust, privacy, correction, and note-safety controls
 
 ## The multidisciplinary review's first P0 recommendations become reader controls
 
