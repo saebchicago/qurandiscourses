@@ -78,17 +78,22 @@ own license. All of them are under the SIL Open Font License 1.1, which
 permits redistribution only when the copyright notice and license
 accompany the font.
 
+Each face's upstream license text is bundled beside the binaries in
+`assets/fonts/`:
+
 - **Noto Serif Bengali** (`notoserifbengali-bengali.woff2`, Bengali-block
   subset) — Copyright 2022 The Noto Project Authors
-  (https://github.com/notofonts/bengali). Full license text:
-  `assets/fonts/OFL-NotoSerifBengali.txt`.
-- **Noto Nastaliq Urdu** (`notonastaliqurdu-arabic.woff2`) — The Noto
-  Project Authors (https://github.com/notofonts/nastaliq).
-- **Amiri** — Khaled Hosny and contributors
-  (https://github.com/aliftype/amiri).
-- **Cormorant Garamond** — Christian Thalmann, Catharsis Fonts
-  (https://github.com/CatharsisFonts/Cormorant).
-- **Inter** — Rasmus Andersson (https://github.com/rsms/inter).
+  (https://github.com/notofonts/bengali) — `OFL-NotoSerifBengali.txt`.
+- **Noto Nastaliq Urdu** (`notonastaliqurdu-arabic.woff2`) — Copyright
+  2022 The Noto Project Authors (https://github.com/notofonts/nastaliq)
+  — `OFL-NotoNastaliqUrdu.txt`.
+- **Amiri** — Copyright 2010–2022 The Amiri Project Authors
+  (https://github.com/aliftype/amiri) — `OFL-Amiri.txt`.
+- **Cormorant Garamond** — Copyright 2015 The Cormorant Project Authors
+  (https://github.com/CatharsisFonts/Cormorant) —
+  `OFL-CormorantGaramond.txt`.
+- **Inter** — Copyright 2016 The Inter Project Authors
+  (https://github.com/rsms/inter) — `OFL-Inter.txt`.
 
 The OFL requires that the fonts not be sold on their own and that any
 derivative keep the license; nothing here modifies the font outlines —

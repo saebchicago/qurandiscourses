@@ -30,4 +30,4 @@ possible)
 
 **License for this text:** CC0 or CC-BY (pick one)
 
-**Did you use an AI tool to help draft this?** yes/no — if yes, briefly how
+**Did software assistance (search, language tools) help draft this?** yes/no — if yes, briefly how

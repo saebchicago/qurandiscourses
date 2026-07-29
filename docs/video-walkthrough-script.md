@@ -22,17 +22,19 @@ check it yourself. You do the reading; the site orders the evidence."
 ## Scene 2 — Ask box (1:00–2:00)
 **Show:** the Ask box on home.
 **Do:** Type `2:255` → Enter (lands on Read). Go back. Type `mercy` →
-Enter (lands on Roots filtered to r-ḥ-m). Go back. Type `business` →
-Enter (lands on the Trade & wealth theme).
-**Say:** "One box, four kinds of input: a verse reference, a surah name,
-a root, an English word — and now a life theme. It routes you to the
-right tool."
+Enter (lands on Roots filtered to r-ḥ-m). Go back. Type `رحم` → Enter
+(Roots again — Arabic script works). Go back. Type `business` → Enter
+(lands on the Trade & wealth theme).
+**Say:** "One box, five kinds of input: a verse reference, a surah name,
+a root — in Latin letters or Arabic script — an English word, and a life
+theme. It routes you to the right tool."
 
 ## Scene 3 — Read, depths, and settings (2:00–3:30)
 **Show:** `/read.html?s=103&a=1-3`.
 **Do:** Read at Simple. Press `2` (Study) — word-by-word morphology
 appears. Open the gear (bottom right): show Depth, Palette (switch to
-Sage and back), Theme, translations. Point at the privacy line.
+Sage and back), Theme. Then open the per-verse "N selected" button to
+show the translation picker. Point at the gear panel's privacy line.
 **Say:** "Three depths: Simple is just reading; Study adds morphology,
 roots, and related verses; Encyclopedic adds full provenance. Keyboard
 1-2-3 switches anywhere. Settings also has palettes and themes — and
@@ -47,8 +49,8 @@ badge: Verified means confirmed from the primary source cited — click
 and you get the full citation. Pending means awaiting a second source.
 Nuanced means scholars genuinely count differently, and the note tells
 you why. The Validation page shows worked examples and gives you prompts
-to cross-examine our claims with AI tools — but chatbot agreement never
-verifies anything; only the primary source does."
+to cross-examine our claims with whatever tools you trust — but only the
+primary source verifies anything."
 
 ## Scene 5 — Roots, the engine room (5:00–6:30)
 **Show:** `/roots.html?q=r-h-m`.

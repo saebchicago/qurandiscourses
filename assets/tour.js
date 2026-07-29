@@ -13,7 +13,7 @@
     {
       sel: "#ask-input",
       title: "Ask anything",
-      body: "Type a surah (Fatihah), a verse (2:255), a root (r-h-m), or an English word (mercy) — you'll be routed to the right tool.",
+      body: "Type a surah (Fatihah or الفاتحة), a verse (2:255), a root (r-h-m or رحم), or an English word (mercy) — you'll be routed to the right tool.",
     },
     {
       sel: "#beginSection h2",
@@ -32,8 +32,8 @@
     },
     {
       sel: ".settings .gear",
-      title: "Depth, translations, palette",
-      body: "The gear sets your depth (Simple / Study / Encyclopedic — or keys 1/2/3), translations, and colors. Saved in this browser only.",
+      title: "Depth and palette",
+      body: "The gear sets your depth (Simple / Study / Encyclopedic — or keys 1/2/3) and colors; translations and reciter are chosen on the Read page. Saved in this browser only.",
     },
   ];
 

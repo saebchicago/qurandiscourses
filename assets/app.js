@@ -100,7 +100,15 @@
       }
     } catch (e) {}
   }
+  // Set by the "Clear preferences" handler: the clear itself triggers a
+  // depth re-render, whose load/fetch cascade would immediately re-persist
+  // the state and passage cache it just removed. While paused, nothing is
+  // written to storage; the next real user gesture (pointer or key, armed
+  // one-shot in the clear handler) resumes persistence — new reading
+  // activity is legitimately recorded again.
+  let persistPaused = false;
   function save() {
+    if (persistPaused) return;
     try {
       localStorage.setItem("qd_state", JSON.stringify(state));
     } catch (e) {}
@@ -109,6 +117,9 @@
     try {
       localStorage.removeItem("qd_state");
       localStorage.removeItem("qd_apicache");
+      // Older builds mistakenly mirrored qd_state into sessionStorage;
+      // sweep that up too so "clear" means clear.
+      sessionStorage.removeItem("qd_state");
     } catch (e) {}
     // apiCacheLoad() short-circuits on a truthy in-memory apiCache, so
     // without this reset the next fetch would silently rewrite the
@@ -216,16 +227,9 @@
     const panel = document.getElementById("settingsPanel");
     if (!panel) return;
 
-    const transChecks = TRANSLATIONS.map(
-      (t) =>
-        `<label><input type="checkbox" data-trans="${t.id}" ${state.translations.includes(t.id) ? "checked" : ""}> ${t.name}</label>`,
-    ).join("");
-
-    const recOpts = RECITERS.map(
-      (r) =>
-        `<option value="${r.id}" ${state.reciter === r.id ? "selected" : ""}>${r.name}</option>`,
-    ).join("");
-
+    // Translations and reciter are chosen on the Read page (the
+    // per-verse "N selected" and 🎤 buttons), not here — the panel
+    // covers cross-page presentation only.
     panel.innerHTML = `
       <h3>Display</h3>
       <h4>Show features</h4>
@@ -292,6 +296,23 @@
     if (clearBtn)
       clearBtn.addEventListener("click", () => {
         clear();
+        // applyDepth() re-renders the page (correct), but its load/fetch
+        // cascade would re-save state and re-fill the passage cache the
+        // reader just cleared. Pause persistence until their next real
+        // gesture; the click that got us here has already fired its
+        // pointerdown, so these only trip on the NEXT interaction.
+        persistPaused = true;
+        const resume = () => {
+          persistPaused = false;
+        };
+        document.addEventListener("pointerdown", resume, {
+          once: true,
+          capture: true,
+        });
+        document.addEventListener("keydown", resume, {
+          once: true,
+          capture: true,
+        });
         applyDepth();
         applyTheme();
         buildPanel();
@@ -319,6 +340,9 @@
         btn.setAttribute("aria-expanded", "false");
         btn.focus();
       }
+      // While any dialog is open, depth hotkeys must not re-render the
+      // page behind the overlay.
+      if (document.querySelector('[aria-modal="true"]')) return;
       if (!e.target.matches("input,select,textarea")) {
         if (e.key === "1") {
           state.depth = "simple";
@@ -379,6 +403,9 @@
     if (!c.entries[url]) c.order.push(url);
     c.entries[url] = data;
     while (c.order.length > API_CACHE_MAX) delete c.entries[c.order.shift()];
+    // In-memory cache stays warm either way; only the storage write is
+    // suspended while a just-cleared page settles.
+    if (persistPaused) return;
     try {
       localStorage.setItem(API_CACHE_KEY, JSON.stringify(c));
     } catch (e) {
@@ -396,7 +423,13 @@
     const c = apiCacheLoad();
     if (c.entries[url]) return c.entries[url];
     const res = await fetch(url);
-    if (!res.ok) throw new Error("Fetch failed");
+    if (!res.ok) {
+      // Carry the status so callers can tell a 404 (bad reference) from
+      // a network failure — the two need different explanations.
+      const err = new Error("HTTP " + res.status);
+      err.status = res.status;
+      throw err;
+    }
     const json = await res.json();
     apiCachePut(url, json.data);
     return json.data;
@@ -625,7 +658,8 @@
         !e.ctrlKey &&
         !e.metaKey &&
         !e.altKey &&
-        !e.target.matches("input,select,textarea")
+        !e.target.matches("input,select,textarea") &&
+        !document.querySelector('[aria-modal="true"]')
       ) {
         setFocus(!document.documentElement.hasAttribute("data-focus"));
       }

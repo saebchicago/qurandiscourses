@@ -639,6 +639,41 @@
         return found ? found.id : NaN;
       }
 
+      // Shared dialog scaffold for this page's three pickers, following
+      // the notebook panel's conventions: dialog semantics, a close
+      // button, Escape (capture phase, so the settings panel's own
+      // Escape handler never sees it), backdrop click, and focus moved
+      // in on open and restored to the opener on close.
+      function qdOpenModal(label, bodyHtml) {
+        const opener = document.activeElement;
+        const modal = document.createElement("div");
+        modal.style.cssText =
+          "position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:3000;display:flex;align-items:center;justify-content:center";
+        modal.innerHTML = `<div role="dialog" aria-modal="true" aria-label="${label}" style="background:var(--card);border-radius:8px;max-width:400px;width:90%;max-height:80vh;overflow:auto"><div style="padding:1rem;border-bottom:2px solid var(--accent);font-weight:600;display:flex;justify-content:space-between;align-items:center"><span>${label}</span><button type="button" class="qd-modal-close" aria-label="Close" style="border:none;background:none;font-size:1.5rem;cursor:pointer;padding:0;min-width:44px;min-height:44px">×</button></div>${bodyHtml}</div>`;
+        function close() {
+          document.removeEventListener("keydown", onKey, true);
+          modal.remove();
+          if (opener && opener.focus) opener.focus();
+        }
+        function onKey(e) {
+          if (e.key === "Escape") {
+            e.stopPropagation();
+            close();
+          }
+        }
+        document.addEventListener("keydown", onKey, true);
+        modal.addEventListener("click", (e) => {
+          if (e.target === modal) close();
+        });
+        modal.querySelector(".qd-modal-close").addEventListener("click", close);
+        document.body.appendChild(modal);
+        const first = modal.querySelector(
+          "input,button:not(.qd-modal-close),a",
+        );
+        (first || modal.querySelector(".qd-modal-close")).focus();
+        return { modal: modal, close: close };
+      }
+
       document.addEventListener("DOMContentLoaded", function () {
         var dl = document.getElementById("surah-list");
         if (dl && window.SURAHS) {
@@ -776,6 +811,22 @@
           container.innerHTML =
             '<div class="card"><p>Please enter a valid surah (1–114) and verse number.</p></div>';
           return;
+        }
+
+        // Bound the request against the surah's actual length before any
+        // fetch — a verse past the end is a reference problem to explain,
+        // never a network problem to blame. Range ends clamp silently,
+        // matching how the range fetcher already stops at the last verse.
+        const surahMeta = (window.SURAHS || []).find((x) => x.id === s);
+        const verseCount = surahMeta ? surahMeta.verseCount : null;
+        if (verseCount && ayahStart > verseCount) {
+          container.innerHTML = `<div class="card"><p>${qdEsc(surahMeta.translit)} (surah ${s}) has ${verseCount} verses — verse ${ayahStart} doesn't exist. <a href="read.html?s=${s}&a=${verseCount}">Go to its last verse</a>.</p></div>`;
+          return;
+        }
+        if (verseCount && ayahEnd > verseCount) {
+          ayahEnd = verseCount;
+          document.getElementById("ayahInput").value =
+            ayahEnd > ayahStart ? `${ayahStart}-${ayahEnd}` : String(ayahStart);
         }
 
         const isRange = ayahEnd > ayahStart;
@@ -1014,11 +1065,10 @@
                     return `<div style="padding:0.5rem 0.75rem;font-size:0.78rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:var(--muted);background:var(--bg)">${LANG_LABELS[lang] || lang}</div>${rows}`;
                   })
                   .join("");
-                const modal = document.createElement("div");
-                modal.style.cssText =
-                  "position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:3000;display:flex;align-items:center;justify-content:center";
-                modal.innerHTML = `<div style="background:var(--card);border-radius:8px;max-width:400px;width:90%;max-height:80vh;overflow:auto"><div style="padding:1rem;border-bottom:2px solid var(--accent);font-weight:600;display:flex;justify-content:space-between;align-items:center"><span>Choose Translations</span><button id="closeTransModal" style="border:none;background:none;font-size:1.5rem;cursor:pointer;padding:0;min-width:44px;min-height:44px">×</button></div><div id="transListContainer">${transList}</div></div>`;
-                document.body.appendChild(modal);
+                const { modal } = qdOpenModal(
+                  "Choose Translations",
+                  `<div id="transListContainer">${transList}</div>`,
+                );
                 modal.querySelectorAll("[data-trans]").forEach((cb) => {
                   cb.addEventListener("change", () => {
                     const id = cb.getAttribute("data-trans");
@@ -1030,16 +1080,10 @@
                         (x) => x !== id,
                       );
                     }
-                    sessionStorage.setItem("qd_state", JSON.stringify(qdState));
+                    qdSaveState();
                     load();
                   });
                 });
-                modal.addEventListener("click", (e) => {
-                  if (e.target === modal) modal.remove();
-                });
-                document
-                  .getElementById("closeTransModal")
-                  .addEventListener("click", () => modal.remove());
               });
             }
 
@@ -1049,24 +1093,20 @@
                 const reciterList = qdReciters
                   .map(
                     (r) =>
-                      `<div style="padding:0.75rem;border-bottom:1px solid var(--line);cursor:pointer" data-reciter="${r.id}" class="reciter-option">${r.name}</div>`,
+                      `<button type="button" class="reciter-option" data-reciter="${r.id}" style="display:block;width:100%;text-align:left;font-family:inherit;font-size:inherit;color:inherit;background:none;border:none;border-bottom:1px solid var(--line);padding:0.75rem;cursor:pointer">${r.name}</button>`,
                   )
                   .join("");
-                const modal = document.createElement("div");
-                modal.style.cssText =
-                  "position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:3000;display:flex;align-items:center;justify-content:center";
-                modal.innerHTML = `<div style="background:var(--card);border-radius:8px;max-width:400px;width:90%;max-height:80vh;overflow:auto"><div style="padding:1rem;border-bottom:2px solid var(--accent);font-weight:600">Choose Reciter</div>${reciterList}</div>`;
-                document.body.appendChild(modal);
+                const { modal, close } = qdOpenModal(
+                  "Choose Reciter",
+                  reciterList,
+                );
                 modal.querySelectorAll(".reciter-option").forEach((opt) => {
                   opt.addEventListener("click", () => {
                     qdState.reciter = opt.getAttribute("data-reciter");
-                    sessionStorage.setItem("qd_state", JSON.stringify(qdState));
-                    modal.remove();
+                    qdSaveState();
+                    close();
                     load();
                   });
-                });
-                modal.addEventListener("click", (e) => {
-                  if (e.target === modal) modal.remove();
                 });
               });
             }
@@ -1112,15 +1152,10 @@
                   )
                   .join("");
 
-                const modal = document.createElement("div");
-                modal.style.cssText =
-                  "position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:3000;display:flex;align-items:center;justify-content:center";
-                modal.innerHTML = `<div style="background:var(--card);border-radius:8px;max-width:500px;width:90%;max-height:80vh;overflow:auto">
-                  <div style="padding:1rem;border-bottom:2px solid var(--accent);display:flex;justify-content:space-between;align-items:center">
-                    <span style="font-weight:600">Root: <span class="ar notranslate" translate="no" lang="ar" dir="rtl">${rootData.arabic}</span> (${rootKey})</span>
-                    <button id="closeRootModal" style="border:none;background:none;font-size:1.5rem;cursor:pointer;padding:0;min-width:44px;min-height:44px">×</button>
-                  </div>
-                  <div style="padding:1rem">
+                qdOpenModal(
+                  `Root: ${rootKey}`,
+                  `<div style="padding:1rem">
+                    <p style="margin:0 0 0.8rem"><span class="ar notranslate" translate="no" lang="ar" dir="rtl" style="font-size:1.3rem">${rootData.arabic}</span></p>
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
                       <div><strong style="color:var(--muted);font-size:0.85rem">Total frequency:</strong><div style="font-size:1.2rem;font-weight:600">${rootData.frequency} <span class="badge ok" data-source-ids="leeds-corpus-v0.4" style="font-size:0.7rem;vertical-align:middle" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span></div></div>
                       <div><strong style="color:var(--muted);font-size:0.85rem">First occurrence:</strong><div><a href="read.html?s=${rootData.first_occurrence.split(":")[0]}&a=${rootData.first_occurrence.split(":")[1]}" style="font-size:0.95rem">${rootData.first_occurrence}</a></div></div>
@@ -1128,15 +1163,8 @@
                     <div style="margin-bottom:1rem"><strong style="color:var(--muted);font-size:0.85rem">Last occurrence:</strong><div><a href="read.html?s=${rootData.last_occurrence.split(":")[0]}&a=${rootData.last_occurrence.split(":")[1]}" style="font-size:0.95rem">${rootData.last_occurrence}</a></div></div>
                     <h4 style="margin:1rem 0 0.5rem;font-size:0.95rem">Top derived forms (${rootData.derived_forms.length} total):</h4>
                     ${derivedHtml}
-                  </div>
-                </div>`;
-                document.body.appendChild(modal);
-                modal.addEventListener("click", (e) => {
-                  if (e.target === modal) modal.remove();
-                });
-                document
-                  .getElementById("closeRootModal")
-                  .addEventListener("click", () => modal.remove());
+                  </div>`,
+                );
               } catch (e) {
                 console.error("Failed to load root data:", e);
                 alert("Failed to load root details");
@@ -1206,8 +1234,17 @@
               }
             }
           } catch (e2) {}
+          // An HTTP 404 from the API is a reference problem (the verse
+          // isn't there — rare after the verseCount check above, but the
+          // corpus and API numbering can drift); anything else, including
+          // a fetch TypeError with no status, reads as a connection
+          // problem. Both keep the retry control.
+          const errMsg =
+            e && e.status === 404
+              ? "That verse was not found on the text service — check the verse number against the surah's length."
+              : "Could not reach the text service (api.alquran.cloud). This is usually a connection problem, not a problem with your surah or verse numbers.";
           container.innerHTML =
-            '<div class="card"><p style="color:var(--nuanced)">Could not reach the text service (api.alquran.cloud). This is usually a connection problem, not a problem with your surah or verse numbers.</p>' +
+            `<div class="card"><p style="color:var(--nuanced)">${errMsg}</p>` +
             '<p><button type="button" id="retryLoad" class="button">Try again</button></p></div>' +
             fallback;
           maybeScrollToHighlight(container);
@@ -1294,6 +1331,12 @@
         const rawA = document.getElementById("ayahInput").value.trim();
         const rm = rawA.match(/^(\d+)-(\d+)$/);
         const end = rm ? parseInt(rm[2]) : parseInt(rawA) || 1;
+        // Stop at the surah's last verse — the silent-clamp twin of
+        // prevBtn's stop at verse 1. Unknown surah input falls through;
+        // load()'s own bound check is the backstop.
+        const s = resolveSurah(document.getElementById("surahInput").value);
+        const meta = (window.SURAHS || []).find((x) => x.id === s);
+        if (meta && end >= meta.verseCount) return;
         document.getElementById("ayahInput").value = end + 1;
         load();
       });

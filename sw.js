@@ -7,7 +7,7 @@
 // scripts/build-*.mjs change) or a cached asset's contract changes, so
 // stale entries from the previous version are dropped on activate. This
 // is a documented convention, not a checker — see docs/maintainer-guide.md.
-const SW_VERSION = "v4";
+const SW_VERSION = "v5";
 const HTML_CACHE = "dd-html-" + SW_VERSION;
 const ASSET_CACHE = "dd-assets-" + SW_VERSION;
 const DATA_CACHE = "dd-data-" + SW_VERSION;
