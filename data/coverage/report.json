@@ -1,0 +1,183 @@
+{
+ "_script": "scripts/compute-coverage.mjs",
+ "_method": "Every number in this report is measured directly from repository data files at generation time, except the 'popular'/alternate values in countingRuleSensitivity, which are quoted verbatim from numbers.html's own prose (already-published editorial text, not independently measurable from a data file) and are marked verified:false accordingly. Source registry fields are read verbatim from data/sources.json; any field absent there is recorded as \"not stated in repository\", never inferred.",
+ "_computed": "2026-08-01",
+ "morphology": {
+  "totalTokens": 77429,
+  "fields": {
+   "root": {
+    "withField": 49967,
+    "withoutField": 27462,
+    "percentWith": 64.53
+   },
+   "lemma": {
+    "withField": 74122,
+    "withoutField": 3307,
+    "percentWith": 95.73
+   },
+   "pos": {
+    "withField": 77429,
+    "withoutField": 0,
+    "percentWith": 100
+   }
+  },
+  "_method": "Every token in data/morphology/{1..114}.json scanned directly; a field counts as present if its value is a non-empty string. The morphology 'gloss' field exists on every token but is empty on all of them (0% populated) and is not a coverage field this script reports separately, since it is never populated."
+ },
+ "rootGloss": {
+  "totalRoots": 1642,
+  "withVerifiedGloss": 0,
+  "percentWith": 0,
+  "reason": "no verified gloss source present in repository",
+  "_note": "assets/root-meanings.js provides 84 short editorial glosses (out of 1642 roots). Its own file header states these are editorial working glosses, not quotations from a citable dictionary, and instructs that they not be presented as Verified. Not counted toward the coverage figure above. data/gloss/{surah}.json provides per-word (not per-root) glosses transcribed from Khan (2011), covering 6 of 114 surahs; it cannot answer per-root coverage."
+ },
+ "qursim": {
+  "totalSurahs": 114,
+  "covered": 110,
+  "uncovered": [
+   104,
+   105,
+   106,
+   110
+  ],
+  "_method": "Counted data/qursim/{surah}.json files present for surah numbers 1-114."
+ },
+ "countingRuleSensitivity": [
+  {
+   "root": "ArD",
+   "rootLatin": "a-r-ḍ",
+   "concept": "earth, land",
+   "counts": [
+    {
+     "rule": "root occurrence count (Leeds corpus, all derived forms)",
+     "value": 461,
+     "verified": true
+    },
+    {
+     "rule": "popular surface-form count, specific noun senses only (not independently reproduced by this site)",
+     "value": 13,
+     "verified": false
+    }
+   ],
+   "_documentedIn": "numbers.html, \"Earth and sea\" card"
+  },
+  {
+   "root": "bHr",
+   "rootLatin": "b-ḥ-r",
+   "concept": "sea",
+   "counts": [
+    {
+     "rule": "root occurrence count (Leeds corpus, all derived forms)",
+     "value": 42,
+     "verified": true
+    },
+    {
+     "rule": "popular surface-form count, specific noun senses only (not independently reproduced by this site)",
+     "value": 32,
+     "verified": false
+    }
+   ],
+   "_documentedIn": "numbers.html, \"Earth and sea\" card"
+  },
+  {
+   "root": "ywm",
+   "rootLatin": "y-w-m",
+   "concept": "day",
+   "counts": [
+    {
+     "rule": "root occurrence count (Leeds corpus, all derived forms)",
+     "value": 405,
+     "verified": true
+    },
+    {
+     "rule": "popular surface/compound-form totals (not independently reproduced by this site)",
+     "value": "365 or 475",
+     "verified": false
+    }
+   ],
+   "_documentedIn": "numbers.html, \"Day, month, year\" card"
+  },
+  {
+   "root": "$hr",
+   "rootLatin": "sh-h-r",
+   "concept": "month",
+   "counts": [
+    {
+     "rule": "root occurrence count (Leeds corpus, all derived forms)",
+     "value": 21,
+     "verified": true
+    },
+    {
+     "rule": "popular surface-form count for singular \"shahr\" (not independently reproduced by this site)",
+     "value": 12,
+     "verified": false
+    }
+   ],
+   "_documentedIn": "numbers.html, \"Day, month, year\" card"
+  }
+ ],
+ "sourceRegistry": [
+  {
+   "id": "leeds-corpus-v0.4",
+   "name": "The Quranic Arabic Corpus",
+   "version": "version 0.4",
+   "author": "Dukes, Kais",
+   "year": "2009–2017",
+   "license": "GNU GPL",
+   "url": "https://corpus.quran.com"
+  },
+  {
+   "id": "mishkat",
+   "name": "Mishkat Mutashābihāt Corpus",
+   "version": "not stated in repository",
+   "author": "Alhassan (Threadwork)",
+   "year": "2024",
+   "license": "License pending: none published in the source repository",
+   "url": "https://github.com/Alhassan777/Mishkat"
+  },
+  {
+   "id": "qursim",
+   "name": "QurSim: A Corpus for Evaluation of Relatedness in Short Texts",
+   "version": "not stated in repository",
+   "author": "Sharaf, Abdul-Baquee, and Eric Atwell",
+   "year": "2012",
+   "license": "not stated in repository",
+   "url": "not stated in repository"
+  },
+  {
+   "id": "tanzil",
+   "name": "Tanzil Quran Text",
+   "version": "Uthmani script",
+   "author": "Tanzil Project",
+   "year": "2007–",
+   "license": "CC BY-ND 3.0",
+   "url": "https://tanzil.net"
+  },
+  {
+   "id": "cairo-1924",
+   "name": "Chronological Order of Surahs, Cairo Edition",
+   "version": "not stated in repository",
+   "author": "not stated in repository",
+   "year": "1924",
+   "license": "not stated in repository",
+   "url": "not stated in repository"
+  },
+  {
+   "id": "quran-foundation-api-v4",
+   "name": "Quran.com Foundation Content API",
+   "version": "v4",
+   "author": "Quran.com Foundation",
+   "year": "2025",
+   "license": "not stated in repository",
+   "url": "https://api-docs.quran.foundation"
+  },
+  {
+   "id": "khan-introduction-2011",
+   "name": "An Introduction to Understanding the Qur'an with Examples",
+   "version": "not stated in repository",
+   "author": "Khan, Irfan Ahmad",
+   "year": "2011",
+   "license": "not stated in repository",
+   "url": "https://www.quranicunderstanding.com/"
+  }
+ ]
+}
