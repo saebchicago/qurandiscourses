@@ -1,0 +1,30 @@
+{
+ "_script": "scripts/compute-centrality.mjs",
+ "_source": "data/association/*.json (PR 1; each root's top 25 partners by LLR, itself derived from Leeds Quranic Arabic Corpus v0.4 via scripts/compute-association-stats.mjs) and data/roots-summary.json (raw frequency).",
+ "_graph": {
+  "nodes": 1642,
+  "edges": 5211,
+  "edgeThresholdSharedVerses": 5,
+  "note": "Edges are the union of every (root, partner) pair recorded in any root's data/association/ top-25-by-LLR partner list, not the full set of all pairs meeting the 5-shared-verse threshold corpus-wide (PR 1 reports 8,556 such pairs before the top-25-per-root cut). This graph is a subset by construction, since data/association/ was never designed to expose the full pair set and this script does not modify or extend it."
+ },
+ "_algorithms": {
+  "degree": "Count of distinct neighbors (raw); normalized = raw / (N-1).",
+  "weightedDegree": "Sum of incident edge weights (LLR); also called strength.",
+  "betweenness": "Brandes' algorithm (2001), O(V*E), on the unweighted graph (every edge length 1; edge weight ignored for shortest-path computation).",
+  "eigenvector": "Power iteration on the weighted adjacency matrix (edge weight = LLR): x_0 = uniform (every node = 1); x_{k+1} = A * x_k, L2-normalized; tolerance 1e-9, max 1000 iterations.",
+  "spearmanCorrelation": "Tie-corrected: Pearson correlation of average ranks (standard Spearman's rho with ties)."
+ },
+ "_eigenvector": {
+  "converged": true,
+  "iterations": 178,
+  "tolerance": 1e-9,
+  "maxIterations": 1000
+ },
+ "_spearmanVsRawFrequency": {
+  "degree": 0.8565,
+  "weightedDegree": 0.8467,
+  "betweenness": 0.7754,
+  "eigenvector": 0.8402
+ },
+ "_computed": "2026-08-01"
+}

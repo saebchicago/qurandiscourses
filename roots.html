@@ -919,6 +919,70 @@
             <div id="detailNetworkAssocChart"></div>
           </div>
 
+          <!-- Network position: centrality metrics from data/centrality/ -->
+          <div class="stat-block" id="detailCentralityBlock" hidden>
+            <h4>
+              Network position
+              <span
+                class="badge ok"
+                data-source-ids="leeds-corpus-v0.4"
+                aria-label="Verified"
+                tabindex="0"
+                title="Verified · computed from the association graph"
+                >●</span
+              >
+            </h4>
+            <details class="method-note">
+              <summary>ℹ Method</summary>
+              <p>
+                Computed by <code>scripts/compute-centrality.mjs</code> over
+                an undirected weighted graph built from
+                <code>data/association/</code>: nodes are the 1,642 roots,
+                edges are root pairs recorded there (each already meeting
+                the 5-shared-verse threshold), edge weight is LLR. Degree
+                and weighted degree are direct counts.
+                Betweenness uses Brandes' algorithm on the unweighted graph
+                (edge weight ignored for shortest paths). Eigenvector
+                centrality uses power iteration on the weighted graph
+                (tolerance 1e-9, max 1000 iterations, uniform starting
+                vector). Ranks are out of all 1,642 nodes, 1 = highest.
+              </p>
+            </details>
+            <div style="overflow-x: auto">
+              <table class="data" id="centralityTable" style="min-width: 360px">
+                <tbody>
+                  <tr>
+                    <td>Degree</td>
+                    <td class="count" id="centralityDegree"></td>
+                    <td class="count" id="centralityDegreeRank"></td>
+                  </tr>
+                  <tr>
+                    <td>Weighted degree</td>
+                    <td class="count" id="centralityWeightedDegree"></td>
+                    <td class="count" id="centralityWeightedDegreeRank"></td>
+                  </tr>
+                  <tr>
+                    <td>Betweenness</td>
+                    <td class="count" id="centralityBetweenness"></td>
+                    <td class="count" id="centralityBetweennessRank"></td>
+                  </tr>
+                  <tr>
+                    <td>Eigenvector</td>
+                    <td class="count" id="centralityEigenvector"></td>
+                    <td class="count" id="centralityEigenvectorRank"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="font-size: 0.82rem; color: var(--muted); margin: 0.4rem 0 0">
+              Centrality measures describe how a root is positioned within a
+              network of statistical co-occurrence. They are strongly
+              influenced by raw frequency: roots that appear often tend to
+              score higher. These measures do not indicate thematic,
+              exegetical, or theological importance.
+            </p>
+          </div>
+
           <!-- Chronological trend: normalized frequency per period -->
           <div class="stat-block" id="detailTrendBlock" hidden>
             <h4>
@@ -1282,6 +1346,7 @@
 
           renderNetworkAssoc(bw);
           renderTrendChart(bw);
+          renderCentrality(bw);
         }
 
         function renderFullDetail(d) {
@@ -1941,6 +2006,40 @@
               if (!rows) return;
               const row = rows.find((r) => r.safeKey === sk);
               if (!row || !periodsFromRow(row).length) block.hidden = true;
+            });
+        }
+
+        // Network position: degree, weighted degree, betweenness, and
+        // eigenvector centrality from data/centrality/{safeKey}.json
+        // (scripts/compute-centrality.mjs), each with its rank out of
+        // the full 1,642-node graph.
+        function renderCentrality(bw) {
+          const block = document.getElementById("detailCentralityBlock");
+          if (!block) return;
+          const sk = safeKey(bw);
+          fetch(`data/centrality/${sk}.json`)
+            .then((r) => {
+              if (!r.ok) throw new Error("HTTP " + r.status);
+              return r.json();
+            })
+            .then((d) => {
+              block.hidden = false;
+              const total = d.totalNodes.toLocaleString();
+              document.getElementById("centralityDegree").textContent = d.degree.toLocaleString();
+              document.getElementById("centralityDegreeRank").textContent =
+                `rank ${d.degreeRank.toLocaleString()} of ${total}`;
+              document.getElementById("centralityWeightedDegree").textContent = d.weightedDegree.toFixed(2);
+              document.getElementById("centralityWeightedDegreeRank").textContent =
+                `rank ${d.weightedDegreeRank.toLocaleString()} of ${total}`;
+              document.getElementById("centralityBetweenness").textContent = d.betweenness.toFixed(2);
+              document.getElementById("centralityBetweennessRank").textContent =
+                `rank ${d.betweennessRank.toLocaleString()} of ${total}`;
+              document.getElementById("centralityEigenvector").textContent = d.eigenvector.toFixed(6);
+              document.getElementById("centralityEigenvectorRank").textContent =
+                `rank ${d.eigenvectorRank.toLocaleString()} of ${total}`;
+            })
+            .catch(() => {
+              block.hidden = true;
             });
         }
 
