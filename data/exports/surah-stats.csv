@@ -1,0 +1,115 @@
+surah,nameTranslit,nameArabic,nameEnglish,revelationOrder,period,verseCount,tokenCount,distinctRootCount,rootDiversityRatio,distinctFormCount,formDiversityRatio,distinctLemmaCount,lemmaDiversityRatio,nounPct,verbPct
+1,al-Fatihah,الفاتحة,The Opening,5,meccan-early,7,29,18,0.6207,26,0.8966,23,0.7931,41.4,13.8
+2,al-Baqarah,البقرة,The Cow,87,medinan,286,6116,585,0.0957,2709,0.4429,1136,0.1857,30.4,25
+3,Al ʿImran,آل عمران,Family of Imran,89,medinan,200,3481,439,0.1261,1725,0.4955,760,0.2183,31.1,24.8
+4,al-Nisa',النساء,The Women,92,medinan,176,3747,462,0.1233,1745,0.4657,809,0.2159,30.4,24.8
+5,al-Ma'idah,المائدة,The Table Spread,112,medinan,120,2804,422,0.1505,1454,0.5185,684,0.2439,31,25.4
+6,al-An'am,الأنعام,The Cattle,55,meccan-late,165,3050,421,0.138,1597,0.5236,724,0.2374,30.9,26.9
+7,al-A'raf,الأعراف,The Heights,39,meccan-middle,206,3320,477,0.1437,1807,0.5443,818,0.2464,30.4,29.2
+8,al-Anfal,الأنفال,The Spoils of War,88,medinan,75,1233,266,0.2157,730,0.5921,399,0.3236,29.3,25.8
+9,al-Tawbah,التوبة,The Repentance,113,medinan,129,2498,366,0.1465,1319,0.528,637,0.255,30.1,24.5
+10,Yunus,يونس,Jonah,51,meccan-late,109,1833,290,0.1582,1025,0.5592,485,0.2646,30,25.5
+11,Hud,هود,Hud,52,meccan-late,123,1917,348,0.1815,1094,0.5707,553,0.2885,32,23.8
+12,Yusuf,يوسف,Joseph,53,meccan-late,111,1777,336,0.1891,1054,0.5931,511,0.2876,30.9,26.6
+13,al-Ra'd,الرعد,The Thunder,96,medinan,43,853,244,0.286,583,0.6835,347,0.4068,37.5,22
+14,Ibrahim,إبراهيم,Abraham,72,meccan-late,52,830,225,0.2711,577,0.6952,333,0.4012,34.9,23.7
+15,al-Hijr,الحجر,The Rocky Tract,54,meccan-late,99,655,201,0.3069,474,0.7237,288,0.4397,35.1,25.2
+16,al-Nahl,النحل,The Bee,70,meccan-late,128,1844,358,0.1941,1042,0.5651,551,0.2988,32.5,24.3
+17,al-Isra,الإسراء,The Night Journey,50,meccan-late,111,1556,342,0.2198,1000,0.6427,532,0.3419,35.5,26.5
+18,al-Kahf,الكهف,The Cave,69,meccan-late,110,1579,369,0.2337,1031,0.6529,551,0.349,35.6,27.7
+19,Maryam,مريم,Mary,44,meccan-middle,98,961,239,0.2487,655,0.6816,359,0.3736,34.3,26.6
+20,Taha,طه,Ta-Ha,45,meccan-middle,135,1335,324,0.2427,910,0.6816,482,0.361,27.9,29.4
+21,al-Anbiya,الأنبياء,The Prophets,73,meccan-late,112,1169,284,0.2429,779,0.6664,422,0.361,33.6,25.7
+22,al-Hajj,الحج,The Pilgrimage,103,medinan,78,1274,328,0.2575,779,0.6115,485,0.3807,32.7,22
+23,al-Mu'minun,المؤمنون,The Believers,74,meccan-late,118,1050,271,0.2581,698,0.6648,391,0.3724,33,24.1
+24,al-Nur,النور,The Light,102,medinan,64,1316,287,0.2181,763,0.5798,415,0.3153,33.4,21.3
+25,al-Furqan,الفرقان,The Criterion,42,meccan-middle,77,893,250,0.28,632,0.7077,371,0.4155,35.3,27.2
+26,al-Shu'ara,الشعراء,The Poets,47,meccan-middle,227,1318,265,0.2011,737,0.5592,409,0.3103,31.7,25.9
+27,al-Naml,النمل,The Ant,48,meccan-middle,93,1151,265,0.2302,766,0.6655,413,0.3588,30.6,27.4
+28,al-Qasas,القصص,The Stories,49,meccan-middle,88,1430,296,0.207,908,0.635,467,0.3266,29.8,28
+29,al-'Ankabut,العنكبوت,The Spider,85,meccan-late,69,976,223,0.2285,640,0.6557,335,0.3432,31.1,26.5
+30,al-Rum,الروم,The Romans,84,meccan-late,60,817,195,0.2387,528,0.6463,289,0.3537,35.4,24.2
+31,Luqman,لقمان,Luqman,57,meccan-late,34,546,184,0.337,390,0.7143,247,0.4524,34.2,19.6
+32,al-Sajdah,السجدة,The Prostration,75,meccan-late,30,372,131,0.3522,303,0.8145,192,0.5161,32.8,27.2
+33,al-Ahzab,الأحزاب,The Confederates,90,medinan,73,1287,282,0.2191,762,0.5921,453,0.352,33.9,24.2
+34,Saba,سبأ,Sheba,58,meccan-late,54,883,221,0.2503,579,0.6557,329,0.3726,31,24.1
+35,Fatir,فاطر,The Originator,43,meccan-middle,45,775,230,0.2968,533,0.6877,334,0.431,36.3,20.6
+36,Yasin,يس,Ya-Sin,41,meccan-middle,83,725,211,0.291,522,0.72,297,0.4097,30.9,26.1
+37,al-Saffat,الصافات,Those Who Set the Ranks,56,meccan-late,182,860,240,0.2791,588,0.6837,359,0.4174,34.7,22.4
+38,Sad,ص,Sad,38,meccan-middle,88,733,235,0.3206,536,0.7312,337,0.4598,38.2,21.1
+39,al-Zumar,الزمر,The Groups,59,meccan-late,75,1172,246,0.2099,729,0.622,392,0.3345,33.7,24.8
+40,Ghafir,غافر,The Forgiver,60,meccan-late,85,1219,257,0.2108,750,0.6153,397,0.3257,33.6,24
+41,Fussilat,فصلت,Explained in Detail,61,meccan-late,54,794,203,0.2557,586,0.738,310,0.3904,32.1,24.4
+42,al-Shura,الشورى,The Consultation,62,meccan-late,53,860,206,0.2395,528,0.614,303,0.3523,30.2,20.9
+43,al-Zukhruf,الزخرف,The Gold Adornments,63,meccan-late,89,830,225,0.2711,611,0.7361,333,0.4012,33.3,24.2
+44,al-Dukhan,الدخان,The Smoke,64,meccan-late,59,346,122,0.3526,276,0.7977,182,0.526,39,18.2
+45,al-Jathiyah,الجاثية,The Kneeling,65,meccan-late,37,488,132,0.2705,351,0.7193,200,0.4098,34.4,24.2
+46,al-Ahqaf,الأحقاف,The Curved Sand-hills,66,meccan-late,35,643,177,0.2753,472,0.7341,274,0.4261,30.5,26.6
+47,Muhammad,محمد,Muhammad,95,medinan,38,539,164,0.3043,373,0.692,238,0.4416,30.1,28.2
+48,al-Fath,الفتح,The Victory,111,medinan,29,560,176,0.3143,396,0.7071,252,0.45,33,26.4
+49,al-Hujurat,الحجرات,The Chambers,106,medinan,18,347,112,0.3228,241,0.6945,159,0.4582,30.3,24.5
+50,Qaf,ق,Qaf,34,meccan-middle,45,373,147,0.3941,305,0.8177,206,0.5523,37,19.6
+51,al-Dhariyat,الذاريات,The Winnowing Winds,67,meccan-late,60,360,141,0.3917,294,0.8167,193,0.5361,36.9,23.1
+52,al-Tur,الطور,The Mount,76,meccan-late,49,312,133,0.4263,257,0.8237,181,0.5801,39.4,22.8
+53,al-Najm,النجم,The Star,23,meccan-early,62,360,120,0.3333,275,0.7639,187,0.5194,32.2,23.3
+54,al-Qamar,القمر,The Moon,37,meccan-middle,55,342,140,0.4094,251,0.7339,187,0.5468,45.6,21.9
+55,al-Rahman,الرحمن,The Most Gracious,97,medinan,78,351,105,0.2991,190,0.5413,141,0.4017,57.3,19.4
+56,al-Waqi'ah,الواقعة,The Inevitable,46,meccan-middle,96,379,141,0.372,289,0.7625,205,0.5409,44.3,17.9
+57,al-Hadid,الحديد,Iron,94,medinan,29,574,175,0.3049,414,0.7213,248,0.4321,35.9,22
+58,al-Mujadilah,المجادلة,The Pleading Woman,105,medinan,22,472,143,0.303,307,0.6504,197,0.4174,27.1,23.5
+59,al-Hashr,الحشر,The Gathering,101,medinan,24,445,157,0.3528,322,0.7236,212,0.4764,31.9,20.2
+60,al-Mumtahanah,الممتحنة,She That Is to Be Examined,91,medinan,13,348,107,0.3075,261,0.75,157,0.4511,25.6,26.4
+61,al-Saff,الصف,The Ranks,109,medinan,14,221,81,0.3665,171,0.7738,123,0.5566,31.7,22.2
+62,al-Jumu'ah,الجمعة,The Friday,110,medinan,11,175,76,0.4343,142,0.8114,103,0.5886,30.3,24.6
+63,al-Munafiqun,المنافقون,The Hypocrites,104,medinan,11,180,73,0.4056,146,0.8111,102,0.5667,25,29.4
+64,al-Taghabun,التغابن,The Mutual Disillusion,108,medinan,18,241,96,0.3983,197,0.8174,137,0.5685,33.6,24.9
+65,al-Talaq,الطلاق,The Divorce,99,medinan,12,287,97,0.338,222,0.7735,147,0.5122,33.1,26.5
+66,al-Tahrim,التحريم,The Prohibition,107,medinan,12,249,96,0.3855,207,0.8313,143,0.5743,30.5,25.3
+67,al-Mulk,الملك,The Sovereignty,77,meccan-late,30,333,127,0.3814,254,0.7628,170,0.5105,30.6,26.1
+68,al-Qalam,القلم,The Pen,2,meccan-early,52,300,123,0.41,249,0.83,170,0.5667,34,25
+69,al-Haqqah,الحاقة,The Reality,78,meccan-late,52,258,113,0.438,217,0.8411,156,0.6047,33.7,21.3
+70,al-Ma'arij,المعارج,The Ways of Ascent,79,meccan-late,44,217,105,0.4839,188,0.8664,141,0.6498,42.4,20.3
+71,Nuh,نوح,Noah,71,meccan-late,28,226,87,0.385,189,0.8363,127,0.5619,30.1,28.3
+72,al-Jinn,الجن,The Jinn,40,meccan-middle,28,285,100,0.3509,222,0.7789,137,0.4807,29.5,26
+73,al-Muzzammil,المزمل,The Enshrouded One,3,meccan-early,20,199,91,0.4573,169,0.8492,128,0.6432,37.2,23.1
+74,al-Muddaththir,المدثر,The Cloaked One,4,meccan-early,56,255,109,0.4275,204,0.8,154,0.6039,30.2,29.8
+75,al-Qiyamah,القيامة,The Resurrection,31,meccan-early,40,164,73,0.4451,134,0.8171,102,0.622,36.6,26.8
+76,al-Insan,الإنسان,Man,98,medinan,31,243,112,0.4609,207,0.8519,154,0.6337,39.5,24.3
+77,al-Mursalat,المرسلات,Those Sent Forth,33,meccan-early,50,181,79,0.4365,135,0.7459,107,0.5912,42,22.7
+78,al-Naba',النبأ,The Great News,80,meccan-late,40,173,100,0.578,151,0.8728,121,0.6994,43.9,23.1
+79,al-Nazi'at,النازعات,Those Who Pull Out,81,meccan-late,46,179,93,0.5196,161,0.8994,126,0.7039,35.2,24.6
+80,'Abasa,عبس,He Frowned,24,meccan-early,42,133,70,0.5263,121,0.9098,101,0.7594,33.1,27.1
+81,al-Takwir,التكوير,The Folding Up,7,meccan-early,29,104,58,0.5577,85,0.8173,76,0.7308,31.7,23.1
+82,al-Infitar,الانفطار,The Cleaving,82,meccan-late,19,80,37,0.4625,66,0.825,53,0.6625,33.8,25
+83,al-Mutaffifin,المطففين,The Defrauders,86,meccan-late,36,169,68,0.4024,130,0.7692,95,0.5621,32,24.9
+84,al-Inshiqaq,الانشقاق,The Splitting Asunder,83,meccan-late,25,107,52,0.486,91,0.8505,75,0.7009,30.8,29
+85,al-Buruj,البروج,The Constellations,27,meccan-early,22,109,53,0.4862,98,0.8991,76,0.6972,40.4,12.8
+86,al-Tariq,الطارق,The Night-Comer,36,meccan-middle,17,61,33,0.541,55,0.9016,43,0.7049,47.5,16.4
+87,al-A'la,الأعلى,The Most High,8,meccan-early,19,72,41,0.5694,69,0.9583,60,0.8333,23.6,36.1
+88,al-Ghashiyah,الغاشية,The Overwhelming,68,meccan-late,26,92,50,0.5435,79,0.8587,67,0.7283,31.5,18.5
+89,al-Fajr,الفجر,The Dawn,10,meccan-early,30,137,64,0.4672,117,0.854,93,0.6788,41.6,23.4
+90,al-Balad,البلد,The City,35,meccan-middle,20,82,45,0.5488,72,0.878,62,0.7561,42.7,22
+91,al-Shams,الشمس,The Sun,26,meccan-early,15,54,36,0.6667,48,0.8889,44,0.8148,33.3,35.2
+92,al-Layl,الليل,The Night,9,meccan-early,21,71,41,0.5775,62,0.8732,56,0.7887,32.4,32.4
+93,al-Duha,الضحى,The Morning Hours,11,meccan-early,11,40,23,0.575,36,0.9,30,0.75,35,35
+94,al-Sharh,الشرح,The Relief,12,meccan-early,8,27,14,0.5185,23,0.8519,21,0.7778,33.3,25.9
+95,al-Tin,التين,The Fig,28,meccan-early,8,34,22,0.6471,34,1,33,0.9706,44.1,17.6
+96,al-'Alaq,العلق,The Clot,1,meccan-early,19,72,32,0.4444,59,0.8194,49,0.6806,23.6,38.9
+97,al-Qadr,القدر,The Night of Decree,25,meccan-early,5,30,16,0.5333,27,0.9,22,0.7333,60,10
+98,al-Bayyinah,البينة,The Clear Evidence,100,medinan,8,94,42,0.4468,78,0.8298,58,0.617,37.2,19.1
+99,al-Zalzalah,الزلزلة,The Earthquake,93,medinan,8,36,18,0.5,29,0.8056,27,0.75,44.4,30.6
+100,al-'Adiyat,العاديات,The Coursers,14,meccan-early,11,40,23,0.575,35,0.875,31,0.775,45,12.5
+101,al-Qari'ah,القارعة,The Striking Hour,30,meccan-early,11,36,19,0.5278,29,0.8056,23,0.6389,36.1,16.7
+102,al-Takathur,التكاثر,The Piling Up,16,meccan-early,8,28,11,0.3929,20,0.7143,19,0.6786,28.6,28.6
+103,al-'Asr,العصر,The Time,13,meccan-early,3,14,9,0.6429,13,0.9286,13,0.9286,42.9,28.6
+104,al-Humazah,الهمزة,The Slanderer,32,meccan-early,9,33,19,0.5758,32,0.9697,27,0.8182,36.4,21.2
+105,al-Fil,الفيل,The Elephant,19,meccan-early,5,23,17,0.7391,22,0.9565,21,0.913,39.1,26.1
+106,Quraysh,قريش,The Quraysh,29,meccan-early,4,17,11,0.6471,17,1,15,0.8824,52.9,17.6
+107,al-Ma'un,الماعون,The Small Kindnesses,17,meccan-early,7,25,12,0.48,22,0.88,20,0.8,36,24
+108,al-Kawthar,الكوثر,The Abundance,15,meccan-early,3,10,7,0.7,10,1,8,0.8,40,30
+109,al-Kafirun,الكافرون,The Disbelievers,18,meccan-early,6,26,4,0.1538,19,0.7308,8,0.3077,26.9,23.1
+110,al-Nasr,النصر,The Help,114,medinan,3,19,15,0.7895,18,0.9474,18,0.9474,42.1,31.6
+111,al-Masad,المسد,The Palm Fibre,6,meccan-early,5,23,15,0.6522,22,0.9565,20,0.8696,56.5,21.7
+112,al-Ikhlas,الإخلاص,The Sincerity,22,meccan-early,4,15,7,0.4667,13,0.8667,8,0.5333,26.7,26.7
+113,al-Falaq,الفلق,The Daybreak,20,meccan-early,5,23,11,0.4783,17,0.7391,16,0.6957,43.5,21.7
+114,al-Nas,الناس,Mankind,21,meccan-early,6,20,11,0.55,17,0.85,15,0.75,60,15

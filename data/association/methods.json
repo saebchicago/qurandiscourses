@@ -1,0 +1,27 @@
+{
+ "_script": "scripts/compute-association-stats.mjs",
+ "_source": "Leeds Quranic Arabic Corpus v0.4 (Kais Dukes, corpus.quran.com, GPL)",
+ "_chronologySource": "Egyptian Standard (Cairo 1924) revelation order, four-period classification following the Nöldeke-Bell tradition (Watt, \"Bell's Introduction to the Qur'an\", 1970); same periodization as data/chronology.json.",
+ "_formulas": {
+  "normalizedFrequency": "(count / totalTokens) * 1000",
+  "pmi": "log2((k11 * N) / ((k11 + k12) * (k11 + k21)))",
+  "dice": "2*k11 / (2*k11 + k12 + k21)",
+  "llr": "Dunning's G2 = 2 * sum(O * ln(O/E)) over the 2x2 table; O=0 cells contribute 0",
+  "keyness": "Same G2 formula, token-based 2x2: root tokens in period vs. rest of corpus"
+ },
+ "_thresholds": {
+  "minSharedVerses": 5,
+  "topPartnersPerRoot": 25,
+  "topRootsPerPeriodKeyness": 15
+ },
+ "_totals": {
+  "verses": 6236,
+  "tokens": 77429,
+  "roots": 1642
+ },
+ "_pairsMeetingThreshold": 8556,
+ "_computed": "2026-08-01",
+ "methodPairs": "Co-occurrence is counted at the verse level over all 6236 verses: two roots co-occur once for each verse in which both are attested. A pair is included only with at least 5 shared verses. PMI(A,B) = log2(k11*N / ((k11+k12)*(k11+k21))). Dice = 2*k11 / (2*k11+k12+k21). LLR is Dunning's G2 = 2 * sum(O * ln(O/E)) over the four cells of the 2x2 table, E from row/column marginals; a cell with O = 0 contributes 0. The top 25 partners by LLR are kept per root.",
+ "methodKeyness": "Keyness is the same Dunning G2 statistic, computed per root per revelation period from token counts (not verse counts): the root's token count in the period vs. the rest of the corpus, against the period's total token count vs. the rest of the corpus. Egyptian Standard (Cairo 1924) revelation order, four-period classification following the Nöldeke-Bell tradition (Watt, \"Bell's Introduction to the Qur'an\", 1970); same periodization as data/chronology.json. The top 15 roots per period by G2 are kept. Periodization varies across scholarly chronologies; treat period-based keyness as Nuanced.",
+ "methodFrequency": "Normalized frequency = (count / total tokens) * 1000, i.e. occurrences per 1,000 tokens. Overall normalized frequency uses 77429 total tokens and is a direct computation (Verified). Per-period normalized frequency (see data/exports/) uses that period's token total and depends on the four-period chronology named above (Nuanced)."
+}
