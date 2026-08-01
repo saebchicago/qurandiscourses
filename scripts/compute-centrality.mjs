@@ -37,6 +37,7 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { safeKey } from "./lib/safe-key.mjs";
+import { computedDate } from "./lib/computed-date.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
@@ -274,7 +275,7 @@ const eigenvectorRank = descendingRanks(eigen.values);
 
 // ── Write output ────────────────────────────────────────────────────
 
-const COMPUTED_DATE = new Date().toISOString().slice(0, 10);
+const COMPUTED_DATE = computedDate();
 
 const methodsDoc = {
   _script: "scripts/compute-centrality.mjs",

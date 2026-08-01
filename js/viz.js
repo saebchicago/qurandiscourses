@@ -143,8 +143,14 @@
   }
 
   // ── Tooltip: shared floating element, hover AND keyboard focus ──────
+  // The element is shared with assets/chart.js (both modules look up an
+  // existing .qd-chart-tip before creating one), so only one tooltip
+  // ever exists and either layer's dismissal clears it.
   var tipEl = null;
   function tip() {
+    if (!tipEl) {
+      tipEl = document.querySelector(".qd-chart-tip");
+    }
     if (!tipEl) {
       tipEl = document.createElement("div");
       tipEl.className = "qd-chart-tip";

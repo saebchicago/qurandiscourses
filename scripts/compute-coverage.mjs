@@ -17,6 +17,7 @@
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { computedDate } from "./lib/computed-date.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
@@ -384,7 +385,7 @@ if (blockers.length) {
 
 // ── Write output ─────────────────────────────────────────────────────
 
-const COMPUTED_DATE = new Date().toISOString().slice(0, 10);
+const COMPUTED_DATE = computedDate();
 
 const report = {
   _script: "scripts/compute-coverage.mjs",

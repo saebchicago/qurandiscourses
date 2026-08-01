@@ -1,11 +1,19 @@
 # Word-by-word gloss dataset: licensing research
 
-Prepared 2026-07-11 for the owner's sign-off. **Nothing ships until a
-license is verified — this document exists to make that verification a
-ten-minute task instead of a research project.** The build pipeline
-(`scripts/build-gloss.mjs`), the Read page's Meaning column, and the
-words.html live-gloss card all ship dormant and activate the moment a
-licensed dataset is committed to `data/gloss/` (see the maintainer
+**STATUS (2026-08-01): partially superseded.** Since this memo was
+written, six surahs of word-by-word glosses (96, 103, 107, 108, 109,
+112) HAVE shipped in `data/gloss/`, transcribed from Khan (2011) with
+the rights context documented in NOTICE.md — a different source than
+the full-corpus candidate this memo evaluates. The memo remains the
+research record for a future FULL-corpus gloss dataset; its licensing
+rule still stands for that.
+
+Prepared 2026-07-11 for the owner's sign-off. **A full-corpus gloss
+dataset ships only after its license is verified — this document exists
+to make that verification a ten-minute task instead of a research
+project.** The build pipeline (`scripts/build-gloss.mjs`), the Read
+page's Meaning column, and the words.html live-gloss card activate for
+whatever surahs are committed to `data/gloss/` (see the maintainer
 guide, "Add word-by-word glosses").
 
 Research constraint, disclosed: this was compiled from a sandboxed

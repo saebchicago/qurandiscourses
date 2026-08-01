@@ -43,6 +43,7 @@
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { computedDate } from "./lib/computed-date.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
@@ -192,7 +193,7 @@ function main() {
   const output = {
     _source:
       "Leeds Quranic Arabic Corpus v0.4 (morphology/roots); chronology.json (Egyptian Standard, Cairo 1924); data/qursim (Mishkat cross-reference index, 110/114 surahs)",
-    _generated: new Date().toISOString().slice(0, 10),
+    _generated: computedDate(),
     _note:
       "Descriptive corpus statistics only. Root/form/lemma diversity ratios (type-token ratios) divide distinct count by all word-tokens, including function words with no tagged root — sensitive to text length, so compare within similar surah lengths, not as a single corpus-wide ranking. QurSim connectivity counts distinct other surahs cross-referenced; null means the surah is outside current QurSim/Mishkat coverage (104, 105, 106, 110), not zero connections.",
     surahs,

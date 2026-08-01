@@ -425,7 +425,7 @@
             const morph = morphWords[i];
             if (!morph || !morph.root || !recurringRoots[morph.root])
               return tok;
-            return `<span class="recurring-word" data-root="${morph.root}" tabindex="0">${tok}</span>`;
+            return `<span class="recurring-word" data-root="${morph.root}" role="button" tabindex="0">${tok}</span>`;
           })
           .join(" ");
       }

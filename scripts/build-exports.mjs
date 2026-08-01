@@ -35,6 +35,7 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { safeKey } from "./lib/safe-key.mjs";
+import { computedDate } from "./lib/computed-date.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
@@ -268,7 +269,7 @@ writeTable("verse-lengths", verseRows, ["surah", "verse", "tokens", "period"]);
 
 console.log("\nWriting schema.json and DATA-DICTIONARY.md…");
 
-const COMPUTED_DATE = new Date().toISOString().slice(0, 10);
+const COMPUTED_DATE = computedDate();
 
 const schema = {
   _generated: "scripts/build-exports.mjs",

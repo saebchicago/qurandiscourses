@@ -60,6 +60,7 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } from "f
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { safeKey } from "./lib/safe-key.mjs";
+import { computedDate } from "./lib/computed-date.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
@@ -217,10 +218,10 @@ console.log(`Scanned ${scannedTokens} tokens across ${Object.keys(verseRoots).le
 console.log("\nBuilding verse-level co-occurrence matrix…");
 
 const rootVerseCount = {}; // bw -> distinct verses attesting it (out of TOTAL_VERSES)
-const coOcc = {}; // coOcc.get(pairKey) -> k11, pairKey = "a b" with a<b
+const coOcc = {}; // coOcc.get(pairKey) -> k11, pairKey = "a\u0000b" (NUL separator) with a<b
 
 function pairKey(a, b) {
-  return a < b ? `${a} ${b}` : `${b} ${a}`;
+  return a < b ? `${a}\u0000${b}` : `${b}\u0000${a}`;
 }
 
 for (const roots of Object.values(verseRoots)) {
@@ -289,7 +290,7 @@ const pairStats = []; // { a, b, k11, k12, k21, k22, pmiVal, diceVal, llrVal }
 
 for (const [key, k11] of Object.entries(coOcc)) {
   if (k11 < MIN_SHARED_VERSES) continue;
-  const [a, b] = key.split(" ");
+  const [a, b] = key.split("\u0000");
   const va = rootVerseCount[a] || 0;
   const vb = rootVerseCount[b] || 0;
   const k12 = va - k11;
@@ -365,7 +366,7 @@ for (const p of PERIODS) {
 
 console.log("\nWriting data/association/ output…");
 
-const COMPUTED_DATE = new Date().toISOString().slice(0, 10);
+const COMPUTED_DATE = computedDate();
 
 const METHOD_PAIR =
   `Co-occurrence is counted at the verse level over all ${TOTAL_VERSES} verses: two roots co-occur once for each verse in which both are attested. A pair is included only with at least ${MIN_SHARED_VERSES} shared verses. PMI(A,B) = log2(k11*N / ((k11+k12)*(k11+k21))). Dice = 2*k11 / (2*k11+k12+k21). LLR is Dunning's G2 = 2 * sum(O * ln(O/E)) over the four cells of the 2x2 table, E from row/column marginals; a cell with O = 0 contributes 0. The top ${TOP_N_PARTNERS} partners by LLR are kept per root.`;

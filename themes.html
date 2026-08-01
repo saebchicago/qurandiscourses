@@ -313,6 +313,9 @@
                 location.href = "read.html?s=" + s + "&a=1";
               },
             });
+          }).catch(function () {
+            container.innerHTML =
+              '<p style="color:var(--muted);font-size:0.85rem">Distribution unavailable.</p>';
           });
         }
         fetch("data/themes.json")

@@ -1006,7 +1006,10 @@
 
         // ── Boot ──────────────────────────────────────────────────────────────
         fetch("data/roots-list.json")
-          .then((r) => r.json())
+          .then((r) => {
+            if (!r.ok) throw new Error("HTTP " + r.status);
+            return r.json();
+          })
           .then((data) => {
             window.__rootsMeta = data;
             allRoots = Object.values(data).sort(
@@ -1848,10 +1851,16 @@
           return Promise.all([
             profiles
               ? Promise.resolve(profiles)
-              : fetch("data/surah-profiles.json").then((r) => r.json()),
+              : fetch("data/surah-profiles.json").then((r) => {
+                  if (!r.ok) throw new Error("HTTP " + r.status);
+                  return r.json();
+                }),
             meta
               ? Promise.resolve(meta)
-              : fetch("data/surah-meta.json").then((r) => r.json()),
+              : fetch("data/surah-meta.json").then((r) => {
+                  if (!r.ok) throw new Error("HTTP " + r.status);
+                  return r.json();
+                }),
           ]).then(([p, m]) => {
             profiles = p;
             meta = m;
