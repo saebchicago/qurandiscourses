@@ -127,7 +127,9 @@
             array of words, each
             <code>{w, ar, root, lemma, pos, gloss}</code> (word index,
             Uthmani surface form, Buckwalter root, Buckwalter lemma,
-            part-of-speech tag; gloss empty pending a licensed dataset).
+            part-of-speech tag; the per-token gloss field is empty — the
+            word glosses that ship live separately in
+            <code>data/gloss/</code>, six surahs from Khan 2011).
             <span
               class="badge ok"
               data-source-ids="leeds-corpus-v0.4"
@@ -231,6 +233,104 @@
             <strong>GPL</strong> · generator <code>build-cooccurrence.mjs</code> ·
             <a href="data/cooccurrence/ruHm.json" download>sample (r-ḥ-m)</a> ·
             <a href="https://github.com/saebchicago/qurandiscourses/tree/main/data/cooccurrence" rel="noopener">full directory</a>
+          </p>
+        </div>
+        <div class="card">
+          <h4 style="margin: 0 0 0.3rem"><code>data/association/{root}.json</code> × 1,642</h4>
+          <p style="margin: 0 0 0.4rem">
+            Root-pair association statistics per root: the top 25 partners
+            by log-likelihood ratio, each with shared-verse count (k11),
+            PMI, Dice, and LLR, plus overall normalized frequency. Shared
+            formulas and thresholds live once in
+            <code>association/methods.json</code>.
+            <span
+              class="badge ok"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · computed from the cited corpus"
+              >●</span
+            >
+          </p>
+          <p class="small" style="margin: 0">
+            <strong>GPL</strong> · generator <code>compute-association-stats.mjs</code> ·
+            <a href="data/association/ruHm.json" download>sample (r-ḥ-m)</a> ·
+            <a href="data/association/methods.json" download>methods</a> ·
+            <a href="https://github.com/saebchicago/qurandiscourses/tree/main/data/association" rel="noopener">full directory</a>
+          </p>
+        </div>
+        <div class="card">
+          <h4 style="margin: 0 0 0.3rem"><code>data/network/{root}.json</code> × 1,642 · <code>heatmap.json</code></h4>
+          <p style="margin: 0 0 0.4rem">
+            Precomputed, deterministic radial layouts for each root's
+            association ego network (static x/y coordinates, no browser
+            layout), plus the top-40-roots-by-114-surahs density matrix
+            behind the Numbers page heatmap.
+            <span
+              class="badge ok"
+              data-source-ids="leeds-corpus-v0.4 cairo-1924"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · computed from the cited corpus"
+              >●</span
+            >
+          </p>
+          <p class="small" style="margin: 0">
+            <strong>GPL</strong> · generator <code>compute-network-layout.mjs</code> ·
+            <a href="data/network/ruHm.json" download>sample (r-ḥ-m)</a> ·
+            <a href="data/network/heatmap.json" download>heatmap</a> ·
+            <a href="https://github.com/saebchicago/qurandiscourses/tree/main/data/network" rel="noopener">full directory</a>
+          </p>
+        </div>
+        <div class="card">
+          <h4 style="margin: 0 0 0.3rem"><code>data/centrality/{root}.json</code> × 1,642</h4>
+          <p style="margin: 0 0 0.4rem">
+            Network centrality per root over the association graph: degree
+            (raw and normalized), weighted degree, betweenness (Brandes),
+            and eigenvector centrality (power iteration), each with its
+            rank out of all 1,642 nodes. Algorithms and the graph
+            definition live in <code>centrality/methods.json</code>.
+            <span
+              class="badge ok"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · computed from the cited corpus"
+              >●</span
+            >
+          </p>
+          <p class="small" style="margin: 0">
+            <strong>GPL</strong> · generator <code>compute-centrality.mjs</code> ·
+            <a href="data/centrality/ruHm.json" download>sample (r-ḥ-m)</a> ·
+            <a href="data/centrality/methods.json" download>methods</a> ·
+            <a href="https://github.com/saebchicago/qurandiscourses/tree/main/data/centrality" rel="noopener">full directory</a>
+          </p>
+        </div>
+        <div class="card">
+          <h4 style="margin: 0 0 0.3rem"><code>data/exports/</code> · <code>data/coverage/report.json</code></h4>
+          <p style="margin: 0 0 0.4rem">
+            The public download tables (root frequencies, association
+            pairs, per-surah stats, verse lengths, each as CSV and JSON,
+            with <code>schema.json</code> and a prose data dictionary) —
+            browsable on <a href="export.html">Export</a> — and the
+            measured data-coverage report behind the
+            <a href="coverage.html">Coverage</a> dashboard.
+            <span
+              class="badge ok"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · measured from the bundled data"
+              >●</span
+            >
+          </p>
+          <p class="small" style="margin: 0">
+            <strong>GPL</strong> (Leeds-derived; the coverage report also
+            counts files in the license-pending <code>data/qursim/</code>) ·
+            generators <code>build-exports.mjs</code>,
+            <code>compute-coverage.mjs</code> ·
+            <a href="data/exports/schema.json" download>schema</a> ·
+            <a href="data/coverage/report.json" download>coverage report</a>
           </p>
         </div>
       </section>

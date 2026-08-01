@@ -45,7 +45,7 @@ Citations follow the **Chicago Manual of Style, bibliography form**:
 When a detail can't be confirmed against the work itself, omit it — never
 guess. sources.html is the reference implementation.
 
-## 2. Site map (28 pages)
+## 2. Site map (30 pages)
 
 | Group | Pages | Notes |
 |---|---|---|
@@ -53,6 +53,7 @@ guess. sources.html is the reference implementation.
 | Analyze | words, roots, patterns, numbers, formulas | fully local data |
 | Learn | how-to-use, how-it-works, exercises (hub), exercise, exercise-roots, paths, glossary, watch | exercises are data-driven or book-cited; exercise-asr.html is a redirect stub |
 | About | index, about, sources, datasets, validation, credits, changelog | credibility pages |
+| Off-nav, in sitemap | export (CSV/JSON downloads + schema), coverage (measured data-coverage dashboard) | reachable via contextual links (roots.html, numbers.html, datasets.html), not the primary nav — adding them to nav means editing EVERY page's nav block (check-nav-sync.mjs enforces byte-identical navs) |
 | Unlisted | embed (iframe card, the one frameable page), exercise-asr (redirect stub) | outside nav and sitemap by design |
 
 Site-wide, not pages: `manifest.webmanifest` + `sw.js` (repo root) make
@@ -129,6 +130,19 @@ them only when their inputs change; commit their outputs.
 | build-formulas.mjs | morphology | data/formulas-root.json, data/formulas-surface.json | formulas.html. Root-stream refs are `[surah, ayah, w1..wn]` — every matched word's position, since root sequences skip particles/pronouns and so are NOT contiguous. Surface-stream refs are `[surah, ayah, w]` — the first matched word only, since surface matches ARE contiguous (`w..w+n-1`). Both are consumed by read.html's `?hl=` deep-link highlighting (§5) |
 | build-rhyme-map.mjs | morphology | data/rhyme/{1-114}.json, data/rhyme-summary.json | patterns.html rhyme explorer; rhyme-summary.json also feeds index.html's daily discourse card (below), plus `meanRunLength` (verseCount / (shiftCount + 1), a regularity index) feeding patterns.html's cross-surah "Rhyme regularity across surahs" ranking |
 | build-formula-summary.mjs | formulas-root.json, formulas-surface.json | data/formula-summary.json | dossier.html's recurring-phrases section — a ~75 KB per-surah roll-up (counts + top-5 phrases with first-occurrence refs) so the page never fetches the megabyte parent files. Rerun whenever build-formulas.mjs reruns |
+| build-roots-index.py | morphology | data/roots-index.json | read.html root lookups. The one Python script in the pipeline (historical; everything else is Node) |
+| build-gloss.mjs | an owner-supplied gloss source file | data/gloss/{surah}.json, data/gloss/index.json | read.html Meaning column, words.html meaning search (via build-word-index.mjs rerun). Six Khan-2011 surahs ship today; full-corpus rerun is licensing-gated (§ "Add word-by-word glosses") |
+| compute-association-stats.mjs | morphology, roots-summary, chronology, numbers.json | data/association/ | roots.html "Statistical associations" panel, numbers.html keyness card. Rerun after build-numbers.mjs when morphology changes |
+| compute-network-layout.mjs | association/, roots-summary, morphology, chronology | data/network/ | roots.html association-network graph, numbers.html root-density heatmap. Rerun after compute-association-stats.mjs |
+| compute-centrality.mjs | association/, roots-summary | data/centrality/ | roots.html "Network position" panel. Rerun after compute-association-stats.mjs |
+| compute-coverage.mjs | morphology, roots-summary, qursim/ (file counts), sources.json | data/coverage/report.json | coverage.html dashboard — every number there traces to this report |
+| build-exports.mjs | roots-summary, numbers.json, chronology, surah-profiles, surah-names, morphology, association/ | data/exports/ (CSV+JSON tables, schema.json, DATA-DICTIONARY.md) | export.html downloads. Rerun after compute-association-stats.mjs |
+
+Dependency order for the analytics chain: `build-numbers.mjs` →
+`compute-association-stats.mjs` → (`compute-network-layout.mjs`,
+`compute-centrality.mjs`, `build-exports.mjs` in any order) →
+`compute-coverage.mjs` (independent of the middle three, but run it
+last so its measurements reflect the final state).
 
 Checkers (not generators — they gate shipping):
 
@@ -145,6 +159,7 @@ dispatch instead of blocking every contribution.
 | check-claims.mjs | worked-claim provenance: stable IDs, allowed evidence dimensions, valid source IDs, limitations, derivation paths, and the case-study join |
 | check-data-nums.mjs | every `data-num="dot.path"` binding across every page: the path must resolve to a number in `data/numbers.json`, and the element's static fallback text must match that number under `initDataNums()`'s own formatting — catches a stale prose figure or a typo'd path, both of which `initDataNums()` fails on silently in the browser (it only overwrites when the path resolves to a number) |
 | check-exercises.mjs | the exercise registry: unique IDs; outline entries have a valid surah number, resolvable sourceIds, a sources.html citation in provenanceHtml, and strictly-increasing in-bounds startVerse values; at most one outline per surah; roots entries' href/surahs are valid; index.html's hand-kept EXERCISE_COUNT matches the registry length |
+| check-notice.mjs | the licensing inventory: every top-level `data/` entry must be mentioned by name in NOTICE.md, so a new dataset cannot ship without its license standing declared (this drifted three releases running before the checker existed) |
 | check-paths.mjs | the Study Paths registry (`data/paths.json`): every step's hand-authored `html` linking into another tool — an `exercise.html?id=` resolves in `data/exercises.json`, a `themes.html#slug` resolves in `data/themes.json`, and every embedded surah/verse (`s=`/`a=`, and `compare.html`'s `p1=`/`p2=` passage pairs) is in range — none of which verify-site.mjs's HTTP-level link crawl catches, since every one of those pages returns 200 regardless of whether the id/slug/verse embedded in it is real |
 | check-videos.mjs | the video registry: an entry cannot be 'published' without its mp4, poster, AND a real WEBVTT captions file on disk — the anti-slop covenant, enforced mechanically |
 | check-source-links.mjs | external citation liveness: every sources.json `url` and every external href on every page still answers (404/410 = FAIL, 403/429 = WARN for bot-shielding). Needs real outbound network — run from an unrestricted machine, not a sandboxed session; a good habit before any release and every few months |
@@ -353,11 +368,13 @@ without its own block ships with no CSP). Then run
 `node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs`.
 
 ### Add word-by-word glosses (owner-gated by licensing)
-The Read page's word table renders a Meaning column the moment
-`data/gloss/{surah}.json` exists — the integration ships dormant. The
-gate is the dataset license (this backlog item has always been "needs a
-license worth citing"). Candidate sources to evaluate — verify the
-license text yourself, never from memory:
+The Read page's word table renders a Meaning column for any surah with
+a `data/gloss/{surah}.json` file. Six surahs (96, 103, 107, 108, 109,
+112) ship today, transcribed from Khan (2011) — see NOTICE.md. The
+remaining 108 stay gated on a licensed full-corpus dataset (this
+backlog item has always been "needs a license worth citing").
+Candidate sources to evaluate — verify the license text yourself,
+never from memory:
 1. **QUL word-by-word translation datasets** (qul.tarteel.ai; already in
    sources.json as `qul`) — check the license on the specific resource
    page before downloading.
@@ -587,10 +604,10 @@ commit and push; Netlify redeploys the previous state.
 ## 8. Optimization backlog (known, deliberate deferrals)
 
 - words.html search covers Arabic/transliteration/root; searching by
-  English *meaning* stays dormant until the owner licenses a gloss
-  dataset (see "Add word-by-word glosses" and
-  docs/gloss-dataset-research.md — the verification is a ten-minute
-  task from an unrestricted connection).
+  English *meaning* works only for the six Khan-glossed surahs and goes
+  corpus-wide only when the owner licenses a full gloss dataset (see
+  "Add word-by-word glosses" and docs/gloss-dataset-research.md — the
+  verification is a ten-minute task from an unrestricted connection).
 - Badge dot glyphs are ~44px wide but ~20px tall for tap purposes: `.badge::before`
   extends the horizontal hit area toward the 44px AAA guidance, but not vertically —
   a full Playwright sweep of every badge-bearing page (desktop + mobile viewports)

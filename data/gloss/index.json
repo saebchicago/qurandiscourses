@@ -1,5 +1,5 @@
 {
- "_comment": "Manifest of available per-word gloss files (data/gloss/{surah}.json). Maintained by scripts/build-gloss.mjs — empty until the owner commits a licensed gloss dataset (see the maintainer guide, 'Add word-by-word glosses'). Pages consult this manifest first so the dormant state makes no failing requests.",
+ "_comment": "Manifest of available per-word gloss files (data/gloss/{surah}.json). Maintained by scripts/build-gloss.mjs. Currently ships the surahs listed below, transcribed from Khan (2011) — see NOTICE.md. Pages consult this manifest first, so surahs absent from it make no failing requests.",
  "surahs": [
   96,
   103,

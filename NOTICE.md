@@ -29,6 +29,15 @@ visitor's browser. Tanzil distributes its text under **CC BY-ND 3.0**
 attributes Tanzil on every verse footer and in sources.html. No Tanzil
 text is bundled in this repository.
 
+The translation editions registered in `assets/app.js` (Saheeh
+International, Pickthall, Yusuf Ali, Muhammad Asad, and others across
+seven languages) are likewise fetched at runtime from the alquran.cloud
+API and are **not bundled** in this repository. Copyright in each
+translation remains with its translator or publisher; the translator is
+named beside every rendered verse. Anyone redistributing translation
+text (as opposed to this repository's code) must clear the relevant
+translation's own license.
+
 ## Cross-reference data (`data/qursim/` = Mishkat corpus)
 
 `data/qursim/` (110 per-surah files) powers the Related-verses feature.
@@ -103,15 +112,30 @@ the files are upstream subsets served unchanged.
 
 The following files in `data/` are authored or computed by this project
 and carry the repository's MIT license (their *inputs* keep their own
-licenses, listed above): `case-studies.json`, `exercises.json`,
-`numbers.json`, `paths.json`, `rhetorical-features.json`,
-`root-analytics/`, `cooccurrence/`, `roots-index.json`,
-`surah-names.json`, `surah-profiles.json`, `themes.json`,
-`videos.json`, `word-index.json`, `sources.json`. Files derived from
-the GPL Leeds morphology (`root-analytics/`, `cooccurrence/`,
-`roots-index.json`, `word-index.json`, `numbers.json`,
-`surah-profiles.json`, `themes.json`, `rhetorical-features.json`)
-inherit the GPL for their data content.
+licenses, listed above): `case-studies.json`, `claims.json`,
+`exercises.json`, `juz.json`, `paths.json`, `sources.json`,
+`surah-names.json`, `videos.json`, plus the computed datasets in the
+next paragraph.
+
+Files computed from the GPL Leeds morphology inherit the GPL for their
+data content: `association/`, `centrality/`, `cooccurrence/`,
+`coverage/`, `exports/`, `network/`, `rhyme/`, `root-analytics/`,
+`discursive-pivots.json`, `formula-summary.json`, `formulas-root.json`,
+`formulas-surface.json`, `numbers.json`, `rhetorical-features.json`,
+`rhyme-summary.json`, `roots-index.json`, `roots-list.json`,
+`surah-profiles.json`, `symmetry-test.json`, `theme-surah-index.json`,
+`themes.json`, `word-index.json`. Each generator script under
+`scripts/` names its inputs in its header. Two of these additionally
+draw on other inputs: `data/coverage/report.json` includes file-count
+measurements of the license-pending `data/qursim/` directory (counts
+only, no Mishkat content), and `data/exports/` republishes
+Leeds-derived tables as downloadable CSV/JSON under the GPL, as stated
+on the export page.
+
+The GNU General Public License text is not bundled in this repository
+yet; upstream (corpus.quran.com) states "GNU General Public License"
+without pinning a version. Until a copy is added, obtain the license
+text from https://www.gnu.org/licenses/.
 
 ## Other sources
 

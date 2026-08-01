@@ -1,3 +1,15 @@
+SCOPE: This MIT license applies to this project's own source code
+(HTML, CSS, JavaScript, and the scripts/ generators) and to the data
+files NOTICE.md lists as site-authored. Bundled third-party material
+carries its own licenses and is NOT covered by this grant: data
+derived from the GPL-licensed Leeds Quranic Arabic Corpus inherits
+the GNU General Public License, the cross-reference data in
+data/qursim/ has no published license (license pending), the word
+glosses in data/gloss/ and the excerpts in
+data/khan-interpretations.json are quoted copyrighted material, and
+the fonts in assets/fonts/ are under the SIL Open Font License 1.1.
+See NOTICE.md for the complete, authoritative breakdown.
+
 MIT License
 
 Copyright (c) 2026 Saeb A. Ahsan

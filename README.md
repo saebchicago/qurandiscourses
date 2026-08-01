@@ -44,14 +44,21 @@ dependencies (fonts self-hosted; the only network calls are the optional
 alquran.cloud verse/translation API and recitation audio).
 
 ```
-*.html               28 pages, vanilla HTML + inline page logic
-assets/              shared JS (app, nav, ask, cite-badge, glossary),
-                     CSS (3 palettes x light/dark), self-hosted fonts
+*.html               30 pages, vanilla HTML + inline page logic
+assets/              shared JS (app, nav, ask, cite-badge, glossary,
+                     chart), CSS (3 palettes x light/dark), fonts
+js/                  viz.js, the shared zero-dependency SVG chart
+                     helpers used by the analytics pages
 data/                bundled datasets: morphology/ (per-surah tokens),
                      roots-summary, root-analytics/, cooccurrence/,
+                     association/ (PMI/LLR/Dice pair statistics),
+                     network/ (precomputed graph layouts), centrality/,
+                     coverage/, exports/ (public CSV/JSON downloads),
+                     gloss/, qursim/ (cross-references), rhyme/,
                      themes, surah profiles, sources registry
 scripts/             deterministic, zero-dependency Node generators
                      that produce data/ artifacts from the morphology
+                     (one Python helper, build-roots-index.py)
 netlify.toml         hosting config + security headers (CSP etc.)
 ```
 
@@ -62,7 +69,16 @@ python3 -m http.server 8000        # serve locally, open localhost:8000
 node scripts/build-themes.mjs      # regenerate data/themes.json
 node scripts/build-cooccurrence.mjs
 node scripts/build-root-analytics.mjs
+node scripts/compute-association-stats.mjs   # data/association/
+node scripts/compute-network-layout.mjs      # data/network/ (needs association/)
+node scripts/compute-centrality.mjs          # data/centrality/ (needs association/)
+node scripts/compute-coverage.mjs            # data/coverage/
+node scripts/build-exports.mjs               # data/exports/ (needs association/)
 ```
+
+Every generator is deterministic: run it twice and `git diff` must be
+empty. The full pipeline, in dependency order, is documented in
+[docs/maintainer-guide.md](docs/maintainer-guide.md).
 
 Read **[docs/maintainer-guide.md](docs/maintainer-guide.md)** before making
 content changes — it covers the editorial rules (what may be claimed, how
@@ -76,9 +92,20 @@ governance, privacy, learning, reach, and operational resilience is in the
 
 ## Licensing
 
-- Site code (HTML/CSS/JS): [MIT](LICENSE)
-- `data/morphology/` and derivatives: GPL, per the Leeds corpus — see
+- Site code (HTML/CSS/JS/scripts): [MIT](LICENSE)
+- `data/morphology/` and derivatives (including `data/association/`,
+  `data/network/`, `data/centrality/`, `data/coverage/`,
+  `data/exports/`): GPL, per the Leeds corpus — see
   [NOTICE.md](NOTICE.md)
+- Tanzil verse text and the translation editions: fetched at runtime,
+  never bundled; Tanzil is CC BY-ND 3.0, translations keep their own
+  copyrights — see NOTICE.md
+- `data/qursim/` cross-references (Mishkat corpus): no license
+  published upstream; recorded as license-pending — see NOTICE.md
+- `data/gloss/` and `data/khan-interpretations.json`: quoted from
+  Khan (2011), © Association for Qur'anic Understanding — see NOTICE.md
+- `assets/fonts/`: SIL Open Font License 1.1, license texts bundled
+  beside the binaries
 - Full source list with citations:
   [Sources](https://qurandiscourse.netlify.app/sources.html)
 
