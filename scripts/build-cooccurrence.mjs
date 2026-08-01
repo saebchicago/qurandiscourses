@@ -62,6 +62,8 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { safeKey } from "./lib/safe-key.mjs";
+import { computedDate } from "./lib/computed-date.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
@@ -83,18 +85,8 @@ const chronology = JSON.parse(
 );
 
 // Buckwalter encoding is case-sensitive but macOS filesystems are case-insensitive.
-// Scheme mirrors scripts/build-root-analytics.mjs exactly, so filenames here
-// match the existing data/root-analytics/{safeKey}.json naming.
-function safeKey(bw) {
-  let out = "";
-  for (const c of bw) {
-    if (c === "*") out += "dh";
-    else if (c === "$") out += "sh";
-    else if (c >= "A" && c <= "Z") out += "u" + c;
-    else out += c;
-  }
-  return out;
-}
+// The shared lib scheme matches the existing data/root-analytics/{safeKey}.json
+// naming, so filenames here stay consistent with every other generator.
 
 const rootsSummary = JSON.parse(readFileSync(join(DATA, "roots-summary.json"), "utf8"));
 
@@ -185,7 +177,7 @@ function pmi(count, v1, v2) {
 
 console.log("\nPass 3: writing filtered co-occurrence files…");
 
-const COMPUTED_DATE = new Date().toISOString().slice(0, 10);
+const COMPUTED_DATE = computedDate();
 const METHOD_NOTE =
   "Counted at verse level: two roots co-occur once for each verse in which " +
   "both are attested. Roots occurring more than " +

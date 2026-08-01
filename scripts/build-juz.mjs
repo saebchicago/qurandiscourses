@@ -17,6 +17,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { computedDate } from "./lib/computed-date.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
@@ -67,7 +68,7 @@ const out = {
     "(tanzil.net). END boundaries derived as the verse before the next " +
     "juz's start, using surah-meta.json verse counts. Regenerate with " +
     "scripts/build-juz.mjs.",
-  _generated: new Date().toISOString().slice(0, 10),
+  _generated: computedDate(),
   count: juz.length,
   juz,
 };

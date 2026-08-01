@@ -48,6 +48,7 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } from "f
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { safeKey } from "./lib/safe-key.mjs";
+import { computedDate } from "./lib/computed-date.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
@@ -116,7 +117,7 @@ function nodeSize(count) {
 console.log(`Global raw-frequency range: ${globalMinCount}..${globalMaxCount}`);
 console.log(`Computing network layout for ${TOTAL_ROOTS} roots...`);
 
-const COMPUTED_DATE = new Date().toISOString().slice(0, 10);
+const COMPUTED_DATE = computedDate();
 
 const methodsDoc = {
   _script: "scripts/compute-network-layout.mjs",

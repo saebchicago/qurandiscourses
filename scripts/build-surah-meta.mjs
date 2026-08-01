@@ -13,6 +13,7 @@
 import { readFileSync, writeFileSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { computedDate } from "./lib/computed-date.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
@@ -70,7 +71,7 @@ async function main() {
       };
     }
 
-    sourceStr = "Quran.com Foundation Content API v4, /chapters endpoint, accessed " + new Date().toISOString().slice(0, 10);
+    sourceStr = "Quran.com Foundation Content API v4, /chapters endpoint, accessed " + computedDate();
     console.log(`  API succeeded: ${Object.keys(entries).length} chapters`);
   } catch (err) {
     console.warn(`  API failed (${err.message}); falling back to chronology.json`);
@@ -96,7 +97,7 @@ async function main() {
 
   const output = {
     _source: sourceStr,
-    _generated: new Date().toISOString().slice(0, 10),
+    _generated: computedDate(),
     _note: "Classification: 'makki' = revealed before the Hijra (622 CE); 'madani' = revealed after. Where a surah has mixed opinions in tradition, the predominant classification in the source is used.",
     surahs: entries,
   };

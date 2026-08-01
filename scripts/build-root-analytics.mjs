@@ -18,6 +18,8 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { safeKey } from "./lib/safe-key.mjs";
+import { computedDate } from "./lib/computed-date.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
@@ -30,16 +32,7 @@ mkdirSync(OUT, { recursive: true });
 // Scheme: uppercase BW letters get a 'u' prefix (e.g. H→uH, E→uE), preserving
 // case distinctness without relying on filesystem case-sensitivity.
 // * (ذ) → dh, $ (ش) → sh. No BW root contains lowercase 'u'.
-function safeKey(bw) {
-  let out = "";
-  for (const c of bw) {
-    if (c === "*") out += "dh";
-    else if (c === "$") out += "sh";
-    else if (c >= "A" && c <= "Z") out += "u" + c;
-    else out += c;
-  }
-  return out;
-}
+// (Imported from the shared lib so every generator uses one mapping.)
 
 const chronology = JSON.parse(readFileSync(join(DATA, "chronology.json"), "utf8"));
 const rootsSummary = JSON.parse(readFileSync(join(DATA, "roots-summary.json"), "utf8"));
@@ -114,7 +107,7 @@ for (const [ref, roots] of Object.entries(verseRoots)) {
 console.log("\nPass 3: writing root analytics files…");
 
 let written = 0;
-const COMPUTED_DATE = new Date().toISOString().slice(0, 10);
+const COMPUTED_DATE = computedDate();
 
 for (const [bw, meta] of Object.entries(rootsSummary)) {
   const tokens = rootTokens[bw] || [];
