@@ -170,7 +170,7 @@
 [[headers]]
   for = "/numbers.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-d75jDPNz0ZQBWtHACJ4nx9bLsOpyuAtzcsmHjO02JsU='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-lZu65yQV+rTGbVOZceG3dIVU6jyAsGN4ZFQhUuUakSU='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-dxKu/ADH5WpJn3YqJNeJ4VrEYfiZMFOMo0ZYMuJ3fWQ='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-h3jOdejXTkz5akoQJKLJl3g66+M4N8BXPY8ywUFbhi0='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/paths.html"
@@ -190,7 +190,7 @@
 [[headers]]
   for = "/roots.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-yfE8ayCl7bZGZM/YowetZalv0Ytq4QPbMX+9Ji+KusY='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-5wbfP53GFWSxZWwL3asnhg62OKhI0Edq2aFP2AmukLs='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-Xj3Rjval1Ue6OAIJU4vKnbO1T1U/E+Z4sG1GO1VLioc='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-5wbfP53GFWSxZWwL3asnhg62OKhI0Edq2aFP2AmukLs='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/sources.html"

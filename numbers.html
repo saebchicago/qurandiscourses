@@ -65,6 +65,62 @@
         font-family: "Amiri", serif;
         font-size: 1rem;
       }
+      /* ── Root-density heatmap ─────────────────────────────────────── */
+      .heatmap-controls {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+        margin-top: 0.5rem;
+      }
+      .heatmap-order-label {
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+      .order-toggle {
+        display: inline-flex;
+        gap: 0.3rem;
+      }
+      .order-toggle button {
+        padding: 0.35rem 0.6rem;
+        background: var(--bg);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        font-size: 0.8rem;
+        color: var(--ink);
+      }
+      .order-toggle button[aria-pressed="true"] {
+        background: var(--ink);
+        color: var(--bg);
+        border-color: var(--ink);
+        font-weight: 600;
+      }
+      .heatmap-legend {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        margin: 0.5rem 0 0.2rem;
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+      .heatmap-legend-ramp {
+        display: flex;
+        height: 12px;
+        width: 120px;
+        border-radius: 3px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+      }
+      .heatmap-legend-ramp span {
+        flex: 1;
+      }
+      .heatmap-row-label {
+        font-size: 9px;
+        fill: var(--muted);
+      }
+      .heatmap-cell {
+        cursor: pointer;
+      }
     </style>
     <script src="assets/nav.js"></script>
     <link
@@ -578,6 +634,56 @@
               token-length of every verse (Leeds tokenization), grouped into
               bands.
             </p>
+            <h4 style="margin: 0.9rem 0 0.2rem; font-size: 0.85rem; color: var(--muted)">
+              Same bands, as a chart
+            </h4>
+            <div id="lenHistoSvg"></div>
+          </div>
+          <div class="card study-only">
+            <h3>
+              Root density across surahs
+              <span
+                class="badge ok"
+                data-source-ids="leeds-corpus-v0.4"
+                aria-label="Verified"
+                tabindex="0"
+                title="Verified · computed from Leeds Quranic Arabic Corpus v0.4"
+                >●</span
+              >
+            </h3>
+            <p>
+              Normalized frequency (per 1,000 tokens) of the 40 most
+              frequent roots across all 114 surahs. Darker cells mean the
+              root is more locally concentrated in that surah, not more
+              important.
+            </p>
+            <div class="heatmap-controls">
+              <span class="heatmap-order-label">Surah order:</span>
+              <div class="order-toggle" role="group" aria-label="Surah ordering">
+                <button type="button" id="heatmapOrderCanonical" data-order="canonical" aria-pressed="true">
+                  Canonical (mushaf)
+                </button>
+                <button type="button" id="heatmapOrderRevelation" data-order="revelation" aria-pressed="false">
+                  Revelation order
+                </button>
+              </div>
+              <span
+                class="badge nuanced"
+                id="heatmapOrderBadge"
+                data-source-ids="cairo-1924"
+                aria-label="Nuanced"
+                tabindex="0"
+                title="Nuanced · periodization varies across scholarly chronologies"
+                hidden
+                >~</span
+              >
+            </div>
+            <p class="method-note" id="heatmapOrderNote" style="margin-top: 0.3rem" hidden>
+              Revelation order follows Cairo 1924 revelation order
+              (Nöldeke-Bell four-period classification), one chronology
+              among several scholarly proposals.
+            </p>
+            <div id="heatmapChart" style="margin-top: 0.5rem"></div>
           </div>
           <div class="card study-only">
             <h3>Vocabulary growth across revelation</h3>
@@ -693,6 +799,7 @@
     <script src="assets/app.js"></script>
     <script src="assets/share.js" defer></script>
     <script src="assets/chart.js" defer></script>
+    <script src="js/viz.js" defer></script>
     <script>
       (function () {
         function surahName(n) {
@@ -791,6 +898,9 @@
               .join("");
           }
 
+          renderVerseLengthSvg(data.verseLengthHistogram);
+          loadAndRenderHeatmap();
+
           // Form/lemma TTR need 4 decimal places, not the site-wide
           // 1-decimal data-num convention (percentages), so they are filled
           // here at full precision rather than via [data-num].
@@ -885,6 +995,304 @@
               grid.innerHTML =
                 '<p style="color:var(--muted);font-size:0.85rem">Keyness data unavailable.</p>';
             });
+        }
+
+        // SVG histogram of the same verse-length bands already shown as
+        // CSS bars above (#lenHisto); this does not replace that view,
+        // it adds an SVG rendering with its own table fallback and
+        // disclaimer, using the identical bin data from data/numbers.json
+        // (no new fetch: verseLengthHistogram is already loaded).
+        function renderVerseLengthSvg(hist) {
+          var container = document.getElementById("lenHistoSvg");
+          if (!container || !window.qdViz || !hist || !hist.bins || !hist.bins.length) return;
+          container.innerHTML = "";
+          var bins = hist.bins;
+          var W = 560,
+            H = 200,
+            padL = 44,
+            padB = 30,
+            padT = 10,
+            padR = 10;
+          var maxCount = Math.max(1, Math.max.apply(null, bins.map(function (b) { return b.count; })));
+          var svg = qdViz.createSVG({
+            viewBox: "0 0 " + W + " " + H,
+            maxWidth: "560px",
+            ariaLabel:
+              "Verse-length distribution: " + bins.length + " token-count bands across " +
+              hist.totalVerses + " verses, tallest band " + maxCount.toLocaleString("en-US") + " verses",
+          });
+          var xScale = qdViz.scaleLinear([0, bins.length], [padL, W - padR]);
+          var yScale = qdViz.scaleLinear([0, maxCount], [H - padB, padT]);
+          qdViz.renderAxis(svg, {
+            orientation: "y",
+            scale: yScale,
+            pos: padL,
+            ticks: [0, maxCount / 2, maxCount],
+            format: function (v) {
+              return Math.round(v).toLocaleString("en-US");
+            },
+          });
+          var bw = (W - padL - padR) / bins.length;
+          bins.forEach(function (b, i) {
+            var h = (H - padB - padT) * (b.count / maxCount);
+            var rect = qdViz.svgEl("rect", {
+              x: xScale(i) + 2,
+              y: H - padB - h,
+              width: Math.max(1, bw - 4),
+              height: h,
+              fill: "var(--accent)",
+            });
+            var text = b.label + " word-units: " + b.count.toLocaleString("en-US") + " verses";
+            qdViz.attachTooltip(rect, function () { return text; });
+            svg.appendChild(rect);
+            var lbl = qdViz.svgEl("text", {
+              x: xScale(i) + bw / 2,
+              y: H - padB + 13,
+              "text-anchor": "middle",
+              "font-size": 9,
+              fill: "var(--muted)",
+            });
+            lbl.textContent = b.label;
+            svg.appendChild(lbl);
+          });
+          container.appendChild(svg);
+          qdViz.renderDisclaimer(container);
+          qdViz.renderDetailsFallback(container, {
+            summary: "View verse-length bands as a table",
+            caption: "Verse-length distribution",
+            columns: [
+              { key: "label", label: "Word-units" },
+              { key: "count", label: "Verses", numeric: true },
+            ],
+            rows: bins.map(function (b) {
+              return { label: b.label, count: b.count };
+            }),
+          });
+        }
+
+        // Root-density heatmap: top 40 roots x 114 surahs, from
+        // data/network/heatmap.json (precomputed by
+        // scripts/compute-network-layout.mjs, since the existing
+        // data/root-analytics/{safeKey}.json files carry far more per
+        // root than a heatmap cell needs). Column order (canonical vs.
+        // revelation) is a plain array sort of already-fetched data on
+        // toggle, not a re-fetch and not a layout computation.
+        var heatmapData = null;
+        var heatmapOrder = "canonical";
+
+        function loadAndRenderHeatmap() {
+          var container = document.getElementById("heatmapChart");
+          if (!container || !window.qdViz) return;
+          fetch("data/network/heatmap.json")
+            .then(function (r) {
+              if (!r.ok) throw new Error("HTTP " + r.status);
+              return r.json();
+            })
+            .then(function (data) {
+              heatmapData = data;
+              renderHeatmap();
+              wireHeatmapToggle();
+            })
+            .catch(function () {
+              container.innerHTML =
+                '<p class="chart-fallback-note">Heatmap unavailable.</p>';
+              qdViz.renderDisclaimer(container);
+            });
+        }
+
+        function wireHeatmapToggle() {
+          var canonBtn = document.getElementById("heatmapOrderCanonical");
+          var revBtn = document.getElementById("heatmapOrderRevelation");
+          var badge = document.getElementById("heatmapOrderBadge");
+          var note = document.getElementById("heatmapOrderNote");
+          if (!canonBtn || !revBtn) return;
+          function setOrder(order) {
+            heatmapOrder = order;
+            canonBtn.setAttribute("aria-pressed", order === "canonical" ? "true" : "false");
+            revBtn.setAttribute("aria-pressed", order === "revelation" ? "true" : "false");
+            if (badge) badge.hidden = order !== "revelation";
+            if (note) note.hidden = order !== "revelation";
+            renderHeatmap();
+          }
+          canonBtn.addEventListener("click", function () {
+            setOrder("canonical");
+          });
+          revBtn.addEventListener("click", function () {
+            setOrder("revelation");
+          });
+        }
+
+        function renderHeatmap() {
+          var container = document.getElementById("heatmapChart");
+          if (!container || !heatmapData || !window.qdViz) return;
+          container.innerHTML = "";
+
+          var surahIdx = heatmapData.surahs.map(function (s, i) {
+            return { s: s, i: i };
+          });
+          if (heatmapOrder === "revelation") {
+            surahIdx.sort(function (a, b) {
+              return (a.s.revelationOrder ?? 999) - (b.s.revelationOrder ?? 999);
+            });
+          } else {
+            surahIdx.sort(function (a, b) {
+              return a.s.surah - b.s.surah;
+            });
+          }
+
+          var roots = heatmapData.roots;
+          var nCols = surahIdx.length;
+          var nRows = roots.length;
+          var padL = 46,
+            padT = 6,
+            padB = 16,
+            cellW = 5.2,
+            cellH = 12,
+            gap = 0.4;
+          var W = padL + nCols * cellW + 8;
+          var H = padT + nRows * (cellH + gap) + padB;
+          var maxValue = heatmapData.maxValue || 1;
+
+          var svg = qdViz.createSVG({
+            viewBox: "0 0 " + W + " " + H,
+            maxWidth: "100%",
+            ariaLabel:
+              "Root density heatmap: normalized frequency of the top " + nRows +
+              " roots across " + nCols + " surahs, " +
+              (heatmapOrder === "revelation" ? "in revelation order" : "in canonical mushaf order") +
+              ", darker cells indicating higher local concentration",
+          });
+          svg.style.display = "block";
+
+          roots.forEach(function (root, ri) {
+            var y = padT + ri * (cellH + gap);
+            var rowLabel = qdViz.svgEl("g", { tabindex: "0", role: "link" });
+            var lblText = qdViz.svgEl("text", {
+              x: padL - 6,
+              y: y + cellH - 2,
+              "text-anchor": "end",
+              class: "heatmap-row-label",
+            });
+            lblText.textContent = root.rootLatin;
+            rowLabel.appendChild(lblText);
+            var rowLabelText =
+              root.rootLatin + " (" + root.arabic + "): " + root.totalCount.toLocaleString("en-US") +
+              " occurrences corpus-wide. Activate to open this root's page.";
+            qdViz.attachTooltip(rowLabel, function () {
+              return rowLabelText;
+            });
+            rowLabel.setAttribute("aria-label", rowLabelText);
+            rowLabel.style.cursor = "pointer";
+            rowLabel.addEventListener("click", function () {
+              location.href = "roots.html?root=" + root.safeKey;
+            });
+            rowLabel.addEventListener("keydown", function (e) {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                location.href = "roots.html?root=" + root.safeKey;
+              }
+            });
+            svg.appendChild(rowLabel);
+
+            surahIdx.forEach(function (entry, ci) {
+              var v = heatmapData.matrix[ri][entry.i];
+              var x = padL + ci * cellW;
+              var pct = v <= 0 ? 0 : Math.round((v / maxValue) * 100);
+              var rect = qdViz.svgEl("rect", {
+                x: x,
+                y: y,
+                width: cellW - gap,
+                height: cellH,
+                fill: v <= 0 ? "var(--bg)" : "color-mix(in oklab, var(--accent) " + pct + "%, var(--bg))",
+                stroke: v <= 0 ? "var(--line)" : "none",
+                "stroke-width": v <= 0 ? 0.25 : 0,
+                "data-safe-key": root.safeKey,
+                class: "heatmap-cell",
+              });
+              var title = qdViz.svgEl("title", {});
+              title.textContent =
+                root.rootLatin + " in surah " + entry.s.surah +
+                (entry.s.name ? " (" + entry.s.name + ")" : "") +
+                ": " + v.toFixed(2) + " per 1,000 tokens";
+              rect.appendChild(title);
+              svg.appendChild(rect);
+            });
+          });
+
+          // One delegated click listener for all 4,560 cells, instead of
+          // one listener per cell: each cell carries its root's safeKey
+          // as a data attribute, read from event.target on click.
+          svg.addEventListener("click", function (e) {
+            var key = e.target.getAttribute && e.target.getAttribute("data-safe-key");
+            if (key) location.href = "roots.html?root=" + key;
+          });
+
+          container.appendChild(svg);
+
+          // Legend: sequential single-hue ramp from CSS custom properties
+          var legend = document.createElement("div");
+          legend.className = "heatmap-legend";
+          var ramp = document.createElement("div");
+          ramp.className = "heatmap-legend-ramp";
+          [10, 30, 50, 70, 90, 100].forEach(function (pct) {
+            var seg = document.createElement("span");
+            seg.style.background = "color-mix(in oklab, var(--accent) " + pct + "%, var(--bg))";
+            ramp.appendChild(seg);
+          });
+          legend.appendChild(document.createTextNode("0"));
+          legend.appendChild(ramp);
+          legend.appendChild(document.createTextNode(maxValue.toFixed(1) + " per 1,000 tokens"));
+          container.appendChild(legend);
+
+          qdViz.renderDisclaimer(container);
+
+          // Table fallback, paginated by root: a <select> of the 40
+          // roots, one root's 114-surah row shown as a table at a time.
+          var details = document.createElement("details");
+          details.className = "xref-panel chart-fallback";
+          var summary = document.createElement("summary");
+          summary.textContent = "View as table (by root)";
+          details.appendChild(summary);
+          var picker = document.createElement("label");
+          picker.style.display = "block";
+          picker.style.margin = "0.4rem 0";
+          picker.style.fontSize = "0.82rem";
+          picker.textContent = "Root: ";
+          var select = document.createElement("select");
+          roots.forEach(function (root, ri) {
+            var opt = document.createElement("option");
+            opt.value = String(ri);
+            opt.textContent = root.rootLatin + " (" + root.arabic + ")";
+            select.appendChild(opt);
+          });
+          picker.appendChild(select);
+          details.appendChild(picker);
+          var tableHost = document.createElement("div");
+          details.appendChild(tableHost);
+          function renderRootTable(ri) {
+            var root = roots[ri];
+            var rows = surahIdx.map(function (entry) {
+              return {
+                surah: entry.s.surah,
+                name: entry.s.name || "",
+                value: heatmapData.matrix[ri][entry.i].toFixed(2),
+              };
+            });
+            qdViz.renderTableFallback(tableHost, {
+              caption: root.rootLatin + " by surah (" + (heatmapOrder === "revelation" ? "revelation order" : "canonical order") + ")",
+              columns: [
+                { key: "surah", label: "Surah", numeric: true },
+                { key: "name", label: "Name" },
+                { key: "value", label: "Per 1,000 tokens", numeric: true },
+              ],
+              rows: rows,
+            });
+          }
+          select.addEventListener("change", function () {
+            renderRootTable(Number(select.value));
+          });
+          renderRootTable(0);
+          container.appendChild(details);
         }
 
         function wireHapaxList() {

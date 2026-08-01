@@ -889,6 +889,63 @@
             </p>
           </div>
 
+          <!-- Association network graph: precomputed radial layout from data/network/ -->
+          <div class="stat-block" id="detailNetworkAssocBlock" hidden>
+            <h4>
+              Association network
+              <span
+                class="badge ok"
+                data-source-ids="leeds-corpus-v0.4"
+                aria-label="Verified"
+                tabindex="0"
+                title="Verified · values computed from Leeds Quranic Arabic Corpus v0.4"
+                >●</span
+              >
+            </h4>
+            <details class="method-note">
+              <summary>ℹ How this graph is built</summary>
+              <p>
+                Node positions are precomputed offline (not laid out in
+                the browser): the root sits at the center, its top
+                partner roots sit on one of three rings by LLR rank
+                (strongest partners closest), and each node's angle
+                comes from a fixed hash of its own root letters, so a
+                given partner always lands at the same angle. Node size
+                reflects the root's raw corpus frequency; edge thickness
+                reflects LLR. Click a node to open that root; hover or
+                tab to it for the shared-verse count, LLR, PMI, and Dice.
+              </p>
+            </details>
+            <div id="detailNetworkAssocChart"></div>
+          </div>
+
+          <!-- Chronological trend: normalized frequency per period -->
+          <div class="stat-block" id="detailTrendBlock" hidden>
+            <h4>
+              Frequency across revelation periods
+              <span
+                class="badge nuanced"
+                data-source-ids="leeds-corpus-v0.4 cairo-1924"
+                aria-label="Nuanced"
+                tabindex="0"
+                title="Nuanced · periodization varies across scholarly chronologies"
+                >~</span
+              >
+            </h4>
+            <details class="method-note">
+              <summary>ℹ Method</summary>
+              <p>
+                Normalized frequency (occurrences per 1,000 tokens) in
+                each of the four traditional revelation periods, by
+                Cairo 1924 revelation order (Nöldeke-Bell four-period
+                classification). Periodization varies across scholarly
+                chronologies, so this trend is Nuanced, not a settled
+                chronology.
+              </p>
+            </details>
+            <div id="detailTrendChart"></div>
+          </div>
+
           <p class="prov" style="margin-top: 0.5rem">
             <a
               id="detailCorpusLink"
@@ -961,6 +1018,7 @@
     <script src="assets/app.js"></script>
     <script src="assets/share.js" defer></script>
     <script src="assets/chart.js" defer></script>
+    <script src="js/viz.js" defer></script>
     <script src="assets/root-meanings.js"></script>
     <script>
       (function () {
@@ -1221,6 +1279,9 @@
           } catch {
             renderAssociations([]);
           }
+
+          renderNetworkAssoc(bw);
+          renderTrendChart(bw);
         }
 
         function renderFullDetail(d) {
@@ -1626,6 +1687,261 @@
               );
             })
             .join("");
+        }
+
+        // Association network graph: plots the precomputed layout from
+        // data/network/{safeKey}.json (scripts/compute-network-layout.mjs).
+        // No layout math here beyond mapping LLR to a stroke-width via a
+        // simple linear scale; every x/y coordinate is read straight
+        // from the file.
+        function renderNetworkAssoc(bw) {
+          const block = document.getElementById("detailNetworkAssocBlock");
+          const container = document.getElementById("detailNetworkAssocChart");
+          if (!block || !container || !window.qdViz) return;
+          const sk = safeKey(bw);
+          qdViz
+            .renderChart({
+              container,
+              url: `data/network/${sk}.json`,
+              ariaLabel: "Association network",
+              buildSvg(data) {
+                if (!data.nodes || !data.nodes.length) return null;
+                block.hidden = false;
+                const svg = qdViz.createSVG({
+                  viewBox: data.viewBox,
+                  maxWidth: "480px",
+                  ariaLabel: `Association network: ${data.rootLatin} with its ${data.nodes.length} strongest statistical partners by log-likelihood ratio`,
+                });
+                const llrVals = data.nodes.map((n) => n.llr);
+                const edgeScale = qdViz.scaleLinear(
+                  [Math.min(...llrVals), Math.max(...llrVals)],
+                  [0.75, 4],
+                );
+                // edges under nodes
+                data.nodes.forEach((n) => {
+                  svg.appendChild(
+                    qdViz.svgEl("line", {
+                      x1: data.center.x,
+                      y1: data.center.y,
+                      x2: n.x,
+                      y2: n.y,
+                      stroke: "var(--accent)",
+                      "stroke-opacity": 0.25 + 0.5 * ((n.llr - Math.min(...llrVals)) / (Math.max(...llrVals) - Math.min(...llrVals) || 1)),
+                      "stroke-width": edgeScale(n.llr).toFixed(2),
+                    }),
+                  );
+                });
+                // center node
+                const center = qdViz.svgEl("circle", {
+                  cx: data.center.x,
+                  cy: data.center.y,
+                  r: Math.max(data.center.r, 14),
+                  fill: "var(--accent)",
+                  stroke: "var(--card)",
+                  "stroke-width": 2,
+                });
+                svg.appendChild(center);
+                const centerLbl = qdViz.svgEl("text", {
+                  x: data.center.x,
+                  y: data.center.y + 4,
+                  "text-anchor": "middle",
+                  "font-size": 12,
+                  "font-weight": 600,
+                  fill: "var(--bg)",
+                });
+                centerLbl.textContent = data.rootLatin;
+                svg.appendChild(centerLbl);
+                // partner nodes
+                data.nodes.forEach((n) => {
+                  const g = qdViz.svgEl("g", { role: "link" });
+                  const c = qdViz.svgEl("circle", {
+                    cx: n.x,
+                    cy: n.y,
+                    r: n.r,
+                    fill: "color-mix(in oklab, var(--accent) " + Math.round(30 + (n.rank <= 8 ? 55 : n.rank <= 16 ? 35 : 20)) + "%, var(--bg))",
+                    stroke: "var(--card)",
+                    "stroke-width": 1.5,
+                  });
+                  g.appendChild(c);
+                  const outside = n.y < data.center.y ? -(n.r + 6) : n.r + 13;
+                  const lbl = qdViz.svgEl("text", {
+                    x: n.x,
+                    y: n.y + outside,
+                    "text-anchor": "middle",
+                    "font-size": 10,
+                    fill: "var(--ink)",
+                  });
+                  lbl.textContent = n.rootLatin;
+                  g.appendChild(lbl);
+                  const text = `${n.rootLatin}: ${n.k11.toLocaleString()} shared verse${n.k11 === 1 ? "" : "s"}, LLR ${n.llr.toFixed(2)}, PMI ${n.pmi.toFixed(2)}, Dice ${n.dice.toFixed(3)}`;
+                  qdViz.attachTooltip(g, () => text, { role: "link" });
+                  g.setAttribute("aria-label", text);
+                  g.style.cursor = "pointer";
+                  g.addEventListener("click", () => {
+                    location.href = `roots.html?root=${n.safeKey}`;
+                  });
+                  g.addEventListener("keydown", (e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      location.href = `roots.html?root=${n.safeKey}`;
+                    }
+                  });
+                  svg.appendChild(g);
+                });
+                return svg;
+              },
+              tableOf(data) {
+                return {
+                  caption: `Association network partners for ${data.rootLatin}`,
+                  columns: [
+                    { key: "rootLatin", label: "Root" },
+                    { key: "k11", label: "Shared verses", numeric: true },
+                    { key: "llr", label: "LLR", numeric: true },
+                    { key: "pmi", label: "PMI", numeric: true },
+                    { key: "dice", label: "Dice", numeric: true },
+                  ],
+                  rows: (data.nodes || []).map((n) => ({
+                    rootLatin: n.rootLatin,
+                    k11: n.k11,
+                    llr: n.llr.toFixed(2),
+                    pmi: n.pmi.toFixed(2),
+                    dice: n.dice.toFixed(3),
+                  })),
+                };
+              },
+              fallbackSummary: "View association network as a table",
+            })
+            .then((data) => {
+              if (!data || !data.nodes || !data.nodes.length) block.hidden = true;
+            });
+        }
+
+        // data/exports/root-frequencies.json stores period data as flat
+        // count_<period> / normalizedFrequency_<period> fields (PR 1's
+        // export schema); this reshapes one row into a period array,
+        // reusing the PERIOD_ORDER/PERIOD_LABELS already declared above.
+        function periodsFromRow(row) {
+          if (!row) return [];
+          return PERIOD_ORDER.map((key) => ({
+            period: key,
+            label: PERIOD_LABELS[key],
+            count: row[`count_${key}`] ?? 0,
+            normalizedFrequency: row[`normalizedFrequency_${key}`] ?? 0,
+          }));
+        }
+
+        // Chronological trend: normalized frequency per revelation
+        // period, from data/exports/root-frequencies.json (PR 1's
+        // per-period normalized-frequency output; read-only, never
+        // modified here).
+        function renderTrendChart(bw) {
+          const block = document.getElementById("detailTrendBlock");
+          const container = document.getElementById("detailTrendChart");
+          if (!block || !container || !window.qdViz) return;
+          const sk = safeKey(bw);
+          qdViz
+            .renderChart({
+              container,
+              url: "data/exports/root-frequencies.json",
+              ariaLabel: "Frequency across revelation periods",
+              buildSvg(rows) {
+                const row = rows.find((r) => r.safeKey === sk);
+                const periods = periodsFromRow(row);
+                if (!row || !periods.length) return null;
+                block.hidden = false;
+                const W = 480,
+                  H = 220,
+                  padL = 40,
+                  padB = 34,
+                  padT = 14,
+                  padR = 16;
+                const svg = qdViz.createSVG({
+                  viewBox: `0 0 ${W} ${H}`,
+                  maxWidth: "480px",
+                  ariaLabel: `Normalized frequency of ${row.rootLatin} per 1,000 tokens across four revelation periods`,
+                });
+                const values = periods.map((p) => p.normalizedFrequency);
+                const maxV = Math.max(0.1, Math.max(...values) * 1.15);
+                const xScale = qdViz.scaleLinear([0, periods.length - 1], [padL, W - padR]);
+                const yScale = qdViz.scaleLinear([0, maxV], [H - padB, padT]);
+                qdViz.renderAxis(svg, {
+                  orientation: "y",
+                  scale: yScale,
+                  pos: padL,
+                  ticks: [0, maxV / 2, maxV],
+                  format: (v) => v.toFixed(1),
+                });
+                svg.appendChild(
+                  qdViz.svgEl("line", {
+                    x1: padL,
+                    y1: H - padB,
+                    x2: W - padR,
+                    y2: H - padB,
+                    stroke: "var(--line)",
+                    "stroke-width": 1,
+                  }),
+                );
+                periods.forEach((p, i) => {
+                  const t = qdViz.svgEl("text", {
+                    x: xScale(i),
+                    y: H - padB + 14,
+                    "text-anchor": "middle",
+                    "font-size": 9,
+                    fill: "var(--muted)",
+                  });
+                  t.textContent = p.label.replace(" Meccan", "");
+                  svg.appendChild(t);
+                });
+                const pointsAttr = periods
+                  .map((p, i) => `${xScale(i)},${yScale(p.normalizedFrequency)}`)
+                  .join(" ");
+                svg.appendChild(
+                  qdViz.svgEl("polyline", {
+                    points: pointsAttr,
+                    fill: "none",
+                    stroke: "var(--accent)",
+                    "stroke-width": 2,
+                  }),
+                );
+                periods.forEach((p, i) => {
+                  const c = qdViz.svgEl("circle", {
+                    cx: xScale(i),
+                    cy: yScale(p.normalizedFrequency),
+                    r: 4,
+                    fill: "var(--accent)",
+                    stroke: "var(--card)",
+                    "stroke-width": 1.5,
+                  });
+                  const text = `${p.label}: ${p.normalizedFrequency.toFixed(2)} per 1,000 tokens (${p.count.toLocaleString()} occurrence${p.count === 1 ? "" : "s"})`;
+                  qdViz.attachTooltip(c, () => text);
+                  svg.appendChild(c);
+                });
+                return svg;
+              },
+              tableOf(rows) {
+                const row = rows.find((r) => r.safeKey === sk);
+                const periods = periodsFromRow(row);
+                return {
+                  caption: row ? `Normalized frequency of ${row.rootLatin} by period` : "No data",
+                  columns: [
+                    { key: "label", label: "Period" },
+                    { key: "count", label: "Occurrences", numeric: true },
+                    { key: "normalizedFrequency", label: "Per 1,000 tokens", numeric: true },
+                  ],
+                  rows: periods.map((p) => ({
+                    label: p.label,
+                    count: p.count,
+                    normalizedFrequency: p.normalizedFrequency.toFixed(3),
+                  })),
+                };
+              },
+              fallbackSummary: "View frequency by period as a table",
+            })
+            .then((rows) => {
+              if (!rows) return;
+              const row = rows.find((r) => r.safeKey === sk);
+              if (!row || !periodsFromRow(row).length) block.hidden = true;
+            });
         }
 
         const VERSE_BATCH = 200;

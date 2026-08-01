@@ -1191,6 +1191,23 @@ label {
   border-radius: 3px;
   display: inline-block;
 }
+.chart-disclaimer {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 0.5rem 0 0;
+  line-height: 1.5;
+}
+.chart-fallback-note {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0.4rem 0;
+}
+details.chart-fallback {
+  margin-top: 0.5rem;
+}
+details.chart-fallback table.data {
+  font-size: 0.85rem;
+}
 .verse {
   background: var(--card);
   border: 1px solid var(--line);
