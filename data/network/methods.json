@@ -1,0 +1,20 @@
+{
+ "_script": "scripts/compute-network-layout.mjs",
+ "_source": "data/association/*.json (PR 1) and data/roots-summary.json",
+ "_method": "Deterministic radial layout, no force simulation. Center = the root itself. Up to 25 partners (already ranked by LLR descending in the association file) placed on 3 concentric rings by LLR-rank tercile (1-8 inner, 9-16 middle, 17-25 outer). Angle = FNV-1a 32-bit hash of the partner's Buckwalter root string, mod 3600, converted to a tenth-of-a-degree angle: a pure function of the root's own identity string, so the same partner always lands at the same angle on any root's network, in any run. Node size = sqrt-scaled raw corpus frequency, normalized against the global min/max across all 1,642 roots so sizes are comparable across pages. Edge weight = LLR, stored as-is; the renderer maps it to stroke width, a visual encoding, not a layout computation.",
+ "viewBox": "0 0 480 400",
+ "rings": [
+  80,
+  130,
+  180
+ ],
+ "nodeSizeRange": [
+  6,
+  16
+ ],
+ "globalFrequencyRange": [
+  1,
+  2851
+ ],
+ "_computed": "2026-08-01"
+}
