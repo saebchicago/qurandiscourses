@@ -1,836 +1,134 @@
-# Changes — audit fixes: honest errors, durable clearing, reachable surahs, keyboard-safe dialogs
-
-## What a full end-to-end audit found, and what it fixed
-
-- A verse number past a surah's end — including simply clicking Next on the
-  surah's last verse — used to produce an error blaming the reader's
-  connection ("not a problem with your surah or verse numbers") with a
-  retry that could never succeed. The Read page now checks the reference
-  against the surah's length before any request and says plainly which
-  verse doesn't exist, with a link to the surah's last verse; ranges clamp
-  to the surah's end; Next stops at the last verse the way Prev stops at
-  the first; and a not-found response from the text service is now
-  explained as a reference problem, not a network one. The Ask box applies
-  the same bound ("al-Fatihah (surah 1) has 7 verses") instead of routing
-  to a dead end.
-- "Clear preferences & reading history" did not survive on the Read page:
-  the re-render it triggers immediately re-saved the state and passage
-  cache it had just cleared. Persistence now pauses after clearing until
-  the reader's next deliberate interaction, and a stray duplicate of the
-  state that older builds wrote to session storage is cleared with it.
-  Translation and reciter choices, which previously persisted only by
-  accident, are now saved properly when chosen.
-- Twenty surah name aliases that are exactly three letters — hud, nas,
-  nuh, asr, sun, pen, and the rest — were captured by the root-search rule
-  before the surah lookup ran, leaving surah 11 unreachable by name and
-  al-'Asr's own alias landing on "No roots match." Exact surah names now
-  win in both scripts, the root rule keeps every genuine root query
-  (separated spellings like a-s-r still reach Roots), and prefix matching
-  is unchanged.
-- The reciter picker was unusable by keyboard: no close control, no
-  Escape, options that only a mouse could activate. All three of the Read
-  page's dialogs now share one accessible scaffold — dialog semantics, a
-  close button, Escape returning focus to what opened them — and the depth
-  hotkeys no longer re-render the page behind an open dialog.
-- Smaller repairs: Arabic-script root search on Compare now works as its
-  instructions promised; two glossary popover links that pointed at
-  nonexistent anchors resolve; a mistyped exercise link says it fell back
-  instead of silently serving a different surah; empty Ask input gets a
-  gentle prompt instead of "Not recognized"; and الرحمة finds رحمة.
-- The Ask box's own copy caught up with what it accepts: Arabic examples
-  in the help text, chips, rotating placeholder, tour, and How to Use.
-  The changelog page — which promises to log every correction — was five
-  releases behind and is now current, including the four retired citation
-  links. Every bundled typeface now ships with its license text
-  (previously only Bengali did), the Credits page lists all five faces,
-  and the glossary defines provenance, evidence dimensions, and
-  deterministic — terms the comparison section leans on.
-- The site's framing of software assistance was consolidated: one clear
-  statement on How It Works — research and tooling may use software
-  assistance, including language models, to locate candidates and check
-  work, and everything published is verified by a person against the
-  cited source — while page copy elsewhere describes what the site does
-  (computes, cites, routes; never answers in its own voice) rather than
-  what it doesn't use. The working rules in the maintainer guide and
-  CONTRIBUTING are unchanged in force.
-
-# Earlier changes — Arabic root entry, citation repair, and a call for translators
-
-## The Ask box learns Arabic roots; four dead citations are retired
-
-- An Arabic reader's natural way into the corpus is the root, so `رحم`,
-  `ر ح م`, and `رَحِمَ` now route from the Ask box to the Roots page, which
-  resolves the letters against the stored Arabic root and selects it
-  directly. The Roots search box compares skeletons too, so `سمو` matches
-  the space-separated `س م و` it is stored as. All 1,642 root skeletons are
-  distinct, so an exact match is never ambiguous. Surah names still win the
-  tie: `نوح` and `فجر` are each three Arabic letters and a plausible root,
-  and both route to the surah — the precedence the Latin path already gave
-  `fajr`, now asserted in the routing tests.
-- Retired four external citation links that no longer resolve: Lane's
-  Lexicon and Mawdudi's *Tafheem* (host certificate and TLS failures), a
-  404'd archive.org identifier for Penrice's *Dictionary and Glossary*, and
-  a link to repository discussions that were never enabled. Each
-  bibliographic record stays exactly as it was — only the dead URL is gone,
-  since a replacement could not be confirmed against the work itself, and
-  the guide's rule is to omit rather than guess. Lane remains cited on
-  Sources; the Roots page now points readers to the morphology browser that
-  is actually reachable.
-- Recorded the decision not to offer an Arabic tafsir edition: the
-  Translations panel stays strictly translations, and no labeling scheme
-  makes a commentary sitting in that list unambiguous.
-- Specified the Arabic orientation note for native readers — its home, its
-  exact English source text, and the requirement that a named human
-  translator supply the Arabic — and added a call for translators to
-  CONTRIBUTING.md. The note does not ship until a translator writes it; an
-  untranslated placeholder would be worse than its absence.
-
-# Earlier changes — five new translation languages, Arabic-script search, and a global-reach plan
-
-## Bengali, Malay, Indonesian, French, and Spanish translations; the Ask box learns Arabic
-
-- Registered six published human translations in five new languages:
-  Muhiuddin Khan and Zohurul Hoque (Bengali), Abdullah Muhammad Basmeih
-  (Malay), Kementerian Agama (Indonesian), Muhammad Hamidullah (French),
-  and Julio Cortés (Spanish). The reader page already takes each edition's
-  direction and language from the API's own edition object, so the change
-  is registry entries plus language labels — the recipe any future language
-  follows. Bengali ships with a self-hosted Noto Serif Bengali subset and
-  its own line-height rule, mirroring the Urdu Nastaliq precedent.
-- The Ask box now routes Arabic-script surah names — with or without
-  tashkeel, the definite article, or a leading "سورة" — and Arabic-Indic
-  digit verse references like ٢:٥, via the same deterministic character
-  mapping it uses for transliteration. No model involved.
-- Added "How this compares to other Qur'an tools" to How It Works
-  (#different): the site's design policies — no generated commentary, a
-  deterministic Ask box, provenance badges, no accounts — stated as
-  differences a reader can weigh, not verdicts on other tools.
-- New docs/global-reach-plan.md records the strategy behind all of this:
-  the Arabic-speaker value proposition, the language-expansion recipe and
-  its check-editions safety net, why interface localization is deferred
-  until human translators exist (machine translation of editorial text is
-  excluded by the method), the demo-video production runbook, and the open
-  editorial question of offering a tafsir edition to Arabic readers.
-
-# Earlier changes — trust, privacy, correction, and note-safety controls
-
-## The multidisciplinary review's first P0 recommendations become reader controls
-
-- Expanded About into a compact trust and access hub: verification, correction,
-  accessibility-barrier, rights, and change routes are now gathered beside
-  candid response targets and a statement that independent accessibility
-  conformance has not yet been established.
-- Replaced the incomplete “no personal data is sent” description with an exact
-  boundary: notes and preferences remain local, while an optional direct
-  alquran.cloud request necessarily exposes connection metadata and contains the
-  requested passage/edition. Added explicit storage, clearing, export, deletion,
-  cache, offline, and device-change guidance, both centrally and at the point a
-  passage is requested.
-- Added correction and accessibility GitHub issue templates that discourage
-  publishing study notes or sensitive personal information. Citation popovers
-  now provide both validation context and a source-prefilled correction route.
-- Clarified Settings' destructive boundary and gave the notes panel prominent
-  device-loss guidance plus export, per-note deletion, and confirmed delete-all.
-  A shared footer enhancement makes Trust & access discoverable across standard
-  pages without duplicating page markup.
-- Updated the review itself with an implementation record that distinguishes a
-  shipped control from a validated outcome and preserves the outstanding reader,
-  accessibility, privacy, and security gates.
-
-# Earlier changes — a root-family clustering visualization for the PMI ranking
-
-## roots.html's distinctive-partner list gets its own network map
-
-- The PMI (pointwise mutual information) partner ranking shipped earlier
-  this session only ever rendered as a text list — the existing
-  co-occurrence network map (`qdChart.egoNetwork`, already used for the
-  raw shared-verse-count partners) had no counterpart for it. Wired the
-  same chart primitive to the already-computed `coRootsPmi` data: pure UI,
-  zero new computation.
-- The two networks now tell visually different stories from the same
-  root: the count-based map sizes nodes by how *often* two roots
-  co-occur, the new PMI map sizes them by how much *more than chance*
-  they co-occur — a root can be a small node on one map and a large node
-  on the other, and the page now shows both side by side.
-- Extended `assets/chart.js`'s `egoNetwork()` with two optional,
-  backward-compatible parameters — `ariaLabel` and `tooltipFn` — since the
-  raw-count version's hardcoded tooltip ("appears in N shared verses")
-  would have been meaningless for a PMI score. The existing count-network
-  call site is unchanged and untouched by this.
-- Verified live in the browser: for r-ḥ-m (the site's flagship
-  co-occurrence example), the network renders with the correct PMI-scored
-  tooltip text and aria-label; for a root below the 3-shared-verse PMI
-  ranking floor, the network area hides cleanly with no leftover markup;
-  the pre-existing raw-count network is unaffected. Zero console errors
-  in all three cases.
-- Regenerated CSP hashes (`roots.html`'s inline script content changed).
-  Full check suite and the full `verify-site.mjs` suite (161 checks) pass
-  with zero regressions.
-
-# Earlier changes — extended the discourse-particle taxonomy to a third temporal marker
-
-## Boundary-particle detection now also tracks "idhā"
-
-- `scripts/build-discursive-pivots.mjs` previously tracked two verse-initial
-  temporal particles, "idh" and "lammā". Added a third, grammatically
-  identical family member: "idhā" (same clause-initial temporal
-  subordinator category — "when"/"if", general/future rather than
-  past-narrative). The generator's own comment now states explicitly why a
-  sequencing conjunction like "thumma" ("then") is deliberately *not*
-  included: it marks continuation, not a new temporal clause, and folding
-  it in would blur what this feature precisely measures.
-- Combined verse-initial occurrences rise from 203 (idh + lammā) to 350
-  (idh 118, idhā 147, lammā 85); root-continuity matches with the
-  preceding verse rise from 93 to 137. Updated the count text and detail
-  list on `patterns.html`'s "Other documented features" card and the
-  no-pivots fallback message on `dossier.html`.
-- Verified idhā's verse-initial count (147) by an independent hand count
-  over the raw morphology (not the generator's own logic) — exact match.
-  Verified the generator is deterministic (identical file hash across two
-  runs). Verified live in the browser: the expanded detail list shows all
-  137 entries with all three marker labels present, the dossier fallback
-  text updated correctly for a surah with no pivots, zero console errors.
-- Regenerated CSP hashes (`patterns.html`'s inline script content
-  changed). Full check suite and the full `verify-site.mjs` suite (161
-  checks) pass with zero regressions.
-
-# Earlier changes — a rhyme-regularity index, ranked across all 114 surahs
-
-## patterns.html's rhyme explorer gains a cross-surah view
-
-- The existing rhyme explorer (`data/rhyme/{n}.json`, built by
-  `scripts/build-rhyme-map.mjs`) only ever shows one surah at a time — its
-  `shiftCount` (how many times the verse-final rhyme key changes) had no
-  way to be compared across surahs. Added **mean run length** —
-  `verseCount / (shiftCount + 1)`, the average number of consecutive
-  verses sharing a fine rhyme key before it changes — as a single
-  regularity scalar per surah, computed purely from the shift data the
-  generator already produces (no new source data, no new claim about
-  structure).
-- New "Rhyme regularity across surahs" card on `patterns.html`: ranks all
-  114 surahs by mean run length, showing the 8 most regular (longest
-  sustained runs — surah 91, "The Sun", tops the list at 15 with zero
-  shifts across all 15 verses, i.e. one rhyme key the whole surah) and the
-  8 most varied (shortest runs — several 3-verse surahs land here
-  trivially, and are shown with their verse/shift counts alongside so
-  that's visible, not hidden). Labeled ~ Nuanced, same orthographic-proxy
-  caveats as the per-surah panel above it.
-- Verified the formula by hand for two surahs at opposite extremes: surah
-  91 (15 verses, 0 shifts → 15/1 = 15, exact match) and surah 103 (3
-  verses, 2 shifts → 3/3 = 1, exact match). Verified the generator is
-  deterministic (identical file hashes across two full regenerations of
-  all 114 `data/rhyme/*.json` files plus the summary). Verified live in
-  the browser: both ranked lists render with the expected surahs at the
-  extremes, correct per-row detail, zero console errors.
-- Regenerated CSP hashes (`patterns.html`'s inline script changed). Full
-  check suite and the full `verify-site.mjs` suite (161 checks) pass with
-  zero regressions.
-
-# Earlier changes — lexical diversity (type-token ratio) by surah and by period
-
-## A new corpus-linguistics measure: vocabulary variety vs. repetition
-
-- Added type-token ratio (TTR) — distinct surface forms, and distinct
-  lemmas, each divided by all word-tokens — at two granularities:
-  - **Per surah**, in `scripts/build-surah-profiles.mjs` /
-    `data/surah-profiles.json`: `distinctFormCount`, `formDiversityRatio`,
-    `distinctLemmaCount`, `lemmaDiversityRatio`, computed from the same
-    per-token pass the existing `rootDiversityRatio` already uses, so all
-    three ratios (root/form/lemma) are directly comparable. Surfaced on
-    `dossier.html`'s Vocab section, next to the existing root diversity
-    ratio.
-  - **Per chronological period**, in `scripts/build-numbers.mjs` /
-    `data/numbers.json`'s new `ttrByPeriod` array: mirrors the existing
-    `posByPeriod` structure (same four Cairo 1924 periods, same token
-    counts). Surfaced on `numbers.html` as a new "Lexical diversity by
-    period" table, showing tokens alongside form/lemma TTR at full
-    (4-decimal) precision — the site-wide `[data-num]` 1-decimal
-    convention would have flattened these into visually-identical values,
-    so this table fills its ratio cells via a small dedicated script
-    instead.
-- TTR is well known to be sensitive to sample size — it falls mechanically
-  as text grows, independent of any real change in vocabulary richness.
-  Both surfaced views state this caveat plainly (~ Nuanced) rather than
-  present the numbers as a clean ranking: the per-surah ratio is framed as
-  a within-similar-length comparison, and the per-period table shows each
-  period's token count right next to its ratio so the length confound is
-  visible, not hidden.
-- Verified the exact formula by hand against raw morphology data for one
-  surah (103: 14 tokens, 13 distinct forms, 13 distinct lemmas → 0.9286 /
-  0.9286, exact match) and one period (Early Meccan: 2,704 tokens, 1,677
-  distinct forms, 954 distinct lemmas → 0.6202 / 0.3528, exact match).
-  Cross-checked that `ttrByPeriod`'s token counts exactly match the
-  pre-existing `posByPeriod` counts for the same periods (internal
-  consistency between two independently-built aggregates). Verified both
-  generators are deterministic (identical file hashes across two runs).
-  Verified live in the browser on both pages: correct values render,
-  matching the hand calculations exactly, with zero console errors.
-- Regenerated CSP hashes (`numbers.html`'s inline script changed). Full
-  check suite (`check-claims`, `check-exercises`, `check-data-nums`,
-  `check-paths`, `check-nav-sync`, `check-headers-sync`,
-  `build-csp --check`) and the full `verify-site.mjs` suite (161 checks)
-  pass with zero regressions.
-
-# Earlier changes — a distinctiveness ranking for root co-occurrence (PMI)
-
-## roots.html now ranks co-occurring roots by distinctiveness, not just frequency
-
-- Added pointwise mutual information (PMI) as a second ranking of the same
-  verse-level co-occurrence data already computed in
-  `scripts/build-cooccurrence.mjs`: PMI(r1,r2) = log2(P(r1,r2) /
-  (P(r1)·P(r2))), where each root's marginal probability is its share of
-  all 6,236 verses (computed independently from the exact same verse-root
-  pass the existing count is built from — not from `roots-summary.json`'s
-  `totalCount`, which is a token count and the wrong unit for a verse-level
-  probability model). A pair needs ≥3 shared verses before it's ranked, to
-  keep a single coincidental shared verse between two rare roots from
-  producing an enormous but meaningless score.
-- This asks a different question than the existing count-sorted list — how
-  much *more than chance* two roots co-occur, not how *often* — and can
-  disagree with it: r-ḥ-m/gh-f-r (mercy/forgiveness, the site's own
-  flagship co-occurrence example) is r-ḥ-m's highest-count partner at 91
-  shared verses, but ranks only 5th by PMI (score 3.17) behind several
-  much rarer, more tightly-paired roots — exactly the "frequent ≠
-  distinctive" tension PMI exists to surface. Both lists are kept side by
-  side; neither replaces the other.
-- New `roots.html` panel, "Distinctive partners (PMI)", labeled ~ Nuanced
-  (a chosen statistic, not a settled count) with its own method note.
-  Hidden entirely for roots with no partner reaching the 3-shared-verse
-  floor.
-- Verified the exact PMI formula by an independent hand calculation
-  against the r-ḥ-m/gh-f-r pair (script: 3.17, manual: 3.1660 → matches to
-  rounding); verified the generator is deterministic (identical file
-  hashes across two runs); verified live in the browser that the panel
-  renders correctly, hides correctly for a sparse root, and produces no
-  console errors.
-- Regenerated all 1,642 `data/cooccurrence/*.json` files (adds
-  `coRootsPmi` and `verseCount` fields; existing `coRoots` and
-  `byChronologyCoRoots` fields unchanged). Regenerated CSP hashes. Full
-  `verify-site.mjs` suite (161 checks) passes with zero regressions.
-
-# Earlier changes — a study path chaining Khan's method with the site's own tools
-
-## New Study Path + a static-fallback drift bug found and fixed along the way
-
-- Added a fifth Study Path, "Test a Khan outline against the site's own
-  computed signals": work the al-'Asr outline exercise, open that surah's
-  Dossier (now showing its computed structural signals per the prior
-  entry), follow any signal to its full method on Patterns, then record in
-  the discovery worksheet where Khan's outline and the computed signals
-  agree, diverge, or don't overlap at all. Zero new claims — it only
-  chains existing, already-verified tools, per the "Add a study path"
-  recipe.
-- While adding it, found that `paths.html`'s static fallback markup (shown
-  only if the `data/paths.json` fetch fails) had already silently fallen
-  behind the registry — the fourth path, "Study a theme end to end", had
-  no matching card at all. Added it, and the new fifth path's card.
-- `scripts/check-paths.mjs` now also asserts every path's title appears in
-  `paths.html`'s static fallback, so this class of drift fails the build
-  instead of sitting invisible until a reader hits it with the network
-  down. Verified the check catches the exact bug just found (removed a
-  title, confirmed the failure, restored it).
-- Verified the new path renders correctly from the live JSON (5 cards,
-  screenshot confirms clean layout) and reran the full `verify-site.mjs`
-  suite (161 checks, zero regressions).
-
-# Earlier changes — the Dossier now shows its own computed structure alongside Khan's
-
-## Two already-computed, already-labeled signals were siloed on Patterns — now they're on every surah's Dossier too
-
-- `data/rhetorical-features.json` (fawātiḥ letters, the believers'-vocative
-  direct-address count) and `data/symmetry-test.json` (the ring-composition
-  proxy test's closest, still-not-significant candidates) were each fully
-  computed and already rendered — but only on `patterns.html`, reachable
-  only by a reader who already knew to look there. Neither ever appeared
-  on `dossier.html`, the page whose whole premise is "everything the site
-  knows about one surah, on one page" — so a reader testing Khan's outline
-  (or proposing their own structure in the discovery worksheet) had no way
-  to see the site's own mechanical tooling corroborate or diverge from it,
-  for that same surah, without a separate trip to Patterns.
-- `dossier.html`'s `renderStructure()` now also fetches both files and, for
-  surahs where they have something to say, renders them in the same
-  Structure section as the outline/pivots/interpretation: a ●-Verified
-  "Rhetorical features" block (fawātiḥ, direct-address verses with links)
-  and a ~-Nuanced "Ring-composition proxy test" block (explicitly stated as
-  not significant — this must never read as a positive finding). Surahs
-  with nothing in either dataset show nothing extra, same as the existing
-  pivots/interpretation sections' honest-empty pattern.
-- No new computation, no new claims — both datasets and their labels
-  already existed and already passed `check-claims.mjs`; this is purely
-  cross-linking. Reuses the page's existing `fill()` helper, so citation
-  badges on the new content are automatically wired up
-  (`qdCiteEnhance`) — verified live that the new badge's popover opens.
-- Found and built from a broader audit of how tightly the site's own
-  computed tooling is cross-linked with Khan's transcribed outlines (see
-  also the Replay citation fix, below).
-- Regenerated CSP `script-src` hashes; full `verify-site.mjs` suite (161
-  checks) passes with zero regressions.
-
-# Earlier changes — fix Replay's hardcoded outline citation
-
-## Replay was citing the wrong Khan book for 5 of its 6 outlines
-
-- `replay.html`'s outline-provenance badge and citation sentence were
-  hardcoded to always name *An Exercise in Understanding the Qur'an*
-  (2013, `khan-exercise-2013`) — correct for surah 103 (al-'Asr), but
-  wrong for the other five surahs with a transcribed outline (96, 107,
-  108, 109, 112), which are all sourced from the different volume *An
-  Introduction to Understanding the Qur'an with Examples* (2011,
-  `khan-introduction-2011`). Every one of those five showed a ● Verified
-  badge citing a book that isn't where that outline actually came from —
-  a real provenance error on a page whose premise is that everything
-  shown is traceable.
-- `assets/replay.js` now sets the badge's `data-source-ids` and the
-  citation text from the matched outline's own `sourceIds`/
-  `provenanceHtml` fields, the same fields `exercise.html` already reads
-  correctly per entry, instead of hardcoding one book in the HTML.
-- Verified live for surah 96 (now correctly cites khan-introduction-2011),
-  surah 103 (still correctly cites khan-exercise-2013 — no regression),
-  and surah 90 (no outline — the citation stays hidden, as before).
-- Found during a broader audit of how tightly the site's own computed
-  tooling is cross-linked with Khan's transcribed outlines.
-
-# Earlier changes — the middle depth tier is now "Study," not "Scholar"
-
-## Renamed the analytical depth tier site-wide
-
-- Renamed the middle depth tier (Simple / **Scholar** / Encyclopedic) to
-  Simple / **Study** / Encyclopedic, at the maintainer's request. "Scholar"
-  read as gatekeeping for a site whose whole premise is that any reader can
-  do this work; "Study" names what the tier actually does (word-by-word
-  morphology, root links, chronological period distribution) without
-  implying a credential.
-- Renamed everywhere the tier is represented, not just its visible label:
-  the `.scholar-only` CSS class → `.study-only`, the `data-depth="scholar"`
-  attribute/state value → `"study"`, the settings-gear option, the
-  `read.html` depth-toggle button, every `data-tip="depth-scholar"` /
-  `aria-label` reference, the onboarding tour copy, `how-to-use.html`'s and
-  `how-it-works.html`'s explainer cards, and every "at Scholar depth" prose
-  mention across `dossier.html`, `words.html`, `patterns.html`, `paths.html`
-  (registry and static fallback), `validation.html`, and
-  `data/case-studies.json`. Left untouched, deliberately: `CHANGES.md` and
-  `changelog.html`'s existing historical entries (they describe the site as
-  it was on the date they were written), and every generic use of
-  "scholar/scholarly/scholarship" as an ordinary English word (Khan's own
-  scholarly lineage, bibliography descriptions, claim-type vocabulary like
-  `scholarly-attribution` — none of those name the UI tier).
-- The settings-gear option text needed new copy, not just a relabel:
-  "Scholar — study" would have become the redundant "Study — study." It's
-  now "Study — analyze," matching the terse verb-phrase pattern of the
-  other two options ("Simple — just read," "Encyclopedic — verify").
-- Added a one-time migration in `assets/app.js`'s state loader: a
-  returning visitor's `localStorage` may still hold the old `"scholar"`
-  value, which would otherwise match none of the three valid depths and
-  silently fall back to Simple. The migration rewrites and persists the
-  value on first load post-deploy.
-- Verified live with Playwright: the renamed button sets `data-depth`
-  correctly, `.study-only` content toggles correctly at each tier, the
-  migration both applies mid-session and persists to `localStorage` (not
-  just once per page load), and the full `verify-site.mjs` suite (161
-  checks across all 28 pages) passes with zero regressions.
-- Regenerated `netlify.toml`'s CSP script-src hashes (`build-csp.mjs`) —
-  several inline `<script>` blocks changed.
-
-# Earlier changes — wider badge tap targets
-
-## Citation badges are easier to tap without risking accidental clicks nearby
-
-- Widened every ●/○/~ citation badge's tap target horizontally toward the
-  WCAG 2.5.8 AAA 44px guidance (`.badge::before`, an invisible pseudo-element
-  — the rendered glyph is unchanged, still ~21x20px). Vertical expansion was
-  attempted and reverted: a full Playwright sweep of every badge-bearing page
-  at desktop and mobile widths found the site's fluid text reflow puts some
-  badges within ~2px of an interactive element on the next wrapped line at
-  certain viewport widths (e.g. numbers.html's citation line), which no
-  static margin can stay safely clear of everywhere — so height stays at the
-  glyph's already WCAG-2.5.8-compliant ~20px.
-- Before widening, the same sweep found the horizontal expansion would have
-  intercepted clicks meant for something else in 4 places where a badge sat
-  right against a link or another badge: `about.html`'s badge legend,
-  `sources.html`'s bibliography (two citations) and its own badge legend,
-  and `datasets.html`'s Formulas citation. Added real spacing (a small
-  margin on the badge, not a layout change) at each. `how-to-use.html`'s
-  legend table needed slightly more cell padding for the same reason on
-  mobile widths specifically.
-- Verified with real click simulation (`document.elementFromPoint` just
-  outside the visible glyph resolves to the badge) and screenshots in both
-  light and dark mode, not just bounding-box math.
-- Documented the axis-specific reasoning in `docs/maintainer-guide.md`'s
-  optimization backlog, replacing the old "not 44px" note.
-
-# Earlier changes — Study Paths integrity guard
-
-## A study path's links into other tools can no longer silently rot
-
-- Added `scripts/check-paths.mjs`. Each of the four registered study paths
-  (`data/paths.json`) chains hand-authored links into other tools — an
-  exercise id, a theme slug, a surah/verse reference, a `compare.html`
-  passage pair. None of that was schema-checked, and none of it is caught
-  by `verify-site.mjs`'s HTTP-level link crawl: every one of those pages
-  returns 200 regardless of whether the id/slug/verse embedded in it is
-  real, since the page just renders a client-side "not found" state.
-- The new checker resolves every `exercise.html?id=` against
-  `data/exercises.json`, every `themes.html#slug` against
-  `data/themes.json`, and every surah/verse number (including
-  `compare.html`'s `p1=`/`p2=` passage pairs) against
-  `data/surah-meta.json`'s verse counts. Verified it catches breakage by
-  deliberately corrupting an id, a slug, and two verse references, then
-  restoring the file.
-- Wired into `.github/workflows/audit.yml` alongside the other registry
-  checks. Documented in the maintainer guide's checker table, a new "Add a
-  study path" recipe, and the pre-ship checklist.
-- No path content changed; all 4 current paths pass.
-
-# Earlier changes — data-num drift guard
-
-## Corpus figures in prose can no longer silently fall out of sync with the generated data
-
-- Added `scripts/check-data-nums.mjs`. Every `data-num="dot.path"` binding
-  (sources.html, validation.html, words.html, roots.html, numbers.html,
-  credits.html) is supposed to bind a prose figure to `data/numbers.json` so
-  it can never drift — but `assets/app.js`'s `initDataNums()` only overwrites
-  the static fallback text when the path resolves to a number, and fails
-  silently otherwise. A typo'd path or a stale fallback left behind after
-  `data/numbers.json` regenerates would previously go undetected.
-- The new checker resolves every binding's path and recomputes the expected
-  display value with `initDataNums()`'s own formatting (`toLocaleString` for
-  integers, `.toFixed(1)` otherwise), then fails if the static text doesn't
-  match. Verified it actually catches drift by deliberately corrupting a
-  figure and confirming the failure, then restoring the file.
-- Wired into `.github/workflows/audit.yml` alongside the other registry
-  checks, and documented in the maintainer guide's checker table and
-  pre-ship checklist.
-- No page content changed; all current bindings across all 28 pages pass.
-
-# Earlier changes — the Transcription Gate
-
-## Documented the human-in-the-loop process that keeps Khan transcriptions mechanical
-
-- Added "The Transcription Gate" to `docs/maintainer-guide.md`: a required
-  3-step process before any Khan outline or interpretation excerpt is added —
-  a human supplies the exact source text from the physical/licensed volume
-  first; an assistant only structures already-supplied text into the data
-  schema, never originating or paraphrasing; and a pre-merge checklist
-  (source IDs resolve, labels are honest, `check-exercises.mjs` passes, the
-  human re-reads the rendered page against the source) closes the loop.
-- Both the "Add a Khan outline exercise" and "Add a Khan interpretation
-  excerpt" recipes now open with a step 0 pointing at the gate, so the
-  requirement is unmissable rather than implied by scattered wording.
-- Corrected two review findings before merge: the gate's structuring step
-  now describes the outline and excerpt schemas separately (they don't
-  share fields), and its labeling guidance now matches the actual UI — a
-  transcribed excerpt's ● badge (dossier.html, exercise.html) verifies the
-  transcription's fidelity to its cited source, not the interpretive
-  content, rather than claiming quoted text carries no ●/○/~ at all.
-- No exercise or interpretation content changed; this formalizes an existing
-  practice, it doesn't introduce a new one.
-
-# Earlier changes — exercise registry integrity check
-
-## Every exercise now stays source-traceable by construction, not by review
-
-- Added `scripts/check-exercises.mjs`, a deterministic guard for
-  `data/exercises.json` in the same family as `check-claims.mjs` and
-  `check-videos.mjs`: unique entry IDs; outline entries carry a valid
-  1–114 surah number, sourceIds that resolve in `data/sources.json`, a
-  `provenanceHtml` citation linking to sources.html, and an `outline`
-  array whose `startVerse` values strictly increase and stay within the
-  surah's verse count (`data/surah-meta.json`); at most one outline entry
-  per surah, matching the maintainer guide's "consumers take the first
-  match" rule; roots entries' `href` and `surahs` are valid; and
-  `index.html`'s hand-kept `EXERCISE_COUNT` matches the registry length.
-- Wired the new check into `.github/workflows/audit.yml` alongside the
-  other registry validators, and documented it in the maintainer guide's
-  checker table, the "Add a Khan outline exercise" recipe, and the
-  pre-ship checklist.
-- No exercise content changed; the current 7 registry entries (6 Khan
-  outlines, 1 root-spotting configuration) all pass.
-
-# Earlier changes — evidence audit corrections
-
-## Unsupported numerical totals are no longer presented as findings
-
-- Retained the reproducible Leeds root totals for y-w-m (405) and sh-h-r
-  (21), but explicitly identified the popular 365, 475, and 12 totals as
-  unreproduced surface-form claims rather than equally supported results.
-- Corrected the y-w-m worked example and canonical claim record so its
-  reproduction method describes only what the bundled build actually computes.
-- Synchronized the home and Validation fallback copy with the canonical case
-  study, preserving the same caveat if the JSON request fails.
-
-# Earlier changes — research-led home and claim provenance
-
-## Evidence status is now multidimensional
-
-- Added a canonical, versioned claim ledger (`data/claims.json`) for every
-  worked verification example. Records distinguish source inspection,
-  computational reproduction, corpus/method/classification dependency,
-  interpretive status, AI involvement, derivation, and known limits.
-- Added `scripts/check-claims.mjs` to reject missing or duplicate claim IDs,
-  unknown source references, invalid statuses, missing limitations, nonexistent
-  derivation artifacts, case-study drift, and AI-assisted interpretive content.
-- Updated worked examples to render evidence chips and expandable claim records
-  rather than asking one “Verified” marker to carry several different meanings.
-- Tightened the contribution and validation guidance: assistant output may help
-  locate candidate material but never becomes an authoritative interpretation,
-  citation, translation, gloss, or scholarly attribution.
-
-## The home page now begins with the research workflow
-
-- Replaced the feature-directory opening with a clear reading proposition, a
-  primary “Open a surah” action, and a scoped search for surahs, verses, roots,
-  and keywords.
-- Added a four-part research commitment strip: no generated commentary,
-  recomputable evidence, visible limitations, and local-only reader work.
-- Consolidated eleven equal-weight destination tiles into four outcome-led
-  routes: read a discourse, follow a question, test a pattern, or audit a claim.
-- Added responsive, reduced-motion-compatible visual components and expanded
-  visible keyboard focus to textareas, summaries, and custom tabindex controls.
-
-# Earlier changes — translation fix + Urdu support
-
-## Landing & onboarding pass (report items U4–U9)
-
-Each remaining report item was verified against the live code before
-anything changed (three earlier claims in the same report had already
-failed to reproduce).
-
-**Shipped:**
-
-- **One sequenced first-visit path (U6 + U4).** The welcome banner had
-  three competing actions — a demanded depth question, a tour button, and
-  a "new to the Qur'an?" link. It now leads with one plain sentence, then
-  exactly two outcome-labeled choices ("New to the Qur'an? Start here" →
-  the About page's no-background-assumed intro; "Take the 60-second
-  tour"), and a demoted one-line note that you start in Simple and can go
-  deeper anytime (gear or keys 1/2/3). The depth toggle is gone from the
-  banner — it remains in the gear, the depth-cards section, and How to
-  use. Clicking "Start here" also marks the banner as seen so it doesn't
-  re-nag on return (`assets/tour.js`).
-- **Plain language before jargon (U5).** Banner copy drops "workbench";
-  "discourse" — the one core term in the site's own name with no
-  definition wired — is now in `assets/glossary.js` (auto-wrapped for
-  tap-definitions on every page, including the banner itself) and has a
-  static entry on `glossary.html`. `surah`, `khitab`, `root`, and
-  `coherence` were already auto-glossed.
-- **Depth meaning at the point of choice (U7).** The gear panel's depth
-  select now reads "Simple — just read / Scholar — study / Encyclopedic —
-  verify," the same microcopy the depth cards and How-to-use teach.
-- **Worksheet gated to Scholar+ (U9).** The discovery worksheet rendered
-  its full structural-hypothesis form at Simple depth, contradicting the
-  site's own "Simple = the reading layer" contract. It now carries the
-  existing `scholar-only` class: hidden at Simple, appears live the
-  moment the reader steps up to Scholar or Encyclopedic (verified with
-  key-2 switch, no reload). The lightweight notes card stays at all
-  depths — the reader's own record is central to the method.
-
-**Verified, not a defect (no change):**
-
-- **U8 "6 of 9 inputs lack explicit programmatic labels"** — audited
-  every static `<input>/<select>/<textarea>` across all pages: the six
-  flagged inputs are each wrapped in a `<label>` element, which is a
-  valid programmatic association. No accessibility gap.
-
-**Deliberately not done:**
-
-- Scroll-triggered progressive reveal of the Begin grid — gimmicky,
-  layout-shift risk; the grid is already grouped into three labeled
-  outcome clusters.
-- Nav restructuring — the 21 links are already collapsed behind four
-  group buttons; the nav was not the overload source, the banner was.
-- Adding explicit `for=` attributes to the six wrapped-label inputs —
-  already programmatically labeled; churn without benefit.
-
-## Follow-up (consolidated UX & technical report)
-
-A follow-up report reiterated the `en.haleem` fix and Urdu support below
-(both already shipped) and added three concrete asks, resolved here:
-
-- **Reduced default translations from 5 to 2** (`assets/app.js`): only
-  `en.sahih` (Saheeh International) and `en.yusufali` (Yusuf Ali) —
-  the report's own "trusted standard" pairing — now carry `default:
-  true`. `en.pickthall`, `en.maududi`, and `en.asad` stay fully
-  selectable in the picker, just not pre-checked for new visitors. Note
-  the report said "4 → 2"; the actual prior count was 5 (verified
-  against the array), not 4.
-- **Removed the Khattab "Clear Quran" citation entirely** (`data/
-  sources.json`, `sources.html`) — the report's own investigation
-  confirmed it's exclusively licensed (Furqaan Institute) and not on
-  alquran.cloud under any ID; it also carried an over-claimed ● Verified
-  badge despite never being rendered. If a license is obtained later
-  (see theclearquran.org/copyright-information, QUL translation #426),
-  it would need to be self-hosted as a local JSON edition, not fetched
-  via alquran.cloud. `en.itani` (a genuinely different, already-free
-  "Clear Qur'an" by Talal Itani) is untouched.
-- **Fixed a real Escape-key bug in the welcome tour** (`assets/tour.js`):
-  reproduced and confirmed via a fresh-browser-context test — with a nav
-  dropdown open during the tour, pressing Escape closed both the
-  dropdown and the entire tour in one press, because the tour's Escape
-  listener runs on `document` with capture (so it always fires before
-  the dropdown's own bubble-phase handler). Fixed by having the tour
-  defer to an open dropdown as the topmost layer; a second Escape press
-  (nothing else open) now closes the tour as expected.
-
-**Two other claims in that report did not reproduce against the current
-code, verified empirically rather than assumed either way:**
-- "First-time visitors default to Encyclopedic depth" — a fresh
-  browser context (`localStorage` genuinely empty) loads `read.html`
-  with `data-depth="simple"`, matching `assets/app.js`'s `state.depth:
-  "simple"` default. Most likely explanation: the report's own manual
-  testing picked up leftover state from earlier exploration in the same
-  browser session, which would make a prior manual "Encyclopedic" click
-  look like "the default" on a later visit.
-- "Tour won't advance past Step 1 of 5" — a scripted run through all 5
-  steps via the Next button advanced cleanly every time
-  (1→2→3→4→5→done). Not reproduced; no change made.
-
-**Not touched in this pass** — the report's broader landing-page/
-onboarding UX items (navigation density, jargon before definition,
-merging the tour with the "new to the Qur'an?" page, depth-toggle
-previews, a few unlabeled inputs, hiding the discovery worksheet in
-Simple depth). These are legitimate P1–P3 findings but are design
-decisions, not verifiable bugs — worth a dedicated pass with explicit
-sign-off on the direction rather than a unilateral redesign bundled
-into a translation-bug fix.
-
-## Removed dead edition, added its replacement
-
-`en.haleem` ("Abdel Haleem") was registered in `assets/app.js`'s
-`TRANSLATIONS` array but does not exist on alquran.cloud — the API
-silently substitutes its default Arabic edition (`quran-simple`) instead
-of erroring, so a reader who picked "Abdel Haleem" was shown Arabic text
-labeled as an English translation. Removed. This sandbox's outbound
-network is proxy-blocked to `api.alquran.cloud` specifically (confirmed:
-policy-level 403 on the CONNECT tunnel, not a code issue — the live site's
-own users hit this API fine from their browsers), so the exact substitution
-behavior is taken on trust from the task's own testing rather than
-independently reproduced here; the guard below makes that trust
-unnecessary going forward regardless.
-
-Replacement: **`en.wahiduddin`** (Wahiduddin Khan) — the task's own
-recommended default. Independently corroborated as a real alquran.cloud
-edition ID across a dozen+ unrelated public repos that reference the same
-identifier (Raycast's Quran extension, several Quran API wrapper libraries,
-etc.), since this sandbox couldn't query the live catalog directly.
-
-## Hardening: edition-mismatch guard
-
-`qdFetchVerse`/`qdFetchSurah` (`assets/app.js`) now compare each returned
-`edition.identifier` against the identifier that was actually requested,
-by array position (the API returns editions in request order). A mismatch
-— any future dead edition ID, not just this one — gets a non-enumerable
-`_mismatchOf` marker instead of being silently trusted, plus a
-`console.warn`. Every render path that consumes translation data was
-updated to check for it and show a placeholder instead of the substituted
-text:
-
-- `read.html`'s main verse/translation renderer
-- `read.html`'s cross-reference panel (`fetchXrefTranslations`) — a
-  separate code path that also renders translation snippets and would
-  otherwise have leaked the substitution independently of the fix above
-  (caught by the test below, not anticipated up front)
-- `assets/embed.js`'s embed-card renderer
-- `compare.html`'s passage-comparison view, which picks the first
-  available *valid* translation edition rather than assuming index 1 is
-  trustworthy
-
-`replay.js` only ever touches the Arabic (`quran-uthmani`) edition, so it
-was unaffected.
-
-### Test
-
-`node scripts/check-editions.mjs` — maintainer-run live check (mirrors
-`check-source-links.mjs`'s pattern): fetches all registered editions for
-one verse and asserts each returned `edition.identifier` matches what was
-requested. **Not runnable from this sandbox** (same proxy block); run it
-from an unrestricted machine before merging.
-
-A Playwright functional test (not committed — lives in this session's
-scratchpad, matching this repo's established ad hoc-verification pattern)
-exercised the guard against a fixture that deliberately simulates the
-exact `en.haleem` failure mode (API substitutes a different edition than
-requested) and confirmed: the main translation block shows a placeholder
-and never renders the substituted text; the cross-reference panel and
-console warning both behave correctly; Urdu renders with `dir="rtl"`,
-`lang="ur"`, and the Nastaliq font; the language-grouped picker shows both
-headers and a language chip; no horizontal overflow at 375px; zero CSP
-violations.
-
-## Urdu translations added
-
-Registered in `assets/app.js`, none pre-selected by default (see note
-below): `ur.jalandhry` (Fateh Muhammad Jalandhry), `ur.kanzuliman` (Ahmed
-Raza Khan — Kanz-ul-Iman), `ur.maududi` (Abul A'la Maududi), plus
-`ur.junagarhi`, `ur.qadri`, `ur.jawadi`, `ur.ahmedali`, `ur.najafi` as
-additional opt-in options. All corroborated the same way as
-`en.wahiduddin` above.
-
-**Interpretation note on "ship by default":** the task asked to "ship
-these three by default." I registered all three (and the five others) as
-selectable in the picker, but did **not** mark any of them
-`default: true` — that flag controls which translations a brand-new
-visitor sees pre-checked, and setting it would mean every new reader,
-regardless of language, gets 3 Urdu translations added to their initial
-view alongside the 5 existing English defaults. That reads as an
-unintended UX change rather than what was asked. If pre-selecting them for
-everyone was actually the intent, that's a one-line flip per entry — flag
-it and I'll make the change.
-
-### RTL + Nastaliq rendering
-
-Each translation's `dir`/`lang` attributes are now driven directly from
-the API response's own `edition.direction`/`edition.language` fields, not
-a hard-coded language list — a future RTL edition in any language renders
-correctly with no code change. Urdu specifically (`language === "ur"`)
-additionally gets a `nastaliq` class pulling in a self-hosted **Noto
-Nastaliq Urdu** webfont (`assets/fonts/notonastaliqurdu-arabic.woff2`,
-`assets/fonts.css`) at `line-height: 2.1` — Nastaliq's diagonal stacking
-clips against the site's normal 1.6 line-height. The Qur'anic Arabic
-ayah text is untouched — it keeps the existing Naskh-style Amiri face,
-which is correct for Arabic but would read as wrong for Urdu.
-
-### Picker
-
-The "Choose Translations" modal (`read.html`) now groups entries under
-"English"/"Urdu" headers with a small language chip per row, derived from
-each entry's own `lang` field so a future third language groups itself
-automatically.
-
-## Sources
-
-`sources.html`'s "Translations rendered on this site" list: removed the
-Abdel Haleem citation (no longer rendered), added Wahiduddin Khan and all
-8 Urdu translators. `data/sources.json` was **not** touched — individual
-translator citations for API-rendered editions were never tracked there
-(confirmed: none of the existing ~14 English translations have an entry
-either, only the anomalous `the-clear-quran` one — see below), so the new
-entries follow the same plain-bibliography convention as the existing
-Pickthall/Yusuf Ali/etc. entries rather than introducing a new pattern.
-
-## Open question: "The Clear Quran" — Khattab vs. Itani
-
-Per the task's own stop instruction, **not implemented, flagging only.**
-
-- `en.itani` (Talal Itani's "Clear Qur'an") is already shipping,
-  unaffected by anything in this change.
-- `data/sources.json`'s `the-clear-quran` entry cites Dr. Mustafa
-  Khattab's *The Clear Quran* (Book of Signs Foundation, 2016, ISBN
-  9780998539003) — confirmed still genuinely unavailable on
-  alquran.cloud (zero Khattab-style edition found anywhere in the public
-  repos cross-checked for this change either). It is in copyright;
-  wiring it in would need a licensed data source and permission, not an
-  API call.
-- Additionally confirmed (not just suspected): that entry currently
-  carries a **● Verified badge** on `sources.html`
-  (`data-source-ids="the-clear-quran"`) despite the translation not
-  actually being rendered anywhere on the site — exactly the over-claim
-  the task flagged. Left as-is pending your answer on which "Clear Quran"
-  you meant, since the fix (downgrade the badge vs. wire a licensed
-  source) depends on that answer.
-
-## Not touched
-
-Word-by-word morphology/gloss tables (English-only by design, per the
-task's scope guardrails); file permissions, sharing settings, credentials.
-No new tracking, no new network domains — the guard and Urdu additions
-only touch the existing `api.alquran.cloud` calls.
+# Changes — open-source readiness audit: licensing scope, offline charts, measured cleanups
+
+## Why this pass exists
+
+Before opening the repository, three independent sweeps were run over
+the whole tree: one for secrets and personal information, one for
+licensing and attribution consistency, and one for code defects and
+technical debt — plus the full in-repo check suite and the complete
+Playwright site audit (173 checks across all 30 pages, all passing
+before and after this change). The secrets sweep came back clean: no
+credentials anywhere in the working tree or the full git history, no
+email addresses at all, no personal paths or hostnames, no analytics
+(the "No analytics. No tracking." claim on credits.html was verified,
+not assumed). The other two sweeps found the items below. Everything
+here is a fix for something found, not a feature.
+
+## Licensing: LICENSE now says what it covers
+
+The LICENSE file was a bare MIT grant over "this software," which on
+its face covered the GPL-derived Leeds morphology, the quoted Khan
+glosses, the license-pending Mishkat cross-references, and the OFL
+fonts — all things MIT cannot grant. It now opens with a scope
+statement: MIT covers the site's own code and the data NOTICE.md lists
+as site-authored; everything bundled from third parties keeps its own
+license, with NOTICE.md as the authoritative breakdown.
+
+NOTICE.md itself had drifted: the five analytics directories added in
+the last three releases (`data/association/`, `data/network/`,
+`data/centrality/`, `data/coverage/`, `data/exports/`) never got a
+mention, and several older Leeds-derived datasets (`rhyme/`, the
+formulas files, `discursive-pivots.json`, `symmetry-test.json`,
+`roots-list.json`, `theme-surah-index.json`) were absent from the
+GPL-inheritance list even though datasets.html already labeled them
+GPL. The site-authored and GPL-derived lists are now complete, the
+coverage report's use of the license-pending `data/qursim/` directory
+(file counts only) is disclosed, and a new paragraph covers the
+runtime-fetched translation editions, whose copyrights stay with their
+translators — previously only the Tanzil Arabic text was addressed.
+
+Because that drift went unnoticed for three releases, a new checker
+(`scripts/check-notice.mjs`, wired into CI) now fails the build if any
+top-level `data/` entry is missing from NOTICE.md.
+
+One licensing gap is documented rather than resolved: no copy of the
+GNU GPL text ships in the repository, and upstream states "GNU General
+Public License" without pinning a version. NOTICE.md now says exactly
+that and points to gnu.org; bundling a verbatim copy (and choosing
+which version's text to include) is a one-command owner decision from
+an unrestricted network, deliberately not fabricated from memory here.
+
+README.md's licensing bullets, page count (28 → 30), dataset list, and
+generator list were brought current for the same reason; datasets.html
+gained cards for the five analytics datasets its own lede claimed to
+cover; and the maintainer guide's site map and pipeline table now
+include the five compute scripts and the dependency order for
+rerunning them.
+
+## Bugs found and fixed
+
+- **numbers.html** rendered "21. Singular Claims of 12…" in the
+  day-month-year card — an orphaned word from an old edit, on the page
+  whose whole premise is precision. Removed.
+- **sw.js** never cached the `js/` directory, so offline visits to the
+  three pages that load `js/viz.js` silently rendered without their
+  charts (each render guard hides the failure rather than erroring).
+  The asset route now covers `/js/`, and SW_VERSION is bumped to v6 —
+  a bump that was also due under the guide's own rule after three
+  releases of new data schemas shipped without one.
+- **assets/chart.js** tooltips could not be dismissed with Escape
+  (its younger sibling js/viz.js could), and each module created its
+  own floating tooltip element, so two could coexist and one layer's
+  dismissal could not clear the other's. Both modules now share one
+  element and both honor Escape.
+- **navigate.html** was the one place in the site saying "Meccan,
+  early period" while the chart legend on the same page said "Early
+  Meccan." Labels now match the other seven copies.
+- **themes.html**'s per-theme distribution strip had the site's only
+  fetch chain without a terminal catch: a throw mid-render stranded
+  the panel on "Computing…" forever. It now reports failure like every
+  other lazy panel.
+- **read.html**'s recurring-word highlights were keyboard-focusable
+  spans with no role, so screen readers announced nothing actionable.
+  They now carry `role="button"`; the accessible name stays the Arabic
+  word itself (an English label would have replaced it).
+- **compare.html and roots.html** had three fetches that skipped the
+  `response.ok` check, so a 404 surfaced as a JSON parse error instead
+  of an honest HTTP status. All three now check.
+- **how-it-works.html** loaded refs.js without glossary.js, the only
+  page violating refs.js's documented ordering contract ("glossary.js
+  runs FIRST"); terms on that page got different popovers than on its
+  nine siblings. glossary.js is now loaded there too.
+- **scripts/compute-association-stats.mjs** contained four literal NUL
+  bytes (a pair-key separator written as the raw character instead of
+  the `\u0000` escape), which made git treat the file as binary — no
+  reviewable diffs, invisible to grep. Replaced with the escape; the
+  regenerated output is byte-identical.
+
+## Reproducibility and hygiene
+
+- Ten generators stamped their output with the run date, so rerunning
+  any of them on a later day produced a 1,600+ file diff of nothing
+  but date stamps — masking real changes and quietly breaking the
+  guide's "run it twice, git diff must be empty" rule across day
+  boundaries. All ten now honor `SOURCE_DATE_EPOCH` (the
+  reproducible-builds.org convention) via a shared
+  `scripts/lib/computed-date.mjs`; behavior without the variable is
+  unchanged.
+- `build-root-analytics.mjs` and `build-cooccurrence.mjs` carried
+  private copies of the safeKey encoding despite being modules; both
+  now import the shared lib, and the lib's sync comment now names all
+  nine remaining inline copies instead of three.
+- `.gitignore` gained the patterns most likely to catch a future
+  accidental commit: `.env.*`, `.netlify/` (the CLI writes a state
+  file containing the site ID), editor and merge leftovers,
+  `__pycache__/`, and key material (`*.pem`, `*.key`, `*.p12`).
+- The gloss manifest and two doc passages still described the gloss
+  pipeline as "dormant/empty until licensed" even though six surahs of
+  Khan (2011) glosses have shipped; the manifest comment, its
+  generator template, the maintainer guide, and the gloss research
+  memo (now marked partially superseded) all state the shipped
+  reality.
+- changelog.html gained entries for the three analytics releases and
+  this audit — it had not been updated since release #65.
+
+## Verified after the changes
+
+`check-nav-sync`, `check-headers-sync`, `build-csp --check`,
+`check-data-nums`, `check-claims`, `check-paths`, `check-exercises`,
+`check-videos`, and the new `check-notice` all pass; the full
+verify-site Playwright suite passes on every page; every regenerated
+dataset is byte-identical to what shipped. The two network-dependent
+checkers (`check-source-links`, `check-editions`) cannot run from a
+sandboxed session per their own headers and should be run from an
+unrestricted machine before release.

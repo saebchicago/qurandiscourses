@@ -135,6 +135,65 @@
         </p>
         <div class="card">
           <h3>2026</h3>
+          <h4>August</h4>
+          <ul>
+            <li>
+              <strong>Open-source audit.</strong> A full-repository audit
+              ahead of open-sourcing. Licensing: the LICENSE file now
+              states that MIT covers the site's own code while bundled
+              data and fonts keep their own licenses, and NOTICE.md now
+              lists every computed dataset, including the five analytics
+              directories added in the releases below. Fixes: a stray
+              word removed from the <a href="numbers.html">Numbers</a>
+              day-month-year card, the offline cache now includes the
+              chart helper script it had missed, chart tooltips can be
+              dismissed with Escape from every chart, period labels on
+              <a href="navigate.html">Navigate</a> now match the rest of
+              the site, a theme distribution strip that could hang on
+              "Computing" now reports failure, and the recurring-word
+              highlights on <a href="read.html">Read</a> announce
+              themselves to screen readers as actionable.
+            </li>
+            <li>
+              <strong>Coverage dashboard and network centrality.</strong>
+              A new <a href="coverage.html">Coverage</a> page reports,
+              from direct measurement of the bundled data files: how many
+              of the 77,429 word-tokens carry a root, lemma, and
+              part-of-speech tag; that no verified root-gloss source
+              exists (0 of 1,642); cross-reference coverage (110 of 114
+              surahs, naming the four not covered); documented
+              counting-rule sensitivities; and a source registry that
+              records unstated fields as unstated rather than inferring
+              them. Root pages gained a "Network position" panel (degree,
+              weighted degree, betweenness, eigenvector centrality, each
+              with its rank), labeled with the caution that centrality
+              tracks raw frequency and does not indicate thematic,
+              exegetical, or theological importance.
+            </li>
+            <li>
+              <strong>Chart layer for the association statistics.</strong>
+              A zero-dependency SVG helper now draws: an association
+              network on each <a href="roots.html">Roots</a> detail page
+              (positions precomputed offline, nothing laid out in the
+              browser), a frequency-across-periods line, a verse-length
+              histogram, and a root-density heatmap of the top 40 roots
+              across all 114 surahs on <a href="numbers.html">Numbers</a>,
+              with a canonical/revelation-order toggle. Every chart
+              carries a table fallback and the caution that position,
+              distance, and color indicate statistical measures only.
+            </li>
+            <li>
+              <strong>Association statistics and public data downloads.</strong>
+              Root pages gained a "Statistical associations" table (shared
+              verses, log-likelihood ratio, pointwise mutual information,
+              Dice) over verse-level co-occurrence; <a
+              href="numbers.html">Numbers</a> gained normalized
+              frequencies per 1,000 tokens and a keyness-by-period card.
+              A new <a href="export.html">Export</a> page offers four
+              tables as CSV and JSON with a machine-readable schema and a
+              prose data dictionary.
+            </li>
+          </ul>
           <h4>July</h4>
           <ul>
             <li>
