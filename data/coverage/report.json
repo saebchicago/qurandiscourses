@@ -6,29 +6,224 @@
   "totalTokens": 77429,
   "fields": {
    "root": {
+    "label": "Tokens carrying a triliteral root",
     "withField": 49967,
     "withoutField": 27462,
-    "percentWith": 64.53
+    "percentWith": 64.53,
+    "posDistributionWithoutField": [
+     {
+      "pos": "P",
+      "count": 7679,
+      "percent": 27.96
+     },
+     {
+      "pos": "REL",
+      "count": 3321,
+      "percent": 12.09
+     },
+     {
+      "pos": "PRON",
+      "count": 3301,
+      "percent": 12.02
+     },
+     {
+      "pos": "NEG",
+      "count": 2643,
+      "percent": 9.62
+     },
+     {
+      "pos": "ACC",
+      "count": 2283,
+      "percent": 8.31
+     },
+     {
+      "pos": "DEM",
+      "count": 1059,
+      "percent": 3.86
+     },
+     {
+      "pos": "COND",
+      "count": 1046,
+      "percent": 3.81
+     },
+     {
+      "pos": "PN",
+      "count": 895,
+      "percent": 3.26
+     },
+     {
+      "pos": "T",
+      "count": 887,
+      "percent": 3.23
+     },
+     {
+      "pos": "CONJ",
+      "count": 756,
+      "percent": 2.75
+     },
+     {
+      "pos": "SUB",
+      "count": 680,
+      "percent": 2.48
+     },
+     {
+      "pos": "RES",
+      "count": 558,
+      "percent": 2.03
+     },
+     {
+      "pos": "CERT",
+      "count": 414,
+      "percent": 1.51
+     },
+     {
+      "pos": "N",
+      "count": 366,
+      "percent": 1.33
+     },
+     {
+      "pos": "PRO",
+      "count": 327,
+      "percent": 1.19
+     },
+     {
+      "pos": "INTG",
+      "count": 326,
+      "percent": 1.19
+     },
+     {
+      "pos": "LOC",
+      "count": 192,
+      "percent": 0.7
+     },
+     {
+      "pos": "RET",
+      "count": 122,
+      "percent": 0.44
+     },
+     {
+      "pos": "EXP",
+      "count": 104,
+      "percent": 0.38
+     },
+     {
+      "pos": "INC",
+      "count": 90,
+      "percent": 0.33
+     },
+     {
+      "pos": "EXL",
+      "count": 66,
+      "percent": 0.24
+     },
+     {
+      "pos": "AMD",
+      "count": 65,
+      "percent": 0.24
+     },
+     {
+      "pos": "INT",
+      "count": 47,
+      "percent": 0.17
+     },
+     {
+      "pos": "FUT",
+      "count": 42,
+      "percent": 0.15
+     },
+     {
+      "pos": "ANS",
+      "count": 40,
+      "percent": 0.15
+     },
+     {
+      "pos": "EXH",
+      "count": 40,
+      "percent": 0.15
+     },
+     {
+      "pos": "SUR",
+      "count": 35,
+      "percent": 0.13
+     },
+     {
+      "pos": "AVR",
+      "count": 33,
+      "percent": 0.12
+     },
+     {
+      "pos": "INL",
+      "count": 30,
+      "percent": 0.11
+     },
+     {
+      "pos": "SUP",
+      "count": 13,
+      "percent": 0.05
+     },
+     {
+      "pos": "ADJ",
+      "count": 1,
+      "percent": 0
+     },
+     {
+      "pos": "IMPN",
+      "count": 1,
+      "percent": 0
+     }
+    ]
    },
    "lemma": {
+    "label": "Tokens with a lemma",
     "withField": 74122,
     "withoutField": 3307,
-    "percentWith": 95.73
+    "percentWith": 95.73,
+    "posDistributionWithoutField": [
+     {
+      "pos": "PRON",
+      "count": 3277,
+      "percent": 99.09
+     },
+     {
+      "pos": "INL",
+      "count": 30,
+      "percent": 0.91
+     }
+    ]
    },
    "pos": {
+    "label": "Tokens with a part-of-speech tag",
     "withField": 77429,
     "withoutField": 0,
     "percentWith": 100
    }
   },
-  "_method": "Every token in data/morphology/{1..114}.json scanned directly; a field counts as present if its value is a non-empty string. The morphology 'gloss' field exists on every token but is empty on all of them (0% populated) and is not a coverage field this script reports separately, since it is never populated."
+  "_method": "Every token in data/morphology/{1..114}.json scanned directly; a field counts as present if its value is a non-empty string. The morphology 'gloss' field exists on every token but is empty on all of them (0% populated) and is not reported as a field here, since it is never populated. For the root and lemma fields, the part-of-speech distribution of the tokens WITHOUT that field is also measured and reported (posDistributionWithoutField), directly from the same scan."
  },
  "rootGloss": {
   "totalRoots": 1642,
   "withVerifiedGloss": 0,
   "percentWith": 0,
   "reason": "no verified gloss source present in repository",
-  "_note": "assets/root-meanings.js provides 84 short editorial glosses (out of 1642 roots). Its own file header states these are editorial working glosses, not quotations from a citable dictionary, and instructs that they not be presented as Verified. Not counted toward the coverage figure above. data/gloss/{surah}.json provides per-word (not per-root) glosses transcribed from Khan (2011), covering 6 of 114 surahs; it cannot answer per-root coverage."
+  "editorialGlossCount": 84,
+  "editorialGlossRenderPaths": [
+   "about.html",
+   "compare.html",
+   "embed.html",
+   "exercise-roots.html",
+   "exercises.html",
+   "glossary.html",
+   "how-it-works.html",
+   "how-to-use.html",
+   "numbers.html",
+   "paths.html",
+   "patterns.html",
+   "roots.html",
+   "sources.html",
+   "validation.html"
+  ],
+  "_note": "assets/root-meanings.js provides 84 short editorial glosses (out of 1642 roots). Its own file header states these are editorial working glosses, not quotations from a citable dictionary, and instructs that they not be presented as Verified. Not counted toward the coverage figure above. data/gloss/{surah}.json provides per-word (not per-root) glosses transcribed from Khan (2011), covering 6 of 114 surahs; it cannot answer per-root coverage.",
+  "editorialGlossDashboardText": "84 roots carry editorial working glosses maintained in this repository. These are not sourced from a citable dictionary and are not labeled Verified. They are excluded from this count."
  },
  "qursim": {
   "totalSurahs": 114,
@@ -178,6 +373,13 @@
    "year": "2011",
    "license": "not stated in repository",
    "url": "https://www.quranicunderstanding.com/"
+  }
+ ],
+ "sourceRegistryBlockers": [
+  {
+   "field": "qursim.license",
+   "severity": "blocker",
+   "note": "qursim.license is not stated in repository. data/qursim/ actually contains Mishkat Mutashabihat corpus data (see NOTICE.md); the mishkat source registry entry records its license as license-pending (no license published in the source repository). Any future export of QurSim-derived (Mishkat-derived) data must resolve licensing before publication."
   }
  ]
 }

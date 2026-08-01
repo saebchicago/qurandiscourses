@@ -37,6 +37,8 @@ let scannedTokens = 0;
 let withRoot = 0;
 let withLemma = 0;
 let withPos = 0;
+const posDistributionNoRoot = {};
+const posDistributionNoLemma = {};
 
 for (let s = 1; s <= TOTAL_SURAHS; s++) {
   const path = join(DATA, "morphology", `${s}.json`);
@@ -44,8 +46,12 @@ for (let s = 1; s <= TOTAL_SURAHS; s++) {
   for (const words of Object.values(morph)) {
     for (const w of words) {
       scannedTokens++;
-      if (w.root && w.root.length > 0) withRoot++;
-      if (w.lemma && w.lemma.length > 0) withLemma++;
+      const hasRoot = w.root && w.root.length > 0;
+      const hasLemma = w.lemma && w.lemma.length > 0;
+      if (hasRoot) withRoot++;
+      else posDistributionNoRoot[w.pos] = (posDistributionNoRoot[w.pos] || 0) + 1;
+      if (hasLemma) withLemma++;
+      else posDistributionNoLemma[w.pos] = (posDistributionNoLemma[w.pos] || 0) + 1;
       if (w.pos && w.pos.length > 0) withPos++;
     }
   }
@@ -59,17 +65,45 @@ function pct(n, total) {
   return Math.round((n / total) * 10000) / 100;
 }
 
+function sortedDistribution(dist, total) {
+  return Object.entries(dist)
+    .sort((a, b) => b[1] - a[1])
+    .map(([pos, count]) => ({ pos, count, percent: pct(count, total) }));
+}
+
+const withoutRoot = scannedTokens - withRoot;
+const withoutLemma = scannedTokens - withLemma;
+
 const morphology = {
   totalTokens: scannedTokens,
   fields: {
-    root: { withField: withRoot, withoutField: scannedTokens - withRoot, percentWith: pct(withRoot, scannedTokens) },
-    lemma: { withField: withLemma, withoutField: scannedTokens - withLemma, percentWith: pct(withLemma, scannedTokens) },
-    pos: { withField: withPos, withoutField: scannedTokens - withPos, percentWith: pct(withPos, scannedTokens) },
+    root: {
+      label: "Tokens carrying a triliteral root",
+      withField: withRoot,
+      withoutField: withoutRoot,
+      percentWith: pct(withRoot, scannedTokens),
+      posDistributionWithoutField: sortedDistribution(posDistributionNoRoot, withoutRoot),
+    },
+    lemma: {
+      label: "Tokens with a lemma",
+      withField: withLemma,
+      withoutField: withoutLemma,
+      percentWith: pct(withLemma, scannedTokens),
+      posDistributionWithoutField: sortedDistribution(posDistributionNoLemma, withoutLemma),
+    },
+    pos: {
+      label: "Tokens with a part-of-speech tag",
+      withField: withPos,
+      withoutField: scannedTokens - withPos,
+      percentWith: pct(withPos, scannedTokens),
+    },
   },
   _method:
     "Every token in data/morphology/{1..114}.json scanned directly; a field counts as present if its value is a " +
     "non-empty string. The morphology 'gloss' field exists on every token but is empty on all of them " +
-    "(0% populated) and is not a coverage field this script reports separately, since it is never populated.",
+    "(0% populated) and is not reported as a field here, since it is never populated. For the root and lemma " +
+    "fields, the part-of-speech distribution of the tokens WITHOUT that field is also measured and reported " +
+    "(posDistributionWithoutField), directly from the same scan.",
 };
 
 console.log(
@@ -77,6 +111,14 @@ console.log(
     `lemma: ${withLemma}/${scannedTokens} (${morphology.fields.lemma.percentWith}%)  ` +
     `pos: ${withPos}/${scannedTokens} (${morphology.fields.pos.percentWith}%)`,
 );
+console.log("  POS distribution of tokens without a root (top 5):");
+for (const row of morphology.fields.root.posDistributionWithoutField.slice(0, 5)) {
+  console.log(`    ${row.pos}: ${row.count} (${row.percent}%)`);
+}
+console.log("  POS distribution of tokens without a lemma:");
+for (const row of morphology.fields.lemma.posDistributionWithoutField) {
+  console.log(`    ${row.pos}: ${row.count} (${row.percent}%)`);
+}
 
 // ── Step B: root gloss coverage ────────────────────────────────────
 //
@@ -112,6 +154,23 @@ if (existsSync(rootMeaningsPath)) {
   editorialGlossCount = matches ? matches.length : 0;
 }
 
+// Audit every render path that actually consumes assets/root-meanings.js
+// (window.ROOT_MEANINGS), measured by grep, not assumed: pages with a
+// direct MEANINGS[...]/ROOT_MEANINGS[...] lookup, plus pages that load
+// assets/refs.js (whose reference-popover renders a root's gloss when a
+// root reference is present) or assets/embed.js (same, for embed cards).
+const htmlFiles = readdirSync(ROOT).filter((f) => f.endsWith(".html"));
+const directLookupPages = [];
+const refsJsPages = [];
+const embedJsPages = [];
+for (const f of htmlFiles) {
+  const src = readFileSync(join(ROOT, f), "utf8");
+  if (/\b(?:ROOT_MEANINGS|MEANINGS)\[/.test(src)) directLookupPages.push(f);
+  if (src.includes('src="assets/refs.js"')) refsJsPages.push(f);
+  if (src.includes('src="assets/embed.js"')) embedJsPages.push(f);
+}
+const glossRenderPaths = [...new Set([...directLookupPages, ...refsJsPages, ...embedJsPages])].sort();
+
 const rootGloss = {
   totalRoots: TOTAL_ROOTS,
   withVerifiedGloss: 0,
@@ -119,6 +178,8 @@ const rootGloss = {
   reason: verifiedGlossSourceExists
     ? "unexpected: a gloss field was found on data/roots-summary.json entries; script needs updating"
     : "no verified gloss source present in repository",
+  editorialGlossCount,
+  editorialGlossRenderPaths: glossRenderPaths,
   _note:
     editorialGlossCount > 0
       ? `assets/root-meanings.js provides ${editorialGlossCount} short editorial glosses (out of ${TOTAL_ROOTS} roots). ` +
@@ -128,10 +189,16 @@ const rootGloss = {
         `${JSON.parse(readFileSync(join(DATA, "gloss", "index.json"), "utf8")).surahs.length} of ${TOTAL_SURAHS} surahs; ` +
         "it cannot answer per-root coverage."
       : "No candidate gloss file found in data/ or assets/.",
+  editorialGlossDashboardText:
+    glossRenderPaths.length > 0
+      ? `${editorialGlossCount} roots carry editorial working glosses maintained in this repository. ` +
+        "These are not sourced from a citable dictionary and are not labeled Verified. They are excluded from this count."
+      : null,
 };
 
 console.log(`  Verified root gloss coverage: 0/${TOTAL_ROOTS} (0%). Reason: ${rootGloss.reason}`);
 console.log(`  (Editorial, unverified: ${editorialGlossCount} roots in assets/root-meanings.js, not counted.)`);
+console.log(`  Render paths (${glossRenderPaths.length}): ${glossRenderPaths.join(", ")}`);
 
 // ── Step C: QurSim (Mishkat) surah coverage ────────────────────────
 
@@ -284,6 +351,30 @@ for (const entry of sourceRegistry) {
 }
 console.log(`  ${sourceRegistry.length} entries. Fields not stated in repository: ${notStatedFields.join(", ") || "(none)"}`);
 
+// qursim entry's data is, per NOTICE.md, actually the Mishkat corpus
+// (data/qursim/ keeps its historical directory name); its license
+// field is "not stated in repository" for BOTH the qursim and mishkat
+// registry entries. Flagged explicitly as a blocker: any future
+// CSV/JSON export of QurSim-derived (i.e. Mishkat-derived) data must
+// not ship without resolving this first.
+const blockers = [];
+const qursimEntry = sourceRegistry.find((e) => e.id === "qursim");
+const mishkatEntry = sourceRegistry.find((e) => e.id === "mishkat");
+if (qursimEntry && qursimEntry.license === NOT_STATED) {
+  blockers.push({
+    field: "qursim.license",
+    severity: "blocker",
+    note:
+      "qursim.license is not stated in repository. data/qursim/ actually contains Mishkat Mutashabihat corpus " +
+      "data (see NOTICE.md); the mishkat source registry entry records its license as license-pending " +
+      "(no license published in the source repository). Any future export of QurSim-derived (Mishkat-derived) " +
+      "data must resolve licensing before publication.",
+  });
+}
+if (blockers.length) {
+  console.log(`  BLOCKER flagged: ${blockers.map((b) => b.field).join(", ")}`);
+}
+
 // ── Write output ─────────────────────────────────────────────────────
 
 const COMPUTED_DATE = new Date().toISOString().slice(0, 10);
@@ -302,6 +393,7 @@ const report = {
   qursim,
   countingRuleSensitivity,
   sourceRegistry,
+  sourceRegistryBlockers: blockers,
 };
 
 writeFileSync(join(OUT, "report.json"), JSON.stringify(report, null, 1) + "\n");
