@@ -343,13 +343,20 @@ const sourceRegistry = REGISTRY_IDS.map((id) => {
   };
 });
 
+// Track every field on each entry, not just version/license/url: an
+// earlier pass here missed cairo-1924.author (no author key on its
+// data/sources.json entry) because it only checked three of the six
+// fields the registry actually renders. Fixed to check all of them.
+const REGISTRY_FIELDS = ["name", "version", "author", "year", "license", "url"];
 const notStatedFields = [];
 for (const entry of sourceRegistry) {
-  for (const field of ["version", "license", "url"]) {
+  for (const field of REGISTRY_FIELDS) {
     if (entry[field] === NOT_STATED) notStatedFields.push(`${entry.id}.${field}`);
   }
 }
-console.log(`  ${sourceRegistry.length} entries. Fields not stated in repository: ${notStatedFields.join(", ") || "(none)"}`);
+console.log(
+  `  ${sourceRegistry.length} entries. Fields not stated in repository (${notStatedFields.length}): ${notStatedFields.join(", ") || "(none)"}`,
+);
 
 // qursim entry's data is, per NOTICE.md, actually the Mishkat corpus
 // (data/qursim/ keeps its historical directory name); its license
