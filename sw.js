@@ -7,7 +7,7 @@
 // scripts/build-*.mjs change) or a cached asset's contract changes, so
 // stale entries from the previous version are dropped on activate. This
 // is a documented convention, not a checker — see docs/maintainer-guide.md.
-const SW_VERSION = "v5";
+const SW_VERSION = "v6";
 const HTML_CACHE = "dd-html-" + SW_VERSION;
 const ASSET_CACHE = "dd-assets-" + SW_VERSION;
 const DATA_CACHE = "dd-data-" + SW_VERSION;
@@ -114,7 +114,7 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(networkFirstData(request));
     return;
   }
-  if (url.pathname.startsWith("/assets/")) {
+  if (url.pathname.startsWith("/assets/") || url.pathname.startsWith("/js/")) {
     event.respondWith(staleWhileRevalidateAsset(event));
     return;
   }

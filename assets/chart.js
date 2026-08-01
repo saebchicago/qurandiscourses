@@ -35,8 +35,14 @@
   }
 
   // ── Shared tooltip ─────────────────────────────────────────────────
+  // One .qd-chart-tip element is shared with js/viz.js (both modules
+  // look up an existing element before creating one), so dismissing a
+  // tooltip from either layer clears the only tooltip on screen.
   var tipEl = null;
   function tip() {
+    if (!tipEl) {
+      tipEl = document.querySelector(".qd-chart-tip");
+    }
     if (!tipEl) {
       tipEl = document.createElement("div");
       tipEl.className = "qd-chart-tip";
@@ -67,6 +73,9 @@
       showTip(textFn(), r.left + r.width / 2, r.bottom);
     });
     el.addEventListener("blur", hideTip);
+    el.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") hideTip();
+    });
   }
 
   function svgEl(tag, attrs) {

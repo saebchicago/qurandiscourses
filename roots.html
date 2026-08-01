@@ -2092,7 +2092,10 @@
 
         // ── Initialise ──────────────────────────────────────────────────────────
         fetch("data/roots-list.json")
-          .then((r) => r.json())
+          .then((r) => {
+            if (!r.ok) throw new Error("HTTP " + r.status);
+            return r.json();
+          })
           .then((data) => {
             allRoots = Object.values(data).sort(
               (a, b) => b.totalCount - a.totalCount,
