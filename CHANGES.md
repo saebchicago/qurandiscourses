@@ -1,134 +1,105 @@
-# Changes — open-source readiness audit: licensing scope, offline charts, measured cleanups
+# Changes — UX overhaul: a Simple depth that is simple, with visible avenues into depth
 
 ## Why this pass exists
 
-Before opening the repository, three independent sweeps were run over
-the whole tree: one for secrets and personal information, one for
-licensing and attribution consistency, and one for code defects and
-technical debt — plus the full in-repo check suite and the complete
-Playwright site audit (173 checks across all 30 pages, all passing
-before and after this change). The secrets sweep came back clean: no
-credentials anywhere in the working tree or the full git history, no
-email addresses at all, no personal paths or hostnames, no analytics
-(the "No analytics. No tracking." claim on credits.html was verified,
-not assumed). The other two sweeps found the items below. Everything
-here is a fix for something found, not a feature.
+Two full-site audits (one of the entry and reading experience, one of
+the analysis pages' information density) established that the site's
+three-tier depth system was a promise the pages did not keep: every
+visitor starts at Simple, but outside the Read page almost nothing was
+gated, so the heaviest pages delivered their full encyclopedic payload
+to everyone. Selecting one root produced sixteen stacked panels across
+roughly fifteen screens, with "which roots co-occur" rendered six
+separate times and two charts plotting identical data in different
+orders. The depth control itself lived only in an unlabeled gear
+panel; four of its five feature checkboxes were wired to nothing; the
+site's best entry control (the Ask box) existed on one page while the
+how-to guide pointed at it from another; and two floating buttons
+shared the same fixed corner on mobile. This release makes "simple
+with avenues for depth" real. Nothing is deleted from the deepest tier
+except true duplicates; the verbatim statistical disclaimers, the
+Verified/Nuanced labeling, Arabic rendering, and the byte-identical
+nav are untouched.
 
-## Licensing: LICENSE now says what it covers
+## The depth system, made honest and visible
 
-The LICENSE file was a bare MIT grant over "this software," which on
-its face covered the GPL-derived Leeds morphology, the quoted Khan
-glosses, the license-pending Mishkat cross-references, and the OFL
-fonts — all things MIT cannot grant. It now opens with a scope
-statement: MIT covers the site's own code and the data NOTICE.md lists
-as site-authored; everything bundled from third parties keeps its own
-license, with NOTICE.md as the authoritative breakdown.
+- A tiny render-blocking `assets/depth-boot.js` applies the saved
+  depth before first paint on all 29 depth-aware pages, ending the
+  flash of Simple that returning Study readers saw on every load.
+- The inline depth control (previously Read only) now sits under the
+  heading of Roots, Numbers, Patterns, Dossier, and Themes, with the
+  1/2/3 hotkeys documented beside it; the gear panel leads with Depth
+  and the gear button gained a visible "Display" label.
+- The three inert display checkboxes are wired (word-by-word,
+  pattern notes, transliteration now actually apply on Read); the
+  never-read fourth one is removed.
 
-NOTICE.md itself had drifted: the five analytics directories added in
-the last three releases (`data/association/`, `data/network/`,
-`data/centrality/`, `data/coverage/`, `data/exports/`) never got a
-mention, and several older Leeds-derived datasets (`rhyme/`, the
-formulas files, `discursive-pivots.json`, `symmetry-test.json`,
-`roots-list.json`, `theme-surah-index.json`) were absent from the
-GPL-inheritance list even though datasets.html already labeled them
-GPL. The site-authored and GPL-derived lists are now complete, the
-coverage report's use of the license-pending `data/qursim/` directory
-(file counts only) is disclosed, and a new paragraph covers the
-runtime-fetched translation editions, whose copyrights stay with their
-translators — previously only the Tanzil Arabic text was addressed.
+## Density surgery
 
-Because that drift went unnoticed for three releases, a new checker
-(`scripts/check-notice.mjs`, wired into CI) now fails the build if any
-top-level `data/` entry is missing from NOTICE.md.
+- Roots: the by-surah distribution, revelation-order timeline, and
+  per-period rate merged into one "Where it appears" block with a view
+  toggle; the three filtered co-occurrence rankings merged the same
+  way; the association network graph moved inside the Statistical
+  associations block whose 25 partners it plots. Statistical
+  associations and Network position are Encyclopedic; forms and
+  distributions are Study; Simple keeps the header, counts,
+  Makki/Madani bar, companion-roots list, and verse references.
+- Numbers: fifteen cards regrouped under four anchored headings
+  (Scale, Vocabulary, Structure, Across revelation) with a jump row;
+  the duplicate CSS-bar verse-length rendering and the twin hapax
+  cards merged away; Simple shows seven cards instead of ten.
+- Themes: the self-study kit is rendered once, up top, instead of
+  verbatim in all 33 cards.
+- Dossier: the Vocabulary card stops duplicating Navigate's profile
+  panel; the Structure card's mechanical pattern evidence follows the
+  depth system with a visible link out.
 
-One licensing gap is documented rather than resolved: no copy of the
-GNU GPL text ships in the repository, and upstream states "GNU General
-Public License" without pinning a version. NOTICE.md now says exactly
-that and points to gnu.org; bundling a verbatim copy (and choosing
-which version's text to include) is a one-command owner decision from
-an unrestricted network, deliberately not fabricated from memory here.
+## Nobody arrives to nothing
 
-README.md's licensing bullets, page count (28 → 30), dataset list, and
-generator list were brought current for the same reason; datasets.html
-gained cards for the five analytics datasets its own lede claimed to
-cover; and the maintainer guide's site map and pipeline table now
-include the five compute scripts and the dependency order for
-rerunning them.
+Roots opens on a worked example (r-h-m) with a dismissible note;
+Dossier renders an example dossier (Surah 55) under its picker; Words
+gained one-tap example searches; Compare's four one-click examples are
+no longer hidden at Simple; the Read start card and How-to-use both
+carry the Ask box, which previously existed only on the home page.
 
-## Bugs found and fixed
+## Wayfinding and language
 
-- **numbers.html** rendered "21. Singular Claims of 12…" in the
-  day-month-year card — an orphaned word from an old edit, on the page
-  whose whole premise is precision. Removed.
-- **sw.js** never cached the `js/` directory, so offline visits to the
-  three pages that load `js/viz.js` silently rendered without their
-  charts (each render guard hides the failure rather than erroring).
-  The asset route now covers `/js/`, and SW_VERSION is bumped to v6 —
-  a bump that was also due under the guide's own rule after three
-  releases of new data schemas shipped without one.
-- **assets/chart.js** tooltips could not be dismissed with Escape
-  (its younger sibling js/viz.js could), and each module created its
-  own floating tooltip element, so two could coexist and one layer's
-  dismissal could not clear the other's. Both modules now share one
-  element and both honor Escape.
-- **navigate.html** was the one place in the site saying "Meccan,
-  early period" while the chart legend on the same page said "Early
-  Meccan." Labels now match the other seven copies.
-- **themes.html**'s per-theme distribution strip had the site's only
-  fetch chain without a terminal catch: a throw mid-render stranded
-  the panel on "Computing…" forever. It now reports failure like every
-  other lazy panel.
-- **read.html**'s recurring-word highlights were keyboard-focusable
-  spans with no role, so screen readers announced nothing actionable.
-  They now carry `role="button"`; the accessible name stays the Arabic
-  word itself (an English label would have replaced it).
-- **compare.html and roots.html** had three fetches that skipped the
-  `response.ok` check, so a 404 surfaced as a JSON parse error instead
-  of an honest HTTP status. All three now check.
-- **how-it-works.html** loaded refs.js without glossary.js, the only
-  page violating refs.js's documented ordering contract ("glossary.js
-  runs FIRST"); terms on that page got different popovers than on its
-  nine siblings. glossary.js is now loaded there too.
-- **scripts/compute-association-stats.mjs** contained four literal NUL
-  bytes (a pair-key separator written as the raw character instead of
-  the `\u0000` escape), which made git treat the file as binary — no
-  reviewable diffs, invisible to grep. Replaced with the escape; the
-  regenerated output is byte-identical.
+- Words, Patterns, Formulas, and Numbers each end with a contextual
+  "Explore further" card; Roots' equivalent card was inverted-gated
+  encyclopedic-only (the page's one wayfinding card, hidden from most
+  readers) and is now visible at every depth with the selected root
+  prefilled into its links.
+- The home page leads first-visit orientation before the commitments
+  strip, folds its worked verification examples behind a disclosure
+  (the tour still opens them), and adds the guided study paths as a
+  fifth way in.
+- Statistical column and row labels lead with plain language
+  ("Strength of evidence (LLR)", "Bridge position (betweenness)"),
+  with one-tap glossary definitions for LLR, PMI, Dice, keyness, TTR,
+  betweenness, and eigenvector. Ledes lead with what the reader can
+  do, not corpus totals.
+- Prev/Next on Read continue across surah boundaries, stopping at 1:1
+  and 114:6; Focus mode's F/Escape keys are documented on the page.
 
-## Reproducibility and hygiene
+## Mobile and pattern-language cleanup
 
-- Ten generators stamped their output with the run date, so rerunning
-  any of them on a later day produced a 1,600+ file diff of nothing
-  but date stamps — masking real changes and quietly breaking the
-  guide's "run it twice, git diff must be empty" rule across day
-  boundaries. All ten now honor `SOURCE_DATE_EPOCH` (the
-  reproducible-builds.org convention) via a shared
-  `scripts/lib/computed-date.mjs`; behavior without the variable is
-  unchanged.
-- `build-root-analytics.mjs` and `build-cooccurrence.mjs` carried
-  private copies of the safeKey encoding despite being modules; both
-  now import the shared lib, and the lib's sync comment now names all
-  nine remaining inline copies instead of three.
-- `.gitignore` gained the patterns most likely to catch a future
-  accidental commit: `.env.*`, `.netlify/` (the CLI writes a state
-  file containing the site ID), editor and merge leftovers,
-  `__pycache__/`, and key material (`*.pem`, `*.key`, `*.p12`).
-- The gloss manifest and two doc passages still described the gloss
-  pipeline as "dormant/empty until licensed" even though six surahs of
-  Khan (2011) glosses have shipped; the manifest comment, its
-  generator template, the maintainer guide, and the gloss research
-  memo (now marked partially superseded) all state the shipped
-  reality.
-- changelog.html gained entries for the three analytics releases and
-  this audit — it had not been updated since release #65.
+- The back-to-top button no longer overlaps the notebook toggle; nav
+  buttons keep 44px tap targets at small widths; wide tables sit in
+  the shared scroll wrapper; the open settings panel hides the
+  buttons it covered; the home page clears its three-button stack.
+- One disclosure vocabulary: collapsed method notes all read "How
+  this is computed"; always-visible captions moved from
+  `.method-note` to `.caption-note`; chart table fallbacks got their
+  own `.chart-fallback` class instead of borrowing `.xref-panel`.
 
-## Verified after the changes
+## Verified
 
-`check-nav-sync`, `check-headers-sync`, `build-csp --check`,
-`check-data-nums`, `check-claims`, `check-paths`, `check-exercises`,
-`check-videos`, and the new `check-notice` all pass; the full
-verify-site Playwright suite passes on every page; every regenerated
-dataset is byte-identical to what shipped. The two network-dependent
-checkers (`check-source-links`, `check-editions`) cannot run from a
-sandboxed session per their own headers and should be run from an
-unrestricted machine before release.
+All checkers pass (`check-nav-sync`, `check-headers-sync`,
+`build-csp --check`, `check-claims`, `check-data-nums`,
+`check-notice`, `check-paths`, `check-exercises`, `check-videos`) and
+the full verify-site Playwright suite passes (175 checks, all 30
+pages). Additional Playwright passes covered: all three depths on
+Roots and Numbers, view toggles, deep links (`?root=`, `?q=` in Latin
+and Arabic), both verbatim disclaimers visible at Encyclopedic, the
+five-step tour, Ask routing from all three pages, boundary
+navigation, and 375x812 / 360x740 viewports (no floating-button
+overlap, 44px nav targets). SW_VERSION bumped to v7.
