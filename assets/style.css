@@ -870,6 +870,7 @@ label {
   background: var(--card);
 }
 .btn-ghost,
+.qd-chip,
 .settings .gear,
 .settings .share-fab,
 .settings .tour-fab,
@@ -882,6 +883,7 @@ label {
   border: 1px solid var(--line);
 }
 .btn-ghost:hover,
+.qd-chip:hover,
 .settings .gear:hover,
 .settings .share-fab:hover,
 .settings .tour-fab:hover,
@@ -891,7 +893,9 @@ label {
   border-color: var(--accent);
   background: var(--bg);
 }
-.btn-utility {
+.btn-utility,
+.qd-picker-close,
+.qd-step {
   min-height: 44px;
   padding: 0.35rem 0.7rem;
   background: none;
@@ -902,7 +906,9 @@ label {
   font-size: 0.85rem;
   cursor: pointer;
 }
-.btn-utility:hover {
+.btn-utility:hover,
+.qd-picker-close:hover,
+.qd-step:hover {
   border-color: var(--line);
   background: var(--bg);
 }
@@ -3120,7 +3126,7 @@ html[data-focus] .ar.xl {
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 16px 16px 0 0;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--elev);
 }
 .qd-picker-head {
   display: flex;
@@ -3154,19 +3160,15 @@ html[data-focus] .ar.xl {
   gap: 0.4rem;
   padding: 0.75rem 1rem 0.5rem;
 }
+/* Shape and tap size only; color and hover come from .btn-ghost. The
+   ghost tier deliberately sets no min-height, because the corner
+   controls it also covers size themselves, so the chips state theirs. */
 .qd-chip {
   min-height: 44px;
   padding: 0.4rem 0.85rem;
-  border: 1px solid var(--line);
   border-radius: 999px;
-  background: var(--bg);
-  color: var(--ink);
-  font: inherit;
   font-size: 0.88rem;
   cursor: pointer;
-}
-.qd-chip:hover {
-  border-color: var(--accent);
 }
 .qd-chip.is-on {
   background: var(--ink);
@@ -3255,6 +3257,7 @@ html[data-focus] .ar.xl {
 .qd-surah-en {
   color: var(--muted);
   font-size: 0.85rem;
+  line-height: 1.5;
 }
 .qd-surah-count {
   color: var(--muted);
@@ -3348,9 +3351,6 @@ html[data-focus] .ar.xl {
   font-size: 1.1rem;
   line-height: 1;
   cursor: pointer;
-}
-.qd-step:hover {
-  border-color: var(--accent);
 }
 .qd-range-input {
   width: 4.5rem;
