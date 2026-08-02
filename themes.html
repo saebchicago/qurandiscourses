@@ -443,13 +443,7 @@
                   "</p>";
               }
               card.innerHTML =
-                '<h3 style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap">' + t.title +
-                '<button type="button" class="button secondary share-btn" data-share data-share-url="https://qurandiscourse.netlify.app/s/theme/' +
-                t.slug +
-                '.html" data-share-title="' + t.title + ' · Divine Discourses">Share</button>' +
-                '<button type="button" class="button secondary share-btn" data-embed-type="theme" data-embed-id="' +
-                t.slug +
-                '" data-embed-title="' + t.title + ' · Divine Discourses" title="Copy an iframe snippet for your own site">Embed</button></h3>' +
+                "<h3>" + t.title + "</h3>" +
                 '<h4 style="margin:0 0 0.2rem">Root families</h4>' +
                 '<ul class="root-chips">' + rootChips + "</ul>" +
                 '<h4 style="margin:0 0 0.2rem">Key passages <span style="font-weight:400;color:var(--muted);font-size:0.82rem">(computed: theme vocabulary clusters here)</span></h4>' +
@@ -460,7 +454,11 @@
                 '<div class="theme-dist-chart" style="margin-top:0.5rem"></div>' +
                 '<p style="margin-top:0.3rem">Summed per-surah counts of this theme’s root family (Leeds corpus, mushaf order; darker = more). Vocabulary density, not a thematic index — distribution does not by itself establish meaning.</p>' +
                 "</details></div>" +
-                '<p style="margin:0.5rem 0 0;font-size:0.9rem"><a href="#study-kit">Apply the self-study kit ↑</a></p>';
+                '<p style="margin:0.5rem 0 0;font-size:0.9rem"><a href="#study-kit">Apply the self-study kit ↑</a></p>' +
+                '<p class="share-row study-only" style="margin:0.4rem 0 0">' +
+                '<button type="button" class="button secondary share-btn" data-embed-type="theme" data-embed-id="' +
+                t.slug +
+                '" data-embed-title="' + t.title + ' · Divine Discourses" title="Copy an iframe snippet for your own site">Embed this theme</button></p>';
               sec.appendChild(card);
               wrap.appendChild(sec);
               var dist = card.querySelector(".theme-dist");
@@ -476,6 +474,32 @@
               if (el) el.scrollIntoView();
             }
             if (window.qdInitShare) window.qdInitShare();
+            // Point the floating share button at the theme's link-preview
+            // page (s/theme/<slug>.html) whenever the hash names a theme;
+            // any other hash (e.g. #study-kit) falls back to the live URL.
+            var slugs = {};
+            data.themes.forEach(function (t) {
+              slugs[t.slug] = true;
+            });
+            var syncShareUrl = function () {
+              if (!window.qdSetShareUrl) return;
+              var slug = location.hash.slice(1);
+              window.qdSetShareUrl(
+                slugs[slug]
+                  ? "https://qurandiscourse.netlify.app/s/theme/" +
+                      slug +
+                      ".html"
+                  : null,
+              );
+            };
+            window.addEventListener("hashchange", syncShareUrl);
+            // share.js is deferred, so when this fetch resolves mid-parse
+            // qdSetShareUrl does not exist yet — wait for DOMContentLoaded.
+            if (document.readyState === "loading") {
+              document.addEventListener("DOMContentLoaded", syncShareUrl);
+            } else {
+              syncShareUrl();
+            }
           })
           .catch(function () {
             document.getElementById("themeSections").innerHTML =

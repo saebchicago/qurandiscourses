@@ -998,7 +998,7 @@
                   resolveHlSet(deepLinkHl.spec, tokenCount),
                 );
               }
-              let html = `<div class="verse" data-ayah="${ayahNum}"><div class="meta"><strong>${s}:${ayahNum}</strong><span>${surahName} · ${surahNameTranslation}</span><button type="button" class="notebook-pin-btn" data-notebook-type="verse" data-notebook-ref="${s}:${ayahNum}" data-notebook-label="${qdEsc(s + ":" + ayahNum + " · " + surahName)}" title="Pin this verse to your workspace" aria-label="Pin verse ${s}:${ayahNum} to your workspace">📌</button></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button id="transBtn-${ayahNum}" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem">${transCount} selected ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arHtml}</p>`;
+              let html = `<div class="verse" data-ayah="${ayahNum}"><div class="meta"><strong><a class="vref" href="read.html?s=${s}&a=${ayahNum}" title="Link to this verse">${s}:${ayahNum}</a></strong><span>${surahName} · ${surahNameTranslation}</span><button type="button" class="notebook-pin-btn" data-notebook-type="verse" data-notebook-ref="${s}:${ayahNum}" data-notebook-label="${qdEsc(s + ":" + ayahNum + " · " + surahName)}" title="Pin this verse to your workspace" aria-label="Pin verse ${s}:${ayahNum} to your workspace">📌</button></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button id="transBtn-${ayahNum}" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem">${transCount} selected ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arHtml}</p>`;
               // Word-by-word meanings (assets/wordbw.js) render at every
               // depth: knowing what the words say is reading, not
               // analysis. Filled after the passage paints; stays hidden
@@ -1271,6 +1271,12 @@
                 ? `https://qurandiscourse.netlify.app/s/surah/${s}.html`
                 : null,
             );
+          // Human-readable label ("al-'Asr 103:1-3") for the native
+          // share sheet; the copy fallback stays URL-only.
+          if (window.qdSetShareText)
+            window.qdSetShareText(
+              verses.length ? `${verses[0].surahName} ${s}:${aParam}` : null,
+            );
           container.insertAdjacentHTML(
             "beforeend",
             `<p style="margin:0.6rem 0 0"><a href="replay.html?s=${s}">▶ Replay this surah</a> — recitation verse by verse, recurring roots lighting up as it unfolds. <a href="dossier.html?s=${s}">Its dossier</a> — everything this site knows about it, on one page.</p>`,
@@ -1343,6 +1349,8 @@
                 ? `https://qurandiscourse.netlify.app/s/surah/${s}.html`
                 : null,
             );
+          // No API surah name offline — clear any stale share label.
+          if (window.qdSetShareText) window.qdSetShareText(null);
           }
         }
       }

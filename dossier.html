@@ -773,6 +773,16 @@
             const url = new URL(window.location);
             url.searchParams.set("s", String(s));
             history.replaceState({}, "", url);
+            // Point the floating share button at this surah's
+            // link-preview page (s/surah/N.html redirects back here).
+            // boot() runs mid-parse, before deferred share.js defines
+            // qdSetShareUrl, so wait for DOMContentLoaded.
+            document.addEventListener("DOMContentLoaded", () => {
+              if (window.qdSetShareUrl)
+                window.qdSetShareUrl(
+                  "https://qurandiscourse.netlify.app/s/surah/" + s + ".html",
+                );
+            });
           }
 
           fetchJson("data/surah-meta.json")

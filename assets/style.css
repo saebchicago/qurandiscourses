@@ -1311,6 +1311,19 @@ details.chart-fallback table.data {
   padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--line);
 }
+/* The verse reference is its own permalink (anchor-link convention):
+   right-click / long-press to copy, click to land on the single-verse
+   URL. Styled to sit quietly in the muted meta row. */
+.verse .meta .vref {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted var(--muted);
+}
+.verse .meta .vref:hover,
+.verse .meta .vref:focus-visible {
+  color: var(--link);
+  border-bottom-color: var(--link);
+}
 .verse .translation {
   margin: 0.6rem 0;
   padding: 0.6rem 0;
@@ -2379,6 +2392,15 @@ kbd {
   padding-top: 0.65rem;
   border-top: 1px solid var(--line, #eee);
   font-size: 0.82rem;
+}
+.cite-popover .cite-copy-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--link);
+  text-decoration: underline;
+  cursor: pointer;
 }
 .cite-popover .cite-close {
   position: absolute;

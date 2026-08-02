@@ -13,9 +13,9 @@
 //
 // Share pages are noindex and deliberately NOT in sitemap.xml (1,789
 // thin near-duplicates would hurt search, and noindex requires
-// crawlability, so robots.txt must not Disallow /s/ either). The share
-// buttons on roots/themes/read hand out these URLs (share.js
-// qdSetShareUrl).
+// crawlability, so robots.txt must not Disallow /s/ either). The
+// floating share button hands out these URLs (share.js qdSetShareUrl,
+// called by roots/themes/read/dossier when an entity is on screen).
 //
 // Run: node scripts/build-share-pages.mjs
 // Determinism check: run twice, `git diff` must be empty. Stale files
@@ -72,7 +72,10 @@ function page({ path, title, description, target }) {
     <meta property="og:image" content="${OG_IMG}" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Divine Discourses — Qur'an study, every claim traceable to its source" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="${esc(title)}" />
+    <meta name="twitter:description" content="${esc(description)}" />
     <meta http-equiv="refresh" content="0; url=${esc(target)}" />
   </head>
   <body>

@@ -54,6 +54,28 @@
     return parts.join(" ");
   }
 
+  // Same fields, no markup — what "Copy citation" places on the
+  // clipboard (formatCitation emits <em> for titles).
+  function formatCitationText(src) {
+    const parts = [];
+    if (src.author) parts.push(src.author + ".");
+    if (src.name) {
+      parts.push(
+        (src.edition ? src.name + ", " + src.edition : src.name) + ".",
+      );
+    }
+    if (src.publisher) {
+      parts.push(src.publisher + (src.year ? ", " + src.year : "") + ".");
+    } else if (src.year) {
+      parts.push(src.year + ".");
+    }
+    if (src.isbn) parts.push("ISBN " + src.isbn + ".");
+    if (src.license) parts.push(src.license + ".");
+    if (src.accessed) parts.push("Accessed " + src.accessed + ".");
+    if (src.url) parts.push(src.url);
+    return parts.join(" ");
+  }
+
   function buildPopover(sources, sourceIds) {
     const pop = document.createElement("div");
     pop.className = "cite-popover";
@@ -113,6 +135,23 @@
     correction.rel = "noopener";
     correction.textContent = "Report this claim";
     actions.appendChild(correction);
+    // Copy the plain-text citation(s) — uses share.js's clipboard
+    // helper and toast when present; the button simply doesn't render
+    // on a page without them.
+    if (window.qdCopyText && window.qdToast) {
+      actions.appendChild(document.createTextNode(" · "));
+      const copyBtn = document.createElement("button");
+      copyBtn.type = "button";
+      copyBtn.className = "cite-copy-btn";
+      copyBtn.textContent = "Copy citation";
+      copyBtn.addEventListener("click", () => {
+        const text = sources.map(formatCitationText).join("\n");
+        window.qdCopyText(text, (ok) => {
+          window.qdToast(ok ? "Citation copied" : "Could not copy");
+        });
+      });
+      actions.appendChild(copyBtn);
+    }
     pop.appendChild(actions);
     return pop;
   }

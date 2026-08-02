@@ -1,123 +1,77 @@
-# Changes — the text first: real word meanings, quieter pages
+# Changes — one share button that always shares the right thing
 
 ## Why this pass exists
 
-The previous release made the depth system real and cut duplicated
-analysis. This one changes what the pages are *about*. Three things
-were getting between the reader and the Qur'an:
+The site already had good sharing bones: a floating share button on
+every page, 1,789 generated link-preview pages under `s/` (one per
+root, theme, and surah), an embed system, and URLs that reproduce
+state. What it lacked was consistency. themes.html carried 66 inline
+chips — Share and Embed inside every one of 33 card headings — while
+its floating button shared the wrong URL. dossier.html never pointed
+the button at its surah's preview page even though all 114
+`s/surah/` pages redirect *to* it. Two affordances, two answers.
 
-The Read page could not say what a word means. It answered with a link
-to an external dictionary, because the bundled Leeds morphology
-carries no English at all: its `gloss` field is empty on every one of
-the 77,429 tokens, since the corpus word translations are not part of
-the GPL dump. Six surahs of Khan (2011) glosses shipped; the other 108
-sent the reader away.
+Sharing improves here by **removing** buttons, not adding them.
 
-The home page spent most of its length explaining the site rather than
-opening the text, and every analysis card ended with a sentence naming
-a corpus, its version, its compiler, and its license, repeated fifteen
-times on a single page.
+## One affordance, always right
 
-## Word meanings, shown in place
+The 33 per-card Share chips on themes.html are gone; the floating
+button now owns sharing everywhere. It follows the page's hash: when
+a theme card is on screen (`themes.html#patience`), it hands out that
+theme's link-preview page; on any other hash (like the in-page
+`#study-kit` anchor) it falls back to the live URL. The Embed chip
+moves out of each card's heading into a study-only row at the card
+bottom, matching the Roots page's existing pattern — at the default
+Simple depth a theme card now shows zero buttons instead of two.
 
-A new `assets/wordbw.js` fetches a published word-by-word English
-translation from the Quran.com Foundation Content API and renders an
-interlinear strip beneath each verse: the written word above its
-meaning, reading right to left like the verse. Nothing is machine
-translated.
+dossier.html points the button at `s/surah/N.html` once a real
+dossier renders (the picker and example views keep the live URL).
+coverage.html and export.html, the only two pages without share.js,
+now load it, so the button exists sitewide.
 
-This follows the posture the site already took with verse
-translations: fetched per passage at runtime, rendered exactly as
-served, cached only in the reader's browser, never bundled in this
-repository, rights holders credited. `data/sources.json` gains
-`qcf-wbw-en`, sources.html gains its bibliography line, NOTICE.md
-gains a runtime section, and the Read page's privacy caption names
-both endpoints. Every strip carries a Nuanced badge pointing at that
-citation, because a word-by-word gloss is a translator's choice.
+## The verse reference is the link
 
-The strip renders at every depth, Simple included. Knowing what the
-words say is reading, not analysis, so the depth descriptions across
-index, how-it-works, how-to-use, and the gear tooltip now say so.
+On the Read page each verse's reference (`103:1`) is now itself a
+link to that verse's canonical single-verse URL — the classic
+anchor-link convention. Right-click or long-press to copy, click to
+land on it. No new buttons; the reference was already there.
 
-Quran.com segments by written word while the Leeds corpus segments
-morphologically (*bismi* is one written word but two Leeds tokens), so
-the API text keeps its own surface and is never merged row by row into
-the Leeds table. In that table the Meaning column now falls back
-through what the site can cite: a published gloss, then the root's
-editorial orientation gloss (marked `~`, never a dictionary
-definition), then nothing. The per-row "look up" and "see entry" links
-are gone, replaced by one dictionary link in the caption. The Lemma
-column is dropped: it rendered raw Buckwalter (`{som`), which reads as
-noise. The Words page gets the same treatment.
+Where the native share sheet is available, sharing from the Read
+page now carries a human label ("al-'Asr 103:1-3") alongside the
+URL, built from the same API surah name already on screen. The
+clipboard fallback stays URL-only: a pasted link should be a link.
 
-## Pages about the text, not about the site
+## Richer unfurls
 
-Three home-page sections explained the site at length, and all three
-already existed in full on the method pages: "How we verify" is
-validation.html in miniature (both render the same
-`data/case-studies.json`), "Three depth levels" was triplicated, and
-"Purpose, audience, and scope" restated about.html's lede almost
-verbatim. The trust bar's four commitments are the same four rows as
-how-it-works' comparison table. All are gone from the home page and
-none is lost. What remains is a reading path: hero, welcome, continue,
-today's discourse, ways into the text. On a phone the daily passage
-now sits about 1,200px down instead of past three screens of prose.
+The `s/` page template gains `og:image:alt`, `twitter:title`, and
+`twitter:description`; all 1,789 pages are regenerated (run-twice
+deterministic, as before). The one site-wide OG card no longer
+headlines "1,642 roots / 114 surahs" — the count-flexing this series
+of passes has been retiring — and instead says what the site is for:
+read a surah as one connected discourse, every claim traceable to
+its source. The PNG is regenerated from the committed template.
 
-how-it-works gains two anchors to receive the moved material: "Where
-the numbers come from" (the scripts ship, the build fails if a page
-drifts from its data, and counting recurrence is not claiming
-composition) and "How themes are built". numbers.html, themes.html,
-formulas.html, and dossier.html link there instead of restating it;
-about.html#contribute absorbs the exercises page's maintainer-facing
-"Planned" note. The "the site only ordered the evidence" refrain now
-appears once instead of six times, and the per-verse footer drops the
-interpretive coda that fired on every verse render.
+## The citation you can take with you
 
-## The badge carries the citation
-
-Clicking a source badge already opened a popover with the full Chicago
-citation, the license, and a report link, generated from
-`data/sources.json`. The sentence beside it was a paraphrase of that
-popover. One pattern now applies sitewide: the badge stays visible
-with the shortest name that identifies the source ("Leeds corpus
-v0.4.", "Tanzil.", "Cairo 1924."), and the sentences move into a
-collapsed "How this is computed" note, the convention the Roots page
-already used thirteen times. Where the sentence was pure attribution,
-it is deleted rather than collapsed.
-
-Measured at 375px: Numbers loses 250px of provenance prose, Export
-146px, Words 115px, Patterns 58px. The verbose corpus name appears
-four times across the ten analysis pages instead of twelve. Export's
-456-character hand-maintained citation, a verbatim duplicate of the
-popover two characters to its left, is gone. Nothing explaining a
-method, caveat, or counting rule was removed, and every
-`data-source-ids` value, all three verbatim statistical disclaimers,
-and the pinned figures the data checker validates are untouched.
+The citation popover (any source badge) gains a "Copy citation"
+action: the same Chicago-style line the popover shows, as plain text
+with the source URL, via the existing clipboard helper. It appears
+only on pages that load share.js, and degrades to nothing elsewhere.
 
 ## Verified
 
-All nine checkers pass (`check-nav-sync`, `check-headers-sync`,
-`build-csp --check`, `check-claims`, `check-data-nums`, `check-paths`,
-`check-exercises`, `check-videos`, `check-notice`) and the full
+All checkers pass (`check-nav-sync`, `check-headers-sync`,
+`build-csp --check`, `check-claims`, `check-data-nums`,
+`check-paths`, `check-exercises`, `check-videos`, `check-notice`),
+`build-share-pages` is run-twice deterministic, and the full
 verify-site Playwright suite reports 179 checks, all passing.
 
-verify-site gains a Quran.com fixture (including an ayah-marker
-pseudo-word and a hostile payload) and three checks: the strip renders
-at Simple depth, the marker is not rendered as a word, and API text is
-escaped like every other external string. Its badge-popover regression
-now targets the first *visible* cited badge rather than the first in
-DOM order, so a page whose first badge sits inside a closed disclosure
-is still covered, and reports a warning instead of skipping silently
-when no badge is visible at all.
-
-That change immediately surfaced a genuine pre-existing gap:
-compare.html renders no provenance until a comparison is run, so its
-popover interaction had never been exercised. It is now covered by a
-targeted check that drives the page through its own `?roots=` deep
-link, so the suite reports 179 checks with no warnings and no
-failures.
-
-`SW_VERSION` is bumped to v8. One step needs an unrestricted network:
-confirm from a live response which translator credit the Quran.com
-word-by-word endpoint exposes, and record that credit in the
-`qcf-wbw-en` source entry.
+Targeted spot-checks (Playwright): themes shows 0 chips at Simple
+and 33 study-only Embed chips at Study; the floating button's URL
+tracks hash changes, deep-linked arrival (`themes.html#<slug>`
+despite the fetch/defer race), and `#study-kit` correctly; the
+dossier button is set after DOMContentLoaded on real dossiers and
+unset on the picker; the verse self-link navigates and the meta row
+does not overflow at 375px; "Copy citation" copies plain text (no
+markup) and toasts; coverage and export load clean with the button
+present.
