@@ -24,6 +24,7 @@
     />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <script src="assets/surahs.js"></script>
     <link
@@ -127,42 +128,20 @@
         <p class="lede">
           Enter any surah and verse. Audio uses your chosen reciter.
         </p>
-        <div
-          style="
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            align-items: center;
-          "
-        >
-          <span style="font-size: 0.9rem; color: var(--muted); font-weight: 500"
-            >Depth:</span
-          >
+        <div class="depth-row">
+          <span>Depth:</span>
           <div
             class="depth-toggle inline"
             role="group"
             aria-label="Depth level"
           >
-            <button
-              data-depth="simple"
-              style="min-width: 44px; min-height: 44px"
-            >
-              Simple
-            </button>
-            <button
-              data-depth="study"
-              style="min-width: 44px; min-height: 44px"
-            >
-              Study
-            </button>
-            <button
-              data-depth="encyclopedic"
-              style="min-width: 44px; min-height: 44px"
-            >
-              Encyclopedic
-            </button>
+            <button data-depth="simple">Simple</button>
+            <button data-depth="study">Study</button>
+            <button data-depth="encyclopedic">Encyclopedic</button>
           </div>
+          <span class="depth-hint"
+            >Keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></span
+          >
         </div>
         <div class="card">
           <div
@@ -227,7 +206,7 @@
               Focus
             </button>
           </div>
-          <p class="method-note">
+          <p class="caption-note">
             Loading a passage requests the selected verse and editions from
             api.alquran.cloud, which receives normal connection data. Notes,
             worksheets, and preferences stay in this browser.
@@ -779,7 +758,7 @@
             })
             .join("");
 
-          details.innerHTML = `<summary>Related verses (${refs.length})</summary><div class="xref-list">${items}<p class="prov" style="margin-top:.5rem"><span class="badge ok" data-source-ids="mishkat" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Cross-references from the <a href="sources.html#mishkat">Mishkat Mutashābihāt corpus</a> (13 classical books, scholarly-attested).</p><p class="method-note">Cross-reference coverage: 110 of 114 surahs. Not yet covered: 104, 105, 106, 110.</p></div>`;
+          details.innerHTML = `<summary>Related verses (${refs.length})</summary><div class="xref-list">${items}<p class="prov" style="margin-top:.5rem"><span class="badge ok" data-source-ids="mishkat" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Cross-references from the <a href="sources.html#mishkat">Mishkat Mutashābihāt corpus</a> (13 classical books, scholarly-attested).</p><p class="caption-note">Cross-reference coverage: 110 of 114 surahs. Not yet covered: 104, 105, 106, 110.</p></div>`;
 
           placeholder.appendChild(details);
 
@@ -982,7 +961,7 @@
                   { ur: " nastaliq", bn: " bengali" }[t.edition.language] || "";
                 html += `<div class="translation"><div class="label">${qdEsc(t.edition.englishName)} · ${qdEsc(t.edition.name)}</div><div class="text${scriptClass}"${dirAttr}${langAttr}>${qdEsc(t.text)}</div></div>`;
               });
-              if (needsMorph) {
+              if (needsMorph && qdState.features.showWords !== false) {
                 const words = morphCache[s] && morphCache[s][String(ayahNum)];
                 // Per-word glosses (data/gloss/, owner-gated by licensing —
                 // see the maintainer guide). Absent until a licensed
@@ -1012,12 +991,15 @@
                     glossCache[s] && glossCache[s]._source
                       ? `<span class="badge nuanced" data-source-ids="${qdEsc(glossCache[s]._source)}" aria-label="Nuanced" tabindex="0" title="Nuanced · a gloss is a translator's choice">~</span> English glosses. A gloss is one translator's choice of one English word for one Arabic word — an interpretation, not the meaning. Verses without glosses show a dictionary link instead.`
                       : `<span class="badge pending" aria-label="Pending" tabindex="0" title="Pending · awaiting a second independent source">○</span> English glosses. The Leeds corpus does not carry per-word English meanings; the Meaning column links to the corpus.quran.com dictionary entry for each root. Future versions may overlay a verified gloss dataset.`;
-                  html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><table class="data"><thead><tr><th>Word</th><th>Root</th><th>Lemma</th><th>POS</th><th>Meaning</th></tr></thead><tbody>${rows}</tbody></table><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> morphology and roots from the Leeds Quranic Arabic Corpus v0.4 (Kais Dukes, 2009–2017), GPL licensed. ${glossProv}</p></div>`;
+                  html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><div class="table-scroll"><table class="data"><thead><tr><th>Word</th><th>Root</th><th>Lemma</th><th>POS</th><th>Meaning</th></tr></thead><tbody>${rows}</tbody></table></div><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> morphology and roots from the Leeds Quranic Arabic Corpus v0.4 (Kais Dukes, 2009–2017), GPL licensed. ${glossProv}</p></div>`;
                 } else {
                   html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><p style="font-size:.9rem;color:var(--muted)">Word-level data unavailable for this verse — see the <a href="words.html">Words page</a> for the methodology.</p></div>`;
                 }
               }
-              if (depth === "encyclopedic") {
+              if (
+                depth === "encyclopedic" &&
+                qdState.features.showPatterns !== false
+              ) {
                 if (s === 1 && ayahNum === 1) {
                   html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Patterns in this verse</h4><p style="font-size:.9rem">This verse is the <em>basmala</em> — it opens 113 of the 114 surahs (all except al-Tawbah). In the Uthmani text it is counted as verse 1 of al-Fatihah and as a non-numbered separator at the head of other surahs.</p><p class="prov"><span class="badge ok" data-source-ids="tanzil cairo-1924" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> from Tanzil text and Cairo 1924 edition.</p></div>`;
                 } else if (s === 1 && ayahNum === 5) {
@@ -1230,7 +1212,7 @@
               if (cards.length) {
                 fallback =
                   cards.join("") +
-                  '<p class="method-note">Offline view: Arabic text reassembled from the locally bundled Leeds Quranic Arabic Corpus word tokens. Translations, audio, and cross-references need a connection.</p>';
+                  '<p class="caption-note">Offline view: Arabic text reassembled from the locally bundled Leeds Quranic Arabic Corpus word tokens. Translations, audio, and cross-references need a connection.</p>';
               }
             }
           } catch (e2) {}
@@ -1405,18 +1387,19 @@
       if (hasParams) {
         document.addEventListener("qd:translations-changed", load);
         document.addEventListener("qd:depth-changed", load);
+        document.addEventListener("qd:features-changed", load);
         window.addEventListener("load", () =>
           setTimeout(() => {
             if (document.getElementById("surahInput").value.trim()) load();
           }, 200),
         );
       } else {
-        document.addEventListener("qd:translations-changed", function () {
+        const reloadIfLoaded = function () {
           if (document.getElementById("surahInput").value.trim()) load();
-        });
-        document.addEventListener("qd:depth-changed", function () {
-          if (document.getElementById("surahInput").value.trim()) load();
-        });
+        };
+        document.addEventListener("qd:translations-changed", reloadIfLoaded);
+        document.addEventListener("qd:depth-changed", reloadIfLoaded);
+        document.addEventListener("qd:features-changed", reloadIfLoaded);
       }
     </script>
     <script src="assets/cite-badge.js" defer></script>

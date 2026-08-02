@@ -24,6 +24,7 @@
     />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <link
       rel="icon"
@@ -96,6 +97,21 @@
           features. Three are surfaced here: grammatical shifts (iltifat),
           similar phrasings (mutashabihat), and cross-references.
         </p>
+        <div class="depth-row">
+          <span>Depth:</span>
+          <div
+            class="depth-toggle inline"
+            role="group"
+            aria-label="Depth level"
+          >
+            <button data-depth="simple">Simple</button>
+            <button data-depth="study">Study</button>
+            <button data-depth="encyclopedic">Encyclopedic</button>
+          </div>
+          <span class="depth-hint"
+            >Keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></span
+          >
+        </div>
         <div class="card">
           <h3>Iltifat: grammatical shift</h3>
           <p>
@@ -152,7 +168,7 @@
             <span class="badge ok" data-source-ids="mishkat" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> dataset. See
             <a href="sources.html#mishkat">Sources</a>.
           </p>
-          <p class="method-note">
+          <p class="caption-note">
             Conceptual lineage: the QurSim corpus (Sharaf and Atwell,
             <em>LREC</em> 2012) pioneered this approach, identifying 7,679
             pairs of related verses ranked by relatedness. QurSim is cited
@@ -184,7 +200,7 @@
             keys, where the ending pattern shifts, and any refrains
             (identical endings recurring three or more times).
           </p>
-          <p class="method-note">
+          <p class="caption-note">
             <span
               class="badge nuanced"
               data-source-ids="leeds-corpus-v0.4 neuwirth-1981"
@@ -694,7 +710,7 @@
                 extra +
                 "</p>" +
                 refrainNote +
-                '<div style="overflow-x:auto;margin-top:0.6rem"><table class="data"><thead><tr><th>Verse</th><th>Final word</th><th>Pausal</th><th>Fine key</th><th class="study-only">Coarse</th></tr></thead><tbody>' +
+                '<div class="table-scroll" style="margin-top:0.6rem"><table class="data"><thead><tr><th>Verse</th><th>Final word</th><th>Pausal</th><th>Fine key</th><th class="study-only">Coarse</th></tr></thead><tbody>' +
                 rows +
                 "</tbody></table></div>";
             }

@@ -17,8 +17,8 @@
     },
     {
       sel: "#beginSection h2",
-      title: "Three ways in",
-      body: "Read to sit with the text, Study to follow a question, Verify to check the evidence behind any claim.",
+      title: "Ways into the text",
+      body: "Read to sit with the text, study a theme or a root to follow a question, or check the evidence behind any claim.",
     },
     {
       sel: '[data-case-studies="home"] .badge',
@@ -207,9 +207,8 @@
     // its interactive elements, so skip that for a returning reader
     // (nothing to wire on a banner that's staying hidden).
     if (window.qdState && window.qdState.seen) return;
-    // Any interaction counts as "seen": the newcomer path, a depth pick
-    // (if a page's banner carries the toggle — wired by app.js
-    // initInlineDepth), the tour, or dismissal.
+    // Any interaction counts as "seen": the newcomer path, the tour,
+    // or dismissal.
     var newHere = document.getElementById("welcomeNewHere");
     if (newHere)
       newHere.addEventListener("click", function () {
@@ -217,12 +216,6 @@
         // reader when they come back from the newcomer page.
         markSeen();
       });
-    banner.querySelectorAll(".depth-toggle button").forEach(function (b) {
-      b.addEventListener("click", function () {
-        markSeen();
-        hideBanner();
-      });
-    });
     var dismiss = document.getElementById("welcomeDismiss");
     if (dismiss)
       dismiss.addEventListener("click", function () {
@@ -245,6 +238,10 @@
       btn.textContent = "?";
       btn.addEventListener("click", startTour);
       settings.insertBefore(btn, settings.firstChild);
+      // Three stacked corner buttons (tour + share + gear) are taller
+      // than the default main padding; flag the page so CSS can clear
+      // them and the footer never sits underneath.
+      document.body.classList.add("has-tour-fab");
     }
   }
 

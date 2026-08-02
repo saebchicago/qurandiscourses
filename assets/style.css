@@ -502,6 +502,11 @@ main {
   margin: 0 auto;
   padding: 1.5rem 1.25rem 6rem;
 }
+/* Home page stacks three corner buttons (tour + share + gear, ~175px);
+   tour.js sets this class when it injects the third. */
+body.has-tour-fab main {
+  padding-bottom: 12rem;
+}
 section {
   margin: 2.5rem 0;
   scroll-margin-top: 5rem;
@@ -749,7 +754,12 @@ blockquote.khan cite {
   padding-top: 0.55rem;
   line-height: 1.55;
 }
-.method-note {
+/* Two related but distinct conventions share this look:
+   .method-note is a collapsed <details> holding "how this is computed"
+   provenance; .caption-note is an always-visible caption paragraph.
+   They were one class name before the disclosure-pattern cleanup. */
+.method-note,
+.caption-note {
   font-size: 0.78rem;
   color: var(--muted);
   margin-top: 0.3rem;
@@ -1202,11 +1212,50 @@ label {
   color: var(--muted);
   margin: 0.4rem 0;
 }
+/* Chart table fallback (emitted by js/viz.js renderDetailsFallback).
+   Visually a sibling of .xref-panel but its own class: it wraps a
+   chart's data table, not cross-references, and the two should be
+   restylable independently. */
 details.chart-fallback {
   margin-top: 0.5rem;
 }
 details.chart-fallback table.data {
   font-size: 0.85rem;
+}
+.chart-fallback > summary {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--accent);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0 0.4rem;
+  user-select: none;
+}
+.chart-fallback > summary:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.chart-fallback > summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+.chart-fallback > summary::after {
+  content: "▸";
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-family: var(--sans);
+}
+.chart-fallback[open] > summary::after {
+  content: "▾";
+}
+.chart-fallback > summary::-webkit-details-marker {
+  display: none;
 }
 .verse {
   background: var(--card);
@@ -1285,6 +1334,33 @@ details.chart-fallback table.data {
 }
 .settings .gear:hover {
   transform: rotate(45deg) scale(1.05);
+}
+/* Visible text label injected by app.js initSettings. Icon-only below
+   600px (where the corner is tight), icon + word above it. */
+.settings .gear .gear-label {
+  display: none;
+}
+@media (min-width: 600px) {
+  .settings .gear {
+    width: auto;
+    padding: 0 1rem 0 0.85rem;
+  }
+  .settings .gear .gear-label {
+    display: inline;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-left: 0.4rem;
+    vertical-align: 0.1em;
+  }
+  .settings .gear:hover {
+    transform: scale(1.05);
+  }
+}
+/* The open panel sits directly above the gear and would cover the
+   share/tour buttons stacked there; app.js toggles this class. */
+.settings.panel-open .share-fab,
+.settings.panel-open .tour-fab {
+  display: none;
 }
 .settings .share-fab {
   display: block;
@@ -1380,6 +1456,32 @@ details.chart-fallback table.data {
   color: var(--bg);
   border-color: var(--ink);
   font-weight: 600;
+}
+/* Page-top inline depth control (wired by app.js initInlineDepth).
+   The row pairs the segmented control with a label and the hotkey
+   hint so the depth system is visible without opening the gear. */
+.depth-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.depth-row > span:first-child {
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+.depth-toggle.inline {
+  margin: 0;
+}
+.depth-toggle.inline button {
+  min-width: 44px;
+  min-height: 44px;
+}
+.depth-hint {
+  font-size: 0.76rem;
+  color: var(--muted);
 }
 .panel .small {
   font-size: 0.76rem;
@@ -1523,6 +1625,9 @@ html[data-depth="encyclopedic"] li.encyclopedic-only {
   nav.primary .nav-group-btn {
     padding: 0.35rem 0.7rem;
     font-size: 0.85rem;
+    /* Keep the tap area at the platform minimum even as the text
+       shrinks; the Menu toggle already honors 44px. */
+    min-height: 44px;
   }
 }
 
@@ -2090,6 +2195,11 @@ main a {
 .back-to-top:hover {
   border-color: var(--accent);
   color: var(--accent);
+}
+/* On pages where notebook.js pins its 52px toggle to the same corner
+   (read, roots), app.js shifts this button above it. */
+.back-to-top--offset {
+  bottom: calc(1rem + 52px + 0.75rem);
 }
 kbd {
   font-family: ui-monospace, Consolas, monospace;

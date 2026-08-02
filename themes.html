@@ -120,6 +120,7 @@
         margin: 0.4rem 0 0;
       }
     </style>
+    <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <link
       rel="icon"
@@ -192,7 +193,22 @@
           vocabulary works hardest. Pick a theme; get its root families, the
           computed key passages, and a self-study kit.
         </p>
-        <p class="method-note">
+        <div class="depth-row">
+          <span>Depth:</span>
+          <div
+            class="depth-toggle inline"
+            role="group"
+            aria-label="Depth level"
+          >
+            <button data-depth="simple">Simple</button>
+            <button data-depth="study">Study</button>
+            <button data-depth="encyclopedic">Encyclopedic</button>
+          </div>
+          <span class="depth-hint"
+            >Keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></span
+          >
+        </div>
+        <p class="caption-note">
           <span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · lexical gateway, not a thematic index">~</span>
           These gateways are lexical. Each theme collects triliteral roots
           whose core dictionary senses relate to it, and the key passages are

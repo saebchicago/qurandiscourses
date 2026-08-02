@@ -375,7 +375,7 @@
         activate();
         if (offline) {
           var note = document.createElement("p");
-          note.className = "method-note";
+          note.className = "caption-note";
           note.textContent =
             "Offline view: Arabic text reassembled from the locally bundled Leeds Quranic Arabic Corpus word tokens.";
           $("verseStack").prepend(note);

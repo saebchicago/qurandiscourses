@@ -271,7 +271,7 @@
   // standard collapsible-table shape every chart on this site uses.
   function renderDetailsFallback(parent, opts) {
     var details = document.createElement("details");
-    details.className = "xref-panel chart-fallback";
+    details.className = "chart-fallback";
     var summary = document.createElement("summary");
     summary.textContent = opts.summary || "View as table";
     details.appendChild(summary);

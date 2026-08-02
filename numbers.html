@@ -122,6 +122,7 @@
         cursor: pointer;
       }
     </style>
+    <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <link
       rel="icon"
@@ -193,6 +194,21 @@
           Frequency and distribution insights from the corpus. Each card ends
           with its verification status.
         </p>
+        <div class="depth-row">
+          <span>Depth:</span>
+          <div
+            class="depth-toggle inline"
+            role="group"
+            aria-label="Depth level"
+          >
+            <button data-depth="simple">Simple</button>
+            <button data-depth="study">Study</button>
+            <button data-depth="encyclopedic">Encyclopedic</button>
+          </div>
+          <span class="depth-hint"
+            >Keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></span
+          >
+        </div>
         <div class="card" id="countingLadder">
           <h3>
             How the Qur'an is counted
@@ -283,7 +299,7 @@
           <span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · counting method varies by source">~</span> with the counting method
           named.
         </div>
-        <p class="method-note" id="numbersMethod">
+        <p class="caption-note" id="numbersMethod">
           Every corpus figure on this page is recomputed from the datasets
           bundled with this site (<code>data/numbers.json</code>, generated
           deterministically by <code>scripts/build-numbers.mjs</code> from the
@@ -678,7 +694,7 @@
                 >~</span
               >
             </div>
-            <p class="method-note" id="heatmapOrderNote" style="margin-top: 0.3rem" hidden>
+            <p class="caption-note" id="heatmapOrderNote" style="margin-top: 0.3rem" hidden>
               Revelation order follows Cairo 1924 revelation order
               (Nöldeke-Bell four-period classification), one chronology
               among several scholarly proposals.

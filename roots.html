@@ -228,6 +228,7 @@
         padding: 0.5rem 0;
       }
     </style>
+    <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <link
       rel="icon"
@@ -333,6 +334,21 @@
           consonants from which nouns, verbs, and adjectives are derived by
           fixed patterns.
         </p>
+        <div class="depth-row">
+          <span>Depth:</span>
+          <div
+            class="depth-toggle inline"
+            role="group"
+            aria-label="Depth level"
+          >
+            <button data-depth="simple">Simple</button>
+            <button data-depth="study">Study</button>
+            <button data-depth="encyclopedic">Encyclopedic</button>
+          </div>
+          <span class="depth-hint"
+            >Keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></span
+          >
+        </div>
 
         <div class="card">
           <div
@@ -357,7 +373,7 @@
             ></span>
           </div>
 
-          <div style="overflow-x: auto">
+          <div class="table-scroll">
             <table class="data" style="width: 100%">
               <thead>
                 <tr>
@@ -477,7 +493,7 @@
               style="font-size: 1.5rem; font-weight: 600; margin: 0.2rem 0"
             ></p>
             <details class="method-note">
-              <summary>ℹ How computed</summary>
+              <summary>ℹ How this is computed</summary>
               <p>
                 Computed from Leeds Quranic Arabic Corpus v0.4: total count of
                 all token entries with this root across 114 morphology files
@@ -506,7 +522,7 @@
               <span class="m-madani" id="detailMadaniLabel"></span>
             </div>
             <details class="method-note">
-              <summary>ℹ How computed</summary>
+              <summary>ℹ How this is computed</summary>
               <p>
                 Computed from Leeds Quranic Arabic Corpus v0.4 morphology +
                 Quran.com Foundation API v4
@@ -546,7 +562,7 @@
               number.
             </p>
             <details class="method-note">
-              <summary>ℹ How computed</summary>
+              <summary>ℹ How this is computed</summary>
               <p>
                 Computed from Leeds Quranic Arabic Corpus v0.4: summed token
                 count for this root in each of the 114 surah morphology files.
@@ -574,7 +590,7 @@
               concentrate as the revelation unfolds?
             </p>
             <details class="method-note">
-              <summary>ℹ How computed — and what it does not say</summary>
+              <summary>ℹ How this is computed</summary>
               <p>
                 Per-surah counts (Leeds v0.4) placed at each surah's Cairo
                 1924 revelation position. The Cairo ordering is a convention
@@ -608,7 +624,7 @@
               patterns. Grouped by Arabic form and part of speech (Leeds POS
               tag).
             </p>
-            <div style="overflow-x: auto">
+            <div class="table-scroll">
               <table
                 class="data word-family-table"
                 style="font-size: 0.88rem; width: 100%"
@@ -624,7 +640,7 @@
               </table>
             </div>
             <details class="method-note">
-              <summary>ℹ How computed</summary>
+              <summary>ℹ How this is computed</summary>
               <p>
                 Computed from Leeds Quranic Arabic Corpus v0.4: grouped all
                 token entries for this root by Arabic surface form and POS tag;
@@ -688,7 +704,7 @@
             </p>
             <ul class="co-root-list" id="detailCoList"></ul>
             <details class="method-note">
-              <summary>ℹ How computed</summary>
+              <summary>ℹ How this is computed</summary>
               <p>
                 Computed from Leeds Quranic Arabic Corpus v0.4: for each verse
                 containing this root, recorded all other roots present in the
@@ -723,7 +739,7 @@
               Show all verses
             </button>
             <details class="method-note">
-              <summary>ℹ How computed</summary>
+              <summary>ℹ How this is computed</summary>
               <p>
                 Computed from Leeds Quranic Arabic Corpus v0.4: unique verse
                 references (surah:ayah) where at least one token carries this
@@ -745,7 +761,7 @@
               >
             </h4>
             <details class="method-note" open>
-              <summary>ℹ Method</summary>
+              <summary>ℹ How this is computed</summary>
               <p>
                 Counted at verse level: two roots co-occur once for each
                 verse in which both are attested, regardless of order or
@@ -784,7 +800,7 @@
               >
             </h4>
             <details class="method-note">
-              <summary>ℹ Method</summary>
+              <summary>ℹ How this is computed</summary>
               <p>
                 Pointwise mutual information (PMI) over the same verse-level
                 attestation as the count list above: it asks how much
@@ -824,7 +840,7 @@
               >
             </h4>
             <details class="method-note">
-              <summary>ℹ Method</summary>
+              <summary>ℹ How this is computed</summary>
               <p>
                 The same verse-level co-occurrence count and function-word
                 exclusion as "Co-occurring roots" above, computed separately
@@ -855,7 +871,7 @@
               >
             </h4>
             <details class="method-note">
-              <summary>ℹ Method</summary>
+              <summary>ℹ How this is computed</summary>
               <p>
                 Computed from Leeds Quranic Arabic Corpus v0.4 morphology.
                 Co-occurrence is counted at the verse level. Pairs require at
@@ -865,7 +881,7 @@
                 association.
               </p>
             </details>
-            <div style="overflow-x: auto">
+            <div class="table-scroll">
               <table class="data" id="detailAssocTable" style="min-width: 480px">
                 <thead>
                   <tr>
@@ -903,7 +919,7 @@
               >
             </h4>
             <details class="method-note">
-              <summary>ℹ How this graph is built</summary>
+              <summary>ℹ How this is computed</summary>
               <p>
                 Node positions are precomputed offline (not laid out in
                 the browser): the root sits at the center, its top
@@ -933,7 +949,7 @@
               >
             </h4>
             <details class="method-note">
-              <summary>ℹ Method</summary>
+              <summary>ℹ How this is computed</summary>
               <p>
                 Computed by <code>scripts/compute-centrality.mjs</code> over
                 an undirected weighted graph built from
@@ -948,7 +964,7 @@
                 vector). Ranks are out of all 1,642 nodes, 1 = highest.
               </p>
             </details>
-            <div style="overflow-x: auto">
+            <div class="table-scroll">
               <table class="data" id="centralityTable" style="min-width: 360px">
                 <tbody>
                   <tr>
@@ -1000,7 +1016,7 @@
               >
             </h4>
             <details class="method-note">
-              <summary>ℹ Method</summary>
+              <summary>ℹ How this is computed</summary>
               <p>
                 Normalized frequency (occurrences per 1,000 tokens) in
                 each of the four traditional revelation periods, by

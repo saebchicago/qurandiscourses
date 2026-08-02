@@ -164,6 +164,7 @@
         #secStructure { min-height: 48.5em; }
       }
     </style>
+    <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <link
       rel="icon"
@@ -274,6 +275,21 @@
           cross-references, and structure. Every claim carries its badge and
           source.
         </p>
+        <div class="depth-row">
+          <span>Depth:</span>
+          <div
+            class="depth-toggle inline"
+            role="group"
+            aria-label="Depth level"
+          >
+            <button data-depth="simple">Simple</button>
+            <button data-depth="study">Study</button>
+            <button data-depth="encyclopedic">Encyclopedic</button>
+          </div>
+          <span class="depth-hint"
+            >Keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></span
+          >
+        </div>
         <div class="card">
           <h3 style="margin-top: 0">Choose a surah</h3>
           <ul class="surah-picker" id="surahPicker">
@@ -545,7 +561,7 @@
             "secFormulas",
             `<p style="margin:0 0 0.5rem;font-size:0.92rem">${e.rootCount} recurring root sequence${e.rootCount === 1 ? "" : "s"} and ${e.surfaceCount} surface sequence${e.surfaceCount === 1 ? "" : "s"} pass through this surah. Its most repeated:</p>` +
               rows +
-              `<p class="method-note" style="margin-top:0.6rem">${OK("leeds-corpus-v0.4", "computed from the cited corpus")} Counted mechanically from the bundled morphology (<code>scripts/build-formula-summary.mjs</code>); recurrence is recorded, not interpreted — whether a phrase is a "formula" in the oral-formulaic sense is a scholarly judgment this site does not make (${OK("bannister-2014", "Bannister 2014")} on <a href="sources.html">Sources</a>). Links land in the passage with the matched words highlighted. <a href="formulas.html">Browse the full index →</a></p>`,
+              `<p class="caption-note" style="margin-top:0.6rem">${OK("leeds-corpus-v0.4", "computed from the cited corpus")} Counted mechanically from the bundled morphology (<code>scripts/build-formula-summary.mjs</code>); recurrence is recorded, not interpreted — whether a phrase is a "formula" in the oral-formulaic sense is a scholarly judgment this site does not make (${OK("bannister-2014", "Bannister 2014")} on <a href="sources.html">Sources</a>). Links land in the passage with the matched words highlighted. <a href="formulas.html">Browse the full index →</a></p>`,
           );
         }
 
@@ -604,7 +620,7 @@
                 "xrefDetail",
                 `<p style="margin:0.5rem 0 0.2rem;font-size:0.92rem">${pairCount} verse-level links in all. Most connected to: ${topHtml}.</p>` +
                   `<ul style="margin:0.3rem 0 0.4rem;padding-left:1.2rem;font-size:0.9rem;line-height:1.8">${sampleHtml}</ul>` +
-                  `<p class="method-note" style="margin:0">${OK("mishkat qursim", "Mishkat corpus via QurSim")} Cross-references from the Mishkat Mutashābihāt corpus (13 classical books, scholarly-attested), bundled per surah.</p>`,
+                  `<p class="caption-note" style="margin:0">${OK("mishkat qursim", "Mishkat corpus via QurSim")} Cross-references from the Mishkat Mutashābihāt corpus (13 classical books, scholarly-attested), bundled per surah.</p>`,
               );
             })
             .catch(() => fail("xrefDetail", "Cross-reference detail"));
