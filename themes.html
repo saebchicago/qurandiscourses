@@ -219,6 +219,28 @@
           for your own reading, never as a complete index.
         </p>
         <div class="theme-toc" id="themeToc" role="navigation" aria-label="Themes on this page"></div>
+        <!-- Rendered once for the whole page; every theme card links
+             back here. It used to be repeated verbatim inside all 33
+             cards. -->
+        <details class="xref-panel" id="study-kit">
+          <summary>Self-study kit (works for any theme)</summary>
+          <ol style="margin: 0.4rem 0 0.2rem; padding-left: 1.3rem; font-size: 0.92rem; line-height: 1.7">
+            <li>
+              Open each passage and read the whole discourse around it (use
+              Prev/Next on the Read page): who is being addressed, and what
+              came before?
+            </li>
+            <li>
+              Follow one root into the Roots explorer: where else does it
+              cluster, and in which period?
+            </li>
+            <li>
+              Write down, in your own words, what the passages agree on and
+              where they differ. That record is yours; the site only ordered
+              the evidence.
+            </li>
+          </ol>
+        </details>
       </section>
       <div id="themeSections">
         <p style="color: var(--muted)">Loading themes...</p>
@@ -262,12 +284,6 @@
     <script>
       (function () {
         "use strict";
-        var KIT = [
-          "Open each passage and read the whole discourse around it (use Prev/Next on the Read page): who is being addressed, and what came before?",
-          "Follow one root into the Roots explorer: where else does it cluster, and in which period?",
-          "Write down, in your own words, what the passages agree on and where they differ. That record is yours; the site only ordered the evidence.",
-        ];
-
         // Filename-safe key (mirrors build-root-analytics.mjs).
         function safeKey(bw) {
           var out = "";
@@ -441,14 +457,12 @@
                 '<h4 style="margin:0 0 0.2rem">Key passages <span style="font-weight:400;color:var(--muted);font-size:0.82rem">(computed: theme vocabulary clusters here)</span></h4>' +
                 '<div class="passage-grid">' + passages + "</div>" +
                 compareLink +
-                clusterHtml +
+                '<div class="study-only">' + clusterHtml +
                 '<details class="method-note theme-dist"><summary>Show distribution map (114 surahs)</summary>' +
                 '<div class="theme-dist-chart" style="margin-top:0.5rem"></div>' +
                 '<p style="margin-top:0.3rem">Summed per-surah counts of this theme’s root family (Leeds corpus, mushaf order; darker = more). Vocabulary density, not a thematic index — distribution does not by itself establish meaning.</p>' +
-                "</details>" +
-                '<div class="study-kit"><strong>Self-study kit</strong><ol>' +
-                KIT.map(function (q) { return "<li>" + q + "</li>"; }).join("") +
-                "</ol></div>";
+                "</details></div>" +
+                '<p style="margin:0.5rem 0 0;font-size:0.9rem"><a href="#study-kit">Apply the self-study kit ↑</a></p>';
               sec.appendChild(card);
               wrap.appendChild(sec);
               var dist = card.querySelector(".theme-dist");

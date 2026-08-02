@@ -453,25 +453,6 @@
           );
         }
 
-        function topRootsChart(topRoots) {
-          const max = Math.max(...topRoots.map((r) => r.count));
-          const W_BAR = 100;
-          const items = topRoots
-            .map((r) => {
-              const w =
-                max > 0 ? Math.max(2, Math.round((r.count / max) * W_BAR)) : 0;
-              return (
-                `<li>` +
-                `<span class="root-label"><a href="roots.html?root=${safeKey(r.root)}" style="display:flex;align-items:baseline;gap:0.4rem;text-decoration:none"><span class="root-ar notranslate" translate="no" lang="ar" dir="rtl">${qdEsc(r.rootArabic || r.root)}</span><span style="color:var(--muted)">${qdEsc(r.rootLatin)}</span></a></span>` +
-                `<svg width="${W_BAR}" height="14" viewBox="0 0 ${W_BAR} 14" role="img" aria-label="${qdEsc(r.rootLatin)}: ${r.count} occurrences"><rect x="0" y="1" width="${w}" height="12" rx="2" fill="var(--accent)"><title>${qdEsc(r.rootLatin)}: ${r.count}</title></rect></svg>` +
-                `<span class="root-count">${r.count}</span>` +
-                `</li>`
-              );
-            })
-            .join("");
-          return `<ul class="top-roots-chart">${items}</ul>`;
-        }
-
         function renderVocab(s, profiles, themeIndex) {
           const p = profiles && profiles.surahs && profiles.surahs[String(s)];
           if (!p) return fail("secVocab", "Vocabulary profile");
@@ -494,19 +475,24 @@
               : `<span style="color:var(--muted)">This surah is not among any theme's densest — which says only that, not that thematic vocabulary is absent.</span>`;
             themesHtml = `<div class="stat-block"><h4>Themes clustering here ${NUANCED("mechanical count of each theme's root family per 1,000 words — root grouping is editorial")}</h4><p style="margin:0.2rem 0 0;font-size:0.92rem;line-height:1.9">${body}</p></div>`;
           }
+          // A compact summary, not the full profile: the diversity
+          // ratios and grammatical texture stat grid duplicated the
+          // Navigate page's per-surah profile panel nearly field for
+          // field, so this card now gives the one-sentence answer plus
+          // the top roots and links out for the rest.
+          const chips = (p.topRoots || [])
+            .slice(0, 5)
+            .map(
+              (r) =>
+                `<a href="roots.html?root=${safeKey(r.root)}" style="display:inline-block;border:1px solid var(--line);border-radius:999px;padding:0.15rem 0.6rem;margin:0 0.3rem 0.3rem 0;font-size:0.9rem;text-decoration:none"><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${qdEsc(r.rootArabic || r.root)}</span> <span style="color:var(--muted)">${qdEsc(r.rootLatin)} ×${r.count}</span></a>`,
+            )
+            .join("");
           fill(
             "secVocab",
-            `<div class="stat-grid">` +
-              `<div class="stat-block"><h4>Word tokens ${OK("leeds-corpus-v0.4", "Leeds Corpus v0.4")}</h4><p class="stat-value">${p.tokenCount}</p></div>` +
-              `<div class="stat-block"><h4>Distinct roots ${OK("leeds-corpus-v0.4", "Leeds Corpus v0.4")}</h4><p class="stat-value">${p.distinctRootCount}</p></div>` +
-              `<div class="stat-block"><h4>Root diversity ratio ${NUANCED("roots over all tokens")}</h4><p class="stat-value">${p.rootDiversityRatio}</p></div>` +
-              `<div class="stat-block"><h4>Form / lemma diversity ratio ${NUANCED("type-token ratio; sensitive to surah length")}</h4><p class="stat-value" style="font-size:1rem">${p.formDiversityRatio} form · ${p.lemmaDiversityRatio} lemma</p></div>` +
-              (p.posMix
-                ? `<div class="stat-block"><h4>Grammatical texture ${OK("leeds-corpus-v0.4", "Leeds POS tags")}</h4><p class="stat-value" style="font-size:1rem">${p.posMix.nounPct}% nouns · ${p.posMix.verbPct}% verbs</p></div>`
-                : "") +
-              `</div>` +
-              `<div class="stat-block"><h4>Top ${p.topRoots.length} roots by frequency ${OK("leeds-corpus-v0.4", "per-surah frequency")}</h4>${topRootsChart(p.topRoots)}</div>` +
-              themesHtml,
+            `<p style="margin:0">${Number(p.tokenCount).toLocaleString()} word tokens drawing on ${Number(p.distinctRootCount).toLocaleString()} distinct roots. ${OK("leeds-corpus-v0.4", "Leeds Corpus v0.4")}</p>` +
+              `<div class="stat-block"><h4>Top ${Math.min(5, (p.topRoots || []).length)} roots by frequency ${OK("leeds-corpus-v0.4", "per-surah frequency")}</h4><p style="margin:0.3rem 0 0;line-height:2.1">${chips}</p></div>` +
+              themesHtml +
+              `<p style="margin:0.6rem 0 0;font-size:0.9rem"><a href="navigate.html">Full vocabulary profile (diversity ratios, grammatical texture) on the Navigate page →</a></p>`,
           );
         }
 
@@ -735,31 +721,60 @@
             symHtml = `<div style="margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid var(--line)"><p style="margin:0 0 0.3rem;font-size:0.85rem;color:var(--muted)">Ring-composition proxy test ${NUANCED("narrow positional proxy; zero corpus-wide significant pairs")}: this surah's closest — still not significant — candidate${myClosestMisses.length === 1 ? "" : "s"} for a rare root sitting at matching distances from the surah's start and end:</p><ul style="margin:0.2rem 0 0;padding-left:1.2rem;font-size:0.9rem;line-height:1.7">${items}</ul><p style="margin:0.3rem 0 0;font-size:0.82rem;color:var(--muted)">Zero pairs reached significance anywhere in the corpus after correction — method and full result on the <a href="patterns.html">Patterns page</a>.</p></div>`;
           }
 
+          // Outline status and Khan's quoted reading are the card's
+          // summary, shown at every depth. The mechanical pattern
+          // evidence (pivot detection, rhetorical features, symmetry
+          // proxy) is patterns.html-grade material and follows the
+          // depth system; the link below it stays visible so no reader
+          // is left unaware the evidence exists.
           fill(
             "secStructure",
-            outlineHtml + pivotHtml + rhetHtml + symHtml + interpHtml,
+            outlineHtml +
+              `<div class="encyclopedic-only">` +
+              pivotHtml +
+              rhetHtml +
+              symHtml +
+              `</div>` +
+              `<p style="margin:0.6rem 0 0;font-size:0.9rem"><a href="patterns.html">Pattern evidence for this surah on the Patterns page →</a></p>` +
+              interpHtml,
           );
         }
 
         // ── Boot ─────────────────────────────────────────────────────
         function boot() {
           const params = new URLSearchParams(location.search);
-          const s = parseInt(params.get("s"), 10);
-          if (!(s >= 1 && s <= 114)) {
-            renderPicker();
-            return;
-          }
+          let s = parseInt(params.get("s"), 10);
+          // Cold arrival with no surah requested: keep the picker and
+          // render an example dossier (Surah 55, al-Rahman) below it,
+          // so the page demonstrates itself instead of ending at a
+          // bare grid of 114 numbers. No URL rewrite for the example.
+          const example = !(s >= 1 && s <= 114);
+          if (example) s = 55;
           const su = window.SURAHS && window.SURAHS.find((x) => x.id === s);
           if (!su) {
             renderPicker();
             return;
           }
-          document.title = `Surah ${s} · ${su.translit} · Dossier · Divine Discourses`;
-          root.innerHTML =
-            `<h2 style="margin-bottom:0.4rem">Surah Dossier</h2>` + skeleton(su);
-          const url = new URL(window.location);
-          url.searchParams.set("s", String(s));
-          history.replaceState({}, "", url);
+          if (example) {
+            renderPicker();
+            root.insertAdjacentHTML(
+              "beforeend",
+              `<p class="caption-note" style="margin-top:1.5rem">Showing an example dossier. Pick any surah above to replace it.</p>` +
+                skeleton(su),
+            );
+          } else {
+            document.title = `Surah ${s} · ${su.translit} · Dossier · Divine Discourses`;
+            // The swap replaces the whole section, so the depth control
+            // pasted into the static markup must be re-emitted here or
+            // dossier views would lose it.
+            root.innerHTML =
+              `<h2 style="margin-bottom:0.4rem">Surah Dossier</h2>` +
+              `<div class="depth-row"><span>Depth:</span><div class="depth-toggle inline" role="group" aria-label="Depth level"><button data-depth="simple">Simple</button><button data-depth="study">Study</button><button data-depth="encyclopedic">Encyclopedic</button></div><span class="depth-hint">Keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></span></div>` +
+              skeleton(su);
+            const url = new URL(window.location);
+            url.searchParams.set("s", String(s));
+            history.replaceState({}, "", url);
+          }
 
           fetchJson("data/surah-meta.json")
             .then((meta) =>

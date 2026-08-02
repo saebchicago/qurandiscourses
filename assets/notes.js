@@ -43,10 +43,16 @@
     });
     var current = currentRef && notes[currentRef];
 
+    // Collapsed at Simple depth (just reading), open at Study and
+    // Encyclopedic (working). The reader can always open it manually.
+    var depth = (window.qdState && window.qdState.depth) || "simple";
     var html =
       '<div class="card" style="margin-top:1.5rem">' +
-      '<h3 style="display:flex;align-items:baseline;gap:0.6rem;flex-wrap:wrap">My notes' +
-      '<span style="font-size:0.78rem;font-weight:400;color:var(--muted)">saved on this device only — never sent anywhere</span></h3>' +
+      '<details class="xref-panel" style="margin-top:0;padding-top:0;border-top:0"' +
+      (depth === "simple" ? "" : " open") +
+      ">" +
+      "<summary>My notes" +
+      ' <span style="font-size:0.78rem;font-weight:400;color:var(--muted)">saved on this device only — never sent anywhere</span></summary>' +
       '<p class="caption-note">Export notes before clearing browser data or changing devices. Notes do not sync. <a href="about.html#privacy">How storage works</a></p>';
 
     if (currentRef) {
@@ -106,7 +112,7 @@
           : "") +
         "</div>";
     }
-    html += "</div>";
+    html += "</details></div>";
     mount.innerHTML = html;
 
     var area = document.getElementById("noteArea");
@@ -199,6 +205,10 @@
       currentRef = e.detail.s + ":" + e.detail.a;
       render();
     });
+    // The card's default open/closed state follows depth; hotkeys are
+    // suppressed inside the textarea, so a mid-typing re-render cannot
+    // fire from this.
+    document.addEventListener("qd:depth-changed", render);
     render();
   }
 

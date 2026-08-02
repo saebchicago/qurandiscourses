@@ -194,8 +194,20 @@
                 style="width: 120px"
             /></label>
             <button class="button" id="loadBtn">Load</button>
-            <button class="button secondary" id="prevBtn">‹ Prev</button>
-            <button class="button secondary" id="nextBtn">Next ›</button>
+            <button
+              class="button secondary"
+              id="prevBtn"
+              title="Previous verse; at verse 1, the previous surah's last verse"
+            >
+              ‹ Prev
+            </button>
+            <button
+              class="button secondary"
+              id="nextBtn"
+              title="Next verse; at the last verse, the next surah"
+            >
+              Next ›
+            </button>
             <button
               type="button"
               class="button secondary"
@@ -206,6 +218,11 @@
               Focus
             </button>
           </div>
+          <p class="caption-note">
+            Focus hides everything but the text; press <kbd>F</kbd> to toggle
+            it and <kbd>Escape</kbd> to exit. Prev and Next continue across
+            surah boundaries.
+          </p>
           <p class="caption-note">
             Loading a passage requests the selected verse and editions from
             api.alquran.cloud, which receives normal connection data. Notes,
@@ -566,7 +583,7 @@
             return `<div class="vocab-item"><button class="vocab-root-btn" data-root="${root}"><span class="vocab-root-name">${disp}</span><span class="vocab-root-count">${data.count}×</span></button></div>`;
           })
           .join("");
-        panel.innerHTML = `<details class="vocab-panel" open><summary>Recurring vocabulary in this surah</summary><div class="vocab-list">${items}</div></details>`;
+        panel.innerHTML = `<details class="vocab-panel"><summary>Recurring vocabulary in this surah</summary><div class="vocab-list">${items}</div></details>`;
         panel.querySelectorAll(".vocab-root-btn").forEach((btn) => {
           btn.addEventListener("click", () => {
             const root = btn.dataset.root;
@@ -991,7 +1008,7 @@
                     glossCache[s] && glossCache[s]._source
                       ? `<span class="badge nuanced" data-source-ids="${qdEsc(glossCache[s]._source)}" aria-label="Nuanced" tabindex="0" title="Nuanced · a gloss is a translator's choice">~</span> English glosses. A gloss is one translator's choice of one English word for one Arabic word — an interpretation, not the meaning. Verses without glosses show a dictionary link instead.`
                       : `<span class="badge pending" aria-label="Pending" tabindex="0" title="Pending · awaiting a second independent source">○</span> English glosses. The Leeds corpus does not carry per-word English meanings; the Meaning column links to the corpus.quran.com dictionary entry for each root. Future versions may overlay a verified gloss dataset.`;
-                  html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><div class="table-scroll"><table class="data"><thead><tr><th>Word</th><th>Root</th><th>Lemma</th><th>POS</th><th>Meaning</th></tr></thead><tbody>${rows}</tbody></table></div><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> morphology and roots from the Leeds Quranic Arabic Corpus v0.4 (Kais Dukes, 2009–2017), GPL licensed. ${glossProv}</p></div>`;
+                  html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><details class="xref-panel"${depth === "encyclopedic" ? " open" : ""}><summary>Word breakdown (${words.length} word${words.length === 1 ? "" : "s"})</summary><div class="table-scroll"><table class="data"><thead><tr><th>Word</th><th>Root</th><th>Lemma</th><th>POS</th><th>Meaning</th></tr></thead><tbody>${rows}</tbody></table></div><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> morphology and roots from the Leeds Quranic Arabic Corpus v0.4 (Kais Dukes, 2009–2017), GPL licensed. ${glossProv}</p></details></div>`;
                 } else {
                   html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><p style="font-size:.9rem;color:var(--muted)">Word-level data unavailable for this verse — see the <a href="words.html">Words page</a> for the methodology.</p></div>`;
                 }
@@ -1307,18 +1324,36 @@
         if (start > 1) {
           document.getElementById("ayahInput").value = start - 1;
           load();
+          return;
         }
+        // At verse 1, continue into the previous surah's last verse.
+        // 1:1 is the start of the text; the button is a no-op there
+        // (its title says so).
+        const s = resolveSurah(document.getElementById("surahInput").value);
+        if (!s || s <= 1) return;
+        const prevMeta = (window.SURAHS || []).find((x) => x.id === s - 1);
+        if (!prevMeta) return;
+        document.getElementById("surahInput").value = s - 1;
+        document.getElementById("ayahInput").value = prevMeta.verseCount;
+        load();
       });
       document.getElementById("nextBtn").addEventListener("click", () => {
         const rawA = document.getElementById("ayahInput").value.trim();
         const rm = rawA.match(/^(\d+)-(\d+)$/);
         const end = rm ? parseInt(rm[2]) : parseInt(rawA) || 1;
-        // Stop at the surah's last verse — the silent-clamp twin of
-        // prevBtn's stop at verse 1. Unknown surah input falls through;
-        // load()'s own bound check is the backstop.
+        // Unknown surah input falls through; load()'s own bound check
+        // is the backstop.
         const s = resolveSurah(document.getElementById("surahInput").value);
         const meta = (window.SURAHS || []).find((x) => x.id === s);
-        if (meta && end >= meta.verseCount) return;
+        if (meta && end >= meta.verseCount) {
+          // At the surah's last verse, continue into the next surah.
+          // 114:6 is the end of the text; the button stops there.
+          if (!s || s >= 114) return;
+          document.getElementById("surahInput").value = s + 1;
+          document.getElementById("ayahInput").value = 1;
+          load();
+          return;
+        }
         document.getElementById("ayahInput").value = end + 1;
         load();
       });
