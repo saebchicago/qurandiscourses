@@ -195,6 +195,34 @@ function fixtureFor(url) {
       })),
     };
   }
+  // Quran.com v4 word-by-word shape (assets/wordbw.js). Includes an
+  // "end" pseudo-word (the ayah-number ornament) so the renderer's
+  // char_type_name filter is exercised, and a hostile translation
+  // string so the escaping path is regression-tested like every other
+  // external text on the site.
+  const wbw = url.match(/\/api\/v4\/verses\/by_chapter\/(\d+)\?/);
+  if (wbw) {
+    const n = parseInt(wbw[1], 10);
+    return {
+      verses: Array.from({ length: 3 }, (_, i) => ({
+        verse_key: `${n}:${i + 1}`,
+        words: [
+          {
+            char_type_name: "word",
+            text_uthmani: "كَلِمَة",
+            translation: { text: `FIXTURE ${XSS}` },
+          },
+          {
+            char_type_name: "word",
+            text_uthmani: "أُخْرَى",
+            translation: { text: "another" },
+          },
+          { char_type_name: "end", text_uthmani: `${i + 1}` },
+        ],
+      })),
+      pagination: { total_pages: 1 },
+    };
+  }
   return null;
 }
 
@@ -204,7 +232,7 @@ const browser = await chromium.launch(
     ? { executablePath: "/opt/pw-browsers/chromium" }
     : {},
 );
-const BLOCKED_HOSTS = /api\.alquran\.cloud|cdn\.islamic\.network/;
+const BLOCKED_HOSTS = /api\.alquran\.cloud|cdn\.islamic\.network|api\.quran\.com/;
 
 async function newContext({ apiMode = "abort", seenState = true } = {}) {
   // Blocked, not just ignored: sw.js (introduced alongside this option)
@@ -523,6 +551,43 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
     const inert = state.xss === undefined && !state.injectedImg && state.hostileVisible === true;
     report("read-xss", "read.html", inert, `__xss=${state.xss} injectedImg=${state.injectedImg} payloadShownAsText=${state.hostileVisible}`);
     report("read-stubbed-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+    await rctx.close();
+  }
+  {
+    // Word-by-word meanings (assets/wordbw.js): renders at the default
+    // Simple depth, escapes the API's text like every other external
+    // string, and drops the "end" ayah-marker pseudo-word.
+    const rctx = await newContext({ apiMode: "stub" });
+    const page = await rctx.newPage();
+    const errors = [];
+    attachConsoleCollector(page, errors);
+    await page.goto(`${BASE}/read.html?s=103&a=1-3`, { waitUntil: "load" });
+    await page.waitForSelector(".wbw-strip .wbw-en", { timeout: 15000 }).catch(() => {});
+    const state = await page.evaluate(() => {
+      const strips = [...document.querySelectorAll(".wbw-strip")];
+      const shown = strips.filter((el) => el.offsetParent !== null);
+      const words = [...document.querySelectorAll(".wbw-strip .wbw-word")];
+      return {
+        depth: document.documentElement.getAttribute("data-depth"),
+        shown: shown.length,
+        words: words.length,
+        endMarker: words.some((w) => /^\d+$/.test(w.textContent.trim())),
+        xss: window.__xss,
+        injectedImg: !!document.querySelector('.wbw-strip img[src="x"]'),
+        payloadAsText: (document.querySelector(".wbw-en") || {}).textContent?.includes("hostile"),
+        cite: !!document.querySelector('.wbw-strip .badge[data-source-ids="qcf-wbw-en"]'),
+      };
+    });
+    const ok =
+      state.depth === "simple" &&
+      state.shown === 3 &&
+      state.words === 6 &&
+      !state.endMarker &&
+      state.cite;
+    report("read-wbw", "read.html", ok, `depth=${state.depth} strips=${state.shown} words=${state.words} endMarkerRendered=${state.endMarker} cited=${state.cite}`);
+    const inert = state.xss === undefined && !state.injectedImg && state.payloadAsText === true;
+    report("read-wbw-xss", "read.html", inert, `__xss=${state.xss} injectedImg=${state.injectedImg} payloadShownAsText=${state.payloadAsText}`);
+    report("read-wbw-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
     await rctx.close();
   }
 }

@@ -27,6 +27,7 @@
     <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <script src="assets/surahs.js"></script>
+    <script src="assets/root-meanings.js"></script>
     <script src="assets/ask.js"></script>
     <link
       rel="icon"
@@ -225,8 +226,9 @@
             surah boundaries.
           </p>
           <p class="caption-note">
-            Loading a passage requests the selected verse and editions from
-            api.alquran.cloud, which receives normal connection data. Notes,
+            Loading a passage requests the selected verses and editions from
+            api.alquran.cloud and the word-by-word meanings from
+            api.quran.com; both receive normal connection data. Notes,
             worksheets, and preferences stay in this browser.
             <a href="about.html#privacy">Privacy and offline details</a>.
           </p>
@@ -347,6 +349,7 @@
       ></div>
     </div>
     <script src="assets/app.js"></script>
+    <script src="assets/wordbw.js"></script>
     <script src="assets/share.js" defer></script>
     <script src="assets/notes.js" defer></script>
     <script src="assets/discovery-worksheet.js" defer></script>
@@ -992,6 +995,13 @@
                 );
               }
               let html = `<div class="verse" data-ayah="${ayahNum}"><div class="meta"><strong>${s}:${ayahNum}</strong><span>${surahName} · ${surahNameTranslation}</span><button type="button" class="notebook-pin-btn" data-notebook-type="verse" data-notebook-ref="${s}:${ayahNum}" data-notebook-label="${qdEsc(s + ":" + ayahNum + " · " + surahName)}" title="Pin this verse to your workspace" aria-label="Pin verse ${s}:${ayahNum} to your workspace">📌</button></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button id="transBtn-${ayahNum}" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem">${transCount} selected ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arHtml}</p>`;
+              // Word-by-word meanings (assets/wordbw.js) render at every
+              // depth: knowing what the words say is reading, not
+              // analysis. Filled after the passage paints; stays hidden
+              // if the request fails.
+              if (qdState.features.showWords !== false) {
+                html += `<div class="wbw-strip" data-vk="${s}:${ayahNum}" dir="rtl" hidden></div>`;
+              }
               if (qdState.features.showAudio) {
                 const reciterName =
                   qdReciters.find((r) => r.id === qdState.reciter)?.name ||
@@ -1034,23 +1044,31 @@
                     const rootLink = w.root
                       ? `<button class="root-detail-btn" data-root="${w.root}" style="background:none;border:none;color:var(--link);text-decoration:underline;cursor:pointer;font-family:inherit;font-size:inherit;padding:0;min-width:44px;min-height:44px">${rootToDisplay(w.root)}</button>`
                       : "—";
+                    // Meaning falls back through what the site can
+                    // actually cite: a published per-word gloss, then
+                    // the root's editorial orientation gloss (labeled
+                    // ~, never presented as a dictionary definition),
+                    // then nothing. No per-row link out: the strip
+                    // above the verse carries published meanings, and
+                    // one dictionary link sits in the caption below.
                     const gloss =
                       w.gloss || (verseGlosses && verseGlosses[wi]) || null;
+                    const rootGloss =
+                      !gloss && w.root && window.ROOT_MEANINGS
+                        ? window.ROOT_MEANINGS[w.root]
+                        : null;
                     const glossCell = gloss
                       ? `<td>${qdEsc(gloss)}</td>`
-                      : w.root
-                        ? `<td><a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(w.root)}" target="_blank" rel="noopener" style="color:var(--muted);font-size:0.88rem;text-decoration:underline dotted;text-underline-offset:3px">look up →</a></td>`
+                      : rootGloss
+                        ? `<td style="color:var(--muted)" title="Editorial orientation gloss for the root, not a dictionary quotation">~ ${qdEsc(rootGloss)}</td>`
                         : `<td style="color:var(--muted)">—</td>`;
-                    const lemmaCell = w.root
-                      ? `<a href="https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(w.root)}" target="_blank" rel="noopener" style="color:var(--muted);font-size:0.88rem">see entry →</a>`
-                      : "—";
-                    rows += `<tr><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${w.ar}</span></td><td>${rootLink}</td><td>${lemmaCell}</td><td>${w.pos || "—"}</td>${glossCell}</tr>`;
+                    rows += `<tr><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${w.ar}</span></td><td>${rootLink}</td><td>${w.pos || "—"}</td>${glossCell}</tr>`;
                   });
                   const glossProv =
                     glossCache[s] && glossCache[s]._source
-                      ? `<span class="badge nuanced" data-source-ids="${qdEsc(glossCache[s]._source)}" aria-label="Nuanced" tabindex="0" title="Nuanced · a gloss is a translator's choice">~</span> English glosses. A gloss is one translator's choice of one English word for one Arabic word — an interpretation, not the meaning. Verses without glosses show a dictionary link instead.`
-                      : `<span class="badge pending" aria-label="Pending" tabindex="0" title="Pending · awaiting a second independent source">○</span> English glosses. The Leeds corpus does not carry per-word English meanings; the Meaning column links to the corpus.quran.com dictionary entry for each root. Future versions may overlay a verified gloss dataset.`;
-                  html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><details class="xref-panel"${depth === "encyclopedic" ? " open" : ""}><summary>Word breakdown (${words.length} word${words.length === 1 ? "" : "s"})</summary><div class="table-scroll"><table class="data"><thead><tr><th>Word</th><th>Root</th><th>Lemma</th><th>POS</th><th>Meaning</th></tr></thead><tbody>${rows}</tbody></table></div><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> morphology and roots from the Leeds Quranic Arabic Corpus v0.4 (Kais Dukes, 2009–2017), GPL licensed. ${glossProv}</p></details></div>`;
+                      ? `<span class="badge nuanced" data-source-ids="${qdEsc(glossCache[s]._source)}" aria-label="Nuanced" tabindex="0" title="Nuanced · a gloss is a translator's choice">~</span> A gloss is one translator's choice of one English word for one Arabic word, an interpretation rather than the meaning.`
+                      : `<span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · editorial orientation glosses, not corpus data">~</span> Meanings marked ~ are editorial orientation glosses for the root, not dictionary definitions.`;
+                  html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><details class="xref-panel"${depth === "encyclopedic" ? " open" : ""}><summary>Word breakdown (${words.length} word${words.length === 1 ? "" : "s"})</summary><div class="table-scroll"><table class="data"><thead><tr><th>Word</th><th>Root</th><th>POS</th><th>Meaning</th></tr></thead><tbody>${rows}</tbody></table></div><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Leeds corpus v0.4. ${glossProv} Dictionary entries for any root: <a href="https://corpus.quran.com/qurandictionary.jsp" target="_blank" rel="noopener">corpus.quran.com</a>.</p></details></div>`;
                 } else {
                   html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><p style="font-size:.9rem;color:var(--muted)">Word-level data unavailable for this verse — see the <a href="words.html">Words page</a> for the methodology.</p></div>`;
                 }
@@ -1075,6 +1093,15 @@
           container.innerHTML = allHtml;
           maybeScrollToHighlight(container);
           if (window.qdNotebook) qdNotebook.enhance(container);
+          // Published word-by-word meanings, fetched per page of the
+          // surah and filled in place; failures leave the strips hidden.
+          if (window.qdWbw && qdState.features.showWords !== false) {
+            qdWbw.fill(
+              container,
+              s,
+              verses.map(({ ayahNum }) => ayahNum),
+            );
+          }
 
           verses.forEach(({ ayahNum }) => {
             const transBtn = document.getElementById(`transBtn-${ayahNum}`);

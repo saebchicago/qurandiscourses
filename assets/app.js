@@ -116,6 +116,7 @@
     try {
       localStorage.removeItem("qd_state");
       localStorage.removeItem("qd_apicache");
+      localStorage.removeItem("qd_wbwcache");
       // Older builds mistakenly mirrored qd_state into sessionStorage;
       // sweep that up too so "clear" means clear.
       sessionStorage.removeItem("qd_state");
@@ -508,7 +509,7 @@
 
   const TOOLTIPS = {
     "depth-simple":
-      "Shows verse text, translations, and audio. No morphology or annotations.",
+      "Shows verse text, word-by-word meanings, translations, and audio. No morphology tables or annotations.",
     "depth-study":
       "Adds word-by-word morphology, root links, and chronological period distribution.",
     "depth-encyclopedic":

@@ -176,10 +176,17 @@
               title="Verified · Leeds Quranic Arabic Corpus v0.4"
               >●</span
             >
-            <span data-num="totals.lemmas">4,832</span> lemmas computed from the Leeds Quranic Arabic Corpus v0.4.
-            The Meaning column stays empty until a licensed word-by-word
-            gloss dataset is committed (owner-gated — see Sources); until
-            then each row links to the corpus dictionary instead.
+            <span data-num="totals.lemmas">4,832</span> lemmas, Leeds corpus v0.4.
+            Meanings are published glosses where available; ~ marks an
+            editorial orientation gloss for the root. Word-by-word
+            meanings in context appear under each verse on the
+            <a href="read.html">Read page</a>. Dictionary entries:
+            <a
+              href="https://corpus.quran.com/qurandictionary.jsp"
+              target="_blank"
+              rel="noopener"
+              >corpus.quran.com</a
+            >.
           </p>
         </div>
         <div class="card">
@@ -388,6 +395,7 @@
       ></div>
     </div>
     <script src="assets/app.js"></script>
+    <script src="assets/root-meanings.js"></script>
     <script src="assets/share.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
@@ -561,12 +569,20 @@
               qdEsc(e.rl || e.r) +
               "</a>"
             : '<span style="color:var(--muted)">—</span>';
+          // Published gloss first, then the root's editorial
+          // orientation gloss (marked ~, never a dictionary
+          // definition), then nothing. One dictionary link lives in
+          // the caption below rather than on every row.
+          var rootGloss =
+            !e.g.length && e.r && window.ROOT_MEANINGS
+              ? window.ROOT_MEANINGS[e.r]
+              : null;
           var meaning = e.g.length
             ? qdEsc(e.g.join("; "))
-            : e.r
-              ? '<a href="https://corpus.quran.com/qurandictionary.jsp?q=' +
-                encodeURIComponent(e.r) +
-                '" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:underline dotted;text-underline-offset:3px">look up →</a>'
+            : rootGloss
+              ? '<span style="color:var(--muted)" title="Editorial orientation gloss for the root, not a dictionary quotation">~ ' +
+                qdEsc(rootGloss) +
+                "</span>"
               : '<span style="color:var(--muted)">—</span>';
           var refs = e.refs
             .slice(0, 3)

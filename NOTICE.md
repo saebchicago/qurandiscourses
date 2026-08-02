@@ -38,6 +38,19 @@ named beside every rendered verse. Anyone redistributing translation
 text (as opposed to this repository's code) must clear the relevant
 translation's own license.
 
+## Quran.com word-by-word English (runtime)
+
+The word-by-word meanings shown beneath each verse on the Read page are
+fetched at runtime from the Quran.com Foundation Content API v4
+(api.quran.com) and cached in the visitor's browser. They are a
+published word-by-word translation rendered exactly as served; **no
+word-translation text is bundled in this repository**. Copyright
+remains with the translation's rights holders, credited in
+sources.html and in `data/sources.json` under `qcf-wbw-en`. Anyone
+redistributing that text must clear its own license. The bundled Leeds
+morphology carries no English glosses, so nothing here overlaps the
+GPL corpus data.
+
 ## Cross-reference data (`data/qursim/` = Mishkat corpus)
 
 `data/qursim/` (110 per-surah files) powers the Related-verses feature.

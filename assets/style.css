@@ -1257,6 +1257,42 @@ details.chart-fallback table.data {
 .chart-fallback > summary::-webkit-details-marker {
   display: none;
 }
+/* ── Word-by-word meanings (assets/wordbw.js) ────────────────────
+   An interlinear strip under each verse: the written word above its
+   published English meaning. Reads right to left like the verse
+   itself; each English label reads left to right inside its chip. */
+.wbw-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.9rem;
+  align-items: flex-start;
+  margin: 0.1rem 0 0.9rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px dashed var(--line);
+}
+.wbw-strip[hidden] {
+  display: none;
+}
+.wbw-word {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.05rem;
+  max-width: 9rem;
+}
+.wbw-word .ar {
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+.wbw-en {
+  font-size: 0.74rem;
+  color: var(--muted);
+  line-height: 1.35;
+  text-align: center;
+}
+.wbw-cite {
+  align-self: center;
+}
 .verse {
   background: var(--card);
   border: 1px solid var(--line);
