@@ -13,8 +13,7 @@
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans: "Inter", system-ui, -apple-system, sans-serif;
   --ar: "Amiri", "Scheherazade New", serif;
-  --shadow: 0 2px 12px rgba(43, 29, 14, 0.08);
-  --shadow-lg: 0 8px 32px rgba(43, 29, 14, 0.15);
+  --elev: 0 1px 3px rgba(43, 29, 14, 0.13);
   /* Chart categorical tokens (chronology periods 1-4: early/middle/late
      Meccan, Medinan). Mark colors, not text colors: validated ≥3:1
      against all three palettes' light surfaces plus CVD-separation and
@@ -65,8 +64,7 @@
     --ok: #7ac590;
     --pending: #e0b860;
     --nuanced: #e08a6a;
-    --shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --elev: 0 1px 3px rgba(0, 0, 0, 0.5);
   }
 }
 :root[data-theme="dark"] {
@@ -81,8 +79,7 @@
   --ok: #7ac590;
   --pending: #e0b860;
   --nuanced: #e08a6a;
-  --shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --elev: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 /* ── Alternate palettes (Settings → Palette) ─────────────────────────
    Same structure as the default Parchment: a light block, an auto-dark
@@ -101,8 +98,7 @@
   --ok: #256b35;
   --pending: #7a5c10;
   --nuanced: #963a28;
-  --shadow: 0 2px 12px rgba(20, 20, 25, 0.08);
-  --shadow-lg: 0 8px 32px rgba(20, 20, 25, 0.14);
+  --elev: 0 1px 3px rgba(20, 20, 25, 0.13);
 }
 @media (prefers-color-scheme: dark) {
   :root[data-palette="paper"]:not([data-theme="light"]) {
@@ -117,8 +113,7 @@
     --ok: #7ac590;
     --pending: #d9b860;
     --nuanced: #e08a6a;
-    --shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --elev: 0 1px 3px rgba(0, 0, 0, 0.5);
   }
 }
 :root[data-palette="paper"][data-theme="dark"] {
@@ -133,8 +128,7 @@
   --ok: #7ac590;
   --pending: #d9b860;
   --nuanced: #e08a6a;
-  --shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --elev: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 :root[data-palette="sage"] {
   --bg: #f1f4ea;
@@ -148,8 +142,7 @@
   --ok: #2e6b3a;
   --pending: #7a5c10;
   --nuanced: #8a3a1a;
-  --shadow: 0 2px 12px rgba(31, 42, 28, 0.08);
-  --shadow-lg: 0 8px 32px rgba(31, 42, 28, 0.14);
+  --elev: 0 1px 3px rgba(31, 42, 28, 0.13);
 }
 @media (prefers-color-scheme: dark) {
   :root[data-palette="sage"]:not([data-theme="light"]) {
@@ -164,8 +157,7 @@
     --ok: #7ac590;
     --pending: #e0b860;
     --nuanced: #e08a6a;
-    --shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --elev: 0 1px 3px rgba(0, 0, 0, 0.5);
   }
 }
 :root[data-palette="sage"][data-theme="dark"] {
@@ -180,8 +172,7 @@
   --ok: #7ac590;
   --pending: #e0b860;
   --nuanced: #e08a6a;
-  --shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --elev: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -298,7 +289,7 @@ nav.primary {
   position: sticky;
   top: 0;
   z-index: 20;
-  box-shadow: var(--shadow);
+  box-shadow: var(--elev);
 }
 nav.primary .nav-groups {
   display: flex;
@@ -403,7 +394,7 @@ nav.primary .nav-menu {
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 8px;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--elev);
   z-index: 30;
 }
 @media (max-width: 768px) {
@@ -491,14 +482,10 @@ p {
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 1.1rem 1.2rem;
-  box-shadow: var(--shadow);
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
+  transition: border-color 0.15s ease;
 }
 .card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+  border-color: var(--accent-soft);
 }
 .card h3 {
   margin-top: 0;
@@ -511,13 +498,10 @@ p {
   padding: 1.1rem;
   text-decoration: none;
   color: var(--ink);
-  box-shadow: var(--shadow);
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease;
 }
 .tile:hover {
-  transform: translateY(-2px);
   border-color: var(--accent);
-  box-shadow: var(--shadow-lg);
 }
 .tile .name {
   font-family: var(--serif);
@@ -562,7 +546,6 @@ blockquote.khan {
   font-style: italic;
   font-size: 1.1rem;
   border-radius: 0 8px 8px 0;
-  box-shadow: var(--shadow);
 }
 blockquote.khan cite {
   display: block;
@@ -571,13 +554,20 @@ blockquote.khan cite {
   color: var(--muted);
   margin-top: 0.6rem;
 }
+/* Quieted by color weight only. Font size, padding, and line height are
+   deliberately untouched: the comment on .badge::before below records a
+   measured reason the rendered glyph must stay ~21x20px, so this drops
+   the full-strength border to a tint and adds a faint wash instead of
+   resizing anything. The glyph keeps its own color, so contrast against
+   the page is unchanged. */
 .badge {
   display: inline-flex;
   align-items: center;
   font-size: 0.72rem;
   padding: 0.1rem 0.38rem;
   border-radius: 999px;
-  border: 1px solid currentColor;
+  border: 1px solid color-mix(in srgb, currentColor 38%, transparent);
+  background: color-mix(in srgb, currentColor 7%, transparent);
   font-weight: 500;
   white-space: nowrap;
   position: relative;
@@ -645,7 +635,7 @@ blockquote.khan cite {
   width: max-content;
   max-width: min(80vw, 320px);
   white-space: normal;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  box-shadow: var(--elev);
   border: 1px solid var(--line);
   pointer-events: none;
   z-index: 200;
@@ -728,7 +718,6 @@ blockquote.khan cite {
   margin: 1.2rem 0;
   font-size: 0.94rem;
   line-height: 1.55;
-  box-shadow: var(--shadow);
 }
 .banner.soft {
   border-color: var(--accent-soft);
@@ -747,7 +736,6 @@ table.data {
   background: var(--card);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: var(--shadow);
 }
 table.data th,
 table.data td {
@@ -843,7 +831,6 @@ label {
 }
 .button:hover {
   background: var(--ink);
-  transform: translateY(-1px);
 }
 .button.secondary {
   background: var(--bg);
@@ -853,6 +840,124 @@ label {
 .button.secondary:hover {
   border-color: var(--accent);
   background: var(--card);
+}
+
+/* ── Button hierarchy ──────────────────────────────────────────────
+   Four tiers, so a page reads in one glance instead of presenting a
+   row of equally loud controls:
+     .btn-primary   the one action a page wants (filled)
+     .btn-secondary a real alternative (outlined)
+     .btn-ghost     supporting controls: share, tour, depth, filters
+     .btn-utility   small mechanical affordances: copy, steppers, close
+   .button and .button.secondary remain as the aliases every page
+   already uses, so no markup has to change for tiers one and two. */
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+  border: 1px solid var(--accent);
+}
+.btn-primary:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.btn-secondary {
+  background: var(--bg);
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.btn-secondary:hover {
+  border-color: var(--accent);
+  background: var(--card);
+}
+.btn-ghost,
+.settings .gear,
+.settings .share-fab,
+.settings .tour-fab,
+.back-to-top,
+.notebook-toggle,
+.depth-toggle button,
+.share-btn {
+  background: none;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.btn-ghost:hover,
+.settings .gear:hover,
+.settings .share-fab:hover,
+.settings .tour-fab:hover,
+.back-to-top:hover,
+.notebook-toggle:hover,
+.share-btn:hover {
+  border-color: var(--accent);
+  background: var(--bg);
+}
+.btn-utility {
+  min-height: 44px;
+  padding: 0.35rem 0.7rem;
+  background: none;
+  color: var(--link);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.btn-utility:hover {
+  border-color: var(--line);
+  background: var(--bg);
+}
+
+/* ── Type scale ────────────────────────────────────────────────────
+   Named steps so headings, leads, annotations, data, and citations
+   stop competing. Monospace is reserved for data values and source
+   identifiers; body prose never takes it. */
+.t-display {
+  font-family: var(--serif);
+  font-size: clamp(2.25rem, 5vw, 4.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+}
+.t-intro {
+  font-family: var(--serif);
+  font-size: clamp(1.08rem, 2vw, 1.3rem);
+  line-height: 1.45;
+  color: var(--muted);
+}
+.t-body {
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+.t-annotation {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.t-data {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+.t-citation {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.t-citation cite,
+.t-citation em {
+  font-style: italic;
+}
+
+/* ── Ruled sections ────────────────────────────────────────────────
+   A thin rule and generous space instead of a card wrapper, for
+   static explanatory blocks that are read rather than clicked. */
+.ruled {
+  margin: 2.5rem 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+.ruled + .ruled {
+  margin-top: 2rem;
 }
 .share-btn {
   font-size: 0.85rem;
@@ -923,7 +1028,7 @@ label {
   gap: 0.5rem;
   align-items: center;
   flex-wrap: wrap;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--elev);
   z-index: 30;
 }
 .replay-transport button {
@@ -989,7 +1094,7 @@ label {
   border: 1px solid var(--accent);
   border-radius: 10px;
   padding: 0.9rem 1rem;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--elev);
 }
 .tour-card h3 {
   margin: 0 0 0.3rem;
@@ -1021,12 +1126,10 @@ label {
   font-size: 1.3rem;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: var(--shadow-lg);
   margin-bottom: 0.6rem;
-  transition: transform 0.15s ease;
+  transition: border-color 0.15s ease;
 }
 .settings .tour-fab:hover {
-  transform: scale(1.08);
   border-color: var(--accent);
 }
 @media print {
@@ -1237,7 +1340,6 @@ details.chart-fallback table.data {
   border-radius: 10px;
   padding: 1.5rem;
   margin: 1rem 0;
-  box-shadow: var(--shadow);
 }
 .verse .meta {
   display: flex;
@@ -1316,11 +1418,11 @@ details.chart-fallback table.data {
   height: 52px;
   font-size: 1.4rem;
   cursor: pointer;
-  box-shadow: var(--shadow-lg);
-  transition: transform 0.15s ease;
+  box-shadow: var(--elev);
+  transition: border-color 0.15s ease;
 }
 .settings .gear:hover {
-  transform: rotate(45deg) scale(1.05);
+  border-color: var(--accent);
 }
 /* Visible text label injected by app.js initSettings. Icon-only below
    600px (where the corner is tight), icon + word above it. */
@@ -1340,7 +1442,7 @@ details.chart-fallback table.data {
     vertical-align: 0.1em;
   }
   .settings .gear:hover {
-    transform: scale(1.05);
+    border-color: var(--accent);
   }
 }
 /* The open panel sits directly above the gear and would cover the
@@ -1359,12 +1461,10 @@ details.chart-fallback table.data {
   height: 52px;
   font-size: 1.3rem;
   cursor: pointer;
-  box-shadow: var(--shadow-lg);
   margin-bottom: 0.6rem;
-  transition: transform 0.15s ease;
+  transition: border-color 0.15s ease;
 }
 .settings .share-fab:hover {
-  transform: scale(1.08);
   border-color: var(--accent);
 }
 .panel {
@@ -1376,7 +1476,7 @@ details.chart-fallback table.data {
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 1.1rem 1.2rem;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--elev);
   z-index: 41;
   max-height: 85vh;
   overflow-y: auto;
@@ -1548,7 +1648,7 @@ details.chart-fallback table.data {
 footer.site {
   max-width: 1080px;
   margin: 3rem auto 0;
-  padding: 1.5rem 1.25rem 3rem;
+  padding: 1.1rem 1.25rem 2.5rem;
   border-top: 1px solid var(--line);
   font-size: 0.85rem;
   color: var(--muted);
@@ -1705,7 +1805,7 @@ html[data-depth="encyclopedic"] li.encyclopedic-only {
   max-height: 240px;
   overflow-y: auto;
   z-index: 10;
-  box-shadow: var(--shadow);
+  box-shadow: var(--elev);
   min-width: 220px;
 }
 .root-suggest li {
@@ -1790,7 +1890,7 @@ dd {
   font-size: 0.88rem;
   line-height: 1.5;
   color: var(--ink);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--elev);
   max-width: 320px;
 }
 .gloss-pop[hidden] {
@@ -1861,13 +1961,10 @@ dd {
   font-weight: 500;
   min-height: 52px;
   min-width: 60px;
-  transition:
-    background 0.15s ease,
-    transform 0.1s ease;
+  transition: background 0.15s ease;
 }
 .ask-go:hover {
   background: var(--ink);
-  transform: translateY(-1px);
 }
 .ask-chips {
   display: flex;
@@ -1953,7 +2050,7 @@ dd {
   border-radius: 6px;
   padding: 0.45rem 0.7rem;
   font-size: 0.82rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
+  box-shadow: var(--elev);
   pointer-events: auto;
   font-family: var(--sans);
   direction: ltr;
@@ -2150,7 +2247,6 @@ dd {
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 1rem 1.1rem;
-  box-shadow: var(--shadow);
 }
 .verify-example h3 {
   margin: 0 0 0.5rem;
@@ -2193,7 +2289,12 @@ dd {
 footer.site .footer-links {
   font-size: 0.82rem;
   color: var(--muted);
-  margin-top: 0.35rem;
+  margin: 0;
+}
+footer.site .footer-license {
+  margin: 0.35rem 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
 }
 main a {
   overflow-wrap: anywhere;
@@ -2215,7 +2316,7 @@ main a {
   color: var(--ink);
   font-size: 1.2rem;
   line-height: 1;
-  box-shadow: var(--shadow);
+  box-shadow: var(--elev);
 }
 .back-to-top:hover {
   border-color: var(--accent);
@@ -2299,7 +2400,7 @@ kbd {
   font-size: 0.82rem;
   line-height: 1.55;
   color: var(--ink, #1a1a1a);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
+  box-shadow: var(--elev);
   max-width: 320px;
   min-width: 200px;
 }
@@ -2367,13 +2468,10 @@ kbd {
   height: 52px;
   font-size: 1.3rem;
   cursor: pointer;
-  box-shadow: var(--shadow-lg);
-  transition:
-    transform 0.15s ease,
-    border-color 0.15s ease;
+  box-shadow: var(--elev);
+  transition: border-color 0.15s ease;
 }
 .notebook-toggle:hover {
-  transform: scale(1.05);
   border-color: var(--accent);
 }
 .notebook-count {
@@ -2399,7 +2497,7 @@ kbd {
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 1.1rem 1.2rem;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--elev);
   z-index: 41;
   max-height: 70vh;
   overflow-y: auto;
@@ -2590,7 +2688,6 @@ html[data-focus] .ar.xl {
   background:
     radial-gradient(circle at 88% 10%, color-mix(in srgb, var(--accent-soft) 16%, transparent) 0, transparent 34%),
     linear-gradient(145deg, var(--card), color-mix(in srgb, var(--bg) 82%, var(--card)));
-  box-shadow: var(--shadow-lg);
 }
 .research-hero::before {
   content: "";
@@ -2659,7 +2756,6 @@ html[data-focus] .ar.xl {
   border: 1px solid var(--line);
   border-radius: 13px;
   background: color-mix(in srgb, var(--card) 88%, transparent);
-  box-shadow: var(--shadow);
 }
 .research-hero .ask-label {
   font-size: 1.25rem;
@@ -2686,7 +2782,6 @@ html[data-focus] .ar.xl {
   background:
     radial-gradient(circle at 88% 10%, color-mix(in srgb, var(--accent-soft) 16%, transparent) 0, transparent 34%),
     linear-gradient(145deg, var(--card), color-mix(in srgb, var(--bg) 82%, var(--card)));
-  box-shadow: var(--shadow-lg);
 }
 .landing-hero::before {
   content: "";
@@ -2810,14 +2905,11 @@ html[data-focus] .ar.xl {
   border-radius: 14px;
   color: var(--ink);
   background: var(--card);
-  box-shadow: var(--shadow);
   text-decoration: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+  transition: border-color 0.15s ease;
 }
 .workflow-card:hover {
   border-color: var(--accent);
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-2px);
 }
 .workflow-card:focus-visible {
   outline-width: 3px;
