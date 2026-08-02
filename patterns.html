@@ -24,6 +24,7 @@
     />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <link
       rel="icon"
@@ -96,6 +97,21 @@
           features. Three are surfaced here: grammatical shifts (iltifat),
           similar phrasings (mutashabihat), and cross-references.
         </p>
+        <div class="depth-row">
+          <span>Depth:</span>
+          <div
+            class="depth-toggle inline"
+            role="group"
+            aria-label="Depth level"
+          >
+            <button data-depth="simple">Simple</button>
+            <button data-depth="study">Study</button>
+            <button data-depth="encyclopedic">Encyclopedic</button>
+          </div>
+          <span class="depth-hint"
+            >Keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></span
+          >
+        </div>
         <div class="card">
           <h3>Iltifat: grammatical shift</h3>
           <p>
@@ -110,13 +126,10 @@
             direct address ("It is You we worship"). This shift, studied at
             length by Abdel Haleem (1992), is treated as rhetorically
             deliberate, not a textual irregularity.
+            <a href="read.html?s=1&amp;a=1-7">See the shift in context: read
+            al-Fatihah whole →</a>
           </p>
-          <p class="prov">
-            <span class="badge ok" data-source-ids="suyuti-itqan abdel-haleem-1992" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Classical attestation:
-            al-Suyuti, <em>al-Itqan fi 'Ulum al-Qur'an</em>. Modern Western
-            scholarship: Abdel Haleem, "Grammatical Shift for Rhetorical
-            Purposes," <em>BSOAS</em> 55:3 (1992).
-          </p>
+          <p class="prov"><span class="badge ok" data-source-ids="suyuti-itqan abdel-haleem-1992" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> al-Suyuti, al-Itqan.</p>
         </div>
         <div class="card">
           <h3>Mutashabihat: similar phrasings</h3>
@@ -152,7 +165,7 @@
             <span class="badge ok" data-source-ids="mishkat" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> dataset. See
             <a href="sources.html#mishkat">Sources</a>.
           </p>
-          <p class="method-note">
+          <p class="caption-note">
             Conceptual lineage: the QurSim corpus (Sharaf and Atwell,
             <em>LREC</em> 2012) pioneered this approach, identifying 7,679
             pairs of related verses ranked by relatedness. QurSim is cited
@@ -184,7 +197,7 @@
             keys, where the ending pattern shifts, and any refrains
             (identical endings recurring three or more times).
           </p>
-          <p class="method-note">
+          <p class="caption-note">
             <span
               class="badge nuanced"
               data-source-ids="leeds-corpus-v0.4 neuwirth-1981"
@@ -225,8 +238,17 @@
             value means the ending pattern changes almost every verse.
           </p>
           <div id="rhymeRegularityLists" style="margin-top: 0.6rem"></div>
-          <p class="prov">
-            <span
+          <p class="prov"><span
+              class="badge nuanced"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Nuanced"
+              tabindex="0"
+              title="Nuanced · derived scalar from the same orthographic proxy above"
+              >~</span
+            > Leeds corpus v0.4.</p>
+          <details class="method-note">
+            <summary>ℹ How this is computed</summary>
+            <p><span
               class="badge nuanced"
               data-source-ids="leeds-corpus-v0.4"
               aria-label="Nuanced"
@@ -237,8 +259,8 @@
             computed purely from the fine-key shift counts already shown
             above (<code>data/rhyme-summary.json</code>) — same
             orthographic-proxy caveats apply, and a short surah reaching a
-            high value from very few verses is noted, not hidden.
-          </p>
+            high value from very few verses is noted, not hidden.</p>
+          </details>
         </div>
         <div class="card encyclopedic-only">
           <h3>Other documented features</h3>
@@ -303,13 +325,23 @@
               </details>
             </li>
           </ul>
-          <p class="prov">
-            <span class="badge ok" data-source-ids="abdel-haleem-1999 neuwirth-1981 cuypers-2015" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> features documented in Abdel
+          <p class="prov"><span class="badge ok" data-source-ids="abdel-haleem-1999 neuwirth-1981 cuypers-2015" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Abdel Haleem 1999.</p>
+          <details class="method-note">
+            <summary>ℹ How this is computed</summary>
+            <p><span class="badge ok" data-source-ids="abdel-haleem-1999 neuwirth-1981 cuypers-2015" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> features documented in Abdel
             Haleem (1999), Neuwirth (1981), Cuypers (2015).
             <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> The 89-verse count is computed directly from the bundled morphology (a match on the three consecutive lemmas of this formula), not asserted — see it listed above.
             <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> The boundary-particle and shared-root counts are likewise computed directly from the bundled morphology (verse-initial lemma match, then a root intersection with the preceding verse) — see it listed above.
-            <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> The ring-composition proxy test (0 of 3,067 candidates significant) is likewise computed directly from the bundled morphology — method and closest candidates listed above.
-          </p>
+            <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> The ring-composition proxy test (0 of 3,067 candidates significant) is likewise computed directly from the bundled morphology — method and closest candidates listed above.</p>
+          </details>
+        </div>
+        <div class="card related-ribbon" aria-label="Continue exploring">
+          <h3>Explore further</h3>
+          <ul class="explore-links">
+            <li><a href="read.html">See patterns inside a passage on the Read page (Study depth and up) →</a></li>
+            <li><a href="formulas.html">Recurring 3-5 word phrases across the whole text: Formulas →</a></li>
+            <li><a href="dossier.html">One surah's structure, sound, and phrases on a single page: Dossier →</a></li>
+          </ul>
         </div>
       </section>
     </main>
@@ -446,7 +478,7 @@
               })
               .join("");
             html +=
-              '<p class="prov" style="margin-top:.75rem"><span class="badge ok" data-source-ids="mishkat" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Cross-references from the <a href="sources.html#mishkat">Mishkat Mutashābihāt corpus</a> (13 classical books, scholarly-attested).</p>';
+              '<p class="prov" style="margin-top:.75rem"><span class="badge ok" data-source-ids="mishkat" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Mishkat corpus (13 classical books). <a href="sources.html#mishkat">Source</a>.</p>';
             results.innerHTML = html;
           }
 
@@ -694,7 +726,7 @@
                 extra +
                 "</p>" +
                 refrainNote +
-                '<div style="overflow-x:auto;margin-top:0.6rem"><table class="data"><thead><tr><th>Verse</th><th>Final word</th><th>Pausal</th><th>Fine key</th><th class="study-only">Coarse</th></tr></thead><tbody>' +
+                '<div class="table-scroll" style="margin-top:0.6rem"><table class="data"><thead><tr><th>Verse</th><th>Final word</th><th>Pausal</th><th>Fine key</th><th class="study-only">Coarse</th></tr></thead><tbody>' +
                 rows +
                 "</tbody></table></div>";
             }

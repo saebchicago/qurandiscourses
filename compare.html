@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
     <script src="assets/surahs.js"></script>
+    <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <style>
       .mode-tabs {
@@ -292,8 +293,17 @@
               <div id="compareBars"></div>
               <div id="compareTimelines" style="margin-top: 1rem"></div>
               <div id="compareIntersection" style="margin-top: 1.25rem"></div>
-              <p class="prov" style="margin-top: 0.75rem">
-                <span
+              <p class="prov" style="margin-top: 0.75rem"><span
+                  class="badge ok"
+                  data-source-ids="leeds-corpus-v0.4"
+                  aria-label="Verified"
+                  tabindex="0"
+                  title="Verified · computed from the cited corpus"
+                  >●</span
+                > Leeds corpus v0.4.</p>
+              <details class="method-note">
+                <summary>ℹ How this is computed</summary>
+                <p><span
                   class="badge ok"
                   data-source-ids="leeds-corpus-v0.4"
                   aria-label="Verified"
@@ -312,8 +322,8 @@
                   >~</span
                 >
                 English meanings beside root names are editorial working
-                glosses for orientation, not cited dictionary definitions.
-              </p>
+                glosses for orientation, not cited dictionary definitions.</p>
+              </details>
             </div>
 
             <p
@@ -326,7 +336,7 @@
             </p>
           </div>
 
-          <div class="card study-only">
+          <div class="card">
             <h3>Examples worth comparing</h3>
             <ul style="font-size: 0.92rem; line-height: 1.7">
               <li>
@@ -862,7 +872,7 @@
                   });
                 });
                 const note = document.createElement("p");
-                note.className = "method-note";
+                note.className = "caption-note";
                 note.textContent =
                   "Cairo 1924 revelation order (a convention); bar height = occurrences in that surah, same scale for every root. Distribution does not by itself establish meaning.";
                 wrap.appendChild(note);

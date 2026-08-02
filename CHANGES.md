@@ -1,134 +1,119 @@
-# Changes — open-source readiness audit: licensing scope, offline charts, measured cleanups
+# Changes — a citation you can check, a card per surah, an app that installs
 
 ## Why this pass exists
 
-Before opening the repository, three independent sweeps were run over
-the whole tree: one for secrets and personal information, one for
-licensing and attribution consistency, and one for code defects and
-technical debt — plus the full in-repo check suite and the complete
-Playwright site audit (173 checks across all 30 pages, all passing
-before and after this change). The secrets sweep came back clean: no
-credentials anywhere in the working tree or the full git history, no
-email addresses at all, no personal paths or hostnames, no analytics
-(the "No analytics. No tracking." claim on credits.html was verified,
-not assumed). The other two sweeps found the items below. Everything
-here is a fix for something found, not a feature.
+The previous release made sharing consistent: one affordance that
+always hands out the right preview URL. Two things it left open are
+what this one closes.
 
-## Licensing: LICENSE now says what it covers
+The word-by-word meanings are credited to the Quran.com Foundation with
+a note saying an individual translator credit replaces that if the
+endpoint names one. That sentence was written from the API's documented
+behavior, not from a live response, because the environment that built
+the feature could not reach `api.quran.com`. The rule in this
+repository is that nothing is cited from memory, so the entry carried
+an honest note and an open question — phrased, unhelpfully, as a
+research task.
 
-The LICENSE file was a bare MIT grant over "this software," which on
-its face covered the GPL-derived Leeds morphology, the quoted Khan
-glosses, the license-pending Mishkat cross-references, and the OFL
-fonts — all things MIT cannot grant. It now opens with a scope
-statement: MIT covers the site's own code and the data NOTICE.md lists
-as site-authored; everything bundled from third parties keeps its own
-license, with NOTICE.md as the authoritative breakdown.
+And every shared link, whichever surah or theme it pointed at, unfurled
+with the same site-wide image.
 
-NOTICE.md itself had drifted: the five analytics directories added in
-the last three releases (`data/association/`, `data/network/`,
-`data/centrality/`, `data/coverage/`, `data/exports/`) never got a
-mention, and several older Leeds-derived datasets (`rhyme/`, the
-formulas files, `discursive-pivots.json`, `symmetry-test.json`,
-`roots-list.json`, `theme-surah-index.json`) were absent from the
-GPL-inheritance list even though datasets.html already labeled them
-GPL. The site-authored and GPL-derived lists are now complete, the
-coverage report's use of the license-pending `data/qursim/` directory
-(file counts only) is disclosed, and a new paragraph covers the
-runtime-fetched translation editions, whose copyrights stay with their
-translators — previously only the Tanzil Arabic text was addressed.
+## The citation question becomes one command
 
-Because that drift went unnoticed for three releases, a new checker
-(`scripts/check-notice.mjs`, wired into CI) now fails the build if any
-top-level `data/` entry is missing from NOTICE.md.
+`scripts/check-wbw-credit.mjs` turns "inspect the resource metadata"
+into `node scripts/check-wbw-credit.mjs`. It parses the endpoint out of
+`assets/wordbw.js` — the same way the edition checker parses
+`assets/app.js` — so the check can never drift from what the site
+actually requests. It fetches a short surah, prints the first word
+entry exactly as served plus every attribution-shaped field it can
+find, probes candidate resource endpoints, and ends in one of three
+verdicts: **OK** (the served credit matches what is recorded),
+**ACTION NEEDED** (a different credit is served — it prints the JSON to
+paste), or **REVIEW** (nothing conclusive; read the payload).
 
-One licensing gap is documented rather than resolved: no copy of the
-GNU GPL text ships in the repository, and upstream states "GNU General
-Public License" without pinning a version. NOTICE.md now says exactly
-that and points to gnu.org; bundling a verbatim copy (and choosing
-which version's text to include) is a one-command owner decision from
-an unrestricted network, deliberately not fabricated from memory here.
+Two decisions in it are worth stating. It **discovers rather than
+asserts**: the response shape for word-level attribution could not be
+verified when it was written, so it prints what it finds and labels
+anything speculative "candidate (unverified)" in its own output. And
+**only a contradiction fails** — ambiguity exits 0 — so the weekly
+scheduled run stays quiet unless the endpoint's attribution really
+changed. It runs alongside the existing citation-link and edition
+checks in the scheduled audit job, and the maintainer guide carries the
+three-verdict recipe.
 
-README.md's licensing bullets, page count (28 → 30), dataset list, and
-generator list were brought current for the same reason; datasets.html
-gained cards for the five analytics datasets its own lede claimed to
-cover; and the maintainer guide's site map and pipeline table now
-include the five compute scripts and the dependency order for
-rerunning them.
+Building it caught a bug worth recording: an early version read the
+gloss itself as a credit. The English meaning of the first word of
+al-'Asr is "By the time", which matched both a broad
+`/translat/`-shaped key rule and a name-shaped value rule — so the
+check would have cried wolf on literally every run. Credit candidates
+are now selected by key, with content fields and language labels
+excluded by name rather than guessed at by value.
 
-## Bugs found and fixed
+## A card per surah and theme
 
-- **numbers.html** rendered "21. Singular Claims of 12…" in the
-  day-month-year card — an orphaned word from an old edit, on the page
-  whose whole premise is precision. Removed.
-- **sw.js** never cached the `js/` directory, so offline visits to the
-  three pages that load `js/viz.js` silently rendered without their
-  charts (each render guard hides the failure rather than erroring).
-  The asset route now covers `/js/`, and SW_VERSION is bumped to v6 —
-  a bump that was also due under the guide's own rule after three
-  releases of new data schemas shipped without one.
-- **assets/chart.js** tooltips could not be dismissed with Escape
-  (its younger sibling js/viz.js could), and each module created its
-  own floating tooltip element, so two could coexist and one layer's
-  dismissal could not clear the other's. Both modules now share one
-  element and both honor Escape.
-- **navigate.html** was the one place in the site saying "Meccan,
-  early period" while the chart legend on the same page said "Early
-  Meccan." Labels now match the other seven copies.
-- **themes.html**'s per-theme distribution strip had the site's only
-  fetch chain without a terminal catch: a throw mid-render stranded
-  the panel on "Computing…" forever. It now reports failure like every
-  other lazy panel.
-- **read.html**'s recurring-word highlights were keyboard-focusable
-  spans with no role, so screen readers announced nothing actionable.
-  They now carry `role="button"`; the accessible name stays the Arabic
-  word itself (an English label would have replaced it).
-- **compare.html and roots.html** had three fetches that skipped the
-  `response.ok` check, so a 404 surfaced as a JSON parse error instead
-  of an honest HTTP status. All three now check.
-- **how-it-works.html** loaded refs.js without glossary.js, the only
-  page violating refs.js's documented ordering contract ("glossary.js
-  runs FIRST"); terms on that page got different popovers than on its
-  nine siblings. glossary.js is now loaded there too.
-- **scripts/compute-association-stats.mjs** contained four literal NUL
-  bytes (a pair-key separator written as the raw character instead of
-  the `\u0000` escape), which made git treat the file as binary — no
-  reviewable diffs, invisible to grep. Replaced with the escape; the
-  regenerated output is byte-identical.
+`assets/og/surah/<n>.png` (114) and `assets/og/theme/<slug>.png` (33)
+now carry the surah's Arabic name, transliteration, verse count,
+Meccan/Medinan class and revelation-order position, or the theme's
+title and root families. They are rendered from
+`assets/og/entity-template.html` by `scripts/build-og-images.mjs`,
+using the same committed JSON the share-page generator reads, so a card
+and its share page can never describe an entity differently. The
+Arabic uses the repository's own bundled Amiri rather than a system
+fallback, so a name renders identically wherever the cards are
+generated — and never as tofu.
 
-## Reproducibility and hygiene
+The 1,642 root pages deliberately keep the site-wide card: the
+least-shared tail, where per-entity PNGs would be indefensible repo
+weight, and the page title already names the root. `build-share-pages`
+picks up a card when the file exists and falls back to the site card
+when it does not, so the image step stays optional for a fresh clone
+and a deleted card degrades instead of 404ing in someone's preview.
+The generator prunes stale cards on a full run, exactly as the share
+pages are pruned.
 
-- Ten generators stamped their output with the run date, so rerunning
-  any of them on a later day produced a 1,600+ file diff of nothing
-  but date stamps — masking real changes and quietly breaking the
-  guide's "run it twice, git diff must be empty" rule across day
-  boundaries. All ten now honor `SOURCE_DATE_EPOCH` (the
-  reproducible-builds.org convention) via a shared
-  `scripts/lib/computed-date.mjs`; behavior without the variable is
-  unchanged.
-- `build-root-analytics.mjs` and `build-cooccurrence.mjs` carried
-  private copies of the safeKey encoding despite being modules; both
-  now import the shared lib, and the lib's sync comment now names all
-  nine remaining inline copies instead of three.
-- `.gitignore` gained the patterns most likely to catch a future
-  accidental commit: `.env.*`, `.netlify/` (the CLI writes a state
-  file containing the site ID), editor and merge leftovers,
-  `__pycache__/`, and key material (`*.pem`, `*.key`, `*.p12`).
-- The gloss manifest and two doc passages still described the gloss
-  pipeline as "dormant/empty until licensed" even though six surahs of
-  Khan (2011) glosses have shipped; the manifest comment, its
-  generator template, the maintainer guide, and the gloss research
-  memo (now marked partially superseded) all state the shipped
-  reality.
-- changelog.html gained entries for the three analytics releases and
-  this audit — it had not been updated since release #65.
+Like the site image and the PWA icons before it, this generator is
+explicitly **outside the deterministic pipeline** — PNG encoding and
+font rasterization are not byte-stable across machines — so it is
+owner-run and reviewed by eye, never wired into CI. The share pages
+themselves remain run-twice identical.
 
-## Verified after the changes
+## An install surface
 
-`check-nav-sync`, `check-headers-sync`, `build-csp --check`,
-`check-data-nums`, `check-claims`, `check-paths`, `check-exercises`,
-`check-videos`, and the new `check-notice` all pass; the full
-verify-site Playwright suite passes on every page; every regenerated
-dataset is byte-identical to what shipped. The two network-dependent
-checkers (`check-source-links`, `check-editions`) cannot run from a
-sandboxed session per their own headers and should be run from an
-unrestricted machine before release.
+The manifest gains three shortcuts (Read a passage, Today's discourse,
+Browse surahs) and narrow/wide install screenshots. Shortcuts carry no
+icons of their own, so the richer install and long-press surface costs
+three JSON entries and two images.
+
+Nothing renders the manifest, which means nothing would have noticed it
+rotting: a shortcut pointing at a deleted page, a screenshot whose
+declared size stopped matching the file, or a missing icon all degrade
+or silently reject the install prompt rather than erroring. verify-site
+gains a `manifest` check that resolves every icon and screenshot at its
+declared pixel size (read from the PNG header, no dependency) and
+asserts every shortcut is in scope, resolves to a page, and — where it
+carries a fragment — to a real id on that page. Each of those five
+failure modes was verified to fail the check.
+
+## Verified
+
+All checkers pass (`check-nav-sync`, `check-headers-sync`, `build-csp
+--check`, `check-claims`, `check-data-nums`, `check-paths`,
+`check-exercises`, `check-videos`, `check-notice`) and the full
+verify-site suite reports **180 checks, all passing** — 179 plus the
+new manifest group.
+
+`scripts/verify-site.mjs` gave up two blocks it had held alone: the
+Playwright resolution and the local static server now live in
+`scripts/lib/`, shared with the image generator. The suite running
+unchanged at 179 before the manifest check was added is the evidence
+that extraction was behavior-neutral.
+
+The share pages regenerate byte-identically across runs (147 with an
+entity card, 1,642 with the site card), the credit checker's parsing,
+comparison and three verdicts were exercised against a stubbed server,
+and NOTICE.md now states the licensing standing of the generated
+images.
+
+One step still needs an unrestricted network, and it is now a single
+command: confirm the word-by-word translator credit with
+`node scripts/check-wbw-credit.mjs`.

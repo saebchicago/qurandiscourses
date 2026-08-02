@@ -73,3 +73,11 @@ jobs:
         # shipped Arabic mislabeled as English).
         if: ${{ !cancelled() }}
         run: node scripts/check-editions.mjs
+
+      - name: Check the word-by-word translator credit
+        # Independent of both checks above, for the same reason. Fails
+        # only when the endpoint serves a credit that CONTRADICTS
+        # data/sources.json; an inconclusive run reports REVIEW and
+        # exits 0, so this step stays quiet unless something changed.
+        if: ${{ !cancelled() }}
+        run: node scripts/check-wbw-credit.mjs

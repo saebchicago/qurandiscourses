@@ -24,6 +24,7 @@
     />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <link
       rel="icon"
@@ -316,7 +317,7 @@
         <div class="grid two trust-actions">
           <article class="card">
             <h4>Check a claim</h4>
-            <p>Open its evidence badge, inspect the named source, then review the site's methods and known limits.</p>
+            <p>Open its evidence badge, inspect the named source, then review the site's methods and known limits. The <a href="coverage.html">Coverage dashboard</a> measures how complete the underlying data is.</p>
             <p><a class="button secondary" href="validation.html">Review validation</a></p>
           </article>
           <article class="card">
@@ -393,9 +394,12 @@
           >; every correction is logged publicly on the
           <a href="changelog.html">changelog</a>.
           <strong>Transcription</strong> — Khan's published outlines cover
-          the last thirty surahs, and most still await careful
+          the last thirty surahs (85 to 114), and most still await careful
           transcription into the
-          <a href="exercises.html">exercises</a>.
+          <a href="exercises.html">exercises</a>. Each outline is one entry
+          in <code>data/exercises.json</code>, transcribed from the book and
+          never paraphrased, so every exercise stays traceable to its
+          published source.
           <strong>Scholarly review</strong> — if you work in Qur'anic
           studies or Arabic linguistics and are willing to review the
           site's method pages against their sources, that scrutiny would

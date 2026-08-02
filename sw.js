@@ -1,13 +1,14 @@
 // Service worker — offline shell + bundled-data caching. Never touches
-// cross-origin requests (api.alquran.cloud, cdn.islamic.network): those
-// keep using the site's existing localStorage API cache and the browser's
-// own audio range-request handling untouched.
+// cross-origin requests (api.alquran.cloud, api.quran.com,
+// cdn.islamic.network): those keep using the site's existing
+// localStorage API caches and the browser's own audio range-request
+// handling untouched.
 //
 // Bump SW_VERSION whenever a data file's schema changes (see any
 // scripts/build-*.mjs change) or a cached asset's contract changes, so
 // stale entries from the previous version are dropped on activate. This
 // is a documented convention, not a checker — see docs/maintainer-guide.md.
-const SW_VERSION = "v6";
+const SW_VERSION = "v8";
 const HTML_CACHE = "dd-html-" + SW_VERSION;
 const ASSET_CACHE = "dd-assets-" + SW_VERSION;
 const DATA_CACHE = "dd-data-" + SW_VERSION;

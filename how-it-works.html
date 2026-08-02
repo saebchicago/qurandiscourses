@@ -24,6 +24,7 @@
     />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <link
       rel="icon"
@@ -153,9 +154,9 @@
               </button></strong
             >
             <p style="margin: 0.25rem 0 0; font-size: 0.9rem">
-              The reading layer. Verse text, translations, and audio. No
-              morphology, no annotations. Use this when you want to read without
-              distraction.
+              The reading layer. Verse text, word-by-word meanings,
+              translations, and audio. No morphology tables, no annotations.
+              Use this when you want to read without distraction.
             </p>
           </div>
           <div class="card">
@@ -334,6 +335,41 @@
           marks a corpus-derived count Verified, that means the computation
           from the cited corpus is faithful and reproducible; the count
           inherits whatever imperfections the corpus itself carries.
+        </p>
+
+        <h3 id="regenerated">Where the numbers come from</h3>
+        <p>
+          None of the counts on this site are typed in. The scripts that
+          produce them ship in the repository alongside the corpus data, and
+          every figure quoted in a page's prose is bound to the generated
+          dataset, so a page cannot drift from the data behind it: an
+          automated check fails the build if it does. Run any generator
+          twice and the output is identical, which is what makes an
+          independent recomputation possible. The
+          <a href="datasets.html">Datasets</a> page lists each dataset and
+          the script that builds it.
+        </p>
+        <p>
+          One boundary is worth naming, because counting can look like
+          claiming. The recurring-phrase index records that a sequence of
+          words repeats and where. Whether such repetition amounts to
+          formulaic composition in the oral-formulaic sense is a scholarly
+          question, argued at length by Bannister (2014, on
+          <a href="sources.html">Sources</a>); the site counts the
+          recurrence and leaves the argument to the literature.
+        </p>
+
+        <h3 id="themes-method">How themes are built</h3>
+        <p>
+          Each theme on the <a href="themes.html">Themes</a> page begins with
+          a small set of triliteral roots whose core dictionary senses relate
+          to it. That grouping is an editorial choice, labeled Nuanced
+          wherever it appears. What follows is computed: the site counts
+          where those roots occur, ranks the passages in which the theme's
+          vocabulary clusters, and links them. A theme can live in verses
+          that use none of its words, and any of those words can appear
+          outside the theme, so a theme is a gateway into reading rather
+          than an index of where an idea is present.
         </p>
 
         <h3 id="different">How this compares to other Qur'an tools</h3>

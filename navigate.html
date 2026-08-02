@@ -24,6 +24,7 @@
     />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <style>
       /* ── Surah profile panel additions ───────────────────────── */
@@ -247,8 +248,17 @@
           <div class="juz-grid" id="juzGrid">
             <p style="color: var(--muted); font-size: 0.85rem">Loading juz…</p>
           </div>
-          <p class="prov">
-            <span
+          <p class="prov"><span
+              class="badge nuanced"
+              data-source-ids="tanzil"
+              aria-label="Nuanced"
+              tabindex="0"
+              title="Nuanced · Tanzil standard division"
+              >~</span
+            > Tanzil.</p>
+          <details class="method-note">
+            <summary>ℹ How this is computed</summary>
+            <p><span
               class="badge nuanced"
               data-source-ids="tanzil"
               aria-label="Nuanced"
@@ -259,8 +269,8 @@
             juz boundaries follow the standard Hafs/mushaf division as published
             in the Tanzil Project metadata. The division is a reading
             convention, not part of the revealed text; minor variants exist in
-            other traditions.
-          </p>
+            other traditions.</p>
+          </details>
         </div>
         <div class="card">
           <h3>Filter</h3>
@@ -292,10 +302,12 @@
               </select></label
             >
           </div>
-          <p class="prov">
-            <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> verse counts from Tanzil
-            Uthmani text. Meccan/Medinan classification per Cairo 1924 edition.
-          </p>
+          <p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Leeds corpus v0.4.</p>
+          <details class="method-note">
+            <summary>ℹ How this is computed</summary>
+            <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> verse counts from Tanzil
+            Uthmani text. Meccan/Medinan classification per Cairo 1924 edition.</p>
+          </details>
         </div>
         <div class="banner note">
           <strong>Method: surah profile figures.</strong> Word-token and root
@@ -332,7 +344,7 @@
           </p>
           <div id="surahScatter"></div>
           <details class="method-note">
-            <summary>ℹ How computed — and what it does not say</summary>
+            <summary>ℹ How this is computed</summary>
             <p>
               Token and distinct-root counts from the bundled Leeds v0.4
               morphology (see the method note above); period from the Cairo

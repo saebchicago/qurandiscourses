@@ -44,6 +44,16 @@ window.GLOSSARY = {
     "The separately recorded aspects of a research claim's support: what source was checked, whether the computation was reproduced, what the result depends on, and its known limits. Badges summarize these; the Validation page decomposes them.",
   provenance:
     "Where a figure or claim comes from: the named source, edition, and method it can be traced to. Every research claim on this site carries a citation you can follow and a badge stating how far it has been checked.",
+  llr: "Log-likelihood ratio (Dunning's G2): a score for how surprising it is that two words share verses as often as they do, given how often each occurs overall. Higher means stronger evidence the pairing is not chance. It measures distribution, not meaning.",
+  pmi: "Pointwise mutual information: how much more often two words appear together than chance would predict. Rare, tightly paired words score high; very frequent words score low even when they co-occur often.",
+  dice: "The Dice coefficient: the overlap between two words' sets of verses, from 0 (never together) to 1 (always together).",
+  keyness:
+    "A score (Dunning's G2) for how distinctively a word belongs to one section of the text compared with the rest. High keyness means the word's frequency there is statistically unusual, not that the word is important.",
+  ttr: "Type-token ratio: distinct word forms divided by total words, a measure of vocabulary variety. Smaller samples score higher mechanically, so the trend matters more than the absolute values.",
+  betweenness:
+    "How often a node lies on the shortest paths between other nodes in a co-occurrence network. A statistical position measure, strongly influenced by raw frequency; it does not indicate importance.",
+  eigenvector:
+    "Eigenvector centrality: a node scores high when its neighbors also score high, meaning proximity to network hubs. A statistical position measure; it does not indicate importance.",
 };
 
 (function () {

@@ -502,6 +502,11 @@ main {
   margin: 0 auto;
   padding: 1.5rem 1.25rem 6rem;
 }
+/* Home page stacks three corner buttons (tour + share + gear, ~175px);
+   tour.js sets this class when it injects the third. */
+body.has-tour-fab main {
+  padding-bottom: 12rem;
+}
 section {
   margin: 2.5rem 0;
   scroll-margin-top: 5rem;
@@ -749,7 +754,12 @@ blockquote.khan cite {
   padding-top: 0.55rem;
   line-height: 1.55;
 }
-.method-note {
+/* Two related but distinct conventions share this look:
+   .method-note is a collapsed <details> holding "how this is computed"
+   provenance; .caption-note is an always-visible caption paragraph.
+   They were one class name before the disclosure-pattern cleanup. */
+.method-note,
+.caption-note {
   font-size: 0.78rem;
   color: var(--muted);
   margin-top: 0.3rem;
@@ -1202,11 +1212,86 @@ label {
   color: var(--muted);
   margin: 0.4rem 0;
 }
+/* Chart table fallback (emitted by js/viz.js renderDetailsFallback).
+   Visually a sibling of .xref-panel but its own class: it wraps a
+   chart's data table, not cross-references, and the two should be
+   restylable independently. */
 details.chart-fallback {
   margin-top: 0.5rem;
 }
 details.chart-fallback table.data {
   font-size: 0.85rem;
+}
+.chart-fallback > summary {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--accent);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0 0.4rem;
+  user-select: none;
+}
+.chart-fallback > summary:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.chart-fallback > summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+.chart-fallback > summary::after {
+  content: "▸";
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-family: var(--sans);
+}
+.chart-fallback[open] > summary::after {
+  content: "▾";
+}
+.chart-fallback > summary::-webkit-details-marker {
+  display: none;
+}
+/* ── Word-by-word meanings (assets/wordbw.js) ────────────────────
+   An interlinear strip under each verse: the written word above its
+   published English meaning. Reads right to left like the verse
+   itself; each English label reads left to right inside its chip. */
+.wbw-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.9rem;
+  align-items: flex-start;
+  margin: 0.1rem 0 0.9rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px dashed var(--line);
+}
+.wbw-strip[hidden] {
+  display: none;
+}
+.wbw-word {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.05rem;
+  max-width: 9rem;
+}
+.wbw-word .ar {
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+.wbw-en {
+  font-size: 0.74rem;
+  color: var(--muted);
+  line-height: 1.35;
+  text-align: center;
+}
+.wbw-cite {
+  align-self: center;
 }
 .verse {
   background: var(--card);
@@ -1225,6 +1310,19 @@ details.chart-fallback table.data {
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--line);
+}
+/* The verse reference is its own permalink (anchor-link convention):
+   right-click / long-press to copy, click to land on the single-verse
+   URL. Styled to sit quietly in the muted meta row. */
+.verse .meta .vref {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted var(--muted);
+}
+.verse .meta .vref:hover,
+.verse .meta .vref:focus-visible {
+  color: var(--link);
+  border-bottom-color: var(--link);
 }
 .verse .translation {
   margin: 0.6rem 0;
@@ -1285,6 +1383,33 @@ details.chart-fallback table.data {
 }
 .settings .gear:hover {
   transform: rotate(45deg) scale(1.05);
+}
+/* Visible text label injected by app.js initSettings. Icon-only below
+   600px (where the corner is tight), icon + word above it. */
+.settings .gear .gear-label {
+  display: none;
+}
+@media (min-width: 600px) {
+  .settings .gear {
+    width: auto;
+    padding: 0 1rem 0 0.85rem;
+  }
+  .settings .gear .gear-label {
+    display: inline;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-left: 0.4rem;
+    vertical-align: 0.1em;
+  }
+  .settings .gear:hover {
+    transform: scale(1.05);
+  }
+}
+/* The open panel sits directly above the gear and would cover the
+   share/tour buttons stacked there; app.js toggles this class. */
+.settings.panel-open .share-fab,
+.settings.panel-open .tour-fab {
+  display: none;
 }
 .settings .share-fab {
   display: block;
@@ -1380,6 +1505,70 @@ details.chart-fallback table.data {
   color: var(--bg);
   border-color: var(--ink);
   font-weight: 600;
+}
+/* Page-top inline depth control (wired by app.js initInlineDepth).
+   The row pairs the segmented control with a label and the hotkey
+   hint so the depth system is visible without opening the gear. */
+.depth-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.depth-row > span:first-child {
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+.depth-toggle.inline {
+  margin: 0;
+}
+.depth-toggle.inline button {
+  min-width: 44px;
+  min-height: 44px;
+}
+.depth-hint {
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+/* Segmented view toggle for merged stat blocks: several rankings of
+   the same data, one displayed at a time. The render functions still
+   own each panel's [hidden] (no data = hidden); the toggle only picks
+   which panel is displayed, so the two mechanisms never fight. */
+.view-toggle {
+  display: inline-flex;
+  gap: 0.3rem;
+  margin: 0.2rem 0 0.6rem;
+  flex-wrap: wrap;
+}
+.view-toggle button {
+  padding: 0.35rem 0.7rem;
+  min-height: 44px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 0.82rem;
+  color: var(--ink);
+  transition: all 0.15s ease;
+}
+.view-toggle button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+  font-weight: 600;
+}
+.view-group > [data-view-panel]:not(.view-active) {
+  display: none !important;
+}
+/* Continue-deeper ribbon links (roots detail, analysis pages). */
+.explore-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.explore-links li {
+  margin: 0.4rem 0;
 }
 .panel .small {
   font-size: 0.76rem;
@@ -1523,6 +1712,9 @@ html[data-depth="encyclopedic"] li.encyclopedic-only {
   nav.primary .nav-group-btn {
     padding: 0.35rem 0.7rem;
     font-size: 0.85rem;
+    /* Keep the tap area at the platform minimum even as the text
+       shrinks; the Menu toggle already honors 44px. */
+    min-height: 44px;
   }
 }
 
@@ -2091,6 +2283,11 @@ main a {
   border-color: var(--accent);
   color: var(--accent);
 }
+/* On pages where notebook.js pins its 52px toggle to the same corner
+   (read, roots), app.js shifts this button above it. */
+.back-to-top--offset {
+  bottom: calc(1rem + 52px + 0.75rem);
+}
 kbd {
   font-family: ui-monospace, Consolas, monospace;
   font-size: 0.82em;
@@ -2195,6 +2392,15 @@ kbd {
   padding-top: 0.65rem;
   border-top: 1px solid var(--line, #eee);
   font-size: 0.82rem;
+}
+.cite-popover .cite-copy-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--link);
+  text-decoration: underline;
+  cursor: pointer;
 }
 .cite-popover .cite-close {
   position: absolute;

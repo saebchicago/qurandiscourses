@@ -24,6 +24,7 @@
     />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <link
       rel="icon"
@@ -287,7 +288,7 @@
                 })
                 .then(function (morph) {
                   var html =
-                    '<p class="method-note">Offline mode: Arabic text reassembled from the bundled Leeds morphology; translations need a connection.</p>';
+                    '<p class="caption-note">Offline mode: Arabic text reassembled from the bundled Leeds morphology; translations need a connection.</p>';
                   Object.keys(morph)
                     .map(Number)
                     .sort(function (a, b) {
@@ -421,7 +422,7 @@
                   .getElementById("exTitle")
                   .insertAdjacentHTML(
                     "afterend",
-                    '<p class="method-note">No exercise named "' +
+                    '<p class="caption-note">No exercise named "' +
                       qdEsc(requested) +
                       '" — showing ' +
                       qdEsc(exercise.title) +

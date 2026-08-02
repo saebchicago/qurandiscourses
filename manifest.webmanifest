@@ -24,5 +24,41 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
+  ],
+  "shortcuts": [
+    {
+      "name": "Read a passage",
+      "short_name": "Read",
+      "description": "Open any surah with parallel translations and word-by-word meanings",
+      "url": "/read.html"
+    },
+    {
+      "name": "Today's discourse",
+      "short_name": "Today",
+      "description": "The passage this site opens with today",
+      "url": "/index.html#dailySection"
+    },
+    {
+      "name": "Browse surahs",
+      "short_name": "Browse",
+      "description": "All 114 surahs by mushaf or revelation order",
+      "url": "/navigate.html"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/screenshots/home-narrow.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "The home page on a phone"
+    },
+    {
+      "src": "assets/screenshots/home-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "The home page on a desktop"
+    }
   ]
 }

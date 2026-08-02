@@ -120,6 +120,7 @@
         margin: 0.4rem 0 0;
       }
     </style>
+    <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <link
       rel="icon"
@@ -192,28 +193,63 @@
           vocabulary works hardest. Pick a theme; get its root families, the
           computed key passages, and a self-study kit.
         </p>
-        <p class="method-note">
+        <div class="depth-row">
+          <span>Depth:</span>
+          <div
+            class="depth-toggle inline"
+            role="group"
+            aria-label="Depth level"
+          >
+            <button data-depth="simple">Simple</button>
+            <button data-depth="study">Study</button>
+            <button data-depth="encyclopedic">Encyclopedic</button>
+          </div>
+          <span class="depth-hint"
+            >Keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></span
+          >
+        </div>
+        <p class="caption-note">
           <span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · lexical gateway, not a thematic index">~</span>
-          These gateways are lexical. Each theme collects triliteral roots
-          whose core dictionary senses relate to it, and the key passages are
-          verses where that vocabulary clusters (two or more of the theme's
-          roots, or repeated tokens of one, per the Leeds corpus). A theme can
-          also live in verses that use none of these words, and a word can
-          appear outside the theme. Treat every gateway as a starting point
-          for your own reading, never as a complete index.
+          Themes are gateways from an editorially chosen root family to the
+          passages where that vocabulary clusters, so a theme can also live
+          in verses using none of these words.
+          <a href="how-it-works.html#themes-method">How themes are built</a>.
         </p>
         <div class="theme-toc" id="themeToc" role="navigation" aria-label="Themes on this page"></div>
+        <!-- Rendered once for the whole page; every theme card links
+             back here. It used to be repeated verbatim inside all 33
+             cards. -->
+        <details class="xref-panel" id="study-kit">
+          <summary>Self-study kit (works for any theme)</summary>
+          <ol style="margin: 0.4rem 0 0.2rem; padding-left: 1.3rem; font-size: 0.92rem; line-height: 1.7">
+            <li>
+              Open each passage and read the whole discourse around it (use
+              Prev/Next on the Read page): who is being addressed, and what
+              came before?
+            </li>
+            <li>
+              Follow one root into the Roots explorer: where else does it
+              cluster, and in which period?
+            </li>
+            <li>
+              Write down, in your own words, what the passages agree on and
+              where they differ.
+            </li>
+          </ol>
+        </details>
       </section>
       <div id="themeSections">
         <p style="color: var(--muted)">Loading themes...</p>
       </div>
-      <p class="prov">
-        <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
+      <p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Leeds corpus v0.4.</p>
+      <details class="method-note">
+        <summary>ℹ How this is computed</summary>
+        <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
         Root assignments, counts, and passage rankings computed from the Leeds
         Quranic Arabic Corpus v0.4 by <code>scripts/build-themes.mjs</code>
         (deterministic; output in <code>data/themes.json</code>). The grouping
-        of roots into themes is editorial and is labeled Nuanced above.
-      </p>
+        of roots into themes is editorial and is labeled Nuanced above.</p>
+      </details>
     </main>
     <footer class="site">
       <p>Divine Discourses — toward direct engagement with the Qur'an.</p>
@@ -246,12 +282,6 @@
     <script>
       (function () {
         "use strict";
-        var KIT = [
-          "Open each passage and read the whole discourse around it (use Prev/Next on the Read page): who is being addressed, and what came before?",
-          "Follow one root into the Roots explorer: where else does it cluster, and in which period?",
-          "Write down, in your own words, what the passages agree on and where they differ. That record is yours; the site only ordered the evidence.",
-        ];
-
         // Filename-safe key (mirrors build-root-analytics.mjs).
         function safeKey(bw) {
           var out = "";
@@ -413,26 +443,22 @@
                   "</p>";
               }
               card.innerHTML =
-                '<h3 style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap">' + t.title +
-                '<button type="button" class="button secondary share-btn" data-share data-share-url="https://qurandiscourse.netlify.app/s/theme/' +
-                t.slug +
-                '.html" data-share-title="' + t.title + ' · Divine Discourses">Share</button>' +
-                '<button type="button" class="button secondary share-btn" data-embed-type="theme" data-embed-id="' +
-                t.slug +
-                '" data-embed-title="' + t.title + ' · Divine Discourses" title="Copy an iframe snippet for your own site">Embed</button></h3>' +
+                "<h3>" + t.title + "</h3>" +
                 '<h4 style="margin:0 0 0.2rem">Root families</h4>' +
                 '<ul class="root-chips">' + rootChips + "</ul>" +
                 '<h4 style="margin:0 0 0.2rem">Key passages <span style="font-weight:400;color:var(--muted);font-size:0.82rem">(computed: theme vocabulary clusters here)</span></h4>' +
                 '<div class="passage-grid">' + passages + "</div>" +
                 compareLink +
-                clusterHtml +
+                '<div class="study-only">' + clusterHtml +
                 '<details class="method-note theme-dist"><summary>Show distribution map (114 surahs)</summary>' +
                 '<div class="theme-dist-chart" style="margin-top:0.5rem"></div>' +
                 '<p style="margin-top:0.3rem">Summed per-surah counts of this theme’s root family (Leeds corpus, mushaf order; darker = more). Vocabulary density, not a thematic index — distribution does not by itself establish meaning.</p>' +
-                "</details>" +
-                '<div class="study-kit"><strong>Self-study kit</strong><ol>' +
-                KIT.map(function (q) { return "<li>" + q + "</li>"; }).join("") +
-                "</ol></div>";
+                "</details></div>" +
+                '<p style="margin:0.5rem 0 0;font-size:0.9rem"><a href="#study-kit">Apply the self-study kit ↑</a></p>' +
+                '<p class="share-row study-only" style="margin:0.4rem 0 0">' +
+                '<button type="button" class="button secondary share-btn" data-embed-type="theme" data-embed-id="' +
+                t.slug +
+                '" data-embed-title="' + t.title + ' · Divine Discourses" title="Copy an iframe snippet for your own site">Embed this theme</button></p>';
               sec.appendChild(card);
               wrap.appendChild(sec);
               var dist = card.querySelector(".theme-dist");
@@ -448,6 +474,32 @@
               if (el) el.scrollIntoView();
             }
             if (window.qdInitShare) window.qdInitShare();
+            // Point the floating share button at the theme's link-preview
+            // page (s/theme/<slug>.html) whenever the hash names a theme;
+            // any other hash (e.g. #study-kit) falls back to the live URL.
+            var slugs = {};
+            data.themes.forEach(function (t) {
+              slugs[t.slug] = true;
+            });
+            var syncShareUrl = function () {
+              if (!window.qdSetShareUrl) return;
+              var slug = location.hash.slice(1);
+              window.qdSetShareUrl(
+                slugs[slug]
+                  ? "https://qurandiscourse.netlify.app/s/theme/" +
+                      slug +
+                      ".html"
+                  : null,
+              );
+            };
+            window.addEventListener("hashchange", syncShareUrl);
+            // share.js is deferred, so when this fetch resolves mid-parse
+            // qdSetShareUrl does not exist yet — wait for DOMContentLoaded.
+            if (document.readyState === "loading") {
+              document.addEventListener("DOMContentLoaded", syncShareUrl);
+            } else {
+              syncShareUrl();
+            }
           })
           .catch(function () {
             document.getElementById("themeSections").innerHTML =

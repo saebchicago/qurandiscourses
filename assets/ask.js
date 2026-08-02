@@ -273,4 +273,81 @@
   }
 
   window.parseAsk = parseAsk;
+
+  // UI wiring: any page with an #ask-input control gets the full
+  // behavior (Explore button, Enter key, example chips, rotating
+  // placeholder). Pages without the control load this file for
+  // parseAsk alone. This wiring lived inline on index.html while the
+  // Ask box was a one-page feature.
+  function initAskUi() {
+    var input = document.getElementById("ask-input");
+    if (!input) return;
+    var button = document.getElementById("ask-go");
+    var feedback = document.getElementById("ask-feedback");
+    var chips = document.querySelectorAll(".ask-chips .chip");
+
+    function go() {
+      var result = window.parseAsk(input.value);
+      if (result && result.route) {
+        window.location.href = result.route;
+      } else if (result && result.message) {
+        feedback.textContent = result.message;
+      } else {
+        feedback.textContent =
+          "Not recognized. Try a surah name (Fatihah or الفاتحة), a verse like 1:1 or ٢:٥, a root like r-h-m or رحم, or an English word.";
+      }
+    }
+
+    if (button) button.addEventListener("click", go);
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") go();
+    });
+    chips.forEach(function (c) {
+      c.addEventListener("click", function () {
+        input.value = c.dataset.fill;
+        input.focus();
+        go();
+      });
+    });
+
+    var PLACEHOLDERS = ["Al-Fatihah", "2:255", "r-h-m", "mercy", "الفاتحة"];
+    var reduce = false;
+    try {
+      reduce =
+        window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    } catch (e) {
+      reduce = false;
+    }
+    var phIdx = 0;
+    var phTimer = null;
+    function setPh(i) {
+      input.setAttribute("placeholder", PLACEHOLDERS[i]);
+    }
+    function startRotation() {
+      if (reduce || phTimer) return;
+      phTimer = setInterval(function () {
+        phIdx = (phIdx + 1) % PLACEHOLDERS.length;
+        setPh(phIdx);
+      }, 4000);
+    }
+    function stopRotation() {
+      if (phTimer) {
+        clearInterval(phTimer);
+        phTimer = null;
+      }
+    }
+    setPh(0);
+    input.addEventListener("focus", stopRotation);
+    input.addEventListener("blur", function () {
+      if (!input.value) startRotation();
+    });
+    if (!reduce) startRotation();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAskUi);
+  } else {
+    initAskUi();
+  }
 })();

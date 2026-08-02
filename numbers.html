@@ -122,6 +122,7 @@
         cursor: pointer;
       }
     </style>
+    <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <link
       rel="icon"
@@ -193,6 +194,21 @@
           Frequency and distribution insights from the corpus. Each card ends
           with its verification status.
         </p>
+        <div class="depth-row">
+          <span>Depth:</span>
+          <div
+            class="depth-toggle inline"
+            role="group"
+            aria-label="Depth level"
+          >
+            <button data-depth="simple">Simple</button>
+            <button data-depth="study">Study</button>
+            <button data-depth="encyclopedic">Encyclopedic</button>
+          </div>
+          <span class="depth-hint"
+            >Keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></span
+          >
+        </div>
         <div class="card" id="countingLadder">
           <h3>
             How the Qur'an is counted
@@ -261,8 +277,17 @@
               </div>
             </div>
           </div>
-          <p class="prov">
-            <span
+          <p class="prov"><span
+              class="badge ok"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · computed from the cited corpus"
+              >●</span
+            > Leeds corpus v0.4.</p>
+          <details class="method-note">
+            <summary>ℹ How this is computed</summary>
+            <p><span
               class="badge ok"
               data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
@@ -272,54 +297,64 @@
             >
             every figure recomputed from the bundled Leeds Quranic Arabic Corpus
             v0.4 morphology. "Word-unit" is this site's plain-language name for a
-            corpus <a href="glossary.html#token">token</a>.
-          </p>
+            corpus <a href="glossary.html#token">token</a>.</p>
+          </details>
         </div>
         <div class="banner note">
           <strong>Note on counting.</strong> Word counts in the Qur'an depend on
           whether one counts root occurrences, surface forms, definite vs
-          indefinite, singular vs plural. Where a popular figure depends on a
-          specific counting rule, this is labeled
-          <span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · counting method varies by source">~</span> with the counting method
-          named.
+          indefinite, singular vs plural, so a figure is only as precise as
+          the rule behind it. Where a popular figure depends on a specific
+          counting rule, the rule is named
+          <span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · counting method varies by source">~</span>
+          beside it.
         </div>
-        <p class="method-note" id="numbersMethod">
-          Every corpus figure on this page is recomputed from the datasets
-          bundled with this site (<code>data/numbers.json</code>, generated
-          deterministically by <code>scripts/build-numbers.mjs</code> from the
-          Leeds morphology). Nothing here is typed in by hand — if the data
-          changed, these cards would change with it. Externally sourced
-          claims keep their own citations.
+        <p class="caption-note" id="numbersMethod">
+          Every figure here is recomputed from the corpus data bundled with
+          the site.
+          <a href="how-it-works.html#regenerated">Where the numbers come from</a>.
         </p>
+        <p class="caption-note" style="margin-top: 0.6rem">
+          Jump to: <a href="#num-scale">Scale</a> ·
+          <a href="#num-vocabulary">Vocabulary</a> ·
+          <a href="#num-structure">Structure</a> ·
+          <a href="#num-periods">Across revelation</a>
+        </p>
+        <h3 class="numbers-section" id="num-scale">Scale</h3>
+        <p class="caption-note" style="margin-top: 0">How long surahs and verses run.</p>
         <div class="grid">
           <div class="card">
-            <h3>Earth and sea</h3>
+            <h3>Surah length</h3>
             <p>
-              Root <em>a-r-ḍ</em> (earth, land):
-              <strong class="count" data-num="namedRoots.ArD.count">461</strong>. Root <em>b-ḥ-r</em> (sea):
-              <strong class="count" data-num="namedRoots.bHr.count">42</strong>.
+              Mean: <strong data-num="surahLength.meanVerses">54.7</strong> verses. Median: <strong data-num="surahLength.medianVerses">39</strong>.
+              Longest: al-Baqarah (286). Shortest: al-Kawthar, al-'Asr, al-Nasr
+              (3 each).
             </p>
-            <div class="barwrap">
-              <span class="lbl">a-r-ḍ (land)</span>
-              <div class="bar"><span style="width: 100%"></span></div>
-            </div>
-            <div class="barwrap">
-              <span class="lbl">b-ḥ-r (sea)</span>
-              <div class="bar"><span style="width: 9%"></span></div>
-            </div>
             <p class="prov">
-              <span class="badge ok" data-source-ids="leeds-corpus-v0.4"
-                >Verified</span
-              >
-              root counts from the Leeds Quranic Arabic Corpus (Dukes
-              2009–2017). A widely cited surface-form count (13 "land" / 32
-              "sea") uses specific noun senses only; see counting note above.
-              <span class="badge nuanced" data-source-ids="leeds-corpus-v0.4"
-                >Nuanced</span
-              >
-              on the popular interpretation.
+              <span class="badge ok" data-source-ids="tanzil" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> from Tanzil (114 surahs,
+              <span data-num="totals.verses">6,236</span> verses by Cairo numbering).
             </p>
           </div>
+          <div class="card">
+            <h3>Verse-length distribution</h3>
+            <p>
+              Most verses are short. Of
+              <span data-num="verseLengthHistogram.totalVerses">6,236</span>
+              verses, the longest runs to
+              <strong data-num="verseLengthHistogram.maxVerseTokens">128</strong>
+              word-tokens (al-Baqarah 2:282).
+            </p>
+            <div id="lenHistoSvg"></div>
+            <p class="prov">
+              <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
+              token-length of every verse (Leeds tokenization), grouped into
+              bands.
+            </p>
+          </div>
+        </div>
+        <h3 class="numbers-section" id="num-vocabulary">Vocabulary</h3>
+        <p class="caption-note" style="margin-top: 0">What the text is made of: the most frequent roots, everyday concepts, and the rare words.</p>
+        <div class="grid">
           <div class="card">
             <h3>Top 5 most frequent roots</h3>
             <table class="data">
@@ -358,8 +393,12 @@
                 </tr>
               </tbody>
             </table>
-            <p class="prov">
-              <span class="badge ok" data-source-ids="leeds-corpus-v0.4"
+            <p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4"
+                >Verified</span
+              > Leeds corpus v0.4.</p>
+            <details class="method-note">
+              <summary>ℹ How this is computed</summary>
+              <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4"
                 >Verified</span
               >
               all five from the Quranic Arabic Corpus at
@@ -372,27 +411,8 @@
               (Leeds, Dukes 2009–2017). Full top-10 table with verification
               status on <a href="roots.html">Roots</a>. "Per 1,000 tokens"
               is (count / <span data-num="totals.tokens">77,429</span>) × 1,000, direct
-              computation.
-            </p>
-          </div>
-          <div class="card">
-            <h3>Day, month, year</h3>
-            <p>
-              <strong>Day (y-w-m, root):</strong> <span data-num="namedRoots.ywm.count">405</span> occurrences (Leeds
-              corpus). Widely circulated totals of 365 or 475 select particular
-              surface or compound forms; this site has not reproduced them.
-              <strong>Month (sh-h-r, root):</strong> <span data-num="namedRoots.$hr.count">21</span>.
-              Claims of 12 for singular <em>shahr</em> likewise depend on a
-              surface-form selection not reproduced here.
-              <strong>Year:</strong> not a single canonical word in the Qur'an.
-            </p>
-            <p class="prov">
-              <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> root counts from Leeds.
-              <span class="badge nuanced" data-source-ids="leeds-corpus-v0.4" aria-label="Nuanced" tabindex="0" title="Nuanced · counting unit changes the result">~</span> only the root totals are
-              verified here. The popular surface-form totals are shown as a
-              methodological caution, not endorsed as findings. See
-              <a href="roots.html">Roots</a> for the recomputable root detail.
-            </p>
+              computation.</p>
+            </details>
           </div>
           <div class="card">
             <h3>Concept frequency</h3>
@@ -438,100 +458,83 @@
             </p>
           </div>
           <div class="card">
-            <h3>Surah length</h3>
+            <h3>Earth and sea</h3>
             <p>
-              Mean: <strong data-num="surahLength.meanVerses">54.7</strong> verses. Median: <strong data-num="surahLength.medianVerses">39</strong>.
-              Longest: al-Baqarah (286). Shortest: al-Kawthar, al-'Asr, al-Nasr
-              (3 each).
+              Root <em>a-r-ḍ</em> (earth, land):
+              <strong class="count" data-num="namedRoots.ArD.count">461</strong>. Root <em>b-ḥ-r</em> (sea):
+              <strong class="count" data-num="namedRoots.bHr.count">42</strong>.
             </p>
-            <p class="prov">
-              <span class="badge ok" data-source-ids="tanzil" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> from Tanzil (114 surahs,
-              <span data-num="totals.verses">6,236</span> verses by Cairo numbering).
-            </p>
+            <div class="barwrap">
+              <span class="lbl">a-r-ḍ (land)</span>
+              <div class="bar"><span style="width: 100%"></span></div>
+            </div>
+            <div class="barwrap">
+              <span class="lbl">b-ḥ-r (sea)</span>
+              <div class="bar"><span style="width: 9%"></span></div>
+            </div>
+            <p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4"
+                >Verified</span
+              > Leeds corpus v0.4.</p>
+            <details class="method-note">
+              <summary>ℹ How this is computed</summary>
+              <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4"
+                >Verified</span
+              >
+              root counts from the Leeds Quranic Arabic Corpus (Dukes
+              2009–2017). A widely cited surface-form count (13 "land" / 32
+              "sea") uses specific noun senses only; see counting note above.
+              <span class="badge nuanced" data-source-ids="leeds-corpus-v0.4"
+                >Nuanced</span
+              >
+              on the popular interpretation.</p>
+            </details>
           </div>
           <div class="card">
-            <h3>Verse length by band</h3>
-            <table class="data">
-              <thead>
-                <tr>
-                  <th>Band</th>
-                  <th>Avg. word-units/verse</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Early Meccan</td>
-                  <td class="count" data-num="verseLengthByPeriod.0.avgTokensPerVerse">4.5</td>
-                </tr>
-                <tr>
-                  <td>Middle Meccan</td>
-                  <td class="count" data-num="verseLengthByPeriod.1.avgTokensPerVerse">10.1</td>
-                </tr>
-                <tr>
-                  <td>Late Meccan</td>
-                  <td class="count" data-num="verseLengthByPeriod.2.avgTokensPerVerse">11.7</td>
-                </tr>
-                <tr>
-                  <td>Medinan</td>
-                  <td class="count" data-num="verseLengthByPeriod.3.avgTokensPerVerse">18.5</td>
-                </tr>
-              </tbody>
-            </table>
-            <p class="prov">
-              <span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> from Leeds word counts +
-              Cairo 1924 chronological classification. The increasing-length
-              pattern across periods is widely observed in academic literature.
-            </p>
-          </div>
-          <div class="card study-only">
-            <h3>Grammatical texture</h3>
+            <h3>Day, month, year</h3>
             <p>
-              Of <span data-num="posProfile.totalTokens">77,429</span> word-tokens,
-              <strong data-num="posProfile.byTag.N">25,135</strong> are nouns and
-              <strong data-num="posProfile.byTag.V">19,356</strong> are verbs. The
-              noun and verb share shifts across the revelation:
+              <strong>Day (y-w-m, root):</strong> <span data-num="namedRoots.ywm.count">405</span> occurrences (Leeds
+              corpus). Widely circulated totals of 365 or 475 select particular
+              surface or compound forms; this site has not reproduced them.
+              <strong>Month (sh-h-r, root):</strong> <span data-num="namedRoots.$hr.count">21</span>.
+              Claims of 12 for singular <em>shahr</em> likewise depend on a
+              surface-form selection not reproduced here.
+              <strong>Year:</strong> not a single canonical word in the Qur'an.
             </p>
-            <table class="data">
-              <thead>
-                <tr>
-                  <th>Period</th>
-                  <th class="count">Nouns</th>
-                  <th class="count">Verbs</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Early Meccan</td>
-                  <td class="count"><span data-num="posByPeriod.0.nounPct">35.5</span>%</td>
-                  <td class="count"><span data-num="posByPeriod.0.verbPct">24.9</span>%</td>
-                </tr>
-                <tr>
-                  <td>Middle Meccan</td>
-                  <td class="count"><span data-num="posByPeriod.1.nounPct">32.6</span>%</td>
-                  <td class="count"><span data-num="posByPeriod.1.verbPct">26.4</span>%</td>
-                </tr>
-                <tr>
-                  <td>Late Meccan</td>
-                  <td class="count"><span data-num="posByPeriod.2.nounPct">33</span>%</td>
-                  <td class="count"><span data-num="posByPeriod.2.verbPct">24.9</span>%</td>
-                </tr>
-                <tr>
-                  <td>Medinan</td>
-                  <td class="count"><span data-num="posByPeriod.3.nounPct">31.6</span>%</td>
-                  <td class="count"><span data-num="posByPeriod.3.verbPct">24.5</span>%</td>
-                </tr>
-              </tbody>
-            </table>
-            <p class="prov">
-              <span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
-              exact counts of the Leeds N (noun) and V (verb) tags as a share
-              of all tokens, by Cairo 1924 period. Noun and verb are the two
-              unambiguous single tags; the remaining tokens are particles and
-              other function words, so no family taxonomy is asserted.
-            </p>
+            <p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Leeds corpus v0.4.</p>
+            <details class="method-note">
+              <summary>ℹ How this is computed</summary>
+              <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> root counts from Leeds.
+              <span class="badge nuanced" data-source-ids="leeds-corpus-v0.4" aria-label="Nuanced" tabindex="0" title="Nuanced · counting unit changes the result">~</span> only the root totals are
+              verified here. The popular surface-form totals are shown as a
+              methodological caution, not endorsed as findings. See
+              <a href="roots.html">Roots</a> for the recomputable root detail.</p>
+            </details>
           </div>
           <div class="card study-only">
-            <h3>Lexical diversity by period</h3>
+            <h3>Words that occur only once (hapax legomena)</h3>
+            <p>
+              <strong data-num="hapax.surfaceFormsOccurringOnce">12,004</strong>
+              surface forms (out of <span data-num="hapax.uniqueSurfaceForms">18,993</span> unique forms) occur exactly once, alongside
+              <strong data-num="hapax.lemmasOccurringOnce">1,994</strong>
+              once-occurring lemmas. At the root level,
+              <strong data-num="hapax.rootsOccurringOnce">395</strong> roots
+              (out of <span data-num="hapax.totalRoots">1,642</span>) occur
+              exactly once; each once-root's single verse is listed below.
+            </p>
+            <details id="hapaxDetails" class="xref-panel">
+              <summary>List the once-occurring roots</summary>
+              <div id="hapaxList" class="xref-list"></div>
+            </details>
+            <p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Leeds corpus v0.4.</p>
+            <details class="method-note">
+              <summary>ℹ How this is computed</summary>
+              <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
+              from Leeds corpus word-form and root counts; once-occurring
+              roots listed with the verse of their single occurrence.</p>
+            </details>
+          </div>
+          <div class="card study-only">
+            <h3>Vocabulary variety by period (TTR)</h3>
             <p>
               Type-token ratio (distinct surface forms, or distinct lemmas,
               divided by all word-tokens) measures vocabulary variety versus
@@ -575,69 +578,70 @@
                 </tr>
               </tbody>
             </table>
-            <p class="prov">
-              <span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
+            <p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Leeds corpus v0.4.</p>
+            <details class="method-note">
+              <summary>ℹ How this is computed</summary>
+              <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
               distinct surface forms / lemmas ÷ word-tokens, by Cairo 1924
               period.
               <span class="badge nuanced" data-source-ids="leeds-corpus-v0.4" aria-label="Nuanced" tabindex="0" title="Nuanced · counting method varies by source">~</span>
               type-token ratio is sensitive to sample size; these periods
               range from 2,704 to 30,572 tokens, so the falling ratio partly
-              reflects length, not style alone.
-            </p>
+              reflects length, not style alone.</p>
+            </details>
           </div>
+        </div>
+        <h3 class="numbers-section" id="num-structure">Structure</h3>
+        <p class="caption-note" style="margin-top: 0">Grammatical texture and structural features of the text.</p>
+        <div class="grid">
           <div class="card study-only">
-            <h3>
-              Keyness by period
-              <span
-                class="badge nuanced"
-                data-source-ids="leeds-corpus-v0.4 cairo-1924"
-                aria-label="Nuanced"
-                tabindex="0"
-                title="Nuanced · periodization varies across scholarly chronologies"
-                >~</span
-              >
-            </h3>
+            <h3>Grammatical texture</h3>
             <p>
-              Keyness (Dunning's G2) measures how distinctively a root's
-              token frequency in one revelation period differs from the
-              rest of the corpus. The top 15 roots by G2 are listed for
-              each of the four periods, by Cairo 1924 revelation order
-              (Nöldeke-Bell four-period classification). Periodization
-              varies across scholarly chronologies; treat these rankings as
-              Nuanced, not as a settled chronology.
+              Of <span data-num="posProfile.totalTokens">77,429</span> word-tokens,
+              <strong data-num="posProfile.byTag.N">25,135</strong> are nouns and
+              <strong data-num="posProfile.byTag.V">19,356</strong> are verbs. The
+              noun and verb share shifts across the revelation:
             </p>
-            <div id="keynessGrid" class="keyness-grid"></div>
-            <p class="prov" id="keynessProv" hidden>
-              <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
-              G2 computed from root token counts per period
-              (<code>data/roots-summary.json</code>) against period token
-              totals (<code>data/numbers.json</code>), by
-              <code>scripts/compute-association-stats.mjs</code>.
-              <span class="badge nuanced" data-source-ids="cairo-1924" aria-label="Nuanced" tabindex="0" title="Nuanced · periodization varies across scholarly chronologies">~</span>
-              on the period assignment itself (Cairo 1924 / Nöldeke-Bell).
-              Full root-frequency and keyness tables (CSV/JSON):
-              <a href="export.html">Export</a>.
-            </p>
-          </div>
-          <div class="card">
-            <h3>Verse-length distribution</h3>
-            <p>
-              Most verses are short. Of
-              <span data-num="verseLengthHistogram.totalVerses">6,236</span>
-              verses, the longest runs to
-              <strong data-num="verseLengthHistogram.maxVerseTokens">128</strong>
-              word-tokens (al-Baqarah 2:282).
-            </p>
-            <div id="lenHisto" style="margin-top: 0.5rem"></div>
-            <p class="prov">
-              <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
-              token-length of every verse (Leeds tokenization), grouped into
-              bands.
-            </p>
-            <h4 style="margin: 0.9rem 0 0.2rem; font-size: 0.85rem; color: var(--muted)">
-              Same bands, as a chart
-            </h4>
-            <div id="lenHistoSvg"></div>
+            <table class="data">
+              <thead>
+                <tr>
+                  <th>Period</th>
+                  <th class="count">Nouns</th>
+                  <th class="count">Verbs</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Early Meccan</td>
+                  <td class="count"><span data-num="posByPeriod.0.nounPct">35.5</span>%</td>
+                  <td class="count"><span data-num="posByPeriod.0.verbPct">24.9</span>%</td>
+                </tr>
+                <tr>
+                  <td>Middle Meccan</td>
+                  <td class="count"><span data-num="posByPeriod.1.nounPct">32.6</span>%</td>
+                  <td class="count"><span data-num="posByPeriod.1.verbPct">26.4</span>%</td>
+                </tr>
+                <tr>
+                  <td>Late Meccan</td>
+                  <td class="count"><span data-num="posByPeriod.2.nounPct">33</span>%</td>
+                  <td class="count"><span data-num="posByPeriod.2.verbPct">24.9</span>%</td>
+                </tr>
+                <tr>
+                  <td>Medinan</td>
+                  <td class="count"><span data-num="posByPeriod.3.nounPct">31.6</span>%</td>
+                  <td class="count"><span data-num="posByPeriod.3.verbPct">24.5</span>%</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Leeds corpus v0.4.</p>
+            <details class="method-note">
+              <summary>ℹ How this is computed</summary>
+              <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
+              exact counts of the Leeds N (noun) and V (verb) tags as a share
+              of all tokens, by Cairo 1924 period. Noun and verb are the two
+              unambiguous single tags; the remaining tokens are particles and
+              other function words, so no family taxonomy is asserted.</p>
+            </details>
           </div>
           <div class="card study-only">
             <h3>
@@ -678,12 +682,71 @@
                 >~</span
               >
             </div>
-            <p class="method-note" id="heatmapOrderNote" style="margin-top: 0.3rem" hidden>
+            <p class="caption-note" id="heatmapOrderNote" style="margin-top: 0.3rem" hidden>
               Revelation order follows Cairo 1924 revelation order
               (Nöldeke-Bell four-period classification), one chronology
               among several scholarly proposals.
             </p>
             <div id="heatmapChart" style="margin-top: 0.5rem"></div>
+          </div>
+          <div class="card encyclopedic-only">
+            <h3>Fawatih (opening particles)</h3>
+            <p>
+              29 surahs open with disconnected letters (<em>al-muqatta'at</em>).
+              14 unique letter combinations across these 29 surahs.
+            </p>
+            <details id="fawatihDetails" class="xref-panel">
+              <summary>List all 29</summary>
+              <div id="fawatihList" class="xref-list"></div>
+            </details>
+            <p class="prov"><span class="badge ok" data-source-ids="tanzil" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Tanzil.</p>
+            <details class="method-note">
+              <summary>ℹ How this is computed</summary>
+              <p><span class="badge ok" data-source-ids="tanzil" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> from Tanzil text.
+              <span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · counting method varies by source">~</span> on interpretation;
+              meaning is discussed across the tafsir tradition.
+              <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> The 29/14 count is computed directly from the bundled morphology, not asserted — see it listed above.</p>
+            </details>
+          </div>
+        </div>
+        <h3 class="numbers-section" id="num-periods">Across revelation</h3>
+        <p class="caption-note" style="margin-top: 0">How these measures shift across the four traditional revelation periods.</p>
+        <div class="grid">
+          <div class="card">
+            <h3>Verse length by band</h3>
+            <table class="data">
+              <thead>
+                <tr>
+                  <th>Band</th>
+                  <th>Avg. word-units/verse</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Early Meccan</td>
+                  <td class="count" data-num="verseLengthByPeriod.0.avgTokensPerVerse">4.5</td>
+                </tr>
+                <tr>
+                  <td>Middle Meccan</td>
+                  <td class="count" data-num="verseLengthByPeriod.1.avgTokensPerVerse">10.1</td>
+                </tr>
+                <tr>
+                  <td>Late Meccan</td>
+                  <td class="count" data-num="verseLengthByPeriod.2.avgTokensPerVerse">11.7</td>
+                </tr>
+                <tr>
+                  <td>Medinan</td>
+                  <td class="count" data-num="verseLengthByPeriod.3.avgTokensPerVerse">18.5</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Leeds corpus v0.4.</p>
+            <details class="method-note">
+              <summary>ℹ How this is computed</summary>
+              <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> from Leeds word counts +
+              Cairo 1924 chronological classification. The increasing-length
+              pattern across periods is widely observed in academic literature.</p>
+            </details>
           </div>
           <div class="card study-only">
             <h3>Vocabulary growth across revelation</h3>
@@ -696,42 +759,14 @@
               taper as the shared vocabulary saturates.
             </p>
             <div id="vocabGrowth" style="margin-top: 0.5rem"></div>
-            <p class="prov">
-              <span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
+            <p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Leeds corpus v0.4.</p>
+            <details class="method-note">
+              <summary>ℹ How this is computed</summary>
+              <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
               count of roots first appearing at each revelation-order step.
               Order is a convention; the curve describes the corpus, not a
-              claim about composition.
-            </p>
-          </div>
-          <div class="card study-only">
-            <h3>Where the rare words are</h3>
-            <p>
-              <strong data-num="hapaxLocalization.count">395</strong> roots occur
-              exactly once in the whole Qur'an, alongside
-              <strong data-num="hapax.lemmasOccurringOnce">1,994</strong> lemmas.
-              Each once-root's single verse is listed below.
-            </p>
-            <details id="hapaxDetails" class="xref-panel">
-              <summary>List the once-occurring roots</summary>
-              <div id="hapaxList" class="xref-list"></div>
+              claim about composition.</p>
             </details>
-            <p class="prov">
-              <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
-              roots with a corpus total of exactly one, with the verse of their
-              single occurrence.
-            </p>
-          </div>
-          <div class="card study-only">
-            <h3>Hapax legomena</h3>
-            <p>
-              <strong data-num="hapax.surfaceFormsOccurringOnce">12,004</strong> surface forms (out of <span data-num="hapax.uniqueSurfaceForms">18,993</span> unique forms)
-              occur exactly once. <strong data-num="hapax.rootsOccurringOnce">395</strong> roots (out of <span data-num="hapax.totalRoots">1,642</span>)
-              occur exactly once.
-            </p>
-            <p class="prov">
-              <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> from Leeds corpus word-form
-              and root counts.
-            </p>
           </div>
           <div class="card study-only">
             <h3>Roots unique to one period</h3>
@@ -740,31 +775,61 @@
               Medinan occurrences). <strong data-num="periodUniqueRoots.medinanOnly">198</strong> roots appear only in
               Medinan surahs.
             </p>
-            <p class="prov">
-              <span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> from Leeds + Cairo 1924
+            <p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Leeds corpus v0.4.</p>
+            <details class="method-note">
+              <summary>ℹ How this is computed</summary>
+              <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> from Leeds + Cairo 1924
               four-period classification.
               <span class="badge nuanced" data-source-ids="leeds-corpus-v0.4" aria-label="Nuanced" tabindex="0" title="Nuanced · counting method varies by source">~</span>: a handful of surahs
               have mixed-period classification in some traditions; the boundary
-              roots may shift by a few in other schemes.
-            </p>
+              roots may shift by a few in other schemes.</p>
+            </details>
           </div>
           <div class="card encyclopedic-only">
-            <h3>Fawatih (opening particles)</h3>
+            <h3>
+              Distinctive vocabulary by period (keyness, G2)
+              <span
+                class="badge nuanced"
+                data-source-ids="leeds-corpus-v0.4 cairo-1924"
+                aria-label="Nuanced"
+                tabindex="0"
+                title="Nuanced · periodization varies across scholarly chronologies"
+                >~</span
+              >
+            </h3>
             <p>
-              29 surahs open with disconnected letters (<em>al-muqatta'at</em>).
-              14 unique letter combinations across these 29 surahs.
+              Keyness (Dunning's G2) measures how distinctively a root's
+              token frequency in one revelation period differs from the
+              rest of the corpus. The top 15 roots by G2 are listed for
+              each of the four periods, by Cairo 1924 revelation order
+              (Nöldeke-Bell four-period classification). Periodization
+              varies across scholarly chronologies; treat these rankings as
+              Nuanced, not as a settled chronology.
             </p>
-            <details id="fawatihDetails" class="xref-panel">
-              <summary>List all 29</summary>
-              <div id="fawatihList" class="xref-list"></div>
+            <div id="keynessGrid" class="keyness-grid"></div>
+            <p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Leeds corpus v0.4.</p>
+            <details class="method-note">
+              <summary>ℹ How this is computed</summary>
+              <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
+              G2 computed from root token counts per period
+              (<code>data/roots-summary.json</code>) against period token
+              totals (<code>data/numbers.json</code>), by
+              <code>scripts/compute-association-stats.mjs</code>.
+              <span class="badge nuanced" data-source-ids="cairo-1924" aria-label="Nuanced" tabindex="0" title="Nuanced · periodization varies across scholarly chronologies">~</span>
+              on the period assignment itself (Cairo 1924 / Nöldeke-Bell).
+              Full root-frequency and keyness tables (CSV/JSON):
+              <a href="export.html">Export</a>.</p>
             </details>
-            <p class="prov">
-              <span class="badge ok" data-source-ids="tanzil" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> from Tanzil text.
-              <span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · counting method varies by source">~</span> on interpretation;
-              meaning is discussed across the tafsir tradition.
-              <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> The 29/14 count is computed directly from the bundled morphology, not asserted — see it listed above.
-            </p>
           </div>
+        </div>
+        <div class="card related-ribbon" aria-label="Continue exploring">
+          <h3>Explore further</h3>
+          <ul class="explore-links">
+            <li><a href="roots.html">See any of these roots in context on the Roots page →</a></li>
+            <li><a href="export.html">Download the tables behind this page (CSV/JSON): Export →</a></li>
+            <li><a href="coverage.html">How complete is the underlying data? Coverage →</a></li>
+            <li><a href="paths.html">Follow the guided path "Profile a surah before reading it" →</a></li>
+          </ul>
         </div>
       </section>
     </main>
@@ -873,31 +938,6 @@
 
           renderKeyness();
 
-          var histo = document.getElementById("lenHisto");
-          if (histo && data.verseLengthHistogram) {
-            var bins = data.verseLengthHistogram.bins || [];
-            var max = bins.reduce(function (m, b) {
-              return Math.max(m, b.count);
-            }, 1);
-            histo.innerHTML = bins
-              .map(function (b) {
-                var pct = Math.round((b.count / max) * 100);
-                return (
-                  '<div class="barwrap">' +
-                  '<span class="lbl">' +
-                  b.label +
-                  " word-units</span>" +
-                  '<div class="bar"><span style="width:' +
-                  pct +
-                  '%"></span></div>' +
-                  '<span class="lbl" style="min-width:3.5rem;text-align:right">' +
-                  b.count.toLocaleString("en-US") +
-                  "</span></div>"
-                );
-              })
-              .join("");
-          }
-
           renderVerseLengthSvg(data.verseLengthHistogram);
           loadAndRenderHeatmap();
 
@@ -997,11 +1037,11 @@
             });
         }
 
-        // SVG histogram of the same verse-length bands already shown as
-        // CSS bars above (#lenHisto); this does not replace that view,
-        // it adds an SVG rendering with its own table fallback and
-        // disclaimer, using the identical bin data from data/numbers.json
-        // (no new fetch: verseLengthHistogram is already loaded).
+        // SVG histogram of the verse-length bands, with its own table
+        // fallback and disclaimer, from data/numbers.json (no new fetch:
+        // verseLengthHistogram is already loaded). This used to coexist
+        // with a CSS-bar rendering of the identical bins; the duplicate
+        // was removed in the density cleanup.
         function renderVerseLengthSvg(hist) {
           var container = document.getElementById("lenHistoSvg");
           if (!container || !window.qdViz || !hist || !hist.bins || !hist.bins.length) return;

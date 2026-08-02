@@ -65,8 +65,15 @@
     // the reader changes verse/root/comparison.
     var url = btn.getAttribute("data-share-url") || location.href;
     var title = btn.getAttribute("data-share-title") || document.title;
+    // Optional human-readable label (e.g. "al-'Asr 103:1") that rides
+    // along in the native share sheet. The copy fallback stays
+    // URL-only: a pasted link should be a link.
+    var text = btn.getAttribute("data-share-text") || "";
     if (navigator.share) {
-      navigator.share({ title: title, url: url }).catch(function (e) {
+      var payload = text
+        ? { title: title, text: text, url: url }
+        : { title: title, url: url };
+      navigator.share(payload).catch(function (e) {
         // AbortError = user dismissed the sheet; anything else, fall back.
         if (e && e.name !== "AbortError") {
           copyText(url, function (ok) {
@@ -167,6 +174,15 @@
     if (!fab) return;
     if (url) fab.setAttribute("data-share-url", url);
     else fab.removeAttribute("data-share-url");
+  };
+
+  // Companion to qdSetShareUrl: a short human label ("al-'Asr 103:1")
+  // for the native share sheet. Pass null to clear.
+  window.qdSetShareText = function (text) {
+    var fab = document.querySelector(".share-fab");
+    if (!fab) return;
+    if (text) fab.setAttribute("data-share-text", text);
+    else fab.removeAttribute("data-share-text");
   };
 
   // iframe snippet for embed.html (the one page whose CSP allows

@@ -80,7 +80,7 @@
 [[headers]]
   for = "/"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-+UFhXny3gk/ReouifZ/sNyUKXZmIiGYjAiBqNpQpBDg=' 'sha256-OFqwrEm4kzfjn2rBjdzgsWKNYqnRFvifzuqXrHYbieE=' 'sha256-byRK4KdtrXGhCqRmPlVvuFhrbhDrZl+cTvhoCzgte4g=' 'sha256-/NO2aHlfHsXSUK6+nExrSaqOX6Uwo+Z313IjQ/KshCI='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-+UFhXny3gk/ReouifZ/sNyUKXZmIiGYjAiBqNpQpBDg=' 'sha256-byRK4KdtrXGhCqRmPlVvuFhrbhDrZl+cTvhoCzgte4g=' 'sha256-/NO2aHlfHsXSUK6+nExrSaqOX6Uwo+Z313IjQ/KshCI='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/about.html"
@@ -95,7 +95,7 @@
 [[headers]]
   for = "/dossier.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-Sh/bfqI4BwobkmzfFItTQ3UjZK0S2cs7yPWN8/TrHJA='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-Ue8aMZIUb5sQmmwFsjFp9JUwPNv3LdgNFkQiTpmQtg8='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-zAUmO+YlAJfwiXq7Pp3u5bRkrBfzka2SG0JxXRfeVTQ='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-Ue8aMZIUb5sQmmwFsjFp9JUwPNv3LdgNFkQiTpmQtg8='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/datasets.html"
@@ -120,7 +120,7 @@
 [[headers]]
   for = "/compare.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-czynFfP+5mGGrvRLuS/j2+K7x0ntyyllTx8ZixTJUtI=' 'sha256-1VE8V2iLRfP+tA10+975nmAFZBFrZKkB8++39FbYN6I=' 'sha256-F1KHn3vzezibMPxSPnh+ippD9COm/RGAJgYduKOtskY='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-+4lXLtwNVbBGls/tnK75n4wACMHaK5Rw6Gdj0DSh0Z4='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-ieIodfxWoCzJO2p4ydX2fTYnNhsAp9iagL9FlFHzT1w=' 'sha256-1VE8V2iLRfP+tA10+975nmAFZBFrZKkB8++39FbYN6I=' 'sha256-F1KHn3vzezibMPxSPnh+ippD9COm/RGAJgYduKOtskY='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-+4lXLtwNVbBGls/tnK75n4wACMHaK5Rw6Gdj0DSh0Z4='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/credits.html"
@@ -140,7 +140,7 @@
 [[headers]]
   for = "/exercise.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-pkK8c6hLQY91CZzzFNM2n+BX12VpFV5mynRu1HJKRQw='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-B4bX86l3suKSJnkc08eU7sfwA0wVpiLUs5uhmh50dS4='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/exercises.html"
@@ -165,7 +165,7 @@
 [[headers]]
   for = "/index.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-+UFhXny3gk/ReouifZ/sNyUKXZmIiGYjAiBqNpQpBDg=' 'sha256-OFqwrEm4kzfjn2rBjdzgsWKNYqnRFvifzuqXrHYbieE=' 'sha256-byRK4KdtrXGhCqRmPlVvuFhrbhDrZl+cTvhoCzgte4g=' 'sha256-/NO2aHlfHsXSUK6+nExrSaqOX6Uwo+Z313IjQ/KshCI='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-+UFhXny3gk/ReouifZ/sNyUKXZmIiGYjAiBqNpQpBDg=' 'sha256-byRK4KdtrXGhCqRmPlVvuFhrbhDrZl+cTvhoCzgte4g=' 'sha256-/NO2aHlfHsXSUK6+nExrSaqOX6Uwo+Z313IjQ/KshCI='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/navigate.html"
@@ -175,7 +175,7 @@
 [[headers]]
   for = "/numbers.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-dxKu/ADH5WpJn3YqJNeJ4VrEYfiZMFOMo0ZYMuJ3fWQ='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-h3jOdejXTkz5akoQJKLJl3g66+M4N8BXPY8ywUFbhi0='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-AUyupJxECCZ714m/usY0VMbq0tPVej7f208skGrl/50='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-h3jOdejXTkz5akoQJKLJl3g66+M4N8BXPY8ywUFbhi0='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/paths.html"
@@ -185,17 +185,17 @@
 [[headers]]
   for = "/patterns.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-XJcPFTGHa15xR4NfaHGrqTN8wO/BTS8iX2XqMlZbpi0='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-bcqJMfu+X2NAcRxxMeX21Ou591bQyL5NjvRPVAErqfk='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/read.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-khJUZulat+Y4YUjrzrzhJeXDHq34QC//kf00usTYLM4='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-KnLzSw85pU/ysZw8JT86XHp5KauE7imlVoF5T30cd+I='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud https://api.quran.com; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/roots.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-o18t4sNC9nysHpqHorSKMXbjkSkxdwbrRnX6B6APO3U='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-5wbfP53GFWSxZWwL3asnhg62OKhI0Edq2aFP2AmukLs='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-Gi5p/QTMyoJEZyK6jDzJwsIWl893A1sSEOdZ2X7P59k='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-5wbfP53GFWSxZWwL3asnhg62OKhI0Edq2aFP2AmukLs='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/sources.html"
@@ -205,7 +205,7 @@
 [[headers]]
   for = "/themes.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-eTRkWLcac5RMGHbmCEEsqXaHpLBk7iWkcGurPnTn6Ks='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-LQO2ZHLiAM709NEqnTmV2fxAVfu/2OMNL4nX2XookoU='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-+81bgF3z0jBWISLwGdpxPcaWQy454IjgE2zk4m24uLw='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-LQO2ZHLiAM709NEqnTmV2fxAVfu/2OMNL4nX2XookoU='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/validation.html"
@@ -215,7 +215,7 @@
 [[headers]]
   for = "/words.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-dGkkwWaUH0LfRaaTma2M5JUA88G/WhLojNQJBNViTKo=' 'sha256-L4V1MAq05yNnW65F+M4QqO2mrcU3jCzxLKtERpwxsJE='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-dGkkwWaUH0LfRaaTma2M5JUA88G/WhLojNQJBNViTKo=' 'sha256-VPnwvT0MTEcq4zeQVWWrPVsHYL+SaJz+E6uo1l6f8gY='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/replay.html"

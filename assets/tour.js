@@ -17,11 +17,11 @@
     },
     {
       sel: "#beginSection h2",
-      title: "Three ways in",
-      body: "Read to sit with the text, Study to follow a question, Verify to check the evidence behind any claim.",
+      title: "Ways into the text",
+      body: "Read to sit with the text, study a theme or a root to follow a question, or check the evidence behind any claim.",
     },
     {
-      sel: '[data-case-studies="home"] .badge',
+      sel: "#dailyProv .badge",
       title: "Every claim carries a label",
       body: "● Verified, ○ Pending, ~ Nuanced. Click any label anywhere to see the full citation of its source.",
     },
@@ -33,7 +33,7 @@
     {
       sel: ".settings .gear",
       title: "Depth and palette",
-      body: "The gear sets your depth (Simple / Study / Encyclopedic — or keys 1/2/3) and colors; translations and reciter are chosen on the Read page. Saved in this browser only.",
+      body: "The gear sets your depth (Simple / Study / Encyclopedic — or keys 1/2/3) and colors; translations and reciter are chosen on the Read page.",
     },
   ];
 
@@ -48,7 +48,17 @@
   } catch (e) {}
 
   function targetFor(i) {
-    return document.querySelector(STEPS[i].sel);
+    var el = document.querySelector(STEPS[i].sel);
+    if (!el) return null;
+    // A target inside a closed <details> has no box to highlight or
+    // scroll to; open its ancestors so the step can point at it (the
+    // "How we verify" examples live behind a disclosure).
+    var d = el.closest && el.closest("details");
+    while (d) {
+      if (!d.open) d.open = true;
+      d = d.parentElement && d.parentElement.closest("details");
+    }
+    return el.getClientRects().length ? el : null;
   }
 
   function clearHighlight() {
@@ -207,9 +217,8 @@
     // its interactive elements, so skip that for a returning reader
     // (nothing to wire on a banner that's staying hidden).
     if (window.qdState && window.qdState.seen) return;
-    // Any interaction counts as "seen": the newcomer path, a depth pick
-    // (if a page's banner carries the toggle — wired by app.js
-    // initInlineDepth), the tour, or dismissal.
+    // Any interaction counts as "seen": the newcomer path, the tour,
+    // or dismissal.
     var newHere = document.getElementById("welcomeNewHere");
     if (newHere)
       newHere.addEventListener("click", function () {
@@ -217,12 +226,6 @@
         // reader when they come back from the newcomer page.
         markSeen();
       });
-    banner.querySelectorAll(".depth-toggle button").forEach(function (b) {
-      b.addEventListener("click", function () {
-        markSeen();
-        hideBanner();
-      });
-    });
     var dismiss = document.getElementById("welcomeDismiss");
     if (dismiss)
       dismiss.addEventListener("click", function () {
@@ -245,6 +248,10 @@
       btn.textContent = "?";
       btn.addEventListener("click", startTour);
       settings.insertBefore(btn, settings.firstChild);
+      // Three stacked corner buttons (tour + share + gear) are taller
+      // than the default main padding; flag the page so CSS can clear
+      // them and the footer never sits underneath.
+      document.body.classList.add("has-tour-fab");
     }
   }
 

@@ -63,7 +63,6 @@
     reciter: "ar.husary",
     translations: TRANSLATIONS.filter((t) => t.default).map((t) => t.id),
     features: {
-      showRoots: true,
       showWords: true,
       showPatterns: true,
       showAudio: true,
@@ -117,6 +116,7 @@
     try {
       localStorage.removeItem("qd_state");
       localStorage.removeItem("qd_apicache");
+      localStorage.removeItem("qd_wbwcache");
       // Older builds mistakenly mirrored qd_state into sessionStorage;
       // sweep that up too so "clear" means clear.
       sessionStorage.removeItem("qd_state");
@@ -132,7 +132,6 @@
     state.reciter = "ar.husary";
     state.translations = TRANSLATIONS.filter((t) => t.default).map((t) => t.id);
     state.features = {
-      showRoots: true,
       showWords: true,
       showPatterns: true,
       showAudio: true,
@@ -196,10 +195,6 @@
         b.dataset.depth === state.depth ? "true" : "false",
       );
     });
-    const disp = document.getElementById("depthDisplay");
-    if (disp)
-      disp.textContent =
-        state.depth.charAt(0).toUpperCase() + state.depth.slice(1);
     const depthSel = document.getElementById("setDepth");
     if (depthSel) depthSel.value = state.depth;
     document.dispatchEvent(new CustomEvent("qd:depth-changed"));
@@ -232,20 +227,20 @@
     // covers cross-page presentation only.
     panel.innerHTML = `
       <h3>Display</h3>
-      <h4>Show features</h4>
-      <div class="check-list">
-        <label><input type="checkbox" data-feature="showRoots" ${state.features.showRoots ? "checked" : ""}> Root details</label>
-        <label><input type="checkbox" data-feature="showWords" ${state.features.showWords ? "checked" : ""}> Word-by-word</label>
-        <label><input type="checkbox" data-feature="showPatterns" ${state.features.showPatterns ? "checked" : ""}> Pattern indicators</label>
-        <label><input type="checkbox" data-feature="showAudio" ${state.features.showAudio ? "checked" : ""}> Audio player</label>
-        <label><input type="checkbox" data-feature="showTransliteration" ${state.features.showTransliteration ? "checked" : ""}> Transliteration</label>
-      </div>
-      <h4>Depth</h4>
+      <h4>Depth <span class="small" style="font-weight: 400">(keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>)</span></h4>
       <div class="row"><select id="setDepth" aria-label="Depth level">
         <option value="simple" ${state.depth === "simple" ? "selected" : ""}>Simple — just read</option>
         <option value="study" ${state.depth === "study" ? "selected" : ""}>Study — analyze</option>
         <option value="encyclopedic" ${state.depth === "encyclopedic" ? "selected" : ""}>Encyclopedic — verify</option>
       </select></div>
+      <h4>Show features</h4>
+      <div class="check-list">
+        <label><input type="checkbox" data-feature="showWords" ${state.features.showWords ? "checked" : ""}> Word-by-word breakdown</label>
+        <label><input type="checkbox" data-feature="showPatterns" ${state.features.showPatterns ? "checked" : ""}> Pattern notes</label>
+        <label><input type="checkbox" data-feature="showAudio" ${state.features.showAudio ? "checked" : ""}> Audio player</label>
+        <label><input type="checkbox" data-feature="showTransliteration" ${state.features.showTransliteration ? "checked" : ""}> Transliteration</label>
+      </div>
+      <p class="small">Feature choices apply on the Read page.</p>
       <h4>Palette</h4>
       <div class="row"><select id="setPalette" aria-label="Color palette">
         <option value="parchment" ${state.palette === "parchment" || !state.palette ? "selected" : ""}>Parchment</option>
@@ -324,8 +319,19 @@
     const btn = document.getElementById("gearBtn");
     const panel = document.getElementById("settingsPanel");
     if (!btn || !panel) return;
-    btn.addEventListener("click", () => {
-      const open = panel.hasAttribute("hidden");
+    // The gear glyph alone is not a discoverable label; give the button
+    // visible text (shown at wider widths via CSS) and a clearer name.
+    // Injected here rather than edited into 28 pages of markup.
+    if (!btn.querySelector(".gear-label")) {
+      const label = document.createElement("span");
+      label.className = "gear-label";
+      label.textContent = "Display";
+      btn.appendChild(label);
+      btn.setAttribute("aria-label", "Display settings");
+      btn.title = "Display settings";
+    }
+    const stack = btn.closest(".settings");
+    function setOpen(open) {
       if (open) {
         panel.removeAttribute("hidden");
         btn.setAttribute("aria-expanded", "true");
@@ -333,11 +339,16 @@
         panel.setAttribute("hidden", "");
         btn.setAttribute("aria-expanded", "false");
       }
+      // While the panel is open it covers the share/tour buttons that
+      // stack above the gear; hide them so nothing sits half-covered.
+      if (stack) stack.classList.toggle("panel-open", open);
+    }
+    btn.addEventListener("click", () => {
+      setOpen(panel.hasAttribute("hidden"));
     });
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && !panel.hasAttribute("hidden")) {
-        panel.setAttribute("hidden", "");
-        btn.setAttribute("aria-expanded", "false");
+        setOpen(false);
         btn.focus();
       }
       // While any dialog is open, depth hotkeys must not re-render the
@@ -464,8 +475,24 @@
   // state.translations corrupted into something non-iterable) escape as
   // an uncaught exception instead of a rejection — callers like
   // embed.js's bare `.then().catch(fail)` rely on rejection semantics.
-  window.qdFetchVerse = async function (surah, ayah) {
+  // The "Transliteration" display setting appends alquran.cloud's
+  // en.transliteration edition to the fetch, rendered like any other
+  // translation block. Kept out of state.translations so toggling it
+  // never edits the reader's saved translation choices.
+  function editionList() {
     const editions = ["quran-uthmani", ...state.translations];
+    if (
+      state.features &&
+      state.features.showTransliteration &&
+      !editions.includes("en.transliteration")
+    ) {
+      editions.push("en.transliteration");
+    }
+    return editions;
+  }
+
+  window.qdFetchVerse = async function (surah, ayah) {
+    const editions = editionList();
     const data = await apiCachedFetch(
       `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/editions/${editions.join(",")}`,
     );
@@ -473,7 +500,7 @@
   };
 
   window.qdFetchSurah = async function (surah) {
-    const editions = ["quran-uthmani", ...state.translations];
+    const editions = editionList();
     const data = await apiCachedFetch(
       `https://api.alquran.cloud/v1/surah/${surah}/editions/${editions.join(",")}`,
     );
@@ -482,7 +509,7 @@
 
   const TOOLTIPS = {
     "depth-simple":
-      "Shows verse text, translations, and audio. No morphology or annotations.",
+      "Shows verse text, word-by-word meanings, translations, and audio. No morphology tables or annotations.",
     "depth-study":
       "Adds word-by-word morphology, root links, and chronological period distribution.",
     "depth-encyclopedic":
@@ -627,6 +654,13 @@
     window.addEventListener(
       "scroll",
       () => {
+        // notebook.js (read/roots) pins its toggle to the same corner;
+        // shift this button up so the two never overlap. Checked at
+        // reveal time, not init, because notebook.js may run later.
+        btn.classList.toggle(
+          "back-to-top--offset",
+          !!document.querySelector(".notebook-toggle"),
+        );
         btn.hidden = window.scrollY < 600;
       },
       { passive: true },

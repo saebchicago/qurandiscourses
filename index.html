@@ -47,6 +47,7 @@
     />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <link
       rel="icon"
@@ -150,12 +151,11 @@
     <main id="main">
       <section class="research-hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow">A reader-led Qur'an research workspace</p>
           <h2 id="hero-title">Read a surah as one connected discourse.</h2>
           <p class="hero-lede">
-            Examine its words, recurrences, structure, and sources—then record
-            your own reading. The site orders evidence; interpretation remains
-            yours.
+            Open any surah with parallel translations, word-by-word meanings,
+            and audio. Add evidence layers when you want them, and keep your
+            own notes.
           </p>
           <div class="hero-actions">
             <a class="button hero-primary" href="read.html">Open a surah</a>
@@ -191,13 +191,6 @@
           </div>
           <div id="ask-feedback" class="ask-feedback" role="status" aria-live="polite"></div>
         </div>
-      </section>
-
-      <section class="trust-bar" aria-label="Research commitments">
-        <div><strong>Reader-led interpretation</strong><span>The evidence is ordered. The reading remains yours.</span></div>
-        <div><strong>Recomputable evidence</strong><span>Corpus data and deterministic scripts ship with the site.</span></div>
-        <div><strong>Visible limits</strong><span>Method dependencies and source uncertainties stay attached.</span></div>
-        <div><strong>Private by default</strong><span>Notes and progress remain in this browser.</span></div>
       </section>
 
       <section id="welcomeBanner" hidden>
@@ -345,7 +338,7 @@
             >
             <a id="dailyLensLink" class="button secondary" href="#">Learn more</a>
           </div>
-          <p id="dailyProv" class="method-note" style="min-height: 4.9em">
+          <p id="dailyProv" class="caption-note" style="min-height: 4.9em">
             Loading source citation…
           </p>
         </div>
@@ -354,8 +347,8 @@
       <section id="beginSection" class="workflow-section">
         <div class="section-heading">
           <p class="eyebrow">Choose the work, not a feature</p>
-          <h2>Four ways into the text</h2>
-          <p>Begin with a reading, a question, a pattern, or a claim you want to check.</p>
+          <h2>Ways into the text</h2>
+          <p>Begin with a reading, a question, a pattern, a claim you want to check, or a guided path.</p>
         </div>
         <div class="workflow-grid">
           <a class="workflow-card workflow-featured" href="read.html">
@@ -382,206 +375,19 @@
             <span class="workflow-desc">See the source check, reproduction method, dependencies, and known limits behind a published assertion.</span>
             <span class="workflow-link">Inspect claim provenance <span aria-hidden="true">→</span></span>
           </a>
+          <a class="workflow-card" href="paths.html">
+            <span class="workflow-number" aria-hidden="true">05</span>
+            <span class="workflow-title">Follow a guided path</span>
+            <span class="workflow-desc">Five walkthroughs chain the site's tools into a method, four steps each, with progress saved in this browser.</span>
+            <span class="workflow-link">Open the study paths <span aria-hidden="true">→</span></span>
+          </a>
         </div>
-      </section>
-
-      <section>
-        <h2>How we verify</h2>
-        <p>
-          Published research claims expose separate source, reproduction, and
-          dependency statuses—not one undifferentiated promise of certainty.
+        <p class="caption-note">
+          Every claim on this site carries a label you can open for its
+          source. How that works:
+          <a href="how-it-works.html">the method</a> ·
+          <a href="validation.html">worked examples</a>.
         </p>
-        <!-- Rendered from data/case-studies.json (single source of truth,
-             shared with validation.html); the markup below is the static
-             fallback if that fetch fails. Edit the JSON, not this HTML. -->
-        <div class="verify-block" data-case-studies="home">
-          <div class="verify-example">
-            <h3>
-              <span
-                class="badge ok"
-                data-source-ids="leeds-corpus-v0.4"
-                aria-label="Verified"
-                tabindex="0"
-                title="Verified · computed from the cited corpus"
-                >●</span
-              >
-              Verified
-            </h3>
-            <p class="claim">
-              The five most frequent roots in the Qur'an: a-l-h (God, 2,851),
-              q-w-l (say, 1,722), k-w-n (be, 1,390), r-b-b (Lord, 980), a-m-n
-              (believe, 879).
-            </p>
-            <p class="trace">
-              Traced to the Leeds Quranic Arabic Corpus (Dukes 2009–2017),
-              corpus.quran.com dictionary. Full table on
-              <a href="numbers.html">Numbers</a>.
-            </p>
-          </div>
-          <div class="verify-example">
-            <h3>
-              <span
-                class="badge ok"
-                data-source-ids="farahi-primary mir-coherence-1986"
-                aria-label="Verified"
-                tabindex="0"
-                title="Verified · corroborated by an independent secondary source"
-                >●</span
-              >
-              Verified
-            </h3>
-            <p class="claim">
-              Farahi's <em>Mufradat al-Qur'an</em> and <em>Niẓām al-Qur'an</em>
-              are foundational to the coherence-based reading school.
-            </p>
-            <p class="trace">
-              Independently corroborated by Mustansir Mir's 1986 monograph on
-              Islahi's nazm method. Full citations on
-              <a href="sources.html">Sources</a>.
-            </p>
-          </div>
-          <div class="verify-example">
-            <h3>
-              <span
-                class="badge nuanced"
-                data-source-ids="leeds-corpus-v0.4"
-                aria-label="Nuanced"
-                tabindex="0"
-                title="Nuanced · counting method varies by source"
-                >~</span
-              >
-              Nuanced
-            </h3>
-            <p class="claim">
-              Root y-w-m (day) occurs 405 times in the Leeds corpus. Widely
-              circulated totals such as 365 or 475 count selected surface or
-              compound forms instead; this site has not reproduced those totals.
-            </p>
-            <p class="trace">
-              Only the 405 root total is verified here. The other totals are
-              cautions about changing the unit of count, not endorsed findings. See
-              <a href="numbers.html">Numbers</a>.
-            </p>
-          </div>
-          <div class="verify-example">
-            <h3>
-              <span
-                class="badge ok"
-                data-source-ids="leeds-corpus-v0.4"
-                aria-label="Verified"
-                tabindex="0"
-                title="Verified · computed from the cited corpus"
-                >●</span
-              >
-              Verified
-            </h3>
-            <p class="claim">
-              Of every root it ever shares a verse with, r-ḥ-m (mercy) appears
-              most often beside gh-f-r (forgiveness) — together in 91 verses,
-              far ahead of any other pairing.
-            </p>
-            <p class="trace">
-              Counted from the bundled co-occurrence tables (Leeds v0.4); the
-              same pairing tops the list from gh-f-r's side too. Explore on
-              <a href="roots.html">Roots</a>.
-            </p>
-          </div>
-        </div>
-        <p>
-          Full method and prompts on
-          <a href="validation.html">Validation</a>.
-        </p>
-      </section>
-
-      <section>
-        <h2>Three depth levels</h2>
-        <div
-          style="
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-          "
-        >
-          <div class="card" style="margin: 0">
-            <strong
-              >Simple
-              <button
-                class="info-tip"
-                data-tip="depth-simple"
-                aria-label="More about Simple depth"
-              >
-                ?
-              </button></strong
-            >
-            <p style="margin: 0.25rem 0 0; font-size: 0.9rem">
-              Verse text, translations, audio. The reading layer.
-            </p>
-          </div>
-          <div class="card" style="margin: 0">
-            <strong
-              >Study
-              <button
-                class="info-tip"
-                data-tip="depth-study"
-                aria-label="More about Study depth"
-              >
-                ?
-              </button></strong
-            >
-            <p style="margin: 0.25rem 0 0; font-size: 0.9rem">
-              Adds word-by-word morphology, root links, related verses, and
-              period distribution. The analytical layer.
-            </p>
-          </div>
-          <div class="card" style="margin: 0">
-            <strong
-              >Encyclopedic
-              <button
-                class="info-tip"
-                data-tip="depth-encyclopedic"
-                aria-label="More about Encyclopedic depth"
-              >
-                ?
-              </button></strong
-            >
-            <p style="margin: 0.25rem 0 0; font-size: 0.9rem">
-              Adds structural pattern notes and full provenance. The reference
-              layer.
-            </p>
-          </div>
-        </div>
-        <p style="text-align: center; margin-top: 1.5rem">
-          <a href="how-it-works.html" style="font-weight: 500"
-            >Learn the method →</a
-          >
-        </p>
-      </section>
-
-      <section>
-        <h2>Purpose, audience, and scope</h2>
-        <div
-          class="intro-blocks"
-          style="display: grid; gap: 1.25rem; margin-bottom: 1rem"
-        >
-          <div>
-            <h3 style="margin: 0 0 0.35rem; font-size: 1.05rem">Purpose</h3>
-            <p style="margin: 0">
-              Divine Discourses is a tool for direct, evidence-based study of the
-              Qur'an. It surfaces roots, word morphology, structural patterns,
-              and cross-references with provenance attached to its research claims.
-            </p>
-          </div>
-          <div>
-            <h3 style="margin: 0 0 0.35rem; font-size: 1.05rem">
-              Who it is for
-            </h3>
-            <p style="margin: 0">
-              For readers who want to engage the text without an intermediary,
-              and for students who want claims they can trace.
-            </p>
-          </div>
-        </div>
       </section>
     </main>
     <footer class="site">
@@ -613,72 +419,6 @@
     </div>
     <script src="assets/surahs.js"></script>
     <script src="assets/ask.js"></script>
-    <script>
-      (function () {
-        var input = document.getElementById("ask-input");
-        var button = document.getElementById("ask-go");
-        var feedback = document.getElementById("ask-feedback");
-        var chips = document.querySelectorAll(".ask-chips .chip");
-
-        function go() {
-          var result = window.parseAsk(input.value);
-          if (result && result.route) {
-            window.location.href = result.route;
-          } else if (result && result.message) {
-            feedback.textContent = result.message;
-          } else {
-            feedback.textContent =
-              "Not recognized. Try a surah name (Fatihah or الفاتحة), a verse like 1:1 or ٢:٥, a root like r-h-m or رحم, or an English word.";
-          }
-        }
-
-        button.addEventListener("click", go);
-        input.addEventListener("keydown", function (e) {
-          if (e.key === "Enter") go();
-        });
-        chips.forEach(function (c) {
-          c.addEventListener("click", function () {
-            input.value = c.dataset.fill;
-            input.focus();
-            go();
-          });
-        });
-
-        var PLACEHOLDERS = ["Al-Fatihah", "2:255", "r-h-m", "mercy", "الفاتحة"];
-        var reduce = false;
-        try {
-          reduce =
-            window.matchMedia &&
-            window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        } catch (e) {
-          reduce = false;
-        }
-        var phIdx = 0;
-        var phTimer = null;
-        function setPh(i) {
-          input.setAttribute("placeholder", PLACEHOLDERS[i]);
-        }
-        function startRotation() {
-          if (reduce || phTimer) return;
-          phTimer = setInterval(function () {
-            phIdx = (phIdx + 1) % PLACEHOLDERS.length;
-            setPh(phIdx);
-          }, 4000);
-        }
-        function stopRotation() {
-          if (phTimer) {
-            clearInterval(phTimer);
-            phTimer = null;
-          }
-        }
-        setPh(0);
-        input.addEventListener("focus", stopRotation);
-        input.addEventListener("blur", function () {
-          if (!input.value) startRotation();
-        });
-        if (!reduce) startRotation();
-      })();
-    </script>
     <script src="assets/app.js"></script>
     <script src="assets/share.js" defer></script>
     <script src="assets/case-studies.js" defer></script>

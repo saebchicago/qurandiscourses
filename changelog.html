@@ -24,6 +24,7 @@
     />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <link
       rel="icon"
@@ -128,7 +129,7 @@
           Logged here as a record of accountability. Site maintainers commit to
           logging future corrections in the same place.
         </p>
-        <p class="method-note">
+        <p class="caption-note">
           Historical entries keep the vocabulary of their day — for example,
           the middle depth tier appears as "Scholar" in entries written
           before it was renamed "Study".
@@ -137,6 +138,98 @@
           <h3>2026</h3>
           <h4>August</h4>
           <ul>
+            <li>
+              <strong>A card per surah, an app that installs, and a
+              citation you can check.</strong> Sharing a surah or a
+              theme now unfurls with its own image — the surah's Arabic
+              name, verse count, and place in the revelation order, or
+              the theme's root families — instead of one image for the
+              whole site. Installing the site as an app gets three
+              shortcuts (Read a passage, Today's discourse, Browse
+              surahs) and a proper preview. Behind both: a new check
+              that confirms the word-by-word translator credit against
+              what the Quran.com endpoint actually serves, so that
+              citation stops resting on documentation and starts
+              resting on a response — it runs with the weekly citation
+              and edition checks, and stays quiet unless something
+              really changed.
+            </li>
+            <li>
+              <strong>One share button that always shares the right
+              thing.</strong> The floating share button now follows what
+              is on screen: a theme card on
+              <a href="themes.html">Themes</a> or a rendered
+              <a href="dossier.html">Dossier</a> hands out that entity's
+              link-preview page, so a pasted link unfurls with its own
+              title and description. The 33 per-card Share chips on
+              Themes are gone and the Embed chip moved to a study-only
+              row, so a theme card at Simple depth shows no buttons at
+              all. On <a href="read.html">Read</a>, each verse's
+              reference (103:1) is now itself a link to that verse —
+              right-click or long-press to copy — and the native share
+              sheet carries a readable label like "al-'Asr 103:1-3".
+              Citation popovers gain a "Copy citation" action, the
+              share button now also exists on
+              <a href="coverage.html">Coverage</a> and
+              <a href="export.html">Export</a>, and the link-preview
+              pages and site card were regenerated with fuller
+              metadata.
+            </li>
+            <li>
+              <strong>Word meanings in the text itself.</strong> The
+              <a href="read.html">Read</a> page now shows a published
+              word-by-word English meaning beneath every verse, at every
+              depth: the written word above its meaning, reading right to
+              left like the verse. The meanings are fetched per passage
+              from the Quran.com Foundation Content API and cached in your
+              browser only, the same way the verse translations already
+              worked; nothing is machine translated, no word-translation
+              text is stored in this repository, and the rights holders
+              are credited on <a href="sources.html">Sources</a>. The word
+              table's outbound dictionary links, which used to stand in
+              for a meaning the site could not show, are replaced by a
+              single link in the caption.
+            </li>
+            <li>
+              <strong>Pages about the text, not about the site.</strong> The
+              home page's explanations of how the site verifies itself, its
+              three depth levels, and its purpose all lived in full on the
+              method pages already, so they now live there only; what is
+              left is a reading path from the hero to today's discourse.
+              Provenance follows the same principle: a source badge already
+              opens its full citation and license, so each card now shows
+              the badge and a short source name, with the method sentences
+              one click away in a collapsed note. On a phone the Numbers
+              page sheds 250px of repeated citation prose.
+            </li>
+            <li>
+              <strong>Simplicity with avenues for depth.</strong> The
+              depth system now does what it promises. A saved depth
+              applies before first paint (no more flash of Simple), the
+              Simple/Study/Encyclopedic control sits at the top of
+              <a href="roots.html">Roots</a>,
+              <a href="numbers.html">Numbers</a>,
+              <a href="patterns.html">Patterns</a>,
+              <a href="dossier.html">Dossier</a>, and
+              <a href="themes.html">Themes</a> with its 1/2/3 keys
+              documented beside it, and the heaviest pages were
+              reorganized so Simple is genuinely simple: duplicate
+              renderings of the same data were merged behind view
+              toggles, statistical ledgers moved to Encyclopedic (their
+              cautions stay visible), and the self-study kit on Themes
+              is stated once instead of 33 times. Nobody arrives to
+              nothing: Roots and Dossier open on labeled examples,
+              Words gained one-tap example searches, Compare's examples
+              show at every depth, and the Ask box now also lives on
+              <a href="read.html">Read</a> and
+              <a href="how-to-use.html">How to use</a>. Statistical
+              labels lead with plain language ("Strength of evidence
+              (LLR)") with glossary definitions one tap away, Prev and
+              Next continue across surah boundaries, analysis pages end
+              with contextual "Explore further" links, and on phones
+              the floating buttons no longer overlap and navigation
+              targets keep a full tap size.
+            </li>
             <li>
               <strong>Open-source audit.</strong> A full-repository audit
               ahead of open-sourcing. Licensing: the LICENSE file now

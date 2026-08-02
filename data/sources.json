@@ -67,6 +67,17 @@
    "accessed": "2026-05-19"
   },
   {
+   "id": "qcf-wbw-en",
+   "author": "Quran.com Foundation",
+   "name": "English word-by-word translation served by the Quran.com Content API",
+   "edition": "API v4, runtime",
+   "year": "2025",
+   "url": "https://quran.com",
+   "license": "Copyright the translation's rights holders; fetched at runtime, rendered as served, never bundled in this repository",
+   "note": "Word meanings in the reading interlinear are fetched per passage from api.quran.com and cached only in the visitor's browser. The credit recorded here is the one the endpoint exposes for its English word-by-word layer; where the endpoint names an individual translator, that name replaces the Foundation credit.",
+   "accessed": "2026-08-02"
+  },
+  {
    "id": "alquran-cloud-api",
    "author": "Islamic Network",
    "name": "AlQuran.cloud API",

@@ -37,6 +37,11 @@
 //             regression test instead of a one-time audit
 //   firstvisit index.html with empty storage shows the first-visit
 //             flow without breaking overflow
+//   manifest  manifest.webmanifest's icons/screenshots exist at their
+//             declared pixel sizes and every shortcut url is in scope,
+//             resolves to a page, and (with a fragment) to a real id —
+//             the install surface no page renders, so nothing else
+//             would notice it rotting
 //
 // Still manual (§6.7 and friends): dark-mode visual review, focus-ring
 // aesthetics, audio playback, the netlify.toml §6.10 header checks on a
@@ -49,10 +54,11 @@
 //       [--shots]  dump palette×theme screenshots to /tmp
 // Exit: 0 all checks pass · 1 failures · 2 harness problem.
 
-import { createServer } from "node:http";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { dirname, extname, join, normalize } from "node:path";
+import { dirname, join } from "node:path";
+import { resolveChromium, launchOptions } from "./lib/playwright.mjs";
+import { startStaticServer } from "./lib/static-server.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
@@ -70,28 +76,7 @@ const PAGE_FILTER = (args.find((a) => a.startsWith("--page=")) || "").replace(
 const runCheck = (name) => !ONLY.length || ONLY.includes(name);
 
 // ── Playwright resolution (global install, no package.json) ─────────
-if (!process.env.PLAYWRIGHT_BROWSERS_PATH && existsSync("/opt/pw-browsers")) {
-  process.env.PLAYWRIGHT_BROWSERS_PATH = "/opt/pw-browsers";
-}
-let chromium;
-for (const spec of [
-  process.env.QD_PLAYWRIGHT,
-  "playwright",
-  "/opt/node22/lib/node_modules/playwright/index.mjs",
-].filter(Boolean)) {
-  try {
-    ({ chromium } = await import(spec));
-    break;
-  } catch (e) {}
-}
-if (!chromium) {
-  console.error(
-    "verify-site: cannot import playwright. Install it globally " +
-      "(npm i -g playwright && npx playwright install chromium) or point " +
-      "QD_PLAYWRIGHT at its index.mjs.",
-  );
-  process.exit(2);
-}
+const chromium = await resolveChromium("verify-site");
 
 // ── Results ─────────────────────────────────────────────────────────
 const results = [];
@@ -132,6 +117,77 @@ if (runCheck("sitemap") && !PAGE_FILTER) {
   }
 }
 
+// ── Web app manifest ────────────────────────────────────────────────
+// The install surface is the one part of the site no page renders, so
+// nothing else would notice a shortcut pointing at a deleted page, a
+// screenshot whose declared size stopped matching the file, or an icon
+// that never shipped — all of which silently degrade or reject the
+// install prompt rather than erroring.
+if (runCheck("manifest") && !PAGE_FILTER) {
+  const M = "manifest.webmanifest";
+  let man;
+  try {
+    man = JSON.parse(readFileSync(join(ROOT, M), "utf8"));
+  } catch (e) {
+    report("manifest", M, false, `unparseable: ${e.message}`);
+    man = null;
+  }
+  if (man) {
+    // PNG dimensions from the IHDR chunk: 8-byte signature, 4-byte
+    // length, 4-byte type, then width and height as big-endian uint32.
+    const pngSize = (rel) => {
+      const buf = readFileSync(join(ROOT, rel));
+      if (buf.length < 24 || buf.readUInt32BE(0) !== 0x89504e47) return null;
+      return `${buf.readUInt32BE(16)}x${buf.readUInt32BE(20)}`;
+    };
+    const images = [
+      ...(man.icons || []).map((i) => ({ ...i, kind: "icon" })),
+      ...(man.screenshots || []).map((s) => ({ ...s, kind: "screenshot" })),
+    ];
+    for (const img of images) {
+      if (!existsSync(join(ROOT, img.src))) {
+        report("manifest", M, false, `${img.kind} src has no file: ${img.src}`);
+        continue;
+      }
+      const real = pngSize(img.src);
+      if (img.sizes && real && img.sizes !== real) {
+        report(
+          "manifest",
+          M,
+          false,
+          `${img.kind} ${img.src} declares sizes="${img.sizes}" but the file is ${real}`,
+        );
+      }
+    }
+    const scope = man.scope || "/";
+    for (const sc of man.shortcuts || []) {
+      const url = sc.url || "";
+      if (!url.startsWith(scope)) {
+        report("manifest", M, false, `shortcut "${sc.name}" url ${url} is outside scope ${scope}`);
+        continue;
+      }
+      const file = url.replace(/[#?].*$/, "").replace(/^\//, "") || "index.html";
+      if (!existsSync(join(ROOT, file))) {
+        report("manifest", M, false, `shortcut "${sc.name}" points at a missing page: ${file}`);
+      }
+      // A fragment in a shortcut url must resolve, or the shortcut
+      // silently lands at the top of the page instead of the section.
+      const frag = (url.match(/#([^?]+)$/) || [])[1];
+      if (frag && !readFileSync(join(ROOT, file), "utf8").includes(`id="${frag}"`)) {
+        report("manifest", M, false, `shortcut "${sc.name}" fragment #${frag} has no id in ${file}`);
+      }
+    }
+    if (!results.some((r) => r.check === "manifest")) {
+      report(
+        "manifest",
+        M,
+        true,
+        `${images.length} images resolve at declared sizes, ${(man.shortcuts || []).length} shortcuts in scope`,
+      );
+    }
+  }
+}
+
 const testPages = PAGE_FILTER ? pages.filter((p) => p === PAGE_FILTER) : pages;
 if (!testPages.length) {
   console.error(`verify-site: no page matches --page=${PAGE_FILTER}`);
@@ -139,29 +195,7 @@ if (!testPages.length) {
 }
 
 // ── Static server ───────────────────────────────────────────────────
-const MIME = {
-  ".html": "text/html", ".css": "text/css", ".js": "text/javascript",
-  ".mjs": "text/javascript", ".json": "application/json",
-  ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg",
-  ".xml": "application/xml", ".txt": "text/plain", ".woff2": "font/woff2",
-  ".mp3": "audio/mpeg", ".mp4": "video/mp4", ".vtt": "text/vtt", ".ico": "image/x-icon",
-};
-const server = createServer((req, res) => {
-  try {
-    let path = decodeURIComponent(new URL(req.url, "http://x").pathname);
-    if (path.endsWith("/")) path += "index.html";
-    const file = normalize(join(ROOT, path));
-    if (!file.startsWith(ROOT)) throw new Error("traversal");
-    const body = readFileSync(file);
-    res.writeHead(200, { "Content-Type": MIME[extname(file)] || "application/octet-stream" });
-    res.end(body);
-  } catch (e) {
-    res.writeHead(404);
-    res.end("not found");
-  }
-});
-await new Promise((r) => server.listen(0, "127.0.0.1", r));
-const BASE = `http://127.0.0.1:${server.address().port}`;
+const { server, base: BASE } = await startStaticServer(ROOT);
 
 // ── Fixtures (alquran.cloud v1 shapes) with a hostile payload ───────
 const XSS = '<img src=x onerror="window.__xss=1">hostile';
@@ -195,16 +229,40 @@ function fixtureFor(url) {
       })),
     };
   }
+  // Quran.com v4 word-by-word shape (assets/wordbw.js). Includes an
+  // "end" pseudo-word (the ayah-number ornament) so the renderer's
+  // char_type_name filter is exercised, and a hostile translation
+  // string so the escaping path is regression-tested like every other
+  // external text on the site.
+  const wbw = url.match(/\/api\/v4\/verses\/by_chapter\/(\d+)\?/);
+  if (wbw) {
+    const n = parseInt(wbw[1], 10);
+    return {
+      verses: Array.from({ length: 3 }, (_, i) => ({
+        verse_key: `${n}:${i + 1}`,
+        words: [
+          {
+            char_type_name: "word",
+            text_uthmani: "كَلِمَة",
+            translation: { text: `FIXTURE ${XSS}` },
+          },
+          {
+            char_type_name: "word",
+            text_uthmani: "أُخْرَى",
+            translation: { text: "another" },
+          },
+          { char_type_name: "end", text_uthmani: `${i + 1}` },
+        ],
+      })),
+      pagination: { total_pages: 1 },
+    };
+  }
   return null;
 }
 
 // ── Browser plumbing ────────────────────────────────────────────────
-const browser = await chromium.launch(
-  existsSync("/opt/pw-browsers/chromium")
-    ? { executablePath: "/opt/pw-browsers/chromium" }
-    : {},
-);
-const BLOCKED_HOSTS = /api\.alquran\.cloud|cdn\.islamic\.network/;
+const browser = await chromium.launch(launchOptions());
+const BLOCKED_HOSTS = /api\.alquran\.cloud|cdn\.islamic\.network|api\.quran\.com/;
 
 async function newContext({ apiMode = "abort", seenState = true } = {}) {
   // Blocked, not just ignored: sw.js (introduced alongside this option)
@@ -257,6 +315,10 @@ const VIEWPORTS = [
   { name: "1280px", width: 1280, height: 800 },
 ];
 const KEYBOARD_PAGES = new Set(["index.html", "read.html"]);
+// Pages whose citation popover is exercised by a targeted check further
+// down rather than by the generic per-page sweep, because their badges
+// only render after an interaction or a deep link.
+const DEDICATED_POPOVER_CHECK = new Set(["compare.html"]);
 const linkStatus = new Map(); // resolved URL -> status (crawl cache)
 
 const ctx = await newContext();
@@ -369,7 +431,11 @@ for (const pageFile of testPages) {
       page.locator(".cite-popover")
         .waitFor({ state: "detached", timeout: 3000 })
         .then(() => true, () => false);
-    const badge = page.locator(".badge[data-source-ids]").first();
+    // The first VISIBLE cited badge, not simply the first in DOM order:
+    // a page whose first badge sits inside a closed disclosure, a depth
+    // gate, or a panel that appears only after a selection would
+    // otherwise skip this regression entirely.
+    const badge = page.locator(".badge[data-source-ids]:visible").first();
     if ((await badge.count()) > 0 && (await badge.isVisible())) {
       await badge.click();
       const openByMouse = await popShown();
@@ -390,6 +456,21 @@ for (const pageFile of testPages) {
         "badge-popover", pageFile, ok,
         ok ? "opens by mouse/Enter/Space, Escape closes"
            : `mouse=${openByMouse} esc=${closedByEsc} enter=${openByEnter} space=${openBySpace}`,
+      );
+    } else if (
+      (await page.locator(".badge[data-source-ids]").count()) > 0 &&
+      !DEDICATED_POPOVER_CHECK.has(pageFile)
+    ) {
+      // The page cites sources but none of its badges is visible in
+      // this state, so the interaction above cannot run. Say so rather
+      // than skipping silently: an untested popover reads like a
+      // passing one in the summary line. Pages listed in
+      // DEDICATED_POPOVER_CHECK are exempt because a targeted check
+      // below exercises them in a state where badges do render.
+      report(
+        "badge-popover", pageFile, false,
+        "no source badge visible in the default state; popover interaction untested on this page",
+        true,
       );
     }
   }
@@ -525,6 +606,86 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
     report("read-stubbed-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
     await rctx.close();
   }
+  {
+    // Word-by-word meanings (assets/wordbw.js): renders at the default
+    // Simple depth, escapes the API's text like every other external
+    // string, and drops the "end" ayah-marker pseudo-word.
+    const rctx = await newContext({ apiMode: "stub" });
+    const page = await rctx.newPage();
+    const errors = [];
+    attachConsoleCollector(page, errors);
+    await page.goto(`${BASE}/read.html?s=103&a=1-3`, { waitUntil: "load" });
+    await page.waitForSelector(".wbw-strip .wbw-en", { timeout: 15000 }).catch(() => {});
+    const state = await page.evaluate(() => {
+      const strips = [...document.querySelectorAll(".wbw-strip")];
+      const shown = strips.filter((el) => el.offsetParent !== null);
+      const words = [...document.querySelectorAll(".wbw-strip .wbw-word")];
+      return {
+        depth: document.documentElement.getAttribute("data-depth"),
+        shown: shown.length,
+        words: words.length,
+        endMarker: words.some((w) => /^\d+$/.test(w.textContent.trim())),
+        xss: window.__xss,
+        injectedImg: !!document.querySelector('.wbw-strip img[src="x"]'),
+        payloadAsText: (document.querySelector(".wbw-en") || {}).textContent?.includes("hostile"),
+        cite: !!document.querySelector('.wbw-strip .badge[data-source-ids="qcf-wbw-en"]'),
+      };
+    });
+    const ok =
+      state.depth === "simple" &&
+      state.shown === 3 &&
+      state.words === 6 &&
+      !state.endMarker &&
+      state.cite;
+    report("read-wbw", "read.html", ok, `depth=${state.depth} strips=${state.shown} words=${state.words} endMarkerRendered=${state.endMarker} cited=${state.cite}`);
+    const inert = state.xss === undefined && !state.injectedImg && state.payloadAsText === true;
+    report("read-wbw-xss", "read.html", inert, `__xss=${state.xss} injectedImg=${state.injectedImg} payloadShownAsText=${state.payloadAsText}`);
+    report("read-wbw-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+    await rctx.close();
+  }
+}
+
+// ── compare.html: citation popover in a populated state ─────────────
+// The page renders no provenance until a comparison runs, so the
+// per-page sweep above finds no visible badge and reports that the
+// popover is untested. Drive it with its own ?roots= deep link and
+// run the interaction there, so this page is covered like the rest.
+if (runCheck("comparepopover") && (!PAGE_FILTER || PAGE_FILTER === "compare.html")) {
+  const cctx = await newContext();
+  const page = await cctx.newPage();
+  const errors = [];
+  attachConsoleCollector(page, errors);
+  await page.goto(`${BASE}/compare.html?roots=rHm,gfr`, { waitUntil: "load" });
+  await page
+    .locator(".badge[data-source-ids]:visible")
+    .first()
+    .waitFor({ state: "visible", timeout: 15000 })
+    .catch(() => {});
+  const badge = page.locator(".badge[data-source-ids]:visible").first();
+  if ((await badge.count()) > 0) {
+    const popShown = () =>
+      page.locator(".cite-popover").waitFor({ state: "visible", timeout: 3000 }).then(() => true, () => false);
+    const popGone = () =>
+      page.locator(".cite-popover").waitFor({ state: "detached", timeout: 3000 }).then(() => true, () => false);
+    await badge.click();
+    const openByMouse = await popShown();
+    await page.keyboard.press("Escape");
+    const closedByEsc = await popGone();
+    await badge.focus();
+    await page.keyboard.press("Enter");
+    const openByEnter = await popShown();
+    await page.keyboard.press("Escape");
+    await popGone();
+    const ok = openByMouse && closedByEsc && openByEnter;
+    report(
+      "compare-popover", "compare.html", ok,
+      ok ? "opens by mouse/Enter, Escape closes (via ?roots= deep link)"
+         : `mouse=${openByMouse} esc=${closedByEsc} enter=${openByEnter}`,
+    );
+  } else {
+    report("compare-popover", "compare.html", false, "?roots= deep link rendered no cited badge");
+  }
+  await cctx.close();
 }
 
 // ── First visit (empty storage) ─────────────────────────────────────

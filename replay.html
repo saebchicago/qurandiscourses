@@ -24,6 +24,7 @@
     />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <link
       rel="icon"
@@ -112,7 +113,7 @@
             🎤 <span id="reciterName"></span>
           </button>
         </div>
-        <p class="method-note" id="replayMethodNote">
+        <p class="caption-note" id="replayMethodNote">
           Highlighted words are computed recurrence — a root appearing two or
           more times in this surah, per the Leeds corpus. Recurrence and
           distribution do not by themselves establish meaning; the reading is
@@ -138,14 +139,23 @@
           <button type="button" id="btnRestart" aria-label="Restart from verse 1">⟲</button>
           <span class="replay-pos" id="posLabel"></span>
         </div>
-        <p id="audioNote" class="method-note" hidden>
+        <p id="audioNote" class="caption-note" hidden>
           Audio unavailable — step through the surah manually with the ‹ ›
           buttons or arrow keys; the highlighting still works.
         </p>
       </section>
 
-      <p class="prov" id="replayProv">
-        <span
+      <p class="prov" id="replayProv"><span
+          class="badge ok"
+          data-source-ids="leeds-corpus-v0.4"
+          aria-label="Verified"
+          tabindex="0"
+          title="Verified · Leeds Quranic Arabic Corpus v0.4"
+          >●</span
+        > Leeds corpus v0.4.</p>
+      <details class="method-note">
+        <summary>ℹ How this is computed</summary>
+        <p><span
           class="badge ok"
           data-source-ids="leeds-corpus-v0.4"
           aria-label="Verified"
@@ -173,8 +183,8 @@
             >●</span
           >
           <span id="outlineProvText"></span>
-        </span>
-      </p>
+        </span></p>
+      </details>
     </main>
     <footer class="site">
       <p>Divine Discourses — toward direct engagement with the Qur'an.</p>

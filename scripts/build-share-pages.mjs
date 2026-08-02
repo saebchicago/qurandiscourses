@@ -13,15 +13,16 @@
 //
 // Share pages are noindex and deliberately NOT in sitemap.xml (1,789
 // thin near-duplicates would hurt search, and noindex requires
-// crawlability, so robots.txt must not Disallow /s/ either). The share
-// buttons on roots/themes/read hand out these URLs (share.js
-// qdSetShareUrl).
+// crawlability, so robots.txt must not Disallow /s/ either). The
+// floating share button hands out these URLs (share.js qdSetShareUrl,
+// called by roots/themes/read/dossier when an entity is on screen).
 //
 // Run: node scripts/build-share-pages.mjs
 // Determinism check: run twice, `git diff` must be empty. Stale files
 // from renamed/removed entities are pruned.
 
 import {
+  existsSync,
   readFileSync,
   writeFileSync,
   mkdirSync,
@@ -31,10 +32,27 @@ import {
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { safeKey } from "./lib/safe-key.mjs";
+import { ordinal } from "./lib/ordinal.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://qurandiscourse.netlify.app";
 const OG_IMG = `${SITE}/assets/og/site-og.png`;
+const OG_ALT =
+  "Divine Discourses — Qur'an study, every claim traceable to its source";
+
+// Per-entity social cards (scripts/build-og-images.mjs) when they have
+// been generated, the site-wide card otherwise. Checking the file
+// rather than assuming it lets anyone regenerate these pages from a
+// fresh clone without running the image step, and makes a deleted card
+// degrade instead of 404ing in someone's link preview.
+let entityCards = 0;
+function ogFor(relPath, alt) {
+  if (relPath && existsSync(join(ROOT, relPath))) {
+    entityCards++;
+    return { url: `${SITE}/${relPath}`, alt };
+  }
+  return { url: OG_IMG, alt: OG_ALT };
+}
 
 const read = (p) => JSON.parse(readFileSync(join(ROOT, p), "utf8"));
 const rootsSummary = read("data/roots-summary.json");
@@ -50,7 +68,7 @@ const esc = (v) =>
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 
-function page({ path, title, description, target }) {
+function page({ path, title, description, target, og }) {
   // og:url points at the share page itself so platforms that re-fetch
   // og:url still land on the entity-specific tags; the redirect is for
   // humans only.
@@ -69,10 +87,13 @@ function page({ path, title, description, target }) {
     <meta property="og:title" content="${esc(title)}" />
     <meta property="og:description" content="${esc(description)}" />
     <meta property="og:url" content="${esc(url)}" />
-    <meta property="og:image" content="${OG_IMG}" />
+    <meta property="og:image" content="${og.url}" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="${esc(og.alt)}" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="${esc(title)}" />
+    <meta name="twitter:description" content="${esc(description)}" />
     <meta http-equiv="refresh" content="0; url=${esc(target)}" />
   </head>
   <body>
@@ -101,6 +122,10 @@ for (const bw of Object.keys(rootsSummary).sort()) {
       path: `s/root/${sk}.html`,
       title: `Root ${r.rootLatin} (${r.rootArabic}) · Divine Discourses`,
       description,
+      // Roots deliberately keep the site card: 1,642 generated PNGs
+      // would be indefensible repo weight for the least-shared tail,
+      // and the title above already names the root.
+      og: ogFor(null),
       target: `../../roots.html?root=${sk}`,
     }),
   );
@@ -118,6 +143,10 @@ for (const t of themes.slice().sort((a, b) => a.slug.localeCompare(b.slug))) {
       path: `s/theme/${t.slug}.html`,
       title: `${t.title} · Divine Discourses`,
       description,
+      og: ogFor(
+        `assets/og/theme/${t.slug}.png`,
+        `${t.title} — a theme gateway on Divine Discourses`,
+      ),
       target: `../../themes.html#${t.slug}`,
     }),
   );
@@ -139,6 +168,10 @@ for (let n = 1; n <= 114; n++) {
       path: `s/surah/${n}.html`,
       title: `${nm.translit} (${nm.ar}) · Divine Discourses`,
       description,
+      og: ogFor(
+        `assets/og/surah/${n}.png`,
+        `Surah ${n}, ${nm.translit} — ${p.verseCount} verses, ${cls}`,
+      ),
       // The dossier IS the surah's profile page — the share description
       // above already reads like its teaser, and the dossier's first
       // action is "Read this surah", so nothing is lost for a reader
@@ -146,12 +179,6 @@ for (let n = 1; n <= 114; n++) {
       target: `../../dossier.html?s=${n}`,
     }),
   );
-}
-
-function ordinal(n) {
-  const s = ["th", "st", "nd", "rd"],
-    v = n % 100;
-  return n + (s[(v - 20) % 10] || s[v] || s[0]);
 }
 
 // ── Write + prune ───────────────────────────────────────────────────
@@ -173,4 +200,7 @@ for (const dir of ["s/root", "s/theme", "s/surah"]) {
     }
   }
 }
-console.log(`Share pages: ${written} written (${pruned} stale pruned)`);
+console.log(
+  `Share pages: ${written} written (${pruned} stale pruned) — ` +
+    `${entityCards} with an entity card, ${written - entityCards} with the site card`,
+);

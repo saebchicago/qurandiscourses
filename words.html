@@ -24,6 +24,7 @@
     />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <link
       rel="icon"
@@ -127,6 +128,23 @@
             />
           </p>
           <p
+            class="ask-chips"
+            style="margin: 0.2rem 0 0.4rem"
+            aria-label="Example searches"
+          >
+            <button type="button" class="chip" data-word-fill="r-h-m">
+              r-h-m
+            </button>
+            <button type="button" class="chip" data-word-fill="سلم">
+              <span class="ar notranslate" translate="no" lang="ar" dir="rtl"
+                >سلم</span
+              >
+            </button>
+            <button type="button" class="chip" data-word-fill="sabr">
+              sabr
+            </button>
+          </p>
+          <p
             id="wordCount"
             style="font-size: 0.85rem; color: var(--muted); margin: 0.2rem 0"
           ></p>
@@ -149,8 +167,17 @@
           <button id="wordMore" class="button" hidden style="margin-top: 0.4rem">
             Show more
           </button>
-          <p class="prov">
-            <span
+          <p class="prov"><span
+              class="badge ok"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · Leeds Quranic Arabic Corpus v0.4"
+              >●</span
+            > Leeds corpus v0.4.</p>
+          <details class="method-note">
+            <summary>ℹ How this is computed</summary>
+            <p><span
               class="badge ok"
               data-source-ids="leeds-corpus-v0.4"
               aria-label="Verified"
@@ -158,11 +185,18 @@
               title="Verified · Leeds Quranic Arabic Corpus v0.4"
               >●</span
             >
-            <span data-num="totals.lemmas">4,832</span> lemmas computed from the Leeds Quranic Arabic Corpus v0.4.
-            The Meaning column stays empty until a licensed word-by-word
-            gloss dataset is committed (owner-gated — see Sources); until
-            then each row links to the corpus dictionary instead.
-          </p>
+            <span data-num="totals.lemmas">4,832</span> lemmas, Leeds corpus v0.4.
+            Meanings are published glosses where available; ~ marks an
+            editorial orientation gloss for the root. Word-by-word
+            meanings in context appear under each verse on the
+            <a href="read.html">Read page</a>. Dictionary entries:
+            <a
+              href="https://corpus.quran.com/qurandictionary.jsp"
+              target="_blank"
+              rel="noopener"
+              >corpus.quran.com</a
+            >.</p>
+          </details>
         </div>
         <div class="card">
           <h3>What word-by-word reveals</h3>
@@ -300,12 +334,14 @@
             </tbody>
           </table>
           </div>
-          <p class="prov">
-            <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> morphology and roots from
+          <p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Leeds corpus v0.4.</p>
+          <details class="method-note">
+            <summary>ℹ How this is computed</summary>
+            <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> morphology and roots from
             Leeds Quranic Arabic Corpus v0.4 (Dukes 2009–2017). Word-by-word
             breakdown for every verse is available on the
-            <a href="read.html">Read page</a> at Study depth.
-          </p>
+            <a href="read.html">Read page</a> at Study depth.</p>
+          </details>
         </div>
         <div class="card study-only">
           <h3>On al-Rahman and al-Rahim</h3>
@@ -317,11 +353,7 @@
             directed toward the believers in the next life. The pairing in 1:1
             binds these two facets.
           </p>
-          <p class="prov">
-            <span class="badge ok" data-source-ids="tabari-jami zamakhshari-kashshaf ibn-kathir-tafsir abdel-haleem-1999" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> reading found in al-Tabari,
-            al-Zamakhshari, Ibn Kathir, and modern scholarship including Abdel
-            Haleem.
-          </p>
+          <p class="prov"><span class="badge ok" data-source-ids="tabari-jami zamakhshari-kashshaf ibn-kathir-tafsir abdel-haleem-1999" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Classical tafsir.</p>
         </div>
         <!-- Rendered only when data/gloss/ carries at least one surah
              (owner-gated licensed dataset — see the maintainer guide).
@@ -331,6 +363,14 @@
           <h3 id="liveGlossTitle">Live example with glosses</h3>
           <div id="liveGlossTable"></div>
           <p class="prov" id="liveGlossProv"></p>
+        </div>
+        <div class="card related-ribbon" aria-label="Continue exploring">
+          <h3>Explore further</h3>
+          <ul class="explore-links">
+            <li><a href="roots.html">Trace a word family by its root on the Roots page →</a></li>
+            <li><a href="read.html">See any word in its verse on the Read page →</a></li>
+            <li><a href="paths.html">Follow the guided path "Follow a root through the Qur'an" →</a></li>
+          </ul>
         </div>
       </section>
     </main>
@@ -362,6 +402,7 @@
       ></div>
     </div>
     <script src="assets/app.js"></script>
+    <script src="assets/root-meanings.js"></script>
     <script src="assets/share.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
@@ -535,12 +576,20 @@
               qdEsc(e.rl || e.r) +
               "</a>"
             : '<span style="color:var(--muted)">—</span>';
+          // Published gloss first, then the root's editorial
+          // orientation gloss (marked ~, never a dictionary
+          // definition), then nothing. One dictionary link lives in
+          // the caption below rather than on every row.
+          var rootGloss =
+            !e.g.length && e.r && window.ROOT_MEANINGS
+              ? window.ROOT_MEANINGS[e.r]
+              : null;
           var meaning = e.g.length
             ? qdEsc(e.g.join("; "))
-            : e.r
-              ? '<a href="https://corpus.quran.com/qurandictionary.jsp?q=' +
-                encodeURIComponent(e.r) +
-                '" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:underline dotted;text-underline-offset:3px">look up →</a>'
+            : rootGloss
+              ? '<span style="color:var(--muted)" title="Editorial orientation gloss for the root, not a dictionary quotation">~ ' +
+                qdEsc(rootGloss) +
+                "</span>"
               : '<span style="color:var(--muted)">—</span>';
           var refs = e.refs
             .slice(0, 3)
@@ -754,6 +803,16 @@
           countEl.textContent = "Loading index…";
           loadIndex().then(render, function () {
             countEl.textContent = "Could not load the word index.";
+          });
+        });
+
+        // Example chips: fill the box and run the same search path, so
+        // a cold arrival can see results in one tap.
+        document.querySelectorAll("[data-word-fill]").forEach(function (c) {
+          c.addEventListener("click", function () {
+            input.value = c.getAttribute("data-word-fill");
+            input.focus();
+            input.dispatchEvent(new Event("input"));
           });
         });
 
