@@ -128,6 +128,18 @@
             >Keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></span
           >
         </div>
+        <!-- Click-first entry. assets/picker.js unhides this and wires
+             it up; with JavaScript off it stays hidden and the typed
+             form below is the whole interface, exactly as before. -->
+        <div class="card" id="pickerEntry" hidden>
+          <div class="picker-entry-row">
+            <button type="button" class="button btn-primary" id="openPicker">
+              Choose a surah
+            </button>
+            <p class="picker-entry-current t-annotation" id="pickerCurrent"></p>
+          </div>
+          <div id="pickerRange"></div>
+        </div>
         <div class="card">
           <div
             style="
@@ -1506,6 +1518,8 @@
         document.addEventListener("qd:features-changed", reloadIfLoaded);
       }
     </script>
+    <script src="assets/picker.js" defer></script>
+    <script src="assets/read-picker.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
     <script src="assets/notebook.js" defer></script>

@@ -3382,3 +3382,20 @@ html[data-focus] .ar.xl {
     grid-column: 2;
   }
 }
+
+/* Read page: the click-first entry that sits above the typed form. */
+.picker-entry-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+}
+.picker-entry-current {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+#pickerRange {
+  margin-top: 0.9rem;
+}
