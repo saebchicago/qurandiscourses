@@ -328,20 +328,30 @@ nav.primary .nav-group-btn {
   cursor: pointer;
   transition: all 0.15s ease;
 }
+/* The disclosure marker is drawn here, so the default triangle that
+   browsers put on <summary> has to go (WebKit needs its own pseudo). */
+nav.primary .nav-group-btn {
+  list-style: none;
+}
+nav.primary .nav-group-btn::-webkit-details-marker {
+  display: none;
+}
 nav.primary .nav-group-btn::after {
   content: "▾";
   font-size: 0.7rem;
   color: var(--muted);
   transition: transform 0.15s ease;
 }
+/* Border only, no lift: these chips wrap onto two rows at 375px, and
+   nudging one up by a pixel reflows the row, which slides the chip out
+   from under the pointer and drops it back again. */
 nav.primary .nav-group-btn:hover {
   border-color: var(--accent);
-  transform: translateY(-1px);
 }
-nav.primary .nav-group-btn[aria-expanded="true"] {
+nav.primary .nav-details[open] > .nav-group-btn {
   border-color: var(--accent);
 }
-nav.primary .nav-group-btn[aria-expanded="true"]::after {
+nav.primary .nav-details[open] > .nav-group-btn::after {
   transform: rotate(180deg);
 }
 nav.primary .nav-group[data-current="true"] > .nav-group-btn {
@@ -381,7 +391,10 @@ nav.primary .nav-menu a[aria-current="page"] {
   color: var(--accent);
   font-weight: 600;
 }
-html.js-nav nav.primary .nav-menu {
+/* The open panel. <details> hides the closed state itself, so this
+   needs no [hidden] companion and no script: the dropdown is CSS
+   only, which is what lets the nav work with JavaScript off. */
+nav.primary .nav-menu {
   position: absolute;
   top: calc(100% + 4px);
   left: 50%;
@@ -393,108 +406,33 @@ html.js-nav nav.primary .nav-menu {
   box-shadow: var(--shadow-lg);
   z-index: 30;
 }
-html.js-nav nav.primary .nav-menu[hidden] {
-  display: none;
-}
-nav.primary .nav-toggle {
-  display: none;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.4rem 0.85rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--bg);
-  font: inherit;
-  font-size: 0.85rem;
-  color: var(--ink);
-  min-height: 44px;
-  cursor: pointer;
-}
-nav.primary .nav-toggle-icon {
-  position: relative;
-  display: inline-block;
-  width: 18px;
-  height: 13px;
-}
-nav.primary .nav-toggle-icon::before,
-nav.primary .nav-toggle-icon::after,
-nav.primary .nav-toggle-icon-bar {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: currentColor;
-  transition:
-    transform 0.15s ease,
-    opacity 0.15s ease;
-}
-nav.primary .nav-toggle-icon::before {
-  top: 0;
-}
-nav.primary .nav-toggle-icon-bar {
-  top: 5.5px;
-}
-nav.primary .nav-toggle-icon::after {
-  bottom: 0;
-}
-nav.primary .nav-toggle.is-open .nav-toggle-icon::before {
-  top: 5.5px;
-  transform: rotate(45deg);
-}
-nav.primary .nav-toggle.is-open .nav-toggle-icon-bar {
-  opacity: 0;
-}
-nav.primary .nav-toggle.is-open .nav-toggle-icon::after {
-  bottom: 5.5px;
-  transform: rotate(-45deg);
-}
 @media (max-width: 768px) {
   nav.primary {
     flex-wrap: wrap;
   }
-  /* Reserve the hydrated height before nav.js injects the Menu toggle
-     on DOMContentLoaded: pre-hydration the nav is empty at this width
-     (.nav-groups is display:none below, toggle not yet in the DOM), so
-     without this the whole page jumps ~44px when the toggle lands —
-     a measured layout shift on every page, and a race against first
-     paint. js-nav is set synchronously in <head>, so this applies from
-     the first frame. 44px toggle + 2 × 0.6rem nav padding. */
-  html.js-nav nav.primary {
-    min-height: calc(44px + 1.2rem);
-    box-sizing: border-box;
-  }
-  nav.primary .nav-toggle {
-    display: inline-flex;
-  }
+  /* No hamburger here. The five group chips wrap to about two rows at
+     375px and stay visible with no script, which is what a JS-off
+     visitor needs; the previous build hid .nav-groups at this width
+     and relied on a toggle that nav.js injected at runtime, so with
+     JavaScript disabled there was no navigation at all. Nothing is
+     injected now, so there is also no hydration layout shift to
+     reserve height against. */
   nav.primary .nav-groups {
-    display: none;
-    width: 100%;
-    flex-direction: column;
-    align-items: stretch;
     gap: 0.3rem;
-    margin-top: 0.6rem;
   }
-  nav.primary .nav-groups.is-open {
-    display: flex;
-  }
+  /* Anchor the open panel to the nav bar rather than to its chip:
+     centered on a chip near the right edge, a 200px panel would run
+     off a 375px screen. nav.primary is sticky, so it is already a
+     containing block for this. */
   nav.primary .nav-group {
-    width: 100%;
-  }
-  nav.primary .nav-group-btn {
-    width: 100%;
-    justify-content: space-between;
-  }
-  html.js-nav nav.primary .nav-menu {
     position: static;
+  }
+  nav.primary .nav-menu {
+    left: 0.5rem;
+    right: 0.5rem;
     transform: none;
-    left: auto;
     min-width: 0;
-    width: 100%;
-    margin: 0.3rem 0 0.4rem;
-    border: none;
-    box-shadow: none;
-    background: transparent;
+    width: auto;
   }
 }
 main {
@@ -2734,6 +2672,60 @@ html[data-focus] .ar.xl {
 .research-hero .ask-go {
   min-width: 92px;
 }
+/* Guided landing hero: the same frame as .research-hero, one column,
+   and nothing in it but the headline, the lede, two actions, and one
+   text link. The search box that used to sit beside it now follows the
+   three study modes further down the page. */
+.landing-hero {
+  position: relative;
+  margin: 1.25rem 0 2.5rem;
+  padding: clamp(2rem, 5vw, 4.5rem);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 88% 10%, color-mix(in srgb, var(--accent-soft) 16%, transparent) 0, transparent 34%),
+    linear-gradient(145deg, var(--card), color-mix(in srgb, var(--bg) 82%, var(--card)));
+  box-shadow: var(--shadow-lg);
+}
+.landing-hero::before {
+  content: "";
+  position: absolute;
+  inset: 1rem;
+  border: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
+  border-radius: 13px;
+  pointer-events: none;
+}
+.landing-hero > * {
+  position: relative;
+  z-index: 1;
+}
+.landing-hero h2 {
+  max-width: 17ch;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: clamp(2.25rem, 5vw, 4.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+}
+.hero-tertiary {
+  margin: 1.1rem 0 0;
+  font-size: 0.95rem;
+}
+@media (max-width: 600px) {
+  .landing-hero {
+    margin-top: 0.5rem;
+    padding: 1.5rem;
+    border-radius: 14px;
+  }
+  .landing-hero::before {
+    display: none;
+  }
+  .landing-hero h2 {
+    font-size: clamp(2rem, 11vw, 3rem);
+  }
+}
 .trust-bar {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -2782,6 +2774,32 @@ html[data-focus] .ar.xl {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
+}
+/* The home page's three study modes: three across, and no leading
+   number column, so the card is a single stack of title, sentence,
+   and link. */
+.modes-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.modes-grid .workflow-card {
+  grid-template-columns: 1fr;
+}
+.home-trust {
+  margin: 2.5rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+.trust-strip {
+  margin: 0 0 0.4rem;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+@media (max-width: 860px) {
+  .modes-grid {
+    grid-template-columns: 1fr;
+  }
 }
 .workflow-card {
   display: grid;
