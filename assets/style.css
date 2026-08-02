@@ -1483,6 +1483,44 @@ details.chart-fallback table.data {
   font-size: 0.76rem;
   color: var(--muted);
 }
+/* Segmented view toggle for merged stat blocks: several rankings of
+   the same data, one displayed at a time. The render functions still
+   own each panel's [hidden] (no data = hidden); the toggle only picks
+   which panel is displayed, so the two mechanisms never fight. */
+.view-toggle {
+  display: inline-flex;
+  gap: 0.3rem;
+  margin: 0.2rem 0 0.6rem;
+  flex-wrap: wrap;
+}
+.view-toggle button {
+  padding: 0.35rem 0.7rem;
+  min-height: 44px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 0.82rem;
+  color: var(--ink);
+  transition: all 0.15s ease;
+}
+.view-toggle button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+  font-weight: 600;
+}
+.view-group > [data-view-panel]:not(.view-active) {
+  display: none !important;
+}
+/* Continue-deeper ribbon links (roots detail, analysis pages). */
+.explore-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.explore-links li {
+  margin: 0.4rem 0;
+}
 .panel .small {
   font-size: 0.76rem;
   color: var(--muted);

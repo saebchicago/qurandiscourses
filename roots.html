@@ -329,10 +329,11 @@
       <section>
         <h2>Roots</h2>
         <p class="lede">
-          <span data-num="totals.roots">1,642</span> triliteral roots organize the lexical core of the Qur'an. Arabic
-          vocabulary is structured by these roots, sets of (usually three)
+          Every Arabic word grows from a root, a set of (usually three)
           consonants from which nouns, verbs, and adjectives are derived by
-          fixed patterns.
+          fixed patterns. Pick a root to see its family of words, where it
+          appears, and what appears alongside it; the corpus records
+          <span data-num="totals.roots">1,642</span> of them.
         </p>
         <div class="depth-row">
           <span>Depth:</span>
@@ -533,8 +534,40 @@
             </details>
           </div>
 
+          <!-- "Where it appears": one place for the three views of the
+               same per-surah counts (mushaf order, revelation order,
+               per-period rate). The views were three separate stacked
+               blocks; the underlying render functions are unchanged and
+               still target their original containers - only one view is
+               displayed at a time. -->
+          <div class="stat-block study-only view-group" id="whereViews">
+            <h4>Where it appears</h4>
+            <div
+              class="view-toggle"
+              role="group"
+              aria-label="Choose how to order this root's distribution"
+            >
+              <button type="button" data-view-btn="dist" aria-pressed="true">
+                Mushaf order
+              </button>
+              <button
+                type="button"
+                data-view-btn="timeline"
+                aria-pressed="false"
+              >
+                Revelation order
+              </button>
+              <button type="button" data-view-btn="trend" aria-pressed="false">
+                Rate by period
+              </button>
+            </div>
+
           <!-- Surah distribution bar chart (inline SVG) -->
-          <div class="stat-block" id="detailDistBlock">
+          <div
+            class="stat-block view-active"
+            data-view-panel="dist"
+            id="detailDistBlock"
+          >
             <h4>
               Distribution by surah (114 surahs)
               <span
@@ -571,7 +604,11 @@
           </div>
 
           <!-- Revelation-order timeline (chart.js) -->
-          <div class="stat-block" id="detailTimelineBlock">
+          <div
+            class="stat-block"
+            data-view-panel="timeline"
+            id="detailTimelineBlock"
+          >
             <h4>
               Across the revelation timeline
               <span
@@ -600,8 +637,42 @@
             </details>
           </div>
 
+          <!-- Chronological trend: normalized frequency per period -->
+          <div
+            class="stat-block"
+            data-view-panel="trend"
+            id="detailTrendBlock"
+            hidden
+          >
+            <h4>
+              Frequency across revelation periods
+              <span
+                class="badge nuanced"
+                data-source-ids="leeds-corpus-v0.4 cairo-1924"
+                aria-label="Nuanced"
+                tabindex="0"
+                title="Nuanced · periodization varies across scholarly chronologies"
+                >~</span
+              >
+            </h4>
+            <details class="method-note">
+              <summary>ℹ How this is computed</summary>
+              <p>
+                Normalized frequency (occurrences per 1,000 tokens) in
+                each of the four traditional revelation periods, by
+                Cairo 1924 revelation order (Nöldeke-Bell four-period
+                classification). Periodization varies across scholarly
+                chronologies, so this trend is Nuanced, not a settled
+                chronology.
+              </p>
+            </details>
+            <div id="detailTrendChart"></div>
+          </div>
+          </div>
+          <!-- /whereViews -->
+
           <!-- Derived forms table -->
-          <div class="stat-block" id="detailFormsBlock">
+          <div class="stat-block study-only" id="detailFormsBlock">
             <h4>
               Derived forms
               <span
@@ -639,6 +710,38 @@
                 <tbody id="detailFormsTbody"></tbody>
               </table>
             </div>
+            <!-- Lemma grouping: the same tokens as the table above,
+                 grouped by dictionary headword instead of surface form.
+                 Folded into this block as a disclosure because the two
+                 groupings answer one question at two granularities. -->
+            <details class="xref-panel">
+              <summary id="detailLemmaSummary">Group by lemma</summary>
+              <div id="detailLemmaBlock" hidden>
+                <p
+                  style="
+                    font-size: 0.85rem;
+                    color: var(--muted);
+                    margin: 0 0 0.4rem;
+                  "
+                >
+                  Between the root and its inflected surface forms sits the
+                  lemma — the dictionary headword. Grouping this root's tokens
+                  by lemma and part of speech shows its actual derivational
+                  family: which nouns, adjectives, and verbs the root produces,
+                  and how often each is used. Every root-bearing token in the
+                  corpus carries a lemma, so nothing is omitted.
+                  <span
+                    class="badge ok"
+                    data-source-ids="leeds-corpus-v0.4"
+                    aria-label="Verified"
+                    tabindex="0"
+                    title="Verified · Leeds Quranic Arabic Corpus v0.4"
+                    >●</span
+                  >
+                </p>
+                <div id="detailLemmaList"></div>
+              </div>
+            </details>
             <details class="method-note">
               <summary>ℹ How this is computed</summary>
               <p>
@@ -649,40 +752,10 @@
             </details>
           </div>
 
-          <!-- Lemma families (derivational level between root and form) -->
-          <div class="stat-block" id="detailLemmaBlock" hidden>
-            <h4>
-              Word family — the root's lemmas
-              <span
-                class="badge ok"
-                data-source-ids="leeds-corpus-v0.4"
-                aria-label="Verified"
-                tabindex="0"
-                title="Verified · Leeds Quranic Arabic Corpus v0.4"
-                >●</span
-              >
-            </h4>
-            <p
-              style="
-                font-size: 0.85rem;
-                color: var(--muted);
-                margin: 0 0 0.4rem;
-              "
-            >
-              Between the root and its inflected surface forms sits the
-              lemma — the dictionary headword. Grouping this root's tokens
-              by lemma and part of speech shows its actual derivational
-              family: which nouns, adjectives, and verbs the root produces,
-              and how often each is used. Every root-bearing token in the
-              corpus carries a lemma, so nothing is omitted.
-            </p>
-            <div id="detailLemmaList"></div>
-          </div>
-
           <!-- Co-occurring roots -->
           <div class="stat-block" id="detailCoBlock">
             <h4>
-              Top co-occurring roots
+              Roots that appear alongside
               <span
                 class="badge ok"
                 data-source-ids="leeds-corpus-v0.4"
@@ -748,8 +821,38 @@
             </details>
           </div>
 
+          <!-- Filtered views of the alongside data: three rankings of
+               the same verse-level co-occurrence, one displayed at a
+               time. Render functions unchanged; the toggle only picks
+               which panel is shown. -->
+          <div class="stat-block study-only view-group" id="alongsideViews">
+            <h4>Alongside, filtered</h4>
+            <div
+              class="view-toggle"
+              role="group"
+              aria-label="Choose a co-occurrence ranking"
+            >
+              <button
+                type="button"
+                data-view-btn="filtered"
+                aria-pressed="true"
+              >
+                Most shared verses
+              </button>
+              <button type="button" data-view-btn="pmi" aria-pressed="false">
+                Most distinctive (PMI)
+              </button>
+              <button type="button" data-view-btn="chron" aria-pressed="false">
+                By period
+              </button>
+            </div>
+
           <!-- Co-occurring roots (filtered, verse-level, function-word ceiling) -->
-          <div class="stat-block" id="detailCoFilteredBlock">
+          <div
+            class="stat-block view-active"
+            data-view-panel="filtered"
+            id="detailCoFilteredBlock"
+          >
             <h4>
               Co-occurring roots
               <span
@@ -760,7 +863,7 @@
                 >~</span
               >
             </h4>
-            <details class="method-note" open>
+            <details class="method-note">
               <summary>ℹ How this is computed</summary>
               <p>
                 Counted at verse level: two roots co-occur once for each
@@ -773,7 +876,7 @@
                 make every root's list look the same. The 12 remaining
                 partners with the highest counts are listed below. This is a
                 separate, filtered view from the raw
-                <q>Top co-occurring roots</q> list above. Co-occurrence
+                <q>Roots that appear alongside</q> list above. Co-occurrence
                 describes distribution in the text. It does not by itself
                 establish meaning.
               </p>
@@ -788,7 +891,12 @@
           </div>
 
           <!-- Distinctive co-occurring roots (pointwise mutual information) -->
-          <div class="stat-block" id="detailPmiBlock" hidden>
+          <div
+            class="stat-block"
+            data-view-panel="pmi"
+            id="detailPmiBlock"
+            hidden
+          >
             <h4>
               Distinctive partners (PMI)
               <span
@@ -828,7 +936,12 @@
           </div>
 
           <!-- Co-occurring roots by chronological period -->
-          <div class="stat-block" id="detailChronCoBlock" hidden>
+          <div
+            class="stat-block"
+            data-view-panel="chron"
+            id="detailChronCoBlock"
+            hidden
+          >
             <h4>
               Co-occurring roots by period
               <span
@@ -856,9 +969,17 @@
             </details>
             <div id="detailChronCoContainer" class="chron-co-grid"></div>
           </div>
+          </div>
+          <!-- /alongsideViews -->
 
-          <!-- Statistical associations: LLR, PMI, Dice over verse-level co-occurrence -->
-          <div class="stat-block" id="detailAssocBlock" hidden>
+          <!-- Statistical associations: LLR, PMI, Dice over verse-level
+               co-occurrence, with the association network graph merged in
+               (the graph plots the same 25 partners the table lists). -->
+          <div
+            class="stat-block encyclopedic-only"
+            id="detailAssocBlock"
+            hidden
+          >
             <h4>
               Statistical associations
               <span
@@ -880,16 +1001,31 @@
                 coefficient. Higher values indicate stronger distributional
                 association.
               </p>
+              <p>
+                In the network graph, node positions are precomputed offline
+                (not laid out in the browser): the root sits at the center,
+                its top partner roots sit on one of three rings by LLR rank
+                (strongest partners closest), and each node's angle comes
+                from a fixed hash of its own root letters, so a given partner
+                always lands at the same angle. Node size reflects the
+                root's raw corpus frequency; edge thickness reflects LLR.
+                Click a node to open that root; hover or tab to it for the
+                shared-verse count, LLR, PMI, and Dice. The graph plots the
+                same partners the table below lists.
+              </p>
             </details>
+            <div id="detailNetworkAssocBlock" hidden>
+              <div id="detailNetworkAssocChart"></div>
+            </div>
             <div class="table-scroll">
               <table class="data" id="detailAssocTable" style="min-width: 480px">
                 <thead>
                   <tr>
                     <th>Root</th>
                     <th class="count">Shared verses</th>
-                    <th class="count">LLR</th>
-                    <th class="count">PMI</th>
-                    <th class="count">Dice</th>
+                    <th class="count">Strength of evidence (LLR)</th>
+                    <th class="count">Distinctiveness (PMI)</th>
+                    <th class="count">Overlap (Dice)</th>
                   </tr>
                 </thead>
                 <tbody id="detailAssocBody"></tbody>
@@ -905,38 +1041,12 @@
             </p>
           </div>
 
-          <!-- Association network graph: precomputed radial layout from data/network/ -->
-          <div class="stat-block" id="detailNetworkAssocBlock" hidden>
-            <h4>
-              Association network
-              <span
-                class="badge ok"
-                data-source-ids="leeds-corpus-v0.4"
-                aria-label="Verified"
-                tabindex="0"
-                title="Verified · values computed from Leeds Quranic Arabic Corpus v0.4"
-                >●</span
-              >
-            </h4>
-            <details class="method-note">
-              <summary>ℹ How this is computed</summary>
-              <p>
-                Node positions are precomputed offline (not laid out in
-                the browser): the root sits at the center, its top
-                partner roots sit on one of three rings by LLR rank
-                (strongest partners closest), and each node's angle
-                comes from a fixed hash of its own root letters, so a
-                given partner always lands at the same angle. Node size
-                reflects the root's raw corpus frequency; edge thickness
-                reflects LLR. Click a node to open that root; hover or
-                tab to it for the shared-verse count, LLR, PMI, and Dice.
-              </p>
-            </details>
-            <div id="detailNetworkAssocChart"></div>
-          </div>
-
           <!-- Network position: centrality metrics from data/centrality/ -->
-          <div class="stat-block" id="detailCentralityBlock" hidden>
+          <div
+            class="stat-block encyclopedic-only"
+            id="detailCentralityBlock"
+            hidden
+          >
             <h4>
               Network position
               <span
@@ -968,22 +1078,22 @@
               <table class="data" id="centralityTable" style="min-width: 360px">
                 <tbody>
                   <tr>
-                    <td>Degree</td>
+                    <td>How many partners (degree)</td>
                     <td class="count" id="centralityDegree"></td>
                     <td class="count" id="centralityDegreeRank"></td>
                   </tr>
                   <tr>
-                    <td>Weighted degree</td>
+                    <td>Combined partner strength (weighted degree)</td>
                     <td class="count" id="centralityWeightedDegree"></td>
                     <td class="count" id="centralityWeightedDegreeRank"></td>
                   </tr>
                   <tr>
-                    <td>Betweenness</td>
+                    <td>Bridge position (betweenness)</td>
                     <td class="count" id="centralityBetweenness"></td>
                     <td class="count" id="centralityBetweennessRank"></td>
                   </tr>
                   <tr>
-                    <td>Eigenvector</td>
+                    <td>Hub proximity (eigenvector)</td>
                     <td class="count" id="centralityEigenvector"></td>
                     <td class="count" id="centralityEigenvectorRank"></td>
                   </tr>
@@ -1002,34 +1112,7 @@
             </p>
           </div>
 
-          <!-- Chronological trend: normalized frequency per period -->
-          <div class="stat-block" id="detailTrendBlock" hidden>
-            <h4>
-              Frequency across revelation periods
-              <span
-                class="badge nuanced"
-                data-source-ids="leeds-corpus-v0.4 cairo-1924"
-                aria-label="Nuanced"
-                tabindex="0"
-                title="Nuanced · periodization varies across scholarly chronologies"
-                >~</span
-              >
-            </h4>
-            <details class="method-note">
-              <summary>ℹ How this is computed</summary>
-              <p>
-                Normalized frequency (occurrences per 1,000 tokens) in
-                each of the four traditional revelation periods, by
-                Cairo 1924 revelation order (Nöldeke-Bell four-period
-                classification). Periodization varies across scholarly
-                chronologies, so this trend is Nuanced, not a settled
-                chronology.
-              </p>
-            </details>
-            <div id="detailTrendChart"></div>
-          </div>
-
-          <p class="prov" style="margin-top: 0.5rem">
+          <p class="prov study-only" style="margin-top: 0.5rem">
             <a
               id="detailCorpusLink"
               href="https://corpus.quran.com/qurandictionary.jsp"
@@ -1040,7 +1123,7 @@
               View at corpus.quran.com →
             </a>
           </p>
-          <p class="share-row" style="margin: 0.4rem 0 0">
+          <p class="share-row study-only" style="margin: 0.4rem 0 0">
             <button
               type="button"
               id="detailEmbedBtn"
@@ -1055,19 +1138,39 @@
           </p>
         </div>
 
-        <div class="card encyclopedic-only">
+        <!-- Continue-deeper ribbon: visible at every depth. Contextual
+             links are filled in by selectRoot() when a root is chosen. -->
+        <div class="card" id="exploreFurther">
           <h3>Explore further</h3>
-          <p>
-            For any root, the canonical English reference is Lane's
-            <em>Arabic-English Lexicon</em> (see the
-            <a href="sources.html">Sources</a> page). Use the morphology
-            browser at
-            <a
-              href="https://corpus.quran.com/qurandictionary.jsp"
-              rel="noopener"
-              >corpus.quran.com</a
-            >.
-          </p>
+          <ul class="explore-links">
+            <li>
+              <a href="words.html" id="exploreWordsLink"
+                >Search this root's words on the Words page →</a
+              >
+            </li>
+            <li>
+              <a href="compare.html"
+                >Compare two roots' distributions side by side →</a
+              >
+            </li>
+            <li>
+              <a href="dossier.html"
+                >Read a whole surah's profile on the Dossier page →</a
+              >
+            </li>
+            <li class="study-only">
+              For sourced lexicography, the canonical English reference is
+              Lane's <em>Arabic-English Lexicon</em> (see
+              <a href="sources.html">Sources</a>), and the morphology browser
+              at
+              <a
+                href="https://corpus.quran.com/qurandictionary.jsp"
+                rel="noopener"
+                id="exploreCorpusLink"
+                >corpus.quran.com</a
+              >.
+            </li>
+          </ul>
         </div>
       </section>
     </main>
@@ -1278,8 +1381,15 @@
           }
         }
 
-        async function selectRoot(bw) {
-          if (selectedBW === bw) {
+        async function selectRoot(bw, opts) {
+          opts = opts || {};
+          // A reader-chosen root (or deselect) replaces the cold-arrival
+          // example, and the example note goes with it.
+          if (!opts.example) {
+            const exNote = document.getElementById("exampleNote");
+            if (exNote) exNote.remove();
+          }
+          if (selectedBW === bw && !opts.example) {
             selectedBW = null;
             detailData = null;
             hideDetail();
@@ -1290,12 +1400,14 @@
           }
           selectedBW = bw;
           render();
-          history.replaceState(null, "", `?root=${safeKey(bw)}`);
-          // The share page carries this root's link-preview tags.
-          if (window.qdSetShareUrl)
-            window.qdSetShareUrl(
-              `https://qurandiscourse.netlify.app/s/root/${safeKey(bw)}.html`,
-            );
+          if (!opts.example) {
+            history.replaceState(null, "", `?root=${safeKey(bw)}`);
+            // The share page carries this root's link-preview tags.
+            if (window.qdSetShareUrl)
+              window.qdSetShareUrl(
+                `https://qurandiscourse.netlify.app/s/root/${safeKey(bw)}.html`,
+              );
+          }
           const embedBtn = document.getElementById("detailEmbedBtn");
           if (embedBtn) {
             embedBtn.setAttribute("data-embed-id", safeKey(bw));
@@ -1304,7 +1416,7 @@
           }
           await loadRootDetail(bw);
           const panel = document.getElementById("rootDetail");
-          if (panel && !panel.hidden) {
+          if (panel && !panel.hidden && !opts.example) {
             setTimeout(
               () =>
                 panel.scrollIntoView({ behavior: "smooth", block: "nearest" }),
@@ -1382,6 +1494,14 @@
           const link = document.getElementById("detailCorpusLink");
           if (link)
             link.href = `https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(d.bw)}`;
+
+          // Continue-deeper ribbon: prefill contextual links for this root.
+          const wordsLink = document.getElementById("exploreWordsLink");
+          if (wordsLink)
+            wordsLink.href = `words.html?q=${encodeURIComponent(d.arabic)}`;
+          const exploreCorpus = document.getElementById("exploreCorpusLink");
+          if (exploreCorpus)
+            exploreCorpus.href = `https://corpus.quran.com/qurandictionary.jsp?q=${encodeURIComponent(d.bw)}`;
 
           // Pin-to-workspace button: dataset updated on every render, then
           // (re-)enhanced — qdNotebook.enhance() guards against double-binding
@@ -1508,13 +1628,19 @@
         function renderLemmaFamilies(fams) {
           const block = document.getElementById("detailLemmaBlock");
           const list = document.getElementById("detailLemmaList");
+          const summary = document.getElementById("detailLemmaSummary");
+          const wrap = summary ? summary.closest("details") : null;
           if (!block || !list) return;
           if (!fams || fams.length === 0) {
             // Older cached analytics files may predate this field.
             block.hidden = true;
+            if (wrap) wrap.hidden = true;
             return;
           }
           block.hidden = false;
+          if (wrap) wrap.hidden = false;
+          if (summary)
+            summary.textContent = `Group by lemma (${fams.length.toLocaleString()} lemma${fams.length === 1 ? "" : "s"})`;
           list.innerHTML = fams
             .map((f) => {
               const posLabel = POS_LABELS[f.pos] || f.pos || "—";
@@ -2094,6 +2220,27 @@
           }
         }
 
+        // ── View toggles ───────────────────────────────────────────────────────
+        // One panel of a .view-group displayed at a time. The render
+        // functions still own each panel's hidden attribute (no data =>
+        // hidden); this only chooses which panel is displayed.
+        document.querySelectorAll(".view-group").forEach((group) => {
+          const buttons = group.querySelectorAll(".view-toggle [data-view-btn]");
+          buttons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+              buttons.forEach((b) =>
+                b.setAttribute("aria-pressed", b === btn ? "true" : "false"),
+              );
+              group.querySelectorAll("[data-view-panel]").forEach((p) => {
+                p.classList.toggle(
+                  "view-active",
+                  p.dataset.viewPanel === btn.dataset.viewBtn,
+                );
+              });
+            });
+          });
+        });
+
         // ── Event handlers ──────────────────────────────────────────────────────
         document.getElementById("rootSearch").addEventListener("input", (e) => {
           searchTerm = e.target.value.trim();
@@ -2182,6 +2329,41 @@
                 const input = document.getElementById("rootSearch");
                 if (input) input.value = term;
                 render();
+              }
+            } else {
+              // Cold arrival with nothing requested: open a fixed example
+              // root (r-h-m) so the page demonstrates itself instead of
+              // presenting a bare table. No URL rewrite, no auto-scroll.
+              const example = allRoots.find((r) => r.rootBuckwalter === "rHm");
+              if (example) {
+                selectRoot(example.rootBuckwalter, { example: true });
+                const panel = document.getElementById("rootDetail");
+                if (panel && !document.getElementById("exampleNote")) {
+                  const note = document.createElement("p");
+                  note.id = "exampleNote";
+                  note.className = "caption-note";
+                  note.style.cssText =
+                    "display:flex;gap:0.6rem;align-items:baseline;flex-wrap:wrap";
+                  const msg = document.createElement("span");
+                  msg.textContent =
+                    "Showing an example root. Search above or pick any row to replace it.";
+                  const dismiss = document.createElement("button");
+                  dismiss.type = "button";
+                  dismiss.className = "button secondary";
+                  dismiss.style.cssText =
+                    "font-size:0.78rem;padding:0.15rem 0.6rem";
+                  dismiss.textContent = "Dismiss";
+                  dismiss.addEventListener("click", () => {
+                    selectedBW = null;
+                    detailData = null;
+                    note.remove();
+                    hideDetail();
+                    render();
+                  });
+                  note.appendChild(msg);
+                  note.appendChild(dismiss);
+                  panel.prepend(note);
+                }
               }
             }
           })
