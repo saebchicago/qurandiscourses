@@ -48,7 +48,17 @@
   } catch (e) {}
 
   function targetFor(i) {
-    return document.querySelector(STEPS[i].sel);
+    var el = document.querySelector(STEPS[i].sel);
+    if (!el) return null;
+    // A target inside a closed <details> has no box to highlight or
+    // scroll to; open its ancestors so the step can point at it (the
+    // "How we verify" examples live behind a disclosure).
+    var d = el.closest && el.closest("details");
+    while (d) {
+      if (!d.open) d.open = true;
+      d = d.parentElement && d.parentElement.closest("details");
+    }
+    return el.getClientRects().length ? el : null;
   }
 
   function clearHighlight() {

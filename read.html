@@ -27,6 +27,7 @@
     <script src="assets/depth-boot.js"></script>
     <script src="assets/nav.js"></script>
     <script src="assets/surahs.js"></script>
+    <script src="assets/ask.js"></script>
     <link
       rel="icon"
       type="image/svg+xml"
@@ -263,6 +264,47 @@
               Prefer to explore all 114 surahs first? Open
               <a href="navigate.html">Navigate</a>.
             </p>
+            <div
+              class="ask-section"
+              role="search"
+              aria-labelledby="ask-label"
+              style="margin-top: 1rem"
+            >
+              <label for="ask-input" class="ask-label" id="ask-label"
+                >Or ask for a starting point</label
+              >
+              <div class="ask-row">
+                <input
+                  type="text"
+                  id="ask-input"
+                  class="ask-input"
+                  autocomplete="off"
+                  spellcheck="false"
+                  placeholder="Try Al-Fatihah, 2:255, or r-h-m"
+                  aria-label="Find a surah, verse, root, or keyword"
+                />
+                <button type="button" id="ask-go" class="ask-go">
+                  Explore
+                </button>
+              </div>
+              <div class="ask-chips" aria-label="Example searches">
+                <button type="button" class="chip" data-fill="Fatihah">
+                  Al-Fatihah
+                </button>
+                <button type="button" class="chip" data-fill="2:255">
+                  2:255
+                </button>
+                <button type="button" class="chip" data-fill="mercy">
+                  mercy
+                </button>
+              </div>
+              <div
+                id="ask-feedback"
+                class="ask-feedback"
+                role="status"
+                aria-live="polite"
+              ></div>
+            </div>
           </div>
         </div>
         <div id="vocabPanel"></div>

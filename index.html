@@ -194,13 +194,6 @@
         </div>
       </section>
 
-      <section class="trust-bar" aria-label="Research commitments">
-        <div><strong>Reader-led interpretation</strong><span>The evidence is ordered. The reading remains yours.</span></div>
-        <div><strong>Recomputable evidence</strong><span>Corpus data and deterministic scripts ship with the site.</span></div>
-        <div><strong>Visible limits</strong><span>Method dependencies and source uncertainties stay attached.</span></div>
-        <div><strong>Private by default</strong><span>Notes and progress remain in this browser.</span></div>
-      </section>
-
       <section id="welcomeBanner" hidden>
         <div class="banner soft">
           <div
@@ -279,6 +272,13 @@
         })();
       </script>
 
+      <section class="trust-bar" aria-label="Research commitments">
+        <div><strong>Reader-led interpretation</strong><span>The evidence is ordered. The reading remains yours.</span></div>
+        <div><strong>Recomputable evidence</strong><span>Corpus data and deterministic scripts ship with the site.</span></div>
+        <div><strong>Visible limits</strong><span>Method dependencies and source uncertainties stay attached.</span></div>
+        <div><strong>Private by default</strong><span>Notes and progress remain in this browser.</span></div>
+      </section>
+
       <section id="continueSection" hidden aria-live="polite">
         <div
           class="banner soft"
@@ -355,8 +355,8 @@
       <section id="beginSection" class="workflow-section">
         <div class="section-heading">
           <p class="eyebrow">Choose the work, not a feature</p>
-          <h2>Four ways into the text</h2>
-          <p>Begin with a reading, a question, a pattern, or a claim you want to check.</p>
+          <h2>Ways into the text</h2>
+          <p>Begin with a reading, a question, a pattern, a claim you want to check, or a guided path.</p>
         </div>
         <div class="workflow-grid">
           <a class="workflow-card workflow-featured" href="read.html">
@@ -383,6 +383,12 @@
             <span class="workflow-desc">See the source check, reproduction method, dependencies, and known limits behind a published assertion.</span>
             <span class="workflow-link">Inspect claim provenance <span aria-hidden="true">→</span></span>
           </a>
+          <a class="workflow-card" href="paths.html">
+            <span class="workflow-number" aria-hidden="true">05</span>
+            <span class="workflow-title">Follow a guided path</span>
+            <span class="workflow-desc">Five walkthroughs chain the site's tools into a method, four steps each, with progress saved in this browser.</span>
+            <span class="workflow-link">Open the study paths <span aria-hidden="true">→</span></span>
+          </a>
         </div>
       </section>
 
@@ -391,7 +397,10 @@
         <p>
           Published research claims expose separate source, reproduction, and
           dependency statuses—not one undifferentiated promise of certainty.
+          Every claim carries a label: ● Verified, ○ Pending, or ~ Nuanced.
         </p>
+        <details class="xref-panel">
+        <summary>Four worked examples (Verified and Nuanced)</summary>
         <!-- Rendered from data/case-studies.json (single source of truth,
              shared with validation.html); the markup below is the static
              fallback if that fetch fails. Edit the JSON, not this HTML. -->
@@ -488,6 +497,7 @@
             </p>
           </div>
         </div>
+        </details>
         <p>
           Full method and prompts on
           <a href="validation.html">Validation</a>.
@@ -561,28 +571,13 @@
 
       <section>
         <h2>Purpose, audience, and scope</h2>
-        <div
-          class="intro-blocks"
-          style="display: grid; gap: 1.25rem; margin-bottom: 1rem"
-        >
-          <div>
-            <h3 style="margin: 0 0 0.35rem; font-size: 1.05rem">Purpose</h3>
-            <p style="margin: 0">
-              Divine Discourses is a tool for direct, evidence-based study of the
-              Qur'an. It surfaces roots, word morphology, structural patterns,
-              and cross-references with provenance attached to its research claims.
-            </p>
-          </div>
-          <div>
-            <h3 style="margin: 0 0 0.35rem; font-size: 1.05rem">
-              Who it is for
-            </h3>
-            <p style="margin: 0">
-              For readers who want to engage the text without an intermediary,
-              and for students who want claims they can trace.
-            </p>
-          </div>
-        </div>
+        <p>
+          Divine Discourses is a tool for direct, evidence-based study of the
+          Qur'an: roots, morphology, structural patterns, and cross-references
+          with provenance attached. It is for readers who want to engage the
+          text without an intermediary, and for students who want claims they
+          can trace.
+        </p>
       </section>
     </main>
     <footer class="site">
@@ -614,72 +609,6 @@
     </div>
     <script src="assets/surahs.js"></script>
     <script src="assets/ask.js"></script>
-    <script>
-      (function () {
-        var input = document.getElementById("ask-input");
-        var button = document.getElementById("ask-go");
-        var feedback = document.getElementById("ask-feedback");
-        var chips = document.querySelectorAll(".ask-chips .chip");
-
-        function go() {
-          var result = window.parseAsk(input.value);
-          if (result && result.route) {
-            window.location.href = result.route;
-          } else if (result && result.message) {
-            feedback.textContent = result.message;
-          } else {
-            feedback.textContent =
-              "Not recognized. Try a surah name (Fatihah or الفاتحة), a verse like 1:1 or ٢:٥, a root like r-h-m or رحم, or an English word.";
-          }
-        }
-
-        button.addEventListener("click", go);
-        input.addEventListener("keydown", function (e) {
-          if (e.key === "Enter") go();
-        });
-        chips.forEach(function (c) {
-          c.addEventListener("click", function () {
-            input.value = c.dataset.fill;
-            input.focus();
-            go();
-          });
-        });
-
-        var PLACEHOLDERS = ["Al-Fatihah", "2:255", "r-h-m", "mercy", "الفاتحة"];
-        var reduce = false;
-        try {
-          reduce =
-            window.matchMedia &&
-            window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        } catch (e) {
-          reduce = false;
-        }
-        var phIdx = 0;
-        var phTimer = null;
-        function setPh(i) {
-          input.setAttribute("placeholder", PLACEHOLDERS[i]);
-        }
-        function startRotation() {
-          if (reduce || phTimer) return;
-          phTimer = setInterval(function () {
-            phIdx = (phIdx + 1) % PLACEHOLDERS.length;
-            setPh(phIdx);
-          }, 4000);
-        }
-        function stopRotation() {
-          if (phTimer) {
-            clearInterval(phTimer);
-            phTimer = null;
-          }
-        }
-        setPh(0);
-        input.addEventListener("focus", stopRotation);
-        input.addEventListener("blur", function () {
-          if (!input.value) startRotation();
-        });
-        if (!reduce) startRotation();
-      })();
-    </script>
     <script src="assets/app.js"></script>
     <script src="assets/share.js" defer></script>
     <script src="assets/case-studies.js" defer></script>

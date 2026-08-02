@@ -128,6 +128,23 @@
             />
           </p>
           <p
+            class="ask-chips"
+            style="margin: 0.2rem 0 0.4rem"
+            aria-label="Example searches"
+          >
+            <button type="button" class="chip" data-word-fill="r-h-m">
+              r-h-m
+            </button>
+            <button type="button" class="chip" data-word-fill="سلم">
+              <span class="ar notranslate" translate="no" lang="ar" dir="rtl"
+                >سلم</span
+              >
+            </button>
+            <button type="button" class="chip" data-word-fill="sabr">
+              sabr
+            </button>
+          </p>
+          <p
             id="wordCount"
             style="font-size: 0.85rem; color: var(--muted); margin: 0.2rem 0"
           ></p>
@@ -332,6 +349,14 @@
           <h3 id="liveGlossTitle">Live example with glosses</h3>
           <div id="liveGlossTable"></div>
           <p class="prov" id="liveGlossProv"></p>
+        </div>
+        <div class="card related-ribbon" aria-label="Continue exploring">
+          <h3>Explore further</h3>
+          <ul class="explore-links">
+            <li><a href="roots.html">Trace a word family by its root on the Roots page →</a></li>
+            <li><a href="read.html">See any word in its verse on the Read page →</a></li>
+            <li><a href="paths.html">Follow the guided path "Follow a root through the Qur'an" →</a></li>
+          </ul>
         </div>
       </section>
     </main>
@@ -755,6 +780,16 @@
           countEl.textContent = "Loading index…";
           loadIndex().then(render, function () {
             countEl.textContent = "Could not load the word index.";
+          });
+        });
+
+        // Example chips: fill the box and run the same search path, so
+        // a cold arrival can see results in one tap.
+        document.querySelectorAll("[data-word-fill]").forEach(function (c) {
+          c.addEventListener("click", function () {
+            input.value = c.getAttribute("data-word-fill");
+            input.focus();
+            input.dispatchEvent(new Event("input"));
           });
         });
 

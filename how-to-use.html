@@ -123,10 +123,33 @@
         </p>
 
         <h2>Four ways to start</h2>
+        <div class="ask-section" role="search" aria-labelledby="ask-label">
+          <label for="ask-input" class="ask-label" id="ask-label"
+            >Ask right here</label
+          >
+          <div class="ask-row">
+            <input
+              type="text"
+              id="ask-input"
+              class="ask-input"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="Try Al-Fatihah, 2:255, or r-h-m"
+              aria-label="Find a surah, verse, root, or keyword"
+            />
+            <button type="button" id="ask-go" class="ask-go">Explore</button>
+          </div>
+          <div
+            id="ask-feedback"
+            class="ask-feedback"
+            role="status"
+            aria-live="polite"
+          ></div>
+        </div>
         <ol style="padding-left: 1.3rem; line-height: 1.8">
           <li style="margin-bottom: 0.75rem">
             <strong>Pick a surah you want to understand.</strong>
-            Type its name or number in the Ask box on the home page —
+            Type its name or number in the Ask box above —
             Arabic script works too.
             <em>Examples: Fatihah, al-Asr, 103, 2,
               <span class="ar notranslate" translate="no" lang="ar" dir="rtl">الفاتحة</span>.</em>
@@ -300,6 +323,7 @@
     <script src="assets/share.js" defer></script>
     <script src="assets/glossary.js" defer></script>
     <script src="assets/surahs.js"></script>
+    <script src="assets/ask.js"></script>
     <script src="assets/root-meanings.js"></script>
     <script src="assets/root-refs.js" defer></script>
     <script src="assets/refs.js" defer></script>
