@@ -37,6 +37,11 @@
 //             regression test instead of a one-time audit
 //   firstvisit index.html with empty storage shows the first-visit
 //             flow without breaking overflow
+//   manifest  manifest.webmanifest's icons/screenshots exist at their
+//             declared pixel sizes and every shortcut url is in scope,
+//             resolves to a page, and (with a fragment) to a real id —
+//             the install surface no page renders, so nothing else
+//             would notice it rotting
 //
 // Still manual (§6.7 and friends): dark-mode visual review, focus-ring
 // aesthetics, audio playback, the netlify.toml §6.10 header checks on a
@@ -49,10 +54,11 @@
 //       [--shots]  dump palette×theme screenshots to /tmp
 // Exit: 0 all checks pass · 1 failures · 2 harness problem.
 
-import { createServer } from "node:http";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { dirname, extname, join, normalize } from "node:path";
+import { dirname, join } from "node:path";
+import { resolveChromium, launchOptions } from "./lib/playwright.mjs";
+import { startStaticServer } from "./lib/static-server.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
@@ -70,28 +76,7 @@ const PAGE_FILTER = (args.find((a) => a.startsWith("--page=")) || "").replace(
 const runCheck = (name) => !ONLY.length || ONLY.includes(name);
 
 // ── Playwright resolution (global install, no package.json) ─────────
-if (!process.env.PLAYWRIGHT_BROWSERS_PATH && existsSync("/opt/pw-browsers")) {
-  process.env.PLAYWRIGHT_BROWSERS_PATH = "/opt/pw-browsers";
-}
-let chromium;
-for (const spec of [
-  process.env.QD_PLAYWRIGHT,
-  "playwright",
-  "/opt/node22/lib/node_modules/playwright/index.mjs",
-].filter(Boolean)) {
-  try {
-    ({ chromium } = await import(spec));
-    break;
-  } catch (e) {}
-}
-if (!chromium) {
-  console.error(
-    "verify-site: cannot import playwright. Install it globally " +
-      "(npm i -g playwright && npx playwright install chromium) or point " +
-      "QD_PLAYWRIGHT at its index.mjs.",
-  );
-  process.exit(2);
-}
+const chromium = await resolveChromium("verify-site");
 
 // ── Results ─────────────────────────────────────────────────────────
 const results = [];
@@ -132,6 +117,77 @@ if (runCheck("sitemap") && !PAGE_FILTER) {
   }
 }
 
+// ── Web app manifest ────────────────────────────────────────────────
+// The install surface is the one part of the site no page renders, so
+// nothing else would notice a shortcut pointing at a deleted page, a
+// screenshot whose declared size stopped matching the file, or an icon
+// that never shipped — all of which silently degrade or reject the
+// install prompt rather than erroring.
+if (runCheck("manifest") && !PAGE_FILTER) {
+  const M = "manifest.webmanifest";
+  let man;
+  try {
+    man = JSON.parse(readFileSync(join(ROOT, M), "utf8"));
+  } catch (e) {
+    report("manifest", M, false, `unparseable: ${e.message}`);
+    man = null;
+  }
+  if (man) {
+    // PNG dimensions from the IHDR chunk: 8-byte signature, 4-byte
+    // length, 4-byte type, then width and height as big-endian uint32.
+    const pngSize = (rel) => {
+      const buf = readFileSync(join(ROOT, rel));
+      if (buf.length < 24 || buf.readUInt32BE(0) !== 0x89504e47) return null;
+      return `${buf.readUInt32BE(16)}x${buf.readUInt32BE(20)}`;
+    };
+    const images = [
+      ...(man.icons || []).map((i) => ({ ...i, kind: "icon" })),
+      ...(man.screenshots || []).map((s) => ({ ...s, kind: "screenshot" })),
+    ];
+    for (const img of images) {
+      if (!existsSync(join(ROOT, img.src))) {
+        report("manifest", M, false, `${img.kind} src has no file: ${img.src}`);
+        continue;
+      }
+      const real = pngSize(img.src);
+      if (img.sizes && real && img.sizes !== real) {
+        report(
+          "manifest",
+          M,
+          false,
+          `${img.kind} ${img.src} declares sizes="${img.sizes}" but the file is ${real}`,
+        );
+      }
+    }
+    const scope = man.scope || "/";
+    for (const sc of man.shortcuts || []) {
+      const url = sc.url || "";
+      if (!url.startsWith(scope)) {
+        report("manifest", M, false, `shortcut "${sc.name}" url ${url} is outside scope ${scope}`);
+        continue;
+      }
+      const file = url.replace(/[#?].*$/, "").replace(/^\//, "") || "index.html";
+      if (!existsSync(join(ROOT, file))) {
+        report("manifest", M, false, `shortcut "${sc.name}" points at a missing page: ${file}`);
+      }
+      // A fragment in a shortcut url must resolve, or the shortcut
+      // silently lands at the top of the page instead of the section.
+      const frag = (url.match(/#([^?]+)$/) || [])[1];
+      if (frag && !readFileSync(join(ROOT, file), "utf8").includes(`id="${frag}"`)) {
+        report("manifest", M, false, `shortcut "${sc.name}" fragment #${frag} has no id in ${file}`);
+      }
+    }
+    if (!results.some((r) => r.check === "manifest")) {
+      report(
+        "manifest",
+        M,
+        true,
+        `${images.length} images resolve at declared sizes, ${(man.shortcuts || []).length} shortcuts in scope`,
+      );
+    }
+  }
+}
+
 const testPages = PAGE_FILTER ? pages.filter((p) => p === PAGE_FILTER) : pages;
 if (!testPages.length) {
   console.error(`verify-site: no page matches --page=${PAGE_FILTER}`);
@@ -139,29 +195,7 @@ if (!testPages.length) {
 }
 
 // ── Static server ───────────────────────────────────────────────────
-const MIME = {
-  ".html": "text/html", ".css": "text/css", ".js": "text/javascript",
-  ".mjs": "text/javascript", ".json": "application/json",
-  ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg",
-  ".xml": "application/xml", ".txt": "text/plain", ".woff2": "font/woff2",
-  ".mp3": "audio/mpeg", ".mp4": "video/mp4", ".vtt": "text/vtt", ".ico": "image/x-icon",
-};
-const server = createServer((req, res) => {
-  try {
-    let path = decodeURIComponent(new URL(req.url, "http://x").pathname);
-    if (path.endsWith("/")) path += "index.html";
-    const file = normalize(join(ROOT, path));
-    if (!file.startsWith(ROOT)) throw new Error("traversal");
-    const body = readFileSync(file);
-    res.writeHead(200, { "Content-Type": MIME[extname(file)] || "application/octet-stream" });
-    res.end(body);
-  } catch (e) {
-    res.writeHead(404);
-    res.end("not found");
-  }
-});
-await new Promise((r) => server.listen(0, "127.0.0.1", r));
-const BASE = `http://127.0.0.1:${server.address().port}`;
+const { server, base: BASE } = await startStaticServer(ROOT);
 
 // ── Fixtures (alquran.cloud v1 shapes) with a hostile payload ───────
 const XSS = '<img src=x onerror="window.__xss=1">hostile';
@@ -227,11 +261,7 @@ function fixtureFor(url) {
 }
 
 // ── Browser plumbing ────────────────────────────────────────────────
-const browser = await chromium.launch(
-  existsSync("/opt/pw-browsers/chromium")
-    ? { executablePath: "/opt/pw-browsers/chromium" }
-    : {},
-);
+const browser = await chromium.launch(launchOptions());
 const BLOCKED_HOSTS = /api\.alquran\.cloud|cdn\.islamic\.network|api\.quran\.com/;
 
 async function newContext({ apiMode = "abort", seenState = true } = {}) {

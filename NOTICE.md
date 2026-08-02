@@ -150,6 +150,24 @@ yet; upstream (corpus.quran.com) states "GNU General Public License"
 without pinning a version. Until a copy is added, obtain the license
 text from https://www.gnu.org/licenses/.
 
+## Generated images
+
+`assets/og/site-og.png`, the per-entity social cards in
+`assets/og/surah/` and `assets/og/theme/`, the PWA icons in
+`assets/icons/`, and the install screenshots in `assets/screenshots/`
+are rendered by this project from its own HTML templates
+(`scripts/build-og-images.mjs` and the one-time manual captures
+described in the maintainer guide).
+
+Each card displays committed data and carries that data's standing: the
+surah cards show `data/surah-names.json` (site-authored, MIT) alongside
+verse counts and revelation order from the Leeds-derived
+`data/surah-profiles.json` and the Tanzil-derived
+`data/chronology.json`; the theme cards show titles and root families
+from the Leeds-derived `data/themes.json`. The bundled OFL fonts are
+rasterized into these images, not embedded or redistributed as font
+files, which the OFL permits.
+
 ## Other sources
 
 See `sources.html` for the full citation list of datasets, translations,

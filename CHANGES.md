@@ -1,77 +1,119 @@
-# Changes — one share button that always shares the right thing
+# Changes — a citation you can check, a card per surah, an app that installs
 
 ## Why this pass exists
 
-The site already had good sharing bones: a floating share button on
-every page, 1,789 generated link-preview pages under `s/` (one per
-root, theme, and surah), an embed system, and URLs that reproduce
-state. What it lacked was consistency. themes.html carried 66 inline
-chips — Share and Embed inside every one of 33 card headings — while
-its floating button shared the wrong URL. dossier.html never pointed
-the button at its surah's preview page even though all 114
-`s/surah/` pages redirect *to* it. Two affordances, two answers.
+The previous release made sharing consistent: one affordance that
+always hands out the right preview URL. Two things it left open are
+what this one closes.
 
-Sharing improves here by **removing** buttons, not adding them.
+The word-by-word meanings are credited to the Quran.com Foundation with
+a note saying an individual translator credit replaces that if the
+endpoint names one. That sentence was written from the API's documented
+behavior, not from a live response, because the environment that built
+the feature could not reach `api.quran.com`. The rule in this
+repository is that nothing is cited from memory, so the entry carried
+an honest note and an open question — phrased, unhelpfully, as a
+research task.
 
-## One affordance, always right
+And every shared link, whichever surah or theme it pointed at, unfurled
+with the same site-wide image.
 
-The 33 per-card Share chips on themes.html are gone; the floating
-button now owns sharing everywhere. It follows the page's hash: when
-a theme card is on screen (`themes.html#patience`), it hands out that
-theme's link-preview page; on any other hash (like the in-page
-`#study-kit` anchor) it falls back to the live URL. The Embed chip
-moves out of each card's heading into a study-only row at the card
-bottom, matching the Roots page's existing pattern — at the default
-Simple depth a theme card now shows zero buttons instead of two.
+## The citation question becomes one command
 
-dossier.html points the button at `s/surah/N.html` once a real
-dossier renders (the picker and example views keep the live URL).
-coverage.html and export.html, the only two pages without share.js,
-now load it, so the button exists sitewide.
+`scripts/check-wbw-credit.mjs` turns "inspect the resource metadata"
+into `node scripts/check-wbw-credit.mjs`. It parses the endpoint out of
+`assets/wordbw.js` — the same way the edition checker parses
+`assets/app.js` — so the check can never drift from what the site
+actually requests. It fetches a short surah, prints the first word
+entry exactly as served plus every attribution-shaped field it can
+find, probes candidate resource endpoints, and ends in one of three
+verdicts: **OK** (the served credit matches what is recorded),
+**ACTION NEEDED** (a different credit is served — it prints the JSON to
+paste), or **REVIEW** (nothing conclusive; read the payload).
 
-## The verse reference is the link
+Two decisions in it are worth stating. It **discovers rather than
+asserts**: the response shape for word-level attribution could not be
+verified when it was written, so it prints what it finds and labels
+anything speculative "candidate (unverified)" in its own output. And
+**only a contradiction fails** — ambiguity exits 0 — so the weekly
+scheduled run stays quiet unless the endpoint's attribution really
+changed. It runs alongside the existing citation-link and edition
+checks in the scheduled audit job, and the maintainer guide carries the
+three-verdict recipe.
 
-On the Read page each verse's reference (`103:1`) is now itself a
-link to that verse's canonical single-verse URL — the classic
-anchor-link convention. Right-click or long-press to copy, click to
-land on it. No new buttons; the reference was already there.
+Building it caught a bug worth recording: an early version read the
+gloss itself as a credit. The English meaning of the first word of
+al-'Asr is "By the time", which matched both a broad
+`/translat/`-shaped key rule and a name-shaped value rule — so the
+check would have cried wolf on literally every run. Credit candidates
+are now selected by key, with content fields and language labels
+excluded by name rather than guessed at by value.
 
-Where the native share sheet is available, sharing from the Read
-page now carries a human label ("al-'Asr 103:1-3") alongside the
-URL, built from the same API surah name already on screen. The
-clipboard fallback stays URL-only: a pasted link should be a link.
+## A card per surah and theme
 
-## Richer unfurls
+`assets/og/surah/<n>.png` (114) and `assets/og/theme/<slug>.png` (33)
+now carry the surah's Arabic name, transliteration, verse count,
+Meccan/Medinan class and revelation-order position, or the theme's
+title and root families. They are rendered from
+`assets/og/entity-template.html` by `scripts/build-og-images.mjs`,
+using the same committed JSON the share-page generator reads, so a card
+and its share page can never describe an entity differently. The
+Arabic uses the repository's own bundled Amiri rather than a system
+fallback, so a name renders identically wherever the cards are
+generated — and never as tofu.
 
-The `s/` page template gains `og:image:alt`, `twitter:title`, and
-`twitter:description`; all 1,789 pages are regenerated (run-twice
-deterministic, as before). The one site-wide OG card no longer
-headlines "1,642 roots / 114 surahs" — the count-flexing this series
-of passes has been retiring — and instead says what the site is for:
-read a surah as one connected discourse, every claim traceable to
-its source. The PNG is regenerated from the committed template.
+The 1,642 root pages deliberately keep the site-wide card: the
+least-shared tail, where per-entity PNGs would be indefensible repo
+weight, and the page title already names the root. `build-share-pages`
+picks up a card when the file exists and falls back to the site card
+when it does not, so the image step stays optional for a fresh clone
+and a deleted card degrades instead of 404ing in someone's preview.
+The generator prunes stale cards on a full run, exactly as the share
+pages are pruned.
 
-## The citation you can take with you
+Like the site image and the PWA icons before it, this generator is
+explicitly **outside the deterministic pipeline** — PNG encoding and
+font rasterization are not byte-stable across machines — so it is
+owner-run and reviewed by eye, never wired into CI. The share pages
+themselves remain run-twice identical.
 
-The citation popover (any source badge) gains a "Copy citation"
-action: the same Chicago-style line the popover shows, as plain text
-with the source URL, via the existing clipboard helper. It appears
-only on pages that load share.js, and degrades to nothing elsewhere.
+## An install surface
+
+The manifest gains three shortcuts (Read a passage, Today's discourse,
+Browse surahs) and narrow/wide install screenshots. Shortcuts carry no
+icons of their own, so the richer install and long-press surface costs
+three JSON entries and two images.
+
+Nothing renders the manifest, which means nothing would have noticed it
+rotting: a shortcut pointing at a deleted page, a screenshot whose
+declared size stopped matching the file, or a missing icon all degrade
+or silently reject the install prompt rather than erroring. verify-site
+gains a `manifest` check that resolves every icon and screenshot at its
+declared pixel size (read from the PNG header, no dependency) and
+asserts every shortcut is in scope, resolves to a page, and — where it
+carries a fragment — to a real id on that page. Each of those five
+failure modes was verified to fail the check.
 
 ## Verified
 
-All checkers pass (`check-nav-sync`, `check-headers-sync`,
-`build-csp --check`, `check-claims`, `check-data-nums`,
-`check-paths`, `check-exercises`, `check-videos`, `check-notice`),
-`build-share-pages` is run-twice deterministic, and the full
-verify-site Playwright suite reports 179 checks, all passing.
+All checkers pass (`check-nav-sync`, `check-headers-sync`, `build-csp
+--check`, `check-claims`, `check-data-nums`, `check-paths`,
+`check-exercises`, `check-videos`, `check-notice`) and the full
+verify-site suite reports **180 checks, all passing** — 179 plus the
+new manifest group.
 
-Targeted spot-checks (Playwright): themes shows 0 chips at Simple
-and 33 study-only Embed chips at Study; the floating button's URL
-tracks hash changes, deep-linked arrival (`themes.html#<slug>`
-despite the fetch/defer race), and `#study-kit` correctly; the
-dossier button is set after DOMContentLoaded on real dossiers and
-unset on the picker; the verse self-link navigates and the meta row
-does not overflow at 375px; "Copy citation" copies plain text (no
-markup) and toasts; coverage and export load clean with the button
-present.
+`scripts/verify-site.mjs` gave up two blocks it had held alone: the
+Playwright resolution and the local static server now live in
+`scripts/lib/`, shared with the image generator. The suite running
+unchanged at 179 before the manifest check was added is the evidence
+that extraction was behavior-neutral.
+
+The share pages regenerate byte-identically across runs (147 with an
+entity card, 1,642 with the site card), the credit checker's parsing,
+comparison and three verdicts were exercised against a stubbed server,
+and NOTICE.md now states the licensing standing of the generated
+images.
+
+One step still needs an unrestricted network, and it is now a single
+command: confirm the word-by-word translator credit with
+`node scripts/check-wbw-credit.mjs`.

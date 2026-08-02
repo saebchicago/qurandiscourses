@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Entity OG card template · Divine Discourses</title>
+    <!-- Source template for the per-entity social cards under
+         assets/og/surah/ and assets/og/theme/ (the og:image on the
+         generated s/ share pages). Filled and captured by
+         scripts/build-og-images.mjs, which sets the text of #kicker,
+         #arabic, #title and #sub via page.evaluate — this file stays
+         pure static markup with NO inline script, so the deployed copy
+         behaves identically under the site's CSP.
+
+         Like assets/og/og-template.html, capture is a MANUAL step
+         deliberately outside the deterministic pipeline: PNG encoding
+         and font rasterization are not byte-stable across machines.
+
+         The Arabic face is the repository's own bundled Amiri rather
+         than a system fallback, so a surah name renders the same way
+         wherever the cards are generated (and never as tofu). The
+         relative ../fonts/ path resolves both over file:// and through
+         the local static server. -->
+    <style>
+      @font-face {
+        font-family: "Amiri";
+        font-style: normal;
+        font-weight: 400;
+        font-display: block;
+        src: url(../fonts/J7aRnpd8CGxBHpUrtLMA7w.woff2) format("woff2");
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        width: 1200px;
+        height: 630px;
+        background: #f6efe2;
+        color: #2b1d0e;
+        font-family: Georgia, "Times New Roman", serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
+      .frame {
+        position: absolute;
+        inset: 28px;
+        border: 2px solid #d9c8a8;
+        border-radius: 18px;
+      }
+      .frame::after {
+        content: "";
+        position: absolute;
+        inset: 8px;
+        border: 1px solid #d9c8a8;
+        border-radius: 12px;
+      }
+      .card {
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        padding: 0 90px;
+        width: 100%;
+      }
+      #kicker {
+        font-size: 28px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #5a4a36;
+        margin-bottom: 26px;
+      }
+      #arabic {
+        font-family: "Amiri", Georgia, serif;
+        font-size: 96px;
+        line-height: 1.35;
+        direction: rtl;
+        margin-bottom: 10px;
+      }
+      /* Long transliterations and theme titles must never touch the
+         frame: the size steps down rather than wrapping to three lines. */
+      #title {
+        font-size: 78px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        line-height: 1.12;
+        margin-bottom: 24px;
+      }
+      #title.long { font-size: 62px; }
+      #title.longer { font-size: 50px; }
+      #sub {
+        font-size: 28px;
+        color: #5a4a36;
+        line-height: 1.5;
+      }
+      /* Theme cards carry no Arabic line; the rule keeps the block
+         optically centered without a second layout. */
+      #arabic:empty { display: none; }
+      .wordmark {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 62px;
+        text-align: center;
+        font-size: 24px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #8a795f;
+        z-index: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="frame"></div>
+    <div class="card">
+      <p id="kicker">Surah 103</p>
+      <p id="arabic" lang="ar" dir="rtl">الْعَصْر</p>
+      <h1 id="title">al-&rsquo;Asr</h1>
+      <p id="sub">3 verses &middot; Meccan &middot; 13th in the Cairo 1924 order</p>
+    </div>
+    <p class="wordmark">Divine Discourses</p>
+  </body>
+</html>

@@ -401,6 +401,38 @@ Test path without any license: `node scripts/build-gloss.mjs
 scripts/fixtures/gloss-raw-sample.json --out /tmp/gloss-test` (the
 fixture is refused for data/gloss/ by design).
 
+### Confirm the word-by-word translator credit (needs network)
+The Read page's interlinear meanings are fetched at runtime from
+api.quran.com and credited through the `qcf-wbw-en` entry in
+`data/sources.json`. That entry was written from the API's documented
+behavior, not from a live response, because the sandbox that added the
+feature could not reach the host. Confirm it once from an unrestricted
+machine:
+
+```
+node scripts/check-wbw-credit.mjs        # --json to dump the raw first verse
+```
+
+It parses the endpoint out of `assets/wordbw.js` (so the check can
+never drift from what the site actually requests), fetches surah 103,
+prints the first word entry as served plus every attribution-shaped
+field it can find, probes candidate resource endpoints, and ends in one
+of three verdicts:
+
+- **OK** — the endpoint serves a credit matching `qcf-wbw-en.author`.
+  Nothing to do.
+- **REVIEW** — nothing conclusive. Read the printed word entry: if no
+  translator is named anywhere, the Quran.com Foundation credit stands
+  and the entry's existing note is the honest phrasing; if one is named
+  in a field the script did not surface, record it as below.
+- **ACTION NEEDED** — a different credit is served. The script prints
+  the exact JSON to paste over the `qcf-wbw-en` entry. Mirror the author
+  in sources.html's bibliography line, then run `node
+  scripts/check-claims.mjs && node scripts/check-source-links.mjs`.
+
+Only a contradiction exits non-zero, so the weekly scheduled run of
+this check stays quiet unless the endpoint's attribution really changed.
+
 ### Publish a video (watch.html)
 1. Record from the entry's script in `docs/video-scripts/` — real screen
    capture of the live site, human voice, no stock footage or music, no
@@ -417,12 +449,41 @@ fixture is refused for data/gloss/ by design).
    break the CSP and the no-tracking promise.
 
 ### Regenerate the social-preview image (rare)
-`assets/og/site-og.png` (the og:image on every page and share page) is
-captured from `assets/og/og-template.html` — a ONE-TIME MANUAL step,
-deliberately outside the deterministic pipeline: open the template in a
-browser and screenshot at exactly 1200×630 (Playwright viewport capture
-or devtools device capture), overwrite the PNG, commit. Do not add a
-package.json for this.
+`assets/og/site-og.png` (the og:image on every page, and on the share
+pages of the 1,642 roots) is captured from
+`assets/og/og-template.html` — a ONE-TIME MANUAL step, deliberately
+outside the deterministic pipeline: open the template in a browser and
+screenshot at exactly 1200×630 (Playwright viewport capture or devtools
+device capture), overwrite the PNG, commit. Do not add a package.json
+for this.
+
+### Regenerate the per-entity cards and install screenshots (rare)
+`assets/og/surah/<n>.png` (114) and `assets/og/theme/<slug>.png` (33)
+are the og:image on the matching `s/` share page;
+`assets/screenshots/home-{narrow,wide}.png` are what the PWA install
+dialog shows. All five sets come from one script:
+
+```
+node scripts/build-og-images.mjs                 # everything, ~5s
+node scripts/build-og-images.mjs --only=theme    # one set
+node scripts/build-og-images.mjs --limit=3       # spot work (skips pruning)
+```
+
+Cards are filled from `assets/og/entity-template.html` using the same
+committed JSON `build-share-pages.mjs` reads, so a card and its share
+page can never describe an entity differently — but **this script is
+not deterministic** (PNG encoding and font rasterization vary by machine
+and Chromium version), so it is owner-run and eyeballed, never wired
+into CI. Review a sample before committing: Arabic must render in Amiri
+(the template loads the bundled woff2, so tofu means the font path
+broke), and no headline may touch the frame.
+
+Run it after adding or renaming a theme — stale cards are pruned on a
+full run — then rerun `node scripts/build-share-pages.mjs`, which picks
+up new cards automatically and falls back to the site card for anything
+missing. Recapture the screenshots when the home page changes
+materially; `verify-site`'s `manifest` check fails if a declared size
+stops matching the file.
 
 ### Regenerate the PWA icons (rare)
 `assets/icons/icon-{192,512}.png` are captured from
