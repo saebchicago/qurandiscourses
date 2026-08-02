@@ -151,12 +151,11 @@
     <main id="main">
       <section class="research-hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow">A reader-led Qur'an research workspace</p>
           <h2 id="hero-title">Read a surah as one connected discourse.</h2>
           <p class="hero-lede">
-            Examine its words, recurrences, structure, and sources—then record
-            your own reading. The site orders evidence; interpretation remains
-            yours.
+            Open any surah with parallel translations, word-by-word meanings,
+            and audio. Add evidence layers when you want them, and keep your
+            own notes.
           </p>
           <div class="hero-actions">
             <a class="button hero-primary" href="read.html">Open a surah</a>
@@ -272,13 +271,6 @@
         })();
       </script>
 
-      <section class="trust-bar" aria-label="Research commitments">
-        <div><strong>Reader-led interpretation</strong><span>The evidence is ordered. The reading remains yours.</span></div>
-        <div><strong>Recomputable evidence</strong><span>Corpus data and deterministic scripts ship with the site.</span></div>
-        <div><strong>Visible limits</strong><span>Method dependencies and source uncertainties stay attached.</span></div>
-        <div><strong>Private by default</strong><span>Notes and progress remain in this browser.</span></div>
-      </section>
-
       <section id="continueSection" hidden aria-live="polite">
         <div
           class="banner soft"
@@ -390,194 +382,11 @@
             <span class="workflow-link">Open the study paths <span aria-hidden="true">→</span></span>
           </a>
         </div>
-      </section>
-
-      <section>
-        <h2>How we verify</h2>
-        <p>
-          Published research claims expose separate source, reproduction, and
-          dependency statuses—not one undifferentiated promise of certainty.
-          Every claim carries a label: ● Verified, ○ Pending, or ~ Nuanced.
-        </p>
-        <details class="xref-panel">
-        <summary>Four worked examples (Verified and Nuanced)</summary>
-        <!-- Rendered from data/case-studies.json (single source of truth,
-             shared with validation.html); the markup below is the static
-             fallback if that fetch fails. Edit the JSON, not this HTML. -->
-        <div class="verify-block" data-case-studies="home">
-          <div class="verify-example">
-            <h3>
-              <span
-                class="badge ok"
-                data-source-ids="leeds-corpus-v0.4"
-                aria-label="Verified"
-                tabindex="0"
-                title="Verified · computed from the cited corpus"
-                >●</span
-              >
-              Verified
-            </h3>
-            <p class="claim">
-              The five most frequent roots in the Qur'an: a-l-h (God, 2,851),
-              q-w-l (say, 1,722), k-w-n (be, 1,390), r-b-b (Lord, 980), a-m-n
-              (believe, 879).
-            </p>
-            <p class="trace">
-              Traced to the Leeds Quranic Arabic Corpus (Dukes 2009–2017),
-              corpus.quran.com dictionary. Full table on
-              <a href="numbers.html">Numbers</a>.
-            </p>
-          </div>
-          <div class="verify-example">
-            <h3>
-              <span
-                class="badge ok"
-                data-source-ids="farahi-primary mir-coherence-1986"
-                aria-label="Verified"
-                tabindex="0"
-                title="Verified · corroborated by an independent secondary source"
-                >●</span
-              >
-              Verified
-            </h3>
-            <p class="claim">
-              Farahi's <em>Mufradat al-Qur'an</em> and <em>Niẓām al-Qur'an</em>
-              are foundational to the coherence-based reading school.
-            </p>
-            <p class="trace">
-              Independently corroborated by Mustansir Mir's 1986 monograph on
-              Islahi's nazm method. Full citations on
-              <a href="sources.html">Sources</a>.
-            </p>
-          </div>
-          <div class="verify-example">
-            <h3>
-              <span
-                class="badge nuanced"
-                data-source-ids="leeds-corpus-v0.4"
-                aria-label="Nuanced"
-                tabindex="0"
-                title="Nuanced · counting method varies by source"
-                >~</span
-              >
-              Nuanced
-            </h3>
-            <p class="claim">
-              Root y-w-m (day) occurs 405 times in the Leeds corpus. Widely
-              circulated totals such as 365 or 475 count selected surface or
-              compound forms instead; this site has not reproduced those totals.
-            </p>
-            <p class="trace">
-              Only the 405 root total is verified here. The other totals are
-              cautions about changing the unit of count, not endorsed findings. See
-              <a href="numbers.html">Numbers</a>.
-            </p>
-          </div>
-          <div class="verify-example">
-            <h3>
-              <span
-                class="badge ok"
-                data-source-ids="leeds-corpus-v0.4"
-                aria-label="Verified"
-                tabindex="0"
-                title="Verified · computed from the cited corpus"
-                >●</span
-              >
-              Verified
-            </h3>
-            <p class="claim">
-              Of every root it ever shares a verse with, r-ḥ-m (mercy) appears
-              most often beside gh-f-r (forgiveness) — together in 91 verses,
-              far ahead of any other pairing.
-            </p>
-            <p class="trace">
-              Counted from the bundled co-occurrence tables (Leeds v0.4); the
-              same pairing tops the list from gh-f-r's side too. Explore on
-              <a href="roots.html">Roots</a>.
-            </p>
-          </div>
-        </div>
-        </details>
-        <p>
-          Full method and prompts on
-          <a href="validation.html">Validation</a>.
-        </p>
-      </section>
-
-      <section>
-        <h2>Three depth levels</h2>
-        <div
-          style="
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-          "
-        >
-          <div class="card" style="margin: 0">
-            <strong
-              >Simple
-              <button
-                class="info-tip"
-                data-tip="depth-simple"
-                aria-label="More about Simple depth"
-              >
-                ?
-              </button></strong
-            >
-            <p style="margin: 0.25rem 0 0; font-size: 0.9rem">
-              Verse text, word-by-word meanings, translations, audio. The
-              reading layer.
-            </p>
-          </div>
-          <div class="card" style="margin: 0">
-            <strong
-              >Study
-              <button
-                class="info-tip"
-                data-tip="depth-study"
-                aria-label="More about Study depth"
-              >
-                ?
-              </button></strong
-            >
-            <p style="margin: 0.25rem 0 0; font-size: 0.9rem">
-              Adds word-by-word morphology, root links, related verses, and
-              period distribution. The analytical layer.
-            </p>
-          </div>
-          <div class="card" style="margin: 0">
-            <strong
-              >Encyclopedic
-              <button
-                class="info-tip"
-                data-tip="depth-encyclopedic"
-                aria-label="More about Encyclopedic depth"
-              >
-                ?
-              </button></strong
-            >
-            <p style="margin: 0.25rem 0 0; font-size: 0.9rem">
-              Adds structural pattern notes and full provenance. The reference
-              layer.
-            </p>
-          </div>
-        </div>
-        <p style="text-align: center; margin-top: 1.5rem">
-          <a href="how-it-works.html" style="font-weight: 500"
-            >Learn the method →</a
-          >
-        </p>
-      </section>
-
-      <section>
-        <h2>Purpose, audience, and scope</h2>
-        <p>
-          Divine Discourses is a tool for direct, evidence-based study of the
-          Qur'an: roots, morphology, structural patterns, and cross-references
-          with provenance attached. It is for readers who want to engage the
-          text without an intermediary, and for students who want claims they
-          can trace.
+        <p class="caption-note">
+          Every claim on this site carries a label you can open for its
+          source. How that works:
+          <a href="how-it-works.html">the method</a> ·
+          <a href="validation.html">worked examples</a>.
         </p>
       </section>
     </main>

@@ -21,7 +21,7 @@
       body: "Read to sit with the text, study a theme or a root to follow a question, or check the evidence behind any claim.",
     },
     {
-      sel: '[data-case-studies="home"] .badge',
+      sel: "#dailyProv .badge",
       title: "Every claim carries a label",
       body: "● Verified, ○ Pending, ~ Nuanced. Click any label anywhere to see the full citation of its source.",
     },
@@ -33,7 +33,7 @@
     {
       sel: ".settings .gear",
       title: "Depth and palette",
-      body: "The gear sets your depth (Simple / Study / Encyclopedic — or keys 1/2/3) and colors; translations and reciter are chosen on the Read page. Saved in this browser only.",
+      body: "The gear sets your depth (Simple / Study / Encyclopedic — or keys 1/2/3) and colors; translations and reciter are chosen on the Read page.",
     },
   ];
 

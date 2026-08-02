@@ -172,7 +172,7 @@
     var note = document.createElement("p");
     note.className = "notebook-note";
     note.textContent =
-      "Zero tracking: pins stay only in this browser's local storage, never sent anywhere. For writing notes on a verse, see the notes panel on the Read page.";
+      "Pins stay in this browser's local storage. For writing notes on a verse, see the notes panel on the Read page.";
     panelEl.appendChild(note);
 
     if (pins.length === 0) {

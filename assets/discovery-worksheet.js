@@ -94,7 +94,7 @@
       // reader steps up to Study or Encyclopedic — no JS re-render.
       '<div class="card discovery-worksheet study-only" style="margin-top:1.5rem">' +
       '<h3 style="display:flex;align-items:baseline;gap:0.6rem;flex-wrap:wrap">Discovery worksheet' +
-      '<span style="font-size:0.78rem;font-weight:400;color:var(--muted)">your own reading, saved in this browser only — never sent anywhere, never a site claim</span></h3>' +
+      '<span style="font-size:0.78rem;font-weight:400;color:var(--muted)">your own reading, saved in this browser only</span></h3>' +
       khanNoteHtml(currentSurah) +
       '<label for="wsTheme">Proposed central theme</label>' +
       '<input id="wsTheme" type="text" value="' +
