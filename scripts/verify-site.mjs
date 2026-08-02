@@ -20,7 +20,8 @@
 //             data/sources.json (hard fail), and the first badge on
 //             each page opens by mouse AND Enter/Space, closes on
 //             Escape
-//   keyboard  §6.5 hamburger at 375px, dropdown menus at 1280px,
+//   keyboard  §6.5 nav groups at 375px (no hamburger: the details
+//             groups stay visible), dropdown menus at 1280px,
 //             settings gear, Escape behavior (nav is identical on all
 //             pages — check-nav-sync.mjs guards that — so interaction
 //             runs on index.html and read.html only); focus-ring
@@ -477,15 +478,18 @@ for (const pageFile of testPages) {
 
   // Keyboard interaction (nav is nav-sync-guaranteed identical; two pages).
   if (runCheck("keyboard") && KEYBOARD_PAGES.has(pageFile)) {
-    // Desktop dropdowns.
+    // Desktop dropdowns. The groups are <details>, so "open" is the
+    // element's own state, not an aria-expanded attribute the script
+    // maintains: the browser exposes the expanded semantics.
     await page.setViewportSize({ width: 1280, height: 800 });
     const grpBtn = page.locator(".nav-group-btn").first();
     if ((await grpBtn.count()) > 0) {
+      const grpDetails = page.locator(".nav-details").first();
       await grpBtn.focus();
       await page.keyboard.press("Enter");
-      const opened = (await grpBtn.getAttribute("aria-expanded")) === "true";
+      const opened = await grpDetails.evaluate((d) => d.open);
       await page.keyboard.press("Escape");
-      const closed = (await grpBtn.getAttribute("aria-expanded")) === "false";
+      const closed = !(await grpDetails.evaluate((d) => d.open));
       report("keyboard", pageFile, opened && closed, `dropdown Enter/Escape (open=${opened} close=${closed})`);
       const ring = await grpBtn.evaluate((el) => {
         el.focus();
@@ -503,18 +507,27 @@ for (const pageFile of testPages) {
       const closedGear = (await gear.getAttribute("aria-expanded")) === "false";
       report("keyboard", pageFile, openedGear && closedGear, `settings gear open/Escape (open=${openedGear} close=${closedGear})`);
     }
-    // Mobile hamburger.
+    // Mobile: every group stays reachable at 375px with no hamburger
+    // to press. The nav used to hide .nav-groups at this width and
+    // rely on a toggle injected at runtime, which left a JS-off
+    // visitor with no navigation at all; this asserts the replacement.
     await page.setViewportSize({ width: 375, height: 812 });
     await page.waitForTimeout(150);
-    const burger = page.locator(".nav-toggle");
-    if ((await burger.count()) > 0 && (await burger.isVisible())) {
-      await burger.click();
-      const openedB = (await burger.getAttribute("aria-expanded")) === "true";
+    const summaries = page.locator("nav.primary .nav-group-btn");
+    const total = await summaries.count();
+    let visible = 0;
+    for (let i = 0; i < total; i++) {
+      if (await summaries.nth(i).isVisible()) visible++;
+    }
+    if (visible === total && total > 0) {
+      const firstDetails = page.locator(".nav-details").first();
+      await summaries.first().click();
+      const openedM = await firstDetails.evaluate((d) => d.open);
       await page.keyboard.press("Escape");
-      const closedB = (await burger.getAttribute("aria-expanded")) === "false";
-      report("keyboard", pageFile, openedB && closedB, `hamburger open/Escape (open=${openedB} close=${closedB})`);
+      const closedM = !(await firstDetails.evaluate((d) => d.open));
+      report("keyboard", pageFile, openedM && closedM, `375px groups all visible (${visible}/${total}), open/Escape (open=${openedM} close=${closedM})`);
     } else {
-      report("keyboard", pageFile, false, "hamburger not visible at 375px");
+      report("keyboard", pageFile, false, `only ${visible}/${total} nav groups visible at 375px`);
     }
   }
 
