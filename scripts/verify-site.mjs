@@ -285,6 +285,10 @@ const VIEWPORTS = [
   { name: "1280px", width: 1280, height: 800 },
 ];
 const KEYBOARD_PAGES = new Set(["index.html", "read.html"]);
+// Pages whose citation popover is exercised by a targeted check further
+// down rather than by the generic per-page sweep, because their badges
+// only render after an interaction or a deep link.
+const DEDICATED_POPOVER_CHECK = new Set(["compare.html"]);
 const linkStatus = new Map(); // resolved URL -> status (crawl cache)
 
 const ctx = await newContext();
@@ -423,11 +427,16 @@ for (const pageFile of testPages) {
         ok ? "opens by mouse/Enter/Space, Escape closes"
            : `mouse=${openByMouse} esc=${closedByEsc} enter=${openByEnter} space=${openBySpace}`,
       );
-    } else if ((await page.locator(".badge[data-source-ids]").count()) > 0) {
+    } else if (
+      (await page.locator(".badge[data-source-ids]").count()) > 0 &&
+      !DEDICATED_POPOVER_CHECK.has(pageFile)
+    ) {
       // The page cites sources but none of its badges is visible in
       // this state, so the interaction above cannot run. Say so rather
       // than skipping silently: an untested popover reads like a
-      // passing one in the summary line.
+      // passing one in the summary line. Pages listed in
+      // DEDICATED_POPOVER_CHECK are exempt because a targeted check
+      // below exercises them in a state where badges do render.
       report(
         "badge-popover", pageFile, false,
         "no source badge visible in the default state; popover interaction untested on this page",
@@ -604,6 +613,49 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
     report("read-wbw-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
     await rctx.close();
   }
+}
+
+// ── compare.html: citation popover in a populated state ─────────────
+// The page renders no provenance until a comparison runs, so the
+// per-page sweep above finds no visible badge and reports that the
+// popover is untested. Drive it with its own ?roots= deep link and
+// run the interaction there, so this page is covered like the rest.
+if (runCheck("comparepopover") && (!PAGE_FILTER || PAGE_FILTER === "compare.html")) {
+  const cctx = await newContext();
+  const page = await cctx.newPage();
+  const errors = [];
+  attachConsoleCollector(page, errors);
+  await page.goto(`${BASE}/compare.html?roots=rHm,gfr`, { waitUntil: "load" });
+  await page
+    .locator(".badge[data-source-ids]:visible")
+    .first()
+    .waitFor({ state: "visible", timeout: 15000 })
+    .catch(() => {});
+  const badge = page.locator(".badge[data-source-ids]:visible").first();
+  if ((await badge.count()) > 0) {
+    const popShown = () =>
+      page.locator(".cite-popover").waitFor({ state: "visible", timeout: 3000 }).then(() => true, () => false);
+    const popGone = () =>
+      page.locator(".cite-popover").waitFor({ state: "detached", timeout: 3000 }).then(() => true, () => false);
+    await badge.click();
+    const openByMouse = await popShown();
+    await page.keyboard.press("Escape");
+    const closedByEsc = await popGone();
+    await badge.focus();
+    await page.keyboard.press("Enter");
+    const openByEnter = await popShown();
+    await page.keyboard.press("Escape");
+    await popGone();
+    const ok = openByMouse && closedByEsc && openByEnter;
+    report(
+      "compare-popover", "compare.html", ok,
+      ok ? "opens by mouse/Enter, Escape closes (via ?roots= deep link)"
+         : `mouse=${openByMouse} esc=${closedByEsc} enter=${openByEnter}`,
+    );
+  } else {
+    report("compare-popover", "compare.html", false, "?roots= deep link rendered no cited badge");
+  }
+  await cctx.close();
 }
 
 // ── First visit (empty storage) ─────────────────────────────────────

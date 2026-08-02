@@ -99,7 +99,7 @@ and the pinned figures the data checker validates are untouched.
 All nine checkers pass (`check-nav-sync`, `check-headers-sync`,
 `build-csp --check`, `check-claims`, `check-data-nums`, `check-paths`,
 `check-exercises`, `check-videos`, `check-notice`) and the full
-verify-site Playwright suite reports 179 checks with 0 failures.
+verify-site Playwright suite reports 179 checks, all passing.
 
 verify-site gains a Quran.com fixture (including an ayah-marker
 pseudo-word and a hostile payload) and three checks: the strip renders
@@ -110,10 +110,12 @@ DOM order, so a page whose first badge sits inside a closed disclosure
 is still covered, and reports a warning instead of skipping silently
 when no badge is visible at all.
 
-That change immediately surfaced one genuine pre-existing gap, left as
-a warning rather than papered over: compare.html renders no
-provenance until a comparison is run, so its popover interaction has
-never been exercised by the suite.
+That change immediately surfaced a genuine pre-existing gap:
+compare.html renders no provenance until a comparison is run, so its
+popover interaction had never been exercised. It is now covered by a
+targeted check that drives the page through its own `?roots=` deep
+link, so the suite reports 179 checks with no warnings and no
+failures.
 
 `SW_VERSION` is bumped to v8. One step needs an unrestricted network:
 confirm from a live response which translator credit the Quran.com
