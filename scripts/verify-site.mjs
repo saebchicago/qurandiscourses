@@ -397,7 +397,11 @@ for (const pageFile of testPages) {
       page.locator(".cite-popover")
         .waitFor({ state: "detached", timeout: 3000 })
         .then(() => true, () => false);
-    const badge = page.locator(".badge[data-source-ids]").first();
+    // The first VISIBLE cited badge, not simply the first in DOM order:
+    // a page whose first badge sits inside a closed disclosure, a depth
+    // gate, or a panel that appears only after a selection would
+    // otherwise skip this regression entirely.
+    const badge = page.locator(".badge[data-source-ids]:visible").first();
     if ((await badge.count()) > 0 && (await badge.isVisible())) {
       await badge.click();
       const openByMouse = await popShown();
@@ -418,6 +422,16 @@ for (const pageFile of testPages) {
         "badge-popover", pageFile, ok,
         ok ? "opens by mouse/Enter/Space, Escape closes"
            : `mouse=${openByMouse} esc=${closedByEsc} enter=${openByEnter} space=${openBySpace}`,
+      );
+    } else if ((await page.locator(".badge[data-source-ids]").count()) > 0) {
+      // The page cites sources but none of its badges is visible in
+      // this state, so the interaction above cannot run. Say so rather
+      // than skipping silently: an untested popover reads like a
+      // passing one in the summary line.
+      report(
+        "badge-popover", pageFile, false,
+        "no source badge visible in the default state; popover interaction untested on this page",
+        true,
       );
     }
   }
