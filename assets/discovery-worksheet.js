@@ -61,7 +61,7 @@
     if (ex) {
       return (
         '<p class="ws-khan-note">Khan published an outline for this surah — it’s already ' +
-        'transcribed as an exercise. <a href="exercise.html?id=' +
+        'transcribed as an exercise. <a href="/exercise?id=' +
         encodeURIComponent(ex.id) +
         '">Propose your own there first</a>, then compare against his reading. This worksheet ' +
         "is a separate, freer space for your own notes.</p>"

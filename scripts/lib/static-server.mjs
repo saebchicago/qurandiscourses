@@ -9,7 +9,7 @@
 // scripts/verify-site.mjs and scripts/build-og-images.mjs.
 
 import { createServer } from "node:http";
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import { join, normalize, extname } from "node:path";
 
 export const MIME = {
@@ -24,13 +24,24 @@ export const MIME = {
 // Resolves to { server, base } with the server already listening on a
 // free loopback port. Paths that escape `root` are refused (404), not
 // merely normalized.
-export async function startStaticServer(root) {
+//
+// An extensionless path is served from the matching .html file, the way
+// Netlify does it. The site links to /read rather than /read.html, so
+// without this the pages under test would be a different site from the
+// one that ships. The .html address stays readable too: production 301s
+// it to the clean path, and reproducing a redirect here would only make
+// every test assert on the wrong URL.
+// `port` defaults to 0, meaning any free port: the browser-driving
+// scripts want a port that is always free, scripts/serve.mjs wants a
+// fixed one you can bookmark.
+export async function startStaticServer(root, port = 0) {
   const server = createServer((req, res) => {
     try {
       let path = decodeURIComponent(new URL(req.url, "http://x").pathname);
       if (path.endsWith("/")) path += "index.html";
-      const file = normalize(join(root, path));
+      let file = normalize(join(root, path));
       if (!file.startsWith(root)) throw new Error("traversal");
+      if (!extname(file) && existsSync(file + ".html")) file += ".html";
       const body = readFileSync(file);
       res.writeHead(200, {
         "Content-Type": MIME[extname(file)] || "application/octet-stream",
@@ -41,6 +52,6 @@ export async function startStaticServer(root) {
       res.end("not found");
     }
   });
-  await new Promise((r) => server.listen(0, "127.0.0.1", r));
+  await new Promise((r) => server.listen(port, "127.0.0.1", r));
   return { server, base: `http://127.0.0.1:${server.address().port}` };
 }

@@ -169,7 +169,7 @@ window.GLOSSARY = {
       var anchor =
         ANCHORS[term] || term.toLowerCase().replace(/\s+/g, "-");
       pop.innerHTML =
-        '<strong class="gloss-pop-term"></strong><span class="gloss-pop-def"></span> <a class="gloss-pop-more" href="glossary.html#' +
+        '<strong class="gloss-pop-term"></strong><span class="gloss-pop-def"></span> <a class="gloss-pop-more" href="/glossary#' +
         encodeURIComponent(anchor) +
         '">Glossary →</a>';
       pop.querySelector(".gloss-pop-term").textContent =

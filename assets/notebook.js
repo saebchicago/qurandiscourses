@@ -81,10 +81,10 @@
   function hrefFor(pin) {
     if (pin.type === "verse") {
       var parts = String(pin.ref).split(":");
-      return "read.html?s=" + encodeURIComponent(parts[0]) + "&a=" + encodeURIComponent(parts[1]);
+      return "/read?s=" + encodeURIComponent(parts[0]) + "&a=" + encodeURIComponent(parts[1]);
     }
     if (pin.type === "root") {
-      return "roots.html?root=" + encodeURIComponent(pin.ref);
+      return "/roots?root=" + encodeURIComponent(pin.ref);
     }
     return "#";
   }

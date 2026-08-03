@@ -7,7 +7,7 @@
   // through qdEsc. Site-authored dataset text (glosses, titles) is
   // trusted, same as everywhere else on the site.
 
-  var SITE = "https://qurandiscourse.netlify.app";
+  var SITE = "https://divinediscourses.org";
   var root = document.getElementById("embedRoot");
 
   function footer(href, label) {
@@ -68,7 +68,7 @@
             : "") +
           "</p>" +
           '<p class="embed-prov">Counts from the Leeds Quranic Arabic Corpus v0.4; every occurrence verifiable on the site.</p>' +
-          footer(SITE + "/roots.html?root=" + id, entry.rootLatin);
+          footer(SITE + "/roots?root=" + id, entry.rootLatin);
       })
       .catch(fail);
   }
@@ -108,7 +108,7 @@
           chips +
           "</p>" +
           '<p class="embed-prov">Computed from the Leeds corpus; the grouping is lexical, a starting point rather than an index.</p>' +
-          footer(SITE + "/themes.html#" + t.slug, t.title);
+          footer(SITE + "/themes#" + t.slug, t.title);
       })
       .catch(fail);
   }
@@ -123,7 +123,7 @@
     });
     if (!meta || a < 1 || a > meta.verseCount) return fail();
     var label = meta.translit + " " + s + ":" + a;
-    var link = footer(SITE + "/read.html?s=" + s + "&a=" + a, label);
+    var link = footer(SITE + "/read?s=" + s + "&a=" + a, label);
 
     function offline() {
       // Same fallback the Read page uses: Arabic reassembled from the

@@ -75,7 +75,7 @@
           reason: "range",
           message: `${meta.translit} (surah ${s}) has ${meta.verseCount} verses.`,
         };
-      return { route: `read.html?s=${s}&a=${a}`, type: "verse" };
+      return { route: `/read?s=${s}&a=${a}`, type: "verse" };
     }
 
     // Bare surah number
@@ -83,7 +83,7 @@
     if (surahNumMatch) {
       const s = +surahNumMatch[1];
       if (s >= 1 && s <= 114)
-        return { route: `read.html?s=${s}&a=1`, type: "surah" };
+        return { route: `/read?s=${s}&a=1`, type: "surah" };
       return {
         route: null,
         reason: "range",
@@ -103,7 +103,7 @@
     );
     if (surahExact)
       return {
-        route: `read.html?s=${surahExact.id}&a=1`,
+        route: `/read?s=${surahExact.id}&a=1`,
         type: "surah-name",
         match: surahExact.en,
       };
@@ -112,7 +112,7 @@
     const rootMatch = q.match(/^([a-z])[-.\s]?([a-z])[-.\s]?([a-z])$/);
     if (rootMatch && q.replace(/[-.\s]/g, "").length === 3) {
       const root = `${rootMatch[1]}-${rootMatch[2]}-${rootMatch[3]}`;
-      return { route: `roots.html?q=${root}`, type: "root" };
+      return { route: `/roots?q=${root}`, type: "root" };
     }
 
     // Surah name prefix fuzzing, after the root rule — a 3-letter string
@@ -125,7 +125,7 @@
     );
     if (surah)
       return {
-        route: `read.html?s=${surah.id}&a=1`,
+        route: `/read?s=${surah.id}&a=1`,
         type: "surah-name",
         match: surah.en,
       };
@@ -141,7 +141,7 @@
       );
       if (surahAr)
         return {
-          route: `read.html?s=${surahAr.id}&a=1`,
+          route: `/read?s=${surahAr.id}&a=1`,
           type: "surah-name",
           match: surahAr.en,
         };
@@ -163,7 +163,7 @@
           : null;
       if (arRoot) {
         return {
-          route: `roots.html?q=${encodeURIComponent(arRoot)}`,
+          route: `/roots?q=${encodeURIComponent(arRoot)}`,
           type: "root",
         };
       }
@@ -256,14 +256,14 @@
       favor: "blessing",
     };
     if (THEME_WORDS[q]) {
-      return { route: `themes.html#${THEME_WORDS[q]}`, type: "theme" };
+      return { route: `/themes#${THEME_WORDS[q]}`, type: "theme" };
     }
 
     // English word fallback: the Roots page search matches English
     // glosses (words.html is a static explainer and ignores queries)
     if (/^[a-z\s'-]{2,}$/.test(q)) {
       return {
-        route: `roots.html?q=${encodeURIComponent(raw)}`,
+        route: `/roots?q=${encodeURIComponent(raw)}`,
         type: "word",
       };
     }

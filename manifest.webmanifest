@@ -2,7 +2,7 @@
   "name": "Divine Discourses",
   "short_name": "Divine Discourses",
   "description": "Study the Qur'an surah by surah in a coherence-reading tradition: structure first, every claim sourced and citable.",
-  "start_url": "/index.html",
+  "start_url": "/",
   "id": "/index.html",
   "scope": "/",
   "display": "standalone",
@@ -30,19 +30,19 @@
       "name": "Read a passage",
       "short_name": "Read",
       "description": "Open any surah with parallel translations and word-by-word meanings",
-      "url": "/read.html"
+      "url": "/read"
     },
     {
       "name": "Today's discourse",
       "short_name": "Today",
       "description": "The passage this site opens with today",
-      "url": "/index.html#dailySection"
+      "url": "/#dailySection"
     },
     {
       "name": "Browse surahs",
       "short_name": "Browse",
       "description": "All 114 surahs by mushaf or revelation order",
-      "url": "/navigate.html"
+      "url": "/navigate"
     }
   ],
   "screenshots": [

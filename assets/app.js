@@ -256,7 +256,7 @@
       <div class="actions">
         <button id="clearPrefs">Clear preferences &amp; reading history</button>
       </div>
-      <p class="small">This clears display choices, reading progress, and the passage cache from this browser. It does not delete study notes. <a href="about.html#privacy">Privacy and data controls</a>.</p>
+      <p class="small">This clears display choices, reading progress, and the passage cache from this browser. It does not delete study notes. <a href="/about#privacy">Privacy and data controls</a>.</p>
     `;
 
     panel.querySelectorAll("[data-feature]").forEach((cb) => {
@@ -377,7 +377,7 @@
   function enhanceTrustLinks() {
     document.querySelectorAll("footer.site .footer-links").forEach((links) => {
       if (links.querySelector("[data-trust-link]")) return;
-      const about = links.querySelector('a[href$="about.html"]');
+      const about = links.querySelector('a[href$="/about"]');
       if (!about) return;
       const trust = document.createElement("a");
       trust.href = about.getAttribute("href") + "#trust";

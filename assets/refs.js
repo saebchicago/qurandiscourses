@@ -246,7 +246,7 @@
         '<span class="ar-inline notranslate" translate="no" lang="ar" dir="rtl"></span> ' +
         '<span class="gloss-pop-def"></span> ' +
         '<span class="qd-ref-count" style="color:var(--muted)"></span> ' +
-        '<a class="gloss-pop-more" href="roots.html?root=' +
+        '<a class="gloss-pop-more" href="/roots?root=' +
         encodeURIComponent(key) +
         '">Explore in Roots →</a>';
       pop.querySelector(".gloss-pop-term").textContent = "Root " + latin + ". ";
@@ -278,7 +278,7 @@
       pop.innerHTML =
         '<strong class="gloss-pop-term"></strong>' +
         '<span class="gloss-pop-def"></span> ' +
-        '<a class="gloss-pop-more" href="read.html?s=' +
+        '<a class="gloss-pop-more" href="/read?s=' +
         s +
         "&a=" +
         a +

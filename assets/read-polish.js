@@ -193,7 +193,7 @@
       row.innerHTML =
         '<button type="button" class="btn-utility" data-act="ref">Copy reference</button>' +
         '<button type="button" class="btn-utility" data-act="text">Copy text</button>' +
-        '<a class="btn-utility" href="dossier.html?s=' + s + '">Open in Dossier</a>' +
+        '<a class="btn-utility" href="/dossier?s=' + s + '">Open in Dossier</a>' +
         // Verse-level only: chapter and verse params, never a root-level
         // corpus link (the Buckwalter mapping for those is unresolved).
         '<a class="btn-utility" href="https://corpus.quran.com/wordbyword.jsp?chapter=' +
@@ -286,7 +286,7 @@
       if (!retry || retry.parentNode.querySelector(".read-recover")) return;
       var a = document.createElement("a");
       a.className = "button secondary btn-secondary read-recover";
-      a.href = "read.html?s=1&a=1-7";
+      a.href = "/read?s=1&a=1-7";
       a.textContent = "Read al-Fatihah";
       retry.parentNode.appendChild(a);
     }

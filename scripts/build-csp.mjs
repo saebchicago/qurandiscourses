@@ -24,13 +24,18 @@ const TOML = join(ROOT, "netlify.toml");
 const CHECK = process.argv.includes("--check");
 
 // Map a CSP block's `for=` path to the HTML file whose inline scripts it
-// must authorize. "/s/*" → the generated share pages, which carry no
-// inline script (see build-share-pages.mjs), so 'self' alone.
+// must authorize. Every page has two blocks, one per address: the clean
+// path it is served at ("/read") and the .html path that redirects to it
+// ("/read.html"). Both resolve to the same file, so both get the same
+// hashes and can never drift apart. "/s/*" → the generated share pages,
+// which carry no inline script (see build-share-pages.mjs), so 'self'
+// alone.
 function fileForPath(p) {
   if (p === "/") return "index.html";
   if (p === "/s/*") return null; // no inline scripts by construction
-  if (p.startsWith("/") && p.endsWith(".html")) return p.slice(1);
-  return null;
+  if (!p.startsWith("/") || p.includes("*")) return null;
+  if (p.endsWith(".html")) return p.slice(1);
+  return p.slice(1) + ".html";
 }
 
 // Every inline <tag>…</tag> block (no attributes) hash, in page order.
