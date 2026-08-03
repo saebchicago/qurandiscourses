@@ -4,7 +4,7 @@ A Qur'an study platform directed at one goal: **direct, personal,
 evidence-based engagement with the Qur'an**, using a coherence-based reading
 method — read each surah as one discourse, not a string of isolated
 quotations. Maintained in memory of Dr. Irfan Ahmad Khan (1931–2018), whose
-teaching the method follows; see [about.html](https://qurandiscourse.netlify.app/about.html)
+teaching the method follows; see [About](https://divinediscourses.org/about)
 for the fuller story.
 
 It exists so that anyone — an independent student, a teacher, a skeptical
@@ -16,7 +16,7 @@ review of the method pages against their sources, and — for the 84 surahs
 Khan never published an outline for — your own structural readings; see
 [CONTRIBUTING.md](CONTRIBUTING.md).
 
-Live site: https://qurandiscourse.netlify.app/
+Live site: https://divinediscourses.org
 
 ## What makes it different
 
@@ -26,7 +26,7 @@ Live site: https://qurandiscourse.netlify.app/
    method-dependent, and which limitations remain. The machine-readable
    ledger is `data/claims.json`; its integrity gate is
    `node scripts/check-claims.mjs`. The reader-facing method is documented on
-   [Validation](https://qurandiscourse.netlify.app/validation.html).
+   [Validation](https://divinediscourses.org/validation).
 2. **The data ships with the site.** Word-by-word morphology for all
    77,429 tokens (Leeds Quranic Arabic Corpus v0.4, GPL — see
    [NOTICE.md](NOTICE.md)) is bundled as JSON, so root counts, theme
@@ -59,13 +59,16 @@ data/                bundled datasets: morphology/ (per-surah tokens),
 scripts/             deterministic, zero-dependency Node generators
                      that produce data/ artifacts from the morphology
                      (one Python helper, build-roots-index.py)
-netlify.toml         hosting config + security headers (CSP etc.)
+netlify.toml         hosting config: security headers (CSP etc.) and
+                     the .html -> clean-URL redirects
 ```
 
 ## Working on the site
 
 ```bash
-python3 -m http.server 8000        # serve locally, open localhost:8000
+node scripts/serve.mjs             # serve locally, open localhost:8000
+                                   # (resolves /read the way Netlify does;
+                                   #  python3 -m http.server cannot)
 node scripts/build-themes.mjs      # regenerate data/themes.json
 node scripts/build-cooccurrence.mjs
 node scripts/build-root-analytics.mjs
@@ -107,7 +110,7 @@ governance, privacy, learning, reach, and operational resilience is in the
 - `assets/fonts/`: SIL Open Font License 1.1, license texts bundled
   beside the binaries
 - Full source list with citations:
-  [Sources](https://qurandiscourse.netlify.app/sources.html)
+  [Sources](https://divinediscourses.org/sources)
 
 Corrections, citations, and source contributions are welcome via issues
 and pull requests.
