@@ -53,7 +53,7 @@
       ">" +
       "<summary>My notes" +
       ' <span style="font-size:0.78rem;font-weight:400;color:var(--muted)">saved on this device only — never sent anywhere</span></summary>' +
-      '<p class="caption-note">Export notes before clearing browser data or changing devices. Notes do not sync. <a href="about.html#privacy">How storage works</a></p>';
+      '<p class="caption-note">Export notes before clearing browser data or changing devices. Notes do not sync. <a href="/about#privacy">How storage works</a></p>';
 
     if (currentRef) {
       html +=
@@ -82,7 +82,7 @@
           .map(function (r) {
             var preview = (notes[r].text || "").slice(0, 90);
             return (
-              '<li style="margin:0.45rem 0;font-size:0.88rem"><a href="read.html?s=' +
+              '<li style="margin:0.45rem 0;font-size:0.88rem"><a href="/read?s=' +
               r.split(":")[0] +
               "&a=" +
               encodeURIComponent(r.split(":")[1]) +

@@ -7,9 +7,9 @@
 // never unfurl per-entity; these tiny pages carry the tags and bounce
 // humans straight to the interactive page.
 //
-//   s/root/<safeKey>.html   -> roots.html?root=<safeKey>   (1,642)
-//   s/theme/<slug>.html     -> themes.html#<slug>          (33)
-//   s/surah/<n>.html        -> dossier.html?s=<n>           (114)
+//   s/root/<safeKey>.html   -> /roots?root=<safeKey>   (1,642)
+//   s/theme/<slug>.html     -> /themes#<slug>          (33)
+//   s/surah/<n>.html        -> /dossier?s=<n>           (114)
 //
 // Share pages are noindex and deliberately NOT in sitemap.xml (1,789
 // thin near-duplicates would hurt search, and noindex requires
@@ -32,10 +32,13 @@ import {
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { safeKey } from "./lib/safe-key.mjs";
+import { SITE as SITE_ORIGIN } from "./lib/site.mjs";
 import { ordinal } from "./lib/ordinal.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const SITE = "https://qurandiscourse.netlify.app";
+// Origin and URL shape come from the one place that defines them, so a
+// domain move does not need 1,789 files rewritten by hand.
+const SITE = SITE_ORIGIN;
 const OG_IMG = `${SITE}/assets/og/site-og.png`;
 const OG_ALT =
   "Divine Discourses — Qur'an study, every claim traceable to its source";
@@ -126,7 +129,7 @@ for (const bw of Object.keys(rootsSummary).sort()) {
       // would be indefensible repo weight for the least-shared tail,
       // and the title above already names the root.
       og: ogFor(null),
-      target: `../../roots.html?root=${sk}`,
+      target: `/roots?root=${sk}`,
     }),
   );
 }
@@ -147,7 +150,7 @@ for (const t of themes.slice().sort((a, b) => a.slug.localeCompare(b.slug))) {
         `assets/og/theme/${t.slug}.png`,
         `${t.title} — a theme gateway on Divine Discourses`,
       ),
-      target: `../../themes.html#${t.slug}`,
+      target: `/themes#${t.slug}`,
     }),
   );
 }
@@ -176,7 +179,7 @@ for (let n = 1; n <= 114; n++) {
       // above already reads like its teaser, and the dossier's first
       // action is "Read this surah", so nothing is lost for a reader
       // who wanted the text itself.
-      target: `../../dossier.html?s=${n}`,
+      target: `/dossier?s=${n}`,
     }),
   );
 }

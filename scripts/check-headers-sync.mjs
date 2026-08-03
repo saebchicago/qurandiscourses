@@ -52,14 +52,30 @@ for (const b of cspBlocks) {
   cspByPath.set(b.path, (cspByPath.get(b.path) || 0) + 1);
 }
 
-// 1. every root page has exactly one CSP block
+// 1. every root page has exactly one CSP block per address. Pages are
+// served at a clean path (/read) and redirected to it from the .html
+// path (/read.html); Netlify matches headers on the request path, so
+// both need a block or one of the two addresses ships with no CSP.
 const pages = readdirSync(ROOT).filter((f) => f.endsWith(".html"));
+const cleanOf = (p) => (p === "index.html" ? "/" : "/" + p.replace(/\.html$/, ""));
 for (const p of pages) {
-  const n = cspByPath.get("/" + p) || 0;
-  if (n !== 1) failures.push(`/${p}: ${n} CSP blocks (want exactly 1)`);
+  for (const addr of ["/" + p, cleanOf(p)]) {
+    const n = cspByPath.get(addr) || 0;
+    if (n !== 1) failures.push(`${addr}: ${n} CSP blocks (want exactly 1)`);
+  }
 }
-if ((cspByPath.get("/") || 0) !== 1)
-  failures.push(`"/": ${cspByPath.get("/") || 0} CSP blocks (want exactly 1)`);
+
+// The two blocks of a pair must carry byte-identical values, or the
+// address a reader lands on would decide which policy they get.
+for (const p of pages) {
+  const a = cspBlocks.find((b) => b.path === "/" + p);
+  const b = cspBlocks.find((x) => x.path === cleanOf(p));
+  if (!a || !b) continue;
+  const csp = (blk) =>
+    blk.values.match(/Content-Security-Policy\s*=\s*"((?:[^"\\]|\\.)*)"/)[1];
+  if (csp(a) !== csp(b))
+    failures.push(`/${p}: CSP differs between "${a.path}" and "${b.path}"`);
+}
 
 // no CSP on catch-alls other than /s/*
 for (const b of cspBlocks) {
@@ -76,9 +92,9 @@ for (const b of cspBlocks) {
   const fa = csp.match(/frame-ancestors ([^;]+)/);
   if (!fa) {
     failures.push(`${b.path}: CSP without frame-ancestors`);
-  } else if (b.path === "/embed.html") {
+  } else if (b.path === "/embed.html" || b.path === "/embed") {
     if (fa[1].trim() !== "*")
-      failures.push(`/embed.html: frame-ancestors is "${fa[1].trim()}", want *`);
+      failures.push(`${b.path}: frame-ancestors is "${fa[1].trim()}", want *`);
   } else if (fa[1].trim() !== "'none'") {
     failures.push(`${b.path}: frame-ancestors is "${fa[1].trim()}", want 'none'`);
   }
@@ -106,11 +122,39 @@ if (!star) {
     failures.push("/*: carries a CSP — it would merge with every per-page CSP");
 }
 
+// 6. every page's .html address 301s to its clean one. Without force the
+// rule never fires, because the .html file exists; without the rule the
+// page would answer on two addresses and the canonical tag would be the
+// only thing distinguishing them.
+const redirects = [];
+for (const chunk of stripped.split("[[redirects]]").slice(1)) {
+  const from = chunk.match(/from\s*=\s*"([^"]+)"/);
+  const to = chunk.match(/to\s*=\s*"([^"]+)"/);
+  const status = chunk.match(/status\s*=\s*(\d+)/);
+  const force = /force\s*=\s*true/.test(chunk);
+  if (from && to) redirects.push({ from: from[1], to: to[1], status: status && +status[1], force });
+}
+const byFrom = new Map(redirects.map((r) => [r.from, r]));
+for (const p of pages) {
+  const r = byFrom.get("/" + p);
+  const want = cleanOf(p);
+  if (!r) failures.push(`/${p}: no redirect to its clean path ${want}`);
+  else if (r.to !== want) failures.push(`/${p}: redirects to "${r.to}", want "${want}"`);
+  else if (r.status !== 301) failures.push(`/${p}: redirect status ${r.status}, want 301`);
+  else if (!r.force) failures.push(`/${p}: redirect lacks force = true, so it never fires`);
+}
+// A redirect whose target is itself served by another redirect is a loop.
+for (const r of redirects) {
+  const next = byFrom.get(r.to);
+  if (next) failures.push(`${r.from} -> ${r.to} -> ${next.to}: redirect chain`);
+}
+
 if (failures.length) {
   console.error("check-headers-sync: FAIL");
   for (const f of failures) console.error("  - " + f);
   process.exit(1);
 }
 console.log(
-  `check-headers-sync: OK (${pages.length} pages + "/" + /s/* + embed exception)`,
+  `check-headers-sync: OK (${pages.length} pages x 2 addresses + /s/* + embed exception, ` +
+    `${redirects.length} clean-URL redirects)`,
 );

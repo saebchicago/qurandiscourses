@@ -7,7 +7,7 @@ of the 84 surahs Dr. Khan never published an outline for (his 2013 book,
 *An Exercise in Understanding the Qur'an*, covers only surahs 85–114).
 
 If you just want to try this on the live site first without opening a PR,
-use the [discovery worksheet](https://qurandiscourse.netlify.app/read.html)
+use the [discovery worksheet](https://divinediscourses.org/read)
 on the Read page — it saves privately in your own browser and exports to
 Markdown, which you can paste into a submission.
 

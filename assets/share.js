@@ -189,7 +189,7 @@
   // foreign framing). Buttons with data-embed-type/data-embed-id copy it.
   function embedSnippet(type, id, title) {
     var src =
-      "https://qurandiscourse.netlify.app/embed.html?type=" +
+      "https://divinediscourses.org/embed?type=" +
       encodeURIComponent(type) +
       "&id=" +
       encodeURIComponent(id);

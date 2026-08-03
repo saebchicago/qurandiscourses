@@ -26,7 +26,7 @@
   function currentPage() {
     var path = (window.location.pathname || "").toLowerCase();
     var last = path.split("/").filter(Boolean).pop() || "";
-    if (!last || last.indexOf(".") === -1) return "index.html";
+    if (!last || last.indexOf(".") === -1) return "/";
     return last;
   }
 

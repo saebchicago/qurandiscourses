@@ -46,6 +46,16 @@ jobs:
           node scripts/check-headers-sync.mjs
           node scripts/build-csp.mjs --check
 
+      - name: Validate generated URLs and static fallbacks
+        # Both are generated from data, so an edit elsewhere can leave
+        # them stale while every other check stays green. --check is the
+        # only thing that notices: canonical/og:url drift, an internal
+        # link that regrew its .html, a sitemap out of step with the page
+        # set, or a static fallback no longer matching the data behind it.
+        run: |
+          node scripts/build-canonicals.mjs --check
+          node scripts/build-static-fallbacks.mjs --check
+
       - name: Run end-to-end browser audit
         run: |
           # setup-node's exact install path can vary across runner images.

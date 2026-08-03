@@ -870,6 +870,7 @@ label {
   background: var(--card);
 }
 .btn-ghost,
+.qd-chip,
 .settings .gear,
 .settings .share-fab,
 .settings .tour-fab,
@@ -882,6 +883,7 @@ label {
   border: 1px solid var(--line);
 }
 .btn-ghost:hover,
+.qd-chip:hover,
 .settings .gear:hover,
 .settings .share-fab:hover,
 .settings .tour-fab:hover,
@@ -891,7 +893,9 @@ label {
   border-color: var(--accent);
   background: var(--bg);
 }
-.btn-utility {
+.btn-utility,
+.qd-picker-close,
+.qd-step {
   min-height: 44px;
   padding: 0.35rem 0.7rem;
   background: none;
@@ -902,7 +906,9 @@ label {
   font-size: 0.85rem;
   cursor: pointer;
 }
-.btn-utility:hover {
+.btn-utility:hover,
+.qd-picker-close:hover,
+.qd-step:hover {
   border-color: var(--line);
   background: var(--bg);
 }
@@ -3094,5 +3100,387 @@ html[data-focus] .ar.xl {
   }
   .validation-principles > div:first-child {
     border-top: 0;
+  }
+}
+
+/* ── Click-first picker (assets/picker.js) ─────────────────────────
+   Every control here is a plain button at 44px so the whole flow works
+   by tap and by keyboard. The dialog traps focus and returns it to the
+   trigger on close; <input type="number"> keeps mobile keypads numeric
+   for readers who do prefer typing. */
+.qd-picker-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+  background: rgba(43, 29, 14, 0.45);
+}
+.qd-picker {
+  display: flex;
+  flex-direction: column;
+  width: min(640px, 100%);
+  max-height: 92vh;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px 16px 0 0;
+  box-shadow: var(--elev);
+}
+.qd-picker-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--line);
+}
+.qd-picker-head h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 1.2rem;
+}
+.qd-picker-close {
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.qd-picker-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.75rem 1rem 0.5rem;
+}
+/* Shape and tap size only; color and hover come from .btn-ghost. The
+   ghost tier deliberately sets no min-height, because the corner
+   controls it also covers size themselves, so the chips state theirs. */
+.qd-chip {
+  min-height: 44px;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+.qd-chip.is-on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+  font-weight: 500;
+}
+.qd-picker-search {
+  display: block;
+  padding: 0 1rem 0.6rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.qd-picker-search span {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+.qd-picker-q {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+}
+.qd-picker-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 1rem 1rem;
+}
+.qd-picker-group {
+  margin: 0.8rem 0 0.4rem;
+  font-size: 0.76rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.qd-surah-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.qd-surah {
+  display: grid;
+  grid-template-columns: 2.4rem 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 56px;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.qd-surah:hover,
+.qd-surah:focus-visible {
+  border-color: var(--accent);
+  background: var(--bg);
+}
+.qd-surah-num {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+.qd-surah-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.6rem;
+  min-width: 0;
+}
+.qd-surah-ar {
+  font-family: var(--ar);
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+.qd-surah-translit {
+  font-weight: 600;
+}
+.qd-surah-en {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+.qd-surah-count {
+  color: var(--muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+.qd-picker-empty {
+  margin: 1rem 0;
+  color: var(--muted);
+}
+.qd-picker-chosen {
+  margin: 0.8rem 0;
+  color: var(--muted);
+}
+.qd-picker-back {
+  border: 0;
+  background: none;
+  color: var(--link);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+  min-height: 44px;
+}
+.qd-juz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 0.4rem;
+}
+.qd-juz {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  min-height: 56px;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.qd-juz:hover,
+.qd-juz:focus-visible {
+  border-color: var(--accent);
+}
+.qd-juz-n {
+  font-weight: 600;
+}
+.qd-juz-span {
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+}
+.qd-picker-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  border-top: 1px solid var(--line);
+}
+/* ── Verse range control ─────────────────────────────────────────── */
+.qd-range {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem 1rem;
+}
+.qd-range-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.qd-stepper {
+  display: flex;
+  align-items: stretch;
+  gap: 0.25rem;
+}
+.qd-step {
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.qd-range-input {
+  width: 4.5rem;
+  min-height: 44px;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.qd-range-readout {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 600px) {
+  .qd-picker {
+    max-height: 96vh;
+  }
+  .qd-surah {
+    grid-template-columns: 2rem 1fr;
+  }
+  .qd-surah-count {
+    grid-column: 2;
+  }
+}
+
+/* Read page: the click-first entry that sits above the typed form. */
+.picker-entry-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+}
+.picker-entry-current {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+#pickerRange {
+  margin-top: 0.9rem;
+}
+
+/* ── Read polish (assets/read-polish.js) ───────────────────────────
+   Text size scales the reading column only, so a large step cannot
+   push the nav or the page chrome off a narrow screen. */
+:root {
+  --read-scale: 1;
+  --read-ar-scale: 1;
+}
+.verse .ar.xl {
+  font-size: calc(2.6rem * var(--read-scale) * var(--read-ar-scale));
+}
+.verse .translation .text {
+  font-size: calc(1.02rem * var(--read-scale));
+}
+.read-size {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+}
+.read-size-label {
+  margin: 0 0.2rem 0 0;
+}
+.read-size button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--bg);
+  font-weight: 600;
+}
+.read-size button[disabled] {
+  opacity: 0.45;
+  cursor: default;
+}
+/* The verse that is sounding, so it stays findable on a long page. */
+.verse.is-playing {
+  border-color: var(--accent);
+}
+.verse-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0.9rem 0 0;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--line);
+}
+.verse-actions .btn-utility {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+.read-context {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin: 0 0 0.8rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+}
+.read-context-ref {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+.read-context-actions {
+  display: flex;
+  gap: 0.3rem;
+}
+.read-context button[disabled] {
+  opacity: 0.45;
+  cursor: default;
+}
+@media print {
+  .read-size,
+  .verse-actions,
+  .read-context {
+    display: none !important;
   }
 }

@@ -32,7 +32,7 @@ const TIMEOUT = args.includes("--timeout")
   ? parseInt(args[args.indexOf("--timeout") + 1], 10)
   : 15000;
 const UA =
-  "Mozilla/5.0 (compatible; qurandiscourses-linkcheck; +https://qurandiscourse.netlify.app)";
+  "Mozilla/5.0 (compatible; qurandiscourses-linkcheck; +https://divinediscourses.org)";
 
 // Node's fetch ignores HTTPS_PROXY unless NODE_USE_ENV_PROXY=1 (the
 // bundled EnvHttpProxyAgent). Re-exec once with it set so proxied
@@ -69,7 +69,7 @@ for (const s of sources) {
   }
 }
 
-const SELF_ORIGIN = "https://qurandiscourse.netlify.app";
+const SELF_ORIGIN = "https://divinediscourses.org";
 const pages = readdirSync(ROOT).filter((f) => f.endsWith(".html")).sort();
 for (const f of pages) {
   const html = readFileSync(join(ROOT, f), "utf8");
