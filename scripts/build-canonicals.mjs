@@ -48,7 +48,7 @@ const writes = [];
 // Internal links. Matching "<page>.html" anywhere would be wrong: the
 // repo is full of prose and comments that name these files, and
 // paths.html has a data field literally called `s.html`. So a match
-// needs three things at once — a known page name, a .html immediately
+// needs three things at once: a known page name, a .html immediately
 // after it, and a string delimiter immediately before it. That last
 // condition is what separates a URL from a mention: `href="read.html"`
 // and `location.href = "read.html?s=1"` qualify, while `Mirrors

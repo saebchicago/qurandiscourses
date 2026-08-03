@@ -269,13 +269,17 @@
             >
           </div>
           <p id="dailyIntro" style="margin: 0.6rem 0; min-height: 4.9em">
-            Loading today's discourse…
+            <!-- static:daily-intro -->
+            <strong>Surah 1 · al-Fatihah</strong> (<span class="ar notranslate" translate="no" lang="ar" dir="rtl">الفاتحة</span>), “The Opening”, 7 verses, Meccan. A different passage is chosen each day in the browser; with JavaScript off, this is where to start.
+            <!-- /static:daily-intro -->
           </p>
           <p
             id="dailyLens"
             style="margin: 0.6rem 0; min-height: 4.9em; color: var(--muted)"
           >
-            Loading today's companion fact…
+            <!-- static:daily-lens -->
+            Its most repeated root: <span class="ar notranslate" translate="no" lang="ar" dir="rtl">ر ح م</span> (r-ḥ-m), appearing 4×.
+            <!-- /static:daily-lens -->
           </p>
           <div
             style="
@@ -286,14 +290,22 @@
               margin-top: 0.4rem;
             "
           >
-            <a id="dailyReadLink" class="button" href="#">Read this surah</a>
-            <a id="dailyDossierLink" class="button secondary" href="/dossier"
+            <!-- static:daily-links -->
+            <a id="dailyReadLink" class="button" href="/read?s=1&amp;a=1"
+              >Read this surah</a
+            >
+            <a id="dailyDossierLink" class="button secondary" href="/dossier?s=1"
               >Its full dossier</a
             >
-            <a id="dailyLensLink" class="button secondary" href="#">Learn more</a>
+            <a id="dailyLensLink" class="button secondary" href="/roots?root=rHm"
+              >Explore this root</a
+            >
+            <!-- /static:daily-links -->
           </div>
           <p id="dailyProv" class="caption-note" style="min-height: 4.9em">
-            Loading source citation…
+            <!-- static:daily-prov -->
+            <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Root frequency from the Leeds Quranic Arabic Corpus v0.4.
+            <!-- /static:daily-prov -->
           </p>
         </div>
       </section>

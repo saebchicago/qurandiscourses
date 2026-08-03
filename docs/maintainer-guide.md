@@ -366,7 +366,7 @@ Copy an existing page's `<head>` (canonical + OG incl. og:image + favicon
 nav group **on every page** (the nav is static HTML, duplicated by
 design); add a `sitemap.xml` entry (clean path: `/newpage`, not
 `/newpage.html`); **add TWO `[[headers]]` CSP blocks for it in
-`netlify.toml`, one per address** — `/newpage.html` and `/newpage` —
+`netlify.toml`, one per address**, `/newpage.html` and `/newpage`,
 plus a `[[redirects]]` rule 301ing the first to the second with
 `force = true`. The per-page CSP structure is fail-open, and Netlify
 matches headers on the request path, so a clean path without its own
@@ -627,7 +627,7 @@ What it covers (the old manual list, for reference) and what's left:
    (`--shots` helps), audio playback, overall visual judgment.
 8. `node scripts/check-claims.mjs && node scripts/check-exercises.mjs && node scripts/check-data-nums.mjs
    && node scripts/check-paths.mjs && node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs
-   && node scripts/build-canonicals.mjs --check && node scripts/build-csp.mjs --check` — mandatory after adding a page, touching the nav, an inline
+   && node scripts/build-canonicals.mjs --check && node scripts/build-csp.mjs --check` is mandatory after adding a page, touching the nav, an inline
    `<script>` or `<style>`, or netlify.toml. Also rerun `check-data-nums.mjs` alone whenever
    `data/numbers.json` regenerates, and `check-paths.mjs` alone whenever an exercise id or theme slug
    changes, to catch what fell out of sync.
@@ -637,7 +637,7 @@ What it covers (the old manual list, for reference) and what's left:
    after the second run.
 10. If you touched netlify.toml: on the PR's deploy preview, `curl -sI`
     the preview URL for `/`, `/index.html`, `/read`, `/read.html`,
-    `/embed`, and one `s/` page — assert exactly one
+    `/embed`, and one `s/` page, then assert exactly one
     Content-Security-Policy header each, `frame-ancestors *` ONLY on
     embed, no X-Frame-Options anywhere, and the `/*` residual
     headers present. The `.html` addresses must answer 301 with the

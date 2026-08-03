@@ -202,6 +202,24 @@
     </nav>
     <main id="main">
       <section>
+        <!-- Every comparison on this page is computed in the browser
+             from the bundled corpus, so unlike a list of links there is
+             no static version of it to ship. Rather than leave the page
+             blank with scripts off, say so and point at the pages that
+             do work without them. -->
+        <noscript>
+          <div class="banner soft">
+            <p style="margin: 0">
+              <strong>This page needs JavaScript.</strong> The comparisons
+              here are computed in your browser from the bundled corpus,
+              so there is nothing to show until scripts run. Precomputed
+              figures are on <a href="/numbers">Numbers</a> and
+              <a href="/roots">Roots</a>, the underlying tables are on
+              <a href="/export">Export</a>, and every surah's profile is
+              on <a href="/dossier">Dossier</a>.
+            </p>
+          </div>
+        </noscript>
         <div class="mode-tabs" role="tablist" aria-label="Compare mode">
           <button
             id="btn-roots"
