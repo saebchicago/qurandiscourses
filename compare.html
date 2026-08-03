@@ -134,7 +134,7 @@
     <a href="#main" class="skip">Skip to main content</a>
     <header class="site">
       <div class="crest" aria-hidden="true">﷽</div>
-      <h1><a href="index.html">Divine Discourses</a></h1>
+      <h1><a href="/">Divine Discourses</a></h1>
       <p class="tag">Toward direct engagement with the Qur'an</p>
     </header>
     <nav class="primary" aria-label="Primary">
@@ -143,9 +143,9 @@
           <details class="nav-details" name="nav-group">
             <summary class="nav-group-btn">Read</summary>
             <ul class="nav-menu">
-              <li><a href="read.html">Read</a></li>
-              <li><a href="navigate.html">Navigate</a></li>
-              <li><a href="index.html#dailySection">Today's discourse</a></li>
+              <li><a href="/read">Read</a></li>
+              <li><a href="/navigate">Navigate</a></li>
+              <li><a href="/#dailySection">Today's discourse</a></li>
             </ul>
           </details>
         </li>
@@ -153,11 +153,11 @@
           <details class="nav-details" name="nav-group">
             <summary class="nav-group-btn">Study</summary>
             <ul class="nav-menu">
-              <li><a href="dossier.html">Dossier</a></li>
-              <li><a href="themes.html">Themes</a></li>
-              <li><a href="compare.html">Compare</a></li>
-              <li><a href="replay.html">Replay</a></li>
-              <li><a href="exercises.html">Exercises</a></li>
+              <li><a href="/dossier">Dossier</a></li>
+              <li><a href="/themes">Themes</a></li>
+              <li><a href="/compare">Compare</a></li>
+              <li><a href="/replay">Replay</a></li>
+              <li><a href="/exercises">Exercises</a></li>
             </ul>
           </details>
         </li>
@@ -165,11 +165,11 @@
           <details class="nav-details" name="nav-group">
             <summary class="nav-group-btn">Analyze</summary>
             <ul class="nav-menu">
-              <li><a href="roots.html">Roots</a></li>
-              <li><a href="words.html">Words</a></li>
-              <li><a href="patterns.html">Patterns</a></li>
-              <li><a href="formulas.html">Formulas</a></li>
-              <li><a href="numbers.html">Numbers</a></li>
+              <li><a href="/roots">Roots</a></li>
+              <li><a href="/words">Words</a></li>
+              <li><a href="/patterns">Patterns</a></li>
+              <li><a href="/formulas">Formulas</a></li>
+              <li><a href="/numbers">Numbers</a></li>
             </ul>
           </details>
         </li>
@@ -177,11 +177,11 @@
           <details class="nav-details" name="nav-group">
             <summary class="nav-group-btn">Learn</summary>
             <ul class="nav-menu">
-              <li><a href="how-to-use.html">How to use</a></li>
-              <li><a href="how-it-works.html">How it works</a></li>
-              <li><a href="paths.html">Study paths</a></li>
-              <li><a href="glossary.html">Glossary</a></li>
-              <li><a href="watch.html">Watch</a></li>
+              <li><a href="/how-to-use">How to use</a></li>
+              <li><a href="/how-it-works">How it works</a></li>
+              <li><a href="/paths">Study paths</a></li>
+              <li><a href="/glossary">Glossary</a></li>
+              <li><a href="/watch">Watch</a></li>
             </ul>
           </details>
         </li>
@@ -189,12 +189,12 @@
           <details class="nav-details" name="nav-group">
             <summary class="nav-group-btn">Verify</summary>
             <ul class="nav-menu">
-              <li><a href="sources.html">Sources</a></li>
-              <li><a href="validation.html">Validation</a></li>
-              <li><a href="datasets.html">Datasets</a></li>
-              <li><a href="coverage.html">Coverage</a></li>
-              <li><a href="export.html">Export</a></li>
-              <li><a href="changelog.html">Changelog</a></li>
+              <li><a href="/sources">Sources</a></li>
+              <li><a href="/validation">Validation</a></li>
+              <li><a href="/datasets">Datasets</a></li>
+              <li><a href="/coverage">Coverage</a></li>
+              <li><a href="/export">Export</a></li>
+              <li><a href="/changelog">Changelog</a></li>
             </ul>
           </details>
         </li>
@@ -467,15 +467,15 @@
     </main>
     <footer class="site">
       <p class="footer-links">
-        <a href="about.html">About</a> · <a href="credits.html">Credits</a> ·
-        <a href="sources.html">Sources</a> ·
-        <a href="datasets.html">Datasets</a> ·
-        <a href="validation.html">Validation</a> ·
-        <a href="changelog.html">Changelog</a>
+        <a href="/about">About</a> · <a href="/credits">Credits</a> ·
+        <a href="/sources">Sources</a> ·
+        <a href="/datasets">Datasets</a> ·
+        <a href="/validation">Validation</a> ·
+        <a href="/changelog">Changelog</a>
       </p>
       <p class="footer-license">
         Site code MIT. Bundled data and fonts keep their own licenses; see
-        <a href="credits.html">Credits</a>.
+        <a href="/credits">Credits</a>.
       </p>
     </footer>
     <div class="settings">
@@ -855,7 +855,7 @@
                     ariaLabel: `Occurrences of ${root.rootLatin} by revelation order`,
                     filename: `${rootsSafeKey(root.rootBuckwalter)}-timeline.svg`,
                     onSurahClick: (s) => {
-                      location.href = `read.html?s=${s}&a=1`;
+                      location.href = `/read?s=${s}&a=1`;
                     },
                   });
                 });
@@ -904,7 +904,7 @@
             .map((v) => {
               const [s, a] = v.split(":");
               return (
-                `<a href="read.html?s=${s}&a=${a}" ` +
+                `<a href="/read?s=${s}&a=${a}" ` +
                 `style="display:inline-block;border:1px solid var(--line);border-radius:4px;` +
                 `padding:0.1rem 0.45rem;margin:0 0.3rem 0.3rem 0;font-size:0.85rem;text-decoration:none;` +
                 `font-variant-numeric:tabular-nums">${s}:${a}</a>`
@@ -957,7 +957,7 @@
                   const latin = meta ? meta.rootLatin : bw;
                   const ar = meta ? meta.rootArabic : "";
                   return (
-                    `<a href="roots.html?root=${rootsSafeKey(bw)}" ` +
+                    `<a href="/roots?root=${rootsSafeKey(bw)}" ` +
                     `style="display:inline-block;margin:0 0.6rem 0.3rem 0;text-decoration:none;font-size:0.88rem">` +
                     `<span class="notranslate" lang="ar" dir="rtl" translate="no" style="font-family:'Amiri',serif">${ar}</span> ` +
                     `<span style="color:var(--muted)">${latin}</span> ` +
@@ -1378,7 +1378,7 @@
               const r = shared[i];
               html +=
                 '<tr style="border-bottom:1px solid var(--line)">' +
-                '<td style="padding:0.3rem 0.5rem"><a href="roots.html?root=' +
+                '<td style="padding:0.3rem 0.5rem"><a href="/roots?root=' +
                 safeKey(r.bw) +
                 '" style="text-decoration:none">' +
                 '<span class="notranslate" lang="ar" dir="rtl" translate="no" style="font-family:\'Amiri\',serif;font-size:1.1rem;margin-right:0.4rem">' +
@@ -1777,7 +1777,7 @@
           cols.forEach((c) => {
             html +=
               '<th style="text-align:right;padding:0.35rem 0.5rem">' +
-              '<a href="navigate.html#s' +
+              '<a href="/navigate#s' +
               c.id +
               '" style="text-decoration:none">' +
               c.id +
@@ -1810,7 +1810,7 @@
               .slice(0, 8)
               .map(
                 (r) =>
-                  '<a href="roots.html?root=' +
+                  '<a href="/roots?root=' +
                   safeKeyS(r.root) +
                   '" style="display:inline-block;margin:0 0.5rem 0.35rem 0;text-decoration:none;font-size:0.88rem">' +
                   '<span class="notranslate" lang="ar" dir="rtl" translate="no" style="font-family:\'Amiri\',serif">' +

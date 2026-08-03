@@ -5,8 +5,11 @@
 //   node scripts/build-canonicals.mjs --check   # exit 1 if anything drifted
 //
 // Rewrites, idempotently:
-//   *.html      <link rel="canonical">, og:url, and any absolute URL on
-//               the site's own origin (og:image and friends)
+//   *.html      <link rel="canonical">, og:url, any absolute URL on the
+//               site's own origin (og:image and friends), and every
+//               internal link, so a reader clicking through the site
+//               never pays for the .html -> clean 301
+//   assets/*.js the same internal links, built at runtime
 //   sitemap.xml every <loc>, keeping lastmod/changefreq/priority
 //   robots.txt  the Sitemap: line
 //
@@ -42,11 +45,31 @@ const pages = readdirSync(ROOT)
 const failures = [];
 const writes = [];
 
+// Internal links. Matching "<page>.html" anywhere would be wrong: the
+// repo is full of prose and comments that name these files, and
+// paths.html has a data field literally called `s.html`. So a match
+// needs three things at once — a known page name, a .html immediately
+// after it, and a string delimiter immediately before it. That last
+// condition is what separates a URL from a mention: `href="read.html"`
+// and `location.href = "read.html?s=1"` qualify, while `Mirrors
+// roots.html.`, `<code>embed.html</code>` and `s.html +` do not.
+const PAGE_NAMES = pages.map((f) => f.replace(/\.html$/, ""));
+// `url=` is in the set for the one unquoted URL on the site, the
+// <meta http-equiv="refresh"> target on exercise-asr.html.
+const LINK_RE = new RegExp(
+  `(^|["'\`]|url=)(${PAGE_NAMES.join("|")})\\.html`,
+  "g",
+);
+const toCleanLinks = (text) =>
+  text.replace(LINK_RE, (m, delim, name) =>
+    name === "index" ? `${delim}/` : `${delim}/${name}`,
+  );
+
 function rewritePage(file) {
   const abs = join(ROOT, file);
   const before = readFileSync(abs, "utf8");
   const want = canonicalUrl(file);
-  let after = before.replace(ORIGIN_RE, SITE);
+  let after = toCleanLinks(before.replace(ORIGIN_RE, SITE));
 
   // The page's own address: canonical and og:url both name it, and both
   // must survive the .html -> clean move. Prettier wraps long tags, so
@@ -90,6 +113,29 @@ function checkPage(file, html) {
   // page would tell crawlers to prefer the address it 301s away from.
   if (canon.length && /\.html(\?|#|$)/.test(canon[0][1]))
     failures.push(`${file}: canonical points at a .html address`);
+}
+
+// --- runtime-built links ----------------------------------------------
+
+// The shared modules build the same links in JS. Their own filenames are
+// not page names, so nothing here can match a module path.
+const scriptFiles = ["assets", "js"].flatMap((dir) =>
+  readdirSync(join(ROOT, dir))
+    .filter((f) => f.endsWith(".js"))
+    .map((f) => `${dir}/${f}`),
+);
+
+function rewriteScript(file) {
+  const abs = join(ROOT, file);
+  const before = readFileSync(abs, "utf8");
+  const after = toCleanLinks(before.replace(ORIGIN_RE, SITE));
+  if (after !== before) writes.push([abs, after]);
+  return after;
+}
+
+function checkLinks(file, text) {
+  const left = [...text.matchAll(LINK_RE)];
+  for (const m of left) failures.push(`${file}: internal link still ends in .html (${m[0]})`);
 }
 
 // --- sitemap + robots -------------------------------------------------
@@ -148,7 +194,12 @@ function checkRobots(txt) {
 
 // --- run --------------------------------------------------------------
 
-for (const f of pages) checkPage(f, rewritePage(f));
+for (const f of pages) {
+  const html = rewritePage(f);
+  checkPage(f, html);
+  checkLinks(f, html);
+}
+for (const f of scriptFiles) checkLinks(f, rewriteScript(f));
 checkSitemap(rewriteSitemap());
 checkRobots(rewriteRobots());
 

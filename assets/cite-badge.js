@@ -116,7 +116,7 @@
     const actions = document.createElement("p");
     actions.className = "cite-actions";
     const validation = document.createElement("a");
-    validation.href = "validation.html";
+    validation.href = "/validation";
     validation.textContent = "How claims are checked";
     actions.appendChild(validation);
     actions.appendChild(document.createTextNode(" · "));

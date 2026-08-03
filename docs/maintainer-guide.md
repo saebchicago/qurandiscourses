@@ -118,6 +118,7 @@ them only when their inputs change; commit their outputs.
 | build-surah-meta.mjs | Quran Foundation API | data/surah-meta.json | Makki/Madani |
 | build-juz.mjs | Tanzil standard division + surah-meta | data/juz.json | navigate.html juz grid, read.html `?j=` |
 | build-csp.mjs | every page's inline `<script>` and `<style>` blocks | netlify.toml `script-src` + `style-src-elem` hashes | CSP authorizes inline scripts/styles without `'unsafe-inline'` (`--check` guards staleness) |
+| build-canonicals.mjs | `scripts/lib/site.mjs` (origin + clean-path rule) | every page's canonical/og:url, every internal link, sitemap.xml `<loc>`, robots.txt | one address per page. `--check` fails on a canonical that is missing, duplicated, points elsewhere, disagrees with og:url, or names a `.html` address; also on an internal link that still ends in `.html` |
 | build-surah-profiles.mjs | morphology, chronology, qursim | data/surah-profiles.json | navigate.html profiles; also `formDiversityRatio`/`lemmaDiversityRatio` (type-token ratio at the surface-form and lemma level, alongside the existing root-level ratio), surfaced on dossier.html's Vocab section |
 | build-themes.mjs | morphology, roots-summary, surah-profiles | data/themes.json, data/theme-surah-index.json | themes.html (each theme's `topSurahs` = where its root-family vocabulary clusters, tokens per 1,000 normalized by surah length); the reverse index feeds dossier.html's "themes touching this surah" line. Absence from a theme's top-8 means "not among its densest", not "vocabulary absent" — the `_method` strings state this |
 | build-rhetorical-features.mjs | morphology | data/rhetorical-features.json | patterns.html direct-address list, numbers.html fawatih list |
@@ -159,6 +160,7 @@ dispatch instead of blocking every contribution.
 | check-claims.mjs | worked-claim provenance: stable IDs, allowed evidence dimensions, valid source IDs, limitations, derivation paths, and the case-study join |
 | check-data-nums.mjs | every `data-num="dot.path"` binding across every page: the path must resolve to a number in `data/numbers.json`, and the element's static fallback text must match that number under `initDataNums()`'s own formatting — catches a stale prose figure or a typo'd path, both of which `initDataNums()` fails on silently in the browser (it only overwrites when the path resolves to a number) |
 | check-exercises.mjs | the exercise registry: unique IDs; outline entries have a valid surah number, resolvable sourceIds, a sources.html citation in provenanceHtml, and strictly-increasing in-bounds startVerse values; at most one outline per surah; roots entries' href/surahs are valid; index.html's hand-kept EXERCISE_COUNT matches the registry length |
+| build-canonicals.mjs --check | one canonical address per page and no internal link left on a `.html` address; also that the sitemap holds every indexable page and no noindex one |
 | check-notice.mjs | the licensing inventory: every top-level `data/` entry must be mentioned by name in NOTICE.md, so a new dataset cannot ship without its license standing declared (this drifted three releases running before the checker existed) |
 | check-paths.mjs | the Study Paths registry (`data/paths.json`): every step's hand-authored `html` linking into another tool — an `exercise.html?id=` resolves in `data/exercises.json`, a `themes.html#slug` resolves in `data/themes.json`, and every embedded surah/verse (`s=`/`a=`, and `compare.html`'s `p1=`/`p2=` passage pairs) is in range — none of which verify-site.mjs's HTTP-level link crawl catches, since every one of those pages returns 200 regardless of whether the id/slug/verse embedded in it is real |
 | check-videos.mjs | the video registry: an entry cannot be 'published' without its mp4, poster, AND a real WEBVTT captions file on disk — the anti-slop covenant, enforced mechanically |
@@ -362,10 +364,19 @@ excerpt".
 Copy an existing page's `<head>` (canonical + OG incl. og:image + favicon
 + fonts.css) and nav/footer blocks verbatim; add the page to the right
 nav group **on every page** (the nav is static HTML, duplicated by
-design); add a `sitemap.xml` entry; **add a `[[headers]]` CSP block for
-it in `netlify.toml`** (the per-page CSP structure is fail-open — a page
-without its own block ships with no CSP). Then run
-`node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs`.
+design); add a `sitemap.xml` entry (clean path: `/newpage`, not
+`/newpage.html`); **add TWO `[[headers]]` CSP blocks for it in
+`netlify.toml`, one per address** — `/newpage.html` and `/newpage` —
+plus a `[[redirects]]` rule 301ing the first to the second with
+`force = true`. The per-page CSP structure is fail-open, and Netlify
+matches headers on the request path, so a clean path without its own
+block ships with no CSP. Then run
+`node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs
+&& node scripts/build-canonicals.mjs && node scripts/build-csp.mjs`.
+
+Link to it as `/newpage`, never `newpage.html`: the `.html` address is
+a 301 away, and `build-canonicals.mjs --check` rejects a link that
+still carries the extension.
 
 ### Add word-by-word glosses (owner-gated by licensing)
 The Read page's word table renders a Meaning column for any surah with
@@ -616,7 +627,7 @@ What it covers (the old manual list, for reference) and what's left:
    (`--shots` helps), audio playback, overall visual judgment.
 8. `node scripts/check-claims.mjs && node scripts/check-exercises.mjs && node scripts/check-data-nums.mjs
    && node scripts/check-paths.mjs && node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs
-   && node scripts/build-csp.mjs --check` — mandatory after adding a page, touching the nav, an inline
+   && node scripts/build-canonicals.mjs --check && node scripts/build-csp.mjs --check` — mandatory after adding a page, touching the nav, an inline
    `<script>` or `<style>`, or netlify.toml. Also rerun `check-data-nums.mjs` alone whenever
    `data/numbers.json` regenerates, and `check-paths.mjs` alone whenever an exercise id or theme slug
    changes, to catch what fell out of sync.
@@ -625,11 +636,17 @@ What it covers (the old manual list, for reference) and what's left:
 9. Re-run every generator you touched twice; `git diff` must be empty
    after the second run.
 10. If you touched netlify.toml: on the PR's deploy preview, `curl -sI`
-    the preview URL for `/`, `/index.html`, a regular page,
-    `/embed.html`, and one `s/` page — assert exactly one
+    the preview URL for `/`, `/index.html`, `/read`, `/read.html`,
+    `/embed`, and one `s/` page — assert exactly one
     Content-Security-Policy header each, `frame-ancestors *` ONLY on
-    embed.html, no X-Frame-Options anywhere, and the `/*` residual
-    headers present. Frame embed.html from a foreign origin (renders)
+    embed, no X-Frame-Options anywhere, and the `/*` residual
+    headers present. The `.html` addresses must answer 301 with the
+    clean path in `Location`, and a query string must survive it
+    (`/read.html?s=34&a=1` -> `/read?s=34&a=1`). Check the CSP on the
+    CLEAN path especially: that is the address that serves a 200, and
+    it needs its own header block.
+
+    Frame embed from a foreign origin (renders)
     and any other page (blocked). Do not merge on assumptions — Netlify
     emits every matching rule's headers and browsers enforce multiple
     CSPs as their intersection.

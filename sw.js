@@ -8,7 +8,7 @@
 // scripts/build-*.mjs change) or a cached asset's contract changes, so
 // stale entries from the previous version are dropped on activate. This
 // is a documented convention, not a checker — see docs/maintainer-guide.md.
-const SW_VERSION = "v8";
+const SW_VERSION = "v9";
 const HTML_CACHE = "dd-html-" + SW_VERSION;
 const ASSET_CACHE = "dd-assets-" + SW_VERSION;
 const DATA_CACHE = "dd-data-" + SW_VERSION;
@@ -35,7 +35,7 @@ self.addEventListener("activate", (event) => {
 
 // HTML documents: network-first, cache fallback for offline. Cached under
 // the path alone (query string stripped) — a page's shell markup doesn't
-// vary by query param (read.html?s=/a=/hl= are all read client-side after
+// vary by query param (/read?s=/a=/hl= are all read client-side after
 // load), so this keeps the cache to one entry per page instead of growing
 // unboundedly with every distinct deep link.
 async function networkFirstHtml(request) {

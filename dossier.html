@@ -178,7 +178,7 @@
     <a href="#main" class="skip">Skip to main content</a>
     <header class="site">
       <div class="crest" aria-hidden="true">﷽</div>
-      <h1><a href="index.html">Divine Discourses</a></h1>
+      <h1><a href="/">Divine Discourses</a></h1>
       <p class="tag">Toward direct engagement with the Qur'an</p>
     </header>
     <nav class="primary" aria-label="Primary">
@@ -187,9 +187,9 @@
           <details class="nav-details" name="nav-group">
             <summary class="nav-group-btn">Read</summary>
             <ul class="nav-menu">
-              <li><a href="read.html">Read</a></li>
-              <li><a href="navigate.html">Navigate</a></li>
-              <li><a href="index.html#dailySection">Today's discourse</a></li>
+              <li><a href="/read">Read</a></li>
+              <li><a href="/navigate">Navigate</a></li>
+              <li><a href="/#dailySection">Today's discourse</a></li>
             </ul>
           </details>
         </li>
@@ -197,11 +197,11 @@
           <details class="nav-details" name="nav-group">
             <summary class="nav-group-btn">Study</summary>
             <ul class="nav-menu">
-              <li><a href="dossier.html">Dossier</a></li>
-              <li><a href="themes.html">Themes</a></li>
-              <li><a href="compare.html">Compare</a></li>
-              <li><a href="replay.html">Replay</a></li>
-              <li><a href="exercises.html">Exercises</a></li>
+              <li><a href="/dossier">Dossier</a></li>
+              <li><a href="/themes">Themes</a></li>
+              <li><a href="/compare">Compare</a></li>
+              <li><a href="/replay">Replay</a></li>
+              <li><a href="/exercises">Exercises</a></li>
             </ul>
           </details>
         </li>
@@ -209,11 +209,11 @@
           <details class="nav-details" name="nav-group">
             <summary class="nav-group-btn">Analyze</summary>
             <ul class="nav-menu">
-              <li><a href="roots.html">Roots</a></li>
-              <li><a href="words.html">Words</a></li>
-              <li><a href="patterns.html">Patterns</a></li>
-              <li><a href="formulas.html">Formulas</a></li>
-              <li><a href="numbers.html">Numbers</a></li>
+              <li><a href="/roots">Roots</a></li>
+              <li><a href="/words">Words</a></li>
+              <li><a href="/patterns">Patterns</a></li>
+              <li><a href="/formulas">Formulas</a></li>
+              <li><a href="/numbers">Numbers</a></li>
             </ul>
           </details>
         </li>
@@ -221,11 +221,11 @@
           <details class="nav-details" name="nav-group">
             <summary class="nav-group-btn">Learn</summary>
             <ul class="nav-menu">
-              <li><a href="how-to-use.html">How to use</a></li>
-              <li><a href="how-it-works.html">How it works</a></li>
-              <li><a href="paths.html">Study paths</a></li>
-              <li><a href="glossary.html">Glossary</a></li>
-              <li><a href="watch.html">Watch</a></li>
+              <li><a href="/how-to-use">How to use</a></li>
+              <li><a href="/how-it-works">How it works</a></li>
+              <li><a href="/paths">Study paths</a></li>
+              <li><a href="/glossary">Glossary</a></li>
+              <li><a href="/watch">Watch</a></li>
             </ul>
           </details>
         </li>
@@ -233,12 +233,12 @@
           <details class="nav-details" name="nav-group">
             <summary class="nav-group-btn">Verify</summary>
             <ul class="nav-menu">
-              <li><a href="sources.html">Sources</a></li>
-              <li><a href="validation.html">Validation</a></li>
-              <li><a href="datasets.html">Datasets</a></li>
-              <li><a href="coverage.html">Coverage</a></li>
-              <li><a href="export.html">Export</a></li>
-              <li><a href="changelog.html">Changelog</a></li>
+              <li><a href="/sources">Sources</a></li>
+              <li><a href="/validation">Validation</a></li>
+              <li><a href="/datasets">Datasets</a></li>
+              <li><a href="/coverage">Coverage</a></li>
+              <li><a href="/export">Export</a></li>
+              <li><a href="/changelog">Changelog</a></li>
             </ul>
           </details>
         </li>
@@ -282,15 +282,15 @@
     </main>
     <footer class="site">
       <p class="footer-links">
-        <a href="about.html">About</a> · <a href="credits.html">Credits</a> ·
-        <a href="sources.html">Sources</a> ·
-        <a href="datasets.html">Datasets</a> ·
-        <a href="validation.html">Validation</a> ·
-        <a href="changelog.html">Changelog</a>
+        <a href="/about">About</a> · <a href="/credits">Credits</a> ·
+        <a href="/sources">Sources</a> ·
+        <a href="/datasets">Datasets</a> ·
+        <a href="/validation">Validation</a> ·
+        <a href="/changelog">Changelog</a>
       </p>
       <p class="footer-license">
         Site code MIT. Bundled data and fonts keep their own licenses; see
-        <a href="credits.html">Credits</a>.
+        <a href="/credits">Credits</a>.
       </p>
     </footer>
     <div class="settings">
@@ -355,7 +355,7 @@
           if (!el || !window.SURAHS) return;
           el.innerHTML = window.SURAHS.map(
             (su) =>
-              `<li><a href="dossier.html?s=${su.id}"><span class="n">${su.id}</span>${qdEsc(su.translit)}</a></li>`,
+              `<li><a href="/dossier?s=${su.id}"><span class="n">${su.id}</span>${qdEsc(su.translit)}</a></li>`,
           ).join("");
         }
 
@@ -375,7 +375,7 @@
             `<span class="ar-name notranslate" translate="no" lang="ar" dir="rtl">${qdEsc(su.ar)}</span>` +
             `<span class="en-name">${qdEsc(su.translit)} · “${qdEsc(su.en)}”</span>` +
             `</div>` +
-            `<p style="margin:0 0 1rem;color:var(--muted);font-size:0.92rem">Surah ${su.id} of 114. <a href="dossier.html">Choose another surah</a>.</p>` +
+            `<p style="margin:0 0 1rem;color:var(--muted);font-size:0.92rem">Surah ${su.id} of 114. <a href="/dossier">Choose another surah</a>.</p>` +
             `<div class="card"><h3 style="margin-top:0">Identity &amp; context</h3>${ph("secIdentity", "Loading identity and chronology…")}</div>` +
             `<div class="card"><h3 style="margin-top:0">Vocabulary</h3>${ph("secVocab", "Loading the vocabulary profile…")}</div>` +
             `<div class="card"><h3 style="margin-top:0">Sound &amp; rhyme</h3>${ph("secRhyme", "Loading the verse-ending profile…")}</div>` +
@@ -383,9 +383,9 @@
             `<div class="card"><h3 style="margin-top:0">Cross-references</h3>${ph("secXref", "Loading the cross-reference profile…")}</div>` +
             `<div class="card"><h3 style="margin-top:0">Structure</h3>${ph("secStructure", "Loading structural notes…")}</div>` +
             `<div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin:1.25rem 0">` +
-            `<a class="button" href="read.html?s=${su.id}&a=1">Read this surah</a>` +
-            `<a class="button secondary" href="replay.html?s=${su.id}">Replay it</a>` +
-            `<a class="button secondary" href="navigate.html">All 114 surahs</a>` +
+            `<a class="button" href="/read?s=${su.id}&a=1">Read this surah</a>` +
+            `<a class="button secondary" href="/replay?s=${su.id}">Replay it</a>` +
+            `<a class="button secondary" href="/navigate">All 114 surahs</a>` +
             `</div>`
           );
         }
@@ -456,7 +456,7 @@
                   .slice(0, 6)
                   .map(
                     (t) =>
-                      `<a href="themes.html#${qdEsc(t.slug)}">${qdEsc(t.title)}</a> <span style="color:var(--muted);font-size:0.82rem">(${t.perThousand} / 1,000 words)</span>`,
+                      `<a href="/themes#${qdEsc(t.slug)}">${qdEsc(t.title)}</a> <span style="color:var(--muted);font-size:0.82rem">(${t.perThousand} / 1,000 words)</span>`,
                   )
                   .join(" · ")
               : `<span style="color:var(--muted)">This surah is not among any theme's densest — which says only that, not that thematic vocabulary is absent.</span>`;
@@ -471,7 +471,7 @@
             .slice(0, 5)
             .map(
               (r) =>
-                `<a href="roots.html?root=${safeKey(r.root)}" style="display:inline-block;border:1px solid var(--line);border-radius:999px;padding:0.15rem 0.6rem;margin:0 0.3rem 0.3rem 0;font-size:0.9rem;text-decoration:none"><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${qdEsc(r.rootArabic || r.root)}</span> <span style="color:var(--muted)">${qdEsc(r.rootLatin)} ×${r.count}</span></a>`,
+                `<a href="/roots?root=${safeKey(r.root)}" style="display:inline-block;border:1px solid var(--line);border-radius:999px;padding:0.15rem 0.6rem;margin:0 0.3rem 0.3rem 0;font-size:0.9rem;text-decoration:none"><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${qdEsc(r.rootArabic || r.root)}</span> <span style="color:var(--muted)">${qdEsc(r.rootLatin)} ×${r.count}</span></a>`,
             )
             .join("");
           fill(
@@ -479,7 +479,7 @@
             `<p style="margin:0">${Number(p.tokenCount).toLocaleString()} word tokens drawing on ${Number(p.distinctRootCount).toLocaleString()} distinct roots. ${OK("leeds-corpus-v0.4", "Leeds Corpus v0.4")}</p>` +
               `<div class="stat-block"><h4>Top ${Math.min(5, (p.topRoots || []).length)} roots by frequency ${OK("leeds-corpus-v0.4", "per-surah frequency")}</h4><p style="margin:0.3rem 0 0;line-height:2.1">${chips}</p></div>` +
               themesHtml +
-              `<p style="margin:0.6rem 0 0;font-size:0.9rem"><a href="navigate.html">Full vocabulary profile (diversity ratios, grammatical texture) on the Navigate page →</a></p>`,
+              `<p style="margin:0.6rem 0 0;font-size:0.9rem"><a href="/navigate">Full vocabulary profile (diversity ratios, grammatical texture) on the Navigate page →</a></p>`,
           );
         }
 
@@ -494,7 +494,7 @@
             "secRhyme",
             `<p style="margin:0">${share}% of its ${r.verseCount} verse endings share one sound family (<span class="ar notranslate" translate="no" lang="ar" dir="rtl">-${qdEsc(r.dominantKey)}</span>), across ${r.familyCount} famil${r.familyCount === 1 ? "y" : "ies"} with ${r.shiftCount} shift${r.shiftCount === 1 ? "" : "s"}. ${NUANCED("orthographic proxy for pausal pronunciation")}</p>` +
               refrain +
-              `<p style="margin:0.6rem 0 0;font-size:0.9rem"><a href="patterns.html?s=${s}#rhyme">Full verse-ending map →</a></p>`,
+              `<p style="margin:0.6rem 0 0;font-size:0.9rem"><a href="/patterns?s=${s}#rhyme">Full verse-ending map →</a></p>`,
           );
         }
 
@@ -525,7 +525,7 @@
               return (
                 `<div class="formula-row">` +
                 label +
-                `<span class="formula-counts">×${t.countIn} here · ×${t.countTotal} corpus-wide · <a href="read.html?s=${ref[0]}&a=${ref[1]}&hl=${hl}">${ref[0]}:${ref[1]}</a></span>` +
+                `<span class="formula-counts">×${t.countIn} here · ×${t.countTotal} corpus-wide · <a href="/read?s=${ref[0]}&a=${ref[1]}&hl=${hl}">${ref[0]}:${ref[1]}</a></span>` +
                 `</div>`
               );
             })
@@ -534,7 +534,7 @@
             "secFormulas",
             `<p style="margin:0 0 0.5rem;font-size:0.92rem">${e.rootCount} recurring root sequence${e.rootCount === 1 ? "" : "s"} and ${e.surfaceCount} surface sequence${e.surfaceCount === 1 ? "" : "s"} pass through this surah. Its most repeated:</p>` +
               rows +
-              `<p class="caption-note" style="margin-top:0.6rem">${OK("leeds-corpus-v0.4", "computed from the cited corpus")} Recurrence counted from the bundled morphology; links land in the passage with the matched words highlighted. <a href="how-it-works.html#regenerated">What counting does and does not claim</a>. <a href="formulas.html">Browse the full index →</a></p>`,
+              `<p class="caption-note" style="margin-top:0.6rem">${OK("leeds-corpus-v0.4", "computed from the cited corpus")} Recurrence counted from the bundled morphology; links land in the passage with the matched words highlighted. <a href="/how-it-works#regenerated">What counting does and does not claim</a>. <a href="/formulas">Browse the full index →</a></p>`,
           );
         }
 
@@ -580,13 +580,13 @@
               const topHtml = top
                 .map(
                   ([n, c]) =>
-                    `<a href="dossier.html?s=${n}">${qdEsc(surahName(n))}</a> <span style="color:var(--muted)">(×${c})</span>`,
+                    `<a href="/dossier?s=${n}">${qdEsc(surahName(n))}</a> <span style="color:var(--muted)">(×${c})</span>`,
                 )
                 .join(" · ");
               const sampleHtml = samples
                 .map(
                   (x) =>
-                    `<li><a href="read.html?s=${s}&a=${x.a}">${s}:${x.a}</a> ↔ <a href="read.html?s=${x.to.s}&a=${x.to.a}">${x.to.s}:${x.to.a}</a></li>`,
+                    `<li><a href="/read?s=${s}&a=${x.a}">${s}:${x.a}</a> ↔ <a href="/read?s=${x.to.s}&a=${x.to.a}">${x.to.s}:${x.to.a}</a></li>`,
                 )
                 .join("");
               fill(
@@ -620,11 +620,11 @@
             const srcLabel = yearMatch
               ? `Khan ${yearMatch[1]}, transcribed`
               : "Khan, transcribed";
-            outlineHtml = `<p style="margin:0">${OK(qdEsc(srcIds), srcLabel)} Dr. Khan published a sectional outline for this surah — <a href="exercise.html?id=${qdEsc(outline.id)}">work through it as an exercise</a>.</p>`;
+            outlineHtml = `<p style="margin:0">${OK(qdEsc(srcIds), srcLabel)} Dr. Khan published a sectional outline for this surah — <a href="/exercise?id=${qdEsc(outline.id)}">work through it as an exercise</a>.</p>`;
           } else if (s >= 85) {
             outlineHtml = `<p style="margin:0">${PENDING("awaiting transcription")} Khan's <em>An Exercise in Understanding the Qur'an</em> (2013) covers surahs 85–114, so a published outline for this surah exists; it is not yet transcribed here.</p>`;
           } else {
-            outlineHtml = `<p style="margin:0">${PENDING("no published outline")} Khan's 2013 outlines cover only surahs 85–114 — no published outline exists here. The site asserts no structure it cannot cite; <a href="read.html?s=${s}&a=1">read the surah</a> and propose your own divisions in the discovery worksheet (Study depth).</p>`;
+            outlineHtml = `<p style="margin:0">${PENDING("no published outline")} Khan's 2013 outlines cover only surahs 85–114 — no published outline exists here. The site asserts no structure it cannot cite; <a href="/read?s=${s}&a=1">read the surah</a> and propose your own divisions in the discovery worksheet (Study depth).</p>`;
           }
           const myPivots =
             (pivots && pivots.occurrences
@@ -638,14 +638,14 @@
                 const roots = o.sharedRoots
                   .map((r) => qdEsc(r.rootLatin))
                   .join(", ");
-                return `<li><a href="read.html?s=${s}&a=${o.a}">${s}:${o.a}</a> opens with <em>${qdEsc(o.marker)}</em>${roots ? `, sharing root${o.sharedRoots.length === 1 ? "" : "s"} ${roots} with verse ${o.prevA}` : ""}</li>`;
+                return `<li><a href="/read?s=${s}&a=${o.a}">${s}:${o.a}</a> opens with <em>${qdEsc(o.marker)}</em>${roots ? `, sharing root${o.sharedRoots.length === 1 ? "" : "s"} ${roots} with verse ${o.prevA}` : ""}</li>`;
               })
               .join("");
             pivotHtml =
               `<p style="margin:0.8rem 0 0.2rem;font-size:0.92rem">Discursive pivots ${NUANCED("verse-initial temporal particles, mechanically detected")} — verses opening with a temporal particle while sharing vocabulary with what precedes:</p>` +
               `<ul style="margin:0.2rem 0 0;padding-left:1.2rem;font-size:0.9rem;line-height:1.8">${items}</ul>` +
               (myPivots.length > 6
-                ? `<p style="margin:0.3rem 0 0;font-size:0.85rem;color:var(--muted)">+ ${myPivots.length - 6} more on the <a href="patterns.html">Patterns page</a>.</p>`
+                ? `<p style="margin:0.3rem 0 0;font-size:0.85rem;color:var(--muted)">+ ${myPivots.length - 6} more on the <a href="/patterns">Patterns page</a>.</p>`
                 : "");
           } else {
             pivotHtml = `<p style="margin:0.8rem 0 0;font-size:0.92rem;color:var(--muted)">No verse here opens with the tracked temporal particles (<em>idh</em>/<em>idhā</em>/<em>lammā</em>) — the mechanical pivot detector finds nothing, which is itself a datum, not a judgment.</p>`;
@@ -683,13 +683,13 @@
             if (daVerses.length) {
               const links = daVerses
                 .slice(0, 4)
-                .map((v) => `<a href="read.html?s=${s}&a=${v.a}">${s}:${v.a}</a>`)
+                .map((v) => `<a href="/read?s=${s}&a=${v.a}">${s}:${v.a}</a>`)
                 .join(", ");
               items.push(
                 `<li>${daVerses.length} verse${daVerses.length === 1 ? "" : "s"} open${daVerses.length === 1 ? "s" : ""} with the believers' vocative (<em>ya ayyuha al-ladhina amanu</em>, "O you who believe"): ${links}${daVerses.length > 4 ? ` + ${daVerses.length - 4} more` : ""}.</li>`,
               );
             }
-            rhetHtml = `<div style="margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid var(--line)"><p style="margin:0 0 0.3rem;font-size:0.85rem;color:var(--muted)">Rhetorical features ${OK("leeds-corpus-v0.4", "computed from the cited corpus")} — more on the <a href="patterns.html">Patterns page</a>:</p><ul style="margin:0.2rem 0 0;padding-left:1.2rem;font-size:0.9rem;line-height:1.7">${items.join("")}</ul></div>`;
+            rhetHtml = `<div style="margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid var(--line)"><p style="margin:0 0 0.3rem;font-size:0.85rem;color:var(--muted)">Rhetorical features ${OK("leeds-corpus-v0.4", "computed from the cited corpus")} — more on the <a href="/patterns">Patterns page</a>:</p><ul style="margin:0.2rem 0 0;padding-left:1.2rem;font-size:0.9rem;line-height:1.7">${items.join("")}</ul></div>`;
           }
 
           let symHtml = "";
@@ -705,7 +705,7 @@
                   `<li>root <em>${qdEsc(c.rootLatin)}</em> at ${s}:${c.verseA} and ${s}:${c.verseB} (p=${qdEsc(String(c.pValue))}, not significant)</li>`,
               )
               .join("");
-            symHtml = `<div style="margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid var(--line)"><p style="margin:0 0 0.3rem;font-size:0.85rem;color:var(--muted)">Ring-composition proxy test ${NUANCED("narrow positional proxy; zero corpus-wide significant pairs")}: this surah's closest — still not significant — candidate${myClosestMisses.length === 1 ? "" : "s"} for a rare root sitting at matching distances from the surah's start and end:</p><ul style="margin:0.2rem 0 0;padding-left:1.2rem;font-size:0.9rem;line-height:1.7">${items}</ul><p style="margin:0.3rem 0 0;font-size:0.82rem;color:var(--muted)">Zero pairs reached significance anywhere in the corpus after correction — method and full result on the <a href="patterns.html">Patterns page</a>.</p></div>`;
+            symHtml = `<div style="margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid var(--line)"><p style="margin:0 0 0.3rem;font-size:0.85rem;color:var(--muted)">Ring-composition proxy test ${NUANCED("narrow positional proxy; zero corpus-wide significant pairs")}: this surah's closest — still not significant — candidate${myClosestMisses.length === 1 ? "" : "s"} for a rare root sitting at matching distances from the surah's start and end:</p><ul style="margin:0.2rem 0 0;padding-left:1.2rem;font-size:0.9rem;line-height:1.7">${items}</ul><p style="margin:0.3rem 0 0;font-size:0.82rem;color:var(--muted)">Zero pairs reached significance anywhere in the corpus after correction — method and full result on the <a href="/patterns">Patterns page</a>.</p></div>`;
           }
 
           // Outline status and Khan's quoted reading are the card's
@@ -722,7 +722,7 @@
               rhetHtml +
               symHtml +
               `</div>` +
-              `<p style="margin:0.6rem 0 0;font-size:0.9rem"><a href="patterns.html">Pattern evidence for this surah on the Patterns page →</a></p>` +
+              `<p style="margin:0.6rem 0 0;font-size:0.9rem"><a href="/patterns">Pattern evidence for this surah on the Patterns page →</a></p>` +
               interpHtml,
           );
         }

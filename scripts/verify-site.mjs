@@ -60,6 +60,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { resolveChromium, launchOptions } from "./lib/playwright.mjs";
 import { startStaticServer } from "./lib/static-server.mjs";
+import { cleanPath } from "./lib/site.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
@@ -94,22 +95,27 @@ const SITEMAP_EXEMPT = new Set(["embed.html", "exercise-asr.html"]);
 const pages = readdirSync(ROOT)
   .filter((f) => f.endsWith(".html"))
   .sort();
+// The sitemap lists clean paths (/read), not filenames, so both sides
+// are compared in that form. cleanPath is the same function that wrote
+// them (scripts/lib/site.mjs).
 const sitemapLocs = new Set(
-  [...readFileSync(join(ROOT, "sitemap.xml"), "utf8").matchAll(/<loc>([^<]+)<\/loc>/g)]
-    .map((m) => m[1].replace(/^https?:\/\/[^/]+\/?/, ""))
-    .map((p) => p || "index.html"),
+  [...readFileSync(join(ROOT, "sitemap.xml"), "utf8").matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) =>
+    m[1].replace(/^https?:\/\/[^/]+/, ""),
+  ),
 );
 if (runCheck("sitemap") && !PAGE_FILTER) {
+  const pathOf = new Map(pages.map((p) => [cleanPath(p), p]));
   for (const p of pages) {
-    if (!sitemapLocs.has(p) && !SITEMAP_EXEMPT.has(p)) {
-      report("sitemap", p, false, "root page missing from sitemap.xml");
+    const loc = cleanPath(p);
+    if (!sitemapLocs.has(loc) && !SITEMAP_EXEMPT.has(p)) {
+      report("sitemap", p, false, `root page missing from sitemap.xml (${loc})`);
     }
-    if (sitemapLocs.has(p) && SITEMAP_EXEMPT.has(p)) {
+    if (sitemapLocs.has(loc) && SITEMAP_EXEMPT.has(p)) {
       report("sitemap", p, false, "exempt page unexpectedly IS in sitemap.xml");
     }
   }
   for (const loc of sitemapLocs) {
-    if (!pages.includes(loc)) {
+    if (!pathOf.has(loc)) {
       report("sitemap", loc, false, "sitemap entry has no file on disk");
     }
   }
@@ -167,7 +173,11 @@ if (runCheck("manifest") && !PAGE_FILTER) {
         report("manifest", M, false, `shortcut "${sc.name}" url ${url} is outside scope ${scope}`);
         continue;
       }
-      const file = url.replace(/[#?].*$/, "").replace(/^\//, "") || "index.html";
+      // Shortcuts name clean paths (/read), the address the site serves;
+      // the file behind one is that path plus .html. See
+      // scripts/lib/site.mjs.
+      const path = url.replace(/[#?].*$/, "").replace(/^\//, "");
+      const file = !path ? "index.html" : path.endsWith(".html") ? path : path + ".html";
       if (!existsSync(join(ROOT, file))) {
         report("manifest", M, false, `shortcut "${sc.name}" points at a missing page: ${file}`);
       }
