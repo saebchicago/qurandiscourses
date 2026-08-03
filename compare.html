@@ -1427,7 +1427,15 @@
 
         function loadPassages() {
           setError("");
-          const rows = Array.from(document.querySelectorAll(".p-row"));
+          // Scoped to this panel. The surahs panel below reuses the
+          // .p-row class (as "p-row s-row") and builds two of its rows
+          // at page load, so a document-wide query picked them up here.
+          // Those rows carry no .p-start, so the first one reached threw
+          // on .value and the whole load died silently: no result, no
+          // error message. Passage comparison could not run at all.
+          const rows = Array.from(
+            document.querySelectorAll("#passages-rows .p-row"),
+          );
           const inputs = [];
 
           for (let i = 0; i < rows.length; i++) {
@@ -1924,6 +1932,8 @@
         }
       })();
     </script>
+    <script src="assets/picker.js" defer></script>
+    <script src="assets/compare-picker.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
   </body>
