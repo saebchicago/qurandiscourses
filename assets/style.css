@@ -1438,6 +1438,19 @@ details.chart-fallback table.data {
   line-height: 1.9;
   font-size: 1.05rem;
 }
+.verse .translation .text.cjk {
+  /* Chinese, Japanese, and Korean render in the reader's own system
+     face: every platform ships a good one, and even a subsetted CJK
+     webfont costs megabytes — more than this whole site. Named faces
+     first so the choice is a serif where one exists, then the generic
+     stack. Han characters are dense at Latin body sizes and need more
+     leading than the 1.6 default. */
+  font-family: "Songti SC", "Hiragino Mincho ProN", "Yu Mincho",
+    "Noto Serif CJK SC", "Noto Serif KR", "Source Han Serif SC",
+    "Microsoft YaHei", "Malgun Gothic", serif;
+  line-height: 1.95;
+  font-size: 1.05rem;
+}
 .settings {
   position: fixed;
   right: 1rem;
