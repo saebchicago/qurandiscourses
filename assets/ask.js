@@ -259,12 +259,24 @@
       return { route: `/themes#${THEME_WORDS[q]}`, type: "theme" };
     }
 
-    // English word fallback: the Roots page search matches English
-    // glosses (words.html is a static explainer and ignores queries)
-    if (/^[a-z\s'-]{2,}$/.test(q)) {
+    // Single English word: the Roots page search matches English
+    // glosses, so a plain word like "mercy" still lands on live root
+    // results there.
+    if (/^[a-z'-]{2,}$/.test(q)) {
       return {
         route: `/roots?q=${encodeURIComponent(raw)}`,
         type: "word",
+      };
+    }
+
+    // Everything else that looks like English lands on the full-text
+    // search instead of dead-ending: multi-word questions, page names,
+    // method vocabulary. /search covers page prose, the glossary,
+    // sources, and themes, and offers the Ask box back for references.
+    if (/^[a-z0-9\s'.,?-]{2,}$/.test(q)) {
+      return {
+        route: `/search?q=${encodeURIComponent(raw)}`,
+        type: "search",
       };
     }
 

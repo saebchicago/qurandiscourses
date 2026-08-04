@@ -2528,6 +2528,52 @@ kbd {
   overflow: hidden;
 }
 
+/* /search: input row and grouped results (assets/search.js). */
+.search-row {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.35rem 0 0.5rem;
+}
+.search-row input[type="search"] {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--ink);
+  min-height: 44px;
+}
+.search-group {
+  margin: 1.25rem 0 0.4rem;
+  font-size: 0.95rem;
+  color: var(--accent);
+}
+.search-hits {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.search-hits li {
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.search-hits li:last-child {
+  border-bottom: none;
+}
+.search-snippet {
+  display: block;
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 0.1rem;
+}
+#searchStatus {
+  min-height: 1.4em;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
 /* On-this-page mini TOC (how-it-works.html). Plain anchors: the point
    is that every section of a long method page is citable by URL. */
 .page-toc {

@@ -68,6 +68,7 @@ jobs:
           node scripts/build-llms.mjs --check
           node scripts/build-changelog.mjs --check
           node scripts/build-datapack.mjs --check
+          node scripts/build-search-index.mjs --check
 
       - name: Run end-to-end browser audit
         run: |

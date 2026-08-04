@@ -130,7 +130,8 @@ citation metadata for the site, its export tables, and its cited
 sources), `changelog.json` (the changelog entry registry behind changelog.html
 and feed.xml), `claims.json`, `exercises.json`, `glossary.json` (the term
 registry behind assets/glossary.js and glossary.html), `juz.json`,
-`paths.json`,
+`paths.json`, `search-index.json` (the folded-token index behind
+/search),
 `sources.json`, `surah-names.json`, `version.json` (the site's release
 version), `videos.json`, plus the computed datasets in the next
 paragraph.
