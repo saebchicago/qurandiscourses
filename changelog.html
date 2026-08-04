@@ -31,6 +31,12 @@
       type="image/svg+xml"
       href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="%232b1d0e"/><text x="32" y="46" text-anchor="middle" font-family="Amiri,serif" font-size="42" fill="%23f6efe2">ق</text></svg>'
     />
+    <link
+      rel="alternate"
+      type="application/atom+xml"
+      title="Divine Discourses changelog"
+      href="/feed.xml"
+    />
     <link rel="manifest" href="manifest.webmanifest" />
     <meta name="theme-color" content="#2b1d0e" />
     <!-- JSONLD (build-jsonld.mjs) -->
@@ -123,10 +129,11 @@
           before it was renamed "Study".
         </p>
         <div class="card">
+          <!-- static:changelog -->
           <h3>2026</h3>
           <h4>August</h4>
           <ul>
-            <li>
+            <li id="2026-08-a-card-per-surah-an-app">
               <strong>A card per surah, an app that installs, and a
               citation you can check.</strong> Sharing a surah or a
               theme now unfurls with its own image — the surah's Arabic
@@ -141,8 +148,8 @@
               resting on a response — it runs with the weekly citation
               and edition checks, and stays quiet unless something
               really changed.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-08-a-card-per-surah-an-app" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-08-one-share-button-that-always-shares">
               <strong>One share button that always shares the right
               thing.</strong> The floating share button now follows what
               is on screen: a theme card on
@@ -162,8 +169,8 @@
               <a href="/export">Export</a>, and the link-preview
               pages and site card were regenerated with fuller
               metadata.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-08-one-share-button-that-always-shares" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-08-word-meanings-in-the-text-itself">
               <strong>Word meanings in the text itself.</strong> The
               <a href="/read">Read</a> page now shows a published
               word-by-word English meaning beneath every verse, at every
@@ -177,8 +184,8 @@
               table's outbound dictionary links, which used to stand in
               for a meaning the site could not show, are replaced by a
               single link in the caption.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-08-word-meanings-in-the-text-itself" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-08-pages-about-the-text-not-about">
               <strong>Pages about the text, not about the site.</strong> The
               home page's explanations of how the site verifies itself, its
               three depth levels, and its purpose all lived in full on the
@@ -189,8 +196,8 @@
               the badge and a short source name, with the method sentences
               one click away in a collapsed note. On a phone the Numbers
               page sheds 250px of repeated citation prose.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-08-pages-about-the-text-not-about" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-08-simplicity-with-avenues-for-depth">
               <strong>Simplicity with avenues for depth.</strong> The
               depth system now does what it promises. A saved depth
               applies before first paint (no more flash of Simple), the
@@ -217,8 +224,8 @@
               with contextual "Explore further" links, and on phones
               the floating buttons no longer overlap and navigation
               targets keep a full tap size.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-08-simplicity-with-avenues-for-depth" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-08-open-source-audit">
               <strong>Open-source audit.</strong> A full-repository audit
               ahead of open-sourcing. Licensing: the LICENSE file now
               states that MIT covers the site's own code while bundled
@@ -234,8 +241,8 @@
               "Computing" now reports failure, and the recurring-word
               highlights on <a href="/read">Read</a> announce
               themselves to screen readers as actionable.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-08-open-source-audit" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-08-coverage-dashboard-and-network-centrality">
               <strong>Coverage dashboard and network centrality.</strong>
               A new <a href="/coverage">Coverage</a> page reports,
               from direct measurement of the bundled data files: how many
@@ -250,8 +257,8 @@
               with its rank), labeled with the caution that centrality
               tracks raw frequency and does not indicate thematic,
               exegetical, or theological importance.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-08-coverage-dashboard-and-network-centrality" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-08-chart-layer-for-the-association-statistics">
               <strong>Chart layer for the association statistics.</strong>
               A zero-dependency SVG helper now draws: an association
               network on each <a href="/roots">Roots</a> detail page
@@ -262,8 +269,8 @@
               with a canonical/revelation-order toggle. Every chart
               carries a table fallback and the caution that position,
               distance, and color indicate statistical measures only.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-08-chart-layer-for-the-association-statistics" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-08-association-statistics-and-public-data-downloads">
               <strong>Association statistics and public data downloads.</strong>
               Root pages gained a "Statistical associations" table (shared
               verses, log-likelihood ratio, pointwise mutual information,
@@ -273,11 +280,11 @@
               A new <a href="/export">Export</a> page offers four
               tables as CSV and JSON with a machine-readable schema and a
               prose data dictionary.
-            </li>
+            <a class="claim-anchor" href="#2026-08-association-statistics-and-public-data-downloads" aria-label="Link to this entry">&sect;</a></li>
           </ul>
           <h4>July</h4>
           <ul>
-            <li>
+            <li id="2026-07-audit-corrections-honest-errors-durable-clearing">
               <strong>Audit corrections: honest errors, durable clearing,
               reachable surahs, keyboard-safe dialogs.</strong> A verse
               number past a surah's end used to be blamed on the reader's
@@ -296,8 +303,8 @@
               glossary links that pointed nowhere resolve, and a mistyped
               exercise link says it fell back instead of silently serving a
               different surah.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-audit-corrections-honest-errors-durable-clearing" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-arabic-script-root-entry-and-four-citation">
               <strong>Arabic-script root entry, and four citation links
               retired.</strong> The Ask box now routes Arabic-typed roots —
               <span class="ar notranslate" translate="no" lang="ar" dir="rtl">رحم</span>,
@@ -314,8 +321,8 @@
               Each bibliographic record remains; only the dead links were
               removed, since replacements could not be verified against the
               works themselves.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-arabic-script-root-entry-and-four-citation" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-five-new-translation-languages">
               <strong>Five new translation languages.</strong> Six published
               translations joined the <a href="/read">Read</a> page's
               picker: Muhiuddin Khan and Zohurul Hoque (Bengali), Abdullah
@@ -328,8 +335,8 @@
               <a href="/how-it-works#different">How It Works</a> gained
               a section comparing this site's design policies to other
               Qur'an tools.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-five-new-translation-languages" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-trust-and-reader-data-controls">
               <strong>Trust and reader-data controls.</strong> The
               <a href="/about">About</a> page became a trust and access
               hub: exact statements of what stays in the browser and what a
@@ -337,8 +344,8 @@
               accessibility routes, and storage, export, and deletion
               guidance — with the Settings panel's destructive boundary
               clarified and note-safety controls added.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-trust-and-reader-data-controls" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-depth-tier-renamed-and-deeper-pattern">
               <strong>Depth tier renamed, and deeper pattern analysis.</strong>
               The middle depth tier was renamed from "Scholar" to "Study" to
               describe the work rather than claim a rank. The
@@ -348,15 +355,15 @@
               and new lexical-diversity, rhyme-regularity, and
               discourse-particle measures were added with their methods
               stated.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-depth-tier-renamed-and-deeper-pattern" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-the-transcription-gate-documented">
               <strong>The Transcription Gate, documented.</strong> The rule
               that governs all quoted scholarship on this site — outline text
               and interpretation excerpts are transcribed verbatim from the
               published volumes, never paraphrased from memory — was written
               into the maintainer guide as a named, checkable procedure.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-the-transcription-gate-documented" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-numerical-claim-evidence-correction">
               <strong>Numerical-claim evidence correction.</strong> The
               <a href="/numbers">Numbers</a> page and its worked validation
               example previously presented popular 365, 475, and 12
@@ -366,8 +373,8 @@
               were recomputed here; the other figures remain only as examples
               of why a counting unit and inclusion rule must be declared, not
               as findings this site endorses.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-numerical-claim-evidence-correction" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-leading-with-the-method-not-the">
               <strong>Leading with the method, not the person.</strong>
               This site's method matters more than who compiled it. The
               footer on every page, the homepage's opening description, and
@@ -376,8 +383,8 @@
               behind the method, and the dedication to his memory are still
               here — in full, on <a href="/about">About</a> — just not
               repeated as the site's headline on every page.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-leading-with-the-method-not-the" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-dr-khans-own-reading-of-a">
               <strong>Dr. Khan's own reading of a surah, on its
               dossier.</strong> The <a href="/dossier">Surah
               Dossier</a> for the six surahs worked through in <em>An
@@ -388,8 +395,8 @@
               surah's outline citation now names the actual volume it was
               transcribed from (2011 or 2013) instead of always saying
               2013.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-dr-khans-own-reading-of-a" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-dr-khans-word-by-word-glosses-on-the">
               <strong>Dr. Khan's word-by-word glosses, on the reading
               page.</strong> For the six surahs worked through in <em>An
               Introduction to Understanding the Qur'an with Examples</em>
@@ -405,8 +412,8 @@
               <a href="/words">vocabulary search</a>, and its live
               example draws on the first glossed surah. All other surahs
               keep the dictionary link as before.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-dr-khans-word-by-word-glosses-on-the" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-five-more-of-dr-khans-outlines">
               <strong>Five more of Dr. Khan's outlines, in his own
               words.</strong> The coherence-reading exercises grow from one
               surah to six: al-'Alaq (96), al-Mā'ūn (107), al-Kauthar
@@ -418,8 +425,8 @@
               by verse, then compare it against his — on the
               <a href="/exercises">Exercises page</a>, in each surah's
               dossier, and overlaid on its replay.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-five-more-of-dr-khans-outlines" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-themes-and-surahs-connected">
               <strong>Themes and surahs, connected.</strong> Every theme on
               the <a href="/themes">Themes page</a> now shows where its
               vocabulary clusters — its densest surahs, normalized per
@@ -431,8 +438,8 @@
               page no longer paints its start screen first and then jumps
               when the passage arrives — deep-linked visits now go straight
               to a quiet loading state.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-themes-and-surahs-connected" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-the-surah-dossier">
               <strong>The Surah Dossier.</strong> Every surah now has one
               page that gathers everything this site can verify about it —
               <a href="/dossier">dossier.html</a>, in the Study menu.
@@ -448,8 +455,8 @@
               way, a long-standing subtle jump on page load at phone widths
               (the menu button appearing a beat after the page painted,
               nudging everything down) was found and fixed site-wide.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-the-surah-dossier" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-ritual-offline-and-a-reading-craft-focus">
               <strong>Ritual, offline, and a reading-craft focus mode.</strong>
               Formula, rhyme, and concordance results now link straight into
               the passage with the exact words lit up — click through from
@@ -468,8 +475,8 @@
               but the passage and enlarges the Arabic for close, uninterrupted
               reading — it resets on reload by design, nothing about it is
               remembered.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-ritual-offline-and-a-reading-craft-focus" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-tools-for-the-specialists">
               <strong>Tools for the specialists.</strong> Five additions
               aimed at readers who work with the text professionally. A new
               <a href="/formulas">Formulas</a> page indexes every
@@ -488,8 +495,8 @@
               every dataset the site ships — schema, generator script,
               license, download — so any number here can be recomputed
               without trusting us.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-tools-for-the-specialists" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-a-calmer-front-door">
               <strong>A calmer front door.</strong> The first-visit welcome
               banner asked three things at once — how deep you want to go,
               whether to take the tour, and whether you're new to the
@@ -503,8 +510,8 @@
               Simple depth, which the site has always defined as the
               reading layer — it returns the moment you step up to
               Scholar.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-a-calmer-front-door" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-a-mislabeled-translation-fixed-and-urdu">
               <strong>A mislabeled translation, fixed — and Urdu
               added.</strong> The "Abdel Haleem" translation option was
               silently serving Arabic text mislabeled as English — the
@@ -527,8 +534,8 @@
               it hadn't earned). Fixed a real bug in the welcome tour:
               pressing Escape while a navigation menu was open closed the
               whole tour instead of just the menu.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-a-mislabeled-translation-fixed-and-urdu" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-a-discovery-worksheet-and-one-pending">
               <strong>A discovery worksheet, and one Pending claim
               resolved.</strong> The Read page gained a per-surah worksheet
               for proposing your own structural reading — theme, sectional
@@ -547,8 +554,8 @@
               href="CONTRIBUTING.md">CONTRIBUTING.md</a> and issue template
               for readers who want to submit their own structural
               hypotheses for the 84 surahs Khan's book doesn't cover.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-a-discovery-worksheet-and-one-pending" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-boundary-particles-symmetry-testing-and-reading">
               <strong>Boundary particles, symmetry testing, and reading
               by chronology.</strong> Patterns gained a documented,
               Verified feature counting root continuity across idh/lamma
@@ -562,16 +569,16 @@
               tray lets you bookmark a verse or root to a floating
               workspace, client-only, alongside the existing per-verse
               notes.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-boundary-particles-symmetry-testing-and-reading" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-three-more-short-videos-scripted">
               <strong>Three more short videos scripted.</strong> The Watch
               page's covenant (real screen recordings, human voice, no
               generated footage) now covers three more short cuts —
               browsing by juz, pinning to your workspace, and roots across
               revelation periods — scripted and listed as planned,
               awaiting recording.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-three-more-short-videos-scripted" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-compare-now-more-than-two-at">
               <strong>Compare, now more than two at a time.</strong> The
               Compare page overlays up to six roots at once, not just a pair,
               and shows the exact set of verses where every selected root
@@ -581,8 +588,8 @@
               surahs side by side on their corpus fingerprints (length,
               vocabulary spread, grammatical texture, cross-reference reach).
               Every figure is computed from the cited corpus and labeled.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-compare-now-more-than-two-at" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-more-of-what-the-corpus-can">
               <strong>More of what the corpus can honestly say.</strong> The
               Numbers page gained grammatical texture (the noun and verb share
               of every period, from Leeds POS tags), a verse-length
@@ -592,8 +599,8 @@
               verse. Each surah's profile on Navigate now shows its noun/verb
               balance. Nothing is generated; each number is a plain tally of a
               corpus field, badged and reproducible.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-more-of-what-the-corpus-can" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-the-mission-stated">
               <strong>The mission, stated.</strong> The About page now says
               plainly what this project is for — readers equipped to test
               the coherence of a discourse themselves, every figure
@@ -603,8 +610,8 @@
               the method pages. It is equally plain about what the project
               is today: young, one maintainer, with its method documented
               publicly so others could carry it forward.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-the-mission-stated" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-the-site-now-meets-newcomers-where">
               <strong>The site now meets newcomers where they are.</strong>
               The Read page finally teaches the method it was built for: a
               one-time guide appears above your first passage — read it
@@ -621,8 +628,8 @@
               every page now prints cleanly — navigation and buttons
               vanish, disclosure notes expand — so teachers can hand out
               exercises and study paths on paper.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-the-site-now-meets-newcomers-where" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-saying-only-what-is-true-more">
               <strong>Saying only what is true, more precisely.</strong> An
               external-review pass through the eyes of a demanding scholar
               tightened several of the site's claims about itself. "No
@@ -643,14 +650,14 @@
               because reproducing a computation proves faithfulness, not
               correctness. And the Nuanced label now has one definition
               everywhere instead of three near-misses.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-saying-only-what-is-true-more" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-replay-joined-the-menu">
               <strong>Replay joined the menu.</strong> The guided replay
               tool was reachable only from Read and the Exercises hub; it
               now sits in the Study menu on every page. Also housekeeping:
               the README's stale page count was corrected.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-replay-joined-the-menu" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-the-roots-page-loads-five-times">
               <strong>The Roots page loads five times lighter.</strong> The
               full 1.9&nbsp;MB per-root dataset was downloaded before the
               Roots list could render — and by the root popovers, embeds,
@@ -660,8 +667,8 @@
               generated from the same corpus data; the full record still
               loads per root when a detail panel opens. Nothing shown
               changed — only how much a phone has to download first.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-the-roots-page-loads-five-times" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-the-credibility-system-audited-itself">
               <strong>The credibility system audited itself.</strong> A full
               integrity pass over the verification machinery found and fixed
               real gaps. Every Verified badge must now name its source: 70
@@ -688,8 +695,8 @@
               cross-reference data's pending license. And the automated
               verify suite now enforces the badge rule permanently: a
               Verified dot with no source fails the build.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-the-credibility-system-audited-itself" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-words-became-searchable">
               <strong>Words became searchable.</strong> The
               <a href="/words">Words</a> page now searches all 4,832
               dictionary forms in the Qur'an — by Arabic (with or without
@@ -702,8 +709,8 @@
               gloss pipeline, and a research note now documents exactly
               what the maintainer must verify before any gloss dataset
               ships. Until then every row links to the corpus dictionary.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-words-became-searchable" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-the-pre-ship-checklist-became-a-machine">
               <strong>The pre-ship checklist became a machine.</strong>
               The maintainer guide's manual verify-before-shipping
               checklist — horizontal overflow on phones, console errors
@@ -716,8 +723,8 @@
               previously verified only once by hand. The full site
               passes today; the suite exists so tomorrow's changes
               can't quietly break what readers rely on.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-the-pre-ship-checklist-became-a-machine" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-verses-youve-read-stay-readable-and">
               <strong>Verses you've read stay readable, and citations get a
               rot check.</strong> The Read and Compare pages now keep a
               browser-local cache of already-fetched verse text and
@@ -730,8 +737,8 @@
               maintainers, a new checker verifies that every cited
               external link on the site still answers, so a citation that
               silently goes dead is caught before a reader finds it.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-verses-youve-read-stay-readable-and" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-guided-replays-a-watch-page-and">
               <strong>Guided replays, a Watch page, and the gloss
               pipeline.</strong> New <a href="/replay">Replay</a> tool:
               the recitation plays a surah verse by verse through one
@@ -756,8 +763,8 @@
               the citation requirements are documented for the
               maintainer), labeled Nuanced — a gloss is a translator's
               choice, not "the meaning."
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-guided-replays-a-watch-page-and" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-link-previews-embeds-guided-entry-and">
               <strong>Link previews, embeds, guided entry, and one surah
               dataset.</strong> Shared links now unfurl properly everywhere:
               a branded social image on every page, and 1,789 generated
@@ -785,8 +792,8 @@
               in the tradition — this site follows its cited convention),
               and the Read page's handful of divergent display names now
               match Navigate's romanization.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-link-previews-embeds-guided-entry-and" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-sharing-self-learning-and-analytics-expansion">
               <strong>Sharing, self-learning, and analytics expansion.</strong>
               A share button on every page (each tool page's URL was already
               a permalink; now there's an affordance for it), per-theme share
@@ -818,8 +825,8 @@
               three verification labels. Under the hood, citation-badge
               handling switched to event delegation, fixing popovers on
               dynamically rendered badges.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-sharing-self-learning-and-analytics-expansion" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-arabic-word-display-corrected-sitewide">
               <strong>Arabic word display corrected sitewide.</strong> The
               Buckwalter→Arabic conversion table
               (<code>scripts/build-leeds.js</code>) was missing 14 characters
@@ -839,8 +846,8 @@
               <code>data/root-analytics/</code>, and
               <code>data/rhetorical-features.json</code> were regenerated
               from the corrected data.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-arabic-word-display-corrected-sitewide" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-word-token-count-corrected">
               <strong>Word-token count corrected.</strong> 77,430 to 77,429
               on Sources, Credits, and README. The Leeds corpus total is
               77,429 tokens, of which 49,967 carry a root (the rest are
@@ -848,8 +855,8 @@
               per-root count explainer previously conflated "total tokens
               searched" with "rooted tokens" and has been reworded to state
               both figures.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-word-token-count-corrected" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-site-renamed-to-divine-discourses">
               <strong>Site renamed to "Divine Discourses."</strong> "Discourses"
               renders Khan's translation of <em>khitab</em>, speaker-to-hearer
               address; "Divine" makes explicit what was previously one click
@@ -857,8 +864,8 @@
               the hearer. Applied across every page's title, header, and
               footer. The deployed domain and GitHub repository name are
               unchanged.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-site-renamed-to-divine-discourses" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-themes-expanded-from-10-to-33">
               <strong>Themes expanded from 10 to 33 life-theme gateways.</strong>
               Added gratitude, guidance and light, fear and hope,
               truthfulness and falsehood, charity, death, paradise,
@@ -870,8 +877,8 @@
               <code>data/roots-summary.json</code> before being added, and
               every theme was confirmed to compute at least two passages
               under the site's existing lexical-clustering rule.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-themes-expanded-from-10-to-33" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-two-long-standing-citations-made-browsable">
               <strong>Two long-standing citations made browsable.</strong>
               Patterns' "direct address... in 89 verses" and Numbers'
               "29 surahs... 14 unique [fawatih] combinations" had been cited
@@ -883,8 +890,8 @@
               the reveal-lists shipped. Patterns also gained a per-surah
               browser for the existing Mishkat cross-reference data, previously
               only visible one verse at a time on Read.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-two-long-standing-citations-made-browsable" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-local-reading-progress-memory-added">
               <strong>Local reading-progress memory added.</strong> The
               existing browser-only preferences object now also remembers
               last-read verse position and which exercises have been
@@ -892,8 +899,8 @@
               off" card on the homepage. Same privacy posture as every other
               preference: never transmitted, cleared by the existing "Clear
               preferences" button.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-local-reading-progress-memory-added" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-duplicate-citation-popover-bug-fixed">
               <strong>Duplicate citation-popover bug fixed.</strong>
               <code>assets/app.js</code> carried a second, independent
               implementation of the citation-badge popover that duplicated
@@ -901,8 +908,8 @@
               badges. Clicking any citation badge briefly opened two
               overlapping popovers; the dead <code>app.js</code> copy has
               been removed.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-duplicate-citation-popover-bug-fixed" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-ui-restructure-for-aqu-launch">
               <strong>UI restructure for AQU launch.</strong> Primary nav
               consolidated from 14 pills into four accessible dropdown groups
               (Study, Analyze, Learn, About). Homepage inverted: Ask search
@@ -912,14 +919,14 @@
               Validation gains a "How we verify" block with one worked example
               per label type (Verified, Pending, Nuanced) reusing published
               claims from Numbers and Sources.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-ui-restructure-for-aqu-launch" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-glossary-expanded">
               <strong>Glossary expanded.</strong> Four terms added: root,
               morphology, triangulate, period distribution. Each is now
               available inline site-wide via the tap-and-keyboard popover.
               Coherence registered as an alias to the existing nazm entry.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-glossary-expanded" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-organization-name-standardized-on-of">
               <strong>Organization name standardized on "of."</strong>
               References throughout the site now read "Association of Quranic
               Understanding," matching the organization's page title, its
@@ -928,8 +935,8 @@
               book-publisher citation in the biographical section of the About
               page and in the al-Asr exercise attribution has been updated in
               kind; the ISBN registration itself is unchanged.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-07-organization-name-standardized-on-of" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-07-passage-compare-added">
               <strong>Passage Compare added.</strong> Compare page gains a
               Passages mode alongside the existing Roots mode. Select two or
               three passages (surah + verse range up to 30 ayat each) and load
@@ -942,42 +949,42 @@
               establish thematic connection." Shareable URL encodes passage
               references (e.g.
               <code>?mode=passages&amp;p1=2:255&amp;p2=59:22-24</code>).
-            </li>
+            <a class="claim-anchor" href="#2026-07-passage-compare-added" aria-label="Link to this entry">&sect;</a></li>
           </ul>
           <h4>May</h4>
           <ul>
-            <li>
+            <li id="2026-05-surah-length-statistics-corrected">
               <strong>Surah length statistics corrected.</strong> Mean updated
               from 54.6 to 54.7 verses per surah. Median updated from 30 to 39
               verses. Both errors traced to incorrect aggregation method;
               recomputed directly against Leeds corpus.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-05-surah-length-statistics-corrected" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-05-y-w-m-count-reframed-as-nuanced">
               <strong>y-w-m count reframed as Nuanced.</strong> Earlier showed
               475; corpus.quran.com lists 405 for the nominal yawm, while
               broader counts including the compound yawma-idhin reach 475. Both
               counts now shown with explanation.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-05-y-w-m-count-reframed-as-nuanced" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-05-k-w-n-count-corrected">
               <strong>k-w-n count corrected.</strong> 1,361 to 1,390 after
               triangulation against corpus.quran.com via multiple independent
               lookups.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-05-k-w-n-count-corrected" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-05-r-b-b-count-corrected">
               <strong>r-b-b count corrected.</strong> 975 to 980 after
               corpus.quran.com triangulation.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-05-r-b-b-count-corrected" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-05-b-h-r-count-corrected">
               <strong>b-h-r count corrected.</strong> 41 to 42 after Leeds
               verification.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-05-b-h-r-count-corrected" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-05-iltifat-attribution-expanded">
               <strong>Iltifat attribution expanded.</strong> The al-Fatihah 1:5
               grammatical shift note now credits classical attestation in
               al-Suyuti's <em>al-Itqan</em> alongside modern scholarship by
               Abdel Haleem (BSOAS 1992). Earlier version credited Haleem only.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-05-iltifat-attribution-expanded" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-05-organization-name-reviewed">
               <strong>Organization name reviewed.</strong> The parent
               organization uses both "Association of Quranic Understanding" (in
               its page title and some documents) and "Association for Quranic
@@ -987,29 +994,30 @@
               note the variation. References on this site now use "Association
               for Quranic Understanding," matching the more common external
               usage.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-05-organization-name-reviewed" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-05-khan-biography-expanded">
               <strong>Khan biography expanded.</strong> The About page now
               documents Khan's full academic and interfaith record: Aligarh and
               Rampur education, UIC doctoral work, Parliament of the World's
               Religions trusteeship, WCMIR presidency, AQU directorship.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-05-khan-biography-expanded" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-05-khans-2013-work-added">
               <strong>Khan's 2013 work added.</strong>
               <em>An Exercise in Understanding the Qur'an</em> (AQU, ISBN
               9781567447736) now cited alongside
               <em>Reflections on the Qur'an</em>. Foreword by Mustansir Mir
               noted.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-05-khans-2013-work-added" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-05-leeds-corpus-bundled">
               <strong>Leeds Corpus bundled.</strong> 6,236 verses, 77,430 words,
               1,642 roots now available as static JSON. Word-by-word morphology
               live on Read at Scholar depth. GPL compliance via NOTICE.md.
-            </li>
-            <li>
+            <a class="claim-anchor" href="#2026-05-leeds-corpus-bundled" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-05-site-launch">
               <strong>Site launch.</strong> Initial deployment of 13 pages.
-            </li>
+            <a class="claim-anchor" href="#2026-05-site-launch" aria-label="Link to this entry">&sect;</a></li>
           </ul>
+          <!-- /static:changelog -->
         </div>
         <p class="prov">
           Corrections welcome. Open a GitHub issue at

@@ -3851,6 +3851,7 @@ citation stops resting on documentation and starts
 resting on a response — it runs with the weekly citation
 and edition checks, and stays quiet unless something
 really changed.
+§
 
 One share button that always shares the right
 thing. The floating share button now follows what
@@ -3871,6 +3872,7 @@ Coverage and
 Export , and the link-preview
 pages and site card were regenerated with fuller
 metadata.
+§
 
 Word meanings in the text itself. The
 Read page now shows a published
@@ -3885,6 +3887,7 @@ are credited on Sources . The word
 table's outbound dictionary links, which used to stand in
 for a meaning the site could not show, are replaced by a
 single link in the caption.
+§
 
 Pages about the text, not about the site. The
 home page's explanations of how the site verifies itself, its
@@ -3896,6 +3899,7 @@ opens its full citation and license, so each card now shows
 the badge and a short source name, with the method sentences
 one click away in a collapsed note. On a phone the Numbers
 page sheds 250px of repeated citation prose.
+§
 
 Simplicity with avenues for depth. The
 depth system now does what it promises. A saved depth
@@ -3923,6 +3927,7 @@ Next continue across surah boundaries, analysis pages end
 with contextual "Explore further" links, and on phones
 the floating buttons no longer overlap and navigation
 targets keep a full tap size.
+§
 
 Open-source audit. A full-repository audit
 ahead of open-sourcing. Licensing: the LICENSE file now
@@ -3939,6 +3944,7 @@ the site, a theme distribution strip that could hang on
 "Computing" now reports failure, and the recurring-word
 highlights on Read announce
 themselves to screen readers as actionable.
+§
 
 Coverage dashboard and network centrality.
 A new Coverage page reports,
@@ -3954,6 +3960,7 @@ weighted degree, betweenness, eigenvector centrality, each
 with its rank), labeled with the caution that centrality
 tracks raw frequency and does not indicate thematic,
 exegetical, or theological importance.
+§
 
 Chart layer for the association statistics.
 A zero-dependency SVG helper now draws: an association
@@ -3965,6 +3972,7 @@ across all 114 surahs on Numbers ,
 with a canonical/revelation-order toggle. Every chart
 carries a table fallback and the caution that position,
 distance, and color indicate statistical measures only.
+§
 
 Association statistics and public data downloads.
 Root pages gained a "Statistical associations" table (shared
@@ -3974,6 +3982,7 @@ frequencies per 1,000 tokens and a keyness-by-period card.
 A new Export page offers four
 tables as CSV and JSON with a machine-readable schema and a
 prose data dictionary.
+§
 
 #### July
 
@@ -3995,6 +4004,7 @@ Compare now works as promised, two
 glossary links that pointed nowhere resolve, and a mistyped
 exercise link says it fell back instead of silently serving a
 different surah.
+§
 
 Arabic-script root entry, and four citation links
 retired. The Ask box now routes Arabic-typed roots —
@@ -4012,6 +4022,7 @@ and a link to repository discussions that were never enabled.
 Each bibliographic record remains; only the dead links were
 removed, since replacements could not be verified against the
 works themselves.
+§
 
 Five new translation languages. Six published
 translations joined the Read page's
@@ -4025,6 +4036,7 @@ and Arabic-Indic verse numbers, and
 How It Works gained
 a section comparing this site's design policies to other
 Qur'an tools.
+§
 
 Trust and reader-data controls. The
 About page became a trust and access
@@ -4033,6 +4045,7 @@ passage request necessarily exposes, correction and
 accessibility routes, and storage, export, and deletion
 guidance — with the Settings panel's destructive boundary
 clarified and note-safety controls added.
+§
 
 Depth tier renamed, and deeper pattern analysis.
 The middle depth tier was renamed from "Scholar" to "Study" to
@@ -4043,12 +4056,14 @@ and Patterns were linked both ways,
 and new lexical-diversity, rhyme-regularity, and
 discourse-particle measures were added with their methods
 stated.
+§
 
 The Transcription Gate, documented. The rule
 that governs all quoted scholarship on this site — outline text
 and interpretation excerpts are transcribed verbatim from the
 published volumes, never paraphrased from memory — was written
 into the maintainer guide as a named, checkable procedure.
+§
 
 Numerical-claim evidence correction. The
 Numbers page and its worked validation
@@ -4059,6 +4074,7 @@ state plainly that only the root totals (y-w-m: 405; sh-h-r: 21)
 were recomputed here; the other figures remain only as examples
 of why a counting unit and inclusion rule must be declared, not
 as findings this site endorses.
+§
 
 Leading with the method, not the person.
 This site's method matters more than who compiled it. The
@@ -4068,6 +4084,7 @@ method first; Dr. Khan's biography, the intellectual lineage
 behind the method, and the dedication to his memory are still
 here — in full, on About — just not
 repeated as the site's headline on every page.
+§
 
 Dr. Khan's own reading of a surah, on its
 dossier. The Surah
@@ -4079,6 +4096,7 @@ surah, cited to its page number. Also fixed while there: a
 surah's outline citation now names the actual volume it was
 transcribed from (2011 or 2013) instead of always saying
 2013.
+§
 
 Dr. Khan's word-by-word glosses, on the reading
 page. For the six surahs worked through in An
@@ -4095,6 +4113,7 @@ the Nuanced badge: a gloss is one translator's choice, not
 vocabulary search , and its live
 example draws on the first glossed surah. All other surahs
 keep the dictionary link as before.
+§
 
 Five more of Dr. Khan's outlines, in his own
 words. The coherence-reading exercises grow from one
@@ -4107,6 +4126,7 @@ for Qur'anic Understanding. Propose your own structure verse
 by verse, then compare it against his — on the
 Exercises page , in each surah's
 dossier, and overlaid on its replay.
+§
 
 Themes and surahs, connected. Every theme on
 the Themes page now shows where its
@@ -4119,6 +4139,7 @@ labels say so. Also fixed: following a link into the reading
 page no longer paints its start screen first and then jumps
 when the passage arrives — deep-linked visits now go straight
 to a quiet loading state.
+§
 
 The Surah Dossier. Every surah now has one
 page that gathers everything this site can verify about it —
@@ -4135,6 +4156,7 @@ links now land here first, one click from reading. Along the
 way, a long-standing subtle jump on page load at phone widths
 (the menu button appearing a beat after the page painted,
 nudging everything down) was found and fixed site-wide.
+§
 
 Ritual, offline, and a reading-craft focus mode.
 Formula, rhyme, and concordance results now link straight into
@@ -4154,6 +4176,7 @@ toggle (button, the "F" key, or Escape) that hides everything
 but the passage and enlarges the Arabic for close, uninterrupted
 reading — it resets on reload by design, nothing about it is
 remembered.
+§
 
 Tools for the specialists. Five additions
 aimed at readers who work with the text professionally. A new
@@ -4173,6 +4196,7 @@ And a new Datasets page documents
 every dataset the site ships — schema, generator script,
 license, download — so any number here can be recomputed
 without trusting us.
+§
 
 A calmer front door. The first-visit welcome
 banner asked three things at once — how deep you want to go,
@@ -4187,6 +4211,7 @@ means. And the discovery worksheet no longer appears in
 Simple depth, which the site has always defined as the
 reading layer — it returns the moment you step up to
 Scholar.
+§
 
 A mislabeled translation, fixed — and Urdu
 added. The "Abdel Haleem" translation option was
@@ -4210,6 +4235,7 @@ data source and had drifted into carrying a Verified badge
 it hadn't earned). Fixed a real bug in the welcome tour:
 pressing Escape while a navigation menu was open closed the
 whole tour instead of just the menu.
+§
 
 A discovery worksheet, and one Pending claim
 resolved. The Read page gained a per-surah worksheet
@@ -4226,6 +4252,7 @@ independently corroborated by Mustansir Mir's 1986 monograph
 Coherence in the Qur'an (see Sources ). New CONTRIBUTING.md and issue template
 for readers who want to submit their own structural
 hypotheses for the 84 surahs Khan's book doesn't cover.
+§
 
 Boundary particles, symmetry testing, and reading
 by chronology. Patterns gained a documented,
@@ -4240,6 +4267,7 @@ broken out by the traditional revelation periods. A new pin
 tray lets you bookmark a verse or root to a floating
 workspace, client-only, alongside the existing per-verse
 notes.
+§
 
 Three more short videos scripted. The Watch
 page's covenant (real screen recordings, human voice, no
@@ -4247,6 +4275,7 @@ generated footage) now covers three more short cuts —
 browsing by juz, pinning to your workspace, and roots across
 revelation periods — scripted and listed as planned,
 awaiting recording.
+§
 
 Compare, now more than two at a time. The
 Compare page overlays up to six roots at once, not just a pair,
@@ -4257,6 +4286,7 @@ from three to six, and a new Surahs mode sets two to six
 surahs side by side on their corpus fingerprints (length,
 vocabulary spread, grammatical texture, cross-reference reach).
 Every figure is computed from the cited corpus and labeled.
+§
 
 More of what the corpus can honestly say. The
 Numbers page gained grammatical texture (the noun and verb share
@@ -4267,6 +4297,7 @@ hapax list naming every once-occurring root and its single
 verse. Each surah's profile on Navigate now shows its noun/verb
 balance. Nothing is generated; each number is a plain tally of a
 corpus field, badged and reproducible.
+§
 
 The mission, stated. The About page now says
 plainly what this project is for — readers equipped to test
@@ -4277,6 +4308,7 @@ help for Khan's remaining outlines, and scholarly review of
 the method pages. It is equally plain about what the project
 is today: young, one maintainer, with its method documented
 publicly so others could carry it forward.
+§
 
 The site now meets newcomers where they are.
 The Read page finally teaches the method it was built for: a
@@ -4294,6 +4326,7 @@ for letters that carry dots in precise transliteration). And
 every page now prints cleanly — navigation and buttons
 vanish, disclosure notes expand — so teachers can hand out
 exercises and study paths on paper.
+§
 
 Saying only what is true, more precisely. An
 external-review pass through the eyes of a demanding scholar
@@ -4315,11 +4348,13 @@ cited corpus" rather than "confirmed from a primary source,"
 because reproducing a computation proves faithfulness, not
 correctness. And the Nuanced label now has one definition
 everywhere instead of three near-misses.
+§
 
 Replay joined the menu. The guided replay
 tool was reachable only from Read and the Exercises hub; it
 now sits in the Study menu on every page. Also housekeeping:
 the README's stale page count was corrected.
+§
 
 The Roots page loads five times lighter. The
 full 1.9 MB per-root dataset was downloaded before the
@@ -4330,6 +4365,7 @@ distribution, so they now share a 0.4 MB slim index
 generated from the same corpus data; the full record still
 loads per root when a detail panel opens. Nothing shown
 changed — only how much a phone has to download first.
+§
 
 The credibility system audited itself. A full
 integrity pass over the verification machinery found and fixed
@@ -4357,6 +4393,7 @@ bundled dataset, including an honest account of the
 cross-reference data's pending license. And the automated
 verify suite now enforces the badge rule permanently: a
 Verified dot with no source fails the build.
+§
 
 Words became searchable. The
 Words page now searches all 4,832
@@ -4370,6 +4407,7 @@ wait behind the same licensing gate as the Read page's
 gloss pipeline, and a research note now documents exactly
 what the maintainer must verify before any gloss dataset
 ships. Until then every row links to the corpus dictionary.
+§
 
 The pre-ship checklist became a machine.
 The maintainer guide's manual verify-before-shipping
@@ -4383,6 +4421,7 @@ against a hostile API response on every run, something
 previously verified only once by hand. The full site
 passes today; the suite exists so tomorrow's changes
 can't quietly break what readers rely on.
+§
 
 Verses you've read stay readable, and citations get a
 rot check. The Read and Compare pages now keep a
@@ -4396,6 +4435,7 @@ removed by the same Clear preferences button. For
 maintainers, a new checker verifies that every cited
 external link on the site still answers, so a citation that
 silently goes dead is caught before a reader finds it.
+§
 
 Guided replays, a Watch page, and the gloss
 pipeline. New Replay tool:
@@ -4421,6 +4461,7 @@ committed (the license is the gate; candidate sources and
 the citation requirements are documented for the
 maintainer), labeled Nuanced — a gloss is a translator's
 choice, not "the meaning."
+§
 
 Link previews, embeds, guided entry, and one surah
 dataset. Shared links now unfurl properly everywhere:
@@ -4449,6 +4490,7 @@ datasets follow (the classification is genuinely discussed
 in the tradition — this site follows its cited convention),
 and the Read page's handful of divergent display names now
 match Navigate's romanization.
+§
 
 Sharing, self-learning, and analytics expansion.
 A share button on every page (each tool page's URL was already
@@ -4481,6 +4523,7 @@ Validation is now named as the canonical definition of the
 three verification labels. Under the hood, citation-badge
 handling switched to event delegation, fixing popovers on
 dynamically rendered badges.
+§
 
 Arabic word display corrected sitewide. The
 Buckwalter→Arabic conversion table
@@ -4501,6 +4544,7 @@ data/roots-index.json ,
 data/root-analytics/ , and
 data/rhetorical-features.json were regenerated
 from the corrected data.
+§
 
 Word-token count corrected. 77,430 to 77,429
 on Sources, Credits, and README. The Leeds corpus total is
@@ -4509,6 +4553,7 @@ particles, pronouns, and other unrooted forms); Roots'
 per-root count explainer previously conflated "total tokens
 searched" with "rooted tokens" and has been reworded to state
 both figures.
+§
 
 Site renamed to "Divine Discourses." "Discourses"
 renders Khan's translation of khitab , speaker-to-hearer
@@ -4517,6 +4562,7 @@ deep on About — that the khitab in question is God's address to
 the hearer. Applied across every page's title, header, and
 footer. The deployed domain and GitHub repository name are
 unchanged.
+§
 
 Themes expanded from 10 to 33 life-theme gateways.
 Added gratitude, guidance and light, fear and hope,
@@ -4529,6 +4575,7 @@ blessing. Every root was checked against
 data/roots-summary.json before being added, and
 every theme was confirmed to compute at least two passages
 under the site's existing lexical-clustering rule.
+§
 
 Two long-standing citations made browsable.
 Patterns' "direct address... in 89 verses" and Numbers'
@@ -4541,6 +4588,7 @@ computed totals matched the existing citations exactly before
 the reveal-lists shipped. Patterns also gained a per-surah
 browser for the existing Mishkat cross-reference data, previously
 only visible one verse at a time on Read.
+§
 
 Local reading-progress memory added. The
 existing browser-only preferences object now also remembers
@@ -4549,6 +4597,7 @@ attempted, surfaced as a dismissible "continue where you left
 off" card on the homepage. Same privacy posture as every other
 preference: never transmitted, cleared by the existing "Clear
 preferences" button.
+§
 
 Duplicate citation-popover bug fixed.
 assets/app.js carried a second, independent
@@ -4557,6 +4606,7 @@ assets/cite-badge.js and bound to the same
 badges. Clicking any citation badge briefly opened two
 overlapping popovers; the dead app.js copy has
 been removed.
+§
 
 UI restructure for AQU launch. Primary nav
 consolidated from 14 pills into four accessible dropdown groups
@@ -4567,11 +4617,13 @@ welcome card with example entry links instead of a cold error.
 Validation gains a "How we verify" block with one worked example
 per label type (Verified, Pending, Nuanced) reusing published
 claims from Numbers and Sources.
+§
 
 Glossary expanded. Four terms added: root,
 morphology, triangulate, period distribution. Each is now
 available inline site-wide via the tap-and-keyboard popover.
 Coherence registered as an alias to the existing nazm entry.
+§
 
 Organization name standardized on "of."
 References throughout the site now read "Association of Quranic
@@ -4581,6 +4633,7 @@ launch. Supersedes the May decision to standardize on "for." The
 book-publisher citation in the biographical section of the About
 page and in the al-Asr exercise attribution has been updated in
 kind; the ISBN registration itself is unchanged.
+§
 
 Passage Compare added. Compare page gains a
 Passages mode alongside the existing Roots mode. Select two or
@@ -4594,6 +4647,7 @@ Lexical overlap only; shared vocabulary does not by itself
 establish thematic connection." Shareable URL encodes passage
 references (e.g.
 ?mode=passages&p1=2:255&p2=59:22-24 ).
+§
 
 #### May
 
@@ -4601,26 +4655,32 @@ Surah length statistics corrected. Mean updated
 from 54.6 to 54.7 verses per surah. Median updated from 30 to 39
 verses. Both errors traced to incorrect aggregation method;
 recomputed directly against Leeds corpus.
+§
 
 y-w-m count reframed as Nuanced. Earlier showed
 475; corpus.quran.com lists 405 for the nominal yawm, while
 broader counts including the compound yawma-idhin reach 475. Both
 counts now shown with explanation.
+§
 
 k-w-n count corrected. 1,361 to 1,390 after
 triangulation against corpus.quran.com via multiple independent
 lookups.
+§
 
 r-b-b count corrected. 975 to 980 after
 corpus.quran.com triangulation.
+§
 
 b-h-r count corrected. 41 to 42 after Leeds
 verification.
+§
 
 Iltifat attribution expanded. The al-Fatihah 1:5
 grammatical shift note now credits classical attestation in
 al-Suyuti's al-Itqan alongside modern scholarship by
 Abdel Haleem (BSOAS 1992). Earlier version credited Haleem only.
+§
 
 Organization name reviewed. The parent
 organization uses both "Association of Quranic Understanding" (in
@@ -4631,23 +4691,28 @@ claimed to standardize on "of"; the more honest treatment is to
 note the variation. References on this site now use "Association
 for Quranic Understanding," matching the more common external
 usage.
+§
 
 Khan biography expanded. The About page now
 documents Khan's full academic and interfaith record: Aligarh and
 Rampur education, UIC doctoral work, Parliament of the World's
 Religions trusteeship, WCMIR presidency, AQU directorship.
+§
 
 Khan's 2013 work added.
 An Exercise in Understanding the Qur'an (AQU, ISBN
 9781567447736) now cited alongside
 Reflections on the Qur'an . Foreword by Mustansir Mir
 noted.
+§
 
 Leeds Corpus bundled. 6,236 verses, 77,430 words,
 1,642 roots now available as static JSON. Word-by-word morphology
 live on Read at Scholar depth. GPL compliance via NOTICE.md.
+§
 
 Site launch. Initial deployment of 13 pages.
+§
 
 Corrections welcome. Open a GitHub issue at
 github.com/saebchicago/qurandiscourses .

@@ -127,7 +127,8 @@ The following files in `data/` are authored or computed by this project
 and carry the repository's MIT license (their *inputs* keep their own
 licenses, listed above): `case-studies.json`, `citations.bib` (generated
 citation metadata for the site, its export tables, and its cited
-sources), `claims.json`, `exercises.json`, `glossary.json` (the term
+sources), `changelog.json` (the changelog entry registry behind changelog.html
+and feed.xml), `claims.json`, `exercises.json`, `glossary.json` (the term
 registry behind assets/glossary.js and glossary.html), `juz.json`,
 `paths.json`,
 `sources.json`, `surah-names.json`, `version.json` (the site's release

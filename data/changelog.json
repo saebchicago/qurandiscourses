@@ -1,0 +1,395 @@
+{
+ "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
+ "entries": [
+  {
+   "id": "2026-08-a-card-per-surah-an-app",
+   "year": "2026",
+   "month": "August",
+   "html": "\n              <strong>A card per surah, an app that installs, and a\n              citation you can check.</strong> Sharing a surah or a\n              theme now unfurls with its own image — the surah's Arabic\n              name, verse count, and place in the revelation order, or\n              the theme's root families — instead of one image for the\n              whole site. Installing the site as an app gets three\n              shortcuts (Read a passage, Today's discourse, Browse\n              surahs) and a proper preview. Behind both: a new check\n              that confirms the word-by-word translator credit against\n              what the Quran.com endpoint actually serves, so that\n              citation stops resting on documentation and starts\n              resting on a response — it runs with the weekly citation\n              and edition checks, and stays quiet unless something\n              really changed.\n            "
+  },
+  {
+   "id": "2026-08-one-share-button-that-always-shares",
+   "year": "2026",
+   "month": "August",
+   "html": "\n              <strong>One share button that always shares the right\n              thing.</strong> The floating share button now follows what\n              is on screen: a theme card on\n              <a href=\"/themes\">Themes</a> or a rendered\n              <a href=\"/dossier\">Dossier</a> hands out that entity's\n              link-preview page, so a pasted link unfurls with its own\n              title and description. The 33 per-card Share chips on\n              Themes are gone and the Embed chip moved to a study-only\n              row, so a theme card at Simple depth shows no buttons at\n              all. On <a href=\"/read\">Read</a>, each verse's\n              reference (103:1) is now itself a link to that verse —\n              right-click or long-press to copy — and the native share\n              sheet carries a readable label like \"al-'Asr 103:1-3\".\n              Citation popovers gain a \"Copy citation\" action, the\n              share button now also exists on\n              <a href=\"/coverage\">Coverage</a> and\n              <a href=\"/export\">Export</a>, and the link-preview\n              pages and site card were regenerated with fuller\n              metadata.\n            "
+  },
+  {
+   "id": "2026-08-word-meanings-in-the-text-itself",
+   "year": "2026",
+   "month": "August",
+   "html": "\n              <strong>Word meanings in the text itself.</strong> The\n              <a href=\"/read\">Read</a> page now shows a published\n              word-by-word English meaning beneath every verse, at every\n              depth: the written word above its meaning, reading right to\n              left like the verse. The meanings are fetched per passage\n              from the Quran.com Foundation Content API and cached in your\n              browser only, the same way the verse translations already\n              worked; nothing is machine translated, no word-translation\n              text is stored in this repository, and the rights holders\n              are credited on <a href=\"/sources\">Sources</a>. The word\n              table's outbound dictionary links, which used to stand in\n              for a meaning the site could not show, are replaced by a\n              single link in the caption.\n            "
+  },
+  {
+   "id": "2026-08-pages-about-the-text-not-about",
+   "year": "2026",
+   "month": "August",
+   "html": "\n              <strong>Pages about the text, not about the site.</strong> The\n              home page's explanations of how the site verifies itself, its\n              three depth levels, and its purpose all lived in full on the\n              method pages already, so they now live there only; what is\n              left is a reading path from the hero to today's discourse.\n              Provenance follows the same principle: a source badge already\n              opens its full citation and license, so each card now shows\n              the badge and a short source name, with the method sentences\n              one click away in a collapsed note. On a phone the Numbers\n              page sheds 250px of repeated citation prose.\n            "
+  },
+  {
+   "id": "2026-08-simplicity-with-avenues-for-depth",
+   "year": "2026",
+   "month": "August",
+   "html": "\n              <strong>Simplicity with avenues for depth.</strong> The\n              depth system now does what it promises. A saved depth\n              applies before first paint (no more flash of Simple), the\n              Simple/Study/Encyclopedic control sits at the top of\n              <a href=\"/roots\">Roots</a>,\n              <a href=\"/numbers\">Numbers</a>,\n              <a href=\"/patterns\">Patterns</a>,\n              <a href=\"/dossier\">Dossier</a>, and\n              <a href=\"/themes\">Themes</a> with its 1/2/3 keys\n              documented beside it, and the heaviest pages were\n              reorganized so Simple is genuinely simple: duplicate\n              renderings of the same data were merged behind view\n              toggles, statistical ledgers moved to Encyclopedic (their\n              cautions stay visible), and the self-study kit on Themes\n              is stated once instead of 33 times. Nobody arrives to\n              nothing: Roots and Dossier open on labeled examples,\n              Words gained one-tap example searches, Compare's examples\n              show at every depth, and the Ask box now also lives on\n              <a href=\"/read\">Read</a> and\n              <a href=\"/how-to-use\">How to use</a>. Statistical\n              labels lead with plain language (\"Strength of evidence\n              (LLR)\") with glossary definitions one tap away, Prev and\n              Next continue across surah boundaries, analysis pages end\n              with contextual \"Explore further\" links, and on phones\n              the floating buttons no longer overlap and navigation\n              targets keep a full tap size.\n            "
+  },
+  {
+   "id": "2026-08-open-source-audit",
+   "year": "2026",
+   "month": "August",
+   "html": "\n              <strong>Open-source audit.</strong> A full-repository audit\n              ahead of open-sourcing. Licensing: the LICENSE file now\n              states that MIT covers the site's own code while bundled\n              data and fonts keep their own licenses, and NOTICE.md now\n              lists every computed dataset, including the five analytics\n              directories added in the releases below. Fixes: a stray\n              word removed from the <a href=\"/numbers\">Numbers</a>\n              day-month-year card, the offline cache now includes the\n              chart helper script it had missed, chart tooltips can be\n              dismissed with Escape from every chart, period labels on\n              <a href=\"/navigate\">Navigate</a> now match the rest of\n              the site, a theme distribution strip that could hang on\n              \"Computing\" now reports failure, and the recurring-word\n              highlights on <a href=\"/read\">Read</a> announce\n              themselves to screen readers as actionable.\n            "
+  },
+  {
+   "id": "2026-08-coverage-dashboard-and-network-centrality",
+   "year": "2026",
+   "month": "August",
+   "html": "\n              <strong>Coverage dashboard and network centrality.</strong>\n              A new <a href=\"/coverage\">Coverage</a> page reports,\n              from direct measurement of the bundled data files: how many\n              of the 77,429 word-tokens carry a root, lemma, and\n              part-of-speech tag; that no verified root-gloss source\n              exists (0 of 1,642); cross-reference coverage (110 of 114\n              surahs, naming the four not covered); documented\n              counting-rule sensitivities; and a source registry that\n              records unstated fields as unstated rather than inferring\n              them. Root pages gained a \"Network position\" panel (degree,\n              weighted degree, betweenness, eigenvector centrality, each\n              with its rank), labeled with the caution that centrality\n              tracks raw frequency and does not indicate thematic,\n              exegetical, or theological importance.\n            "
+  },
+  {
+   "id": "2026-08-chart-layer-for-the-association-statistics",
+   "year": "2026",
+   "month": "August",
+   "html": "\n              <strong>Chart layer for the association statistics.</strong>\n              A zero-dependency SVG helper now draws: an association\n              network on each <a href=\"/roots\">Roots</a> detail page\n              (positions precomputed offline, nothing laid out in the\n              browser), a frequency-across-periods line, a verse-length\n              histogram, and a root-density heatmap of the top 40 roots\n              across all 114 surahs on <a href=\"/numbers\">Numbers</a>,\n              with a canonical/revelation-order toggle. Every chart\n              carries a table fallback and the caution that position,\n              distance, and color indicate statistical measures only.\n            "
+  },
+  {
+   "id": "2026-08-association-statistics-and-public-data-downloads",
+   "year": "2026",
+   "month": "August",
+   "html": "\n              <strong>Association statistics and public data downloads.</strong>\n              Root pages gained a \"Statistical associations\" table (shared\n              verses, log-likelihood ratio, pointwise mutual information,\n              Dice) over verse-level co-occurrence; <a\n              href=\"/numbers\">Numbers</a> gained normalized\n              frequencies per 1,000 tokens and a keyness-by-period card.\n              A new <a href=\"/export\">Export</a> page offers four\n              tables as CSV and JSON with a machine-readable schema and a\n              prose data dictionary.\n            "
+  },
+  {
+   "id": "2026-07-audit-corrections-honest-errors-durable-clearing",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Audit corrections: honest errors, durable clearing,\n              reachable surahs, keyboard-safe dialogs.</strong> A verse\n              number past a surah's end used to be blamed on the reader's\n              connection; the <a href=\"/read\">Read</a> page now says\n              which verse doesn't exist and links to the surah's last\n              verse, and Next stops at the end the way Prev stops at the\n              beginning. \"Clear preferences &amp; reading history\" was\n              silently undone on the Read page by its own re-render; it now\n              clears durably. Twenty three-letter surah names (hud, nas,\n              asr…) were captured by root search before the surah lookup\n              ran — surah 11 was unreachable by name; exact names now win\n              in both scripts. The reciter picker was unusable by keyboard;\n              all three Read-page dialogs now open with dialog semantics,\n              close on Escape, and return focus. Arabic root search on\n              <a href=\"/compare\">Compare</a> now works as promised, two\n              glossary links that pointed nowhere resolve, and a mistyped\n              exercise link says it fell back instead of silently serving a\n              different surah.\n            "
+  },
+  {
+   "id": "2026-07-arabic-script-root-entry-and-four-citation",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Arabic-script root entry, and four citation links\n              retired.</strong> The Ask box now routes Arabic-typed roots —\n              <span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\">رحم</span>,\n              spaced letters, or forms with vowel marks — to the\n              <a href=\"/roots\">Roots</a> page, which selects the root\n              directly; the Roots search box accepts the same forms. Surah\n              names keep priority over root guesses in both scripts.\n              Correction: four external citation links that no longer\n              resolve were removed from <a href=\"/sources\">Sources</a>\n              and <a href=\"/roots\">Roots</a> — Lane's Lexicon and\n              Mawdudi's <em>Tafheem</em> (their hosts' certificates\n              failed), an archive.org copy of Penrice's dictionary (404),\n              and a link to repository discussions that were never enabled.\n              Each bibliographic record remains; only the dead links were\n              removed, since replacements could not be verified against the\n              works themselves.\n            "
+  },
+  {
+   "id": "2026-07-five-new-translation-languages",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Five new translation languages.</strong> Six published\n              translations joined the <a href=\"/read\">Read</a> page's\n              picker: Muhiuddin Khan and Zohurul Hoque (Bengali), Abdullah\n              Muhammad Basmeih (Malay), Kementerian Agama (Indonesian),\n              Muhammad Hamidullah (French), and Julio Cortés (Spanish) —\n              each cited on <a href=\"/sources\">Sources</a>. Bengali text\n              renders in a bundled Noto Serif Bengali face whose license\n              ships with it. The Ask box learned Arabic-script surah names\n              and Arabic-Indic verse numbers, and\n              <a href=\"/how-it-works#different\">How It Works</a> gained\n              a section comparing this site's design policies to other\n              Qur'an tools.\n            "
+  },
+  {
+   "id": "2026-07-trust-and-reader-data-controls",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Trust and reader-data controls.</strong> The\n              <a href=\"/about\">About</a> page became a trust and access\n              hub: exact statements of what stays in the browser and what a\n              passage request necessarily exposes, correction and\n              accessibility routes, and storage, export, and deletion\n              guidance — with the Settings panel's destructive boundary\n              clarified and note-safety controls added.\n            "
+  },
+  {
+   "id": "2026-07-depth-tier-renamed-and-deeper-pattern",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Depth tier renamed, and deeper pattern analysis.</strong>\n              The middle depth tier was renamed from \"Scholar\" to \"Study\" to\n              describe the work rather than claim a rank. The\n              <a href=\"/roots\">Roots</a> page gained a distinctive-partner\n              (PMI) ranking with a network map, <a href=\"/dossier\">Dossier</a>\n              and <a href=\"/patterns\">Patterns</a> were linked both ways,\n              and new lexical-diversity, rhyme-regularity, and\n              discourse-particle measures were added with their methods\n              stated.\n            "
+  },
+  {
+   "id": "2026-07-the-transcription-gate-documented",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>The Transcription Gate, documented.</strong> The rule\n              that governs all quoted scholarship on this site — outline text\n              and interpretation excerpts are transcribed verbatim from the\n              published volumes, never paraphrased from memory — was written\n              into the maintainer guide as a named, checkable procedure.\n            "
+  },
+  {
+   "id": "2026-07-numerical-claim-evidence-correction",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Numerical-claim evidence correction.</strong> The\n              <a href=\"/numbers\">Numbers</a> page and its worked validation\n              example previously presented popular 365, 475, and 12\n              surface-form totals beside reproducible Leeds root totals without\n              an inspected source or a procedure that reproduced them. They now\n              state plainly that only the root totals (y-w-m: 405; sh-h-r: 21)\n              were recomputed here; the other figures remain only as examples\n              of why a counting unit and inclusion rule must be declared, not\n              as findings this site endorses.\n            "
+  },
+  {
+   "id": "2026-07-leading-with-the-method-not-the",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Leading with the method, not the person.</strong>\n              This site's method matters more than who compiled it. The\n              footer on every page, the homepage's opening description, and\n              the About page's lede now describe the coherence-based\n              method first; Dr. Khan's biography, the intellectual lineage\n              behind the method, and the dedication to his memory are still\n              here — in full, on <a href=\"/about\">About</a> — just not\n              repeated as the site's headline on every page.\n            "
+  },
+  {
+   "id": "2026-07-dr-khans-own-reading-of-a",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Dr. Khan's own reading of a surah, on its\n              dossier.</strong> The <a href=\"/dossier\">Surah\n              Dossier</a> for the six surahs worked through in <em>An\n              Introduction to Understanding the Qur'an with Examples</em>\n              (2011) now quotes a short excerpt, verbatim, from Dr. Khan's\n              own \"Understanding and Interpretation\" essay for that\n              surah, cited to its page number. Also fixed while there: a\n              surah's outline citation now names the actual volume it was\n              transcribed from (2011 or 2013) instead of always saying\n              2013.\n            "
+  },
+  {
+   "id": "2026-07-dr-khans-word-by-word-glosses-on-the",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Dr. Khan's word-by-word glosses, on the reading\n              page.</strong> For the six surahs worked through in <em>An\n              Introduction to Understanding the Qur'an with Examples</em>\n              (2011) — 96, 103, 107, 108, 109, and 112 — the word table on\n              the <a href=\"/read\">reading page</a> now shows Dr. Khan's\n              English gloss for each word, transcribed from the book's\n              word-by-word tables (pp. 36&ndash;55). Where the book glosses\n              a word in pieces (a prefix like <em>bi-</em> and its noun),\n              the pieces are merged per word to align with the Leeds corpus\n              tokenization, and the file records that method. Glosses carry\n              the Nuanced badge: a gloss is one translator's choice, not\n              \"the meaning.\" The same glosses now surface in the\n              <a href=\"/words\">vocabulary search</a>, and its live\n              example draws on the first glossed surah. All other surahs\n              keep the dictionary link as before.\n            "
+  },
+  {
+   "id": "2026-07-five-more-of-dr-khans-outlines",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Five more of Dr. Khan's outlines, in his own\n              words.</strong> The coherence-reading exercises grow from one\n              surah to six: al-'Alaq (96), al-Mā'ūn (107), al-Kauthar\n              (108), al-Kāfirūn (109), and al-Ikhlās (112) join al-'Asr,\n              each transcribed verbatim from Dr. Khan's <em>An Introduction\n              to Understanding the Qur'an with Examples</em> (2011,\n              compiled by Tanveer Azmat), distributed by the Association\n              for Qur'anic Understanding. Propose your own structure verse\n              by verse, then compare it against his — on the\n              <a href=\"/exercises\">Exercises page</a>, in each surah's\n              dossier, and overlaid on its replay.\n            "
+  },
+  {
+   "id": "2026-07-themes-and-surahs-connected",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Themes and surahs, connected.</strong> Every theme on\n              the <a href=\"/themes\">Themes page</a> now shows where its\n              vocabulary clusters — its densest surahs, normalized per\n              1,000 words so short surahs compete fairly — and every\n              surah's dossier lists the themes clustering in it. The\n              numbers are mechanical counts of each theme's root family;\n              the grouping of roots into themes remains editorial, and the\n              labels say so. Also fixed: following a link into the reading\n              page no longer paints its start screen first and then jumps\n              when the passage arrives — deep-linked visits now go straight\n              to a quiet loading state.\n            "
+  },
+  {
+   "id": "2026-07-the-surah-dossier",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>The Surah Dossier.</strong> Every surah now has one\n              page that gathers everything this site can verify about it —\n              <a href=\"/dossier\">dossier.html</a>, in the Study menu.\n              Identity and chronology, the vocabulary and root profile,\n              verse-ending sound patterns, its most repeated phrases (each\n              linking into the passage with the matched words highlighted),\n              cross-references from the Mishkat corpus, and structure:\n              Khan's outline where one is transcribed, an honest\n              \"awaiting transcription\" or \"no published outline\" note where\n              not — the dossier asserts nothing it cannot cite, and each\n              claim keeps its Verified/Nuanced/Pending badge. Shared surah\n              links now land here first, one click from reading. Along the\n              way, a long-standing subtle jump on page load at phone widths\n              (the menu button appearing a beat after the page painted,\n              nudging everything down) was found and fixed site-wide.\n            "
+  },
+  {
+   "id": "2026-07-ritual-offline-and-a-reading-craft-focus",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Ritual, offline, and a reading-craft focus mode.</strong>\n              Formula, rhyme, and concordance results now link straight into\n              the passage with the exact words lit up — click through from\n              Formulas, Patterns, or Words and land on the reading page with\n              the relevant word or words already highlighted, no re-reading\n              required to find them. The homepage now opens with a daily\n              discourse: one surah, the same for every reader worldwide,\n              changing at midnight UTC, paired with a rotating fact (its most\n              repeated root, its vocabulary variety, or its dominant rhyme\n              pattern). The site can now be installed to a home screen or\n              taskbar and keeps working offline once visited — the shell and\n              any bundled data you've already loaded stay available without a\n              connection; nothing about the API-backed reading experience\n              changes when you're online. And the Read page gained a Focus\n              toggle (button, the \"F\" key, or Escape) that hides everything\n              but the passage and enlarges the Arabic for close, uninterrupted\n              reading — it resets on reload by design, nothing about it is\n              remembered.\n            "
+  },
+  {
+   "id": "2026-07-tools-for-the-specialists",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Tools for the specialists.</strong> Five additions\n              aimed at readers who work with the text professionally. A new\n              <a href=\"/formulas\">Formulas</a> page indexes every\n              recurring three-to-five-word sequence in the Qur'an — counted\n              mechanically by root sequence and by written form, each with\n              every location — while explicitly leaving the question of\n              what recurrence means to the scholarship it cites. Patterns\n              gained a <em>Sound and rhyme</em> section: pick any surah and\n              see its verse endings, rhyme families, shift points, and\n              refrains, computed as a clearly-labeled orthographic proxy.\n              The Words page now has a concordance: expand any result to\n              see every occurrence highlighted in its surrounding context.\n              Root pages show the root's word family — its lemmas, the\n              dictionary-headword level between root and inflected form.\n              And a new <a href=\"/datasets\">Datasets</a> page documents\n              every dataset the site ships — schema, generator script,\n              license, download — so any number here can be recomputed\n              without trusting us.\n            "
+  },
+  {
+   "id": "2026-07-a-calmer-front-door",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>A calmer front door.</strong> The first-visit welcome\n              banner asked three things at once — how deep you want to go,\n              whether to take the tour, and whether you're new to the\n              Qur'an. It now says plainly what the site is, offers two\n              clear paths (start here if you're new; take the tour if you\n              know your way), and notes that you begin in Simple with\n              deeper layers one keystroke away. \"Discourse\" — the word in\n              the site's own name — joined the tap-for-definition\n              glossary. The gear's depth choices now say what each level\n              means. And the discovery worksheet no longer appears in\n              Simple depth, which the site has always defined as the\n              reading layer — it returns the moment you step up to\n              Scholar.\n            "
+  },
+  {
+   "id": "2026-07-a-mislabeled-translation-fixed-and-urdu",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>A mislabeled translation, fixed — and Urdu\n              added.</strong> The \"Abdel Haleem\" translation option was\n              silently serving Arabic text mislabeled as English — the\n              edition ID behind it doesn't exist on the source API, which\n              substitutes a default Arabic edition instead of erroring\n              rather than failing loudly. Removed, replaced with\n              Wahiduddin Khan's translation, and hardened against any\n              future dead edition: every translation now gets checked\n              against what the API actually returned, with a plain\n              placeholder shown instead of trusting a silent substitution.\n              Added eight Urdu translations, rendered right-to-left in a\n              self-hosted Nastaliq typeface (not the Arabic Naskh face\n              used for the Qur'anic text) with a language-grouped picker.\n              Reduced the translations shown to new readers by default\n              from five to two (Saheeh International and Yusuf Ali) — the\n              rest stay one click away. The Khattab \"Clear Quran\"\n              citation was removed pending an actual license from its\n              rights holder (it was never available through the site's\n              data source and had drifted into carrying a Verified badge\n              it hadn't earned). Fixed a real bug in the welcome tour:\n              pressing Escape while a navigation menu was open closed the\n              whole tour instead of just the menu.\n            "
+  },
+  {
+   "id": "2026-07-a-discovery-worksheet-and-one-pending",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>A discovery worksheet, and one Pending claim\n              resolved.</strong> The Read page gained a per-surah worksheet\n              for proposing your own structural reading — theme, sectional\n              divisions, supporting evidence, cross-references, your own\n              confidence rating — saved only in your browser and never\n              badged as a site claim; it tells you plainly whether Khan\n              published an outline for that surah, whether it's already\n              transcribed, or whether none exists at all (surahs 1–84).\n              Separately, an audit of every ○ Pending claim in the data\n              layer found one that could honestly move: Farahi's <em\n              >Mufradat al-Qur'an</em> and <em>Niẓām al-Qur'an</em> as\n              foundational to coherence-based reading is now ● Verified,\n              independently corroborated by Mustansir Mir's 1986 monograph\n              <em>Coherence in the Qur'an</em> (see <a\n              href=\"/sources\">Sources</a>). New <a\n              href=\"CONTRIBUTING.md\">CONTRIBUTING.md</a> and issue template\n              for readers who want to submit their own structural\n              hypotheses for the 84 surahs Khan's book doesn't cover.\n            "
+  },
+  {
+   "id": "2026-07-boundary-particles-symmetry-testing-and-reading",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Boundary particles, symmetry testing, and reading\n              by chronology.</strong> Patterns gained a documented,\n              Verified feature counting root continuity across idh/lamma\n              verse boundaries, and a properly significance-tested check\n              for whether a surah's rarest roots sit at matching distances\n              from its start and end more often than chance — an honest\n              null result (0 of 3,067 candidates survive correction for\n              multiple comparisons), reported as such rather than dropped.\n              Roots pages can now show a root's co-occurring partners\n              broken out by the traditional revelation periods. A new pin\n              tray lets you bookmark a verse or root to a floating\n              workspace, client-only, alongside the existing per-verse\n              notes.\n            "
+  },
+  {
+   "id": "2026-07-three-more-short-videos-scripted",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Three more short videos scripted.</strong> The Watch\n              page's covenant (real screen recordings, human voice, no\n              generated footage) now covers three more short cuts —\n              browsing by juz, pinning to your workspace, and roots across\n              revelation periods — scripted and listed as planned,\n              awaiting recording.\n            "
+  },
+  {
+   "id": "2026-07-compare-now-more-than-two-at",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Compare, now more than two at a time.</strong> The\n              Compare page overlays up to six roots at once, not just a pair,\n              and shows the exact set of verses where every selected root\n              occurs together — plus the other roots that share those verses,\n              computed from the bundled morphology. Passage comparison rose\n              from three to six, and a new <em>Surahs</em> mode sets two to six\n              surahs side by side on their corpus fingerprints (length,\n              vocabulary spread, grammatical texture, cross-reference reach).\n              Every figure is computed from the cited corpus and labeled.\n            "
+  },
+  {
+   "id": "2026-07-more-of-what-the-corpus-can",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>More of what the corpus can honestly say.</strong> The\n              Numbers page gained grammatical texture (the noun and verb share\n              of every period, from Leeds POS tags), a verse-length\n              distribution, a vocabulary-growth curve (how many roots first\n              appear at each step of the revelation order), and a localized\n              hapax list naming every once-occurring root and its single\n              verse. Each surah's profile on Navigate now shows its noun/verb\n              balance. Nothing is generated; each number is a plain tally of a\n              corpus field, badged and reproducible.\n            "
+  },
+  {
+   "id": "2026-07-the-mission-stated",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>The mission, stated.</strong> The About page now says\n              plainly what this project is for — readers equipped to test\n              the coherence of a discourse themselves, every figure\n              traceable to a named source — and what it asks for, which is\n              careful work rather than money: corrections, transcription\n              help for Khan's remaining outlines, and scholarly review of\n              the method pages. It is equally plain about what the project\n              is today: young, one maintainer, with its method documented\n              publicly so others could carry it forward.\n            "
+  },
+  {
+   "id": "2026-07-the-site-now-meets-newcomers-where",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>The site now meets newcomers where they are.</strong>\n              The Read page finally teaches the method it was built for: a\n              one-time guide appears above your first passage — read it\n              whole, find the central claim, trace its words to their roots\n              — with a link to try it on al-'Asr; dismiss it and it stays\n              gone (Clear preferences brings it back). The first-visit\n              banner now says what the site is before asking how deep you\n              want to go, and links a new \"Completely new to the Qur'an?\"\n              welcome on the About page written for readers with no\n              background at all. Scholar's transliteration codes were\n              cleaned out of interface copy (search hints now use the\n              friendly r-h-m form, which the Words search understands even\n              for letters that carry dots in precise transliteration). And\n              every page now prints cleanly — navigation and buttons\n              vanish, disclosure notes expand — so teachers can hand out\n              exercises and study paths on paper.\n            "
+  },
+  {
+   "id": "2026-07-saying-only-what-is-true-more",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Saying only what is true, more precisely.</strong> An\n              external-review pass through the eyes of a demanding scholar\n              tightened several of the site's claims about itself. \"No\n              interpretive content\" now reads as what it always meant: no\n              generated commentary — while theme titles and working glosses\n              are named for what they are, editorial curation, always\n              labeled. The Patterns page's \"direct address in 89 verses\"\n              was a mislabel: the count is of one vocative formula (\"O you\n              who believe\"), and the page now says so, noting that direct\n              address in the Qur'an is far broader than any single count.\n              A new \"The text behind the numbers\" section on How It Works\n              states plainly that the rendered text and every count follow\n              the Ḥafṣ ʿan ʿĀṣim reading with Kufan verse numbering, and\n              that the Leeds corpus — no longer actively updated — carries\n              the annotation judgments and imperfections any such project\n              does. Badges on computed figures now say \"computed from the\n              cited corpus\" rather than \"confirmed from a primary source,\"\n              because reproducing a computation proves faithfulness, not\n              correctness. And the Nuanced label now has one definition\n              everywhere instead of three near-misses.\n            "
+  },
+  {
+   "id": "2026-07-replay-joined-the-menu",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Replay joined the menu.</strong> The guided replay\n              tool was reachable only from Read and the Exercises hub; it\n              now sits in the Study menu on every page. Also housekeeping:\n              the README's stale page count was corrected.\n            "
+  },
+  {
+   "id": "2026-07-the-roots-page-loads-five-times",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>The Roots page loads five times lighter.</strong> The\n              full 1.9&nbsp;MB per-root dataset was downloaded before the\n              Roots list could render — and by the root popovers, embeds,\n              Compare suggestions, and the root-spotting exercise. Those\n              views only ever display a root's name, count, and period\n              distribution, so they now share a 0.4&nbsp;MB slim index\n              generated from the same corpus data; the full record still\n              loads per root when a detail panel opens. Nothing shown\n              changed — only how much a phone has to download first.\n            "
+  },
+  {
+   "id": "2026-07-the-credibility-system-audited-itself",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>The credibility system audited itself.</strong> A full\n              integrity pass over the verification machinery found and fixed\n              real gaps. Every Verified badge must now name its source: 70\n              green dots that carried no machine-readable citation either\n              received the correct source id (the registry grew from 13 to\n              21 entries — al-Tabari, al-Zamakhshari, Ibn Kathir, al-Suyuti,\n              Abdel Haleem, Neuwirth, Cuypers, and Khan's\n              <em>Reflections</em> among them), or — for bibliography\n              entries that are themselves full\n              Chicago citations — lost the decorative dot, since an\n              unfalsifiable dot beside a citation undermines the system it\n              decorates. Three badges pointed at the wrong source (Leeds\n              cited for claims resting on Tanzil, the Cairo edition,\n              al-Suyuti, and Abdel Haleem) and were corrected. The social\n              preview said \"every claim verified\" while the site honestly\n              ships Pending and Nuanced labels; it now says what is true —\n              every claim labeled and traceable. Corpus figures quoted in\n              prose (77,429 tokens, 1,642 roots, 6,236 verses…) now bind to\n              the generated numbers data so they can never silently drift.\n              The English root meanings on Roots and Compare are now labeled\n              for what they are — editorial working glosses, not cited\n              lexicography. Licensing notices were expanded to cover every\n              bundled dataset, including an honest account of the\n              cross-reference data's pending license. And the automated\n              verify suite now enforces the badge rule permanently: a\n              Verified dot with no source fails the build.\n            "
+  },
+  {
+   "id": "2026-07-words-became-searchable",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Words became searchable.</strong> The\n              <a href=\"/words\">Words</a> page now searches all 4,832\n              dictionary forms in the Qur'an — by Arabic (with or without\n              vowel marks), transliteration, or root — showing each\n              lemma's frequency, part of speech, root link, and first\n              occurrences, computed from the already-cited Leeds corpus.\n              The Meaning column deliberately stays empty: English\n              glosses are one translator's interpretive choice, so they\n              wait behind the same licensing gate as the Read page's\n              gloss pipeline, and a research note now documents exactly\n              what the maintainer must verify before any gloss dataset\n              ships. Until then every row links to the corpus dictionary.\n            "
+  },
+  {
+   "id": "2026-07-the-pre-ship-checklist-became-a-machine",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>The pre-ship checklist became a machine.</strong>\n              The maintainer guide's manual verify-before-shipping\n              checklist — horizontal overflow on phones, console errors\n              with the verse API unreachable, dead internal links,\n              citation badges pointing at unregistered sources, keyboard\n              navigation, palette and dark-mode integrity — now runs as\n              one automated browser suite (144 checks across every\n              page). It also permanently re-tests the site's defense\n              against a hostile API response on every run, something\n              previously verified only once by hand. The full site\n              passes today; the suite exists so tomorrow's changes\n              can't quietly break what readers rely on.\n            "
+  },
+  {
+   "id": "2026-07-verses-youve-read-stay-readable-and",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Verses you've read stay readable, and citations get a\n              rot check.</strong> The Read and Compare pages now keep a\n              browser-local cache of already-fetched verse text and\n              translations, so revisiting a passage renders instantly and\n              verses read before losing connection remain fully readable\n              offline (previously only the Arabic survived). The cache\n              lives in the same local storage as every other preference,\n              is described in the privacy note on the About page, and is\n              removed by the same Clear preferences button. For\n              maintainers, a new checker verifies that every cited\n              external link on the site still answers, so a citation that\n              silently goes dead is caught before a reader finds it.\n            "
+  },
+  {
+   "id": "2026-07-guided-replays-a-watch-page-and",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Guided replays, a Watch page, and the gloss\n              pipeline.</strong> New <a href=\"/replay\">Replay</a> tool:\n              the recitation plays a surah verse by verse through one\n              continuous player while words from recurring root families\n              light up progressively, and — for surahs whose outline has\n              been transcribed from Khan's book — the outline section\n              appears at each pivot. Everything shown is computed or\n              transcribed and badged; if audio is unavailable the replay\n              degrades to manual stepping. Reachable from Read, the\n              Exercises hub, and (after you commit to your own reading)\n              the outline exercise. New <a href=\"/watch\">Watch</a>\n              page for short, human-made walkthrough videos: three are\n              scripted and listed as planned; the site's covenant — real\n              screen recordings, human voice, no generated footage, no\n              stock music, captions always — is enforced by a checker\n              that refuses to publish a video without a captions file.\n              Videos are self-hosted; no third-party player, nothing\n              tracked. Under the hood, a word-by-word gloss pipeline\n              shipped dormant: the Read page's Meaning column will fill\n              in the moment a properly licensed gloss dataset is\n              committed (the license is the gate; candidate sources and\n              the citation requirements are documented for the\n              maintainer), labeled Nuanced — a gloss is a translator's\n              choice, not \"the meaning.\"\n            "
+  },
+  {
+   "id": "2026-07-link-previews-embeds-guided-entry-and",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Link previews, embeds, guided entry, and one surah\n              dataset.</strong> Shared links now unfurl properly everywhere:\n              a branded social image on every page, and 1,789 generated\n              per-entity share pages (<code>s/root|theme|surah/…</code>) so\n              a pasted root, theme, or surah link shows its own name and\n              stats — the share buttons hand these URLs out automatically.\n              A new <code>embed.html</code> lets teachers and bloggers\n              iframe a root profile, theme card, or verse on their own\n              site (one-click \"Embed\" copy buttons on Themes and Roots);\n              it is the only page whose security policy allows framing,\n              via a restructured per-page <code>netlify.toml</code> guarded\n              by <code>scripts/check-headers-sync.mjs</code>. New visitors\n              get a first-visit depth question and a reopenable 60-second\n              tour (\"?\" button, bottom right), and the home page's Begin\n              tiles are grouped by intent: Read, Study, Verify. Root\n              mentions (r-ḥ-m) and verse references (2:255) in page prose\n              are now live popovers with counts and one-tap navigation on\n              ten static pages. <em>Correction:</em> the three separate\n              surah-name lists were consolidated into one generated\n              dataset (<code>data/surah-names.json</code> &rarr;\n              <code>assets/surahs.js</code>); in the process, Navigate's\n              row for surah 55 (ar-Rahman) was corrected from Meccan to\n              Medinan, matching the Cairo 1924 convention both bundled\n              datasets follow (the classification is genuinely discussed\n              in the tradition — this site follows its cited convention),\n              and the Read page's handful of divergent display names now\n              match Navigate's romanization.\n            "
+  },
+  {
+   "id": "2026-07-sharing-self-learning-and-analytics-expansion",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Sharing, self-learning, and analytics expansion.</strong>\n              A share button on every page (each tool page's URL was already\n              a permalink; now there's an affordance for it), per-theme share\n              links, and one-click copy for the Validation prompts. Every\n              corpus figure on Numbers is now recomputed from the bundled\n              data (<code>scripts/build-numbers.mjs</code> &rarr;\n              <code>data/numbers.json</code>) instead of hard-coded — all\n              values verified identical before the switch. The \"how we\n              verify\" worked examples moved to a single registry\n              (<code>data/case-studies.json</code>) rendered on both Home\n              and Validation. Exercises became a data-driven engine\n              (<code>data/exercises.json</code> + <code>exercise.html</code>):\n              outline attempts are now scored against the published outline,\n              scores persist locally, and the root-spotting exercise grew\n              from 6 to 26 surahs. Study paths are checkable step by step\n              (<code>data/paths.json</code>), with a fourth path on themes.\n              A local-only, exportable notes panel was added to the Read\n              page. New visualizations from a shared zero-dependency chart\n              library: a revelation-order timeline on Roots and Compare, a\n              co-occurrence network on Roots, per-theme distribution maps,\n              and a 114-surah length-vs-diversity scatter on Navigate —\n              every chart carries its method note and an SVG download.\n              Clarity fixes: the Patterns cross-reference card now leads\n              with the Mishkat corpus actually shipped (QurSim demoted to\n              conceptual lineage), Navigate says \"Cross-reference\n              connectivity\" instead of \"QurSim connectivity\", a dead\n              reference to a nonexistent \"welcome tour\" was removed, and\n              Validation is now named as the canonical definition of the\n              three verification labels. Under the hood, citation-badge\n              handling switched to event delegation, fixing popovers on\n              dynamically rendered badges.\n            "
+  },
+  {
+   "id": "2026-07-arabic-word-display-corrected-sitewide",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Arabic word display corrected sitewide.</strong> The\n              Buckwalter→Arabic conversion table\n              (<code>scripts/build-leeds.js</code>) was missing 14 characters\n              used by the Leeds corpus's extended Quranic-Uthmani encoding\n              (<code>^ # : @ \" [ ; , . ! - + %</code>). Unmapped characters\n              had been passed through literally instead of becoming the\n              diacritic they stood for, so roughly 15% of words sitewide\n              displayed a stray ASCII character in place of a mark — for\n              example al-Fatihah 1:7 read \"ٱلضَّا^لِّينَ\" instead of\n              \"ٱلضَّآلِّينَ\" wherever word-by-word Arabic is shown (Read at\n              Scholar depth, Roots' derived-forms panel, Numbers' fawatih\n              list). The 14-character mapping was verified byte-for-byte\n              against an independent conversion script for the identical\n              source file before being applied. 11,434 morphology word\n              entries and 215 root-summary lemma entries were corrected;\n              <code>data/roots-index.json</code>,\n              <code>data/root-analytics/</code>, and\n              <code>data/rhetorical-features.json</code> were regenerated\n              from the corrected data.\n            "
+  },
+  {
+   "id": "2026-07-word-token-count-corrected",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Word-token count corrected.</strong> 77,430 to 77,429\n              on Sources, Credits, and README. The Leeds corpus total is\n              77,429 tokens, of which 49,967 carry a root (the rest are\n              particles, pronouns, and other unrooted forms); Roots'\n              per-root count explainer previously conflated \"total tokens\n              searched\" with \"rooted tokens\" and has been reworded to state\n              both figures.\n            "
+  },
+  {
+   "id": "2026-07-site-renamed-to-divine-discourses",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Site renamed to \"Divine Discourses.\"</strong> \"Discourses\"\n              renders Khan's translation of <em>khitab</em>, speaker-to-hearer\n              address; \"Divine\" makes explicit what was previously one click\n              deep on About — that the khitab in question is God's address to\n              the hearer. Applied across every page's title, header, and\n              footer. The deployed domain and GitHub repository name are\n              unchanged.\n            "
+  },
+  {
+   "id": "2026-07-themes-expanded-from-10-to-33",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Themes expanded from 10 to 33 life-theme gateways.</strong>\n              Added gratitude, guidance and light, fear and hope,\n              truthfulness and falsehood, charity, death, paradise,\n              hellfire, wisdom, pilgrimage, fasting, anger and restraint,\n              love, trust in God, arrogance and humility, brotherhood and\n              community, sincerity, tyranny, covenant and fulfillment,\n              effort and striving, certainty and doubt, joy and sorrow, and\n              blessing. Every root was checked against\n              <code>data/roots-summary.json</code> before being added, and\n              every theme was confirmed to compute at least two passages\n              under the site's existing lexical-clustering rule.\n            "
+  },
+  {
+   "id": "2026-07-two-long-standing-citations-made-browsable",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Two long-standing citations made browsable.</strong>\n              Patterns' \"direct address... in 89 verses\" and Numbers'\n              \"29 surahs... 14 unique [fawatih] combinations\" had been cited\n              but never shown. Both are now computed mechanically from the\n              bundled morphology (literal lemma and part-of-speech matching,\n              not interpretation) via a new\n              <code>scripts/build-rhetorical-features.mjs</code>, and both\n              computed totals matched the existing citations exactly before\n              the reveal-lists shipped. Patterns also gained a per-surah\n              browser for the existing Mishkat cross-reference data, previously\n              only visible one verse at a time on Read.\n            "
+  },
+  {
+   "id": "2026-07-local-reading-progress-memory-added",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Local reading-progress memory added.</strong> The\n              existing browser-only preferences object now also remembers\n              last-read verse position and which exercises have been\n              attempted, surfaced as a dismissible \"continue where you left\n              off\" card on the homepage. Same privacy posture as every other\n              preference: never transmitted, cleared by the existing \"Clear\n              preferences\" button.\n            "
+  },
+  {
+   "id": "2026-07-duplicate-citation-popover-bug-fixed",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Duplicate citation-popover bug fixed.</strong>\n              <code>assets/app.js</code> carried a second, independent\n              implementation of the citation-badge popover that duplicated\n              <code>assets/cite-badge.js</code> and bound to the same\n              badges. Clicking any citation badge briefly opened two\n              overlapping popovers; the dead <code>app.js</code> copy has\n              been removed.\n            "
+  },
+  {
+   "id": "2026-07-ui-restructure-for-aqu-launch",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>UI restructure for AQU launch.</strong> Primary nav\n              consolidated from 14 pills into four accessible dropdown groups\n              (Study, Analyze, Learn, About). Homepage inverted: Ask search\n              above the fold with rotating example placeholders; interstitial\n              \"This is not Google\" tour modal removed. Read page opens to a\n              welcome card with example entry links instead of a cold error.\n              Validation gains a \"How we verify\" block with one worked example\n              per label type (Verified, Pending, Nuanced) reusing published\n              claims from Numbers and Sources.\n            "
+  },
+  {
+   "id": "2026-07-glossary-expanded",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Glossary expanded.</strong> Four terms added: root,\n              morphology, triangulate, period distribution. Each is now\n              available inline site-wide via the tap-and-keyboard popover.\n              Coherence registered as an alias to the existing nazm entry.\n            "
+  },
+  {
+   "id": "2026-07-organization-name-standardized-on-of",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Organization name standardized on \"of.\"</strong>\n              References throughout the site now read \"Association of Quranic\n              Understanding,\" matching the organization's page title, its\n              website at quranicunderstanding.com, and the audit brief for this\n              launch. Supersedes the May decision to standardize on \"for.\" The\n              book-publisher citation in the biographical section of the About\n              page and in the al-Asr exercise attribution has been updated in\n              kind; the ISBN registration itself is unchanged.\n            "
+  },
+  {
+   "id": "2026-07-passage-compare-added",
+   "year": "2026",
+   "month": "July",
+   "html": "\n              <strong>Passage Compare added.</strong> Compare page gains a\n              Passages mode alongside the existing Roots mode. Select two or\n              three passages (surah + verse range up to 30 ayat each) and load\n              to see side-by-side Arabic text, one translation, and a\n              shared-roots table sorted by frequency. Very common roots (corpus\n              total &gt; 1,000) are excluded by default with a toggle to include\n              them. Method disclosure: \"Computed from Leeds Quranic Arabic\n              Corpus v0.4: roots present in each selected passage, intersected.\n              Lexical overlap only; shared vocabulary does not by itself\n              establish thematic connection.\" Shareable URL encodes passage\n              references (e.g.\n              <code>?mode=passages&amp;p1=2:255&amp;p2=59:22-24</code>).\n            "
+  },
+  {
+   "id": "2026-05-surah-length-statistics-corrected",
+   "year": "2026",
+   "month": "May",
+   "html": "\n              <strong>Surah length statistics corrected.</strong> Mean updated\n              from 54.6 to 54.7 verses per surah. Median updated from 30 to 39\n              verses. Both errors traced to incorrect aggregation method;\n              recomputed directly against Leeds corpus.\n            "
+  },
+  {
+   "id": "2026-05-y-w-m-count-reframed-as-nuanced",
+   "year": "2026",
+   "month": "May",
+   "html": "\n              <strong>y-w-m count reframed as Nuanced.</strong> Earlier showed\n              475; corpus.quran.com lists 405 for the nominal yawm, while\n              broader counts including the compound yawma-idhin reach 475. Both\n              counts now shown with explanation.\n            "
+  },
+  {
+   "id": "2026-05-k-w-n-count-corrected",
+   "year": "2026",
+   "month": "May",
+   "html": "\n              <strong>k-w-n count corrected.</strong> 1,361 to 1,390 after\n              triangulation against corpus.quran.com via multiple independent\n              lookups.\n            "
+  },
+  {
+   "id": "2026-05-r-b-b-count-corrected",
+   "year": "2026",
+   "month": "May",
+   "html": "\n              <strong>r-b-b count corrected.</strong> 975 to 980 after\n              corpus.quran.com triangulation.\n            "
+  },
+  {
+   "id": "2026-05-b-h-r-count-corrected",
+   "year": "2026",
+   "month": "May",
+   "html": "\n              <strong>b-h-r count corrected.</strong> 41 to 42 after Leeds\n              verification.\n            "
+  },
+  {
+   "id": "2026-05-iltifat-attribution-expanded",
+   "year": "2026",
+   "month": "May",
+   "html": "\n              <strong>Iltifat attribution expanded.</strong> The al-Fatihah 1:5\n              grammatical shift note now credits classical attestation in\n              al-Suyuti's <em>al-Itqan</em> alongside modern scholarship by\n              Abdel Haleem (BSOAS 1992). Earlier version credited Haleem only.\n            "
+  },
+  {
+   "id": "2026-05-organization-name-reviewed",
+   "year": "2026",
+   "month": "May",
+   "html": "\n              <strong>Organization name reviewed.</strong> The parent\n              organization uses both \"Association of Quranic Understanding\" (in\n              its page title and some documents) and \"Association for Quranic\n              Understanding\" (on its banner and in most published references).\n              Independent obituaries unanimously use \"for.\" The site previously\n              claimed to standardize on \"of\"; the more honest treatment is to\n              note the variation. References on this site now use \"Association\n              for Quranic Understanding,\" matching the more common external\n              usage.\n            "
+  },
+  {
+   "id": "2026-05-khan-biography-expanded",
+   "year": "2026",
+   "month": "May",
+   "html": "\n              <strong>Khan biography expanded.</strong> The About page now\n              documents Khan's full academic and interfaith record: Aligarh and\n              Rampur education, UIC doctoral work, Parliament of the World's\n              Religions trusteeship, WCMIR presidency, AQU directorship.\n            "
+  },
+  {
+   "id": "2026-05-khans-2013-work-added",
+   "year": "2026",
+   "month": "May",
+   "html": "\n              <strong>Khan's 2013 work added.</strong>\n              <em>An Exercise in Understanding the Qur'an</em> (AQU, ISBN\n              9781567447736) now cited alongside\n              <em>Reflections on the Qur'an</em>. Foreword by Mustansir Mir\n              noted.\n            "
+  },
+  {
+   "id": "2026-05-leeds-corpus-bundled",
+   "year": "2026",
+   "month": "May",
+   "html": "\n              <strong>Leeds Corpus bundled.</strong> 6,236 verses, 77,430 words,\n              1,642 roots now available as static JSON. Word-by-word morphology\n              live on Read at Scholar depth. GPL compliance via NOTICE.md.\n            "
+  },
+  {
+   "id": "2026-05-site-launch",
+   "year": "2026",
+   "month": "May",
+   "html": "\n              <strong>Site launch.</strong> Initial deployment of 13 pages.\n            "
+  }
+ ]
+}
