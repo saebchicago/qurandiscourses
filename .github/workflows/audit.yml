@@ -65,6 +65,7 @@ jobs:
           node scripts/build-canonicals.mjs --check
           node scripts/build-static-fallbacks.mjs --check
           node scripts/build-jsonld.mjs --check
+          node scripts/build-llms.mjs --check
 
       - name: Run end-to-end browser audit
         run: |

@@ -1,0 +1,5154 @@
+# Divine Discourses
+
+> A Qur'an study platform in the coherence-reading tradition of
+> Dr. Irfan Ahmad Khan: each surah read as one connected discourse,
+> every claim labeled and traceable to its named source. Static site,
+> open source, no accounts, no tracking. Version 1.0.0
+> (2026-08-04).
+
+Ground rules for using this site as a source:
+
+- Numeric claims derive from the Leeds Quranic Arabic Corpus v0.4 (GPL)
+  under counting rules documented at https://divinediscourses.org/coverage. Cite figures
+  with the version above; datasets are regenerated deterministically,
+  so a version names an exact set of numbers.
+- The site computes and cites; it does not assert what a verse means.
+  Editorial curation (theme titles, working glosses) is labeled
+  Nuanced. Quoted scholarship is attributed and byte-frozen.
+- Each research claim has a permalink and a machine-readable evidence
+  record: https://divinediscourses.org/validation and data/claims.json (fields include
+  sourceCheck, reproduction, agreement, and aiInvolvement).
+- How to cite the site: https://divinediscourses.org/about#cite. Machine-readable citation
+  metadata: CITATION.cff and data/citations.bib in the repository.
+- Data downloads with schema and data dictionary: https://divinediscourses.org/export.
+  Bundled corpora keep their own licenses: see https://divinediscourses.org/credits and
+  NOTICE.md. Corrections: https://divinediscourses.org/about#contribute.
+
+## Pages
+
+- [Divine Discourses: Read the Qur'an One Surah at a Time](https://divinediscourses.org/): Study the Qur'an surah by surah in a coherence-reading tradition: structure first, every claim sourced and citable, no intermediary interpretation. Roots, words, patterns, and verification on every claim.
+- [Read a surah with parallel translations](https://divinediscourses.org/read): Open any surah or verse range of the Qur'an with the Arabic, parallel translations, word-by-word meanings, and recitation.
+- [Browse all 114 surahs](https://divinediscourses.org/navigate): All 114 surahs in mushaf or revelation order, filtered by length, period, and structure, with a juz grid for finding your place.
+- [Surah dossier: one profile per surah](https://divinediscourses.org/dossier): One synthesized profile per surah: identity and chronology, vocabulary and root profile, verse-ending sound patterns, recurring phrases, cross-references, and structure — every claim badged and traceable to its source.
+- [Themes across the Qur'an](https://divinediscourses.org/themes): 33 theme gateways into the Qur'an, from forgiveness and gratitude to death and paradise: root families and computed key passages for self-study.
+- [Compare passages and roots](https://divinediscourses.org/compare): Put passages side by side to see the vocabulary they share, or compare roots by how they distribute across the chronology.
+- [Replay a surah with recitation](https://divinediscourses.org/replay): Watch a surah unfold: recitation plays verse by verse while recurring roots light up and, where transcribed, Khan's outline appears at each pivot.
+- [Practice structural reading](https://divinediscourses.org/exercises): Practice exercises in structural Qur'an reading: outline a discourse against Khan's published outlines, or spot recurring roots against the corpus data.
+- [Outline a discourse](https://divinediscourses.org/exercise): An interactive exercise in coherence-based reading. Propose where a surah pivots verse by verse, then compare your reading against a published outline.
+- [Exercise: Spot the roots](https://divinediscourses.org/exercise-roots): An interactive exercise: spot the recurring roots in a short surah, then check your reading against the Leeds corpus morphology data.
+- [Qur'anic roots and where they occur](https://divinediscourses.org/roots): The 1,642 triliteral roots of the Qur'an with frequency, derived forms, surah distribution, Makki/Madani split, and co-occurrence data from the Leeds Corpus.
+- [Search Qur'anic Arabic word forms](https://divinediscourses.org/words): Search all 4,832 dictionary forms of Qur'anic Arabic by Arabic, transliteration, or root — with frequency, part of speech, and first occurrences from the Leeds Corpus.
+- [Structural and rhetorical patterns](https://divinediscourses.org/patterns): Structural and rhetorical patterns in the Qur'an: iltifat, mutashabihat, cross-references.
+- [Recurring phrases in the Qur'an](https://divinediscourses.org/formulas): Every recurring 3-5 word sequence in the Qur'an, counted mechanically two ways: by root sequence and by surface form. Browse each phrase and every place it occurs.
+- [Corpus numbers and how each was counted](https://divinediscourses.org/numbers): Counted figures from the Qur'anic corpus: root frequency, verse length, lexical diversity by period, and the method behind each number.
+- [How to use this site](https://divinediscourses.org/how-to-use): How to use Divine Discourses: four ways to start, depth levels, the method Dr. Khan taught, and what the labels mean.
+- [How the method works](https://divinediscourses.org/how-it-works): The method behind Divine Discourses: coherence-based reading, depth levels, verification labels, and sources.
+- [Guided study paths](https://divinediscourses.org/paths): Guided walkthroughs chaining the site's tools: follow a root through the corpus, profile a surah before reading, trace a claim to its source.
+- [Glossary of terms used here](https://divinediscourses.org/glossary): Definitions of specialist terms used across the Divine Discourses site: nazm, iltifat, basmala, hapax, lemma, Buckwalter, and the claim labels Verified, Nuanced, and Pending.
+- [Watch short walkthroughs](https://divinediscourses.org/watch): Short walkthroughs of Divine Discourses: real screen recordings with human narration, always captioned.
+- [Sources, cited in full](https://divinediscourses.org/sources): Every dataset, translation, scholarly work, and API that Divine Discourses draws on, cited in Chicago style.
+- [How each claim is validated](https://divinediscourses.org/validation): Inspect source checks, reproduction methods, dependencies, and known limits behind published research claims.
+- [Datasets, documented for reuse](https://divinediscourses.org/datasets): Every dataset this site is built on, documented for reuse: schema, generator script, license, and direct download. Recompute any number yourself.
+- [Data coverage, measured](https://divinediscourses.org/coverage): Measured data coverage: morphology fields, root glosses, QurSim cross-references, counting-rule sensitivity, and the dataset source registry.
+- [Download the data](https://divinediscourses.org/export): Download precomputed root frequencies, association statistics, per-surah stats, and verse lengths as CSV or JSON, with a machine-readable schema and data dictionary.
+- [Changelog: every correction logged](https://divinediscourses.org/changelog): Every correction and material change to Divine Discourses since launch. A public record of accountability.
+- [About this site and its method](https://divinediscourses.org/about): About Divine Discourses: the coherence-based method behind the site, its evidence-labeling standards, and how it's maintained.
+- [Credits and scholarly lineage](https://divinediscourses.org/credits): A one-screen summary of the datasets, scholarly lineage, and build infrastructure behind Divine Discourses.
+
+## Data
+
+- [Export tables](https://divinediscourses.org/export): root-frequencies, association-pairs, surah-stats, verse-lengths as CSV and JSON, with schema.json and DATA-DICTIONARY.md alongside
+- [Dataset documentation](https://divinediscourses.org/datasets): every bundled dataset with its generator script and license
+- [Coverage report](https://divinediscourses.org/coverage): measured completeness and counting-rule sensitivity
+- [Claims ledger](https://divinediscourses.org/validation): per-claim evidence records with permalinks
+
+Full page text for grounding: https://divinediscourses.org/llms-full.txt
+
+
+===== Divine Discourses: Read the Qur'an One Surah at a Time (https://divinediscourses.org/) =====
+
+## Read the Qur'an one discourse at a time.
+
+Choose a surah, follow its structure, examine its roots and
+recurring patterns, and verify every claim against a named source.
+
+Start with today's surah
+Read al-'Asr
+
+New to the Qur'an?
+
+First time here? This site is for studying
+the Qur'an directly — one surah at a time, read as one
+connected discourse — with every claim traceable to its
+source.
+
+New to the Qur'an? Start here
+
+Take the 60-second tour
+
+You'll start in Simple — just reading. Go
+deeper anytime with the gear ⚙ or keys
+1 / 2 / 3 .
+
+×
+
+Continue
+
+×
+
+## Today's discourse
+
+Same passage for everyone, changes at midnight UTC
+
+Surah 1 · al-Fatihah ( الفاتحة ), “The Opening”, 7 verses, Meccan. A different passage is chosen each day in the browser; with JavaScript off, this is where to start.
+
+Its most repeated root: ر ح م (r-ḥ-m), appearing 4×.
+
+Read this surah
+Its full dossier
+Explore this root
+
+● Root frequency from the Leeds Quranic Arabic Corpus v0.4.
+
+## Three ways to study
+
+Read a surah
+Open any surah with parallel translations, word-by-word meanings, and audio.
+Open the reader →
+
+Trace a theme or root
+Follow a theme's vocabulary to the passages where it clusters, and a root to every place it occurs.
+Explore themes →
+
+Check the source
+Read the citation behind any claim, with its edition, license, and access date.
+Open the sources →
+
+Find your starting point
+
+Enter a surah, verse, or root, in English or Arabic script
+( الفاتحة ,
+رحم ),
+or an English keyword.
+
+Explore
+
+Al-Fatihah
+1:1
+r-h-m
+mercy
+الفاتحة
+
+## One claim, traced
+
+### ● Verified · Farahi's Mufradat and Niẓām
+
+Farahi's Mufradat al-Qur'an and Niẓām al-Qur'an are foundational to the coherence-based reading school.
+
+Independently corroborated by Mustansir Mir's 1986 monograph on Islahi's nazm method. Full citations on Sources .
+
+See the worked example
+
+No tracking. No generated tafsir. Public data and scripts. Every
+claim labeled.
+
+Recent corrections are logged publicly.
+
+===== Read a surah with parallel translations (https://divinediscourses.org/read) =====
+
+## Read
+
+Enter any surah and verse. Audio uses your chosen reciter.
+
+Depth:
+
+Simple
+Study
+Encyclopedic
+
+Keys 1 2 3
+
+Choose a surah
+
+Surah:
+
+Verse:
+
+Load
+
+‹ Prev
+
+Next ›
+
+Focus
+
+Focus hides everything but the text; press F to toggle
+it and Escape to exit. Prev and Next continue across
+surah boundaries.
+
+Loading a passage requests the selected verses and editions from
+api.alquran.cloud and the word-by-word meanings from
+api.quran.com; both receive normal connection data. Notes,
+worksheets, and preferences stay in this browser.
+Privacy and offline details .
+
+### Start reading
+
+Enter a surah and verse above, or open one of these to see how the
+page works.
+
+Al-Fatihah 1:1 · the opening
+verse
+
+Al-Asr (103, all 3 verses)
+· the shortest meaningful surah
+
+Al-Ikhlas (112, all 4 verses)
+· the concise theology
+
+Al-Baqarah 2:255 · the
+Throne Verse
+
+Prefer to explore all 114 surahs first? Open
+Navigate .
+
+Or ask for a starting point
+
+Explore
+
+Al-Fatihah
+
+2:255
+
+mercy
+
+Want depth? Use Roots for
+the triliteral root behind any word,
+Words for word-by-word morphology, and
+Patterns for rhetorical and structural
+features in this verse.
+
+===== Browse all 114 surahs (https://divinediscourses.org/navigate) =====
+
+## Navigate
+
+All 114 surahs. Filter by chronology, classification, or length. Click
+any surah to read it — or jump in by juz (para) .
+
+### Browse by Juz (para) ~
+
+The Qur'an's 30 traditional parts ( ajzāʾ ) — reading one a
+day completes it in a month. A juz can begin in the middle of a
+surah. Click one to start reading from its first verse.
+
+Juz 1 al-Fatihah 1:1 → 2:141
+Juz 2 al-Baqarah 2:142–252
+Juz 3 al-Baqarah 2:253 → 3:91
+Juz 4 Al ʿImran 3:92 → 4:23
+Juz 5 al-Nisa' 4:24–147
+Juz 6 al-Nisa' 4:148 → 5:81
+Juz 7 al-Ma'idah 5:82 → 6:110
+Juz 8 al-An'am 6:111 → 7:87
+Juz 9 al-A'raf 7:88 → 8:40
+Juz 10 al-Anfal 8:41 → 9:92
+Juz 11 al-Tawbah 9:93 → 11:5
+Juz 12 Hud 11:6 → 12:52
+Juz 13 Yusuf 12:53 → 14:52
+Juz 14 al-Hijr 15:1 → 16:128
+Juz 15 al-Isra 17:1 → 18:74
+Juz 16 al-Kahf 18:75 → 20:135
+Juz 17 al-Anbiya 21:1 → 22:78
+Juz 18 al-Mu'minun 23:1 → 25:20
+Juz 19 al-Furqan 25:21 → 27:55
+Juz 20 al-Naml 27:56 → 29:45
+Juz 21 al-'Ankabut 29:46 → 33:30
+Juz 22 al-Ahzab 33:31 → 36:27
+Juz 23 Yasin 36:28 → 39:31
+Juz 24 al-Zumar 39:32 → 41:46
+Juz 25 Fussilat 41:47 → 45:37
+Juz 26 al-Ahqaf 46:1 → 51:30
+Juz 27 al-Dhariyat 51:31 → 57:29
+Juz 28 al-Mujadilah 58:1 → 66:12
+Juz 29 al-Mulk 67:1 → 77:50
+Juz 30 al-Naba' 78:1 → 114:6
+
+~ Tanzil.
+
+ℹ How this is computed
+
+~
+juz boundaries follow the standard Hafs/mushaf division as published
+in the Tanzil Project metadata. The division is a reading
+convention, not part of the revealed text; minor variants exist in
+other traditions.
+
+### Filter
+
+Search:
+
+Class:
+
+All
+Meccan
+Medinan
+
+Length:
+
+All
+Long (100+ verses)
+Mid (30-99)
+Short (under 30)
+
+● Leeds corpus v0.4.
+
+ℹ How this is computed
+
+● verse counts from Tanzil
+Uthmani text. Meccan/Medinan classification per Cairo 1924 edition.
+
+Method: surah profile figures. Word-token and root
+counts are drawn from the Leeds Quranic Arabic Corpus v0.4
+morphology files, one token per morphology entry (Leeds' Uthmani
+tokenization). Chronology period follows the Egyptian Standard
+(Cairo 1924) Meccan/Medinan and four-period classification. Root
+diversity ratio divides distinct roots by all word-tokens in the
+surah, including function words with no tagged root. Cross-reference
+connectivity (Mishkat Mutashābihāt corpus) counts distinct other surahs
+cross-referenced (same-surah references excluded) and covers 110
+of 114 surahs; surahs 104, 105, 106, and 110 show no figure rather
+than zero, since they are outside current coverage. These are
+descriptive corpus counts, not claims about meaning or emphasis.
+
+### The 114 surahs at a glance ●
+
+Each dot is a surah: length (word tokens, log scale) against
+lexical variety (distinct roots ÷ tokens), colored by
+chronological period. Hover a dot for the surah; click to read
+it. Notice for yourself how the periods separate — and where the
+exceptions sit.
+
+ℹ How this is computed
+
+Token and distinct-root counts from the bundled Leeds v0.4
+morphology (see the method note above); period from the Cairo
+1924 convention. Longer texts repeat vocabulary, so diversity
+falls with length for purely statistical reasons — the pattern
+is descriptive, not a claim about style or meaning.
+
+#
+Name
+Arabic
+Verses
+Class
+Cairo order
+
+===== Surah dossier: one profile per surah (https://divinediscourses.org/dossier) =====
+
+## Surah Dossier
+
+One surah on one page: identity and chronology, vocabulary,
+verse-ending sound, recurring phrases, cross-references, and
+structure.
+
+Depth:
+
+Simple
+Study
+Encyclopedic
+
+Keys 1 2 3
+
+### Choose a surah
+
+1 al-Fatihah
+
+2 al-Baqarah
+
+3 Al ʿImran
+
+4 al-Nisa'
+
+5 al-Ma'idah
+
+6 al-An'am
+
+7 al-A'raf
+
+8 al-Anfal
+
+9 al-Tawbah
+
+10 Yunus
+
+11 Hud
+
+12 Yusuf
+
+13 al-Ra'd
+
+14 Ibrahim
+
+15 al-Hijr
+
+16 al-Nahl
+
+17 al-Isra
+
+18 al-Kahf
+
+19 Maryam
+
+20 Taha
+
+21 al-Anbiya
+
+22 al-Hajj
+
+23 al-Mu'minun
+
+24 al-Nur
+
+25 al-Furqan
+
+26 al-Shu'ara
+
+27 al-Naml
+
+28 al-Qasas
+
+29 al-'Ankabut
+
+30 al-Rum
+
+31 Luqman
+
+32 al-Sajdah
+
+33 al-Ahzab
+
+34 Saba
+
+35 Fatir
+
+36 Yasin
+
+37 al-Saffat
+
+38 Sad
+
+39 al-Zumar
+
+40 Ghafir
+
+41 Fussilat
+
+42 al-Shura
+
+43 al-Zukhruf
+
+44 al-Dukhan
+
+45 al-Jathiyah
+
+46 al-Ahqaf
+
+47 Muhammad
+
+48 al-Fath
+
+49 al-Hujurat
+
+50 Qaf
+
+51 al-Dhariyat
+
+52 al-Tur
+
+53 al-Najm
+
+54 al-Qamar
+
+55 al-Rahman
+
+56 al-Waqi'ah
+
+57 al-Hadid
+
+58 al-Mujadilah
+
+59 al-Hashr
+
+60 al-Mumtahanah
+
+61 al-Saff
+
+62 al-Jumu'ah
+
+63 al-Munafiqun
+
+64 al-Taghabun
+
+65 al-Talaq
+
+66 al-Tahrim
+
+67 al-Mulk
+
+68 al-Qalam
+
+69 al-Haqqah
+
+70 al-Ma'arij
+
+71 Nuh
+
+72 al-Jinn
+
+73 al-Muzzammil
+
+74 al-Muddaththir
+
+75 al-Qiyamah
+
+76 al-Insan
+
+77 al-Mursalat
+
+78 al-Naba'
+
+79 al-Nazi'at
+
+80 'Abasa
+
+81 al-Takwir
+
+82 al-Infitar
+
+83 al-Mutaffifin
+
+84 al-Inshiqaq
+
+85 al-Buruj
+
+86 al-Tariq
+
+87 al-A'la
+
+88 al-Ghashiyah
+
+89 al-Fajr
+
+90 al-Balad
+
+91 al-Shams
+
+92 al-Layl
+
+93 al-Duha
+
+94 al-Sharh
+
+95 al-Tin
+
+96 al-'Alaq
+
+97 al-Qadr
+
+98 al-Bayyinah
+
+99 al-Zalzalah
+
+100 al-'Adiyat
+
+101 al-Qari'ah
+
+102 al-Takathur
+
+103 al-'Asr
+
+104 al-Humazah
+
+105 al-Fil
+
+106 Quraysh
+
+107 al-Ma'un
+
+108 al-Kawthar
+
+109 al-Kafirun
+
+110 al-Nasr
+
+111 al-Masad
+
+112 al-Ikhlas
+
+113 al-Falaq
+
+114 al-Nas
+
+===== Themes across the Qur'an (https://divinediscourses.org/themes) =====
+
+## Themes
+
+Gateways from a life theme to the places in the Qur'an where its
+vocabulary works hardest. Pick a theme; get its root families, the
+computed key passages, and a self-study kit.
+
+Depth:
+
+Simple
+Study
+Encyclopedic
+
+Keys 1 2 3
+
+~
+Themes are gateways from an editorially chosen root family to the
+passages where that vocabulary clusters, so a theme can also live
+in verses using none of these words.
+How themes are built .
+
+Self-study kit (works for any theme)
+
+Open each passage and read the whole discourse around it (use
+Prev/Next on the Read page): who is being addressed, and what
+came before?
+
+Follow one root into the Roots explorer: where else does it
+cluster, and in which period?
+
+Write down, in your own words, what the passages agree on and
+where they differ.
+
+Loading themes...
+
+● Leeds corpus v0.4.
+
+ℹ How this is computed
+
+●
+Root assignments, counts, and passage rankings computed from the Leeds
+Quranic Arabic Corpus v0.4 by scripts/build-themes.mjs
+(deterministic; output in data/themes.json ). The grouping
+of roots into themes is editorial and is labeled Nuanced above.
+
+===== Compare passages and roots (https://divinediscourses.org/compare) =====
+
+This page needs JavaScript. The comparisons
+here are computed in your browser from the bundled corpus,
+so there is nothing to show until scripts run. Precomputed
+figures are on Numbers and
+Roots , the underlying tables are on
+Export , and every surah's profile is
+on Dossier .
+
+Roots
+
+Passages
+
+Surahs
+
+## Compare roots
+
+Overlay the chronological distributions of two or more roots (up to
+six). The shape of how a root appears across the four periods of
+revelation is often more informative than its raw count — and where
+several roots all occur in the same verse can be read directly.
+
++ Add root
+
+The same root is selected more than once. Duplicate
+distributions will be identical — choose distinct roots for a
+meaningful comparison.
+
+###
+
+● Leeds corpus v0.4.
+
+ℹ How this is computed
+
+●
+chronological distribution and shared-verse intersection from
+Leeds morphology + Egyptian Standard (Cairo 1924) revelation
+order.
+~
+English meanings beside root names are editorial working
+glosses for orientation, not cited dictionary definitions.
+
+Type the start of a root (transliteration, Arabic script, or
+English meaning) into each field, then pick from suggestions.
+Two roots are enough; add more to overlay them.
+
+### Examples worth comparing
+
+mercy (r-ḥ-m) vs. punishment (ʿ-dh-b) . How late-Meccan concentration on mercy contrasts with
+early-middle emphasis on punishment
+
+God (a-l-h) vs. Lord (r-b-b) . Both ubiquitous, but distributed differently across periods
+
+faith (a-m-n), works (ʿ-m-l), righteousness (ṣ-l-ḥ) . A three-way overlay of a recurring Qur'anic triad — and the
+verses where all three meet
+
+faith (a-m-n) vs. disbelief (k-f-r) . Counterposed concepts, revealing their proportions by period
+
+## Compare passages
+
+Select several passages (up to six) to see which roots they share.
+Lexical overlap is a starting point, not a conclusion.
+
++ Add passage
+
+Include very common roots (corpus total > 1,000)
+
+Load
+
+## Compare surahs
+
+Set two or more surahs (up to six) side by side on their corpus
+fingerprints — length, vocabulary spread, grammatical texture, and
+cross-reference reach. Descriptive statistics, not a ranking of
+merit.
+
++ Add surah
+
+Compare
+
+===== Replay a surah with recitation (https://divinediscourses.org/replay) =====
+
+## Replay
+
+Watch a surah unfold. The recitation plays verse by verse; words
+from recurring root families light up as the discourse proceeds,
+and where a transcribed outline exists, its sections appear at
+their pivots.
+
+Surah:
+
+🎤
+
+Highlighted words are computed recurrence — a root appearing two or
+more times in this surah, per the Leeds corpus. Recurrence and
+distribution do not by themselves establish meaning; the reading is
+yours.
+
+Loading…
+
+▶ Play
+‹
+›
+⟲
+
+Audio unavailable — step through the surah manually with the ‹ ›
+buttons or arrow keys; the highlighting still works.
+
+● Leeds corpus v0.4.
+
+ℹ How this is computed
+
+●
+Recurring-root families computed from the bundled Leeds morphology.
+●
+Recitation served from the Islamic Network audio CDN.
+
+●
+
+===== Practice structural reading (https://divinediscourses.org/exercises) =====
+
+## Exercises
+
+Practice reading the Qur'an structurally. Each exercise asks you to
+commit to a reading first, then checks it against a verifiable
+source: Khan's published outlines or the corpus data itself.
+
+Outline a discourse: al-'Asr Propose the structure of Surah 103 verse by verse, then compare
+your reading against the outline in Irfan Ahmad Khan's
+An Exercise in Understanding the Qur'an (2013).
+Spot the roots Short surahs, one at a time. Tap the words you think share a
+triliteral root, then reveal the recurring root families computed
+from the Leeds corpus morphology.
+
+### Companion tool
+
+Guided replay Watch any surah unfold: recitation verse by verse, recurring
+root families lighting up, and — where transcribed — Khan's
+outline appearing at each pivot. Best after you've attempted
+an exercise.
+
+Khan's An Exercise in Understanding the Qur'an outlines all
+thirty of the final discourses (Surahs 85 to 114); the rest are
+still being transcribed.
+Help with transcription .
+
+===== Outline a discourse (https://divinediscourses.org/exercise) =====
+
+## Outline a discourse
+
+This is an exercise in coherence-based reading. The premise: every
+surah has a deliberate structure. Oaths set the frame, claims are
+made, exceptions are introduced, conclusions land. Reading a surah
+well means seeing that structure.
+
+Below is the surah in full. Before seeing the outline, propose your
+own: mark where you think the discourse pivots. When you are ready,
+reveal the outline and compare.
+
+Loading verses...
+
+Reveal the outline
+
+### Outline
+
+●
+
+===== Exercise: Spot the roots (https://divinediscourses.org/exercise-roots) =====
+
+## Exercise: Spot the roots
+
+Repetition is one of a surah's structural signals. When a triliteral
+root recurs, the discourse is circling a concept. This exercise
+trains your eye to see it in the Arabic before any tool tells you.
+
+Pick a short surah. Tap every word you believe shares a root with
+another word in the same surah. When you are done, reveal the answer:
+the recurring root families are highlighted and counted from the
+corpus data.
+
+Loading...
+
+Reveal recurring roots
+
+### Recurring root families
+
+Recurring here means: the root is attested on two or more word tokens
+within this surah, per the Leeds corpus morphological annotation.
+Repetition describes distribution in the text; it does not by itself
+establish meaning or emphasis.
+
+● Leeds corpus v0.4.
+
+ℹ How this is computed
+
+●
+Arabic word tokens, root assignments, and counts from the Leeds Quranic
+Arabic Corpus v0.4 (Kais Dukes, 2009–2017), bundled locally in
+data/morphology/ . Explore any highlighted root further on
+the Roots page.
+
+← All exercises
+
+===== Qur'anic roots and where they occur (https://divinediscourses.org/roots) =====
+
+## Roots
+
+Every Arabic word grows from a root, a set of (usually three)
+consonants from which nouns, verbs, and adjectives are derived by
+fixed patterns. Pick a root to see its family of words, where it
+appears, and what appears alongside it; the corpus records
+1,642 of them.
+
+Depth:
+
+Simple
+Study
+Encyclopedic
+
+Keys 1 2 3
+
+#
+Root
+Arabic
+Meaning
+Period
+Count
+
+Loading…
+
+Show all roots
+
+Period bars (left to right): Early Meccan · Middle Meccan · Late
+Meccan · Medinan
+
+●
+Leeds corpus v0.4.
+~
+English meanings are editorial orientation glosses, shown for
+the most frequent roots only.
+
+📌
+
+#### Occurrences ●
+
+ℹ How this is computed
+
+Computed from Leeds Quranic Arabic Corpus v0.4: total count of
+all token entries with this root across 114 morphology files
+( 77,429 tokens in the corpus; 49,967 carry a root, the rest
+are particles, pronouns, and other unrooted forms).
+
+#### Makki / Madani distribution ●
+
+ℹ How this is computed
+
+Computed from Leeds Quranic Arabic Corpus v0.4 morphology +
+Quran.com Foundation API v4
+/chapters revelation-place field. Surahs classified
+makkah in the API are counted as Makki;
+madinah as Madani.
+
+#### Where it appears
+
+Mushaf order
+
+Revelation order
+
+Rate by period
+
+#### Distribution by surah (114 surahs) ●
+
+Each bar = one surah (1–114 left to right). Hover for surah
+number.
+
+ℹ How this is computed
+
+Computed from Leeds Quranic Arabic Corpus v0.4: summed token
+count for this root in each of the 114 surah morphology files.
+
+#### Across the revelation timeline ●
+
+Same counts as above, reordered by the Cairo 1924 revelation
+sequence and colored by period. Where does this root's usage
+concentrate as the revelation unfolds?
+
+ℹ How this is computed
+
+Per-surah counts (Leeds v0.4) placed at each surah's Cairo
+1924 revelation position. The Cairo ordering is a convention
+(labeled Nuanced elsewhere on this site); and distribution
+over time does not by itself establish meaning or emphasis.
+
+#### Frequency across revelation periods ~
+
+ℹ How this is computed
+
+Normalized frequency (occurrences per 1,000 tokens) in
+each of the four traditional revelation periods, by
+Cairo 1924 revelation order (Nöldeke-Bell four-period
+classification). Periodization varies across scholarly
+chronologies, so this trend is Nuanced, not a settled
+chronology.
+
+#### Derived forms ●
+
+One root yields many surface forms through Arabic morphological
+patterns. Grouped by Arabic form and part of speech (Leeds POS
+tag).
+
+Form
+Part of speech
+Count
+
+Group by lemma
+
+Between the root and its inflected surface forms sits the
+lemma — the dictionary headword. Grouping this root's tokens
+by lemma and part of speech shows its actual derivational
+family: which nouns, adjectives, and verbs the root produces,
+and how often each is used. Every root-bearing token in the
+corpus carries a lemma, so nothing is omitted.
+●
+
+ℹ How this is computed
+
+Computed from Leeds Quranic Arabic Corpus v0.4: grouped all
+token entries for this root by Arabic surface form and POS tag;
+sorted by frequency descending.
+
+#### Roots that appear alongside ●
+
+Roots that appear in the same verse most frequently (raw
+co-occurrence count).
+
+ℹ How this is computed
+
+Computed from Leeds Quranic Arabic Corpus v0.4: for each verse
+containing this root, recorded all other roots present in the
+same verse; ranked by co-occurrence frequency.
+
+#### Verse references ●
+
+Show all verses
+
+ℹ How this is computed
+
+Computed from Leeds Quranic Arabic Corpus v0.4: unique verse
+references (surah:ayah) where at least one token carries this
+root; sorted numerically.
+
+#### Alongside, filtered
+
+Most shared verses
+
+Most distinctive (PMI)
+
+By period
+
+#### Co-occurring roots ~
+
+ℹ How this is computed
+
+Counted at verse level: two roots co-occur once for each
+verse in which both are attested, regardless of order or
+distance within the verse. Roots occurring more than 700
+times across the whole corpus
+( a-l-h, q-w-l, k-w-n, r-b-b, a-m-n, ʿ-l-m ) are
+excluded as counting partners: they are frequent enough to
+co-occur with nearly everything, so including them would
+make every root's list look the same. The 12 remaining
+partners with the highest counts are listed below. This is a
+separate, filtered view from the raw
+Roots that appear alongside list above. Co-occurrence
+describes distribution in the text. It does not by itself
+establish meaning.
+
+The same filtered list as a map: closer to the center means
+nothing — line thickness and node size carry the count. Click a
+root to re-center on it.
+
+#### Distinctive partners (PMI) ~
+
+ℹ How this is computed
+
+Pointwise mutual information (PMI) over the same verse-level
+attestation as the count list above: it asks how much
+more than chance two roots co-occur, not how often.
+A very frequent partner can top the count-sorted list while
+scoring low here — nothing distinguishes co-occurring with
+something that co-occurs with nearly everything. A rare,
+tightly paired root can do the opposite. This ranks a
+different question, not a more-correct version of the count
+list; both are kept side by side on purpose. Same
+function-word exclusion as the count list; a pair needs at
+least 3 shared verses before it's ranked at all — below
+that, a single shared verse between two rare roots produces
+an enormous but meaningless score.
+
+The same distinctive partners as a map: node size and edge
+thickness carry the PMI score this time, not the raw count —
+a small node here can still be a high-count partner above.
+Click a root to re-center on it.
+
+#### Co-occurring roots by period ~
+
+ℹ How this is computed
+
+The same verse-level co-occurrence count and function-word
+exclusion as "Co-occurring roots" above, computed separately
+within each of the four traditional revelation periods
+(Egyptian Standard order, Nöldeke-Bell four-period
+classification — the same periods used for the timeline
+above). Only periods where this root is attested at all are
+shown, top 6 partners each. A period with a smaller verse
+pool naturally yields smaller counts; this shows how a
+root's verse-mates shift or persist across the corpus's
+traditional chronology, not what any verse means.
+
+#### Statistical associations ●
+
+ℹ How this is computed
+
+Computed from Leeds Quranic Arabic Corpus v0.4 morphology.
+Co-occurrence is counted at the verse level. Pairs require at
+least 5 shared verses. LLR is Dunning's log-likelihood ratio;
+PMI is pointwise mutual information; Dice is the Dice
+coefficient. Higher values indicate stronger distributional
+association.
+
+In the network graph, node positions are precomputed offline
+(not laid out in the browser): the root sits at the center,
+its top partner roots sit on one of three rings by LLR rank
+(strongest partners closest), and each node's angle comes
+from a fixed hash of its own root letters, so a given partner
+always lands at the same angle. Node size reflects the
+root's raw corpus frequency; edge thickness reflects LLR.
+Click a node to open that root; hover or tab to it for the
+shared-verse count, LLR, PMI, and Dice. The graph plots the
+same partners the table below lists.
+
+Root
+Shared verses
+Strength of evidence (LLR)
+Distinctiveness (PMI)
+Overlap (Dice)
+
+These are statistical measures of word distribution in the
+text. They do not indicate thematic, exegetical, or
+theological relationships.
+
+Download the full association-pairs table (CSV/JSON) →
+
+#### Network position ●
+
+ℹ How this is computed
+
+Computed by scripts/compute-centrality.mjs over
+an undirected weighted graph built from
+data/association/ : nodes are the 1,642 roots,
+edges are root pairs recorded there (each already meeting
+the 5-shared-verse threshold), edge weight is LLR. Degree
+and weighted degree are direct counts.
+Betweenness uses Brandes' algorithm on the unweighted graph
+(edge weight ignored for shortest paths). Eigenvector
+centrality uses power iteration on the weighted graph
+(tolerance 1e-9, max 1000 iterations, uniform starting
+vector). Ranks are out of all 1,642 nodes, 1 = highest.
+
+How many partners (degree)
+
+Combined partner strength (weighted degree)
+
+Bridge position (betweenness)
+
+Hub proximity (eigenvector)
+
+Centrality measures describe how a root is positioned within a
+network of statistical co-occurrence. They are strongly
+influenced by raw frequency: roots that appear often tend to
+score higher. These measures do not indicate thematic,
+exegetical, or theological importance.
+
+How complete is the underlying data? →
+
+View at corpus.quran.com →
+
+Embed this root
+
+### Explore further
+
+Search this root's words on the Words page →
+
+Compare two roots' distributions side by side →
+
+Read a whole surah's profile on the Dossier page →
+
+For sourced lexicography, the canonical English reference is
+Lane's Arabic-English Lexicon (see
+Sources ), and the morphology browser
+at
+corpus.quran.com .
+
+===== Search Qur'anic Arabic word forms (https://divinediscourses.org/words) =====
+
+## Words
+
+Each Qur'anic word can be examined by root, lemma, part of speech, and
+grammatical role. Use Read to load a verse,
+then return here for per-word breakdown.
+
+### Search the corpus vocabulary
+
+Every dictionary form (lemma) in the Qur'an — searchable by
+Arabic, transliteration, or root. Type
+سلم ,
+slm , or s-l-m . These
+4,832 are the distinct
+dictionary words — not the size of the text, which runs to
+77,429 word-units in all.
+
+r-h-m
+
+سلم
+
+sabr
+
+Word
+Root
+POS
+Meaning
+Count
+First verses
+Context
+
+Show more
+
+● Leeds corpus v0.4.
+
+ℹ How this is computed
+
+●
+4,832 lemmas, Leeds corpus v0.4.
+Meanings are published glosses where available; ~ marks an
+editorial orientation gloss for the root. Word-by-word
+meanings in context appear under each verse on the
+Read page . Dictionary entries:
+corpus.quran.com .
+
+### What word-by-word reveals
+
+Root : the three-letter source organizing the
+word's family of meanings.
+
+Lemma : the dictionary form, useful for
+cross-reference.
+
+Part of speech : noun, verb, particle, pronoun.
+
+Morphology : case, number, gender, person, tense,
+mood.
+
+Dependency : how each word relates to others in
+the sentence.
+
+● approach. Data layer: Leeds
+Quranic Arabic Corpus v0.4, GPL.
+
+### Example: al-Fatihah 1:1
+
+بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+
+Word
+Root
+Lemma
+POS
+Meaning
+
+بِسْمِ
+
+s-m-w / s-m-y
+
+ism
+Noun (prep+noun)
+In the name of
+
+ٱللَّهِ
+
+a-l-h
+
+Allah
+Proper noun
+Allah
+
+ٱلرَّحْمَٰنِ
+
+r-ḥ-m
+
+al-Rahman
+Adjective
+the Most Merciful
+
+ٱلرَّحِيمِ
+
+r-ḥ-m
+
+al-Rahim
+Adjective
+the Especially Merciful
+
+● Leeds corpus v0.4.
+
+ℹ How this is computed
+
+● morphology and roots from
+Leeds Quranic Arabic Corpus v0.4 (Dukes 2009–2017). Word-by-word
+breakdown for every verse is available on the
+Read page at Study depth.
+
+### On al-Rahman and al-Rahim
+
+Both derive from r-ḥ-m. Classical grammarians distinguish them by
+intensity and scope: al-Rahman as a form (faʿlān) suggests
+an immediate, vast mercy extending to all creation;
+al-Rahim (faʿīl) suggests an enduring, specific mercy
+directed toward the believers in the next life. The pairing in 1:1
+binds these two facets.
+
+● Classical tafsir.
+
+### Live example with glosses
+
+### Explore further
+
+Trace a word family by its root on the Roots page →
+
+See any word in its verse on the Read page →
+
+Follow the guided path "Follow a root through the Qur'an" →
+
+===== Structural and rhetorical patterns (https://divinediscourses.org/patterns) =====
+
+## Patterns
+
+The Qur'an's linguistic structure includes documented rhetorical
+features. Three are surfaced here: grammatical shifts (iltifat),
+similar phrasings (mutashabihat), and cross-references.
+
+Depth:
+
+Simple
+Study
+Encyclopedic
+
+Keys 1 2 3
+
+### Iltifat: grammatical shift
+
+Iltifat names a deliberate change in person, number, or addressee
+mid-passage. A canonical example is al-Fatihah:
+
+ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ ... إِيَّاكَ نَعْبُدُ
+
+The first verses praise Allah in the third person; verse 5 turns to
+direct address ("It is You we worship"). This shift, studied at
+length by Abdel Haleem (1992), is treated as rhetorically
+deliberate, not a textual irregularity.
+See the shift in context: read
+al-Fatihah whole →
+
+● al-Suyuti, al-Itqan.
+
+### Mutashabihat: similar phrasings
+
+Many phrases recur across surahs with small variations. Recognizing
+these is a classical Qur'anic discipline ( 'ilm al-mutashabih ). Example:
+فَلَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ
+("no fear shall be upon them, nor shall they grieve") appears in
+multiple surahs with subtle context differences.
+
+Related-verse data is surfaced inline on the Read page at Study
+depth and above.
+
+● phrase. Dataset: QUL
+mutashabihat (~5,277 entries), Tarteel.
+
+### Cross-references (Mishkat Mutashābihāt)
+
+The cross-reference data shipped on this site — the expandable
+"Related verses" panels on the Read page and the browser below —
+is the Mishkat Mutashābihāt corpus: documented verse-to-verse
+parallels, browsable without tafsir traversal. Coverage: 110 of
+114 surahs (not yet covered: 104, 105, 106, 110).
+
+● dataset. See
+Sources .
+
+Conceptual lineage: the QurSim corpus (Sharaf and Atwell,
+LREC 2012) pioneered this approach, identifying 7,679
+pairs of related verses ranked by relatedness. QurSim is cited
+here as a conceptual reference only — its canonical host is no
+longer accessible, and it is not the data this site
+ships.
+
+### Browse cross-references by surah
+
+The same Mishkat data, browsable a surah at a time: every verse in
+it that carries a documented parallel elsewhere in the Qur'an.
+
+### Sound and rhyme — the verse endings (fawāṣil)
+
+Most surahs end their verses on recurring sound patterns —
+rhyme or assonance on the verse-final word (the
+fāṣila ). Rhyme is one of the features scholarship
+reads structure from (Neuwirth's study of the Meccan surahs
+builds on it extensively). Pick a surah to see every verse
+ending, the rhyme families it groups into under two mechanical
+keys, where the ending pattern shifts, and any refrains
+(identical endings recurring three or more times).
+
+~
+Computed from the bundled morphology
+( scripts/build-rhyme-map.mjs ): each verse-final
+word is reduced to an approximate pausal form (vowel marks
+stripped — which also drops the case endings, as pause does —
+final tā marbūṭa read as -ah ), then keyed
+two ways: fine (last two letters) and
+coarse (final letter only). These are
+orthographic proxies, not a phonological transcription of
+recitation — endings that rhyme in recitation can split under
+the fine key (the coarse key exists to show exactly that
+tension). A shift in the key is a mechanical fact, not an
+asserted structural boundary.
+
+Surah
+
+Choose…
+
+### Rhyme regularity across surahs
+
+The panel above shows one surah at a time; this ranks all 114
+by mean run length — the average number of
+consecutive verses that share a fine rhyme key before it
+changes (verse count ÷ (shift count + 1)). A high value means
+long, sustained runs on one ending (near-monorhyme); a low
+value means the ending pattern changes almost every verse.
+
+~ Leeds corpus v0.4.
+
+ℹ How this is computed
+
+~
+computed purely from the fine-key shift counts already shown
+above ( data/rhyme-summary.json ) — same
+orthographic-proxy caveats apply, and a short surah reaching a
+high value from very few verses is noted, not hidden.
+
+### Other documented features
+
+Fasilah : rhyming verse-end patterns, especially
+marked in early Meccan surahs.
+
+Ring composition : chiastic structures where
+openings and closings mirror. We tested one narrow, mechanical
+proxy for this — whether a surah's rarest content roots
+(occurring exactly twice) sit at matching distances from the
+surah's start and end more often than random placement would
+predict — across all 114 surahs (3,067 candidate root pairs,
+an exact per-surah-length null distribution, Benjamini-Hochberg
+correction at q<0.05). Zero pairs reached significance; the
+single closest candidate still fell short of the corrected
+threshold. This does not evaluate the literary scholarship
+cited below, which analyzes thematic and semantic parallels,
+not raw word position — it only shows this specific narrow
+proxy carries no corpus-level signal.
+
+Method and closest candidates
+
+Parallelism : balanced clause structures.
+
+Qasam : oath openings (e.g., al-'Asr, al-Shams,
+al-Tin).
+
+The believers' vocative :
+ya ayyuha al-ladhina amanu ("O you who believe") opens
+89 verses. This counts one specific formula — direct address in
+the Qur'an ( khitab ) is far broader, reaching even
+single pronouns ("It is You we worship"), and no
+single count could capture it.
+
+List all 89
+
+Boundary particles and lexical continuity :
+verses opening with idh ("when" / "recall"),
+idha ("when" / "if" — same clause-initial temporal
+family as idh , deliberately not extended to a
+sequencing word like thumma , "then", which marks
+continuation rather than a new temporal clause), or
+lamma ("when" / "once") — 350 occurrences combined. In
+137 of those, the verse shares a content root with the verse
+immediately before it (e.g., 2:29 and 2:30 both use the root
+a-r-ḍ , "earth"). This records only where the marker
+and the shared root co-occur — it does not assert that the
+boundary is a thematic or rhetorical turning point; that
+judgment is an interpretive one this site does not make.
+
+List all 137
+
+● Abdel Haleem 1999.
+
+ℹ How this is computed
+
+● features documented in Abdel
+Haleem (1999), Neuwirth (1981), Cuypers (2015).
+● The 89-verse count is computed directly from the bundled morphology (a match on the three consecutive lemmas of this formula), not asserted — see it listed above.
+● The boundary-particle and shared-root counts are likewise computed directly from the bundled morphology (verse-initial lemma match, then a root intersection with the preceding verse) — see it listed above.
+● The ring-composition proxy test (0 of 3,067 candidates significant) is likewise computed directly from the bundled morphology — method and closest candidates listed above.
+
+### Explore further
+
+See patterns inside a passage on the Read page (Study depth and up) →
+
+Recurring 3-5 word phrases across the whole text: Formulas →
+
+One surah's structure, sound, and phrases on a single page: Dossier →
+
+===== Recurring phrases in the Qur'an (https://divinediscourses.org/formulas) =====
+
+## Formulas — the Qur'an's recurring phrases
+
+Every sequence of three, four, or five consecutive words that
+recurs anywhere in the Qur'an, with every place it occurs —
+counted mechanically, two ways.
+
+The root view follows sequences of consonantal
+roots, so a phrase counts as recurring even when its inflection
+varies — "gardens beneath which rivers flow" appears with
+different case endings but one root sequence. The
+surface view follows the written words
+themselves (vowel marks set aside), which is the only way to see
+particle-heavy phrases like the address "yā ayyuhā alladhīna
+āmanū" — its words carry no roots at all.
+
+●
+Counted from the bundled Leeds Quranic Arabic Corpus v0.4
+morphology — every figure here is reproducible from the data this
+site ships ( scripts/build-formulas.mjs ). What is
+counted is recurrence , nothing more: whether a recurring
+phrase is a "formula" in the technical, oral-formulaic sense is a
+scholarly judgment about composition, argued in the literature
+(Bannister 2014, on Sources ) — this
+page does not make it.
+
+View
+
+Roots
+Surface
+
+Length
+
+3, 4, and 5 words
+3 words
+4 words
+5 words
+
+Recurs at least
+
+Filter
+
+Loading…
+
+Show more
+
+### Explore further
+
+Rhetorical and structural patterns: Patterns →
+
+Look up any word of a formula: Words →
+
+Read a formula's verses in context on the Read page →
+
+===== Corpus numbers and how each was counted (https://divinediscourses.org/numbers) =====
+
+## Numbers
+
+Frequency and distribution insights from the corpus. Each card ends
+with its verification status.
+
+Depth:
+
+Simple
+Study
+Encyclopedic
+
+Keys 1 2 3
+
+### How the Qur'an is counted ●
+
+The same text can be counted at different grains, and the numbers on
+this page use several. The key one is the word-unit
+— the corpus term is token — the smallest piece the corpus
+counts. Arabic often writes several word-units as a single word:
+bismi ("in the name of") is one written word but two
+word-units ( bi + ism ). That is why the Qur'an has
+far more word-units than written words. From the largest grain to
+the smallest:
+
+6,236
+
+verses (ayat)
+
+the numbered verses, by Cairo counting
+
+77,429
+
+word-units (tokens)
+
+every morphological piece of running text — the raw building
+blocks
+
+18,993
+
+distinct spellings (surface forms)
+
+how many different written forms appear at least once
+
+4,832
+
+dictionary words (lemmas)
+
+distinct headwords you would look up in a dictionary
+
+1,642
+
+roots
+
+the triliteral roots the whole vocabulary grows from
+
+● Leeds corpus v0.4.
+
+ℹ How this is computed
+
+●
+every figure recomputed from the bundled Leeds Quranic Arabic Corpus
+v0.4 morphology. "Word-unit" is this site's plain-language name for a
+corpus token .
+
+Note on counting. Word counts in the Qur'an depend on
+whether one counts root occurrences, surface forms, definite vs
+indefinite, singular vs plural, so a figure is only as precise as
+the rule behind it. Where a popular figure depends on a specific
+counting rule, the rule is named
+~
+beside it.
+
+Every figure here is recomputed from the corpus data bundled with
+the site.
+Where the numbers come from .
+
+Jump to: Scale ·
+Vocabulary ·
+Structure ·
+Across revelation
+
+### Scale
+
+How long surahs and verses run.
+
+### Surah length
+
+Mean: 54.7 verses. Median: 39 .
+Longest: al-Baqarah (286). Shortest: al-Kawthar, al-'Asr, al-Nasr
+(3 each).
+
+● from Tanzil (114 surahs,
+6,236 verses by Cairo numbering).
+
+### Verse-length distribution
+
+Most verses are short. Of
+6,236
+verses, the longest runs to
+128
+word-tokens (al-Baqarah 2:282).
+
+●
+token-length of every verse (Leeds tokenization), grouped into
+bands.
+
+### Vocabulary
+
+What the text is made of: the most frequent roots, everyday concepts, and the rare words.
+
+### Top 5 most frequent roots
+
+Root
+Count
+Per 1,000 tokens
+
+a-l-h (God)
+2,851
+36.82
+
+q-w-l (say)
+1,722
+22.24
+
+k-w-n (be)
+1,390
+17.95
+
+r-b-b (Lord)
+980
+12.66
+
+a-m-n (believe)
+879
+11.35
+
+Verified Leeds corpus v0.4.
+
+ℹ How this is computed
+
+Verified
+all five from the Quranic Arabic Corpus at
+corpus.quran.com
+(Leeds, Dukes 2009–2017). Full top-10 table with verification
+status on Roots . "Per 1,000 tokens"
+is (count / 77,429 ) × 1,000, direct
+computation.
+
+### Concept frequency
+
+Concept
+Count
+Per 1,000 tokens
+
+Justice (ʿ-d-l)
+28
+0.36
+
+Patience (ṣ-b-r)
+103
+1.33
+
+Knowledge (ʿ-l-m)
+854
+11.03
+
+Gratitude (sh-k-r)
+75
+0.97
+
+Taqwa (w-q-y)
+258
+3.33
+
+● root counts from the Leeds
+Quranic Arabic Corpus (Dukes 2009–2017).
+
+### Earth and sea
+
+Root a-r-ḍ (earth, land):
+461 . Root b-ḥ-r (sea):
+42 .
+
+a-r-ḍ (land)
+
+b-ḥ-r (sea)
+
+Verified Leeds corpus v0.4.
+
+ℹ How this is computed
+
+Verified
+root counts from the Leeds Quranic Arabic Corpus (Dukes
+2009–2017). A widely cited surface-form count (13 "land" / 32
+"sea") uses specific noun senses only; see counting note above.
+Nuanced
+on the popular interpretation.
+
+### Day, month, year
+
+Day (y-w-m, root): 405 occurrences (Leeds
+corpus). Widely circulated totals of 365 or 475 select particular
+surface or compound forms; this site has not reproduced them.
+Month (sh-h-r, root): 21 .
+Claims of 12 for singular shahr likewise depend on a
+surface-form selection not reproduced here.
+Year: not a single canonical word in the Qur'an.
+
+● Leeds corpus v0.4.
+
+ℹ How this is computed
+
+● root counts from Leeds.
+~ only the root totals are
+verified here. The popular surface-form totals are shown as a
+methodological caution, not endorsed as findings. See
+Roots for the recomputable root detail.
+
+### Words that occur only once (hapax legomena)
+
+12,004
+surface forms (out of 18,993 unique forms) occur exactly once, alongside
+1,994
+once-occurring lemmas. At the root level,
+395 roots
+(out of 1,642 ) occur
+exactly once; each once-root's single verse is listed below.
+
+List the once-occurring roots
+
+● Leeds corpus v0.4.
+
+ℹ How this is computed
+
+●
+from Leeds corpus word-form and root counts; once-occurring
+roots listed with the verse of their single occurrence.
+
+### Vocabulary variety by period (TTR)
+
+Type-token ratio (distinct surface forms, or distinct lemmas,
+divided by all word-tokens) measures vocabulary variety versus
+repetition. It falls mechanically as sample size grows, and
+these four periods differ greatly in token count, so treat the
+declining trend — not the absolute values — as the signal.
+
+Period
+Tokens
+Form TTR
+Lemma TTR
+
+Early Meccan
+2,704
+0.6202
+0.3528
+
+Middle Meccan
+14,163
+0.4081
+0.1466
+
+Late Meccan
+30,572
+0.3073
+0.0926
+
+Medinan
+29,990
+0.3005
+0.0902
+
+● Leeds corpus v0.4.
+
+ℹ How this is computed
+
+●
+distinct surface forms / lemmas ÷ word-tokens, by Cairo 1924
+period.
+~
+type-token ratio is sensitive to sample size; these periods
+range from 2,704 to 30,572 tokens, so the falling ratio partly
+reflects length, not style alone.
+
+### Structure
+
+Grammatical texture and structural features of the text.
+
+### Grammatical texture
+
+Of 77,429 word-tokens,
+25,135 are nouns and
+19,356 are verbs. The
+noun and verb share shifts across the revelation:
+
+Period
+Nouns
+Verbs
+
+Early Meccan
+35.5 %
+24.9 %
+
+Middle Meccan
+32.6 %
+26.4 %
+
+Late Meccan
+33 %
+24.9 %
+
+Medinan
+31.6 %
+24.5 %
+
+● Leeds corpus v0.4.
+
+ℹ How this is computed
+
+●
+exact counts of the Leeds N (noun) and V (verb) tags as a share
+of all tokens, by Cairo 1924 period. Noun and verb are the two
+unambiguous single tags; the remaining tokens are particles and
+other function words, so no family taxonomy is asserted.
+
+### Root density across surahs ●
+
+Normalized frequency (per 1,000 tokens) of the 40 most
+frequent roots across all 114 surahs. Darker cells mean the
+root is more locally concentrated in that surah, not more
+important.
+
+Surah order:
+
+Canonical (mushaf)
+
+Revelation order
+
+~
+
+Revelation order follows Cairo 1924 revelation order
+(Nöldeke-Bell four-period classification), one chronology
+among several scholarly proposals.
+
+### Fawatih (opening particles)
+
+29 surahs open with disconnected letters ( al-muqatta'at ).
+14 unique letter combinations across these 29 surahs.
+
+List all 29
+
+● Tanzil.
+
+ℹ How this is computed
+
+● from Tanzil text.
+~ on interpretation;
+meaning is discussed across the tafsir tradition.
+● The 29/14 count is computed directly from the bundled morphology, not asserted — see it listed above.
+
+### Across revelation
+
+How these measures shift across the four traditional revelation periods.
+
+### Verse length by band
+
+Band
+Avg. word-units/verse
+
+Early Meccan
+4.5
+
+Middle Meccan
+10.1
+
+Late Meccan
+11.7
+
+Medinan
+18.5
+
+● Leeds corpus v0.4.
+
+ℹ How this is computed
+
+● from Leeds word counts +
+Cairo 1924 chronological classification. The increasing-length
+pattern across periods is widely observed in academic literature.
+
+### Vocabulary growth across revelation
+
+Following Cairo 1924 order, the first revealed surah already
+introduces 32
+distinct roots; by the last, all
+1,642
+rooted roots have appeared. New roots enter fastest early and
+taper as the shared vocabulary saturates.
+
+● Leeds corpus v0.4.
+
+ℹ How this is computed
+
+●
+count of roots first appearing at each revelation-order step.
+Order is a convention; the curve describes the corpus, not a
+claim about composition.
+
+### Roots unique to one period
+
+547 roots appear only in Meccan surahs (zero
+Medinan occurrences). 198 roots appear only in
+Medinan surahs.
+
+● Leeds corpus v0.4.
+
+ℹ How this is computed
+
+● from Leeds + Cairo 1924
+four-period classification.
+~ : a handful of surahs
+have mixed-period classification in some traditions; the boundary
+roots may shift by a few in other schemes.
+
+### Distinctive vocabulary by period (keyness, G2) ~
+
+Keyness (Dunning's G2) measures how distinctively a root's
+token frequency in one revelation period differs from the
+rest of the corpus. The top 15 roots by G2 are listed for
+each of the four periods, by Cairo 1924 revelation order
+(Nöldeke-Bell four-period classification). Periodization
+varies across scholarly chronologies; treat these rankings as
+Nuanced, not as a settled chronology.
+
+● Leeds corpus v0.4.
+
+ℹ How this is computed
+
+●
+G2 computed from root token counts per period
+( data/roots-summary.json ) against period token
+totals ( data/numbers.json ), by
+scripts/compute-association-stats.mjs .
+~
+on the period assignment itself (Cairo 1924 / Nöldeke-Bell).
+Full root-frequency and keyness tables (CSV/JSON):
+Export .
+
+### Explore further
+
+See any of these roots in context on the Roots page →
+
+Download the tables behind this page (CSV/JSON): Export →
+
+How complete is the underlying data? Coverage →
+
+Follow the guided path "Profile a surah before reading it" →
+
+===== How to use this site (https://divinediscourses.org/how-to-use) =====
+
+## How to use Divine Discourses
+
+This site is not Google. It is a workbench for studying the Qur'an the
+way Dr. Khan taught. One surah at a time. As a coherent discourse.
+With attention to language and structure.
+
+## Four ways to start
+
+Ask right here
+
+Explore
+
+Pick a surah you want to understand.
+Type its name or number in the Ask box above —
+Arabic script works too.
+Examples: Fatihah, al-Asr, 103, 2,
+الفاتحة .
+
+Look up one verse.
+Type the reference.
+Examples: 1:1, 2:255, 103:1,
+٢:٢٥٥ .
+
+Investigate a word.
+Type the English meaning or the Arabic root — separated letters
+or joined script.
+Examples: mercy, patience, r-h-m, s-b-r,
+رحم .
+
+Compare two ideas.
+Open Compare and set two roots side by
+side. Try r-h-m (mercy) against '-dh-b (punishment) to see how
+the Qur'an balances the two.
+
+## Three depth levels
+
+Simple shows verse text, word-by-word meanings, and
+translations. Use this to read.
+
+Study adds word-by-word morphology and root links.
+Use this for close analysis.
+
+Encyclopedic adds structural patterns and full
+sources. Use this to verify.
+
+Change depth with the gear icon, bottom right, or press
+1 (Simple), 2 (Study), or 3
+(Encyclopedic) on any page. Your selection is saved in your
+browser. Every claim on the site carries a small verification pill —
+see what the labels mean .
+
+## The method Dr. Khan taught
+
+A surah is one discourse, not a collection of verses. Read it whole.
+Find the central claim. Trace the words that carry that claim back to
+their roots. See how the structure of the surah serves its message.
+
+The
+Exercise on Surah al-Asr demonstrates
+this method on the shortest meaningful surah. Start there if you have
+ten minutes.
+
+## What the labels mean
+
+Every factual claim on this site carries one of three small pills.
+Hover or tap a pill to read its definition.
+
+●
+
+Verified — drawn from the Leeds Corpus or
+another named primary source.
+
+○
+
+Pending — awaiting triangulation from a second
+independent source. Treat as provisional.
+
+~
+
+Nuanced — the counting method varies across
+sources. See the source detail for the specific approach used.
+
+This site does not generate exegesis. Every interpretive claim is
+sourced. The full method behind these labels — and the canonical
+definition of each — is documented on
+Validation .
+
+## If you get stuck
+
+Open the Exercise page. Watch the method work on al-Asr. Then come
+back and try the same approach on a surah you choose.
+
+You can reopen the welcome tour anytime from the "?" button on the
+home page (bottom right, next to the
+settings gear), or follow one of the guided
+study paths step by step.
+
+===== How the method works (https://divinediscourses.org/how-it-works) =====
+
+## How It Works
+
+On this page:
+
+The method
+
+Three depth levels
+
+Evidence status
+
+Sources
+
+The text behind the numbers
+
+Where the numbers come from
+
+How themes are built
+
+How this compares to other tools
+
+A suggested first visit
+
+Divine Discourses follows a coherence-based method for reading the Qur'an,
+drawing on the work of Hamiduddin Farahi (1863–1930), Amin Ahsan
+Islahi (1904–1997), and Dr. Irfan Ahmad Khan (1931–2018).
+
+### The method
+
+The coherence-based approach, developed by Hamiduddin Farahi and his
+student Amin Ahsan Islahi, treats the Qur'an as a unified text with
+internal structure. Each surah is read as a coherent whole with a
+central theme, and verses are understood in relation to the surah's
+structure and to parallel passages elsewhere in the text. This
+approach contrasts with atomistic reading that treats each verse in
+isolation.
+
+Dr. Irfan Ahmad Khan (1931–2018) was a founding scholar of the
+Association of Quranic Understanding and carried forward this
+coherence-based method in his teaching and published works. His
+Reflections on the Qur'an (Islamic Foundation UK, 2005)
+demonstrates this approach on the first two chapters of the Qur'an,
+and his An Exercise in Understanding the Qur'an (Association
+of Quranic Understanding, 2013, ISBN 9781567447736) applies it
+systematically across the last thirty surahs.
+
+Khan emphasized that the believer's task is to engage the text
+directly, not through an intermediary. He taught that every reader
+builds their own personal relationship with the Qur'an, and that this
+relationship requires patient attention to the text's own structure
+and cross-references. Divine Discourses gathers tools that support this kind
+of direct engagement, roots, words, patterns, frequency, and
+structural markers, with provenance records on research claims so
+readers can see exactly what was checked and trace sources independently.
+
+### Three depth levels
+
+Every page on this site can be viewed at one of three depth levels.
+You choose your depth based on what you need in the moment.
+
+Simple
+
+?
+
+The reading layer. Verse text, word-by-word meanings,
+translations, and audio. No morphology tables, no annotations.
+Use this when you want to read without distraction.
+
+Study
+
+?
+
+The analytical layer. Adds word-by-word morphology, root links,
+related verses, and chronological period distribution. Use this
+when you want to understand how words work and how themes recur.
+
+Encyclopedic
+
+?
+
+The reference layer. Adds structural pattern notes and full
+provenance for every claim. Use this when you want to verify
+sources or understand where the data comes from.
+
+Change depth anytime using the gear icon in the bottom right, or
+press 1 , 2 , or 3 on any page. Your
+selection is saved in your browser, never sent anywhere. No
+tracking, no cookies.
+
+### Evidence status
+
+Research claims distinguish source inspection, computational
+reproduction, method dependence, and known limitations. The familiar
+dot remains a compact summary and citation control; it is not a claim
+that every dimension has been independently verified.
+
+●
+— Confirmed from a primary corpus or canonical edition. The source
+is named and linked.
+
+○
+— Awaiting triangulation from a second independent source before
+being marked Verified.
+
+~
+— The counting method or interpretation has known variation across
+sources. See the source detail for the specific approach used.
+
+The Validation page is the canonical
+definition of these labels and of the process that assigns them. You
+can use its prompts to triangulate any Pending claim against outside
+tools and references of your choice, or to surface the nuance in any
+Nuanced claim.
+
+### Sources
+
+All data on this site comes from open, primary sources.
+
+Quranic Arabic Corpus v0.4 (Language Research
+Group, University of Leeds, 2009–2017, GNU GPL) for word
+morphology, root tagging, and grammatical analysis.
+corpus.quran.com
+
+Quranic Universal Library (Tarteel AI / Quran.com
+Foundation, 2024) for structured verse data and corpus indexing.
+qul.tarteel.ai
+
+Quran.com Foundation Content API v4 (Quran.com
+Foundation, 2025) for translations, recitations, and metadata.
+api-docs.quran.foundation
+
+Mishkat Mutashābihāt corpus for verse-to-verse
+cross-references, drawn from 13 classical books of mutashābihāt
+scholarship.
+github.com/Alhassan777/Mishkat
+
+Full citations for all sources, including access dates and version
+numbers, are on the Sources page.
+
+The research and tooling behind this site may use software
+assistance, including language models, to locate candidate
+sources and check work. Everything published is verified by a
+person against the cited source; interpretations, translations,
+and glosses come only from the named human scholarship cited.
+
+### The text behind the numbers
+
+Two limits of the data deserve plain statement.
+○
+First: the Arabic text rendered here (the Tanzil Uthmani text) and
+the Leeds tokenization behind every count follow the reading of
+Ḥafṣ ʿan ʿĀṣim with the Kufan verse numbering — the reading used
+in most printed muṣḥafs today. The Qur'an has other canonical
+readings ( qirāʾāt ) that differ in places, so every count
+on this site is relative to this one reading; none is a count of
+"the Qur'an" independent of it.
+
+Second: the Leeds corpus's version 0.4 is its most recent release,
+and the project is no longer actively updated. Like any large
+annotation effort it contains imperfections, and assigning a root
+or lemma to a word — especially weak roots and hamza spellings —
+involves editorial judgment by its annotators. When this site
+marks a corpus-derived count Verified, that means the computation
+from the cited corpus is faithful and reproducible; the count
+inherits whatever imperfections the corpus itself carries.
+
+### Where the numbers come from
+
+None of the counts on this site are typed in. The scripts that
+produce them ship in the repository alongside the corpus data, and
+every figure quoted in a page's prose is bound to the generated
+dataset, so a page cannot drift from the data behind it: an
+automated check fails the build if it does. Run any generator
+twice and the output is identical, which is what makes an
+independent recomputation possible. The
+Datasets page lists each dataset and
+the script that builds it.
+
+One boundary is worth naming, because counting can look like
+claiming. The recurring-phrase index records that a sequence of
+words repeats and where. Whether such repetition amounts to
+formulaic composition in the oral-formulaic sense is a scholarly
+question, argued at length by Bannister (2014, on
+Sources ); the site counts the
+recurrence and leaves the argument to the literature.
+
+### How themes are built
+
+Each theme on the Themes page begins with
+a small set of triliteral roots whose core dictionary senses relate
+to it. That grouping is an editorial choice, labeled Nuanced
+wherever it appears. What follows is computed: the site counts
+where those roots occur, ranks the passages in which the theme's
+vocabulary clusters, and links them. A theme can live in verses
+that use none of its words, and any of those words can appear
+outside the theme, so a theme is a gateway into reading rather
+than an index of where an idea is present.
+
+### How this compares to other Qur'an tools
+
+Many excellent Qur'an apps and websites exist, and this site links
+to several of them. The differences below are matters of design
+policy, stated so you can decide whether they matter for your own
+study — not claims that other tools are wrong to choose otherwise.
+
+Common elsewhere
+Here
+
+Built-in commentary telling you what a verse means
+
+No commentary of the site's own. The site computes structure
+and cites published scholarship; what a verse
+means is left between you and the text. Khan's
+readings appear only as verbatim transcriptions from his
+published books, with citations.
+
+An assistant that answers questions in its own words
+
+A deterministic Ask box: pattern-matching that routes your
+question to the right tool. The site never answers in its
+own voice.
+
+Counts and claims presented without provenance
+
+Every research claim carries a badge — ● Verified, ○
+Pending, ~ Nuanced — that decomposes into named evidence
+dimensions you can check yourself on the
+Validation page.
+
+Accounts, sync, analytics, engagement mechanics
+
+No accounts, no tracking, no streaks. Notes and preferences
+stay in your browser; the only network requests fetch the
+text, translations, and audio you ask for.
+
+Verse-by-verse browsing as the primary frame
+
+The surah as one discourse is the primary frame, following
+the coherence-based approach described above — with
+structural evidence (roots, recurring phrases, rhyme,
+cross-references) gathered per surah in the
+Dossier .
+
+### A suggested first visit
+
+If this is your first time using Divine Discourses, here is a walkthrough
+that touches each major feature.
+
+Open al-Fatihah 1:1 and read the
+basmala in multiple translations at Simple depth.
+
+Switch to Study depth (gear icon in bottom right) and reload the same
+verse to see word-by-word morphology with root links.
+
+Visit the Roots page and click any row to
+see how that root distributes across the Meccan and Medinan periods.
+
+Use Compare to overlay several roots at
+once — try faith (a-m-n), works (ʿ-m-l), and righteousness (ṣ-l-ḥ)
+together to see the verses where all three meet. Compare can also
+set passages, or whole surahs, side by side on their corpus
+fingerprints.
+
+Visit Patterns to see grammatical shift
+(iltifat) and recurring formulations (mutashabihat) at work in the
+text.
+
+When you have completed the first visit, try the
+coherence-reading exercise on Surah al-Asr . This is the method this site honors, demonstrated live on the
+shortest meaningful surah.
+
+===== Guided study paths (https://divinediscourses.org/paths) =====
+
+## Study paths
+
+Guided walkthroughs that chain the site's tools into a method. Each
+step links to a live page; nothing here adds interpretation — the
+paths only order the evidence.
+
+### Path 1 · Follow a root through the Qur'an
+
+Take r-ḥ-m (mercy) from a single verse to its full corpus
+distribution.
+
+Read it in context:
+al-Fatihah 1:1 — two of the
+four words carry the root.
+
+Open the root's profile:
+r-ḥ-m on Roots — 339
+occurrences, derived forms, Makki/Madani split, every verse
+reference.
+
+See what it travels with: the co-occurring roots section on the
+same page — gh-f-r (forgiveness) is its most frequent verse-level
+companion.
+
+Compare passages where it clusters:
+al-Fatihah vs the opening of Maryam
+in Compare's Passages mode.
+
+### Path 2 · Profile a surah before reading it
+
+Build a structural picture of a surah from the data, then read it
+with that frame.
+
+On Navigate , open the Profile panel
+for a surah (try 103, al-'Asr): verse count, distinct roots, top
+roots, chronological period.
+
+Check its length band against the era pattern on
+Numbers (verse length by period).
+
+Read it end to end on
+Read at Study depth
+(press 2 ) with word-by-word morphology on.
+
+Test your structural reading in the
+al-'Asr outline exercise .
+
+### Path 3 · Trace a claim to its source
+
+The site's core discipline: never take a number on trust —
+including ours.
+
+Pick a claim on Numbers , for example
+the top-five root frequencies.
+
+Click its badge (●): the popover shows the full Chicago-style
+citation of the source.
+
+Follow the source entry on Sources to
+the primary corpus at corpus.quran.com and check one number
+yourself.
+
+Run a triangulation prompt from
+Validation against an independent
+tool, and see whether it converges on the same figure.
+
+### Path 4 · Study a theme end to end
+
+Move from a life theme to the passages where its vocabulary
+clusters, and form your own reading of what they agree on.
+
+Pick a gateway on Themes (try
+Forgiveness ) and note its
+root families — the gateway is lexical, a starting point rather
+than an index.
+
+Open two or three of its key passages on the Read page and read
+each whole discourse around the verse, not just the verse
+itself.
+
+Use the theme card's "top two passages side by side" link to
+see, in Compare, which roots the passages actually share.
+
+Follow the theme's most frequent root into
+Roots : where else does it cluster, and
+in which period? Write down what the passages agree on and
+where they differ.
+
+### Path 5 · Test a Khan outline against the site's own computed signals
+
+Propose your own structure, reveal Dr. Khan's published outline,
+then see what the site's mechanical tools find — or don't find —
+in the same surah.
+
+Work through the
+al-'Asr outline exercise :
+propose your own verse-by-verse structure before revealing
+Khan's.
+
+Open the same surah's Dossier .
+Its Structure section shows the site's own computed discursive
+pivots, rhetorical features, and ring-composition test for this
+exact surah; its Rhyme and Formulas sections show the
+verse-ending pattern and recurring-phrase data. Not every
+mechanical detector finds something in every surah — an empty
+section is itself a datum, not a gap.
+
+Follow whichever signal caught your eye to its full method and
+corpus-wide result on Patterns .
+
+Return to Read at Study
+depth and write in the discovery worksheet where Khan's outline
+and the site's computed signals agree, diverge, or simply
+don't overlap.
+
+Step checkmarks are saved in this browser only and are cleared by
+the settings panel's "Clear preferences".
+
+===== Glossary of terms used here (https://divinediscourses.org/glossary) =====
+
+## Glossary
+
+Specialist terms used across the site, with plain-language
+definitions. Terms with a dotted underline on any page reveal their
+definition on hover or tap.
+
+Ayah آية
+
+A verse of the Qur'an. The plural is ayat. The same word also
+means "sign."
+
+Basmala بسملة
+
+The opening formula bismillah al-rahman al-rahim ("In the
+name of God, the Most Merciful, the Especially Merciful"). It
+heads 113 of the 114 surahs and appears mid-surah once, at 27:30.
+
+Betweenness centrality
+
+How often a node lies on the shortest paths between other nodes in a co-occurrence network. A statistical position measure, strongly influenced by raw frequency; it does not indicate importance.
+
+Buckwalter
+
+A one-to-one Latin-character transliteration system for Arabic,
+used by the Leeds Quranic Arabic Corpus to encode the consonantal
+and vowel structure of every word in machine-readable form.
+
+Deterministic
+
+Producing the same output for the same input, every time, by
+following fixed rules. The Ask box is deterministic:
+pattern-matching routes your question to a tool, and nothing
+composes an answer on the site's behalf.
+
+Dice coefficient
+
+The Dice coefficient: the overlap between two words' sets of verses, from 0 (never together) to 1 (always together).
+
+Discourse
+
+As used on this site: a surah read as one connected address
+(khitab) from speaker to hearer — a single speech with a
+beginning, development, and close — rather than a loose
+collection of verses. The site's name, "Divine Discourses,"
+carries Khan's translation of khitab.
+
+Eigenvector centrality
+
+Eigenvector centrality: a node scores high when its neighbors also score high, meaning proximity to network hubs. A statistical position measure; it does not indicate importance.
+
+Evidence dimensions
+
+The separately recorded aspects of a research claim's support
+on this site: what source was checked, whether the computation
+was reproduced, what the result depends on, and its known
+limits. A claim's badge summarizes these; the
+Validation page decomposes them.
+
+Hapax
+
+From hapax legomenon (Greek: "said once"). A word or form
+occurring exactly once in a corpus. The Qur'an has roughly 12,000
+surface-form hapax legomena and roughly 395 root-level hapax.
+
+Iltifat التفات
+
+Grammatical shift, especially person or tense, treated by
+classical Arabic rhetoricians as a deliberate rhetorical device
+rather than a textual irregularity.
+
+Juz جزء
+
+One of the 30 roughly equal parts the Qur'an is traditionally
+divided into (plural ajzāʾ ; also called para ),
+so that reading one each day completes the Qur'an in a month. Unlike
+a surah, a juz can begin and end in the middle of a chapter. The
+boundaries are a reading convention, not part of the revealed text.
+Browse them on Navigate .
+
+Keyness
+
+A score (Dunning's G2) for how distinctively a word belongs to one section of the text compared with the rest. High keyness means the word's frequency there is statistically unusual, not that the word is important.
+
+Khitab خطاب
+
+Direct address from speaker to hearer. In the
+Farahi-Islahi-Mir-Khan tradition that shapes this site, khitab is
+treated as the proper unit of Qur'anic reading. The site's name,
+"Divine Discourses," renders God's khitab to the hearer.
+
+Lemma
+
+The dictionary or canonical form of a word. In Arabic morphology,
+lemmas are derived from triliteral roots according to fixed
+patterns.
+
+LLR (log-likelihood ratio)
+
+Log-likelihood ratio (Dunning's G2): a score for how surprising it is that two words share verses as often as they do, given how often each occurs overall. Higher means stronger evidence the pairing is not chance. It measures distribution, not meaning.
+
+Morphology
+
+The word-form analysis of Arabic: root, stem pattern, prefixes,
+suffixes, tense, mood, person, number, and inflection. The Leeds
+Quranic Arabic Corpus provides this analysis for every word in the
+Qur'an.
+
+Mutashabihat متشابهات
+
+Phrases or formulations that recur across the Qur'an with small
+variations. The classical science of tracking these parallels is a
+subfield of 'ulum al-Qur'an .
+
+Nazm نظم
+
+Arabic for "coherence" or "structural order." A method of Qur'anic
+exegesis that reads each surah as a unified composition with
+deliberate thematic structure, developed by Farahi, Islahi, Mir,
+and Khan.
+
+Nuanced
+
+A claim that is defensible but depends on a specific counting
+rule, classification scheme, or interpretive choice. Both the
+headline figure and the underlying ambiguity are presented.
+
+Pending
+
+A claim awaiting triangulation. Useful as a working figure but not
+yet verified against primary sources.
+
+Period distribution
+
+How a word or root's occurrences distribute across the Meccan and
+Medinan revelation periods, based on a chosen chronology such as
+the Cairo 1924 edition or Nöldeke-Schwally.
+
+PMI (pointwise mutual information)
+
+Pointwise mutual information: how much more often two words appear together than chance would predict. Rare, tightly paired words score high; very frequent words score low even when they co-occur often.
+
+Provenance
+
+Where a figure or claim comes from: the named source, edition,
+and method it can be traced to. On this site every research
+claim carries its provenance — a citation you can follow and a
+badge stating how far it has been checked.
+
+Root
+
+The three-letter (occasionally four-letter) consonantal skeleton
+from which Arabic words are derived. Every noun and verb in the
+Qur'an fits a root into fixed morphological patterns; the same
+root can carry a family of related meanings.
+
+Surah سورة
+
+A chapter of the Qur'an. There are 114, varying in length from 3
+verses to 286.
+
+Surface form
+
+A distinct written form of a word as it actually appears in the
+text, before it is reduced to its dictionary form. The same
+lemma can appear as several
+surface forms (singular, plural, with attached prefixes). The
+Qur'an has 18,993 distinct surface forms across its 77,429
+word-units .
+
+Tafaseer
+
+Plural of tafsir.
+
+Tafsir تفسير
+
+Qur'anic exegesis or commentary. A scholarly genre going back to
+the earliest generations of Islam.
+
+Token (word-unit)
+
+The smallest piece the corpus counts — this site calls it a
+word-unit in plain language. Arabic often writes
+several tokens as a single word: bismi ("in the name
+of") is one written word but two tokens ( bi +
+ism ). That is why the Qur'an has 77,429 word-units but
+far fewer written words. Counts of nouns, verbs, and verse length
+on Numbers are measured in word-units,
+not written words.
+
+Triangulate
+
+To cross-check a claim against two or more independent sources.
+Agreement across sources moves a claim from Pending to Verified;
+disagreement keeps it Nuanced with the disagreement recorded. See
+Validation for the prompts.
+
+TTR (type-token ratio)
+
+Type-token ratio: distinct word forms divided by total words, a measure of vocabulary variety. Smaller samples score higher mechanically, so the trend matters more than the absolute values.
+
+Verified
+
+A claim on this site backed by direct corpus data, primary text,
+or peer-reviewed scholarship. The strongest confidence label.
+
+Word-unit
+
+This site's plain-language name for a corpus
+token — the smallest counted
+piece of the text. Used in place of "word" wherever a count could
+otherwise be mistaken for written words.
+
+This glossary is also available inline throughout the site. Technical
+terms are marked with a dotted underline and reveal their definition
+on hover or tap. Categories: Method (nazm, khitab, tafsir,
+mutashabihat, iltifat, triangulate). Structure (surah, ayah, basmala).
+Data (root, morphology, lemma, hapax, Buckwalter, period
+distribution). Claim labels (Verified, Nuanced, Pending).
+
+===== Watch short walkthroughs (https://divinediscourses.org/watch) =====
+
+## Watch
+
+Short walkthroughs of how to study with this site — each under two
+minutes.
+
+Every video shows the live site, uses human narration, and includes
+captions. No stock footage or music. Videos are hosted here, so
+watching sends nothing to a third party.
+
+### How to trust this site — in 90 seconds
+
+Planned — not yet recorded.
+
+### Find your theme — from a life question to the text
+
+Planned — not yet recorded.
+
+### Train your eye — the exercises
+
+Planned — not yet recorded.
+
+Prefer text? Everything the videos cover is written down:
+How to use ,
+How it works , and
+Validation .
+
+===== Sources, cited in full (https://divinediscourses.org/sources) =====
+
+## Sources
+
+Every dataset, translation, scholarly work, and tool that Divine Discourses
+draws on, with license and verification status.
+
+Entries follow the Chicago Manual of Style, bibliography form. Where a
+detail (edition, place, or year) could not be confirmed against the
+work itself, it is omitted rather than guessed. Entries whose data or
+tooling the site actually consumes carry a clickable ● badge that
+opens the machine-readable registry record; purely bibliographic
+entries are verified by the citation itself and carry no dot. Translations rendered
+on the Read page are served through the alquran.cloud API; the print
+editions cited are the originals of those renderings.
+
+### Primary text
+
+Tanzil Project. Tanzil Quran Text , Uthmani script. 2007–.
+https://tanzil.net/ .
+Distributed under CC BY-ND 3.0.
+●
+
+King Fahd Complex for the Printing of the Holy Qur'an.
+Mushaf al-Madinah . Madinah: King Fahd Complex.
+
+### Morphology and lexicography
+
+Dukes, Kais. The Quranic Arabic Corpus , version 0.4. Leeds:
+Language Research Group, University of Leeds, 2009–2017.
+https://corpus.quran.com/ . GNU GPL. Morphological annotation of all 77,429 word-tokens of
+the Qur'an; bundled in this site as per-surah JSON in
+data/morphology/ and aggregated in
+data/roots-summary.json . Version 0.4 is the corpus's
+most recent release and the project is no longer actively
+updated; its root and lemma assignments involve annotator
+judgment (notably weak roots and hamza spellings), and counts
+derived from it inherit any annotation imperfections it carries.
+●
+
+Lane, Edward William. An Arabic-English Lexicon . 8 vols.
+London: Williams and Norgate, 1863–1893. Public domain.
+
+Penrice, John.
+A Dictionary and Glossary of the Kor-ân . London: Henry S.
+King, 1873. Public domain.
+
+Hava, J. G.
+Arabic-English Dictionary for the Use of Students . Beirut:
+Catholic Press, 1899.
+
+Wehr, Hans. A Dictionary of Modern Written Arabic . Edited
+by J Milton Cowan. 4th ed. Wiesbaden: Otto Harrassowitz, 1979.
+
+Farahi, Hamiduddin. Mufradat al-Qur'an .
+●
+
+### Patterns and cross-references
+
+Alhassan (Threadwork). Mishkat Mutashābihāt Corpus . GitHub
+repository, accessed July 2026.
+https://github.com/Alhassan777/Mishkat . Verse-to-verse cross-references drawn from 13 classical Islamic
+books of mutashābihāt scholarship (similar and structurally parallel
+verses as identified by classical scholars); 1,905 verse nodes,
+3,294 directed edges, expanded to a bidirectional index. License
+pending: none published in the source repository.
+●
+Note: the QurSim corpus (Sharaf and Atwell, LREC 2012) was
+previously cited here. Its canonical source at
+corpus.quran.com/qursim.jsp is no longer accessible; Mishkat
+serves the same function from a classical-scholarship
+basis.
+
+Tarteel AI and Quran.com Foundation. "Mutashabihat Dataset," 2024.
+Quranic Universal Library . Approximately 5,277 entries.
+https://qul.tarteel.ai/ .
+●
+
+Tarteel AI and Quran.com Foundation. "Similar Ayah Dataset."
+Quranic Universal Library . Approximately 4,001 pairs.
+●
+
+### Translations rendered on this site
+
+Saheeh International.
+The Qur'ān: Arabic Text with Corresponding English Meanings .
+Jeddah: Abul-Qasim Publishing House, 1997.
+
+Pickthall, Marmaduke.
+The Meaning of the Glorious Koran . New York: A. A. Knopf,
+1930. Public domain.
+
+Ali, Abdullah Yusuf.
+The Holy Qur'ān: Text, Translation and Commentary . Lahore:
+Shaikh Muhammad Ashraf, 1934. Public domain.
+
+Mawdudi, Sayyid Abul A'la.
+Towards Understanding the Qur'ān . Translated and edited by
+Zafar Ishaq Ansari. Leicester: Islamic Foundation, 1988–.
+
+Shakir, M. H. The Qur'an . Elmhurst, NY: Tahrike Tarsile
+Qur'an.
+
+Arberry, Arthur J. The Koran Interpreted . 2 vols. London:
+George Allen & Unwin, 1955.
+
+Ali, Ahmed. Al-Qur'ān: A Contemporary Translation .
+Princeton, NJ: Princeton University Press, 1988.
+
+Daryabadi, Abdul Majid.
+The Glorious Qur'an: Text, Translation and Commentary .
+Leicester: Islamic Foundation, 2001.
+
+Qaribullah, Hasan, and Ahmad Darwish. English translation of the
+Qur'an, rendered via the alquran.cloud API.
+
+al-Hilali, Muhammad Taqi-ud-Din, and Muhammad Muhsin Khan.
+The Noble Qur'an: English Translation of the Meanings and
+Commentary . Madinah: King Fahd Complex for the Printing of the Holy Qur'an.
+
+Khan, Ahmed Raza. Kanz al-Iman (1910), English rendering
+via the alquran.cloud API.
+
+Itani, Talal. Quran in English . Dallas: ClearQuran, 2012.
+
+Khan, Wahiduddin. English translation of the Qur'an, rendered via
+the alquran.cloud API.
+
+Jalandhry, Fateh Muhammad. Urdu translation of the Qur'an,
+rendered via the alquran.cloud API.
+
+Khan, Ahmed Raza. Kanz al-Iman (1910), Urdu original,
+rendered via the alquran.cloud API.
+
+Mawdudi, Sayyid Abul A'la. Urdu translation of the Qur'an
+( Tafheem-ul-Quran ), rendered via the alquran.cloud API.
+
+Junagarhi, Muhammad. Urdu translation of the Qur'an, rendered via
+the alquran.cloud API.
+
+al-Qadri, Tahir ul-. Urdu translation of the Qur'an, rendered via
+the alquran.cloud API.
+
+Jawadi, Syed Zeeshan Haider. Urdu translation of the Qur'an,
+rendered via the alquran.cloud API.
+
+Ali, Ahmed. Urdu translation of the Qur'an, rendered via the
+alquran.cloud API. (Distinct from the English Ahmed Ali
+translation cited above.)
+
+Najafi. Urdu translation of the Qur'an, rendered via the
+alquran.cloud API.
+
+Khan, Muhiuddin. Bengali translation of the Qur'an, rendered via
+the alquran.cloud API.
+
+Hoque, Zohurul. Bengali translation of the Qur'an, rendered via
+the alquran.cloud API.
+
+Basmeih, Abdullah Muhammad. Malay translation of the Qur'an,
+rendered via the alquran.cloud API.
+
+Kementerian Agama Republik Indonesia. Indonesian translation of
+the Qur'an, rendered via the alquran.cloud API.
+
+Hamidullah, Muhammad. French translation of the Qur'an, rendered
+via the alquran.cloud API.
+
+Cortés, Julio. Spanish translation of the Qur'an, rendered via
+the alquran.cloud API.
+
+Asad, Muhammad. The Message of the Qur'ān . Gibraltar: Dar
+al-Andalus, 1980.
+
+The Bridges' Translation of the Ten Qira'at of the Noble
+Qur'an . Translated by Fadel Soliman and others. Bloomington, IN:
+AuthorHouse, 2020.
+
+### Classical tafsir lineage
+
+al-Tabari, Muhammad ibn Jarir (d. 310/923).
+Jāmiʿ al-bayān ʿan taʾwīl āy al-Qurʾān .
+
+al-Zamakhshari, Mahmud ibn ʿUmar (d. 538/1144).
+al-Kashshāf ʿan ḥaqāʾiq ghawāmiḍ al-tanzīl .
+
+al-Razi, Fakhr al-Din (d. 606/1210).
+Mafātīḥ al-ghayb (al-Tafsīr al-kabīr) .
+
+al-Qurtubi, Muhammad ibn Ahmad (d. 671/1273).
+al-Jāmiʿ li-aḥkām al-Qurʾān .
+
+Ibn Kathir, Ismaʿil ibn ʿUmar (d. 774/1373).
+Tafsīr al-Qurʾān al-ʿAẓīm .
+
+al-Suyuti, Jalal al-Din (d. 911/1505).
+al-Itqān fī ʿulūm al-Qurʾān .
+
+al-Alusi, Mahmud (d. 1270/1854). Rūḥ al-maʿānī .
+
+Ibn ʿAshur, Muhammad al-Tahir (d. 1393/1973).
+al-Taḥrīr wa-l-tanwīr . Tunis: al-Dar al-Tunisiyya, 1984.
+
+al-Wahidi, ʿAli ibn Ahmad (d. 468/1075). Asbāb al-Nuzūl .
+Translated by Mokrane Guezzou. Amman: Royal Aal al-Bayt Institute
+for Islamic Thought, 2008.
+
+### Coherence-based reading
+
+Farahi, Hamiduddin. Mufradat al-Qur'an ;
+Niẓām al-Qur'an wa-taʾwīl al-furqān bi-l-furqān .
+●
+
+Islahi, Amin Ahsan. Tadabbur-i Qur'ān . 9 vols. Lahore:
+Faran Foundation.
+https://www.tadabbur-i-quran.org/ .
+
+Mir, Mustansir.
+Coherence in the Qur'ān: A Study of Iṣlāḥī's Concept of Naẓm in
+Tadabbur-i Qur'ān . Indianapolis: American Trust Publications, 1986. ISBN
+9780892590650. Independent scholarly corroboration that Islahi's
+method, and the coherence-based reading school generally,
+descends from Farahi's Mufradat and Niẓām — the second source
+that moved the Farahi entry above from Pending to Verified.
+
+Mir, Mustansir. "Thematic and Structural Coherence in the Qur'ān."
+PhD diss., University of Michigan, 1983.
+
+Saleem, Shehzad, and the al-Mawrid Institute.
+https://www.al-mawrid.org/ .
+
+Ghamidi, Javed Ahmad.
+https://www.ghamidi.org/ .
+
+### Khan's works and lineage
+
+Dr. Irfan Ahmad Khan (1931–2018) directed the Association of Quranic
+Understanding and is the principal influence behind this site. His two
+English-language works are listed below.
+
+Khan, Irfan Ahmad.
+Reflections on the Qur'an: Understanding Surahs al-Fatihah and
+al-Baqarah . Markfield, Leicestershire: Islamic Foundation, 2005. The first
+volume of Khan's English-language tafsir, covering the opening two
+surahs.
+Kube / Islamic Foundation UK .
+
+Khan, Irfan Ahmad.
+An Exercise in Understanding the Qur'an: An Outline Study of the
+Last Thirty Divine Discourses (Surah 85 to Surah 114) . Foreword by Mustansir Mir. Chicago: Association of Quranic
+Understanding, 2013. 213 pp. ISBN 9781567447736. Khan's
+outline-structure methodology applied to the final thirty surahs.
+Available through AQU and major Islamic bookstores.
+
+Khan, Irfan Ahmad.
+An Introduction to Understanding the Qur'an with Examples .
+Compiled by Tanveer Azmat. Chicago: Association for Qur'anic
+Understanding, 2011. Two methodological chapters followed by six
+worked surahs (96, 103, 107, 108, 109, 112) — each with the Arabic
+text, a word-by-word gloss, an outline structure, and an
+interpretation. Distributed by the AQU at
+quranicunderstanding.com . The outline exercises for surahs 96, 107, 108, 109, and 112 and
+the word-by-word English glosses for all six surahs (the Meaning
+column on the reading page) on this site are transcribed from this
+volume.
+
+### Recommended reading from the Association of Quranic Understanding
+
+These are works Dr. Khan commended to readers through the Association
+of Quranic Understanding, the organization he directed. The full list
+is published at
+quranicunderstanding.com/quranic-resources . Inclusion below means the work appears on AQU's curated
+bibliography; it does not mean the Divine Discourses site uses it as a data
+source.
+
+#### Translations
+
+Ali, Abdullah Yusuf. The Meaning of the Holy Qur'an .
+Beltsville, MD: Amana Publications.
+
+Mawdudi, Sayyid Abul Ala.
+Towards Understanding the Qur'an . Leicester: Islamic
+Foundation.
+
+Pickthall, M. M. The Meaning of the Glorious Qur'an .
+Rendered into modern standard English by Arafat Al-Ashi.
+Beltsville, MD: Amana Publications.
+
+#### Tafaseer (Qur'anic exegesis)
+
+Ibn Kathir, Abu al-Fida Ismail. Tafsir Ibn Kathir . 10 vols.
+Riyadh: Darussalam Publications.
+
+Qutb, Sayyid. In the Shade of the Qur'an . Translated by
+Adil Salahi and Ashur Shamis. Leicester: Islamic Foundation.
+
+Khan, Irfan Ahmad. Reflections on the Qur'an (first 2
+chapters). Leicester: Islamic Foundation, 2005.
+
+Khan, Irfan Ahmad.
+An Exercise in Understanding the Qur'an . Foreword by
+Mustansir Mir. Chicago: Association of Quranic Understanding, 2013.
+ISBN 9781567447736.
+
+Mawdudi, Sayyid Abul Ala. Tafheem ul-Qur'an .
+
+#### Qur'an guide (methodology and coherence)
+
+Mir, Mustansir. Coherence in the Qur'an . Indianapolis:
+American Trust Publications.
+
+Nadwi, Sayyid Abul-Hasan Ali.
+Guidance from the Holy Qur'an . Translated by Abdur Raheem
+Kidwai. Leicester: Islamic Foundation.
+
+Mawdudi, Sayyid Abul Ala. Four Key Concepts of the Qur'an .
+Translated and edited by Tariq Jan. Leicester: Islamic Foundation.
+
+Von Denffer, Ahmad.
+Ulum al-Qur'an: An Introduction to the Sciences of the
+Qur'an . Leicester: Islamic Foundation.
+
+#### Qur'anic Arabic studies
+
+Behlim, S. A. Qur'an Made Easy . Chicago: Kazi
+Publications.
+
+Abdur Rahim, V.
+Arabic Course for English-Speaking Students . 3 vols.
+Leicester: UK Islamic Academy.
+
+Muhammad, Ibrahim. Arabic Tutor . 4 vols. Albalagh
+Bookstore.
+
+Hamid, Abdul Wahid. Access to Qur'anic Arabic . 3 books + 4
+CDs. London: Muslim Education and Literary Services.
+
+Nadwi, Abdullah Abbas.
+Learn the Language of the Holy Qur'an . Chicago: Iqra
+International Educational Foundation.
+
+Nadwi, Abdullah Abbas. Vocabulary of the Holy Qur'an .
+Chicago: Iqra International Educational Foundation.
+
+Madinah Arabic . Free online course at
+madinaharabic.com .
+
+ʿAbd al-Baqi, Muhammad Fu'ad.
+Al-Muʿjam al-Mufahras li-Alfāẓ al-Qurʾān al-Karīm . The
+classical concordance of Qur'anic words; the pre-digital ancestor of
+the computational frequency counts on the
+Roots page.
+
+The full AQU resources page is available at
+quranicunderstanding.com/quranic-resources .
+
+### Academic chronology and history
+
+Nöldeke, Theodor, and Friedrich Schwally.
+Geschichte des Qorāns . 2nd ed. 3 vols. Leipzig:
+Dieterichsche Verlagsbuchhandlung, 1909–1938.
+
+Bell, Richard.
+The Qur'ān: Translated, with a Critical Re-arrangement of the
+Surahs . 2 vols. Edinburgh: T. & T. Clark, 1937–1939.
+
+Watt, W. Montgomery. Bell's Introduction to the Qur'ān .
+Edinburgh: Edinburgh University Press, 1970.
+
+Wansbrough, John.
+Quranic Studies: Sources and Methods of Scriptural
+Interpretation . Oxford: Oxford University Press, 1977.
+
+Reynolds, Gabriel Said, ed.
+The Qur'ān in Its Historical Context . London: Routledge,
+2008.
+
+Sinai, Nicolai.
+The Qur'an: A Historical-Critical Introduction . Edinburgh:
+Edinburgh University Press, 2017.
+
+Sadeghi, Behnam, and Mohsen Goudarzi. "Ṣanʿāʾ 1 and the Origins of
+the Qurʾān." Der Islam 87, no. 1–2 (2012): 1–129.
+
+McAuliffe, Jane Dammen, ed. Encyclopaedia of the Qurʾān . 6
+vols. Leiden: Brill, 2001–2006.
+
+Shah, Mustafa, and Muhammad Abdel Haleem, eds.
+The Oxford Handbook of Qur'anic Studies . Oxford: Oxford
+University Press, 2020.
+
+International Qur'anic Studies Association (IQSA).
+https://iqsaweb.org/ .
+
+### Rhetoric and stylistics
+
+Abdel Haleem, Muhammad. "Grammatical Shift for Rhetorical Purposes:
+Iltifāt and Related Features in the Qur'ān."
+Bulletin of the School of Oriental and African Studies 55,
+no. 3 (1992): 407–32.
+
+Abdel Haleem, Muhammad.
+Understanding the Qur'an: Themes and Style . London: I. B.
+Tauris, 1999.
+
+Neuwirth, Angelika.
+Studien zur Komposition der mekkanischen Suren . Berlin:
+Walter de Gruyter, 1981.
+
+Cuypers, Michel.
+The Composition of the Qur'an: Rhetorical Analysis .
+Translated by Jerry Ryan. London: Bloomsbury Academic, 2015.
+
+Bannister, Andrew G.
+An Oral-Formulaic Study of the Qur'an . Lanham, MD:
+Lexington Books, 2014. ISBN 9780739183571. Cited as context for
+this site's recurring-phrase index: the index records the
+mechanical fact of recurrence; whether recurrence constitutes
+formulaic composition is the scholarly question this book
+argues.
+
+### APIs and digital tools
+
+Quran.com Foundation.
+Quran.com Foundation Content API , v4. 2025.
+https://api-docs.quran.foundation . Used for per-surah Makki/Madani classification (revelation-place
+field, /chapters endpoint); results committed to
+data/surah-meta.json with the source string recorded
+inside the file.
+●
+
+Quran.com Foundation.
+English word-by-word translation served by the Quran.com Content API , API v4, 2025.
+https://quran.com .
+Serves the word-by-word meanings shown beneath each verse on the
+Read page. Fetched per passage at runtime and cached only in the
+reader's browser; no word-translation text is bundled in this
+repository, and copyright remains with the translation's rights
+holders. A word-by-word gloss is a translator's choice of one
+English word for one Arabic word, so it is labeled Nuanced
+wherever it renders.
+~
+
+Islamic Network. AlQuran.cloud API , v1, 2024.
+https://alquran.cloud/api . Free, no authentication. Serves verse text and the translation
+renderings on the Read page.
+●
+
+Islamic Network. Recitation audio CDN , per-ayah MP3,
+multiple reciters.
+https://cdn.islamic.network . Serves the recitation audio on the Read and Replay pages; the
+reciter is chosen from the microphone button beside each verse.
+●
+
+Tarteel AI and Quran.com Foundation.
+Quranic Universal Library (QUL) , 2024.
+https://qul.tarteel.ai/ .
+●
+
+Tarteel AI.
+https://tarteel.ai/ .
+
+### Complementary projects (not directly called)
+
+Quran.com . The canonical online reader, with audio,
+translations, and tafsir.
+quran.com . Visitors
+may use it for deeper study alongside this site.
+
+### Citation badge component
+
+Every statistic on this site carries one of three claim badges:
+
+●
+Verified — confirmed from the primary source cited.
+Where the badge is attached to a statistic, clicking it opens the
+full citation (this example opens the Leeds corpus citation). On
+this Sources page the citation is the entry itself.
+
+○
+Pending — sourced but awaiting a second independent
+confirmation.
+
+~
+Nuanced — defensible but dependent on a specific
+counting rule, classification scheme, or interpretive choice; use
+with the linked note, which states the dependency.
+
+The badge component is implemented in
+assets/cite-badge.js (plain vanilla JS, no dependencies).
+Add
+<script src="assets/cite-badge.js"></script>
+to any page and badges with data-source-ids attributes
+will show click-to-expand citation popovers sourced from
+data/sources.json .
+
+### Editorial policy
+
+Polemic sources are not used. The "scientific miracles" genre is
+referenced for context, not as evidence.
+
+Anonymous video or blog content is not cited.
+
+The site treats Khan as its principal influence without placing him
+in any single school.
+
+===== How each claim is validated (https://divinediscourses.org/validation) =====
+
+Evidence before confidence
+
+## Validation methods
+
+A single “verified” label can hide important differences. This site
+records whether a source was inspected, whether a computation was
+reproduced, whether the result depends on a corpus or classification,
+and what its known limits are. These dimensions show what was checked
+without claiming more certainty than the evidence supports.
+
+Source check Was the cited artifact itself inspected?
+
+Reproduction Can the result be rerun from named inputs and code?
+
+Dependency Would another corpus, counting rule, or chronology change it?
+
+Limits What does this evidence not establish?
+
+## How we verify: worked examples
+
+Each example is joined to a canonical claim record. Open a record to
+inspect its stable ID, derivation, and limitations; click its dot to
+inspect the bibliographic source records.
+
+### ● Verified · top five roots
+
+a-l-h (God, 2,851), q-w-l (say, 1,722), k-w-n (be, 1,390), r-b-b
+(Lord, 980), a-m-n (believe, 879).
+
+Source trace. Leeds Quranic Arabic Corpus, Kais
+Dukes 2009–2017, GPL-licensed. Dictionary interface at
+corpus.quran.com . Full top-10 with per-root citations on
+Numbers and
+Roots . One primary source; independent
+triangulation possible via any Qur'anic concordance.
+
+### ● Verified · Farahi's Mufradat and Niẓām
+
+Hamiduddin Farahi, Mufradat al-Qur'an and
+Niẓām al-Qur'an . Foundational to the coherence-based
+reading school.
+
+Source trace. Primary: Farahi's own
+Mufradat al-Qur'an and Niẓām al-Qur'an .
+Independent secondary corroboration: Mustansir Mir,
+Coherence in the Qur'an: A Study of Islahi's Concept of Nazm
+in Tadabbur-i Qur'an (Indianapolis: American Trust
+Publications, 1986, ISBN 9780892590650) — a scholarly monograph
+devoted to showing that Islahi's nazm method, and by extension
+the coherence-based reading school, descends directly from
+Farahi's Mufradat and Niẓām. Two independent sources agree; full
+citations on Sources .
+
+### ~ Nuanced · y-w-m (day)
+
+Root y-w-m occurs 405 times under the Leeds corpus's root
+annotation. Claims of 365 or 475 use different selections of
+surface and compound forms; they are not results reproduced here.
+
+Why it stays Nuanced. The 405 total is recomputed
+from the cited Leeds root annotations. The often-repeated 365 and
+475 totals use other, usually unstated selection rules; no inspected
+source or reproducible procedure for them is presently in this
+site's evidence record. They are mentioned only to show why the
+unit and inclusion rule must be declared, not as verified
+alternatives. Detail on
+Numbers .
+
+### ● Verified · mercy travels with forgiveness
+
+The root r-ḥ-m (mercy) co-occurs with gh-f-r (forgiveness) in 91
+verses — its most frequent verse-mate by a wide margin (its
+next-closest partner shares 37).
+
+Source trace. Counted from this site's bundled
+verse-level co-occurrence tables ( data/cooccurrence/ ),
+derived from the Leeds Quranic Arabic Corpus v0.4 — recomputable
+from the data we ship. r-ḥ-m and gh-f-r share 91 verses; r-ḥ-m's
+next-closest partner shares 37, and the pairing is also the top
+result from gh-f-r's side (91), so it is not an artefact of one
+root's raw frequency. The count is descriptive: it shows the two
+ideas are voiced together, not what any verse means. Open either
+root on Roots to see its co-occurrence
+network.
+
+### ● Verified · hapax legomena
+
+12,004 surface forms (out of 18,993 unique forms) occur exactly
+once in the Qur'an. 395 roots (out of 1,642 ) occur exactly once.
+
+Source trace. Computed directly from the Leeds
+Quranic Arabic Corpus v0.4 word-form and root tables, which are
+bundled in this site's own data/morphology/ files —
+so the claim is recomputable by anyone, from the data this site
+ships, without trusting us. Note what recomputability proves:
+that the figure is faithfully derived from the cited corpus.
+Its correctness inherits the corpus's own annotation accuracy
+(see the corpus note on
+How it works ). Published on
+Numbers at Study depth.
+
+### ● Verified · a two-source claim
+
+547 roots appear only in Meccan surahs; 198 appear only in
+Medinan surahs.
+
+Why two sources. This claim combines the Leeds
+corpus (which roots occur in which surahs) with the Cairo 1924
+edition's Meccan/Medinan classification. The badge cites both;
+click it to see the pair. A nuance rides along: a handful of
+surahs are classified differently in other traditions, so the
+boundary counts can shift by a few under other schemes — the
+claim on Numbers carries that note
+beside it.
+
+### ~ Nuanced · "this world" and "the hereafter"
+
+A popular claim holds that "this world" ( al-dunyā ) and
+"the hereafter" ( al-ākhira ) each occur exactly 115 times.
+At the root level the counts are not equal: d-n-w occurs 133 times
+and a-kh-r 250 times. The 115/115 parity holds only for particular
+surface forms under one counting rule.
+
+Why it stays Nuanced. The often-repeated "115
+each" figure counts specific surface forms (such as the definite
+al-dunyā and al-ākhira ) under one selection rule.
+At the level this site computes — the triliteral root — the counts
+differ: d-n-w appears 133 times and a-kh-r 250 times (a-kh-r also
+carries senses like "last" and "other"), both verified from the
+Leeds corpus and recomputable from
+data/roots-summary.json . We report the honest root
+numbers and note that a matched count depends entirely on which
+forms one chooses to count — the same caution the y-w-m example
+makes. This site does not endorse numerical-parity claims it
+cannot reproduce.
+
+## Triangulation prompts
+
+These prompts are optional discovery aids for locating sources or
+competing formulations. Their output must never become site content,
+a citation, or an authority. Inspect the primary artifact yourself,
+record its locator, and independently reproduce any computation.
+
+### Prompt 1: Verify a root count
+
+Using only verifiable academic sources (Quranic Arabic Corpus at corpus.quran.com, Tanzil text, Lane's Lexicon, Penrice's Dictionary of the Koran, or peer-reviewed Qur'anic studies journals), how many times does the triliteral root [INSERT ROOT, e.g., r-ḥ-m] appear in the Qur'an? Distinguish (a) root occurrences, (b) surface form occurrences if relevant, (c) any counting variation between sources. Cite each source. Do not estimate; if uncertain, say so.
+
+Copy prompt
+
+### Prompt 2: Verify a numerical claim
+
+The following claim about the Qur'an circulates widely: [INSERT CLAIM]. Investigate with academic rigor. (1) What counting rule does it use? (2) What do alternative counting rules yield? (3) What is the academic position, citing peer-reviewed sources? (4) Is the claim broadly accepted, or are there nuances? Provide direct citations.
+
+Copy prompt
+
+### Prompt 3: Verify Islahi-school content
+
+In Amin Ahsan Islahi's Tadabbur-i-Qur'an (Lahore: Faran Foundation), what is the stated 'amud (central axis) of Surah [INSERT NUMBER AND NAME]? Provide the Urdu phrasing if available, the English translation if accessible (e.g., Shehzad Saleem at al-Mawrid), and the volume and page reference.
+
+Copy prompt
+
+### Prompt 4: Verify chronology
+
+For Surah [INSERT NUMBER], what revelation order is assigned by each of: (1) Cairo 1924, (2) Nöldeke-Schwally 1909, (3) Bell 1937, (4) Sadeghi-Goudarzi 2012? List each ordering's position number and qualifications. Cite the source for each.
+
+Copy prompt
+
+### Prompt 5: Verify iltifat
+
+Does Qur'an [INSERT VERSE] contain an instance of iltifat (grammatical shift in person, number, addressee, tense, case, or structure)? If yes, describe and cite Abdel Haleem's 1992 BSOAS article or other peer-reviewed sources. If borderline, state that.
+
+Copy prompt
+
+Workflow. Use an assistant, catalog, or search engine
+only to locate candidate material. Then inspect the cited artifact,
+record precisely what it supports, reproduce computations from pinned
+inputs, and preserve disagreements. Assistant agreement is never a
+review stage and never changes a claim's evidence status.
+
+===== Datasets, documented for reuse (https://divinediscourses.org/datasets) =====
+
+## Datasets — take the data, check the work
+
+Every number on this site is computed from data that ships with the
+site. This page documents each dataset for reuse: what it contains,
+the script that generates it, its license, and a direct download.
+
+Regeneration is deterministic: run any listed script twice and the
+output is byte-identical. The full pipeline and every generator
+live in the
+public repository
+(directory datasets are easiest to grab there — clone or use the
+per-directory links below). Licensing in one line: data derived
+from the Leeds corpus is GPL ; the Mishkat
+cross-references are license-pending (credited,
+removed on request); site code is MIT . Details in
+NOTICE.md .
+
+### Corpus foundation
+
+#### data/morphology/{1..114}.json
+
+Word-by-word morphology for all 77,429 tokens: per verse, an
+array of words, each
+{w, ar, root, lemma, pos, gloss} (word index,
+Uthmani surface form, Buckwalter root, Buckwalter lemma,
+part-of-speech tag; the per-token gloss field is empty — the
+word glosses that ship live separately in
+data/gloss/ , six surahs from Khan 2011).
+●
+
+Derived from Leeds Quranic Arabic Corpus v0.4 · GPL ·
+generator scripts/build-leeds.js ·
+sample (surah 1) ·
+full directory
+
+#### data/roots-summary.json · data/roots-index.json · data/roots-list.json
+
+The 1,642 roots: per root, Arabic and Latin display forms, total
+counts, per-chronology-period counts, first/last occurrence, and
+surface-form inventories.
+●
+
+GPL (Leeds-derived) · generators
+build-roots-index.py , build-roots-list.mjs ·
+roots-summary ·
+roots-index ·
+roots-list
+
+#### data/word-index.json
+
+Per-lemma index: Arabic form, root, POS, corpus frequency, and
+every verse reference.
+●
+
+GPL · generator build-word-index.mjs ·
+download
+
+### Per-root analytics
+
+#### data/root-analytics/{root}.json × 1,642
+
+Per root: total and Makki/Madani occurrence counts, per-surah
+distribution, surface-form inventory ( derivedForms ),
+derivational lemmaFamilies grouped by (lemma, POS),
+top co-occurring roots, and the full verse list.
+●
+
+GPL · generator build-root-analytics.mjs ·
+sample (r-ḥ-m) ·
+full directory
+
+#### data/cooccurrence/{root}.json × 1,642
+
+Verse-level co-occurrence per root: top partner roots overall and
+broken out by the four traditional revelation periods
+( byChronologyCoRoots ), with the shared-verse counts.
+●
+
+GPL · generator build-cooccurrence.mjs ·
+sample (r-ḥ-m) ·
+full directory
+
+#### data/association/{root}.json × 1,642
+
+Root-pair association statistics per root: the top 25 partners
+by log-likelihood ratio, each with shared-verse count (k11),
+PMI, Dice, and LLR, plus overall normalized frequency. Shared
+formulas and thresholds live once in
+association/methods.json .
+●
+
+GPL · generator compute-association-stats.mjs ·
+sample (r-ḥ-m) ·
+methods ·
+full directory
+
+#### data/network/{root}.json × 1,642 · heatmap.json
+
+Precomputed, deterministic radial layouts for each root's
+association ego network (static x/y coordinates, no browser
+layout), plus the top-40-roots-by-114-surahs density matrix
+behind the Numbers page heatmap.
+●
+
+GPL · generator compute-network-layout.mjs ·
+sample (r-ḥ-m) ·
+heatmap ·
+full directory
+
+#### data/centrality/{root}.json × 1,642
+
+Network centrality per root over the association graph: degree
+(raw and normalized), weighted degree, betweenness (Brandes),
+and eigenvector centrality (power iteration), each with its
+rank out of all 1,642 nodes. Algorithms and the graph
+definition live in centrality/methods.json .
+●
+
+GPL · generator compute-centrality.mjs ·
+sample (r-ḥ-m) ·
+methods ·
+full directory
+
+#### data/exports/ · data/coverage/report.json
+
+The public download tables (root frequencies, association
+pairs, per-surah stats, verse lengths, each as CSV and JSON,
+with schema.json and a prose data dictionary) —
+browsable on Export — and the
+measured data-coverage report behind the
+Coverage dashboard.
+●
+
+GPL (Leeds-derived; the coverage report also
+counts files in the license-pending data/qursim/ ) ·
+generators build-exports.mjs ,
+compute-coverage.mjs ·
+schema ·
+coverage report
+
+### Structure, sound, and phrase recurrence
+
+#### data/formulas-root.json · data/formulas-surface.json
+
+Every 3/4/5-token sequence recurring 2+ times corpus-wide, with
+all verse locations — root-sequence and surface-form streams
+(each catches phrases the other cannot). Browsable on
+Formulas .
+●
+
+GPL · generator build-formulas.mjs ·
+root stream ·
+surface stream
+
+#### data/rhyme/{1..114}.json · data/rhyme-summary.json
+
+Verse-ending (fāṣila) analysis per surah: each verse's final
+word reduced to an approximate pausal form, rhyme families under
+a fine and a coarse ending key, shift points, and refrains. An
+orthographic proxy, not a phonological transcription — the
+method note inside each file states the limits.
+~
+
+GPL · generator build-rhyme-map.mjs ·
+sample (surah 91) ·
+summary ·
+full directory
+
+#### data/rhetorical-features.json · data/discursive-pivots.json · data/symmetry-test.json
+
+Direct-address formula locations and muqaṭṭaʿāt letters;
+verse-initial temporal-marker boundaries with lexical
+continuity; and a significance-tested (and honestly null)
+rare-root symmetry check — including its full statistical
+method.
+●
+
+GPL · generators
+build-rhetorical-features.mjs ,
+build-discursive-pivots.mjs ,
+build-symmetry-test.mjs ·
+rhetorical-features ·
+discursive-pivots ·
+symmetry-test
+
+### Surah metadata and cross-references
+
+#### data/surah-profiles.json · data/surah-meta.json · data/surah-names.json · data/chronology.json · data/juz.json
+
+Per-surah corpus fingerprints (length, vocabulary spread,
+grammatical texture, cross-reference reach), Makki/Madani
+classification, display names, the Cairo 1924 revelation order
+with four-period classification, and juz boundaries.
+●
+
+GPL (profiles) / public-domain reference
+(chronology) / API-sourced factual metadata (surah-meta) ·
+generators build-surah-profiles.mjs ,
+build-surah-meta.mjs , build-juz.mjs ·
+profiles ·
+chronology ·
+juz
+
+#### data/qursim/{surah}.json × 110
+
+Verse-to-verse cross-references from the Mishkat Mutashābihāt
+corpus (13 classical books; 1,905 verse nodes, 3,294 directed
+edges; the directory keeps its historical name). Four surahs
+(104, 105, 106, 110) are outside its coverage.
+●
+
+License pending — the source repository
+publishes no license; the compiler is credited and the data
+will be removed if the rights holder objects ·
+sample (surah 2) ·
+full directory
+
+#### data/numbers.json · data/themes.json · data/sources.json
+
+Corpus-wide statistics behind the Numbers page (hapax counts,
+verse-length distribution, vocabulary growth); the theme-to-root
+mappings (editorial groupings — the labels are choices, the
+counts are computed); and the machine-readable bibliography that
+every verification badge resolves against.
+~
+
+GPL (numbers, themes data content) / MIT
+(sources.json) · generators build-numbers.mjs ,
+build-themes.mjs ·
+numbers ·
+themes ·
+sources
+
+If you build something on this data — a replication, a
+correction, a better method — the
+contribution guide
+explains how to send it back, and
+Validation documents how claims
+earn their labels here.
+
+===== Data coverage, measured (https://divinediscourses.org/coverage) =====
+
+## Coverage: what this site's data actually covers
+
+Every number on this page is measured directly from the data
+files bundled with this site at generation time. None is
+carried over from documentation or memory. Where a fact is not
+available in the repository, this page says so explicitly
+instead of estimating.
+
+Generated by scripts/compute-coverage.mjs , which
+writes data/coverage/report.json . Run it twice and
+the output is byte-identical. See
+the public repository
+for the script.
+
+### Morphology fields ●
+
+Of 77,429 word-tokens in the
+Leeds Quranic Arabic Corpus v0.4, how many carry each
+morphological field.
+
+### Root gloss coverage ●
+
+0 of
+1,642 roots ( 0% )
+have an English gloss sourced from a verified local file.
+
+### QurSim (Mishkat) cross-reference coverage ●
+
+110 of
+114 surahs have a
+data/qursim/{surah}.json cross-reference file.
+
+Surahs not covered: 104, 105, 106, 110 .
+
+### Counting-rule sensitivity ~
+
+Roots where this site's own pages already document more than
+one defensible count for the same concept. Only entries already
+documented elsewhere on this site are listed here; this table
+does not introduce new claims.
+
+Root
+Concept
+Root-occurrence count
+Popular figure
+
+### Source registry
+
+For each dataset in use: name, version, license, and source
+URL, exactly as recorded in data/sources.json . A
+field reading "not stated in repository" is not a claim of
+any particular license or absence of one; it means the
+repository's own records do not state it, and this page does
+not infer one.
+
+Dataset
+Version
+Author
+Year
+License
+URL
+
+For downloadable CSV/JSON tables of the underlying corpus
+statistics, see Export . For every
+dataset this site ships, with its own license and generator
+script, see Datasets .
+
+===== Download the data (https://divinediscourses.org/export) =====
+
+## Export: download the numbers
+
+Four precomputed tables, each as CSV and JSON: root frequencies,
+root-pair association statistics, per-surah stats, and verse
+lengths. Every field is documented in the schema and data
+dictionary below. For the complete raw pipeline (morphology,
+per-root files, and every other dataset this site ships), see
+Datasets .
+
+Generated deterministically by
+scripts/build-exports.mjs , which reads
+data/roots-summary.json ,
+data/numbers.json ,
+data/chronology.json ,
+data/surah-profiles.json ,
+data/surah-names.json ,
+data/morphology/ , and the association statistics from
+data/association/*.json (written by
+scripts/compute-association-stats.mjs ). Run either
+script twice and the output is byte-identical. Both scripts and
+the full pipeline live in the
+public repository .
+
+●
+Leeds corpus v0.4, GPL.
+~
+Cairo 1924 for period fields.
+
+ℹ Licensing and chronology of these files
+
+Data derived from the Leeds corpus is GNU GPL licensed and
+redistributed under the same license; open either badge above for
+the full citation, and see
+NOTICE.md
+for the complete notice. Chronology-derived fields (period,
+revelation order) use the Cairo 1924 revelation order, whose
+periodization varies across scholarly chronologies. The export
+code itself is MIT licensed, like the rest of the site.
+
+### Downloads
+
+#### Root frequencies ● ~
+
+All 1,642 roots: raw count, overall normalized frequency (per
+1,000 tokens), and per-period count and normalized frequency
+across the four revelation periods (Cairo 1924 / Nöldeke-Bell).
+
+CSV
+JSON
+1,642 rows
+
+#### Association pairs ●
+
+Root-pair association statistics (shared verses, LLR, PMI,
+Dice): the union of every pair appearing in any root's
+top-25-by-LLR partner list. Same formulas and thresholds as
+the Roots statistical-associations
+panel; see the schema for the exact counting rule.
+
+CSV
+JSON
+5,211 rows
+
+#### Per-surah stats ● ~
+
+All 114 surahs: verse/token/root counts, vocabulary-diversity
+ratios, noun/verb percentage, and Cairo 1924 revelation order
+and period.
+
+CSV
+JSON
+114 rows
+
+#### Verse lengths ●
+
+Every verse in the corpus with its token length and revelation
+period.
+
+CSV
+JSON
+6,236 rows
+
+### Schema and data dictionary
+
+Every field, its unit, its counting rule, and its Verified/Nuanced
+status is documented in both a machine-readable schema and a
+prose data dictionary:
+
+schema.json (machine-readable)
+DATA-DICTIONARY.md (prose)
+
+### Preview: top 5 roots by frequency
+
+Root
+Count
+Per 1,000 tokens
+
+Loading…
+
+● Leeds corpus v0.4.
+
+If you build something on this data, the
+contribution guide
+explains how to send it back, and
+Validation documents how claims earn
+their labels on this site.
+
+===== Changelog: every correction logged (https://divinediscourses.org/changelog) =====
+
+## Changelog
+
+Every correction and material change to Divine Discourses since launch.
+Logged here as a record of accountability. Site maintainers commit to
+logging future corrections in the same place.
+
+Historical entries keep the vocabulary of their day — for example,
+the middle depth tier appears as "Scholar" in entries written
+before it was renamed "Study".
+
+### 2026
+
+#### August
+
+A card per surah, an app that installs, and a
+citation you can check. Sharing a surah or a
+theme now unfurls with its own image — the surah's Arabic
+name, verse count, and place in the revelation order, or
+the theme's root families — instead of one image for the
+whole site. Installing the site as an app gets three
+shortcuts (Read a passage, Today's discourse, Browse
+surahs) and a proper preview. Behind both: a new check
+that confirms the word-by-word translator credit against
+what the Quran.com endpoint actually serves, so that
+citation stops resting on documentation and starts
+resting on a response — it runs with the weekly citation
+and edition checks, and stays quiet unless something
+really changed.
+
+One share button that always shares the right
+thing. The floating share button now follows what
+is on screen: a theme card on
+Themes or a rendered
+Dossier hands out that entity's
+link-preview page, so a pasted link unfurls with its own
+title and description. The 33 per-card Share chips on
+Themes are gone and the Embed chip moved to a study-only
+row, so a theme card at Simple depth shows no buttons at
+all. On Read , each verse's
+reference (103:1) is now itself a link to that verse —
+right-click or long-press to copy — and the native share
+sheet carries a readable label like "al-'Asr 103:1-3".
+Citation popovers gain a "Copy citation" action, the
+share button now also exists on
+Coverage and
+Export , and the link-preview
+pages and site card were regenerated with fuller
+metadata.
+
+Word meanings in the text itself. The
+Read page now shows a published
+word-by-word English meaning beneath every verse, at every
+depth: the written word above its meaning, reading right to
+left like the verse. The meanings are fetched per passage
+from the Quran.com Foundation Content API and cached in your
+browser only, the same way the verse translations already
+worked; nothing is machine translated, no word-translation
+text is stored in this repository, and the rights holders
+are credited on Sources . The word
+table's outbound dictionary links, which used to stand in
+for a meaning the site could not show, are replaced by a
+single link in the caption.
+
+Pages about the text, not about the site. The
+home page's explanations of how the site verifies itself, its
+three depth levels, and its purpose all lived in full on the
+method pages already, so they now live there only; what is
+left is a reading path from the hero to today's discourse.
+Provenance follows the same principle: a source badge already
+opens its full citation and license, so each card now shows
+the badge and a short source name, with the method sentences
+one click away in a collapsed note. On a phone the Numbers
+page sheds 250px of repeated citation prose.
+
+Simplicity with avenues for depth. The
+depth system now does what it promises. A saved depth
+applies before first paint (no more flash of Simple), the
+Simple/Study/Encyclopedic control sits at the top of
+Roots ,
+Numbers ,
+Patterns ,
+Dossier , and
+Themes with its 1/2/3 keys
+documented beside it, and the heaviest pages were
+reorganized so Simple is genuinely simple: duplicate
+renderings of the same data were merged behind view
+toggles, statistical ledgers moved to Encyclopedic (their
+cautions stay visible), and the self-study kit on Themes
+is stated once instead of 33 times. Nobody arrives to
+nothing: Roots and Dossier open on labeled examples,
+Words gained one-tap example searches, Compare's examples
+show at every depth, and the Ask box now also lives on
+Read and
+How to use . Statistical
+labels lead with plain language ("Strength of evidence
+(LLR)") with glossary definitions one tap away, Prev and
+Next continue across surah boundaries, analysis pages end
+with contextual "Explore further" links, and on phones
+the floating buttons no longer overlap and navigation
+targets keep a full tap size.
+
+Open-source audit. A full-repository audit
+ahead of open-sourcing. Licensing: the LICENSE file now
+states that MIT covers the site's own code while bundled
+data and fonts keep their own licenses, and NOTICE.md now
+lists every computed dataset, including the five analytics
+directories added in the releases below. Fixes: a stray
+word removed from the Numbers
+day-month-year card, the offline cache now includes the
+chart helper script it had missed, chart tooltips can be
+dismissed with Escape from every chart, period labels on
+Navigate now match the rest of
+the site, a theme distribution strip that could hang on
+"Computing" now reports failure, and the recurring-word
+highlights on Read announce
+themselves to screen readers as actionable.
+
+Coverage dashboard and network centrality.
+A new Coverage page reports,
+from direct measurement of the bundled data files: how many
+of the 77,429 word-tokens carry a root, lemma, and
+part-of-speech tag; that no verified root-gloss source
+exists (0 of 1,642); cross-reference coverage (110 of 114
+surahs, naming the four not covered); documented
+counting-rule sensitivities; and a source registry that
+records unstated fields as unstated rather than inferring
+them. Root pages gained a "Network position" panel (degree,
+weighted degree, betweenness, eigenvector centrality, each
+with its rank), labeled with the caution that centrality
+tracks raw frequency and does not indicate thematic,
+exegetical, or theological importance.
+
+Chart layer for the association statistics.
+A zero-dependency SVG helper now draws: an association
+network on each Roots detail page
+(positions precomputed offline, nothing laid out in the
+browser), a frequency-across-periods line, a verse-length
+histogram, and a root-density heatmap of the top 40 roots
+across all 114 surahs on Numbers ,
+with a canonical/revelation-order toggle. Every chart
+carries a table fallback and the caution that position,
+distance, and color indicate statistical measures only.
+
+Association statistics and public data downloads.
+Root pages gained a "Statistical associations" table (shared
+verses, log-likelihood ratio, pointwise mutual information,
+Dice) over verse-level co-occurrence; Numbers gained normalized
+frequencies per 1,000 tokens and a keyness-by-period card.
+A new Export page offers four
+tables as CSV and JSON with a machine-readable schema and a
+prose data dictionary.
+
+#### July
+
+Audit corrections: honest errors, durable clearing,
+reachable surahs, keyboard-safe dialogs. A verse
+number past a surah's end used to be blamed on the reader's
+connection; the Read page now says
+which verse doesn't exist and links to the surah's last
+verse, and Next stops at the end the way Prev stops at the
+beginning. "Clear preferences & reading history" was
+silently undone on the Read page by its own re-render; it now
+clears durably. Twenty three-letter surah names (hud, nas,
+asr…) were captured by root search before the surah lookup
+ran — surah 11 was unreachable by name; exact names now win
+in both scripts. The reciter picker was unusable by keyboard;
+all three Read-page dialogs now open with dialog semantics,
+close on Escape, and return focus. Arabic root search on
+Compare now works as promised, two
+glossary links that pointed nowhere resolve, and a mistyped
+exercise link says it fell back instead of silently serving a
+different surah.
+
+Arabic-script root entry, and four citation links
+retired. The Ask box now routes Arabic-typed roots —
+رحم ,
+spaced letters, or forms with vowel marks — to the
+Roots page, which selects the root
+directly; the Roots search box accepts the same forms. Surah
+names keep priority over root guesses in both scripts.
+Correction: four external citation links that no longer
+resolve were removed from Sources
+and Roots — Lane's Lexicon and
+Mawdudi's Tafheem (their hosts' certificates
+failed), an archive.org copy of Penrice's dictionary (404),
+and a link to repository discussions that were never enabled.
+Each bibliographic record remains; only the dead links were
+removed, since replacements could not be verified against the
+works themselves.
+
+Five new translation languages. Six published
+translations joined the Read page's
+picker: Muhiuddin Khan and Zohurul Hoque (Bengali), Abdullah
+Muhammad Basmeih (Malay), Kementerian Agama (Indonesian),
+Muhammad Hamidullah (French), and Julio Cortés (Spanish) —
+each cited on Sources . Bengali text
+renders in a bundled Noto Serif Bengali face whose license
+ships with it. The Ask box learned Arabic-script surah names
+and Arabic-Indic verse numbers, and
+How It Works gained
+a section comparing this site's design policies to other
+Qur'an tools.
+
+Trust and reader-data controls. The
+About page became a trust and access
+hub: exact statements of what stays in the browser and what a
+passage request necessarily exposes, correction and
+accessibility routes, and storage, export, and deletion
+guidance — with the Settings panel's destructive boundary
+clarified and note-safety controls added.
+
+Depth tier renamed, and deeper pattern analysis.
+The middle depth tier was renamed from "Scholar" to "Study" to
+describe the work rather than claim a rank. The
+Roots page gained a distinctive-partner
+(PMI) ranking with a network map, Dossier
+and Patterns were linked both ways,
+and new lexical-diversity, rhyme-regularity, and
+discourse-particle measures were added with their methods
+stated.
+
+The Transcription Gate, documented. The rule
+that governs all quoted scholarship on this site — outline text
+and interpretation excerpts are transcribed verbatim from the
+published volumes, never paraphrased from memory — was written
+into the maintainer guide as a named, checkable procedure.
+
+Numerical-claim evidence correction. The
+Numbers page and its worked validation
+example previously presented popular 365, 475, and 12
+surface-form totals beside reproducible Leeds root totals without
+an inspected source or a procedure that reproduced them. They now
+state plainly that only the root totals (y-w-m: 405; sh-h-r: 21)
+were recomputed here; the other figures remain only as examples
+of why a counting unit and inclusion rule must be declared, not
+as findings this site endorses.
+
+Leading with the method, not the person.
+This site's method matters more than who compiled it. The
+footer on every page, the homepage's opening description, and
+the About page's lede now describe the coherence-based
+method first; Dr. Khan's biography, the intellectual lineage
+behind the method, and the dedication to his memory are still
+here — in full, on About — just not
+repeated as the site's headline on every page.
+
+Dr. Khan's own reading of a surah, on its
+dossier. The Surah
+Dossier for the six surahs worked through in An
+Introduction to Understanding the Qur'an with Examples
+(2011) now quotes a short excerpt, verbatim, from Dr. Khan's
+own "Understanding and Interpretation" essay for that
+surah, cited to its page number. Also fixed while there: a
+surah's outline citation now names the actual volume it was
+transcribed from (2011 or 2013) instead of always saying
+2013.
+
+Dr. Khan's word-by-word glosses, on the reading
+page. For the six surahs worked through in An
+Introduction to Understanding the Qur'an with Examples
+(2011) — 96, 103, 107, 108, 109, and 112 — the word table on
+the reading page now shows Dr. Khan's
+English gloss for each word, transcribed from the book's
+word-by-word tables (pp. 36&ndash;55). Where the book glosses
+a word in pieces (a prefix like bi- and its noun),
+the pieces are merged per word to align with the Leeds corpus
+tokenization, and the file records that method. Glosses carry
+the Nuanced badge: a gloss is one translator's choice, not
+"the meaning." The same glosses now surface in the
+vocabulary search , and its live
+example draws on the first glossed surah. All other surahs
+keep the dictionary link as before.
+
+Five more of Dr. Khan's outlines, in his own
+words. The coherence-reading exercises grow from one
+surah to six: al-'Alaq (96), al-Mā'ūn (107), al-Kauthar
+(108), al-Kāfirūn (109), and al-Ikhlās (112) join al-'Asr,
+each transcribed verbatim from Dr. Khan's An Introduction
+to Understanding the Qur'an with Examples (2011,
+compiled by Tanveer Azmat), distributed by the Association
+for Qur'anic Understanding. Propose your own structure verse
+by verse, then compare it against his — on the
+Exercises page , in each surah's
+dossier, and overlaid on its replay.
+
+Themes and surahs, connected. Every theme on
+the Themes page now shows where its
+vocabulary clusters — its densest surahs, normalized per
+1,000 words so short surahs compete fairly — and every
+surah's dossier lists the themes clustering in it. The
+numbers are mechanical counts of each theme's root family;
+the grouping of roots into themes remains editorial, and the
+labels say so. Also fixed: following a link into the reading
+page no longer paints its start screen first and then jumps
+when the passage arrives — deep-linked visits now go straight
+to a quiet loading state.
+
+The Surah Dossier. Every surah now has one
+page that gathers everything this site can verify about it —
+dossier.html , in the Study menu.
+Identity and chronology, the vocabulary and root profile,
+verse-ending sound patterns, its most repeated phrases (each
+linking into the passage with the matched words highlighted),
+cross-references from the Mishkat corpus, and structure:
+Khan's outline where one is transcribed, an honest
+"awaiting transcription" or "no published outline" note where
+not — the dossier asserts nothing it cannot cite, and each
+claim keeps its Verified/Nuanced/Pending badge. Shared surah
+links now land here first, one click from reading. Along the
+way, a long-standing subtle jump on page load at phone widths
+(the menu button appearing a beat after the page painted,
+nudging everything down) was found and fixed site-wide.
+
+Ritual, offline, and a reading-craft focus mode.
+Formula, rhyme, and concordance results now link straight into
+the passage with the exact words lit up — click through from
+Formulas, Patterns, or Words and land on the reading page with
+the relevant word or words already highlighted, no re-reading
+required to find them. The homepage now opens with a daily
+discourse: one surah, the same for every reader worldwide,
+changing at midnight UTC, paired with a rotating fact (its most
+repeated root, its vocabulary variety, or its dominant rhyme
+pattern). The site can now be installed to a home screen or
+taskbar and keeps working offline once visited — the shell and
+any bundled data you've already loaded stay available without a
+connection; nothing about the API-backed reading experience
+changes when you're online. And the Read page gained a Focus
+toggle (button, the "F" key, or Escape) that hides everything
+but the passage and enlarges the Arabic for close, uninterrupted
+reading — it resets on reload by design, nothing about it is
+remembered.
+
+Tools for the specialists. Five additions
+aimed at readers who work with the text professionally. A new
+Formulas page indexes every
+recurring three-to-five-word sequence in the Qur'an — counted
+mechanically by root sequence and by written form, each with
+every location — while explicitly leaving the question of
+what recurrence means to the scholarship it cites. Patterns
+gained a Sound and rhyme section: pick any surah and
+see its verse endings, rhyme families, shift points, and
+refrains, computed as a clearly-labeled orthographic proxy.
+The Words page now has a concordance: expand any result to
+see every occurrence highlighted in its surrounding context.
+Root pages show the root's word family — its lemmas, the
+dictionary-headword level between root and inflected form.
+And a new Datasets page documents
+every dataset the site ships — schema, generator script,
+license, download — so any number here can be recomputed
+without trusting us.
+
+A calmer front door. The first-visit welcome
+banner asked three things at once — how deep you want to go,
+whether to take the tour, and whether you're new to the
+Qur'an. It now says plainly what the site is, offers two
+clear paths (start here if you're new; take the tour if you
+know your way), and notes that you begin in Simple with
+deeper layers one keystroke away. "Discourse" — the word in
+the site's own name — joined the tap-for-definition
+glossary. The gear's depth choices now say what each level
+means. And the discovery worksheet no longer appears in
+Simple depth, which the site has always defined as the
+reading layer — it returns the moment you step up to
+Scholar.
+
+A mislabeled translation, fixed — and Urdu
+added. The "Abdel Haleem" translation option was
+silently serving Arabic text mislabeled as English — the
+edition ID behind it doesn't exist on the source API, which
+substitutes a default Arabic edition instead of erroring
+rather than failing loudly. Removed, replaced with
+Wahiduddin Khan's translation, and hardened against any
+future dead edition: every translation now gets checked
+against what the API actually returned, with a plain
+placeholder shown instead of trusting a silent substitution.
+Added eight Urdu translations, rendered right-to-left in a
+self-hosted Nastaliq typeface (not the Arabic Naskh face
+used for the Qur'anic text) with a language-grouped picker.
+Reduced the translations shown to new readers by default
+from five to two (Saheeh International and Yusuf Ali) — the
+rest stay one click away. The Khattab "Clear Quran"
+citation was removed pending an actual license from its
+rights holder (it was never available through the site's
+data source and had drifted into carrying a Verified badge
+it hadn't earned). Fixed a real bug in the welcome tour:
+pressing Escape while a navigation menu was open closed the
+whole tour instead of just the menu.
+
+A discovery worksheet, and one Pending claim
+resolved. The Read page gained a per-surah worksheet
+for proposing your own structural reading — theme, sectional
+divisions, supporting evidence, cross-references, your own
+confidence rating — saved only in your browser and never
+badged as a site claim; it tells you plainly whether Khan
+published an outline for that surah, whether it's already
+transcribed, or whether none exists at all (surahs 1–84).
+Separately, an audit of every ○ Pending claim in the data
+layer found one that could honestly move: Farahi's Mufradat al-Qur'an and Niẓām al-Qur'an as
+foundational to coherence-based reading is now ● Verified,
+independently corroborated by Mustansir Mir's 1986 monograph
+Coherence in the Qur'an (see Sources ). New CONTRIBUTING.md and issue template
+for readers who want to submit their own structural
+hypotheses for the 84 surahs Khan's book doesn't cover.
+
+Boundary particles, symmetry testing, and reading
+by chronology. Patterns gained a documented,
+Verified feature counting root continuity across idh/lamma
+verse boundaries, and a properly significance-tested check
+for whether a surah's rarest roots sit at matching distances
+from its start and end more often than chance — an honest
+null result (0 of 3,067 candidates survive correction for
+multiple comparisons), reported as such rather than dropped.
+Roots pages can now show a root's co-occurring partners
+broken out by the traditional revelation periods. A new pin
+tray lets you bookmark a verse or root to a floating
+workspace, client-only, alongside the existing per-verse
+notes.
+
+Three more short videos scripted. The Watch
+page's covenant (real screen recordings, human voice, no
+generated footage) now covers three more short cuts —
+browsing by juz, pinning to your workspace, and roots across
+revelation periods — scripted and listed as planned,
+awaiting recording.
+
+Compare, now more than two at a time. The
+Compare page overlays up to six roots at once, not just a pair,
+and shows the exact set of verses where every selected root
+occurs together — plus the other roots that share those verses,
+computed from the bundled morphology. Passage comparison rose
+from three to six, and a new Surahs mode sets two to six
+surahs side by side on their corpus fingerprints (length,
+vocabulary spread, grammatical texture, cross-reference reach).
+Every figure is computed from the cited corpus and labeled.
+
+More of what the corpus can honestly say. The
+Numbers page gained grammatical texture (the noun and verb share
+of every period, from Leeds POS tags), a verse-length
+distribution, a vocabulary-growth curve (how many roots first
+appear at each step of the revelation order), and a localized
+hapax list naming every once-occurring root and its single
+verse. Each surah's profile on Navigate now shows its noun/verb
+balance. Nothing is generated; each number is a plain tally of a
+corpus field, badged and reproducible.
+
+The mission, stated. The About page now says
+plainly what this project is for — readers equipped to test
+the coherence of a discourse themselves, every figure
+traceable to a named source — and what it asks for, which is
+careful work rather than money: corrections, transcription
+help for Khan's remaining outlines, and scholarly review of
+the method pages. It is equally plain about what the project
+is today: young, one maintainer, with its method documented
+publicly so others could carry it forward.
+
+The site now meets newcomers where they are.
+The Read page finally teaches the method it was built for: a
+one-time guide appears above your first passage — read it
+whole, find the central claim, trace its words to their roots
+— with a link to try it on al-'Asr; dismiss it and it stays
+gone (Clear preferences brings it back). The first-visit
+banner now says what the site is before asking how deep you
+want to go, and links a new "Completely new to the Qur'an?"
+welcome on the About page written for readers with no
+background at all. Scholar's transliteration codes were
+cleaned out of interface copy (search hints now use the
+friendly r-h-m form, which the Words search understands even
+for letters that carry dots in precise transliteration). And
+every page now prints cleanly — navigation and buttons
+vanish, disclosure notes expand — so teachers can hand out
+exercises and study paths on paper.
+
+Saying only what is true, more precisely. An
+external-review pass through the eyes of a demanding scholar
+tightened several of the site's claims about itself. "No
+interpretive content" now reads as what it always meant: no
+generated commentary — while theme titles and working glosses
+are named for what they are, editorial curation, always
+labeled. The Patterns page's "direct address in 89 verses"
+was a mislabel: the count is of one vocative formula ("O you
+who believe"), and the page now says so, noting that direct
+address in the Qur'an is far broader than any single count.
+A new "The text behind the numbers" section on How It Works
+states plainly that the rendered text and every count follow
+the Ḥafṣ ʿan ʿĀṣim reading with Kufan verse numbering, and
+that the Leeds corpus — no longer actively updated — carries
+the annotation judgments and imperfections any such project
+does. Badges on computed figures now say "computed from the
+cited corpus" rather than "confirmed from a primary source,"
+because reproducing a computation proves faithfulness, not
+correctness. And the Nuanced label now has one definition
+everywhere instead of three near-misses.
+
+Replay joined the menu. The guided replay
+tool was reachable only from Read and the Exercises hub; it
+now sits in the Study menu on every page. Also housekeeping:
+the README's stale page count was corrected.
+
+The Roots page loads five times lighter. The
+full 1.9 MB per-root dataset was downloaded before the
+Roots list could render — and by the root popovers, embeds,
+Compare suggestions, and the root-spotting exercise. Those
+views only ever display a root's name, count, and period
+distribution, so they now share a 0.4 MB slim index
+generated from the same corpus data; the full record still
+loads per root when a detail panel opens. Nothing shown
+changed — only how much a phone has to download first.
+
+The credibility system audited itself. A full
+integrity pass over the verification machinery found and fixed
+real gaps. Every Verified badge must now name its source: 70
+green dots that carried no machine-readable citation either
+received the correct source id (the registry grew from 13 to
+21 entries — al-Tabari, al-Zamakhshari, Ibn Kathir, al-Suyuti,
+Abdel Haleem, Neuwirth, Cuypers, and Khan's
+Reflections among them), or — for bibliography
+entries that are themselves full
+Chicago citations — lost the decorative dot, since an
+unfalsifiable dot beside a citation undermines the system it
+decorates. Three badges pointed at the wrong source (Leeds
+cited for claims resting on Tanzil, the Cairo edition,
+al-Suyuti, and Abdel Haleem) and were corrected. The social
+preview said "every claim verified" while the site honestly
+ships Pending and Nuanced labels; it now says what is true —
+every claim labeled and traceable. Corpus figures quoted in
+prose (77,429 tokens, 1,642 roots, 6,236 verses…) now bind to
+the generated numbers data so they can never silently drift.
+The English root meanings on Roots and Compare are now labeled
+for what they are — editorial working glosses, not cited
+lexicography. Licensing notices were expanded to cover every
+bundled dataset, including an honest account of the
+cross-reference data's pending license. And the automated
+verify suite now enforces the badge rule permanently: a
+Verified dot with no source fails the build.
+
+Words became searchable. The
+Words page now searches all 4,832
+dictionary forms in the Qur'an — by Arabic (with or without
+vowel marks), transliteration, or root — showing each
+lemma's frequency, part of speech, root link, and first
+occurrences, computed from the already-cited Leeds corpus.
+The Meaning column deliberately stays empty: English
+glosses are one translator's interpretive choice, so they
+wait behind the same licensing gate as the Read page's
+gloss pipeline, and a research note now documents exactly
+what the maintainer must verify before any gloss dataset
+ships. Until then every row links to the corpus dictionary.
+
+The pre-ship checklist became a machine.
+The maintainer guide's manual verify-before-shipping
+checklist — horizontal overflow on phones, console errors
+with the verse API unreachable, dead internal links,
+citation badges pointing at unregistered sources, keyboard
+navigation, palette and dark-mode integrity — now runs as
+one automated browser suite (144 checks across every
+page). It also permanently re-tests the site's defense
+against a hostile API response on every run, something
+previously verified only once by hand. The full site
+passes today; the suite exists so tomorrow's changes
+can't quietly break what readers rely on.
+
+Verses you've read stay readable, and citations get a
+rot check. The Read and Compare pages now keep a
+browser-local cache of already-fetched verse text and
+translations, so revisiting a passage renders instantly and
+verses read before losing connection remain fully readable
+offline (previously only the Arabic survived). The cache
+lives in the same local storage as every other preference,
+is described in the privacy note on the About page, and is
+removed by the same Clear preferences button. For
+maintainers, a new checker verifies that every cited
+external link on the site still answers, so a citation that
+silently goes dead is caught before a reader finds it.
+
+Guided replays, a Watch page, and the gloss
+pipeline. New Replay tool:
+the recitation plays a surah verse by verse through one
+continuous player while words from recurring root families
+light up progressively, and — for surahs whose outline has
+been transcribed from Khan's book — the outline section
+appears at each pivot. Everything shown is computed or
+transcribed and badged; if audio is unavailable the replay
+degrades to manual stepping. Reachable from Read, the
+Exercises hub, and (after you commit to your own reading)
+the outline exercise. New Watch
+page for short, human-made walkthrough videos: three are
+scripted and listed as planned; the site's covenant — real
+screen recordings, human voice, no generated footage, no
+stock music, captions always — is enforced by a checker
+that refuses to publish a video without a captions file.
+Videos are self-hosted; no third-party player, nothing
+tracked. Under the hood, a word-by-word gloss pipeline
+shipped dormant: the Read page's Meaning column will fill
+in the moment a properly licensed gloss dataset is
+committed (the license is the gate; candidate sources and
+the citation requirements are documented for the
+maintainer), labeled Nuanced — a gloss is a translator's
+choice, not "the meaning."
+
+Link previews, embeds, guided entry, and one surah
+dataset. Shared links now unfurl properly everywhere:
+a branded social image on every page, and 1,789 generated
+per-entity share pages ( s/root|theme|surah/… ) so
+a pasted root, theme, or surah link shows its own name and
+stats — the share buttons hand these URLs out automatically.
+A new embed.html lets teachers and bloggers
+iframe a root profile, theme card, or verse on their own
+site (one-click "Embed" copy buttons on Themes and Roots);
+it is the only page whose security policy allows framing,
+via a restructured per-page netlify.toml guarded
+by scripts/check-headers-sync.mjs . New visitors
+get a first-visit depth question and a reopenable 60-second
+tour ("?" button, bottom right), and the home page's Begin
+tiles are grouped by intent: Read, Study, Verify. Root
+mentions (r-ḥ-m) and verse references (2:255) in page prose
+are now live popovers with counts and one-tap navigation on
+ten static pages. Correction: the three separate
+surah-name lists were consolidated into one generated
+dataset ( data/surah-names.json &rarr;
+assets/surahs.js ); in the process, Navigate's
+row for surah 55 (ar-Rahman) was corrected from Meccan to
+Medinan, matching the Cairo 1924 convention both bundled
+datasets follow (the classification is genuinely discussed
+in the tradition — this site follows its cited convention),
+and the Read page's handful of divergent display names now
+match Navigate's romanization.
+
+Sharing, self-learning, and analytics expansion.
+A share button on every page (each tool page's URL was already
+a permalink; now there's an affordance for it), per-theme share
+links, and one-click copy for the Validation prompts. Every
+corpus figure on Numbers is now recomputed from the bundled
+data ( scripts/build-numbers.mjs &rarr;
+data/numbers.json ) instead of hard-coded — all
+values verified identical before the switch. The "how we
+verify" worked examples moved to a single registry
+( data/case-studies.json ) rendered on both Home
+and Validation. Exercises became a data-driven engine
+( data/exercises.json + exercise.html ):
+outline attempts are now scored against the published outline,
+scores persist locally, and the root-spotting exercise grew
+from 6 to 26 surahs. Study paths are checkable step by step
+( data/paths.json ), with a fourth path on themes.
+A local-only, exportable notes panel was added to the Read
+page. New visualizations from a shared zero-dependency chart
+library: a revelation-order timeline on Roots and Compare, a
+co-occurrence network on Roots, per-theme distribution maps,
+and a 114-surah length-vs-diversity scatter on Navigate —
+every chart carries its method note and an SVG download.
+Clarity fixes: the Patterns cross-reference card now leads
+with the Mishkat corpus actually shipped (QurSim demoted to
+conceptual lineage), Navigate says "Cross-reference
+connectivity" instead of "QurSim connectivity", a dead
+reference to a nonexistent "welcome tour" was removed, and
+Validation is now named as the canonical definition of the
+three verification labels. Under the hood, citation-badge
+handling switched to event delegation, fixing popovers on
+dynamically rendered badges.
+
+Arabic word display corrected sitewide. The
+Buckwalter→Arabic conversion table
+( scripts/build-leeds.js ) was missing 14 characters
+used by the Leeds corpus's extended Quranic-Uthmani encoding
+( ^ # : @ " [ ; , . ! - + % ). Unmapped characters
+had been passed through literally instead of becoming the
+diacritic they stood for, so roughly 15% of words sitewide
+displayed a stray ASCII character in place of a mark — for
+example al-Fatihah 1:7 read "ٱلضَّا^لِّينَ" instead of
+"ٱلضَّآلِّينَ" wherever word-by-word Arabic is shown (Read at
+Scholar depth, Roots' derived-forms panel, Numbers' fawatih
+list). The 14-character mapping was verified byte-for-byte
+against an independent conversion script for the identical
+source file before being applied. 11,434 morphology word
+entries and 215 root-summary lemma entries were corrected;
+data/roots-index.json ,
+data/root-analytics/ , and
+data/rhetorical-features.json were regenerated
+from the corrected data.
+
+Word-token count corrected. 77,430 to 77,429
+on Sources, Credits, and README. The Leeds corpus total is
+77,429 tokens, of which 49,967 carry a root (the rest are
+particles, pronouns, and other unrooted forms); Roots'
+per-root count explainer previously conflated "total tokens
+searched" with "rooted tokens" and has been reworded to state
+both figures.
+
+Site renamed to "Divine Discourses." "Discourses"
+renders Khan's translation of khitab , speaker-to-hearer
+address; "Divine" makes explicit what was previously one click
+deep on About — that the khitab in question is God's address to
+the hearer. Applied across every page's title, header, and
+footer. The deployed domain and GitHub repository name are
+unchanged.
+
+Themes expanded from 10 to 33 life-theme gateways.
+Added gratitude, guidance and light, fear and hope,
+truthfulness and falsehood, charity, death, paradise,
+hellfire, wisdom, pilgrimage, fasting, anger and restraint,
+love, trust in God, arrogance and humility, brotherhood and
+community, sincerity, tyranny, covenant and fulfillment,
+effort and striving, certainty and doubt, joy and sorrow, and
+blessing. Every root was checked against
+data/roots-summary.json before being added, and
+every theme was confirmed to compute at least two passages
+under the site's existing lexical-clustering rule.
+
+Two long-standing citations made browsable.
+Patterns' "direct address... in 89 verses" and Numbers'
+"29 surahs... 14 unique [fawatih] combinations" had been cited
+but never shown. Both are now computed mechanically from the
+bundled morphology (literal lemma and part-of-speech matching,
+not interpretation) via a new
+scripts/build-rhetorical-features.mjs , and both
+computed totals matched the existing citations exactly before
+the reveal-lists shipped. Patterns also gained a per-surah
+browser for the existing Mishkat cross-reference data, previously
+only visible one verse at a time on Read.
+
+Local reading-progress memory added. The
+existing browser-only preferences object now also remembers
+last-read verse position and which exercises have been
+attempted, surfaced as a dismissible "continue where you left
+off" card on the homepage. Same privacy posture as every other
+preference: never transmitted, cleared by the existing "Clear
+preferences" button.
+
+Duplicate citation-popover bug fixed.
+assets/app.js carried a second, independent
+implementation of the citation-badge popover that duplicated
+assets/cite-badge.js and bound to the same
+badges. Clicking any citation badge briefly opened two
+overlapping popovers; the dead app.js copy has
+been removed.
+
+UI restructure for AQU launch. Primary nav
+consolidated from 14 pills into four accessible dropdown groups
+(Study, Analyze, Learn, About). Homepage inverted: Ask search
+above the fold with rotating example placeholders; interstitial
+"This is not Google" tour modal removed. Read page opens to a
+welcome card with example entry links instead of a cold error.
+Validation gains a "How we verify" block with one worked example
+per label type (Verified, Pending, Nuanced) reusing published
+claims from Numbers and Sources.
+
+Glossary expanded. Four terms added: root,
+morphology, triangulate, period distribution. Each is now
+available inline site-wide via the tap-and-keyboard popover.
+Coherence registered as an alias to the existing nazm entry.
+
+Organization name standardized on "of."
+References throughout the site now read "Association of Quranic
+Understanding," matching the organization's page title, its
+website at quranicunderstanding.com, and the audit brief for this
+launch. Supersedes the May decision to standardize on "for." The
+book-publisher citation in the biographical section of the About
+page and in the al-Asr exercise attribution has been updated in
+kind; the ISBN registration itself is unchanged.
+
+Passage Compare added. Compare page gains a
+Passages mode alongside the existing Roots mode. Select two or
+three passages (surah + verse range up to 30 ayat each) and load
+to see side-by-side Arabic text, one translation, and a
+shared-roots table sorted by frequency. Very common roots (corpus
+total > 1,000) are excluded by default with a toggle to include
+them. Method disclosure: "Computed from Leeds Quranic Arabic
+Corpus v0.4: roots present in each selected passage, intersected.
+Lexical overlap only; shared vocabulary does not by itself
+establish thematic connection." Shareable URL encodes passage
+references (e.g.
+?mode=passages&p1=2:255&p2=59:22-24 ).
+
+#### May
+
+Surah length statistics corrected. Mean updated
+from 54.6 to 54.7 verses per surah. Median updated from 30 to 39
+verses. Both errors traced to incorrect aggregation method;
+recomputed directly against Leeds corpus.
+
+y-w-m count reframed as Nuanced. Earlier showed
+475; corpus.quran.com lists 405 for the nominal yawm, while
+broader counts including the compound yawma-idhin reach 475. Both
+counts now shown with explanation.
+
+k-w-n count corrected. 1,361 to 1,390 after
+triangulation against corpus.quran.com via multiple independent
+lookups.
+
+r-b-b count corrected. 975 to 980 after
+corpus.quran.com triangulation.
+
+b-h-r count corrected. 41 to 42 after Leeds
+verification.
+
+Iltifat attribution expanded. The al-Fatihah 1:5
+grammatical shift note now credits classical attestation in
+al-Suyuti's al-Itqan alongside modern scholarship by
+Abdel Haleem (BSOAS 1992). Earlier version credited Haleem only.
+
+Organization name reviewed. The parent
+organization uses both "Association of Quranic Understanding" (in
+its page title and some documents) and "Association for Quranic
+Understanding" (on its banner and in most published references).
+Independent obituaries unanimously use "for." The site previously
+claimed to standardize on "of"; the more honest treatment is to
+note the variation. References on this site now use "Association
+for Quranic Understanding," matching the more common external
+usage.
+
+Khan biography expanded. The About page now
+documents Khan's full academic and interfaith record: Aligarh and
+Rampur education, UIC doctoral work, Parliament of the World's
+Religions trusteeship, WCMIR presidency, AQU directorship.
+
+Khan's 2013 work added.
+An Exercise in Understanding the Qur'an (AQU, ISBN
+9781567447736) now cited alongside
+Reflections on the Qur'an . Foreword by Mustansir Mir
+noted.
+
+Leeds Corpus bundled. 6,236 verses, 77,430 words,
+1,642 roots now available as static JSON. Word-by-word morphology
+live on Read at Scholar depth. GPL compliance via NOTICE.md.
+
+Site launch. Initial deployment of 13 pages.
+
+Corrections welcome. Open a GitHub issue at
+github.com/saebchicago/qurandiscourses .
+
+===== About this site and its method (https://divinediscourses.org/about) =====
+
+## About Divine Discourses
+
+Divine Discourses is a platform for personal, evidence-based study
+of the Qur'an: read each surah as one coherent discourse, verify
+every claim against a labeled source, and build your own
+understanding directly from the text.
+
+The site's coherence-based method draws on the Association of
+Quranic Understanding ( quranicunderstanding.com ) and the wider Farahi-Islahi-Mir tradition of reading each surah
+as a unified composition. The lineage referenced is intellectual,
+not a verified teacher-student chain.
+
+### Completely new to the Qur'an?
+
+Welcome — no background is assumed here. The Qur'an is composed of
+114 units called surahs, from a few lines to many pages long. This
+site's premise is that each surah reads best as one coherent
+discourse — a single address with a beginning, a claim, and a
+resolution — rather than as a string of isolated quotations. That
+is a claim you can test for yourself, whatever you believe: pick a
+short surah on the Read page (al-'Asr, at
+three verses, takes a minute), read it whole, and see whether it
+holds together as one argument. Every number and label you meet
+along the way links to its source, so nothing asks to be taken on
+trust.
+
+### About Dr. Khan
+
+Dr. Irfan Ahmad Khan (1931–2018) was born in India. A science graduate
+of Aligarh Muslim University, he studied Qur'an and classical Arabic
+at Rampur before completing an MA in philosophy in 1958. He taught
+Western philosophy, Indian religions, and Muslim theology in India
+from 1958 to 1973, and edited the journal
+Islamic Thought in the early 1960s. He moved to the United
+States in 1974 for doctoral work at the University of Illinois at
+Chicago. He was a founding trustee of the Parliament of the World's
+Religions and of the International Committee for the Peace Council,
+and founding president of the World Council of Muslims for Interfaith
+Relations. He directed the Association of Quranic Understanding,
+where his weekly tafsir lessons and published writings developed a
+coherence-based reading of the Qur'an.
+
+His published works in English include
+Reflections on the Qur'an (Islamic Foundation UK, 2005), an
+exegetical study of the first two chapters, and
+An Exercise in Understanding the Qur'an (Association for
+Quranic Understanding, 2013, ISBN 9781567447736), an outline study of
+the last thirty surahs that demonstrates his coherence-based method
+across a substantial portion of the text. The 2013 work carries a
+foreword by Mustansir Mir, author of
+Coherence in the Qur'an and a leading English-language
+scholar of the Farahi-Islahi exegetical tradition.
+
+### Why this exists
+
+Khan emphasized that every reader builds their own direct and personal
+relationship with the Qur'an. He did not place himself within a single
+school. He drew on coherence-based reading developed by Farahi,
+Islahi, and Mir, on classical tafsir, on linguistic and historical
+scholarship, and on decades of his own reading. He taught that the
+Qur'an speaks to every human being, and that the believer's task is to
+engage it directly.
+
+Every believer builds his or her own direct and personal relationship
+with the Book.
+From Irfan Ahmad Khan, Reflections on the Qur'an (Islamic
+Foundation UK, 2005).
+●
+
+This site gathers tools that support that engagement: roots, words,
+structure, patterns, frequency, and translation comparison. Every
+claim is labeled so readers can calibrate their confidence and
+triangulate independently.
+
+### Editorial standards
+
+Every claim is labeled
+● ,
+○ , or
+~ .
+
+Interpretation remains the reader's work. Sources are surfaced,
+citations linked, and no verse is told what it means. Where the
+site does curate — grouping roots under
+theme titles, offering short working glosses — that curation is
+editorial, and it is labeled Nuanced rather than presented as
+data.
+
+Numerical claims that depend on a specific counting rule are marked
+with the counting note.
+
+Sources excluded: polemic, anonymous, and unsourced commentary.
+
+### The name
+
+"Divine Discourses" follows Khan's translation of khitab
+(plural khitabat ) as God's address to the hearer, the unit
+he held to be the proper basis of Qur'anic reading.
+
+### Privacy and data
+
+No analytics, no cookies, no tracking. Visitor preferences (depth
+level, translations, theme), reading progress, a cache of
+already-fetched verse text, pinned references, reader-authored
+worksheets, and study notes are saved in your browser's local
+storage and are never sent by this site. They are deliberately kept
+in separate stores so clearing display settings cannot erase writing
+unexpectedly.
+
+Opening a passage or playing recitation may request content from
+api.alquran.cloud . Like any direct web request, that
+provider receives technical connection information such as your IP
+address and browser headers. The request contains the surah, verse,
+and selected edition—not your notes, preferences, or reading history.
+Previously loaded passages are cached in your browser, and the bundled
+Arabic word data provides a limited offline fallback. You can use the
+site's bundled research pages without enabling accounts, analytics, or
+advertising services because none exist.
+
+#### Your data controls
+
+Preferences, progress, and passage cache: open Settings (the gear) and choose Clear preferences & reading history .
+
+Study notes: export, delete one, or delete all from My notes . Notes are kept separate so clearing display settings cannot erase writing unexpectedly.
+
+Reader-authored worksheets: export all or clear the current surah from the worksheet on the Read page .
+
+Pinned references: open the Workspace tray on a page that offers pins and choose Clear all .
+
+Device boundary: nothing synchronizes. Clearing this browser's site data, using another browser, or changing devices will not carry saved work with you.
+
+### Trust, access, and accountability
+
+Trust should be inspectable, not requested. Use the routes below to
+verify the work, ask for correction, or report a barrier. This is a
+young, single-maintainer project; these are public commitments, not a
+claim of independent certification.
+
+#### Check a claim
+
+Open its evidence badge, inspect the named source, then review the site's methods and known limits. The Coverage dashboard measures how complete the underlying data is.
+
+Review validation
+
+#### Report a correction
+
+Include the page, exact claim, proposed correction, and source if available. Do not include private study notes.
+
+Open a correction
+
+#### Report an access barrier
+
+Describe the page, task, browser or assistive technology, and what blocked you—only what you are comfortable sharing.
+
+Report an accessibility issue
+
+#### Trace changes and rights
+
+Review corrections and releases publicly, or inspect source, dataset, font, and license attribution.
+
+Changelog · Sources · Credits
+
+### Accessibility statement
+
+The intended baseline is WCAG 2.2 Level AA and an equivalent core
+study journey for keyboard, screen-reader, low-vision, reduced-motion,
+mobile, and low-bandwidth readers. The site uses semantic landmarks,
+a skip link, keyboard-operable navigation, visible focus, self-hosted
+fonts, and text alternatives alongside many data views. Automated
+integrity checks run on the repository, but the project has
+not yet completed an independent conformance audit ;
+charts, mixed Arabic/English reading order, dynamic citations, and
+high zoom remain priority manual-test areas.
+
+If something prevents study, please
+report the barrier .
+The maintainer aims to acknowledge access-blocking and source-integrity
+reports within two working days, then publish a fix, workaround, or
+candid status update within ten working days. These targets may be
+revised transparently as the project's capacity changes.
+
+### Mission
+
+Divine Discourses exists so that anyone — an independent student
+of the Qur'an, a teacher preparing a lesson, a skeptical reader
+who wants claims they can check — can engage the text directly,
+one surah at a time, with structural evidence they can verify
+rather than assertions they must trust. The outcome it works
+toward is simple to state: readers equipped to test the
+coherence of a discourse for themselves, with every supporting
+figure traceable to a named source.
+
+The site is built to last cheaply and openly: static pages, data
+bundled with the code, near-zero hosting cost, everything under
+an open-source license. It is also honest about what it is
+today — a young project with a single maintainer. Against that,
+its method and every build step are documented in a public
+maintainer's guide
+written so that any future contributor could carry it forward.
+
+### Citing this site
+
+Every page footer has a Cite link that produces a ready-made
+reference for that page in Chicago, APA, and BibTeX form,
+including the release version. To cite the site as a whole:
+
+Divine Discourses, version 1.0.0. 2026.
+https://divinediscourses.org.
+
+Machine-readable citation metadata lives in
+CITATION.cff , and
+citations.bib carries BibTeX for
+the site, each downloadable dataset, and all the works the site
+itself cites. Cite computed figures with the release version:
+the datasets are regenerated deterministically, so a version
+names an exact set of numbers. The underlying corpora keep their
+own citations, listed in full on
+Sources .
+
+### Contribute
+
+What this project needs is not money but careful work, and three
+kinds especially. Corrections — if any claim,
+citation, or count on this site is wrong, say so via
+GitHub issues ; every correction is logged publicly on the
+changelog .
+Transcription — Khan's published outlines cover
+the last thirty surahs (85 to 114), and most still await careful
+transcription into the
+exercises . Each outline is one entry
+in data/exercises.json , transcribed from the book and
+never paraphrased, so every exercise stays traceable to its
+published source.
+Scholarly review — if you work in Qur'anic
+studies or Arabic linguistics and are willing to review the
+site's method pages against their sources, that scrutiny would
+be received with gratitude and acted on in public.
+
+### Maintained by
+
+This site is designed and maintained by Saeb, Khan's grandson, in
+his memory. Corrections, citations, and source
+contributions are welcome via the GitHub repository at
+github.com/saebchicago/qurandiscourses .
+
+===== Credits and scholarly lineage (https://divinediscourses.org/credits) =====
+
+## Credits
+
+A one-screen summary of what built this site. For the full reference
+list, see Sources .
+
+### Data
+
+Quranic Arabic Corpus v0.4 (Leeds). Kais Dukes,
+2009–2017. Morphological annotation of all 77,429 word-tokens. GPL
+licensed.
+corpus.quran.com
+
+Tanzil Uthmani text and translations. Served via
+the alquran.cloud API. CC BY-ND 3.0.
+
+Egyptian Standard (Cairo 1924) revelation order.
+Public-domain reference for the four-period chronology.
+
+Mishkat Mutashabihat corpus. Alhassan777 /
+Threadwork. Verse-to-verse cross-reference data drawn from 13
+classical Islamic books of mutashabihat scholarship (1,905
+verse nodes, 3,294 directed edges). Stored in this site as
+data/qursim/ , a legacy folder name kept from an
+earlier citation of the QurSim corpus (Sharaf and Atwell,
+LREC 2012); QurSim's canonical source
+(corpus.quran.com/qursim.jsp) is no longer accessible, so the
+data was replaced with Mishkat's. See
+Sources for the full note.
+License pending: not published in the source repository at
+time of writing.
+github.com/Alhassan777/Mishkat
+
+### Scholarly lineage
+
+Hamid al-Din al-Farahi (1863–1930). Founder of
+the coherence-based ( nazm ) reading tradition.
+
+Amin Ahsan Islahi (1904–1997). Student of Farahi,
+author of Tadabbur-i-Qur'an .
+
+Mustansir Mir. Leading English-language scholar
+of Farahi-Islahi coherence reading.
+Coherence in the Qur'an , American Trust Publications.
+Wrote the foreword to Khan's 2013 An Exercise .
+
+Irfan Ahmad Khan (1931–2018). Founding director
+of the Association of Quranic Understanding. The principal
+influence behind this site.
+
+### Typography
+
+Amiri. Khaled Hosny and contributors. Arabic
+text typeface. SIL Open Font License 1.1.
+github.com/aliftype/amiri
+
+Cormorant Garamond. Christian Thalmann
+(Catharsis Fonts). Serif display typeface. SIL Open Font
+License 1.1.
+github.com/CatharsisFonts/Cormorant
+
+Inter. Rasmus Andersson. Sans-serif interface
+typeface. SIL Open Font License 1.1.
+github.com/rsms/inter
+
+Noto Nastaliq Urdu. The Noto Project Authors.
+Nastaliq typeface for Urdu translations. SIL Open Font License
+1.1.
+github.com/notofonts/nastaliq
+
+Noto Serif Bengali. The Noto Project Authors.
+Serif typeface for Bengali translations. SIL Open Font License
+1.1.
+github.com/notofonts/bengali
+
+Typefaces are self-hosted rather than loaded from a font CDN, so
+each is redistributed with the site under its own license, with
+the license text bundled beside the font files — see
+NOTICE.md .
+
+### Build
+
+Static site, hosted on
+Netlify .
+
+Build script written in Node.js with no external dependencies. See
+scripts/build-leeds.js .
+
+Site source:
+github.com/saebchicago/qurandiscourses .
+
+Designed and maintained by Saeb, Dr. Khan's grandson.
+
+### Privacy
+
+No analytics. No tracking. No cookies.
+
+Preferences, reading progress, passage cache, pinned references,
+reader-authored worksheets, and study notes are saved in the
+browser's local storage and are not sent by the site. Each
+reader-authored store has its own clear control so changing
+display settings cannot erase writing unexpectedly.
+
+The site makes API calls to alquran.cloud for verse text and
+translations. Requests contain the selected passage and edition,
+not notes or preferences; as with any direct web request, the
+provider receives connection data such as the visitor's IP
+address and browser headers. See
+Privacy and data .
+
+===== Glossary (https://divinediscourses.org/glossary) =====
+
+ayah: A verse of the Qur'an. The plural is ayat. The same word also means 'sign'.
+basmala: The opening formula bismillah al-rahman al-rahim ('In the name of God, the Most Merciful, the Especially Merciful'). It heads 113 of the 114 surahs and appears mid-surah once, at 27:30.
+betweenness: How often a node lies on the shortest paths between other nodes in a co-occurrence network. A statistical position measure, strongly influenced by raw frequency; it does not indicate importance.
+buckwalter: A one-to-one Latin-character transliteration system for Arabic, used by the Leeds Quranic Arabic Corpus to encode the consonantal and vowel structure of every word in machine-readable form.
+deterministic: Producing the same output for the same input, every time, by following fixed rules. The Ask box is deterministic: pattern-matching routes your question to a tool, and nothing composes an answer on the site's behalf.
+dice: The Dice coefficient: the overlap between two words' sets of verses, from 0 (never together) to 1 (always together).
+discourse: As used on this site: a surah read as one connected address (khitab) from speaker to hearer — a single speech with a beginning, development, and close — rather than a loose collection of verses.
+eigenvector: Eigenvector centrality: a node scores high when its neighbors also score high, meaning proximity to network hubs. A statistical position measure; it does not indicate importance.
+evidence-dimensions: The separately recorded aspects of a research claim's support: what source was checked, whether the computation was reproduced, what the result depends on, and its known limits. Badges summarize these; the Validation page decomposes them.
+hapax: From 'hapax legomenon' (Greek: 'said once'). A word or form occurring exactly once in a corpus. The Qur'an has roughly 12,000 surface-form hapax legomena and roughly 395 root-level hapax.
+iltifat: Grammatical shift, especially person or tense, treated by classical Arabic rhetoricians as a deliberate rhetorical device rather than a textual irregularity.
+juz: One of the 30 roughly equal parts the Qur'an is traditionally divided into (plural ajzāʾ; also called para), so that reading one each day completes the Qur'an in a month. Unlike a surah, a juz can begin and end in the middle of a chapter. The boundaries are a reading convention, not part of the revealed text. Browse them on Navigate.
+keyness: A score (Dunning's G2) for how distinctively a word belongs to one section of the text compared with the rest. High keyness means the word's frequency there is statistically unusual, not that the word is important.
+khitab: Direct address from speaker to hearer. Khan treated this as the proper unit of Qur'anic reading; the site's name, 'Divine Discourses,' renders God's khitab to the hearer.
+lemma: The dictionary or canonical form of a word. In Arabic morphology, lemmas are derived from triliteral roots according to fixed patterns.
+llr: Log-likelihood ratio (Dunning's G2): a score for how surprising it is that two words share verses as often as they do, given how often each occurs overall. Higher means stronger evidence the pairing is not chance. It measures distribution, not meaning.
+morphology: The word-form analysis of Arabic: root, stem pattern, prefixes, suffixes, tense, mood, person, number, and inflection. The Leeds Quranic Arabic Corpus provides this analysis for every word in the Qur'an.
+mutashabihat: Phrases or formulations that recur across the Qur'an with small variations. The classical science of tracking these parallels is a subfield of 'ulum al-Qur'an.
+nazm: Arabic for 'coherence' or 'structural order'. A method of Qur'anic exegesis that reads each surah as a unified composition with deliberate thematic structure, developed by Farahi, Islahi, Mir, and Khan.
+nuanced: A claim that is defensible but depends on a specific counting rule, classification scheme, or interpretive choice. Both the headline figure and the underlying ambiguity are presented.
+pending: A claim awaiting triangulation. Useful as a working figure but not yet verified against primary sources.
+period-distribution: How a word or root's occurrences distribute across the Meccan and Medinan revelation periods, based on a chosen chronology such as the Cairo 1924 edition or Noldeke-Schwally.
+pmi: Pointwise mutual information: how much more often two words appear together than chance would predict. Rare, tightly paired words score high; very frequent words score low even when they co-occur often.
+provenance: Where a figure or claim comes from: the named source, edition, and method it can be traced to. Every research claim on this site carries a citation you can follow and a badge stating how far it has been checked.
+root: The three-letter (occasionally four-letter) consonantal skeleton from which Arabic words are derived. Every noun and verb in the Qur'an fits a root into fixed morphological patterns; the same root can carry a family of related meanings.
+surah: A chapter of the Qur'an. There are 114, varying in length from 3 verses to 286.
+surface-form: A distinct written form of a word as it actually appears in the text, before it is reduced to its dictionary form. The same lemma can appear as several surface forms (singular, plural, with attached prefixes). The Qur'an has 18,993 distinct surface forms across its 77,429 word-units.
+tafaseer: Plural of tafsir.
+tafsir: Qur'anic exegesis or commentary. A scholarly genre going back to the earliest generations of Islam.
+token: The smallest piece the corpus counts — this site calls it a word-unit in plain language. Arabic often writes several tokens as a single word: bismi ("in the name of") is one written word but two tokens (bi + ism). That is why the Qur'an has 77,429 word-units but far fewer written words. Counts of nouns, verbs, and verse length on Numbers are measured in word-units, not written words.
+triangulate: To cross-check a claim against two or more independent sources. Agreement moves a claim from Pending to Verified; disagreement keeps it Nuanced with the disagreement recorded.
+ttr: Type-token ratio: distinct word forms divided by total words, a measure of vocabulary variety. Smaller samples score higher mechanically, so the trend matters more than the absolute values.
+verified: A claim on this site backed by direct corpus data, primary text, or peer-reviewed scholarship. The strongest confidence label.
+word-unit: This site's plain-language name for a corpus token — the smallest counted piece of the text. Used in place of "word" wherever a count could otherwise be mistaken for written words.
+
+===== Export data dictionary =====
+
+# Data dictionary: public exports
+
+Generated by `scripts/build-exports.mjs` on 2026-08-01. Mirrors `data/exports/schema.json` in prose; the JSON file is the machine-readable source of truth.
+
+Source corpus: Dukes, Kais. The Quranic Arabic Corpus, version 0.4. Leeds: Language Research Group, University of Leeds, 2009-2017. https://corpus.quran.com/. GNU GPL.
+
+Chronology source (period-based fields): Egyptian Standard (Cairo 1924) revelation order, four-period classification following the Nöldeke-Bell tradition (Watt, "Bell's Introduction to the Qur'an", 1970).
+
+## root-frequencies
+
+Every one of the 1,642 roots: raw occurrence count, overall normalized frequency, and per-period count and normalized frequency. (1642 rows.)
+
+**Counting rule:** Root occurrence = token count from Leeds morphology (root field non-empty). Normalized frequency = (count / total tokens for the given scope) * 1000, i.e. occurrences per 1,000 tokens.
+
+**Verification:** totalCount and normalizedFrequencyOverall: Verified (direct computation). Per-period fields: Nuanced (depend on the four-period chronology named in _chronologySource).
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `root` | string | n/a | Buckwalter-transliterated root. |
+| `safeKey` | string | n/a | URL/filename-safe encoding of root, used to link to data/association/{safeKey}.json and roots.html?root={safeKey}. |
+| `arabic` | string | n/a | Root letters in Arabic script, space-separated. |
+| `rootLatin` | string | n/a | Root in Latin transliteration with diacritics. |
+| `totalCount` | integer | tokens | Total occurrences of this root across the whole corpus (77,429 tokens). |
+| `normalizedFrequencyOverall` | number | occurrences per 1,000 tokens | (totalCount / 77,429) * 1000. |
+| `count_meccan-early` | integer | tokens | Occurrences of this root in the Early Meccan period. |
+| `normalizedFrequency_meccan-early` | number | occurrences per 1,000 tokens | (count_meccan-early / period token total) * 1000. |
+| `count_meccan-middle` | integer | tokens | Occurrences of this root in the Middle Meccan period. |
+| `normalizedFrequency_meccan-middle` | number | occurrences per 1,000 tokens | (count_meccan-middle / period token total) * 1000. |
+| `count_meccan-late` | integer | tokens | Occurrences of this root in the Late Meccan period. |
+| `normalizedFrequency_meccan-late` | number | occurrences per 1,000 tokens | (count_meccan-late / period token total) * 1000. |
+| `count_medinan` | integer | tokens | Occurrences of this root in the Medinan period. |
+| `normalizedFrequency_medinan` | number | occurrences per 1,000 tokens | (count_medinan / period token total) * 1000. |
+
+## association-pairs
+
+Root-pair association statistics: the union of every pair appearing in any root's top-25-by-LLR partner list, deduplicated by unordered pair. (5211 rows.)
+
+**Counting rule:** Co-occurrence counted at the verse level over N = 6,236 verses. Only pairs with at least 5 shared verses were computed by scripts/compute-association-stats.mjs; only the top 25 partners per root (by LLR) are represented here, so this is not the complete set of all pairs meeting the 5-shared-verse threshold.
+
+**Verification:** Verified: direct computation from Leeds morphology, cross-checked against a hand-computed 2x2 table and against data/cooccurrence/*.json's independently computed counts.
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `rootA` | string | n/a | First root of the pair (Buckwalter). |
+| `rootASafeKey` | string | n/a | URL/filename-safe encoding of rootA. |
+| `rootALatin` | string | n/a | rootA in Latin transliteration. |
+| `rootB` | string | n/a | Second root of the pair (Buckwalter). |
+| `rootBSafeKey` | string | n/a | URL/filename-safe encoding of rootB. |
+| `rootBLatin` | string | n/a | rootB in Latin transliteration. |
+| `sharedVerses` | integer | verses | k11: number of verses in which both roots are attested. |
+| `pmi` | number | bits (log base 2) | Pointwise mutual information: log2((k11*N)/((k11+k12)*(k11+k21))), N=6,236, rounded to 2 decimals. |
+| `dice` | number | n/a | Dice coefficient: 2*k11/(2*k11+k12+k21), rounded to 3 decimals. |
+| `llr` | number | n/a | Dunning's log-likelihood ratio (G2) over the pair's verse-level 2x2 table, rounded to 2 decimals. |
+
+## surah-stats
+
+Per-surah corpus fingerprint: all 114 surahs. (114 rows.)
+
+**Counting rule:** verseCount/tokenCount/distinctRootCount and diversity ratios are read from data/surah-profiles.json (Leeds morphology tally per surah). revelationOrder and period are read from data/chronology.json.
+
+**Verification:** verseCount/tokenCount/distinctRootCount/diversity ratios/nounPct/verbPct: Verified (direct computation). revelationOrder/period: Nuanced (Cairo 1924 / Nöldeke-Bell chronology, one scheme among several).
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `surah` | integer | n/a | Surah number, 1-114, Cairo (mushaf) order. |
+| `nameTranslit` | string | n/a | Transliterated surah name. |
+| `nameArabic` | string | n/a | Surah name in Arabic script. |
+| `nameEnglish` | string | n/a | English meaning of the surah name. |
+| `revelationOrder` | integer | n/a | Position in the Cairo 1924 revelation-order sequence (1 = first revealed). |
+| `period` | string | n/a | One of meccan-early, meccan-middle, meccan-late, medinan (Nöldeke-Bell four-period classification). |
+| `verseCount` | integer | verses | Number of verses (ayat) in the surah, Cairo numbering. |
+| `tokenCount` | integer | tokens | Total Leeds morphological tokens in the surah. |
+| `distinctRootCount` | integer | roots | Count of distinct roots attested in the surah. |
+| `rootDiversityRatio` | number | n/a | distinctRootCount / tokenCount. |
+| `distinctFormCount` | integer | forms | Count of distinct surface (written) forms in the surah. |
+| `formDiversityRatio` | number | n/a | distinctFormCount / tokenCount. |
+| `distinctLemmaCount` | integer | lemmas | Count of distinct lemmas in the surah. |
+| `lemmaDiversityRatio` | number | n/a | distinctLemmaCount / tokenCount. |
+| `nounPct` | number | percent | Percentage of the surah's tokens tagged noun (N) by Leeds POS tagging. |
+| `verbPct` | number | percent | Percentage of the surah's tokens tagged verb (V) by Leeds POS tagging. |
+
+## verse-lengths
+
+Every verse in the corpus (6,236 rows) with its token length and revelation period. (6236 rows.)
+
+**Counting rule:** tokens = number of Leeds morphological tokens in the verse (data/morphology/{surah}.json entry length). Ordered by surah, then verse.
+
+**Verification:** surah/verse/tokens: Verified (direct tally). period: Nuanced (Cairo 1924 / Nöldeke-Bell chronology).
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `surah` | integer | n/a | Surah number, 1-114. |
+| `verse` | integer | n/a | Verse (ayah) number within the surah, Cairo numbering. |
+| `tokens` | integer | tokens | Number of Leeds morphological tokens in this verse. |
+| `period` | string | n/a | One of meccan-early, meccan-middle, meccan-late, medinan; null if the surah has no chronology entry. |
+
+## Files
+
+Each table above ships as both `{name}.csv` and `{name}.json` (a flat JSON array of the same rows) under `data/exports/`. CSV values are comma-separated, UTF-8, header row first; fields containing a comma, quote, or newline are quoted per RFC 4180.
+
+## License
+
+Data derived from the Leeds Quranic Arabic Corpus is GPL-licensed, per `NOTICE.md`. Surah names and the Cairo 1924 chronology are factual/public-domain reference data. Site code (this script included) is MIT-licensed.
