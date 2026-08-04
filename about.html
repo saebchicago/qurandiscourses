@@ -365,6 +365,32 @@
           written so that any future contributor could carry it forward.
         </p>
 
+        <h3 id="cite">Citing this site</h3>
+        <p>
+          Every page footer has a Cite link that produces a ready-made
+          reference for that page in Chicago, APA, and BibTeX form,
+          including the release version. To cite the site as a whole:
+        </p>
+        <p class="cite-example">
+          Divine Discourses, version 1.0.0. 2026.
+          https://divinediscourses.org.
+        </p>
+        <p>
+          Machine-readable citation metadata lives in
+          <a
+            href="https://github.com/saebchicago/qurandiscourses/blob/main/CITATION.cff"
+            rel="noopener"
+            >CITATION.cff</a
+          >, and
+          <a href="data/citations.bib">citations.bib</a> carries BibTeX for
+          the site, each downloadable dataset, and all the works the site
+          itself cites. Cite computed figures with the release version:
+          the datasets are regenerated deterministically, so a version
+          names an exact set of numbers. The underlying corpora keep their
+          own citations, listed in full on
+          <a href="/sources">Sources</a>.
+        </p>
+
         <h3 id="contribute">Contribute</h3>
         <p>
           What this project needs is not money but careful work, and three
@@ -408,7 +434,8 @@
         <a href="/sources">Sources</a> ·
         <a href="/datasets">Datasets</a> ·
         <a href="/validation">Validation</a> ·
-        <a href="/changelog">Changelog</a>
+        <a href="/changelog">Changelog</a> ·
+        <a href="/about#cite">Cite</a>
       </p>
       <p class="footer-license">
         Site code MIT. Bundled data and fonts keep their own licenses; see
@@ -442,5 +469,7 @@
     <script src="assets/root-meanings.js"></script>
     <script src="assets/root-refs.js" defer></script>
     <script src="assets/refs.js" defer></script>
+    <script src="assets/version.js" defer></script>
+    <script src="assets/cite-page.js" defer></script>
   </body>
 </html>

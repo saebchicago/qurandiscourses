@@ -1,0 +1,5 @@
+{
+ "_comment": "The ONE place the site's version lives. Everything that names a version (CITATION.cff, assets/version.js, the footer citation popover, the export archives) is generated from this file by scripts/build-citations.mjs; check-citation.mjs fails CI if any copy drifts. Bump on release per the checklist in docs/maintainer-guide.md, then tag the merge commit v<version>.",
+ "version": "1.0.0",
+ "released": "2026-08-04"
+}

@@ -2460,6 +2460,36 @@ kbd {
   padding: 0;
 }
 
+/* The static site-citation example on about.html#cite. */
+.cite-example {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  background: color-mix(in srgb, currentColor 6%, transparent);
+  border-radius: 4px;
+  padding: 0.5rem 0.7rem;
+}
+
+/* Footer "Cite this page" popover (assets/cite-page.js). Inherits the
+   .cite-popover shell above; these rules only shape the three citation
+   blocks, which unlike badge citations are meant to be copied verbatim. */
+.cite-page-pop {
+  max-width: 400px;
+}
+.cite-page-pop .cite-page-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  background: color-mix(in srgb, currentColor 6%, transparent);
+  border-radius: 4px;
+  padding: 0.4rem 0.5rem;
+  margin: 0.5rem 0 0.15rem;
+}
+.cite-page-pop li + li {
+  margin-top: 0.45rem;
+}
+
 /* ── Workspace notebook (assets/notebook.js) — client-only pins/notes ──── */
 .notebook-toggle {
   position: fixed;

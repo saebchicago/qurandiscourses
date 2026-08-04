@@ -46,6 +46,13 @@ jobs:
           node scripts/check-headers-sync.mjs
           node scripts/build-csp.mjs --check
 
+      - name: Validate citation metadata
+        # One version everywhere: version.json vs CITATION.cff vs the
+        # about.html example vs the generated bib/version.js pair.
+        run: |
+          node scripts/check-citation.mjs
+          node scripts/build-citations.mjs --check
+
       - name: Validate generated URLs and static fallbacks
         # Both are generated from data, so an edit elsewhere can leave
         # them stale while every other check stays green. --check is the

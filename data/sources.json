@@ -2,6 +2,7 @@
  "sources": [
   {
    "id": "leeds-corpus-v0.4",
+   "type": "dataset",
    "author": "Dukes, Kais",
    "name": "The Quranic Arabic Corpus",
    "edition": "version 0.4",
@@ -13,6 +14,7 @@
   },
   {
    "id": "tanzil",
+   "type": "dataset",
    "author": "Tanzil Project",
    "name": "Tanzil Quran Text",
    "edition": "Uthmani script",
@@ -23,6 +25,7 @@
   },
   {
    "id": "qul",
+   "type": "dataset",
    "author": "Tarteel AI and Quran.com Foundation",
    "name": "Quranic Universal Library (QUL)",
    "year": "2024",
@@ -31,6 +34,7 @@
   },
   {
    "id": "qul-mutashabihat",
+   "type": "dataset",
    "author": "Tarteel AI and Quran.com Foundation",
    "name": "QUL Mutashabihat Dataset",
    "year": "2024",
@@ -40,6 +44,7 @@
   },
   {
    "id": "mishkat",
+   "type": "dataset",
    "author": "Alhassan (Threadwork)",
    "name": "Mishkat Mutashābihāt Corpus",
    "year": "2024",
@@ -50,6 +55,7 @@
   },
   {
    "id": "qursim",
+   "type": "paper",
    "author": "Sharaf, Abdul-Baquee, and Eric Atwell",
    "name": "QurSim: A Corpus for Evaluation of Relatedness in Short Texts",
    "publisher": "In Proceedings of the Eighth International Conference on Language Resources and Evaluation (LREC 2012). Istanbul: European Language Resources Association",
@@ -59,6 +65,7 @@
   },
   {
    "id": "quran-foundation-api-v4",
+   "type": "api",
    "author": "Quran.com Foundation",
    "name": "Quran.com Foundation Content API",
    "edition": "v4",
@@ -68,6 +75,7 @@
   },
   {
    "id": "qcf-wbw-en",
+   "type": "dataset",
    "author": "Quran.com Foundation",
    "name": "English word-by-word translation served by the Quran.com Content API",
    "edition": "API v4, runtime",
@@ -79,6 +87,7 @@
   },
   {
    "id": "alquran-cloud-api",
+   "type": "api",
    "author": "Islamic Network",
    "name": "AlQuran.cloud API",
    "edition": "v1",
@@ -88,6 +97,7 @@
   },
   {
    "id": "islamic-network-audio",
+   "type": "api",
    "author": "Islamic Network",
    "name": "Recitation audio CDN (per-ayah MP3, multiple reciters)",
    "url": "https://cdn.islamic.network",
@@ -95,6 +105,7 @@
   },
   {
    "id": "cairo-1924",
+   "type": "book",
    "name": "Chronological Order of Surahs, Cairo Edition",
    "publisher": "Cairo: al-Maṭbaʿa al-Amīrīyya",
    "year": "1924",
@@ -102,6 +113,7 @@
   },
   {
    "id": "khan-reflections-2005",
+   "type": "book",
    "author": "Khan, Irfan Ahmad",
    "name": "Reflections on the Qur'an: Understanding Surahs al-Fatihah and al-Baqarah",
    "publisher": "Markfield, Leicestershire: Islamic Foundation",
@@ -109,6 +121,7 @@
   },
   {
    "id": "khan-exercise-2013",
+   "type": "book",
    "author": "Khan, Irfan Ahmad",
    "name": "An Exercise in Understanding the Qur'an: An Outline Study of the Last Thirty Divine Discourses (Surah 85 to Surah 114)",
    "publisher": "Chicago: Association of Quranic Understanding",
@@ -118,6 +131,7 @@
   },
   {
    "id": "khan-introduction-2011",
+   "type": "book",
    "author": "Khan, Irfan Ahmad",
    "name": "An Introduction to Understanding the Qur'an with Examples",
    "publisher": "Chicago: Association for Qur'anic Understanding",
@@ -127,12 +141,14 @@
   },
   {
    "id": "farahi-primary",
+   "type": "book",
    "author": "Farahi, Hamiduddin (Ḥamīd al-Dīn al-Farāhī)",
    "name": "Mufradat al-Qur'an; Niẓām al-Qur'an wa-taʾwīl al-furqān bi-l-furqān",
    "note": "Farahi's writings on Qur'anic vocabulary and discourse coherence, left unfinished at his death in 1930 and completed/edited posthumously by his students. No independently verifiable modern edition/publisher/page reference is asserted here; see the mir-coherence-1986 entry for independent secondary corroboration of these works' foundational role."
   },
   {
    "id": "mir-coherence-1986",
+   "type": "book",
    "author": "Mir, Mustansir",
    "name": "Coherence in the Qur'an: A Study of Islahi's Concept of Nazm in Tadabbur-i Qur'an",
    "publisher": "Indianapolis: American Trust Publications",
@@ -142,11 +158,13 @@
   },
   {
    "id": "suyuti-itqan",
+   "type": "book",
    "author": "al-Suyuti, Jalal al-Din (d. 911/1505)",
    "name": "al-Itqān fī ʿulūm al-Qurʾān"
   },
   {
    "id": "abdel-haleem-1992",
+   "type": "paper",
    "author": "Abdel Haleem, Muhammad",
    "name": "Grammatical Shift for Rhetorical Purposes: Iltifāt and Related Features in the Qur'ān",
    "publisher": "Bulletin of the School of Oriental and African Studies 55, no. 3, pp. 407–32",
@@ -154,24 +172,28 @@
   },
   {
    "id": "tabari-jami",
+   "type": "book",
    "author": "al-Tabari, Muhammad ibn Jarir (d. 310/923)",
    "name": "Jāmiʿ al-bayān ʿan taʾwīl āy al-Qurʾān",
    "note": "Classical multi-volume tafsir, organized by verse rather than a fixed page range shared across editions. The claims cited from this work here are found in its commentary on Qur'an 1:1 (al-Fatihah), locatable in any standard print or digital edition (e.g. altafsir.com) without a specific edition/page pin."
   },
   {
    "id": "zamakhshari-kashshaf",
+   "type": "book",
    "author": "al-Zamakhshari, Mahmud ibn ʿUmar (d. 538/1144)",
    "name": "al-Kashshāf ʿan ḥaqāʾiq ghawāmiḍ al-tanzīl",
    "note": "Classical multi-volume tafsir, organized by verse. The claims cited from this work here are found in its commentary on Qur'an 1:1 (al-Fatihah), locatable in any standard print or digital edition (e.g. altafsir.com) without a specific edition/page pin."
   },
   {
    "id": "ibn-kathir-tafsir",
+   "type": "book",
    "author": "Ibn Kathir, Ismaʿil ibn ʿUmar (d. 774/1373)",
    "name": "Tafsīr al-Qurʾān al-ʿAẓīm",
    "note": "Classical multi-volume tafsir, organized by verse. The claims cited from this work here are found in its commentary on Qur'an 1:1 (al-Fatihah), locatable in any standard print or digital edition (e.g. altafsir.com) without a specific edition/page pin."
   },
   {
    "id": "abdel-haleem-1999",
+   "type": "book",
    "author": "Abdel Haleem, Muhammad",
    "name": "Understanding the Qur'an: Themes and Style",
    "publisher": "London: I. B. Tauris",
@@ -179,6 +201,7 @@
   },
   {
    "id": "neuwirth-1981",
+   "type": "book",
    "author": "Neuwirth, Angelika",
    "name": "Studien zur Komposition der mekkanischen Suren",
    "publisher": "Berlin: Walter de Gruyter",
@@ -186,6 +209,7 @@
   },
   {
    "id": "bannister-2014",
+   "type": "book",
    "author": "Bannister, Andrew G.",
    "name": "An Oral-Formulaic Study of the Qur'an",
    "publisher": "Lanham, MD: Lexington Books",
@@ -195,6 +219,7 @@
   },
   {
    "id": "cuypers-2015",
+   "type": "book",
    "author": "Cuypers, Michel",
    "name": "The Composition of the Qur'an: Rhetorical Analysis",
    "edition": "translated by Jerry Ryan",

@@ -1,0 +1,41 @@
+# Citation metadata for the site and its computed datasets.
+# GENERATED FIELDS: version and date-released mirror data/version.json;
+# scripts/check-citation.mjs fails CI when they drift. Everything else is
+# hand-maintained. See also data/citations.bib (generated BibTeX for the
+# site, its export tables, and all 25 cited sources).
+cff-version: 1.2.0
+message: >-
+  If you use this site or its computed datasets, please cite it as below.
+  Bundled upstream data keeps its own licenses and should be cited
+  separately; see NOTICE.md and https://divinediscourses.org/sources.
+title: "Divine Discourses"
+type: software
+version: 1.0.0
+date-released: 2026-08-04
+url: "https://divinediscourses.org"
+repository-code: "https://github.com/saebchicago/qurandiscourses"
+license: MIT
+authors:
+  - name: "Divine Discourses project"
+    website: "https://divinediscourses.org/about"
+abstract: >-
+  A Qur'an study platform in the coherence-reading tradition of
+  Dr. Irfan Ahmad Khan: each surah read as one discourse, every claim
+  labeled and traceable to its source. Ships word-by-word morphology
+  (Leeds Quranic Arabic Corpus v0.4), computed root, association,
+  centrality, and coverage datasets, and a machine-readable claims
+  ledger with per-claim evidence status.
+keywords:
+  - Quran
+  - Arabic morphology
+  - corpus linguistics
+  - coherence
+  - nazm
+references:
+  - type: data
+    title: "The Quranic Arabic Corpus, version 0.4"
+    authors:
+      - family-names: Dukes
+        given-names: Kais
+    url: "https://corpus.quran.com"
+    notes: "GPL; the morphology foundation for all computed datasets."
