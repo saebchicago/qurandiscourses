@@ -711,6 +711,41 @@ if (runCheck("comparepopover") && (!PAGE_FILTER || PAGE_FILTER === "compare.html
   await cctx.close();
 }
 
+// ── Claim permalinks ────────────────────────────────────────────────
+// Every claim in data/claims.json must be addressable as
+// /validation#<claim-id>: the articles are JS-rendered, so only a
+// browser check can prove the anchors exist. One deep-link journey also
+// proves the fragment scrolls to its target after the async render.
+if (runCheck("claims") && (!PAGE_FILTER || PAGE_FILTER === "validation.html")) {
+  const ledger = JSON.parse(readFileSync(join(ROOT, "data/claims.json"), "utf8")).claims;
+  const cctx = await newContext();
+  const page = await cctx.newPage();
+  const probe = ledger[ledger.length - 1].id;
+  await page.goto(`${BASE}/validation.html#${probe}`, { waitUntil: "networkidle" });
+  await page.waitForSelector(".verify-example", { timeout: 10000 });
+  const state = await page.evaluate(
+    (ids) => ({
+      missing: ids.filter((id) => !document.getElementById(id)),
+      anchors: document.querySelectorAll(".verify-example .claim-anchor").length,
+      targetVisible: (() => {
+        const el = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+        if (!el) return false;
+        const r = el.getBoundingClientRect();
+        return r.top >= -1 && r.top < window.innerHeight;
+      })(),
+    }),
+    ledger.map((c) => c.id),
+  );
+  const ok = !state.missing.length && state.anchors === ledger.length && state.targetVisible;
+  report(
+    "claims", "validation.html", ok,
+    ok
+      ? `${ledger.length} claim ids addressable, deep link scrolls to its target`
+      : `missing=[${state.missing}] anchors=${state.anchors}/${ledger.length} targetVisible=${state.targetVisible}`,
+  );
+  await cctx.close();
+}
+
 // ── First visit (empty storage) ─────────────────────────────────────
 if (runCheck("firstvisit") && (!PAGE_FILTER || PAGE_FILTER === "index.html")) {
   const fctx = await newContext({ seenState: false });

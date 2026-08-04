@@ -2254,6 +2254,23 @@ dd {
   border-radius: 8px;
   padding: 1rem 1.1rem;
 }
+/* A deep-linked claim (/validation#claim.x.y.v1) announces itself. */
+.verify-example:target {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.verify-example .claim-anchor {
+  margin-left: auto;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+.verify-example .claim-anchor:hover,
+.verify-example .claim-anchor:focus-visible {
+  opacity: 1;
+  color: var(--accent);
+}
 .verify-example h3 {
   margin: 0 0 0.5rem;
   font-size: 0.95rem;
@@ -2458,6 +2475,35 @@ kbd {
   color: var(--muted, #999);
   line-height: 1;
   padding: 0;
+}
+
+/* On-this-page mini TOC (how-it-works.html). Plain anchors: the point
+   is that every section of a long method page is citable by URL. */
+.page-toc {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  margin: 0.75rem 0 1rem;
+  font-size: 0.88rem;
+}
+.page-toc p {
+  margin: 0 0 0.25rem;
+}
+.page-toc ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 1rem;
+}
+/* A deep-linked section heading announces itself, matching the claim
+   permalink treatment on validation.html. */
+main h3:target {
+  scroll-margin-top: 0.75rem;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-radius: 4px;
+  padding: 0.1rem 0.3rem;
 }
 
 /* The static site-citation example on about.html#cite. */
