@@ -132,7 +132,8 @@ sources), `changelog.json` (the changelog entry registry behind changelog.html
 and feed.xml), `claims.json`, `contributors.json` (the contributor
 roster behind credits.html), `exercises.json`, `glossary.json` (the term
 registry behind assets/glossary.js and glossary.html), `juz.json`,
-`paths.json`, `search-index.json` (the folded-token index behind
+`paths.json`, `related.json` (the see-also join behind dossier and
+themes panels), `search-index.json` (the folded-token index behind
 /search),
 `sources.json`, `surah-names.json`, `version.json` (the site's release
 version), `videos.json`, plus the computed datasets in the next

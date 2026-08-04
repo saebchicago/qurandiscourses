@@ -2539,6 +2539,17 @@ kbd {
   font-size: 0.9rem;
 }
 
+/* Dossier's See-also panel (assets/related.js). */
+.related-panel .related-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
 /* /search: input row and grouped results (assets/search.js). */
 .search-row {
   display: flex;
