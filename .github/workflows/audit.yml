@@ -47,6 +47,8 @@ jobs:
           node scripts/check-nav-sync.mjs
           node scripts/check-headers-sync.mjs
           node scripts/build-csp.mjs --check
+          node scripts/build-sw-manifest.mjs --check
+          node scripts/check-sw-version.mjs
 
       - name: Validate citation metadata
         # One version everywhere: version.json vs CITATION.cff vs the

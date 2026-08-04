@@ -6,16 +6,50 @@
 //
 // Bump SW_VERSION whenever a data file's schema changes (see any
 // scripts/build-*.mjs change) or a cached asset's contract changes, so
-// stale entries from the previous version are dropped on activate. This
-// is a documented convention, not a checker — see docs/maintainer-guide.md.
-const SW_VERSION = "v9";
+// stale entries from the previous version are dropped on activate.
+// After a bump, run: node scripts/build-sw-manifest.mjs — it rewrites
+// the precache block below and data/sw-manifest.json; check-sw-version
+// in CI fails when either is stale or the two versions disagree.
+const SW_VERSION = "v10";
 const HTML_CACHE = "dd-html-" + SW_VERSION;
 const ASSET_CACHE = "dd-assets-" + SW_VERSION;
 const DATA_CACHE = "dd-data-" + SW_VERSION;
 const OWN_CACHES = [HTML_CACHE, ASSET_CACHE, DATA_CACHE];
 
+// GENERATED:sw-precache (scripts/build-sw-manifest.mjs) — do not edit;
+// regenerate with: node scripts/build-sw-manifest.mjs
+const PRECACHE_PAGES = ["/","/read","/navigate","/paths","/search"];
+const PRECACHE_ASSETS = ["/assets/app.js","/assets/ask-routes.js","/assets/ask.js","/assets/case-studies.js","/assets/chart.js","/assets/cite-badge.js","/assets/cite-page.js","/assets/depth-boot.js","/assets/discovery-worksheet.js","/assets/feedback.js","/assets/fonts.css","/assets/glossary.js","/assets/icons/icon-192.png","/assets/icons/icon-512.png","/assets/issue-url.js","/assets/nav.js","/assets/notebook.js","/assets/notes.js","/assets/path-data.js","/assets/path-ribbon.js","/assets/picker.js","/assets/read-picker.js","/assets/read-polish.js","/assets/refs.js","/assets/root-meanings.js","/assets/root-refs.js","/assets/search.js","/assets/share.js","/assets/style.css","/assets/surahs.js","/assets/tour.js","/assets/version.js","/assets/wordbw.js"];
+const PRECACHE_DATA = ["/data/surah-names.json","/data/juz.json","/data/version.json"];
+// /GENERATED:sw-precache
+
+// Install-time precache of the app shell, so the first offline visit
+// after ONE online visit already has the core pages, styles, scripts,
+// and the small always-needed data. Three rules that matter:
+//   - pages are CLEAN PATHS (/read, never /read.html): Netlify 301s
+//     the .html form, and a cached redirected response is rejected by
+//     the browser for navigations; the clean key is also exactly what
+//     networkFirstHtml looks up.
+//   - each list seeds the cache its runtime strategy reads — data
+//     files in ASSET_CACHE would never be found by networkFirstData.
+//   - tolerant, not atomic: cache.addAll would discard the whole new
+//     SW on one failed entry; a missing precache entry costs nothing
+//     here because every route is network-first or SWR anyway.
 self.addEventListener("install", (event) => {
-  event.waitUntil(self.skipWaiting());
+  event.waitUntil(
+    (async () => {
+      const seed = async (name, urls) => {
+        const cache = await caches.open(name);
+        await Promise.allSettled(urls.map((u) => cache.add(u)));
+      };
+      await Promise.allSettled([
+        seed(HTML_CACHE, PRECACHE_PAGES),
+        seed(ASSET_CACHE, PRECACHE_ASSETS),
+        seed(DATA_CACHE, PRECACHE_DATA),
+      ]);
+      await self.skipWaiting();
+    })(),
+  );
 });
 
 self.addEventListener("activate", (event) => {

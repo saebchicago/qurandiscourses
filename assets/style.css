@@ -728,6 +728,11 @@ blockquote.khan cite {
 .banner strong {
   color: var(--accent);
 }
+/* Offline status strip (assets/app.js initOfflineIndicator). */
+.offline-banner {
+  margin-top: 0;
+  font-size: 0.88rem;
+}
 /* Study-path ribbon (assets/path-ribbon.js). */
 .path-ribbon {
   display: flex;

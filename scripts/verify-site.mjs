@@ -944,6 +944,79 @@ if (runCheck("related") && (!PAGE_FILTER || PAGE_FILTER === "themes.html")) {
   await rctx.close();
 }
 
+// ── Service worker: precache + offline shell ────────────────────────
+// The one check that RUNS the service worker. Every other context
+// blocks SWs (see newContext) so apiMode routing stays deterministic;
+// this one gets its own context with SWs allowed, per the maintainer
+// guide's rule. Proves the three things only a browser can: install
+// precached the shell (a page never visited is already cached under
+// its clean path), a cold offline navigation still renders plus shows
+// the indicator, and no cache ever holds a cross-origin entry (the
+// never-intercept rule's observable consequence).
+if (runCheck("sw") && !PAGE_FILTER) {
+  const sctx = await browser.newContext(); // serviceWorkers allowed, deliberately
+  if (!LIVE) await sctx.route(BLOCKED_HOSTS, (route) => route.abort());
+  await sctx.addInitScript(() => {
+    try {
+      localStorage.setItem("qd_state", JSON.stringify({ seen: true }));
+    } catch (e) {}
+  });
+  const page = await sctx.newPage();
+  await page.goto(`${BASE}/`, { waitUntil: "load" });
+  let controlled = false;
+  try {
+    await page.evaluate(() => navigator.serviceWorker.ready);
+    await page.waitForFunction(() => !!navigator.serviceWorker.controller, null, {
+      timeout: 15000,
+    });
+    controlled = true;
+  } catch {
+    controlled = false;
+  }
+  if (!controlled) {
+    report("sw", "register", false, "service worker never took control of the page");
+  } else {
+    // Give the install-time seeding a beat to finish writing.
+    await page.waitForTimeout(500);
+    const pre = await page.evaluate(async () => {
+      const names = await caches.keys();
+      let readCached = false;
+      const crossOrigin = [];
+      for (const n of names) {
+        const c = await caches.open(n);
+        for (const req of await c.keys()) {
+          const u = new URL(req.url);
+          if (u.origin !== location.origin) crossOrigin.push(req.url);
+          if (u.pathname === "/read") readCached = true;
+        }
+      }
+      return { caches: names.length, readCached, crossOrigin: crossOrigin.length };
+    });
+    report(
+      "sw", "precache", pre.readCached && pre.crossOrigin === 0,
+      `${pre.caches} caches; /read precached before any visit=${pre.readCached}; cross-origin entries=${pre.crossOrigin} (want 0)`,
+    );
+
+    await sctx.setOffline(true);
+    let h2 = 0;
+    let banner = false;
+    try {
+      await page.goto(`${BASE}/navigate`, { waitUntil: "load", timeout: 15000 });
+      h2 = await page.locator("h2").count();
+      await page.waitForSelector(".offline-banner", { timeout: 5000 });
+      banner = await page.locator(".offline-banner").isVisible();
+    } catch {
+      /* reported below */
+    }
+    report(
+      "sw", "offline-shell", h2 > 0 && banner,
+      `offline navigation to a never-visited page: h2 rendered=${h2 > 0}, offline indicator=${banner}`,
+    );
+    await sctx.setOffline(false);
+  }
+  await sctx.close();
+}
+
 // ── First visit (empty storage) ─────────────────────────────────────
 if (runCheck("firstvisit") && (!PAGE_FILTER || PAGE_FILTER === "index.html")) {
   const fctx = await newContext({ seenState: false });

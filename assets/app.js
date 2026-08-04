@@ -747,4 +747,38 @@
       navigator.serviceWorker.register("/sw.js").catch(() => {});
     });
   }
+
+  // Offline indicator: a slim status strip at the top of <main> while
+  // the browser reports no connection, so a reader knows they are on
+  // the service worker's saved copy rather than a broken site. Created
+  // lazily, toggled by the online/offline events; no storage involved.
+  function initOfflineIndicator() {
+    if (!("onLine" in navigator)) return;
+    var strip = null;
+    function show() {
+      if (!strip) {
+        var main = document.querySelector("main");
+        if (!main) return;
+        strip = document.createElement("div");
+        strip.className = "banner note offline-banner";
+        strip.setAttribute("role", "status");
+        strip.setAttribute("aria-live", "polite");
+        strip.textContent =
+          "Offline. Showing your saved copy; live text, audio, and forms resume with the connection.";
+        main.insertBefore(strip, main.firstChild);
+      }
+      strip.hidden = false;
+    }
+    function hide() {
+      if (strip) strip.hidden = true;
+    }
+    window.addEventListener("offline", show);
+    window.addEventListener("online", hide);
+    if (navigator.onLine === false) show();
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initOfflineIndicator);
+  } else {
+    initOfflineIndicator();
+  }
 })();
