@@ -1,0 +1,312 @@
+{
+ "_comment": "The ONE glossary registry. scripts/build-glossary.mjs generates BOTH assets/glossary.js (the inline tooltip wrapper) and glossary.html's definition list from this file; its --check mode fails CI when either drifts. matchKeys are the literal strings the tooltip wrapper matches in page text (an entry can have aliases, e.g. nazm also matches coherence); labelHtml/ddHtml may carry markup, def is the plain-text tooltip.",
+ "terms": [
+  {
+   "id": "ayah",
+   "labelHtml": "Ayah <span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\" >آية</span >",
+   "matchKeys": [
+    "ayah"
+   ],
+   "def": "A verse of the Qur'an. The plural is ayat. The same word also means 'sign'.",
+   "ddHtml": "              A verse of the Qur'an. The plural is ayat. The same word also\n              means \"sign.\""
+  },
+  {
+   "id": "basmala",
+   "labelHtml": "Basmala <span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\" >بسملة</span >",
+   "matchKeys": [
+    "basmala"
+   ],
+   "def": "The opening formula bismillah al-rahman al-rahim ('In the name of God, the Most Merciful, the Especially Merciful'). It heads 113 of the 114 surahs and appears mid-surah once, at 27:30.",
+   "ddHtml": "              The opening formula <em>bismillah al-rahman al-rahim</em> (\"In the\n              name of God, the Most Merciful, the Especially Merciful\"). It\n              heads 113 of the 114 surahs and appears mid-surah once, at 27:30."
+  },
+  {
+   "id": "betweenness",
+   "labelHtml": "Betweenness centrality",
+   "matchKeys": [
+    "betweenness"
+   ],
+   "def": "How often a node lies on the shortest paths between other nodes in a co-occurrence network. A statistical position measure, strongly influenced by raw frequency; it does not indicate importance.",
+   "ddHtml": "              How often a node lies on the shortest paths between other nodes in a co-occurrence network. A statistical position measure, strongly influenced by raw frequency; it does not indicate importance."
+  },
+  {
+   "id": "buckwalter",
+   "labelHtml": "Buckwalter",
+   "matchKeys": [
+    "buckwalter"
+   ],
+   "def": "A one-to-one Latin-character transliteration system for Arabic, used by the Leeds Quranic Arabic Corpus to encode the consonantal and vowel structure of every word in machine-readable form.",
+   "ddHtml": "              A one-to-one Latin-character transliteration system for Arabic,\n              used by the Leeds Quranic Arabic Corpus to encode the consonantal\n              and vowel structure of every word in machine-readable form."
+  },
+  {
+   "id": "deterministic",
+   "labelHtml": "Deterministic",
+   "matchKeys": [
+    "deterministic"
+   ],
+   "def": "Producing the same output for the same input, every time, by following fixed rules. The Ask box is deterministic: pattern-matching routes your question to a tool, and nothing composes an answer on the site's behalf.",
+   "ddHtml": "              Producing the same output for the same input, every time, by\n              following fixed rules. The Ask box is deterministic:\n              pattern-matching routes your question to a tool, and nothing\n              composes an answer on the site's behalf."
+  },
+  {
+   "id": "dice",
+   "labelHtml": "Dice coefficient",
+   "matchKeys": [
+    "dice"
+   ],
+   "def": "The Dice coefficient: the overlap between two words' sets of verses, from 0 (never together) to 1 (always together).",
+   "ddHtml": "              The Dice coefficient: the overlap between two words' sets of verses, from 0 (never together) to 1 (always together)."
+  },
+  {
+   "id": "discourse",
+   "labelHtml": "Discourse",
+   "matchKeys": [
+    "discourse"
+   ],
+   "def": "As used on this site: a surah read as one connected address (khitab) from speaker to hearer — a single speech with a beginning, development, and close — rather than a loose collection of verses.",
+   "ddHtml": "              As used on this site: a surah read as one connected address\n              (khitab) from speaker to hearer — a single speech with a\n              beginning, development, and close — rather than a loose\n              collection of verses. The site's name, \"Divine Discourses,\"\n              carries Khan's translation of khitab."
+  },
+  {
+   "id": "eigenvector",
+   "labelHtml": "Eigenvector centrality",
+   "matchKeys": [
+    "eigenvector"
+   ],
+   "def": "Eigenvector centrality: a node scores high when its neighbors also score high, meaning proximity to network hubs. A statistical position measure; it does not indicate importance.",
+   "ddHtml": "              Eigenvector centrality: a node scores high when its neighbors also score high, meaning proximity to network hubs. A statistical position measure; it does not indicate importance."
+  },
+  {
+   "id": "evidence-dimensions",
+   "labelHtml": "Evidence dimensions",
+   "matchKeys": [
+    "evidence dimensions"
+   ],
+   "def": "The separately recorded aspects of a research claim's support: what source was checked, whether the computation was reproduced, what the result depends on, and its known limits. Badges summarize these; the Validation page decomposes them.",
+   "ddHtml": "              The separately recorded aspects of a research claim's support\n              on this site: what source was checked, whether the computation\n              was reproduced, what the result depends on, and its known\n              limits. A claim's badge summarizes these; the\n              <a href=\"/validation\">Validation</a> page decomposes them."
+  },
+  {
+   "id": "hapax",
+   "labelHtml": "Hapax",
+   "matchKeys": [
+    "hapax"
+   ],
+   "def": "From 'hapax legomenon' (Greek: 'said once'). A word or form occurring exactly once in a corpus. The Qur'an has roughly 12,000 surface-form hapax legomena and roughly 395 root-level hapax.",
+   "ddHtml": "              From <em>hapax legomenon</em> (Greek: \"said once\"). A word or form\n              occurring exactly once in a corpus. The Qur'an has roughly 12,000\n              surface-form hapax legomena and roughly 395 root-level hapax."
+  },
+  {
+   "id": "iltifat",
+   "labelHtml": "Iltifat <span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\" >التفات</span >",
+   "matchKeys": [
+    "iltifat"
+   ],
+   "def": "Grammatical shift, especially person or tense, treated by classical Arabic rhetoricians as a deliberate rhetorical device rather than a textual irregularity.",
+   "ddHtml": "              Grammatical shift, especially person or tense, treated by\n              classical Arabic rhetoricians as a deliberate rhetorical device\n              rather than a textual irregularity."
+  },
+  {
+   "id": "juz",
+   "labelHtml": "Juz <span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\" >جزء</span >",
+   "matchKeys": [
+    "juz"
+   ],
+   "def": "One of the 30 roughly equal parts the Qur'an is traditionally divided into (plural ajzāʾ; also called para), so that reading one each day completes the Qur'an in a month. Unlike a surah, a juz can begin and end in the middle of a chapter. The boundaries are a reading convention, not part of the revealed text. Browse them on Navigate.",
+   "ddHtml": "              One of the 30 roughly equal parts the Qur'an is traditionally\n              divided into (plural <em>ajzāʾ</em>; also called <em>para</em>),\n              so that reading one each day completes the Qur'an in a month. Unlike\n              a surah, a juz can begin and end in the middle of a chapter. The\n              boundaries are a reading convention, not part of the revealed text.\n              Browse them on <a href=\"/navigate#juz\">Navigate</a>."
+  },
+  {
+   "id": "keyness",
+   "labelHtml": "Keyness",
+   "matchKeys": [
+    "keyness"
+   ],
+   "def": "A score (Dunning's G2) for how distinctively a word belongs to one section of the text compared with the rest. High keyness means the word's frequency there is statistically unusual, not that the word is important.",
+   "ddHtml": "              A score (Dunning's G2) for how distinctively a word belongs to one section of the text compared with the rest. High keyness means the word's frequency there is statistically unusual, not that the word is important."
+  },
+  {
+   "id": "khitab",
+   "labelHtml": "Khitab <span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\" >خطاب</span >",
+   "matchKeys": [
+    "khitab"
+   ],
+   "def": "Direct address from speaker to hearer. Khan treated this as the proper unit of Qur'anic reading; the site's name, 'Divine Discourses,' renders God's khitab to the hearer.",
+   "ddHtml": "              Direct address from speaker to hearer. In the\n              Farahi-Islahi-Mir-Khan tradition that shapes this site, khitab is\n              treated as the proper unit of Qur'anic reading. The site's name,\n              \"Divine Discourses,\" renders God's khitab to the hearer."
+  },
+  {
+   "id": "lemma",
+   "labelHtml": "Lemma",
+   "matchKeys": [
+    "lemma"
+   ],
+   "def": "The dictionary or canonical form of a word. In Arabic morphology, lemmas are derived from triliteral roots according to fixed patterns.",
+   "ddHtml": "              The dictionary or canonical form of a word. In Arabic morphology,\n              lemmas are derived from triliteral roots according to fixed\n              patterns."
+  },
+  {
+   "id": "llr",
+   "labelHtml": "LLR (log-likelihood ratio)",
+   "matchKeys": [
+    "llr"
+   ],
+   "def": "Log-likelihood ratio (Dunning's G2): a score for how surprising it is that two words share verses as often as they do, given how often each occurs overall. Higher means stronger evidence the pairing is not chance. It measures distribution, not meaning.",
+   "ddHtml": "              Log-likelihood ratio (Dunning's G2): a score for how surprising it is that two words share verses as often as they do, given how often each occurs overall. Higher means stronger evidence the pairing is not chance. It measures distribution, not meaning."
+  },
+  {
+   "id": "morphology",
+   "labelHtml": "Morphology",
+   "matchKeys": [
+    "morphology"
+   ],
+   "def": "The word-form analysis of Arabic: root, stem pattern, prefixes, suffixes, tense, mood, person, number, and inflection. The Leeds Quranic Arabic Corpus provides this analysis for every word in the Qur'an.",
+   "ddHtml": "              The word-form analysis of Arabic: root, stem pattern, prefixes,\n              suffixes, tense, mood, person, number, and inflection. The Leeds\n              Quranic Arabic Corpus provides this analysis for every word in the\n              Qur'an."
+  },
+  {
+   "id": "mutashabihat",
+   "labelHtml": "Mutashabihat <span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\" >متشابهات</span >",
+   "matchKeys": [
+    "mutashabihat"
+   ],
+   "def": "Phrases or formulations that recur across the Qur'an with small variations. The classical science of tracking these parallels is a subfield of 'ulum al-Qur'an.",
+   "ddHtml": "              Phrases or formulations that recur across the Qur'an with small\n              variations. The classical science of tracking these parallels is a\n              subfield of <em>'ulum al-Qur'an</em>."
+  },
+  {
+   "id": "nazm",
+   "labelHtml": "Nazm <span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\" >نظم</span >",
+   "matchKeys": [
+    "nazm",
+    "coherence"
+   ],
+   "def": "Arabic for 'coherence' or 'structural order'. A method of Qur'anic exegesis that reads each surah as a unified composition with deliberate thematic structure, developed by Farahi, Islahi, Mir, and Khan.",
+   "ddHtml": "              Arabic for \"coherence\" or \"structural order.\" A method of Qur'anic\n              exegesis that reads each surah as a unified composition with\n              deliberate thematic structure, developed by Farahi, Islahi, Mir,\n              and Khan."
+  },
+  {
+   "id": "nuanced",
+   "labelHtml": "Nuanced",
+   "matchKeys": [
+    "nuanced"
+   ],
+   "def": "A claim that is defensible but depends on a specific counting rule, classification scheme, or interpretive choice. Both the headline figure and the underlying ambiguity are presented.",
+   "ddHtml": "              A claim that is defensible but depends on a specific counting\n              rule, classification scheme, or interpretive choice. Both the\n              headline figure and the underlying ambiguity are presented."
+  },
+  {
+   "id": "pending",
+   "labelHtml": "Pending",
+   "matchKeys": [
+    "pending"
+   ],
+   "def": "A claim awaiting triangulation. Useful as a working figure but not yet verified against primary sources.",
+   "ddHtml": "              A claim awaiting triangulation. Useful as a working figure but not\n              yet verified against primary sources."
+  },
+  {
+   "id": "period-distribution",
+   "labelHtml": "Period distribution",
+   "matchKeys": [
+    "period distribution"
+   ],
+   "def": "How a word or root's occurrences distribute across the Meccan and Medinan revelation periods, based on a chosen chronology such as the Cairo 1924 edition or Noldeke-Schwally.",
+   "ddHtml": "              How a word or root's occurrences distribute across the Meccan and\n              Medinan revelation periods, based on a chosen chronology such as\n              the Cairo 1924 edition or Nöldeke-Schwally."
+  },
+  {
+   "id": "pmi",
+   "labelHtml": "PMI (pointwise mutual information)",
+   "matchKeys": [
+    "pmi"
+   ],
+   "def": "Pointwise mutual information: how much more often two words appear together than chance would predict. Rare, tightly paired words score high; very frequent words score low even when they co-occur often.",
+   "ddHtml": "              Pointwise mutual information: how much more often two words appear together than chance would predict. Rare, tightly paired words score high; very frequent words score low even when they co-occur often."
+  },
+  {
+   "id": "provenance",
+   "labelHtml": "Provenance",
+   "matchKeys": [
+    "provenance"
+   ],
+   "def": "Where a figure or claim comes from: the named source, edition, and method it can be traced to. Every research claim on this site carries a citation you can follow and a badge stating how far it has been checked.",
+   "ddHtml": "              Where a figure or claim comes from: the named source, edition,\n              and method it can be traced to. On this site every research\n              claim carries its provenance — a citation you can follow and a\n              badge stating how far it has been checked."
+  },
+  {
+   "id": "root",
+   "labelHtml": "Root",
+   "matchKeys": [
+    "root"
+   ],
+   "def": "The three-letter (occasionally four-letter) consonantal skeleton from which Arabic words are derived. Every noun and verb in the Qur'an fits a root into fixed morphological patterns; the same root can carry a family of related meanings.",
+   "ddHtml": "              The three-letter (occasionally four-letter) consonantal skeleton\n              from which Arabic words are derived. Every noun and verb in the\n              Qur'an fits a root into fixed morphological patterns; the same\n              root can carry a family of related meanings."
+  },
+  {
+   "id": "surah",
+   "labelHtml": "Surah <span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\" >سورة</span >",
+   "matchKeys": [
+    "surah"
+   ],
+   "def": "A chapter of the Qur'an. There are 114, varying in length from 3 verses to 286.",
+   "ddHtml": "              A chapter of the Qur'an. There are 114, varying in length from 3\n              verses to 286."
+  },
+  {
+   "id": "surface-form",
+   "labelHtml": "Surface form",
+   "matchKeys": [
+    "surface form"
+   ],
+   "def": "A distinct written form of a word as it actually appears in the text, before it is reduced to its dictionary form. The same lemma can appear as several surface forms (singular, plural, with attached prefixes). The Qur'an has 18,993 distinct surface forms across its 77,429 word-units.",
+   "ddHtml": "              A distinct written form of a word as it actually appears in the\n              text, before it is reduced to its dictionary form. The same\n              <a href=\"/glossary#lemma\">lemma</a> can appear as several\n              surface forms (singular, plural, with attached prefixes). The\n              Qur'an has 18,993 distinct surface forms across its 77,429\n              <a href=\"/glossary#token\">word-units</a>."
+  },
+  {
+   "id": "tafaseer",
+   "labelHtml": "Tafaseer",
+   "matchKeys": [
+    "tafaseer"
+   ],
+   "def": "Plural of tafsir.",
+   "ddHtml": "Plural of tafsir."
+  },
+  {
+   "id": "tafsir",
+   "labelHtml": "Tafsir <span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\" >تفسير</span >",
+   "matchKeys": [
+    "tafsir"
+   ],
+   "def": "Qur'anic exegesis or commentary. A scholarly genre going back to the earliest generations of Islam.",
+   "ddHtml": "              Qur'anic exegesis or commentary. A scholarly genre going back to\n              the earliest generations of Islam."
+  },
+  {
+   "id": "token",
+   "labelHtml": "Token (word-unit)",
+   "matchKeys": [
+    "token"
+   ],
+   "def": "The smallest piece the corpus counts — this site calls it a word-unit in plain language. Arabic often writes several tokens as a single word: bismi (\"in the name of\") is one written word but two tokens (bi + ism). That is why the Qur'an has 77,429 word-units but far fewer written words. Counts of nouns, verbs, and verse length on Numbers are measured in word-units, not written words.",
+   "ddHtml": "              The smallest piece the corpus counts — this site calls it a\n              <strong>word-unit</strong> in plain language. Arabic often writes\n              several tokens as a single word: <em>bismi</em> (\"in the name\n              of\") is one written word but two tokens (<em>bi</em> +\n              <em>ism</em>). That is why the Qur'an has 77,429 word-units but\n              far fewer written words. Counts of nouns, verbs, and verse length\n              on <a href=\"/numbers\">Numbers</a> are measured in word-units,\n              not written words."
+  },
+  {
+   "id": "triangulate",
+   "labelHtml": "Triangulate",
+   "matchKeys": [
+    "triangulate"
+   ],
+   "def": "To cross-check a claim against two or more independent sources. Agreement moves a claim from Pending to Verified; disagreement keeps it Nuanced with the disagreement recorded.",
+   "ddHtml": "              To cross-check a claim against two or more independent sources.\n              Agreement across sources moves a claim from Pending to Verified;\n              disagreement keeps it Nuanced with the disagreement recorded. See\n              <a href=\"/validation\">Validation</a> for the prompts."
+  },
+  {
+   "id": "ttr",
+   "labelHtml": "TTR (type-token ratio)",
+   "matchKeys": [
+    "ttr"
+   ],
+   "def": "Type-token ratio: distinct word forms divided by total words, a measure of vocabulary variety. Smaller samples score higher mechanically, so the trend matters more than the absolute values.",
+   "ddHtml": "              Type-token ratio: distinct word forms divided by total words, a measure of vocabulary variety. Smaller samples score higher mechanically, so the trend matters more than the absolute values."
+  },
+  {
+   "id": "verified",
+   "labelHtml": "Verified",
+   "matchKeys": [
+    "verified"
+   ],
+   "def": "A claim on this site backed by direct corpus data, primary text, or peer-reviewed scholarship. The strongest confidence label.",
+   "ddHtml": "              A claim on this site backed by direct corpus data, primary text,\n              or peer-reviewed scholarship. The strongest confidence label."
+  },
+  {
+   "id": "word-unit",
+   "labelHtml": "Word-unit",
+   "matchKeys": [
+    "word-unit"
+   ],
+   "def": "This site's plain-language name for a corpus token — the smallest counted piece of the text. Used in place of \"word\" wherever a count could otherwise be mistaken for written words.",
+   "ddHtml": "              This site's plain-language name for a corpus\n              <a href=\"/glossary#token\">token</a> — the smallest counted\n              piece of the text. Used in place of \"word\" wherever a count could\n              otherwise be mistaken for written words."
+  }
+ ]
+}

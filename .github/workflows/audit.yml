@@ -52,6 +52,7 @@ jobs:
         run: |
           node scripts/check-citation.mjs
           node scripts/build-citations.mjs --check
+          node scripts/build-glossary.mjs --check
 
       - name: Validate generated URLs and static fallbacks
         # Both are generated from data, so an edit elsewhere can leave

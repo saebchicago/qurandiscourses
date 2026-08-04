@@ -1,60 +1,43 @@
 /* Inline glossary — wraps first per-page occurrence of each term in a .gloss span */
+/* GENERATED:glossary (build-glossary.mjs) */
 window.GLOSSARY = {
-  nazm: "Arabic for 'coherence' or 'structural order'. A method of Qur'anic exegesis that reads each surah as a unified composition with deliberate thematic structure, developed by Farahi, Islahi, Mir, and Khan.",
-  coherence:
-    "Arabic for 'coherence' or 'structural order' (nazm). A method of Qur'anic exegesis that reads each surah as a unified composition with deliberate thematic structure, developed by Farahi, Islahi, Mir, and Khan.",
-  mutashabihat:
-    "Phrases or formulations that recur across the Qur'an with small variations. The classical science of tracking these parallels is a subfield of 'ulum al-Qur'an.",
-  iltifat:
-    "Grammatical shift, especially person or tense, treated by classical Arabic rhetoricians as a deliberate rhetorical device rather than a textual irregularity.",
-  hapax:
-    "From 'hapax legomenon' (Greek: 'said once'). A word or form occurring exactly once in a corpus. The Qur'an has roughly 12,000 surface-form hapax legomena and roughly 395 root-level hapax.",
-  lemma:
-    "The dictionary or canonical form of a word. In Arabic morphology, lemmas are derived from triliteral roots according to fixed patterns.",
-  basmala:
-    "The opening formula bismillah al-rahman al-rahim ('In the name of God, the Most Merciful, the Especially Merciful'). It heads 113 of the 114 surahs and appears mid-surah once, at 27:30.",
-  buckwalter:
-    "A one-to-one Latin-character transliteration system for Arabic, used by the Leeds Quranic Arabic Corpus to encode the consonantal and vowel structure of every word in machine-readable form.",
-  tafsir:
-    "Qur'anic exegesis or commentary. A scholarly genre going back to the earliest generations of Islam.",
-  tafaseer: "Plural of tafsir.",
-  khitab:
-    "Direct address from speaker to hearer. Khan treated this as the proper unit of Qur'anic reading; the site's name, 'Divine Discourses,' renders God's khitab to the hearer.",
-  discourse:
-    "As used on this site: a surah read as one connected address (khitab) from speaker to hearer — a single speech with a beginning, development, and close — rather than a loose collection of verses.",
-  surah:
-    "A chapter of the Qur'an. There are 114, varying in length from 3 verses to 286.",
-  ayah: "A verse of the Qur'an. The plural is ayat. The same word also means 'sign'.",
-  verified:
-    "A claim on this site backed by direct corpus data, primary text, or peer-reviewed scholarship. The strongest confidence label.",
-  nuanced:
-    "A claim that is defensible but depends on a specific counting rule, classification scheme, or interpretive choice. Both the headline figure and the underlying ambiguity are presented.",
-  pending:
-    "A claim awaiting triangulation. Useful as a working figure but not yet verified against primary sources.",
-  root: "The three-letter (occasionally four-letter) consonantal skeleton from which Arabic words are derived. Every noun and verb in the Qur'an fits a root into fixed morphological patterns; the same root can carry a family of related meanings.",
-  morphology:
-    "The word-form analysis of Arabic: root, stem pattern, prefixes, suffixes, tense, mood, person, number, and inflection. The Leeds Quranic Arabic Corpus provides this analysis for every word in the Qur'an.",
-  triangulate:
-    "To cross-check a claim against two or more independent sources. Agreement moves a claim from Pending to Verified; disagreement keeps it Nuanced with the disagreement recorded.",
-  "period distribution":
-    "How a word or root's occurrences distribute across the Meccan and Medinan revelation periods, based on a chosen chronology such as the Cairo 1924 edition or Noldeke-Schwally.",
-  deterministic:
-    "Producing the same output for the same input, every time, by following fixed rules. The Ask box is deterministic: pattern-matching routes your question to a tool, and nothing composes an answer on the site's behalf.",
-  "evidence dimensions":
-    "The separately recorded aspects of a research claim's support: what source was checked, whether the computation was reproduced, what the result depends on, and its known limits. Badges summarize these; the Validation page decomposes them.",
-  provenance:
-    "Where a figure or claim comes from: the named source, edition, and method it can be traced to. Every research claim on this site carries a citation you can follow and a badge stating how far it has been checked.",
-  llr: "Log-likelihood ratio (Dunning's G2): a score for how surprising it is that two words share verses as often as they do, given how often each occurs overall. Higher means stronger evidence the pairing is not chance. It measures distribution, not meaning.",
-  pmi: "Pointwise mutual information: how much more often two words appear together than chance would predict. Rare, tightly paired words score high; very frequent words score low even when they co-occur often.",
-  dice: "The Dice coefficient: the overlap between two words' sets of verses, from 0 (never together) to 1 (always together).",
-  keyness:
-    "A score (Dunning's G2) for how distinctively a word belongs to one section of the text compared with the rest. High keyness means the word's frequency there is statistically unusual, not that the word is important.",
-  ttr: "Type-token ratio: distinct word forms divided by total words, a measure of vocabulary variety. Smaller samples score higher mechanically, so the trend matters more than the absolute values.",
-  betweenness:
-    "How often a node lies on the shortest paths between other nodes in a co-occurrence network. A statistical position measure, strongly influenced by raw frequency; it does not indicate importance.",
-  eigenvector:
-    "Eigenvector centrality: a node scores high when its neighbors also score high, meaning proximity to network hubs. A statistical position measure; it does not indicate importance.",
+  "ayah": "A verse of the Qur'an. The plural is ayat. The same word also means 'sign'.",
+  "basmala": "The opening formula bismillah al-rahman al-rahim ('In the name of God, the Most Merciful, the Especially Merciful'). It heads 113 of the 114 surahs and appears mid-surah once, at 27:30.",
+  "betweenness": "How often a node lies on the shortest paths between other nodes in a co-occurrence network. A statistical position measure, strongly influenced by raw frequency; it does not indicate importance.",
+  "buckwalter": "A one-to-one Latin-character transliteration system for Arabic, used by the Leeds Quranic Arabic Corpus to encode the consonantal and vowel structure of every word in machine-readable form.",
+  "deterministic": "Producing the same output for the same input, every time, by following fixed rules. The Ask box is deterministic: pattern-matching routes your question to a tool, and nothing composes an answer on the site's behalf.",
+  "dice": "The Dice coefficient: the overlap between two words' sets of verses, from 0 (never together) to 1 (always together).",
+  "discourse": "As used on this site: a surah read as one connected address (khitab) from speaker to hearer — a single speech with a beginning, development, and close — rather than a loose collection of verses.",
+  "eigenvector": "Eigenvector centrality: a node scores high when its neighbors also score high, meaning proximity to network hubs. A statistical position measure; it does not indicate importance.",
+  "evidence dimensions": "The separately recorded aspects of a research claim's support: what source was checked, whether the computation was reproduced, what the result depends on, and its known limits. Badges summarize these; the Validation page decomposes them.",
+  "hapax": "From 'hapax legomenon' (Greek: 'said once'). A word or form occurring exactly once in a corpus. The Qur'an has roughly 12,000 surface-form hapax legomena and roughly 395 root-level hapax.",
+  "iltifat": "Grammatical shift, especially person or tense, treated by classical Arabic rhetoricians as a deliberate rhetorical device rather than a textual irregularity.",
+  "juz": "One of the 30 roughly equal parts the Qur'an is traditionally divided into (plural ajzāʾ; also called para), so that reading one each day completes the Qur'an in a month. Unlike a surah, a juz can begin and end in the middle of a chapter. The boundaries are a reading convention, not part of the revealed text. Browse them on Navigate.",
+  "keyness": "A score (Dunning's G2) for how distinctively a word belongs to one section of the text compared with the rest. High keyness means the word's frequency there is statistically unusual, not that the word is important.",
+  "khitab": "Direct address from speaker to hearer. Khan treated this as the proper unit of Qur'anic reading; the site's name, 'Divine Discourses,' renders God's khitab to the hearer.",
+  "lemma": "The dictionary or canonical form of a word. In Arabic morphology, lemmas are derived from triliteral roots according to fixed patterns.",
+  "llr": "Log-likelihood ratio (Dunning's G2): a score for how surprising it is that two words share verses as often as they do, given how often each occurs overall. Higher means stronger evidence the pairing is not chance. It measures distribution, not meaning.",
+  "morphology": "The word-form analysis of Arabic: root, stem pattern, prefixes, suffixes, tense, mood, person, number, and inflection. The Leeds Quranic Arabic Corpus provides this analysis for every word in the Qur'an.",
+  "mutashabihat": "Phrases or formulations that recur across the Qur'an with small variations. The classical science of tracking these parallels is a subfield of 'ulum al-Qur'an.",
+  "nazm": "Arabic for 'coherence' or 'structural order'. A method of Qur'anic exegesis that reads each surah as a unified composition with deliberate thematic structure, developed by Farahi, Islahi, Mir, and Khan.",
+  "coherence": "Arabic for 'coherence' or 'structural order'. A method of Qur'anic exegesis that reads each surah as a unified composition with deliberate thematic structure, developed by Farahi, Islahi, Mir, and Khan.",
+  "nuanced": "A claim that is defensible but depends on a specific counting rule, classification scheme, or interpretive choice. Both the headline figure and the underlying ambiguity are presented.",
+  "pending": "A claim awaiting triangulation. Useful as a working figure but not yet verified against primary sources.",
+  "period distribution": "How a word or root's occurrences distribute across the Meccan and Medinan revelation periods, based on a chosen chronology such as the Cairo 1924 edition or Noldeke-Schwally.",
+  "pmi": "Pointwise mutual information: how much more often two words appear together than chance would predict. Rare, tightly paired words score high; very frequent words score low even when they co-occur often.",
+  "provenance": "Where a figure or claim comes from: the named source, edition, and method it can be traced to. Every research claim on this site carries a citation you can follow and a badge stating how far it has been checked.",
+  "root": "The three-letter (occasionally four-letter) consonantal skeleton from which Arabic words are derived. Every noun and verb in the Qur'an fits a root into fixed morphological patterns; the same root can carry a family of related meanings.",
+  "surah": "A chapter of the Qur'an. There are 114, varying in length from 3 verses to 286.",
+  "surface form": "A distinct written form of a word as it actually appears in the text, before it is reduced to its dictionary form. The same lemma can appear as several surface forms (singular, plural, with attached prefixes). The Qur'an has 18,993 distinct surface forms across its 77,429 word-units.",
+  "tafaseer": "Plural of tafsir.",
+  "tafsir": "Qur'anic exegesis or commentary. A scholarly genre going back to the earliest generations of Islam.",
+  "token": "The smallest piece the corpus counts — this site calls it a word-unit in plain language. Arabic often writes several tokens as a single word: bismi (\"in the name of\") is one written word but two tokens (bi + ism). That is why the Qur'an has 77,429 word-units but far fewer written words. Counts of nouns, verbs, and verse length on Numbers are measured in word-units, not written words.",
+  "triangulate": "To cross-check a claim against two or more independent sources. Agreement moves a claim from Pending to Verified; disagreement keeps it Nuanced with the disagreement recorded.",
+  "ttr": "Type-token ratio: distinct word forms divided by total words, a measure of vocabulary variety. Smaller samples score higher mechanically, so the trend matters more than the absolute values.",
+  "verified": "A claim on this site backed by direct corpus data, primary text, or peer-reviewed scholarship. The strongest confidence label.",
+  "word-unit": "This site's plain-language name for a corpus token — the smallest counted piece of the text. Used in place of \"word\" wherever a count could otherwise be mistaken for written words.",
 };
+/* /GENERATED:glossary */
 
 (function () {
   if (window.__glossaryDone) return;
