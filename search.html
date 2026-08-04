@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Watch short walkthroughs · Divine Discourses</title>
+    <title>Search this site · Divine Discourses</title>
     <meta
       name="description"
-      content="Short walkthroughs of Divine Discourses: real screen recordings with human narration, always captioned."
+      content="Search every page, glossary term, source, and theme on Divine Discourses."
     />
-    <link rel="canonical" href="https://divinediscourses.org/watch" />
+    <link rel="canonical" href="https://divinediscourses.org/search" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Divine Discourses" />
-    <meta property="og:title" content="Watch short walkthroughs · Divine Discourses" />
-    <meta property="og:description" content="Short walkthroughs of Divine Discourses: real screen recordings with human narration, always captioned." />
-    <meta property="og:url" content="https://divinediscourses.org/watch" />
+    <meta property="og:title" content="Search this site · Divine Discourses" />
+    <meta property="og:description" content="Search every page, glossary term, source, and theme on Divine Discourses." />
+    <meta property="og:url" content="https://divinediscourses.org/search" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta property="og:image" content="https://divinediscourses.org/assets/og/site-og.png" />
     <meta property="og:image:width" content="1200" />
@@ -31,11 +31,17 @@
       type="image/svg+xml"
       href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="%232b1d0e"/><text x="32" y="46" text-anchor="middle" font-family="Amiri,serif" font-size="42" fill="%23f6efe2">ق</text></svg>'
     />
+    <link
+      rel="search"
+      type="application/opensearchdescription+xml"
+      title="Divine Discourses"
+      href="/opensearch.xml"
+    />
     <link rel="manifest" href="manifest.webmanifest" />
     <meta name="theme-color" content="#2b1d0e" />
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/watch","url":"https://divinediscourses.org/watch","name":"Watch short walkthroughs · Divine Discourses","description":"Short walkthroughs of Divine Discourses: real screen recordings with human narration, always captioned.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.0.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Watch short walkthroughs","item":"https://divinediscourses.org/watch"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/search","url":"https://divinediscourses.org/search","name":"Search this site · Divine Discourses","description":"Search every page, glossary term, source, and theme on Divine Discourses.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.0.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Search this site","item":"https://divinediscourses.org/search"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -113,42 +119,48 @@
     </nav>
     <main id="main">
       <section>
-        <h2>Watch</h2>
+        <h2>Search this site</h2>
         <p class="lede">
-          Short walkthroughs of how to study with this site — each under two
-          minutes.
+          Every page section, glossary term, cited source, and theme, in
+          one index. For a verse, a surah name, or a root, the
+          <a href="/">Ask box</a> is faster; everything else lands here.
         </p>
-        <p class="caption-note">
-          Every video shows the live site, uses human narration, and includes
-          captions. No stock footage or music. Videos are hosted here, so
-          watching sends nothing to a third party.
+        <noscript>
+          <div class="banner soft">
+            <p style="margin: 0">
+              <strong>Search needs JavaScript</strong>: the index is
+              matched in your browser, nothing is sent anywhere. Without
+              scripts, the same ground is covered by the
+              <a href="/glossary">Glossary</a>, the
+              <a href="/themes">Themes</a> index, the
+              <a href="/sources">Sources</a> list, and the site map in
+              the footer of every page.
+            </p>
+          </div>
+        </noscript>
+        <form id="searchForm" action="/search" method="get" role="search">
+          <label for="search-input">Search terms</label>
+          <div class="search-row">
+            <input
+              type="search"
+              id="search-input"
+              name="q"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="iltifat, mercy, verse length, Bannister..."
+            />
+            <button type="submit" class="button btn-primary">Search</button>
+          </div>
+        </form>
+        <p class="t-annotation" id="searchExamples">
+          Try:
+          <a href="/search?q=iltifat">iltifat</a> ·
+          <a href="/search?q=hapax">hapax</a> ·
+          <a href="/search?q=chronology">chronology</a> ·
+          <a href="/search?q=verse+length">verse length</a>
         </p>
-      </section>
-      <section>
-        <!-- Rendered from data/videos.json; the cards below are the static
-             fallback if that fetch fails. Edit the JSON, not this HTML. -->
-        <div id="videoList">
-          <div class="card">
-            <h3>How to trust this site — in 90 seconds</h3>
-            <p>Planned — not yet recorded.</p>
-          </div>
-          <div class="card">
-            <h3>Find your theme — from a life question to the text</h3>
-            <p>Planned — not yet recorded.</p>
-          </div>
-          <div class="card">
-            <h3>Train your eye — the exercises</h3>
-            <p>Planned — not yet recorded.</p>
-          </div>
-        </div>
-      </section>
-      <section>
-        <p>
-          Prefer text? Everything the videos cover is written down:
-          <a href="/how-to-use">How to use</a>,
-          <a href="/how-it-works">How it works</a>, and
-          <a href="/validation">Validation</a>.
-        </p>
+        <div id="searchStatus" role="status" aria-live="polite"></div>
+        <div id="searchResults"></div>
       </section>
     </main>
     <footer class="site">
@@ -216,74 +228,9 @@
     </div>
     <script src="assets/app.js"></script>
     <script src="assets/share.js" defer></script>
-    <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
-    <script>
-      (function () {
-        "use strict";
-        function esc(v) {
-          return window.qdEsc ? window.qdEsc(v) : v;
-        }
-        function card(v) {
-          var mins = Math.round(v.durationSec / 60 * 10) / 10;
-          var head =
-            "<h3>" +
-            esc(v.title) +
-            ' <span style="font-weight:400;color:var(--muted);font-size:0.82rem">' +
-            (v.durationSec < 120
-              ? v.durationSec + "s"
-              : mins + " min") +
-            "</span></h3>";
-          if (v.status === "published") {
-            return (
-              '<div class="card">' +
-              head +
-              '<video controls preload="none" poster="' +
-              esc(v.poster) +
-              '" style="width:100%;max-width:720px;border-radius:8px;border:1px solid var(--line)">' +
-              '<source src="' +
-              esc(v.src) +
-              '" type="video/mp4" />' +
-              '<track kind="captions" srclang="en" label="English" src="' +
-              esc(v.captions) +
-              '" default />' +
-              "</video>" +
-              "<p>" +
-              esc(v.summary) +
-              "</p></div>"
-            );
-          }
-          return (
-            '<div class="card">' +
-            head +
-            "<p>" +
-            esc(v.summary) +
-            "</p>" +
-            '<p style="color:var(--muted);font-size:0.9rem">Planned — not yet recorded. ' +
-            '<a href="' +
-            esc(v.scriptPath) +
-            '">Read the recording script</a>.</p></div>'
-          );
-        }
-        function init() {
-          fetch("data/videos.json")
-            .then(function (r) {
-              if (!r.ok) throw new Error("HTTP " + r.status);
-              return r.json();
-            })
-            .then(function (data) {
-              document.getElementById("videoList").innerHTML = data.videos
-                .map(card)
-                .join("");
-            })
-            .catch(function () {
-              /* static fallback cards stay in place */
-            });
-        }
-        if (document.readyState === "complete") init();
-        else document.addEventListener("DOMContentLoaded", init);
-      })();
-    </script>
+    <script src="assets/search.js" defer></script>
+    <script src="assets/surahs.js"></script>
     <script src="assets/version.js" defer></script>
     <script src="assets/cite-page.js" defer></script>
     <script src="assets/feedback.js" defer></script>

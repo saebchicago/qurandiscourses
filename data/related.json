@@ -1,0 +1,3813 @@
+{
+  "_generated": "scripts/build-related.mjs — regenerate with: node scripts/build-related.mjs",
+  "_method": "Joins over published data, no new counts. surahs: partners ranked by the sum over shared themes of the smaller per-1,000-word density (data/theme-surah-index.json), top 4, ties by surah number. themes: partners ranked by total verse-level co-occurrence between the two root families (data/cooccurrence/*.json, Leeds counts), top 3, ties by slug; via names the strongest single root pair. Root-to-theme grouping is editorial (themes.html); the counting is mechanical.",
+  "titles": {
+    "forgiveness": "Forgiveness",
+    "marriage": "Marriage and spouses",
+    "children": "Children and family",
+    "trade": "Trade and wealth",
+    "peace": "Peace and reconciliation",
+    "patience": "Patience and trial",
+    "justice": "Justice",
+    "healing": "Illness and healing",
+    "knowledge": "Knowledge and reflection",
+    "prayer": "Prayer and remembrance",
+    "gratitude": "Gratitude",
+    "guidance": "Guidance and light",
+    "fear-hope": "Fear and hope",
+    "truthfulness": "Truthfulness and falsehood",
+    "charity": "Charity and giving",
+    "death": "Death and mortality",
+    "paradise": "Paradise",
+    "hellfire": "Hellfire and consequence",
+    "wisdom": "Wisdom",
+    "pilgrimage": "Pilgrimage",
+    "fasting": "Fasting",
+    "anger": "Anger and restraint",
+    "love": "Love",
+    "trust": "Trust in God",
+    "arrogance": "Arrogance and humility",
+    "brotherhood": "Brotherhood and community",
+    "sincerity": "Sincerity",
+    "tyranny": "Tyranny and transgression",
+    "covenant": "Covenant and fulfillment",
+    "striving": "Effort and striving",
+    "certainty": "Certainty and doubt",
+    "joy-sorrow": "Joy and sorrow",
+    "blessing": "Blessing"
+  },
+  "surahs": {
+    "2": [
+      {
+        "s": 13,
+        "score": 6.4,
+        "shared": [
+          "marriage",
+          "covenant"
+        ]
+      },
+      {
+        "s": 33,
+        "score": 5.8,
+        "shared": [
+          "marriage",
+          "fasting",
+          "healing"
+        ]
+      },
+      {
+        "s": 3,
+        "score": 5.4,
+        "shared": [
+          "covenant",
+          "pilgrimage",
+          "anger"
+        ]
+      },
+      {
+        "s": 24,
+        "score": 4.7,
+        "shared": [
+          "marriage",
+          "healing"
+        ]
+      }
+    ],
+    "3": [
+      {
+        "s": 2,
+        "score": 5.4,
+        "shared": [
+          "covenant",
+          "pilgrimage",
+          "anger"
+        ]
+      },
+      {
+        "s": 9,
+        "score": 5.3,
+        "shared": [
+          "covenant",
+          "joy-sorrow",
+          "pilgrimage"
+        ]
+      },
+      {
+        "s": 13,
+        "score": 4.9,
+        "shared": [
+          "covenant",
+          "joy-sorrow"
+        ]
+      },
+      {
+        "s": 49,
+        "score": 4.6,
+        "shared": [
+          "love"
+        ]
+      }
+    ],
+    "4": [
+      {
+        "s": 38,
+        "score": 1.6,
+        "shared": [
+          "hellfire"
+        ]
+      },
+      {
+        "s": 54,
+        "score": 1.6,
+        "shared": [
+          "hellfire"
+        ]
+      },
+      {
+        "s": 67,
+        "score": 1.6,
+        "shared": [
+          "hellfire"
+        ]
+      },
+      {
+        "s": 84,
+        "score": 1.6,
+        "shared": [
+          "hellfire"
+        ]
+      }
+    ],
+    "5": [
+      {
+        "s": 31,
+        "score": 13.3,
+        "shared": [
+          "wisdom",
+          "blessing",
+          "love"
+        ]
+      },
+      {
+        "s": 68,
+        "score": 10.4,
+        "shared": [
+          "wisdom",
+          "blessing"
+        ]
+      },
+      {
+        "s": 76,
+        "score": 9.7,
+        "shared": [
+          "wisdom",
+          "love"
+        ]
+      },
+      {
+        "s": 45,
+        "score": 6.8,
+        "shared": [
+          "wisdom"
+        ]
+      }
+    ],
+    "6": [
+      {
+        "s": 42,
+        "score": 11.5,
+        "shared": [
+          "justice",
+          "pilgrimage"
+        ]
+      },
+      {
+        "s": 14,
+        "score": 10.2,
+        "shared": [
+          "justice"
+        ]
+      },
+      {
+        "s": 21,
+        "score": 10.2,
+        "shared": [
+          "justice"
+        ]
+      },
+      {
+        "s": 49,
+        "score": 10.2,
+        "shared": [
+          "justice"
+        ]
+      }
+    ],
+    "7": [
+      {
+        "s": 37,
+        "score": 2.4,
+        "shared": [
+          "sincerity"
+        ]
+      },
+      {
+        "s": 38,
+        "score": 2.4,
+        "shared": [
+          "sincerity"
+        ]
+      },
+      {
+        "s": 39,
+        "score": 2.4,
+        "shared": [
+          "sincerity"
+        ]
+      },
+      {
+        "s": 12,
+        "score": 2.3,
+        "shared": [
+          "sincerity"
+        ]
+      }
+    ],
+    "8": [
+      {
+        "s": 9,
+        "score": 10.5,
+        "shared": [
+          "charity",
+          "covenant",
+          "striving"
+        ]
+      },
+      {
+        "s": 33,
+        "score": 7.3,
+        "shared": [
+          "charity",
+          "trust"
+        ]
+      },
+      {
+        "s": 57,
+        "score": 4.9,
+        "shared": [
+          "charity"
+        ]
+      },
+      {
+        "s": 60,
+        "score": 4.9,
+        "shared": [
+          "charity"
+        ]
+      }
+    ],
+    "9": [
+      {
+        "s": 8,
+        "score": 10.5,
+        "shared": [
+          "charity",
+          "striving",
+          "covenant"
+        ]
+      },
+      {
+        "s": 57,
+        "score": 10.4,
+        "shared": [
+          "charity"
+        ]
+      },
+      {
+        "s": 60,
+        "score": 10.4,
+        "shared": [
+          "charity"
+        ]
+      },
+      {
+        "s": 63,
+        "score": 10.4,
+        "shared": [
+          "charity"
+        ]
+      }
+    ],
+    "10": [
+      {
+        "s": 12,
+        "score": 3.9,
+        "shared": [
+          "joy-sorrow",
+          "trust"
+        ]
+      },
+      {
+        "s": 8,
+        "score": 2.2,
+        "shared": [
+          "trust"
+        ]
+      },
+      {
+        "s": 13,
+        "score": 2.2,
+        "shared": [
+          "joy-sorrow"
+        ]
+      },
+      {
+        "s": 14,
+        "score": 2.2,
+        "shared": [
+          "trust"
+        ]
+      }
+    ],
+    "11": [
+      {
+        "s": 28,
+        "score": 4.7,
+        "shared": [
+          "fear-hope",
+          "sincerity"
+        ]
+      },
+      {
+        "s": 20,
+        "score": 3.7,
+        "shared": [
+          "fear-hope"
+        ]
+      },
+      {
+        "s": 26,
+        "score": 3.7,
+        "shared": [
+          "fear-hope"
+        ]
+      },
+      {
+        "s": 30,
+        "score": 3.7,
+        "shared": [
+          "fear-hope"
+        ]
+      }
+    ],
+    "12": [
+      {
+        "s": 70,
+        "score": 12.9,
+        "shared": [
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 75,
+        "score": 12.9,
+        "shared": [
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 26,
+        "score": 9.9,
+        "shared": [
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 15,
+        "score": 9.2,
+        "shared": [
+          "brotherhood"
+        ]
+      }
+    ],
+    "13": [
+      {
+        "s": 2,
+        "score": 6.4,
+        "shared": [
+          "covenant",
+          "marriage"
+        ]
+      },
+      {
+        "s": 28,
+        "score": 5.8,
+        "shared": [
+          "fear-hope",
+          "joy-sorrow"
+        ]
+      },
+      {
+        "s": 30,
+        "score": 5.8,
+        "shared": [
+          "fear-hope",
+          "joy-sorrow"
+        ]
+      },
+      {
+        "s": 9,
+        "score": 5.2,
+        "shared": [
+          "covenant",
+          "joy-sorrow"
+        ]
+      }
+    ],
+    "14": [
+      {
+        "s": 42,
+        "score": 16.3,
+        "shared": [
+          "justice",
+          "trust",
+          "gratitude"
+        ]
+      },
+      {
+        "s": 49,
+        "score": 10.8,
+        "shared": [
+          "justice"
+        ]
+      },
+      {
+        "s": 62,
+        "score": 10.8,
+        "shared": [
+          "justice"
+        ]
+      },
+      {
+        "s": 65,
+        "score": 10.5,
+        "shared": [
+          "justice"
+        ]
+      }
+    ],
+    "15": [
+      {
+        "s": 12,
+        "score": 9.2,
+        "shared": [
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 26,
+        "score": 9.2,
+        "shared": [
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 70,
+        "score": 9.2,
+        "shared": [
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 75,
+        "score": 9.2,
+        "shared": [
+          "brotherhood"
+        ]
+      }
+    ],
+    "16": [
+      {
+        "s": 68,
+        "score": 7,
+        "shared": [
+          "blessing"
+        ]
+      },
+      {
+        "s": 83,
+        "score": 7,
+        "shared": [
+          "blessing"
+        ]
+      },
+      {
+        "s": 52,
+        "score": 6.4,
+        "shared": [
+          "blessing"
+        ]
+      },
+      {
+        "s": 22,
+        "score": 5.8,
+        "shared": [
+          "blessing",
+          "striving"
+        ]
+      }
+    ],
+    "17": [
+      {
+        "s": 79,
+        "score": 12.9,
+        "shared": [
+          "arrogance",
+          "tyranny"
+        ]
+      },
+      {
+        "s": 40,
+        "score": 8.4,
+        "shared": [
+          "arrogance"
+        ]
+      },
+      {
+        "s": 71,
+        "score": 8.4,
+        "shared": [
+          "arrogance"
+        ]
+      },
+      {
+        "s": 74,
+        "score": 8.4,
+        "shared": [
+          "arrogance"
+        ]
+      }
+    ],
+    "20": [
+      {
+        "s": 28,
+        "score": 5.2,
+        "shared": [
+          "fear-hope"
+        ]
+      },
+      {
+        "s": 51,
+        "score": 5.2,
+        "shared": [
+          "fear-hope"
+        ]
+      },
+      {
+        "s": 76,
+        "score": 5.2,
+        "shared": [
+          "fear-hope"
+        ]
+      },
+      {
+        "s": 26,
+        "score": 3.8,
+        "shared": [
+          "fear-hope"
+        ]
+      }
+    ],
+    "21": [
+      {
+        "s": 14,
+        "score": 10.3,
+        "shared": [
+          "justice"
+        ]
+      },
+      {
+        "s": 42,
+        "score": 10.3,
+        "shared": [
+          "justice"
+        ]
+      },
+      {
+        "s": 49,
+        "score": 10.3,
+        "shared": [
+          "justice"
+        ]
+      },
+      {
+        "s": 62,
+        "score": 10.3,
+        "shared": [
+          "justice"
+        ]
+      }
+    ],
+    "22": [
+      {
+        "s": 52,
+        "score": 6.3,
+        "shared": [
+          "blessing",
+          "certainty"
+        ]
+      },
+      {
+        "s": 16,
+        "score": 5.8,
+        "shared": [
+          "blessing",
+          "striving"
+        ]
+      },
+      {
+        "s": 5,
+        "score": 4.7,
+        "shared": [
+          "blessing",
+          "striving"
+        ]
+      },
+      {
+        "s": 31,
+        "score": 4.7,
+        "shared": [
+          "blessing"
+        ]
+      }
+    ],
+    "23": [
+      {
+        "s": 30,
+        "score": 5.7,
+        "shared": [
+          "death"
+        ]
+      },
+      {
+        "s": 44,
+        "score": 5.7,
+        "shared": [
+          "death"
+        ]
+      },
+      {
+        "s": 45,
+        "score": 5.7,
+        "shared": [
+          "death"
+        ]
+      },
+      {
+        "s": 50,
+        "score": 5.7,
+        "shared": [
+          "death"
+        ]
+      }
+    ],
+    "24": [
+      {
+        "s": 33,
+        "score": 6.1,
+        "shared": [
+          "marriage",
+          "healing"
+        ]
+      },
+      {
+        "s": 2,
+        "score": 4.7,
+        "shared": [
+          "marriage",
+          "healing"
+        ]
+      },
+      {
+        "s": 60,
+        "score": 4.6,
+        "shared": [
+          "marriage"
+        ]
+      },
+      {
+        "s": 65,
+        "score": 4.6,
+        "shared": [
+          "marriage"
+        ]
+      }
+    ],
+    "25": [
+      {
+        "s": 8,
+        "score": 2.2,
+        "shared": [
+          "striving"
+        ]
+      },
+      {
+        "s": 9,
+        "score": 2.2,
+        "shared": [
+          "striving"
+        ]
+      },
+      {
+        "s": 29,
+        "score": 2.2,
+        "shared": [
+          "striving"
+        ]
+      },
+      {
+        "s": 22,
+        "score": 1.6,
+        "shared": [
+          "striving"
+        ]
+      }
+    ],
+    "26": [
+      {
+        "s": 12,
+        "score": 9.9,
+        "shared": [
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 70,
+        "score": 9.9,
+        "shared": [
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 75,
+        "score": 9.9,
+        "shared": [
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 15,
+        "score": 9.2,
+        "shared": [
+          "brotherhood"
+        ]
+      }
+    ],
+    "27": [
+      {
+        "s": 37,
+        "score": 9.6,
+        "shared": [
+          "peace"
+        ]
+      },
+      {
+        "s": 49,
+        "score": 9.6,
+        "shared": [
+          "peace"
+        ]
+      },
+      {
+        "s": 66,
+        "score": 9.6,
+        "shared": [
+          "peace"
+        ]
+      },
+      {
+        "s": 68,
+        "score": 9.6,
+        "shared": [
+          "peace"
+        ]
+      }
+    ],
+    "28": [
+      {
+        "s": 30,
+        "score": 7.2,
+        "shared": [
+          "fear-hope",
+          "joy-sorrow"
+        ]
+      },
+      {
+        "s": 51,
+        "score": 6.3,
+        "shared": [
+          "fear-hope"
+        ]
+      },
+      {
+        "s": 76,
+        "score": 6.3,
+        "shared": [
+          "fear-hope"
+        ]
+      },
+      {
+        "s": 13,
+        "score": 5.8,
+        "shared": [
+          "fear-hope",
+          "joy-sorrow"
+        ]
+      }
+    ],
+    "29": [
+      {
+        "s": 81,
+        "score": 26.6,
+        "shared": [
+          "knowledge"
+        ]
+      },
+      {
+        "s": 96,
+        "score": 26.6,
+        "shared": [
+          "knowledge"
+        ]
+      },
+      {
+        "s": 102,
+        "score": 26.6,
+        "shared": [
+          "knowledge"
+        ]
+      },
+      {
+        "s": 49,
+        "score": 25.9,
+        "shared": [
+          "knowledge"
+        ]
+      }
+    ],
+    "30": [
+      {
+        "s": 44,
+        "score": 9.8,
+        "shared": [
+          "death"
+        ]
+      },
+      {
+        "s": 50,
+        "score": 9.8,
+        "shared": [
+          "death"
+        ]
+      },
+      {
+        "s": 62,
+        "score": 9.8,
+        "shared": [
+          "death"
+        ]
+      },
+      {
+        "s": 45,
+        "score": 8.2,
+        "shared": [
+          "death"
+        ]
+      }
+    ],
+    "31": [
+      {
+        "s": 61,
+        "score": 22,
+        "shared": [
+          "children",
+          "love"
+        ]
+      },
+      {
+        "s": 76,
+        "score": 20.2,
+        "shared": [
+          "gratitude",
+          "wisdom",
+          "love"
+        ]
+      },
+      {
+        "s": 52,
+        "score": 18.3,
+        "shared": [
+          "children",
+          "blessing"
+        ]
+      },
+      {
+        "s": 90,
+        "score": 18.3,
+        "shared": [
+          "children"
+        ]
+      }
+    ],
+    "32": [
+      {
+        "s": 61,
+        "score": 18.8,
+        "shared": [
+          "guidance"
+        ]
+      },
+      {
+        "s": 87,
+        "score": 18.8,
+        "shared": [
+          "guidance"
+        ]
+      },
+      {
+        "s": 90,
+        "score": 18.8,
+        "shared": [
+          "guidance"
+        ]
+      },
+      {
+        "s": 92,
+        "score": 18.8,
+        "shared": [
+          "guidance"
+        ]
+      }
+    ],
+    "33": [
+      {
+        "s": 60,
+        "score": 14.8,
+        "shared": [
+          "marriage",
+          "charity"
+        ]
+      },
+      {
+        "s": 65,
+        "score": 13.2,
+        "shared": [
+          "marriage",
+          "charity"
+        ]
+      },
+      {
+        "s": 66,
+        "score": 11.7,
+        "shared": [
+          "marriage"
+        ]
+      },
+      {
+        "s": 77,
+        "score": 11,
+        "shared": [
+          "marriage"
+        ]
+      }
+    ],
+    "34": [
+      {
+        "s": 51,
+        "score": 9.1,
+        "shared": [
+          "paradise"
+        ]
+      },
+      {
+        "s": 55,
+        "score": 9.1,
+        "shared": [
+          "paradise"
+        ]
+      },
+      {
+        "s": 68,
+        "score": 9.1,
+        "shared": [
+          "paradise"
+        ]
+      },
+      {
+        "s": 70,
+        "score": 9.1,
+        "shared": [
+          "paradise"
+        ]
+      }
+    ],
+    "35": [
+      {
+        "s": 23,
+        "score": 5.2,
+        "shared": [
+          "death"
+        ]
+      },
+      {
+        "s": 30,
+        "score": 5.2,
+        "shared": [
+          "death"
+        ]
+      },
+      {
+        "s": 44,
+        "score": 5.2,
+        "shared": [
+          "death"
+        ]
+      },
+      {
+        "s": 45,
+        "score": 5.2,
+        "shared": [
+          "death"
+        ]
+      }
+    ],
+    "36": [
+      {
+        "s": 14,
+        "score": 2.8,
+        "shared": [
+          "gratitude"
+        ]
+      },
+      {
+        "s": 27,
+        "score": 2.8,
+        "shared": [
+          "gratitude"
+        ]
+      },
+      {
+        "s": 31,
+        "score": 2.8,
+        "shared": [
+          "gratitude"
+        ]
+      },
+      {
+        "s": 34,
+        "score": 2.8,
+        "shared": [
+          "gratitude"
+        ]
+      }
+    ],
+    "37": [
+      {
+        "s": 49,
+        "score": 11.6,
+        "shared": [
+          "peace"
+        ]
+      },
+      {
+        "s": 66,
+        "score": 11.6,
+        "shared": [
+          "peace"
+        ]
+      },
+      {
+        "s": 72,
+        "score": 10.5,
+        "shared": [
+          "peace"
+        ]
+      },
+      {
+        "s": 68,
+        "score": 10,
+        "shared": [
+          "peace"
+        ]
+      }
+    ],
+    "38": [
+      {
+        "s": 49,
+        "score": 8.2,
+        "shared": [
+          "tyranny",
+          "love"
+        ]
+      },
+      {
+        "s": 17,
+        "score": 5.8,
+        "shared": [
+          "tyranny",
+          "hellfire"
+        ]
+      },
+      {
+        "s": 53,
+        "score": 5.5,
+        "shared": [
+          "tyranny"
+        ]
+      },
+      {
+        "s": 55,
+        "score": 5.5,
+        "shared": [
+          "tyranny"
+        ]
+      }
+    ],
+    "39": [
+      {
+        "s": 12,
+        "score": 4.6,
+        "shared": [
+          "sincerity",
+          "trust"
+        ]
+      },
+      {
+        "s": 14,
+        "score": 3.4,
+        "shared": [
+          "trust"
+        ]
+      },
+      {
+        "s": 37,
+        "score": 3.4,
+        "shared": [
+          "sincerity"
+        ]
+      },
+      {
+        "s": 38,
+        "score": 3.4,
+        "shared": [
+          "sincerity"
+        ]
+      }
+    ],
+    "40": [
+      {
+        "s": 71,
+        "score": 9,
+        "shared": [
+          "arrogance"
+        ]
+      },
+      {
+        "s": 74,
+        "score": 9,
+        "shared": [
+          "arrogance"
+        ]
+      },
+      {
+        "s": 79,
+        "score": 9,
+        "shared": [
+          "arrogance"
+        ]
+      },
+      {
+        "s": 88,
+        "score": 9,
+        "shared": [
+          "arrogance"
+        ]
+      }
+    ],
+    "42": [
+      {
+        "s": 14,
+        "score": 16.3,
+        "shared": [
+          "justice",
+          "trust",
+          "gratitude"
+        ]
+      },
+      {
+        "s": 49,
+        "score": 15.2,
+        "shared": [
+          "justice",
+          "tyranny"
+        ]
+      },
+      {
+        "s": 6,
+        "score": 11.5,
+        "shared": [
+          "justice",
+          "pilgrimage"
+        ]
+      },
+      {
+        "s": 62,
+        "score": 10.5,
+        "shared": [
+          "justice"
+        ]
+      }
+    ],
+    "44": [
+      {
+        "s": 62,
+        "score": 11.4,
+        "shared": [
+          "death"
+        ]
+      },
+      {
+        "s": 50,
+        "score": 10.7,
+        "shared": [
+          "death"
+        ]
+      },
+      {
+        "s": 30,
+        "score": 9.8,
+        "shared": [
+          "death"
+        ]
+      },
+      {
+        "s": 45,
+        "score": 8.2,
+        "shared": [
+          "death"
+        ]
+      }
+    ],
+    "45": [
+      {
+        "s": 62,
+        "score": 16.4,
+        "shared": [
+          "death",
+          "wisdom"
+        ]
+      },
+      {
+        "s": 74,
+        "score": 16.3,
+        "shared": [
+          "certainty",
+          "arrogance"
+        ]
+      },
+      {
+        "s": 68,
+        "score": 14.3,
+        "shared": [
+          "wisdom",
+          "arrogance"
+        ]
+      },
+      {
+        "s": 102,
+        "score": 10.2,
+        "shared": [
+          "certainty"
+        ]
+      }
+    ],
+    "47": [
+      {
+        "s": 27,
+        "score": 9.3,
+        "shared": [
+          "peace"
+        ]
+      },
+      {
+        "s": 37,
+        "score": 9.3,
+        "shared": [
+          "peace"
+        ]
+      },
+      {
+        "s": 49,
+        "score": 9.3,
+        "shared": [
+          "peace"
+        ]
+      },
+      {
+        "s": 66,
+        "score": 9.3,
+        "shared": [
+          "peace"
+        ]
+      }
+    ],
+    "48": [
+      {
+        "s": 9,
+        "score": 3.6,
+        "shared": [
+          "covenant"
+        ]
+      },
+      {
+        "s": 13,
+        "score": 3.6,
+        "shared": [
+          "covenant"
+        ]
+      },
+      {
+        "s": 16,
+        "score": 3.6,
+        "shared": [
+          "covenant"
+        ]
+      },
+      {
+        "s": 53,
+        "score": 3.6,
+        "shared": [
+          "covenant"
+        ]
+      }
+    ],
+    "49": [
+      {
+        "s": 62,
+        "score": 34.3,
+        "shared": [
+          "knowledge",
+          "justice"
+        ]
+      },
+      {
+        "s": 53,
+        "score": 27.8,
+        "shared": [
+          "knowledge",
+          "tyranny"
+        ]
+      },
+      {
+        "s": 66,
+        "score": 26.4,
+        "shared": [
+          "peace",
+          "forgiveness"
+        ]
+      },
+      {
+        "s": 29,
+        "score": 25.9,
+        "shared": [
+          "knowledge"
+        ]
+      }
+    ],
+    "50": [
+      {
+        "s": 44,
+        "score": 10.7,
+        "shared": [
+          "death"
+        ]
+      },
+      {
+        "s": 62,
+        "score": 10.7,
+        "shared": [
+          "death"
+        ]
+      },
+      {
+        "s": 30,
+        "score": 9.8,
+        "shared": [
+          "death"
+        ]
+      },
+      {
+        "s": 45,
+        "score": 8.2,
+        "shared": [
+          "death"
+        ]
+      }
+    ],
+    "51": [
+      {
+        "s": 68,
+        "score": 19.4,
+        "shared": [
+          "paradise",
+          "peace"
+        ]
+      },
+      {
+        "s": 72,
+        "score": 18.8,
+        "shared": [
+          "paradise",
+          "peace"
+        ]
+      },
+      {
+        "s": 55,
+        "score": 11.1,
+        "shared": [
+          "paradise"
+        ]
+      },
+      {
+        "s": 81,
+        "score": 11.1,
+        "shared": [
+          "paradise"
+        ]
+      }
+    ],
+    "52": [
+      {
+        "s": 31,
+        "score": 18.3,
+        "shared": [
+          "children",
+          "blessing"
+        ]
+      },
+      {
+        "s": 61,
+        "score": 12.8,
+        "shared": [
+          "children"
+        ]
+      },
+      {
+        "s": 71,
+        "score": 12.8,
+        "shared": [
+          "children"
+        ]
+      },
+      {
+        "s": 90,
+        "score": 12.8,
+        "shared": [
+          "children"
+        ]
+      }
+    ],
+    "53": [
+      {
+        "s": 49,
+        "score": 27.8,
+        "shared": [
+          "knowledge",
+          "tyranny"
+        ]
+      },
+      {
+        "s": 29,
+        "score": 22.2,
+        "shared": [
+          "knowledge"
+        ]
+      },
+      {
+        "s": 62,
+        "score": 22.2,
+        "shared": [
+          "knowledge"
+        ]
+      },
+      {
+        "s": 81,
+        "score": 22.2,
+        "shared": [
+          "knowledge"
+        ]
+      }
+    ],
+    "54": [
+      {
+        "s": 96,
+        "score": 69.5,
+        "shared": [
+          "prayer",
+          "truthfulness"
+        ]
+      },
+      {
+        "s": 87,
+        "score": 61.4,
+        "shared": [
+          "prayer",
+          "patience"
+        ]
+      },
+      {
+        "s": 92,
+        "score": 46.7,
+        "shared": [
+          "truthfulness",
+          "patience"
+        ]
+      },
+      {
+        "s": 107,
+        "score": 43.9,
+        "shared": [
+          "prayer"
+        ]
+      }
+    ],
+    "55": [
+      {
+        "s": 77,
+        "score": 60.8,
+        "shared": [
+          "truthfulness"
+        ]
+      },
+      {
+        "s": 92,
+        "score": 53.7,
+        "shared": [
+          "truthfulness",
+          "trade"
+        ]
+      },
+      {
+        "s": 91,
+        "score": 37,
+        "shared": [
+          "truthfulness"
+        ]
+      },
+      {
+        "s": 83,
+        "score": 35.1,
+        "shared": [
+          "truthfulness",
+          "trade"
+        ]
+      }
+    ],
+    "56": [
+      {
+        "s": 16,
+        "score": 5.3,
+        "shared": [
+          "blessing"
+        ]
+      },
+      {
+        "s": 23,
+        "score": 5.3,
+        "shared": [
+          "death"
+        ]
+      },
+      {
+        "s": 30,
+        "score": 5.3,
+        "shared": [
+          "death"
+        ]
+      },
+      {
+        "s": 31,
+        "score": 5.3,
+        "shared": [
+          "blessing"
+        ]
+      }
+    ],
+    "57": [
+      {
+        "s": 32,
+        "score": 13.9,
+        "shared": [
+          "guidance"
+        ]
+      },
+      {
+        "s": 61,
+        "score": 13.9,
+        "shared": [
+          "guidance"
+        ]
+      },
+      {
+        "s": 64,
+        "score": 13.9,
+        "shared": [
+          "guidance"
+        ]
+      },
+      {
+        "s": 66,
+        "score": 13.9,
+        "shared": [
+          "guidance"
+        ]
+      }
+    ],
+    "59": [
+      {
+        "s": 12,
+        "score": 9,
+        "shared": [
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 15,
+        "score": 9,
+        "shared": [
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 26,
+        "score": 9,
+        "shared": [
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 70,
+        "score": 9,
+        "shared": [
+          "brotherhood"
+        ]
+      }
+    ],
+    "60": [
+      {
+        "s": 65,
+        "score": 17.5,
+        "shared": [
+          "charity",
+          "marriage"
+        ]
+      },
+      {
+        "s": 33,
+        "score": 14.8,
+        "shared": [
+          "charity",
+          "marriage"
+        ]
+      },
+      {
+        "s": 57,
+        "score": 11.5,
+        "shared": [
+          "charity"
+        ]
+      },
+      {
+        "s": 62,
+        "score": 11.5,
+        "shared": [
+          "wisdom"
+        ]
+      }
+    ],
+    "61": [
+      {
+        "s": 90,
+        "score": 45.2,
+        "shared": [
+          "children",
+          "guidance"
+        ]
+      },
+      {
+        "s": 92,
+        "score": 31.6,
+        "shared": [
+          "guidance",
+          "trade"
+        ]
+      },
+      {
+        "s": 71,
+        "score": 26.5,
+        "shared": [
+          "children",
+          "trade"
+        ]
+      },
+      {
+        "s": 87,
+        "score": 22.6,
+        "shared": [
+          "guidance"
+        ]
+      }
+    ],
+    "62": [
+      {
+        "s": 96,
+        "score": 51.5,
+        "shared": [
+          "prayer",
+          "knowledge"
+        ]
+      },
+      {
+        "s": 49,
+        "score": 34.3,
+        "shared": [
+          "knowledge",
+          "justice"
+        ]
+      },
+      {
+        "s": 54,
+        "score": 28.6,
+        "shared": [
+          "prayer"
+        ]
+      },
+      {
+        "s": 80,
+        "score": 28.6,
+        "shared": [
+          "prayer"
+        ]
+      }
+    ],
+    "63": [
+      {
+        "s": 66,
+        "score": 22.2,
+        "shared": [
+          "forgiveness"
+        ]
+      },
+      {
+        "s": 110,
+        "score": 22.2,
+        "shared": [
+          "forgiveness"
+        ]
+      },
+      {
+        "s": 71,
+        "score": 22.1,
+        "shared": [
+          "forgiveness"
+        ]
+      },
+      {
+        "s": 64,
+        "score": 20.7,
+        "shared": [
+          "forgiveness"
+        ]
+      }
+    ],
+    "64": [
+      {
+        "s": 66,
+        "score": 36.8,
+        "shared": [
+          "forgiveness",
+          "guidance"
+        ]
+      },
+      {
+        "s": 49,
+        "score": 22.7,
+        "shared": [
+          "forgiveness",
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 63,
+        "score": 20.7,
+        "shared": [
+          "forgiveness"
+        ]
+      },
+      {
+        "s": 71,
+        "score": 20.7,
+        "shared": [
+          "forgiveness"
+        ]
+      }
+    ],
+    "65": [
+      {
+        "s": 60,
+        "score": 17.5,
+        "shared": [
+          "charity",
+          "marriage"
+        ]
+      },
+      {
+        "s": 54,
+        "score": 13.9,
+        "shared": [
+          "patience"
+        ]
+      },
+      {
+        "s": 73,
+        "score": 13.9,
+        "shared": [
+          "patience"
+        ]
+      },
+      {
+        "s": 87,
+        "score": 13.9,
+        "shared": [
+          "patience"
+        ]
+      }
+    ],
+    "66": [
+      {
+        "s": 64,
+        "score": 36.8,
+        "shared": [
+          "forgiveness",
+          "guidance"
+        ]
+      },
+      {
+        "s": 49,
+        "score": 26.4,
+        "shared": [
+          "forgiveness",
+          "peace"
+        ]
+      },
+      {
+        "s": 110,
+        "score": 24.1,
+        "shared": [
+          "forgiveness"
+        ]
+      },
+      {
+        "s": 63,
+        "score": 22.2,
+        "shared": [
+          "forgiveness"
+        ]
+      }
+    ],
+    "67": [
+      {
+        "s": 84,
+        "score": 9,
+        "shared": [
+          "hellfire"
+        ]
+      },
+      {
+        "s": 54,
+        "score": 5.8,
+        "shared": [
+          "hellfire"
+        ]
+      },
+      {
+        "s": 38,
+        "score": 2.7,
+        "shared": [
+          "hellfire"
+        ]
+      },
+      {
+        "s": 4,
+        "score": 1.6,
+        "shared": [
+          "hellfire"
+        ]
+      }
+    ],
+    "68": [
+      {
+        "s": 72,
+        "score": 20.5,
+        "shared": [
+          "paradise",
+          "peace"
+        ]
+      },
+      {
+        "s": 51,
+        "score": 19.4,
+        "shared": [
+          "paradise",
+          "peace"
+        ]
+      },
+      {
+        "s": 45,
+        "score": 14.3,
+        "shared": [
+          "wisdom",
+          "arrogance"
+        ]
+      },
+      {
+        "s": 55,
+        "score": 13.3,
+        "shared": [
+          "paradise"
+        ]
+      }
+    ],
+    "69": [
+      {
+        "s": 79,
+        "score": 7.8,
+        "shared": [
+          "tyranny"
+        ]
+      },
+      {
+        "s": 49,
+        "score": 5.8,
+        "shared": [
+          "tyranny"
+        ]
+      },
+      {
+        "s": 55,
+        "score": 5.7,
+        "shared": [
+          "tyranny"
+        ]
+      },
+      {
+        "s": 53,
+        "score": 5.6,
+        "shared": [
+          "tyranny"
+        ]
+      }
+    ],
+    "70": [
+      {
+        "s": 75,
+        "score": 13.8,
+        "shared": [
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 12,
+        "score": 12.9,
+        "shared": [
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 26,
+        "score": 9.9,
+        "shared": [
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 15,
+        "score": 9.2,
+        "shared": [
+          "brotherhood"
+        ]
+      }
+    ],
+    "71": [
+      {
+        "s": 61,
+        "score": 26.5,
+        "shared": [
+          "children",
+          "trade"
+        ]
+      },
+      {
+        "s": 63,
+        "score": 22.1,
+        "shared": [
+          "forgiveness"
+        ]
+      },
+      {
+        "s": 66,
+        "score": 22.1,
+        "shared": [
+          "forgiveness"
+        ]
+      },
+      {
+        "s": 110,
+        "score": 22.1,
+        "shared": [
+          "forgiveness"
+        ]
+      }
+    ],
+    "72": [
+      {
+        "s": 68,
+        "score": 20.5,
+        "shared": [
+          "paradise",
+          "peace"
+        ]
+      },
+      {
+        "s": 51,
+        "score": 18.8,
+        "shared": [
+          "paradise",
+          "peace"
+        ]
+      },
+      {
+        "s": 37,
+        "score": 10.5,
+        "shared": [
+          "peace"
+        ]
+      },
+      {
+        "s": 49,
+        "score": 10.5,
+        "shared": [
+          "peace"
+        ]
+      }
+    ],
+    "73": [
+      {
+        "s": 54,
+        "score": 15.1,
+        "shared": [
+          "patience"
+        ]
+      },
+      {
+        "s": 63,
+        "score": 15.1,
+        "shared": [
+          "forgiveness"
+        ]
+      },
+      {
+        "s": 64,
+        "score": 15.1,
+        "shared": [
+          "forgiveness"
+        ]
+      },
+      {
+        "s": 66,
+        "score": 15.1,
+        "shared": [
+          "forgiveness"
+        ]
+      }
+    ],
+    "74": [
+      {
+        "s": 79,
+        "score": 34.1,
+        "shared": [
+          "prayer",
+          "arrogance"
+        ]
+      },
+      {
+        "s": 54,
+        "score": 23.5,
+        "shared": [
+          "prayer"
+        ]
+      },
+      {
+        "s": 62,
+        "score": 23.5,
+        "shared": [
+          "prayer"
+        ]
+      },
+      {
+        "s": 80,
+        "score": 23.5,
+        "shared": [
+          "prayer"
+        ]
+      }
+    ],
+    "75": [
+      {
+        "s": 70,
+        "score": 13.8,
+        "shared": [
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 12,
+        "score": 12.9,
+        "shared": [
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 26,
+        "score": 9.9,
+        "shared": [
+          "brotherhood"
+        ]
+      },
+      {
+        "s": 15,
+        "score": 9.2,
+        "shared": [
+          "brotherhood"
+        ]
+      }
+    ],
+    "76": [
+      {
+        "s": 89,
+        "score": 20.5,
+        "shared": [
+          "patience",
+          "love"
+        ]
+      },
+      {
+        "s": 31,
+        "score": 20.2,
+        "shared": [
+          "gratitude",
+          "love",
+          "wisdom"
+        ]
+      },
+      {
+        "s": 54,
+        "score": 12.3,
+        "shared": [
+          "patience"
+        ]
+      },
+      {
+        "s": 65,
+        "score": 12.3,
+        "shared": [
+          "patience"
+        ]
+      }
+    ],
+    "77": [
+      {
+        "s": 55,
+        "score": 60.8,
+        "shared": [
+          "truthfulness"
+        ]
+      },
+      {
+        "s": 92,
+        "score": 42.3,
+        "shared": [
+          "truthfulness"
+        ]
+      },
+      {
+        "s": 91,
+        "score": 37,
+        "shared": [
+          "truthfulness"
+        ]
+      },
+      {
+        "s": 54,
+        "score": 29.2,
+        "shared": [
+          "truthfulness"
+        ]
+      }
+    ],
+    "78": [
+      {
+        "s": 54,
+        "score": 17.3,
+        "shared": [
+          "truthfulness"
+        ]
+      },
+      {
+        "s": 55,
+        "score": 17.3,
+        "shared": [
+          "truthfulness"
+        ]
+      },
+      {
+        "s": 77,
+        "score": 17.3,
+        "shared": [
+          "truthfulness"
+        ]
+      },
+      {
+        "s": 83,
+        "score": 17.3,
+        "shared": [
+          "truthfulness"
+        ]
+      }
+    ],
+    "79": [
+      {
+        "s": 74,
+        "score": 34.1,
+        "shared": [
+          "prayer",
+          "arrogance"
+        ]
+      },
+      {
+        "s": 54,
+        "score": 22.3,
+        "shared": [
+          "prayer"
+        ]
+      },
+      {
+        "s": 62,
+        "score": 22.3,
+        "shared": [
+          "prayer"
+        ]
+      },
+      {
+        "s": 80,
+        "score": 22.3,
+        "shared": [
+          "prayer"
+        ]
+      }
+    ],
+    "80": [
+      {
+        "s": 54,
+        "score": 30.1,
+        "shared": [
+          "prayer"
+        ]
+      },
+      {
+        "s": 87,
+        "score": 30.1,
+        "shared": [
+          "prayer"
+        ]
+      },
+      {
+        "s": 96,
+        "score": 30.1,
+        "shared": [
+          "prayer"
+        ]
+      },
+      {
+        "s": 107,
+        "score": 30.1,
+        "shared": [
+          "prayer"
+        ]
+      }
+    ],
+    "81": [
+      {
+        "s": 96,
+        "score": 28.8,
+        "shared": [
+          "knowledge"
+        ]
+      },
+      {
+        "s": 102,
+        "score": 28.8,
+        "shared": [
+          "knowledge"
+        ]
+      },
+      {
+        "s": 29,
+        "score": 26.6,
+        "shared": [
+          "knowledge"
+        ]
+      },
+      {
+        "s": 49,
+        "score": 25.9,
+        "shared": [
+          "knowledge"
+        ]
+      }
+    ],
+    "82": [
+      {
+        "s": 29,
+        "score": 25,
+        "shared": [
+          "knowledge"
+        ]
+      },
+      {
+        "s": 49,
+        "score": 25,
+        "shared": [
+          "knowledge"
+        ]
+      },
+      {
+        "s": 81,
+        "score": 25,
+        "shared": [
+          "knowledge"
+        ]
+      },
+      {
+        "s": 96,
+        "score": 25,
+        "shared": [
+          "knowledge"
+        ]
+      }
+    ],
+    "83": [
+      {
+        "s": 92,
+        "score": 41.5,
+        "shared": [
+          "truthfulness",
+          "trade"
+        ]
+      },
+      {
+        "s": 55,
+        "score": 35.1,
+        "shared": [
+          "truthfulness",
+          "trade"
+        ]
+      },
+      {
+        "s": 54,
+        "score": 23.7,
+        "shared": [
+          "truthfulness"
+        ]
+      },
+      {
+        "s": 77,
+        "score": 23.7,
+        "shared": [
+          "truthfulness"
+        ]
+      }
+    ],
+    "84": [
+      {
+        "s": 67,
+        "score": 9,
+        "shared": [
+          "hellfire"
+        ]
+      },
+      {
+        "s": 54,
+        "score": 5.8,
+        "shared": [
+          "hellfire"
+        ]
+      },
+      {
+        "s": 38,
+        "score": 2.7,
+        "shared": [
+          "hellfire"
+        ]
+      },
+      {
+        "s": 4,
+        "score": 1.6,
+        "shared": [
+          "hellfire"
+        ]
+      }
+    ],
+    "85": [
+      {
+        "s": 63,
+        "score": 18.3,
+        "shared": [
+          "forgiveness"
+        ]
+      },
+      {
+        "s": 64,
+        "score": 18.3,
+        "shared": [
+          "forgiveness"
+        ]
+      },
+      {
+        "s": 66,
+        "score": 18.3,
+        "shared": [
+          "forgiveness"
+        ]
+      },
+      {
+        "s": 71,
+        "score": 18.3,
+        "shared": [
+          "forgiveness"
+        ]
+      }
+    ],
+    "87": [
+      {
+        "s": 107,
+        "score": 80,
+        "shared": [
+          "prayer"
+        ]
+      },
+      {
+        "s": 54,
+        "score": 61.4,
+        "shared": [
+          "prayer",
+          "patience"
+        ]
+      },
+      {
+        "s": 92,
+        "score": 55.6,
+        "shared": [
+          "guidance",
+          "patience"
+        ]
+      },
+      {
+        "s": 96,
+        "score": 41.7,
+        "shared": [
+          "prayer"
+        ]
+      }
+    ],
+    "88": [
+      {
+        "s": 79,
+        "score": 16.8,
+        "shared": [
+          "arrogance"
+        ]
+      },
+      {
+        "s": 71,
+        "score": 13.3,
+        "shared": [
+          "arrogance"
+        ]
+      },
+      {
+        "s": 74,
+        "score": 11.8,
+        "shared": [
+          "arrogance"
+        ]
+      },
+      {
+        "s": 40,
+        "score": 9,
+        "shared": [
+          "arrogance"
+        ]
+      }
+    ],
+    "89": [
+      {
+        "s": 76,
+        "score": 20.5,
+        "shared": [
+          "love",
+          "patience"
+        ]
+      },
+      {
+        "s": 54,
+        "score": 14.6,
+        "shared": [
+          "patience"
+        ]
+      },
+      {
+        "s": 73,
+        "score": 14.6,
+        "shared": [
+          "patience"
+        ]
+      },
+      {
+        "s": 87,
+        "score": 14.6,
+        "shared": [
+          "patience"
+        ]
+      }
+    ],
+    "90": [
+      {
+        "s": 61,
+        "score": 45.2,
+        "shared": [
+          "children",
+          "guidance"
+        ]
+      },
+      {
+        "s": 93,
+        "score": 36.6,
+        "shared": [
+          "children"
+        ]
+      },
+      {
+        "s": 99,
+        "score": 36.6,
+        "shared": [
+          "children"
+        ]
+      },
+      {
+        "s": 112,
+        "score": 36.6,
+        "shared": [
+          "children"
+        ]
+      }
+    ],
+    "91": [
+      {
+        "s": 55,
+        "score": 37,
+        "shared": [
+          "truthfulness"
+        ]
+      },
+      {
+        "s": 77,
+        "score": 37,
+        "shared": [
+          "truthfulness"
+        ]
+      },
+      {
+        "s": 92,
+        "score": 37,
+        "shared": [
+          "truthfulness"
+        ]
+      },
+      {
+        "s": 54,
+        "score": 29.2,
+        "shared": [
+          "truthfulness"
+        ]
+      }
+    ],
+    "92": [
+      {
+        "s": 94,
+        "score": 56.3,
+        "shared": [
+          "patience"
+        ]
+      },
+      {
+        "s": 87,
+        "score": 55.6,
+        "shared": [
+          "patience",
+          "guidance"
+        ]
+      },
+      {
+        "s": 55,
+        "score": 53.7,
+        "shared": [
+          "truthfulness",
+          "trade"
+        ]
+      },
+      {
+        "s": 54,
+        "score": 46.7,
+        "shared": [
+          "patience",
+          "truthfulness"
+        ]
+      }
+    ],
+    "93": [
+      {
+        "s": 99,
+        "score": 50,
+        "shared": [
+          "children"
+        ]
+      },
+      {
+        "s": 112,
+        "score": 50,
+        "shared": [
+          "children"
+        ]
+      },
+      {
+        "s": 90,
+        "score": 36.6,
+        "shared": [
+          "children"
+        ]
+      },
+      {
+        "s": 61,
+        "score": 22.6,
+        "shared": [
+          "children"
+        ]
+      }
+    ],
+    "94": [
+      {
+        "s": 92,
+        "score": 56.3,
+        "shared": [
+          "patience"
+        ]
+      },
+      {
+        "s": 87,
+        "score": 27.8,
+        "shared": [
+          "patience"
+        ]
+      },
+      {
+        "s": 54,
+        "score": 17.5,
+        "shared": [
+          "patience"
+        ]
+      },
+      {
+        "s": 73,
+        "score": 15.1,
+        "shared": [
+          "patience"
+        ]
+      }
+    ],
+    "95": [
+      {
+        "s": 62,
+        "score": 17.1,
+        "shared": [
+          "wisdom"
+        ]
+      },
+      {
+        "s": 60,
+        "score": 11.5,
+        "shared": [
+          "wisdom"
+        ]
+      },
+      {
+        "s": 68,
+        "score": 10,
+        "shared": [
+          "wisdom"
+        ]
+      },
+      {
+        "s": 45,
+        "score": 8.2,
+        "shared": [
+          "wisdom"
+        ]
+      }
+    ],
+    "96": [
+      {
+        "s": 54,
+        "score": 69.5,
+        "shared": [
+          "prayer",
+          "truthfulness"
+        ]
+      },
+      {
+        "s": 102,
+        "score": 55.6,
+        "shared": [
+          "knowledge"
+        ]
+      },
+      {
+        "s": 62,
+        "score": 51.5,
+        "shared": [
+          "knowledge",
+          "prayer"
+        ]
+      },
+      {
+        "s": 87,
+        "score": 41.7,
+        "shared": [
+          "prayer"
+        ]
+      }
+    ],
+    "99": [
+      {
+        "s": 112,
+        "score": 55.6,
+        "shared": [
+          "children"
+        ]
+      },
+      {
+        "s": 93,
+        "score": 50,
+        "shared": [
+          "children"
+        ]
+      },
+      {
+        "s": 90,
+        "score": 36.6,
+        "shared": [
+          "children"
+        ]
+      },
+      {
+        "s": 61,
+        "score": 22.6,
+        "shared": [
+          "children"
+        ]
+      }
+    ],
+    "101": [
+      {
+        "s": 104,
+        "score": 55.6,
+        "shared": [
+          "trade"
+        ]
+      },
+      {
+        "s": 92,
+        "score": 28.2,
+        "shared": [
+          "trade"
+        ]
+      },
+      {
+        "s": 83,
+        "score": 17.8,
+        "shared": [
+          "trade"
+        ]
+      },
+      {
+        "s": 62,
+        "score": 17.1,
+        "shared": [
+          "trade"
+        ]
+      }
+    ],
+    "102": [
+      {
+        "s": 96,
+        "score": 55.6,
+        "shared": [
+          "knowledge"
+        ]
+      },
+      {
+        "s": 81,
+        "score": 28.8,
+        "shared": [
+          "knowledge"
+        ]
+      },
+      {
+        "s": 29,
+        "score": 26.6,
+        "shared": [
+          "knowledge"
+        ]
+      },
+      {
+        "s": 49,
+        "score": 25.9,
+        "shared": [
+          "knowledge"
+        ]
+      }
+    ],
+    "104": [
+      {
+        "s": 101,
+        "score": 55.6,
+        "shared": [
+          "trade"
+        ]
+      },
+      {
+        "s": 92,
+        "score": 28.2,
+        "shared": [
+          "trade"
+        ]
+      },
+      {
+        "s": 83,
+        "score": 17.8,
+        "shared": [
+          "trade"
+        ]
+      },
+      {
+        "s": 62,
+        "score": 17.1,
+        "shared": [
+          "trade"
+        ]
+      }
+    ],
+    "107": [
+      {
+        "s": 87,
+        "score": 80,
+        "shared": [
+          "prayer"
+        ]
+      },
+      {
+        "s": 54,
+        "score": 43.9,
+        "shared": [
+          "prayer"
+        ]
+      },
+      {
+        "s": 96,
+        "score": 41.7,
+        "shared": [
+          "prayer"
+        ]
+      },
+      {
+        "s": 80,
+        "score": 30.1,
+        "shared": [
+          "prayer"
+        ]
+      }
+    ],
+    "110": [
+      {
+        "s": 66,
+        "score": 24.1,
+        "shared": [
+          "forgiveness"
+        ]
+      },
+      {
+        "s": 63,
+        "score": 22.2,
+        "shared": [
+          "forgiveness"
+        ]
+      },
+      {
+        "s": 71,
+        "score": 22.1,
+        "shared": [
+          "forgiveness"
+        ]
+      },
+      {
+        "s": 64,
+        "score": 20.7,
+        "shared": [
+          "forgiveness"
+        ]
+      }
+    ],
+    "112": [
+      {
+        "s": 99,
+        "score": 55.6,
+        "shared": [
+          "children"
+        ]
+      },
+      {
+        "s": 93,
+        "score": 50,
+        "shared": [
+          "children"
+        ]
+      },
+      {
+        "s": 90,
+        "score": 36.6,
+        "shared": [
+          "children"
+        ]
+      },
+      {
+        "s": 61,
+        "score": 22.6,
+        "shared": [
+          "children"
+        ]
+      }
+    ]
+  },
+  "themes": {
+    "forgiveness": [
+      {
+        "slug": "peace",
+        "title": "Peace and reconciliation",
+        "score": 38,
+        "via": {
+          "a": "gh-f-r",
+          "b": "ṣ-l-ḥ",
+          "count": 21
+        }
+      },
+      {
+        "slug": "love",
+        "title": "Love",
+        "score": 8,
+        "via": {
+          "a": "ʿ-f-w",
+          "b": "ḥ-b-b",
+          "count": 6
+        }
+      },
+      {
+        "slug": "justice",
+        "title": "Justice",
+        "score": 7,
+        "via": {
+          "a": "t-w-b",
+          "b": "ẓ-l-m",
+          "count": 7
+        }
+      }
+    ],
+    "marriage": [
+      {
+        "slug": "paradise",
+        "title": "Paradise",
+        "score": 9,
+        "via": {
+          "a": "z-w-j",
+          "b": "j-n-n",
+          "count": 9
+        }
+      },
+      {
+        "slug": "forgiveness",
+        "title": "Forgiveness",
+        "score": 5,
+        "via": {
+          "a": "n-k-ḥ",
+          "b": "gh-f-r",
+          "count": 5
+        }
+      }
+    ],
+    "children": [
+      {
+        "slug": "trade",
+        "title": "Trade and wealth",
+        "score": 22,
+        "via": {
+          "a": "w-l-d",
+          "b": "m-w-l",
+          "count": 16
+        }
+      },
+      {
+        "slug": "prayer",
+        "title": "Prayer and remembrance",
+        "score": 7,
+        "via": {
+          "a": "w-l-d",
+          "b": "s-b-ḥ",
+          "count": 7
+        }
+      },
+      {
+        "slug": "justice",
+        "title": "Justice",
+        "score": 4,
+        "via": {
+          "a": "dh-r-r",
+          "b": "ẓ-l-m",
+          "count": 4
+        }
+      }
+    ],
+    "trade": [
+      {
+        "slug": "children",
+        "title": "Children and family",
+        "score": 24,
+        "via": {
+          "a": "m-w-l",
+          "b": "w-l-d",
+          "count": 16
+        }
+      },
+      {
+        "slug": "covenant",
+        "title": "Covenant and fulfillment",
+        "score": 12,
+        "via": {
+          "a": "k-y-l",
+          "b": "w-f-y",
+          "count": 8
+        }
+      },
+      {
+        "slug": "charity",
+        "title": "Charity and giving",
+        "score": 11,
+        "via": {
+          "a": "m-w-l",
+          "b": "n-f-q",
+          "count": 9
+        }
+      }
+    ],
+    "peace": [
+      {
+        "slug": "forgiveness",
+        "title": "Forgiveness",
+        "score": 38,
+        "via": {
+          "a": "ṣ-l-ḥ",
+          "b": "gh-f-r",
+          "count": 21
+        }
+      },
+      {
+        "slug": "paradise",
+        "title": "Paradise",
+        "score": 25,
+        "via": {
+          "a": "ṣ-l-ḥ",
+          "b": "j-n-n",
+          "count": 25
+        }
+      },
+      {
+        "slug": "guidance",
+        "title": "Guidance and light",
+        "score": 14,
+        "via": {
+          "a": "s-l-m",
+          "b": "h-d-y",
+          "count": 14
+        }
+      }
+    ],
+    "patience": [
+      {
+        "slug": "prayer",
+        "title": "Prayer and remembrance",
+        "score": 13,
+        "via": {
+          "a": "ṣ-b-r",
+          "b": "ṣ-l-w",
+          "count": 7
+        }
+      },
+      {
+        "slug": "forgiveness",
+        "title": "Forgiveness",
+        "score": 9,
+        "via": {
+          "a": "ṣ-b-r",
+          "b": "gh-f-r",
+          "count": 9
+        }
+      },
+      {
+        "slug": "healing",
+        "title": "Illness and healing",
+        "score": 3,
+        "via": {
+          "a": "y-s-r",
+          "b": "m-r-ḍ",
+          "count": 3
+        }
+      }
+    ],
+    "justice": [
+      {
+        "slug": "guidance",
+        "title": "Guidance and light",
+        "score": 28,
+        "via": {
+          "a": "ẓ-l-m",
+          "b": "n-w-r",
+          "count": 28
+        }
+      },
+      {
+        "slug": "trade",
+        "title": "Trade and wealth",
+        "score": 5,
+        "via": {
+          "a": "q-s-ṭ",
+          "b": "w-z-n",
+          "count": 5
+        }
+      },
+      {
+        "slug": "love",
+        "title": "Love",
+        "score": 4,
+        "via": {
+          "a": "q-s-ṭ",
+          "b": "ḥ-b-b",
+          "count": 4
+        }
+      }
+    ],
+    "healing": [
+      {
+        "slug": "charity",
+        "title": "Charity and giving",
+        "score": 4,
+        "via": {
+          "a": "m-r-ḍ",
+          "b": "n-f-q",
+          "count": 4
+        }
+      },
+      {
+        "slug": "prayer",
+        "title": "Prayer and remembrance",
+        "score": 4,
+        "via": {
+          "a": "m-r-ḍ",
+          "b": "ṣ-l-w",
+          "count": 4
+        }
+      },
+      {
+        "slug": "guidance",
+        "title": "Guidance and light",
+        "score": 2,
+        "via": {
+          "a": "sh-f-y",
+          "b": "h-d-y",
+          "count": 2
+        }
+      }
+    ],
+    "knowledge": [
+      {
+        "slug": "wisdom",
+        "title": "Wisdom",
+        "score": 71,
+        "via": {
+          "a": "ʿ-l-m",
+          "b": "ḥ-k-m",
+          "count": 71
+        }
+      },
+      {
+        "slug": "death",
+        "title": "Death and mortality",
+        "score": 7,
+        "via": {
+          "a": "ʿ-q-l",
+          "b": "m-w-t",
+          "count": 7
+        }
+      },
+      {
+        "slug": "paradise",
+        "title": "Paradise",
+        "score": 3,
+        "via": {
+          "a": "f-k-r",
+          "b": "j-n-n",
+          "count": 3
+        }
+      }
+    ],
+    "prayer": [
+      {
+        "slug": "charity",
+        "title": "Charity and giving",
+        "score": 38,
+        "via": {
+          "a": "ṣ-l-w",
+          "b": "z-k-w",
+          "count": 28
+        }
+      },
+      {
+        "slug": "blessing",
+        "title": "Blessing",
+        "score": 18,
+        "via": {
+          "a": "dh-k-r",
+          "b": "n-ʿ-m",
+          "count": 18
+        }
+      },
+      {
+        "slug": "guidance",
+        "title": "Guidance and light",
+        "score": 14,
+        "via": {
+          "a": "d-ʿ-w",
+          "b": "h-d-y",
+          "count": 14
+        }
+      }
+    ],
+    "gratitude": [
+      {
+        "slug": "blessing",
+        "title": "Blessing",
+        "score": 7,
+        "via": {
+          "a": "sh-k-r",
+          "b": "n-ʿ-m",
+          "count": 7
+        }
+      }
+    ],
+    "guidance": [
+      {
+        "slug": "justice",
+        "title": "Justice",
+        "score": 28,
+        "via": {
+          "a": "n-w-r",
+          "b": "ẓ-l-m",
+          "count": 28
+        }
+      },
+      {
+        "slug": "paradise",
+        "title": "Paradise",
+        "score": 17,
+        "via": {
+          "a": "n-w-r",
+          "b": "j-n-n",
+          "count": 17
+        }
+      }
+    ],
+    "fear-hope": [
+      {
+        "slug": "joy-sorrow",
+        "title": "Joy and sorrow",
+        "score": 18,
+        "via": {
+          "a": "kh-w-f",
+          "b": "ḥ-z-n",
+          "count": 18
+        }
+      },
+      {
+        "slug": "peace",
+        "title": "Peace and reconciliation",
+        "score": 12,
+        "via": {
+          "a": "kh-w-f",
+          "b": "ṣ-l-ḥ",
+          "count": 12
+        }
+      },
+      {
+        "slug": "prayer",
+        "title": "Prayer and remembrance",
+        "score": 8,
+        "via": {
+          "a": "kh-w-f",
+          "b": "dh-k-r",
+          "count": 8
+        }
+      }
+    ],
+    "truthfulness": [
+      {
+        "slug": "justice",
+        "title": "Justice",
+        "score": 23,
+        "via": {
+          "a": "k-dh-b",
+          "b": "ẓ-l-m",
+          "count": 23
+        }
+      }
+    ],
+    "charity": [
+      {
+        "slug": "prayer",
+        "title": "Prayer and remembrance",
+        "score": 38,
+        "via": {
+          "a": "z-k-w",
+          "b": "ṣ-l-w",
+          "count": 28
+        }
+      },
+      {
+        "slug": "trade",
+        "title": "Trade and wealth",
+        "score": 9,
+        "via": {
+          "a": "n-f-q",
+          "b": "m-w-l",
+          "count": 9
+        }
+      }
+    ],
+    "paradise": [
+      {
+        "slug": "peace",
+        "title": "Peace and reconciliation",
+        "score": 25,
+        "via": {
+          "a": "j-n-n",
+          "b": "ṣ-l-ḥ",
+          "count": 25
+        }
+      },
+      {
+        "slug": "blessing",
+        "title": "Blessing",
+        "score": 20,
+        "via": {
+          "a": "j-n-n",
+          "b": "n-ʿ-m",
+          "count": 20
+        }
+      },
+      {
+        "slug": "guidance",
+        "title": "Guidance and light",
+        "score": 17,
+        "via": {
+          "a": "j-n-n",
+          "b": "n-w-r",
+          "count": 17
+        }
+      }
+    ],
+    "hellfire": [
+      {
+        "slug": "guidance",
+        "title": "Guidance and light",
+        "score": 11,
+        "via": {
+          "a": "ṣ-l-y",
+          "b": "n-w-r",
+          "count": 9
+        }
+      },
+      {
+        "slug": "justice",
+        "title": "Justice",
+        "score": 2,
+        "via": {
+          "a": "ṣ-l-y",
+          "b": "ẓ-l-m",
+          "count": 2
+        }
+      }
+    ],
+    "pilgrimage": [
+      {
+        "slug": "guidance",
+        "title": "Guidance and light",
+        "score": 8,
+        "via": {
+          "a": "ḥ-j-j",
+          "b": "h-d-y",
+          "count": 8
+        }
+      },
+      {
+        "slug": "justice",
+        "title": "Justice",
+        "score": 3,
+        "via": {
+          "a": "ḥ-j-j",
+          "b": "ẓ-l-m",
+          "count": 3
+        }
+      }
+    ],
+    "fasting": [
+      {
+        "slug": "guidance",
+        "title": "Guidance and light",
+        "score": 3,
+        "via": {
+          "a": "ṣ-w-m",
+          "b": "h-d-y",
+          "count": 3
+        }
+      },
+      {
+        "slug": "healing",
+        "title": "Illness and healing",
+        "score": 3,
+        "via": {
+          "a": "ṣ-w-m",
+          "b": "m-r-ḍ",
+          "count": 3
+        }
+      },
+      {
+        "slug": "truthfulness",
+        "title": "Truthfulness and falsehood",
+        "score": 3,
+        "via": {
+          "a": "ṣ-w-m",
+          "b": "ṣ-d-q",
+          "count": 3
+        }
+      }
+    ],
+    "anger": [
+      {
+        "slug": "charity",
+        "title": "Charity and giving",
+        "score": 1,
+        "via": {
+          "a": "k-ẓ-m",
+          "b": "n-f-q",
+          "count": 1
+        }
+      },
+      {
+        "slug": "forgiveness",
+        "title": "Forgiveness",
+        "score": 1,
+        "via": {
+          "a": "k-ẓ-m",
+          "b": "ʿ-f-w",
+          "count": 1
+        }
+      },
+      {
+        "slug": "love",
+        "title": "Love",
+        "score": 1,
+        "via": {
+          "a": "k-ẓ-m",
+          "b": "ḥ-b-b",
+          "count": 1
+        }
+      }
+    ],
+    "love": [
+      {
+        "slug": "children",
+        "title": "Children and family",
+        "score": 8,
+        "via": {
+          "a": "ḥ-b-b",
+          "b": "b-n-y",
+          "count": 8
+        }
+      },
+      {
+        "slug": "justice",
+        "title": "Justice",
+        "score": 8,
+        "via": {
+          "a": "ḥ-b-b",
+          "b": "ẓ-l-m",
+          "count": 8
+        }
+      }
+    ],
+    "arrogance": [
+      {
+        "slug": "prayer",
+        "title": "Prayer and remembrance",
+        "score": 5,
+        "via": {
+          "a": "kh-sh-ʿ",
+          "b": "d-ʿ-w",
+          "count": 3
+        }
+      },
+      {
+        "slug": "patience",
+        "title": "Patience and trial",
+        "score": 2,
+        "via": {
+          "a": "kh-sh-ʿ",
+          "b": "ṣ-b-r",
+          "count": 2
+        }
+      }
+    ],
+    "brotherhood": [
+      {
+        "slug": "guidance",
+        "title": "Guidance and light",
+        "score": 11,
+        "via": {
+          "a": "j-m-ʿ",
+          "b": "h-d-y",
+          "count": 11
+        }
+      },
+      {
+        "slug": "children",
+        "title": "Children and family",
+        "score": 10,
+        "via": {
+          "a": "a-kh-w",
+          "b": "b-n-y",
+          "count": 9
+        }
+      },
+      {
+        "slug": "peace",
+        "title": "Peace and reconciliation",
+        "score": 8,
+        "via": {
+          "a": "a-kh-w",
+          "b": "ṣ-l-ḥ",
+          "count": 8
+        }
+      }
+    ],
+    "sincerity": [
+      {
+        "slug": "prayer",
+        "title": "Prayer and remembrance",
+        "score": 9,
+        "via": {
+          "a": "kh-l-ṣ",
+          "b": "d-ʿ-w",
+          "count": 6
+        }
+      },
+      {
+        "slug": "wisdom",
+        "title": "Wisdom",
+        "score": 3,
+        "via": {
+          "a": "kh-l-ṣ",
+          "b": "ḥ-k-m",
+          "count": 3
+        }
+      },
+      {
+        "slug": "forgiveness",
+        "title": "Forgiveness",
+        "score": 2,
+        "via": {
+          "a": "n-ṣ-ḥ",
+          "b": "gh-f-r",
+          "count": 2
+        }
+      }
+    ],
+    "tyranny": [
+      {
+        "slug": "forgiveness",
+        "title": "Forgiveness",
+        "score": 10,
+        "via": {
+          "a": "b-gh-y",
+          "b": "gh-f-r",
+          "count": 10
+        }
+      },
+      {
+        "slug": "guidance",
+        "title": "Guidance and light",
+        "score": 3,
+        "via": {
+          "a": "ṭ-gh-y",
+          "b": "h-d-y",
+          "count": 3
+        }
+      }
+    ],
+    "covenant": [
+      {
+        "slug": "trade",
+        "title": "Trade and wealth",
+        "score": 12,
+        "via": {
+          "a": "w-f-y",
+          "b": "k-y-l",
+          "count": 8
+        }
+      },
+      {
+        "slug": "justice",
+        "title": "Justice",
+        "score": 11,
+        "via": {
+          "a": "w-f-y",
+          "b": "ẓ-l-m",
+          "count": 11
+        }
+      },
+      {
+        "slug": "children",
+        "title": "Children and family",
+        "score": 4,
+        "via": {
+          "a": "ʿ-h-d",
+          "b": "b-n-y",
+          "count": 4
+        }
+      }
+    ],
+    "striving": [
+      {
+        "slug": "trade",
+        "title": "Trade and wealth",
+        "score": 10,
+        "via": {
+          "a": "j-h-d",
+          "b": "m-w-l",
+          "count": 10
+        }
+      }
+    ],
+    "certainty": [
+      {
+        "slug": "brotherhood",
+        "title": "Brotherhood and community",
+        "score": 6,
+        "via": {
+          "a": "r-y-b",
+          "b": "j-m-ʿ",
+          "count": 6
+        }
+      },
+      {
+        "slug": "prayer",
+        "title": "Prayer and remembrance",
+        "score": 4,
+        "via": {
+          "a": "r-y-b",
+          "b": "d-ʿ-w",
+          "count": 4
+        }
+      },
+      {
+        "slug": "guidance",
+        "title": "Guidance and light",
+        "score": 3,
+        "via": {
+          "a": "y-q-n",
+          "b": "h-d-y",
+          "count": 3
+        }
+      }
+    ],
+    "joy-sorrow": [
+      {
+        "slug": "fear-hope",
+        "title": "Fear and hope",
+        "score": 18,
+        "via": {
+          "a": "ḥ-z-n",
+          "b": "kh-w-f",
+          "count": 18
+        }
+      },
+      {
+        "slug": "peace",
+        "title": "Peace and reconciliation",
+        "score": 5,
+        "via": {
+          "a": "ḥ-z-n",
+          "b": "ṣ-l-ḥ",
+          "count": 5
+        }
+      },
+      {
+        "slug": "love",
+        "title": "Love",
+        "score": 3,
+        "via": {
+          "a": "f-r-ḥ",
+          "b": "ḥ-b-b",
+          "count": 3
+        }
+      }
+    ],
+    "blessing": [
+      {
+        "slug": "paradise",
+        "title": "Paradise",
+        "score": 20,
+        "via": {
+          "a": "n-ʿ-m",
+          "b": "j-n-n",
+          "count": 20
+        }
+      },
+      {
+        "slug": "prayer",
+        "title": "Prayer and remembrance",
+        "score": 18,
+        "via": {
+          "a": "n-ʿ-m",
+          "b": "dh-k-r",
+          "count": 18
+        }
+      },
+      {
+        "slug": "children",
+        "title": "Children and family",
+        "score": 11,
+        "via": {
+          "a": "n-ʿ-m",
+          "b": "b-n-y",
+          "count": 11
+        }
+      }
+    ]
+  }
+}

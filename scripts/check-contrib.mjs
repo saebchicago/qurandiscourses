@@ -17,6 +17,9 @@
 //      and the required message field; pages without footers carry none
 //   4. the issue-url builder's repo slug matches the repo named in
 //      CITATION.cff, so the two cannot drift apart
+//   5. contribute.html exists and links every issue template by name,
+//      so a new template cannot be added without the front door
+//      mentioning it
 //
 // Run: node scripts/check-contrib.mjs   (exit 1 on any failure)
 
@@ -93,11 +96,23 @@ const cffRepo = (read("CITATION.cff").match(/repository-code:\s*"([^"]+)"/) || [
 if (!jsRepo || jsRepo !== cffRepo)
   failures.push(`repo slug drift: issue-url.js says "${jsRepo}", CITATION.cff says "${cffRepo}"`);
 
+// 5. The front door. contribute.html is the page that tells a human
+// how to help; a template it does not mention is a path nobody finds.
+if (!existsSync(join(ROOT, "contribute.html"))) {
+  failures.push("missing contribute.html");
+} else {
+  const contribute = read("contribute.html");
+  for (const t of templates) {
+    if (!contribute.includes(`template=${t}`))
+      failures.push(`contribute.html: does not link issue template ${t}`);
+  }
+}
+
 if (failures.length) {
   console.error("check-contrib: FAIL");
   for (const f of failures) console.error("  - " + f);
   process.exit(1);
 }
 console.log(
-  `check-contrib: OK (${templates.length} issue templates, correction form on all footer pages, one repo slug).`,
+  `check-contrib: OK (${templates.length} issue templates all linked from contribute.html, correction form on all footer pages, one repo slug).`,
 );

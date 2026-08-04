@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Lets browsers register the site as a search engine: address-bar
+     keyword searches land on /search, whose client-side index covers
+     pages, glossary, sources, and themes (assets/search.js). -->
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>Divine Discourses</ShortName>
+  <Description>Search Divine Discourses: pages, glossary, sources, and themes.</Description>
+  <InputEncoding>UTF-8</InputEncoding>
+  <Image width="64" height="64" type="image/png">https://divinediscourses.org/assets/icons/icon-192.png</Image>
+  <Url type="text/html" template="https://divinediscourses.org/search?q={searchTerms}"/>
+  <moz:SearchForm xmlns:moz="http://www.mozilla.org/2006/browser/search/">https://divinediscourses.org/search</moz:SearchForm>
+</OpenSearchDescription>

@@ -125,12 +125,16 @@ the files are upstream subsets served unchanged.
 
 The following files in `data/` are authored or computed by this project
 and carry the repository's MIT license (their *inputs* keep their own
-licenses, listed above): `case-studies.json`, `citations.bib` (generated
+licenses, listed above): `ask-routes.json` (the Ask box routing tables),
+`case-studies.json`, `citations.bib` (generated
 citation metadata for the site, its export tables, and its cited
 sources), `changelog.json` (the changelog entry registry behind changelog.html
-and feed.xml), `claims.json`, `exercises.json`, `glossary.json` (the term
+and feed.xml), `claims.json`, `contributors.json` (the contributor
+roster behind credits.html), `exercises.json`, `glossary.json` (the term
 registry behind assets/glossary.js and glossary.html), `juz.json`,
-`paths.json`,
+`paths.json`, `related.json` (the see-also join behind dossier and
+themes panels), `search-index.json` (the folded-token index behind
+/search),
 `sources.json`, `surah-names.json`, `version.json` (the site's release
 version), `videos.json`, plus the computed datasets in the next
 paragraph.
