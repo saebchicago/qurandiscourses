@@ -1069,9 +1069,21 @@
                   : "";
                 // Script-specific font classes. Urdu gets Nastaliq, Bengali
                 // gets Noto Serif Bengali — both self-hosted, each with its
-                // own line-height. Latin-script editions need nothing.
+                // own line-height. Chinese, Japanese, and Korean get the
+                // reader's own system CJK face: a subsetted CJK webfont
+                // still runs to megabytes, which is not a trade this site
+                // makes for text every device can already render.
+                // Latin-script editions (including Turkish and Bosnian,
+                // whose diacritics live in the bundled latin-ext subsets)
+                // need nothing.
                 const scriptClass =
-                  { ur: " nastaliq", bn: " bengali" }[t.edition.language] || "";
+                  {
+                    ur: " nastaliq",
+                    bn: " bengali",
+                    zh: " cjk",
+                    ja: " cjk",
+                    ko: " cjk",
+                  }[t.edition.language] || "";
                 // The edition's native-script name gets the same lang/dir
                 // as the text it names, so screen readers switch voices.
                 html += `<div class="translation"><div class="label">${qdEsc(t.edition.englishName)} · <span${dirAttr}${langAttr}>${qdEsc(t.edition.name)}</span></div><div class="text${scriptClass}"${dirAttr}${langAttr}>${qdEsc(t.text)}</div></div>`;
@@ -1161,6 +1173,11 @@
                   id: "Indonesian",
                   fr: "French",
                   es: "Spanish",
+                  tr: "Turkish",
+                  bs: "Bosnian",
+                  zh: "Chinese",
+                  ja: "Japanese",
+                  ko: "Korean",
                 };
                 const groups = new Map();
                 qdTranslations.forEach((t) => {

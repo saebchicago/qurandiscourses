@@ -42,6 +42,13 @@
     { id: "id.indonesian", name: "Kementerian Agama (Indonesian)", lang: "id" },
     { id: "fr.hamidullah", name: "Muhammad Hamidullah (French)", lang: "fr" },
     { id: "es.cortes", name: "Julio Cortés (Spanish)", lang: "es" },
+    { id: "tr.diyanet", name: "Diyanet İşleri (Turkish)", lang: "tr" },
+    { id: "tr.yazir", name: "Elmalılı Hamdi Yazır (Turkish)", lang: "tr" },
+    { id: "bs.korkut", name: "Besim Korkut (Bosnian)", lang: "bs" },
+    { id: "bs.mlivo", name: "Mustafa Mlivo (Bosnian)", lang: "bs" },
+    { id: "zh.jian", name: "Ma Jian (Chinese)", lang: "zh" },
+    { id: "ja.japanese", name: "Ryoichi Mita (Japanese)", lang: "ja" },
+    { id: "ko.korean", name: "Korean translation", lang: "ko" },
   ];
 
   const RECITERS = [

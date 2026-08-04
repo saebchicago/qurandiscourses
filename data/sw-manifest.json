@@ -2,7 +2,7 @@
  "_generated": "scripts/build-sw-manifest.mjs — the service worker's precache list and content fingerprint. A hash diff here alongside an unchanged version is the reviewer's cue to consider a SW_VERSION bump (see docs/maintainer-guide.md).",
  "version": "v10",
  "hashes": {
-  "assets/app.js": "9c9eb9c6a330d5f69c7adeaebc9754dc9e70fa48d05ee39f5cd2d69df8fc6aef",
+  "assets/app.js": "fc917ed0020d92f4d841797014d3e3e7ac339166ae9aada51079fa8f19e0bb22",
   "assets/ask-routes.js": "9551265160652080ff77bf47d1f647119b9691b66be92182618385fa088d2b86",
   "assets/ask.js": "21e032ca0b0f5e0a50e9591786c6129d5e79ebc450af684e960242999d949f67",
   "assets/case-studies.js": "4b02eb58852ca74cc747d7fdface11c8a6b921b985b210e776f0ef73a58dcfcc",
@@ -30,7 +30,7 @@
   "assets/root-refs.js": "47d3f1948952355d0aaaeaf61ac2354f1837a2eec3dea513ba4a9e4507c713fa",
   "assets/search.js": "60949278d3e079c2c281638750e799198bdd411d3849b3d6b76767338205274e",
   "assets/share.js": "9fd266d6e7f65c776de1c5d40a60c700137f7539d248a4d2dccc3542a6043a32",
-  "assets/style.css": "fed127737a9d1cee2a77215385f055cfa63987039a599d1653e1cb362deefada",
+  "assets/style.css": "d13c91b0c5bea4c104c3c279216aa513a938ce1525cc35eb46b502fc8233edd9",
   "assets/surahs.js": "de8a6221aa3da3cc7dc4f359f613b429732e0fe19e81aa2589fafeb17a2da9ec",
   "assets/tour.js": "d3f923a8af6ae16ad0fc729d9e25222737876dd159a265e1d363bf2fcbc61aa4",
   "assets/version.js": "e6f89efbc42c4d79666d21faed1743453bf1a0b533f14017ffbf539c5869082a",
@@ -71,7 +71,7 @@
   "index.html": "c60acf4037c11f2a8969f861d77f76e856e850d75e1ffda4e91504f4ad207b2b",
   "navigate.html": "e8c17cd42c12db237aba22a27cf31323b6e15bc8ec128941333da95901791482",
   "paths.html": "09a11209c60279bd289f0751c4acd644604ddc6a5b8d5fcd0dbba5cb6d893b86",
-  "read.html": "d640f0e3d901c6c8ccda9f3b090a6d48438ffe3bbcdfdc4793b76b3930c80840",
+  "read.html": "2ebd5e5548e3cc2615c274074b12161076c0abb86b9c466582185a70c6c87fad",
   "search.html": "f0e4082e597c8a6025cd9aff63750d30a2dbff872d088999261c09fb2b1a2c7c"
  }
 }
