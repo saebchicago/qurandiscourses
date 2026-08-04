@@ -1,7 +1,7 @@
 {
  "_script": "scripts/compute-coverage.mjs",
  "_method": "Every number in this report is measured directly from repository data files at generation time, except the 'popular'/alternate values in countingRuleSensitivity, which are quoted verbatim from numbers.html's own prose (already-published editorial text, not independently measurable from a data file) and are marked verified:false accordingly. Source registry fields are read verbatim from data/sources.json; any field absent there is recorded as \"not stated in repository\", never inferred.",
- "_computed": "2026-08-01",
+ "_computed": "2026-08-04",
  "morphology": {
   "totalTokens": 77429,
   "fields": {
@@ -218,9 +218,11 @@
    "numbers.html",
    "paths.html",
    "patterns.html",
+   "read.html",
    "roots.html",
    "sources.html",
-   "validation.html"
+   "validation.html",
+   "words.html"
   ],
   "_note": "assets/root-meanings.js provides 84 short editorial glosses (out of 1642 roots). Its own file header states these are editorial working glosses, not quotations from a citable dictionary, and instructs that they not be presented as Verified. Not counted toward the coverage figure above. data/gloss/{surah}.json provides per-word (not per-root) glosses transcribed from Khan (2011), covering 6 of 114 surahs; it cannot answer per-root coverage.",
   "editorialGlossDashboardText": "84 roots carry editorial working glosses maintained in this repository. These are not sourced from a citable dictionary and are not labeled Verified. They are excluded from this count."
@@ -310,6 +312,48 @@
    "_documentedIn": "numbers.html, \"Day, month, year\" card"
   }
  ],
+ "khanOutlines": {
+  "_method": "published = surahs 85-114, the range of Khan's 2013 outline volume (source khan-exercise-2013); transcribed is read from data/exercises.json type=outline entries; wanted is the difference. Transcription requires the book and the review checklist in CONTRIBUTING.md.",
+  "publishedRange": [
+   85,
+   114
+  ],
+  "publishedCount": 30,
+  "transcribed": [
+   96,
+   103,
+   107,
+   108,
+   109,
+   112
+  ],
+  "wanted": [
+   85,
+   86,
+   87,
+   88,
+   89,
+   90,
+   91,
+   92,
+   93,
+   94,
+   95,
+   97,
+   98,
+   99,
+   100,
+   101,
+   102,
+   104,
+   105,
+   106,
+   110,
+   111,
+   113,
+   114
+  ]
+ },
  "sourceRegistry": [
   {
    "id": "leeds-corpus-v0.4",

@@ -387,6 +387,39 @@ if (blockers.length) {
 
 const COMPUTED_DATE = computedDate();
 
+// ── Khan outline coverage (the contribution work queue) ─────────────
+// Khan's 2013 volume publishes sectional outlines for surahs 85-114
+// (data/sources.json khan-exercise-2013). The transcribed set is read
+// from data/exercises.json; wanted = published minus transcribed, the
+// exact queue the structural-hypothesis pipeline exists to drain. The
+// invariant below fails the build rather than shipping a wrong queue.
+const KHAN_PUBLISHED_START = 85;
+const KHAN_PUBLISHED_END = 114;
+const exercisesReg = JSON.parse(
+  readFileSync(join(ROOT, "data/exercises.json"), "utf8"),
+);
+const transcribed = exercisesReg.exercises
+  .filter((e) => e.type === "outline")
+  .map((e) => e.surah)
+  .sort((a, b) => a - b);
+const published = [];
+for (let s = KHAN_PUBLISHED_START; s <= KHAN_PUBLISHED_END; s++) published.push(s);
+const wanted = published.filter((s) => !transcribed.includes(s));
+for (const s of transcribed) {
+  if (s < KHAN_PUBLISHED_START || s > KHAN_PUBLISHED_END)
+    throw new Error(`transcribed outline for surah ${s} is outside Khan's published 85-114 range`);
+}
+if (wanted.length + transcribed.length !== published.length)
+  throw new Error("khan outline sets do not partition the published range");
+const khanOutlines = {
+  _method:
+    "published = surahs 85-114, the range of Khan's 2013 outline volume (source khan-exercise-2013); transcribed is read from data/exercises.json type=outline entries; wanted is the difference. Transcription requires the book and the review checklist in CONTRIBUTING.md.",
+  publishedRange: [KHAN_PUBLISHED_START, KHAN_PUBLISHED_END],
+  publishedCount: published.length,
+  transcribed,
+  wanted,
+};
+
 const report = {
   _script: "scripts/compute-coverage.mjs",
   _method:
@@ -400,6 +433,7 @@ const report = {
   rootGloss,
   qursim,
   countingRuleSensitivity,
+  khanOutlines,
   sourceRegistry,
   sourceRegistryBlockers: blockers,
 };

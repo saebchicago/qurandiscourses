@@ -122,6 +122,7 @@
               <li><a href="/how-it-works">How it works</a></li>
               <li><a href="/paths">Study paths</a></li>
               <li><a href="/glossary">Glossary</a></li>
+              <li><a href="/search">Search</a></li>
               <li><a href="/watch">Watch</a></li>
             </ul>
           </details>
@@ -136,6 +137,7 @@
               <li><a href="/coverage">Coverage</a></li>
               <li><a href="/export">Export</a></li>
               <li><a href="/changelog">Changelog</a></li>
+              <li><a href="/contribute">Contribute</a></li>
             </ul>
           </details>
         </li>
@@ -258,6 +260,33 @@
       </section>
 
       <section>
+        <h3 id="wanted-outlines">Wanted: surah outlines to transcribe</h3>
+        <p>
+          Dr. Khan's 2013 volume publishes sectional outlines for surahs
+          85 to 114
+          <span
+            class="badge ok"
+            data-source-ids="khan-exercise-2013"
+            aria-label="Verified"
+            tabindex="0"
+            title="Verified · published source"
+            >●</span
+          >. The transcribed ones power the outline exercises; the rest
+          are this project's open work queue. Claiming one means
+          transcribing from the book under the review checklist in
+          <a
+            href="https://github.com/saebchicago/qurandiscourses/blob/main/CONTRIBUTING.md"
+            rel="noopener"
+            >CONTRIBUTING.md</a
+          >, or submitting your own structural hypothesis for it, which
+          needs no book at all.
+        </p>
+        <div id="wantedOutlines">
+          <p style="color: var(--muted)">Loading the outline queue…</p>
+        </div>
+      </section>
+
+      <section>
         <h3>Source registry</h3>
         <p>
           For each dataset in use: name, version, license, and source
@@ -358,6 +387,8 @@
       ></div>
     </div>
     <script src="assets/app.js"></script>
+    <script src="assets/surahs.js"></script>
+    <script src="assets/issue-url.js"></script>
     <script src="assets/share.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="js/viz.js" defer></script>
@@ -374,6 +405,7 @@
           renderGloss(report.rootGloss);
           renderQursim(report.qursim);
           renderSensitivity(report.countingRuleSensitivity);
+          renderWanted(report.khanOutlines);
           renderRegistry(report.sourceRegistry, report.sourceRegistryBlockers);
         })
         .catch((err) => {
@@ -382,6 +414,40 @@
             `<p class="chart-fallback-note">Coverage data unavailable (${err.message}).</p>`,
           );
         });
+
+
+      // The contribution work queue: every un-transcribed surah in
+      // Khan's published range, each with a prefilled issue link
+      // (assets/issue-url.js). Surah names come from window.SURAHS.
+      function renderWanted(k) {
+        const el = document.getElementById("wantedOutlines");
+        if (!el || !k) return;
+        const name = (n) => {
+          const s = (window.SURAHS || []).find((x) => x.id === n);
+          return s ? s.translit : "Surah " + n;
+        };
+        const issue = (n) =>
+          window.qdIssueUrl
+            ? window.qdIssueUrl({
+                template: "structural-hypothesis.md",
+                title: "Structural hypothesis: Surah " + n + " (" + name(n) + ")",
+              }).url
+            : null;
+        const rows = k.wanted
+          .map((n) => {
+            const link = issue(n);
+            const cta = link
+              ? ` <a href="${link}" rel="noopener">Claim it</a>`
+              : "";
+            return `<li><strong>Surah ${n}</strong> ${name(n)}${cta}</li>`;
+          })
+          .join("");
+        el.innerHTML =
+          `<p>${k.transcribed.length} of ${k.publishedCount} transcribed; ` +
+          `<strong>${k.wanted.length} wanted</strong>:</p>` +
+          `<ul class="wanted-list">${rows}</ul>`;
+        if (window.qdCiteEnhance) window.qdCiteEnhance(el);
+      }
 
       function renderMorphology(morphology) {
         document.getElementById("covTotalTokens").textContent = morphology.totalTokens.toLocaleString("en-US");

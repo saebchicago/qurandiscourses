@@ -1,0 +1,10 @@
+{
+ "_comment": "The contributor roster rendered on credits.html#contributors. Add a person when their first contribution lands (merged PR, accepted hypothesis, transcription, translation, or a correction they want credited); name and role only, links optional. check-contrib.mjs validates the shape.",
+ "contributors": [
+  {
+   "name": "Saeb A. Ahsan",
+   "role": "Maintainer; transcription of Dr. Khan's published outlines and glosses",
+   "url": "https://github.com/saebchicago"
+  }
+ ]
+}

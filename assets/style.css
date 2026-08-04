@@ -2528,6 +2528,17 @@ kbd {
   overflow: hidden;
 }
 
+/* Coverage's wanted-outlines queue: compact multi-column checklist. */
+.wanted-list {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 0.3rem 1rem;
+  font-size: 0.9rem;
+}
+
 /* /search: input row and grouped results (assets/search.js). */
 .search-row {
   display: flex;

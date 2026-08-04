@@ -116,6 +116,17 @@ const dailyLinks =
 
 // ── apply ─────────────────────────────────────────────────────────────
 
+// credits.html contributor roster, from the registry.
+const contributors = read("data/contributors.json").contributors;
+const roster = contributors
+  .map((c) => {
+    const name = c.url
+      ? `<a href="${esc(c.url)}" rel="noopener">${esc(c.name)}</a>`
+      : esc(c.name);
+    return `<li>${name}: ${esc(c.role)}</li>`;
+  })
+  .join("\n            ");
+
 const REGIONS = [
   ["navigate.html", "juz-grid", juzGrid],
   ["dossier.html", "surah-picker", surahPicker],
@@ -123,6 +134,7 @@ const REGIONS = [
   ["index.html", "daily-lens", dailyLens],
   ["index.html", "daily-prov", dailyProv],
   ["index.html", "daily-links", dailyLinks],
+  ["credits.html", "contributors", roster],
 ];
 
 const failures = [];
