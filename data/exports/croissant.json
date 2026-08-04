@@ -1,0 +1,752 @@
+{
+ "@context": {
+  "@vocab": "https://schema.org/",
+  "cr": "http://mlcommons.org/croissant/",
+  "fileObject": "cr:fileObject",
+  "recordSet": "cr:recordSet",
+  "field": "cr:field",
+  "dataType": "cr:dataType",
+  "source": "cr:source",
+  "extract": "cr:extract",
+  "fileProperty": "cr:fileProperty"
+ },
+ "@type": "Dataset",
+ "@id": "https://divinediscourses.org/export",
+ "conformsTo": "http://mlcommons.org/croissant/1.0",
+ "name": "divinediscourses-exports",
+ "description": "Computed tables from the Divine Discourses Qur'an study platform: root frequencies, root-pair association statistics, per-surah statistics, and verse lengths, derived from the Leeds Quranic Arabic Corpus v0.4.",
+ "url": "https://divinediscourses.org/export",
+ "version": "1.0.0",
+ "datePublished": "2026-08-04",
+ "license": "https://www.gnu.org/licenses/gpl-3.0.html",
+ "citeAs": "Divine Discourses project. Divine Discourses, version 1.0.0. 2026. https://divinediscourses.org.",
+ "creator": {
+  "@type": "Organization",
+  "name": "Divine Discourses project",
+  "url": "https://divinediscourses.org/about"
+ },
+ "distribution": [
+  {
+   "@type": "cr:FileObject",
+   "@id": "association-pairs.csv",
+   "name": "association-pairs.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/association-pairs.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
+   "@id": "root-frequencies.csv",
+   "name": "root-frequencies.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/root-frequencies.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
+   "@id": "surah-stats.csv",
+   "name": "surah-stats.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/surah-stats.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
+   "@id": "verse-lengths.csv",
+   "name": "verse-lengths.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/verse-lengths.csv",
+   "encodingFormat": "text/csv"
+  }
+ ],
+ "recordSet": [
+  {
+   "@type": "cr:RecordSet",
+   "@id": "association-pairs",
+   "name": "association-pairs",
+   "description": "Root-pair association statistics: the union of every pair appearing in any root's top-25-by-LLR partner list, deduplicated by unordered pair.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "association-pairs/rootA",
+     "name": "rootA",
+     "description": "First root of the pair (Buckwalter).",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "association-pairs.csv"
+      },
+      "extract": {
+       "column": "rootA"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-pairs/rootASafeKey",
+     "name": "rootASafeKey",
+     "description": "URL/filename-safe encoding of rootA.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "association-pairs.csv"
+      },
+      "extract": {
+       "column": "rootASafeKey"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-pairs/rootALatin",
+     "name": "rootALatin",
+     "description": "rootA in Latin transliteration.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "association-pairs.csv"
+      },
+      "extract": {
+       "column": "rootALatin"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-pairs/rootB",
+     "name": "rootB",
+     "description": "Second root of the pair (Buckwalter).",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "association-pairs.csv"
+      },
+      "extract": {
+       "column": "rootB"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-pairs/rootBSafeKey",
+     "name": "rootBSafeKey",
+     "description": "URL/filename-safe encoding of rootB.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "association-pairs.csv"
+      },
+      "extract": {
+       "column": "rootBSafeKey"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-pairs/rootBLatin",
+     "name": "rootBLatin",
+     "description": "rootB in Latin transliteration.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "association-pairs.csv"
+      },
+      "extract": {
+       "column": "rootBLatin"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-pairs/sharedVerses",
+     "name": "sharedVerses",
+     "description": "k11: number of verses in which both roots are attested.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "association-pairs.csv"
+      },
+      "extract": {
+       "column": "sharedVerses"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-pairs/pmi",
+     "name": "pmi",
+     "description": "Pointwise mutual information: log2((k11*N)/((k11+k12)*(k11+k21))), N=6,236, rounded to 2 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-pairs.csv"
+      },
+      "extract": {
+       "column": "pmi"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-pairs/dice",
+     "name": "dice",
+     "description": "Dice coefficient: 2*k11/(2*k11+k12+k21), rounded to 3 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-pairs.csv"
+      },
+      "extract": {
+       "column": "dice"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-pairs/llr",
+     "name": "llr",
+     "description": "Dunning's log-likelihood ratio (G2) over the pair's verse-level 2x2 table, rounded to 2 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-pairs.csv"
+      },
+      "extract": {
+       "column": "llr"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "root-frequencies",
+   "name": "root-frequencies",
+   "description": "Every one of the 1,642 roots: raw occurrence count, overall normalized frequency, and per-period count and normalized frequency.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "root-frequencies/root",
+     "name": "root",
+     "description": "Buckwalter-transliterated root.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "root-frequencies.csv"
+      },
+      "extract": {
+       "column": "root"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "root-frequencies/safeKey",
+     "name": "safeKey",
+     "description": "URL/filename-safe encoding of root, used to link to data/association/{safeKey}.json and roots.html?root={safeKey}.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "root-frequencies.csv"
+      },
+      "extract": {
+       "column": "safeKey"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "root-frequencies/arabic",
+     "name": "arabic",
+     "description": "Root letters in Arabic script, space-separated.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "root-frequencies.csv"
+      },
+      "extract": {
+       "column": "arabic"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "root-frequencies/rootLatin",
+     "name": "rootLatin",
+     "description": "Root in Latin transliteration with diacritics.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "root-frequencies.csv"
+      },
+      "extract": {
+       "column": "rootLatin"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "root-frequencies/totalCount",
+     "name": "totalCount",
+     "description": "Total occurrences of this root across the whole corpus (77,429 tokens).",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "root-frequencies.csv"
+      },
+      "extract": {
+       "column": "totalCount"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "root-frequencies/normalizedFrequencyOverall",
+     "name": "normalizedFrequencyOverall",
+     "description": "(totalCount / 77,429) * 1000.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "root-frequencies.csv"
+      },
+      "extract": {
+       "column": "normalizedFrequencyOverall"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "root-frequencies/count_meccan-early",
+     "name": "count_meccan-early",
+     "description": "Occurrences of this root in the Early Meccan period.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "root-frequencies.csv"
+      },
+      "extract": {
+       "column": "count_meccan-early"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "root-frequencies/normalizedFrequency_meccan-early",
+     "name": "normalizedFrequency_meccan-early",
+     "description": "(count_meccan-early / period token total) * 1000.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "root-frequencies.csv"
+      },
+      "extract": {
+       "column": "normalizedFrequency_meccan-early"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "root-frequencies/count_meccan-middle",
+     "name": "count_meccan-middle",
+     "description": "Occurrences of this root in the Middle Meccan period.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "root-frequencies.csv"
+      },
+      "extract": {
+       "column": "count_meccan-middle"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "root-frequencies/normalizedFrequency_meccan-middle",
+     "name": "normalizedFrequency_meccan-middle",
+     "description": "(count_meccan-middle / period token total) * 1000.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "root-frequencies.csv"
+      },
+      "extract": {
+       "column": "normalizedFrequency_meccan-middle"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "root-frequencies/count_meccan-late",
+     "name": "count_meccan-late",
+     "description": "Occurrences of this root in the Late Meccan period.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "root-frequencies.csv"
+      },
+      "extract": {
+       "column": "count_meccan-late"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "root-frequencies/normalizedFrequency_meccan-late",
+     "name": "normalizedFrequency_meccan-late",
+     "description": "(count_meccan-late / period token total) * 1000.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "root-frequencies.csv"
+      },
+      "extract": {
+       "column": "normalizedFrequency_meccan-late"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "root-frequencies/count_medinan",
+     "name": "count_medinan",
+     "description": "Occurrences of this root in the Medinan period.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "root-frequencies.csv"
+      },
+      "extract": {
+       "column": "count_medinan"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "root-frequencies/normalizedFrequency_medinan",
+     "name": "normalizedFrequency_medinan",
+     "description": "(count_medinan / period token total) * 1000.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "root-frequencies.csv"
+      },
+      "extract": {
+       "column": "normalizedFrequency_medinan"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "surah-stats",
+   "name": "surah-stats",
+   "description": "Per-surah corpus fingerprint: all 114 surahs.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "surah-stats/surah",
+     "name": "surah",
+     "description": "Surah number, 1-114, Cairo (mushaf) order.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "surah-stats.csv"
+      },
+      "extract": {
+       "column": "surah"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-stats/nameTranslit",
+     "name": "nameTranslit",
+     "description": "Transliterated surah name.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "surah-stats.csv"
+      },
+      "extract": {
+       "column": "nameTranslit"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-stats/nameArabic",
+     "name": "nameArabic",
+     "description": "Surah name in Arabic script.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "surah-stats.csv"
+      },
+      "extract": {
+       "column": "nameArabic"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-stats/nameEnglish",
+     "name": "nameEnglish",
+     "description": "English meaning of the surah name.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "surah-stats.csv"
+      },
+      "extract": {
+       "column": "nameEnglish"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-stats/revelationOrder",
+     "name": "revelationOrder",
+     "description": "Position in the Cairo 1924 revelation-order sequence (1 = first revealed).",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "surah-stats.csv"
+      },
+      "extract": {
+       "column": "revelationOrder"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-stats/period",
+     "name": "period",
+     "description": "One of meccan-early, meccan-middle, meccan-late, medinan (Nöldeke-Bell four-period classification).",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "surah-stats.csv"
+      },
+      "extract": {
+       "column": "period"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-stats/verseCount",
+     "name": "verseCount",
+     "description": "Number of verses (ayat) in the surah, Cairo numbering.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "surah-stats.csv"
+      },
+      "extract": {
+       "column": "verseCount"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-stats/tokenCount",
+     "name": "tokenCount",
+     "description": "Total Leeds morphological tokens in the surah.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "surah-stats.csv"
+      },
+      "extract": {
+       "column": "tokenCount"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-stats/distinctRootCount",
+     "name": "distinctRootCount",
+     "description": "Count of distinct roots attested in the surah.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "surah-stats.csv"
+      },
+      "extract": {
+       "column": "distinctRootCount"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-stats/rootDiversityRatio",
+     "name": "rootDiversityRatio",
+     "description": "distinctRootCount / tokenCount.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "surah-stats.csv"
+      },
+      "extract": {
+       "column": "rootDiversityRatio"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-stats/distinctFormCount",
+     "name": "distinctFormCount",
+     "description": "Count of distinct surface (written) forms in the surah.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "surah-stats.csv"
+      },
+      "extract": {
+       "column": "distinctFormCount"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-stats/formDiversityRatio",
+     "name": "formDiversityRatio",
+     "description": "distinctFormCount / tokenCount.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "surah-stats.csv"
+      },
+      "extract": {
+       "column": "formDiversityRatio"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-stats/distinctLemmaCount",
+     "name": "distinctLemmaCount",
+     "description": "Count of distinct lemmas in the surah.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "surah-stats.csv"
+      },
+      "extract": {
+       "column": "distinctLemmaCount"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-stats/lemmaDiversityRatio",
+     "name": "lemmaDiversityRatio",
+     "description": "distinctLemmaCount / tokenCount.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "surah-stats.csv"
+      },
+      "extract": {
+       "column": "lemmaDiversityRatio"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-stats/nounPct",
+     "name": "nounPct",
+     "description": "Percentage of the surah's tokens tagged noun (N) by Leeds POS tagging.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "surah-stats.csv"
+      },
+      "extract": {
+       "column": "nounPct"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-stats/verbPct",
+     "name": "verbPct",
+     "description": "Percentage of the surah's tokens tagged verb (V) by Leeds POS tagging.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "surah-stats.csv"
+      },
+      "extract": {
+       "column": "verbPct"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "verse-lengths",
+   "name": "verse-lengths",
+   "description": "Every verse in the corpus (6,236 rows) with its token length and revelation period.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "verse-lengths/surah",
+     "name": "surah",
+     "description": "Surah number, 1-114.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "verse-lengths.csv"
+      },
+      "extract": {
+       "column": "surah"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "verse-lengths/verse",
+     "name": "verse",
+     "description": "Verse (ayah) number within the surah, Cairo numbering.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "verse-lengths.csv"
+      },
+      "extract": {
+       "column": "verse"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "verse-lengths/tokens",
+     "name": "tokens",
+     "description": "Number of Leeds morphological tokens in this verse.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "verse-lengths.csv"
+      },
+      "extract": {
+       "column": "tokens"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "verse-lengths/period",
+     "name": "period",
+     "description": "One of meccan-early, meccan-middle, meccan-late, medinan; null if the surah has no chronology entry.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "verse-lengths.csv"
+      },
+      "extract": {
+       "column": "period"
+      }
+     }
+    }
+   ]
+  }
+ ]
+}

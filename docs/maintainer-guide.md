@@ -698,7 +698,11 @@ The site is versioned so a citation can pin an exact set of numbers.
    fails if you forget).
 3. `node scripts/build-citations.mjs` — regenerates `data/citations.bib`
    and `assets/version.js`. Bump CITATION.cff's `version` and
-   `date-released` to match.
+   `date-released` to match. Then `node scripts/build-datapack.mjs`,
+   which writes a NEW `data/exports/divinediscourses-data-v<version>.tar.gz`
+   (keep the old archives: they are what published citations point at),
+   and update export.html's archive link (check-citation fails if you
+   forget).
 4. Add a changelog entry, run the §6 checklist, merge.
 5. Tag the merge commit: `git tag -a v<version> -m "<one-line summary>"`
    and push the tag. The tag is what makes a citation resolvable later:

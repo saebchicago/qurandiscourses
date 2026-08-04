@@ -1,0 +1,300 @@
+{
+ "name": "divinediscourses-exports",
+ "title": "Divine Discourses public export tables",
+ "version": "1.0.0",
+ "created": "2026-08-04",
+ "homepage": "https://divinediscourses.org/export",
+ "licenses": [
+  {
+   "name": "GPL-3.0-or-later",
+   "title": "GNU General Public License",
+   "path": "https://www.gnu.org/licenses/gpl-3.0.html"
+  }
+ ],
+ "sources": [
+  {
+   "title": "The Quranic Arabic Corpus, version 0.4 (Kais Dukes, University of Leeds)",
+   "path": "https://corpus.quran.com"
+  }
+ ],
+ "contributors": [
+  {
+   "title": "Divine Discourses project",
+   "path": "https://divinediscourses.org/about"
+  }
+ ],
+ "resources": [
+  {
+   "name": "association-pairs",
+   "title": "Divine Discourses: association-pairs",
+   "description": "Root-pair association statistics: the union of every pair appearing in any root's top-25-by-LLR partner list, deduplicated by unordered pair.",
+   "path": "association-pairs.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "rootA",
+      "type": "string",
+      "description": "First root of the pair (Buckwalter)."
+     },
+     {
+      "name": "rootASafeKey",
+      "type": "string",
+      "description": "URL/filename-safe encoding of rootA."
+     },
+     {
+      "name": "rootALatin",
+      "type": "string",
+      "description": "rootA in Latin transliteration."
+     },
+     {
+      "name": "rootB",
+      "type": "string",
+      "description": "Second root of the pair (Buckwalter)."
+     },
+     {
+      "name": "rootBSafeKey",
+      "type": "string",
+      "description": "URL/filename-safe encoding of rootB."
+     },
+     {
+      "name": "rootBLatin",
+      "type": "string",
+      "description": "rootB in Latin transliteration."
+     },
+     {
+      "name": "sharedVerses",
+      "type": "integer",
+      "description": "k11: number of verses in which both roots are attested. Unit: verses."
+     },
+     {
+      "name": "pmi",
+      "type": "number",
+      "description": "Pointwise mutual information: log2((k11*N)/((k11+k12)*(k11+k21))), N=6,236, rounded to 2 decimals. Unit: bits (log base 2)."
+     },
+     {
+      "name": "dice",
+      "type": "number",
+      "description": "Dice coefficient: 2*k11/(2*k11+k12+k21), rounded to 3 decimals."
+     },
+     {
+      "name": "llr",
+      "type": "number",
+      "description": "Dunning's log-likelihood ratio (G2) over the pair's verse-level 2x2 table, rounded to 2 decimals."
+     }
+    ]
+   }
+  },
+  {
+   "name": "root-frequencies",
+   "title": "Divine Discourses: root-frequencies",
+   "description": "Every one of the 1,642 roots: raw occurrence count, overall normalized frequency, and per-period count and normalized frequency.",
+   "path": "root-frequencies.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "root",
+      "type": "string",
+      "description": "Buckwalter-transliterated root."
+     },
+     {
+      "name": "safeKey",
+      "type": "string",
+      "description": "URL/filename-safe encoding of root, used to link to data/association/{safeKey}.json and roots.html?root={safeKey}."
+     },
+     {
+      "name": "arabic",
+      "type": "string",
+      "description": "Root letters in Arabic script, space-separated."
+     },
+     {
+      "name": "rootLatin",
+      "type": "string",
+      "description": "Root in Latin transliteration with diacritics."
+     },
+     {
+      "name": "totalCount",
+      "type": "integer",
+      "description": "Total occurrences of this root across the whole corpus (77,429 tokens). Unit: tokens."
+     },
+     {
+      "name": "normalizedFrequencyOverall",
+      "type": "number",
+      "description": "(totalCount / 77,429) * 1000. Unit: occurrences per 1,000 tokens."
+     },
+     {
+      "name": "count_meccan-early",
+      "type": "integer",
+      "description": "Occurrences of this root in the Early Meccan period. Unit: tokens."
+     },
+     {
+      "name": "normalizedFrequency_meccan-early",
+      "type": "number",
+      "description": "(count_meccan-early / period token total) * 1000. Unit: occurrences per 1,000 tokens."
+     },
+     {
+      "name": "count_meccan-middle",
+      "type": "integer",
+      "description": "Occurrences of this root in the Middle Meccan period. Unit: tokens."
+     },
+     {
+      "name": "normalizedFrequency_meccan-middle",
+      "type": "number",
+      "description": "(count_meccan-middle / period token total) * 1000. Unit: occurrences per 1,000 tokens."
+     },
+     {
+      "name": "count_meccan-late",
+      "type": "integer",
+      "description": "Occurrences of this root in the Late Meccan period. Unit: tokens."
+     },
+     {
+      "name": "normalizedFrequency_meccan-late",
+      "type": "number",
+      "description": "(count_meccan-late / period token total) * 1000. Unit: occurrences per 1,000 tokens."
+     },
+     {
+      "name": "count_medinan",
+      "type": "integer",
+      "description": "Occurrences of this root in the Medinan period. Unit: tokens."
+     },
+     {
+      "name": "normalizedFrequency_medinan",
+      "type": "number",
+      "description": "(count_medinan / period token total) * 1000. Unit: occurrences per 1,000 tokens."
+     }
+    ]
+   }
+  },
+  {
+   "name": "surah-stats",
+   "title": "Divine Discourses: surah-stats",
+   "description": "Per-surah corpus fingerprint: all 114 surahs.",
+   "path": "surah-stats.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "surah",
+      "type": "integer",
+      "description": "Surah number, 1-114, Cairo (mushaf) order."
+     },
+     {
+      "name": "nameTranslit",
+      "type": "string",
+      "description": "Transliterated surah name."
+     },
+     {
+      "name": "nameArabic",
+      "type": "string",
+      "description": "Surah name in Arabic script."
+     },
+     {
+      "name": "nameEnglish",
+      "type": "string",
+      "description": "English meaning of the surah name."
+     },
+     {
+      "name": "revelationOrder",
+      "type": "integer",
+      "description": "Position in the Cairo 1924 revelation-order sequence (1 = first revealed)."
+     },
+     {
+      "name": "period",
+      "type": "string",
+      "description": "One of meccan-early, meccan-middle, meccan-late, medinan (Nöldeke-Bell four-period classification)."
+     },
+     {
+      "name": "verseCount",
+      "type": "integer",
+      "description": "Number of verses (ayat) in the surah, Cairo numbering. Unit: verses."
+     },
+     {
+      "name": "tokenCount",
+      "type": "integer",
+      "description": "Total Leeds morphological tokens in the surah. Unit: tokens."
+     },
+     {
+      "name": "distinctRootCount",
+      "type": "integer",
+      "description": "Count of distinct roots attested in the surah. Unit: roots."
+     },
+     {
+      "name": "rootDiversityRatio",
+      "type": "number",
+      "description": "distinctRootCount / tokenCount."
+     },
+     {
+      "name": "distinctFormCount",
+      "type": "integer",
+      "description": "Count of distinct surface (written) forms in the surah. Unit: forms."
+     },
+     {
+      "name": "formDiversityRatio",
+      "type": "number",
+      "description": "distinctFormCount / tokenCount."
+     },
+     {
+      "name": "distinctLemmaCount",
+      "type": "integer",
+      "description": "Count of distinct lemmas in the surah. Unit: lemmas."
+     },
+     {
+      "name": "lemmaDiversityRatio",
+      "type": "number",
+      "description": "distinctLemmaCount / tokenCount."
+     },
+     {
+      "name": "nounPct",
+      "type": "number",
+      "description": "Percentage of the surah's tokens tagged noun (N) by Leeds POS tagging. Unit: percent."
+     },
+     {
+      "name": "verbPct",
+      "type": "number",
+      "description": "Percentage of the surah's tokens tagged verb (V) by Leeds POS tagging. Unit: percent."
+     }
+    ]
+   }
+  },
+  {
+   "name": "verse-lengths",
+   "title": "Divine Discourses: verse-lengths",
+   "description": "Every verse in the corpus (6,236 rows) with its token length and revelation period.",
+   "path": "verse-lengths.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "surah",
+      "type": "integer",
+      "description": "Surah number, 1-114."
+     },
+     {
+      "name": "verse",
+      "type": "integer",
+      "description": "Verse (ayah) number within the surah, Cairo numbering."
+     },
+     {
+      "name": "tokens",
+      "type": "integer",
+      "description": "Number of Leeds morphological tokens in this verse. Unit: tokens."
+     },
+     {
+      "name": "period",
+      "type": "string",
+      "description": "One of meccan-early, meccan-middle, meccan-late, medinan; null if the surah has no chronology entry."
+     }
+    ]
+   }
+  }
+ ]
+}

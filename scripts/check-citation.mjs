@@ -39,6 +39,12 @@ const about = read("about.html");
 if (!about.includes(`version ${version}`))
   failures.push(`about.html#cite: static citation does not name version ${version}`);
 
+// export.html links the versioned archive by name; a version bump that
+// forgets the page would leave it linking the previous release forever.
+const exportPage = read("export.html");
+if (!exportPage.includes(`divinediscourses-data-v${version}.tar.gz`))
+  failures.push(`export.html: does not link divinediscourses-data-v${version}.tar.gz`);
+
 // Every source carries a valid type (BibTeX generation keys off it; the
 // generator throws too, but this reports ALL offenders at once).
 const TYPES = new Set(["book", "paper", "dataset", "api"]);

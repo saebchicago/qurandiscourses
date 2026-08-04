@@ -330,6 +330,32 @@
       </section>
 
       <section>
+        <h3 id="datapack">Everything at once, pinned to a version</h3>
+        <p>
+          One archive holds all four tables in both formats, the schema,
+          the data dictionary, and a citation file, so a download never
+          travels without its provenance. The archive is named by release
+          version and built deterministically: citing
+          <span class="t-data">v1.0.0</span> names these exact bytes, and
+          a new release adds a new archive rather than replacing this
+          one. For toolchains that read standard packaging, the same
+          tables are described as a
+          <a href="data/exports/datapackage.json" download
+            >Frictionless Data package</a
+          >
+          and as
+          <a href="data/exports/croissant.json" download
+            >Croissant JSON-LD</a
+          >.
+        </p>
+        <p class="export-links">
+          <a href="data/exports/divinediscourses-data-v1.0.0.tar.gz" download
+            >divinediscourses-data-v1.0.0.tar.gz (all tables + schema + citation)</a
+          >
+        </p>
+      </section>
+
+      <section>
         <h3>Preview: top 5 roots by frequency</h3>
         <div style="overflow-x: auto">
           <table class="data export-table" id="previewTable">

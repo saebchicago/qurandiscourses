@@ -3805,6 +3805,22 @@ prose data dictionary:
 schema.json (machine-readable)
 DATA-DICTIONARY.md (prose)
 
+### Everything at once, pinned to a version
+
+One archive holds all four tables in both formats, the schema,
+the data dictionary, and a citation file, so a download never
+travels without its provenance. The archive is named by release
+version and built deterministically: citing
+v1.0.0 names these exact bytes, and
+a new release adds a new archive rather than replacing this
+one. For toolchains that read standard packaging, the same
+tables are described as a
+Frictionless Data package
+and as
+Croissant JSON-LD .
+
+divinediscourses-data-v1.0.0.tar.gz (all tables + schema + citation)
+
 ### Preview: top 5 roots by frequency
 
 Root
