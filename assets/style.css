@@ -2477,6 +2477,57 @@ kbd {
   padding: 0;
 }
 
+/* Footer correction form (Netlify Forms; assets/feedback.js enhances).
+   Quiet by default: a one-line summary that opens into a small form. */
+.footer-feedback {
+  max-width: 30rem;
+  margin: 0.75rem auto 0;
+  font-size: 0.85rem;
+  text-align: left;
+}
+.footer-feedback > summary {
+  cursor: pointer;
+  color: var(--muted);
+  text-align: center;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.footer-feedback[open] > summary {
+  color: var(--body);
+}
+.feedback-form label {
+  display: block;
+  margin: 0.6rem 0 0;
+}
+.feedback-form textarea,
+.feedback-form input[type="text"] {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  font: inherit;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--card);
+  color: var(--ink);
+}
+.feedback-form button[type="submit"] {
+  margin-top: 0.6rem;
+}
+.feedback-note {
+  margin: 0.5rem 0 0;
+}
+/* Honeypot: visually removed, still in the submitted markup. */
+.feedback-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 /* On-this-page mini TOC (how-it-works.html). Plain anchors: the point
    is that every section of a long method page is citable by URL. */
 .page-toc {

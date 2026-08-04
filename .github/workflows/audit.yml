@@ -39,6 +39,7 @@ jobs:
           node scripts/check-data-nums.mjs
           node scripts/check-paths.mjs
           node scripts/check-notice.mjs
+          node scripts/check-contrib.mjs
 
       - name: Validate navigation and deployment headers
         run: |

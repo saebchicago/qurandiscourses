@@ -402,6 +402,36 @@
         Site code MIT. Bundled data and fonts keep their own licenses; see
         <a href="/credits">Credits</a>.
       </p>
+      <details class="footer-feedback">
+        <summary>Report a correction</summary>
+        <form
+          name="correction"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          class="feedback-form"
+        >
+          <input type="hidden" name="form-name" value="correction" />
+          <input type="hidden" name="page" value="" />
+          <p class="feedback-hp" aria-hidden="true">
+            <label>Leave this field empty: <input name="bot-field" /></label>
+          </p>
+          <label>
+            What is wrong, and where on the page?
+            <textarea name="message" required rows="3"></textarea>
+          </label>
+          <label>
+            How can we reach you? (optional)
+            <input type="text" name="contact" autocomplete="email" />
+          </label>
+          <button type="submit" class="button secondary">Send</button>
+          <p class="feedback-note t-annotation">
+            Goes to the maintainer via the hosting provider's form service.
+            Nothing else you do on this site leaves your browser. Prefer
+            GitHub? <a href="https://github.com/saebchicago/qurandiscourses/issues/new?template=correction.md" rel="noopener">Open a correction issue</a>.
+          </p>
+        </form>
+      </details>
     </footer>
     <div class="settings">
       <button
@@ -854,5 +884,6 @@
     </script>
     <script src="assets/version.js" defer></script>
     <script src="assets/cite-page.js" defer></script>
+    <script src="assets/feedback.js" defer></script>
   </body>
 </html>
