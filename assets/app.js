@@ -158,7 +158,7 @@
   // browser-only, like everything else in qd_state — so the Exercises hub
   // can show "attempted N times, last score X/Y".
   window.qdMarkExerciseDone = function (exerciseId, score) {
-    if (!state.progress) state.progress = { lastRead: null, exercises: {} };
+    if (!state.progress) state.progress = { lastRead: null, exercises: {}, paths: {} };
     var prev = state.progress.exercises[exerciseId] || {};
     var entry = {
       at: new Date().toISOString(),

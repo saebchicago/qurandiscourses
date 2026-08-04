@@ -1,21 +1,34 @@
 {
- "_comment": "Study paths rendered by paths.html. Each step's html is trusted site-authored content (never API or user text). Paths order existing, sourced material only — they must not introduce new claims; every linked page carries its own verification badges. Adding a path = adding an entry here.",
+ "_comment": "Study paths rendered by paths.html. Each step's html is trusted site-authored content (never API or user text). Paths order existing, sourced material only — they must not introduce new claims; every linked page carries its own verification badges. Adding a path = adding an entry here. Structured fields alongside html: page is the clean path of the tool page the step uses (null when the step happens on the previous page), label is the short step name shown in the path ribbon, minutes is a rough time estimate; path.minutes must equal the sum of its steps' (check-paths.mjs enforces all of this).",
  "paths": [
   {
    "id": "follow-root",
    "title": "Follow a root through the Qur'an",
    "intro": "Take r-ḥ-m (mercy) from a single verse to its full corpus distribution.",
+   "minutes": 16,
    "steps": [
     {
+     "label": "Read the root in context",
+     "page": "/read",
+     "minutes": 3,
      "html": "Read it in context: <a href=\"read.html?s=1&a=1\">al-Fatihah 1:1</a> — two of the four words carry the root."
     },
     {
+     "label": "Open the root's profile",
+     "page": "/roots",
+     "minutes": 5,
      "html": "Open the root's profile: <a href=\"roots.html?q=r-h-m\">r-ḥ-m on Roots</a> — 339 occurrences, derived forms, Makki/Madani split, every verse reference."
     },
     {
+     "label": "Scan its co-occurring roots",
+     "page": null,
+     "minutes": 3,
      "html": "See what it travels with: the co-occurring roots section on the same page — gh-f-r (forgiveness) is its most frequent verse-level companion."
     },
     {
+     "label": "Compare two passages",
+     "page": "/compare",
+     "minutes": 5,
      "html": "Compare passages where it clusters: <a href=\"compare.html?mode=passages&p1=1:1-7&p2=19:1-15\">al-Fatihah vs the opening of Maryam</a> in Compare's Passages mode."
     }
    ]
@@ -24,17 +37,30 @@
    "id": "profile-surah",
    "title": "Profile a surah before reading it",
    "intro": "Build a structural picture of a surah from the data, then read it with that frame.",
+   "minutes": 16,
    "steps": [
     {
+     "label": "Open a surah's profile",
+     "page": "/navigate",
+     "minutes": 3,
      "html": "On <a href=\"navigate.html\">Navigate</a>, open the Profile panel for a surah (try 103, al-'Asr): verse count, distinct roots, top roots, chronological period."
     },
     {
+     "label": "Check the era pattern",
+     "page": "/numbers",
+     "minutes": 3,
      "html": "Check its length band against the era pattern on <a href=\"numbers.html\">Numbers</a> (verse length by period)."
     },
     {
+     "label": "Read at Study depth",
+     "page": "/read",
+     "minutes": 5,
      "html": "Read it end to end on <a href=\"read.html?s=103&a=1-3\">Read</a> at Study depth (press <kbd>2</kbd>) with word-by-word morphology on."
     },
     {
+     "label": "Take the outline exercise",
+     "page": "/exercise",
+     "minutes": 5,
      "html": "Test your structural reading in the <a href=\"exercise.html?id=asr-outline\">al-'Asr outline exercise</a>."
     }
    ]
@@ -43,17 +69,30 @@
    "id": "trace-claim",
    "title": "Trace a claim to its source",
    "intro": "The site's core discipline: never take a number on trust — including ours.",
+   "minutes": 15,
    "steps": [
     {
+     "label": "Pick a claim",
+     "page": "/numbers",
+     "minutes": 2,
      "html": "Pick a claim on <a href=\"numbers.html\">Numbers</a>, for example the top-five root frequencies."
     },
     {
+     "label": "Open its citation badge",
+     "page": null,
+     "minutes": 1,
      "html": "Click its badge (●): the popover shows the full Chicago-style citation of the source."
     },
     {
+     "label": "Follow the source",
+     "page": "/sources",
+     "minutes": 5,
      "html": "Follow the source entry on <a href=\"sources.html\">Sources</a> to the primary corpus at corpus.quran.com and check one number yourself."
     },
     {
+     "label": "Run a triangulation prompt",
+     "page": "/validation",
+     "minutes": 7,
      "html": "Run a triangulation prompt from <a href=\"validation.html\">Validation</a> against an independent tool, and see whether it converges on the same figure."
     }
    ]
@@ -62,17 +101,30 @@
    "id": "study-theme",
    "title": "Study a theme end to end",
    "intro": "Move from a life theme to the passages where its vocabulary clusters, and form your own reading of what they agree on.",
+   "minutes": 23,
    "steps": [
     {
+     "label": "Pick a theme gateway",
+     "page": "/themes",
+     "minutes": 3,
      "html": "Pick a gateway on <a href=\"themes.html\">Themes</a> (try <a href=\"themes.html#forgiveness\">Forgiveness</a>) and note its root families — the gateway is lexical, a starting point rather than an index."
     },
     {
+     "label": "Read its key passages",
+     "page": null,
+     "minutes": 10,
      "html": "Open two or three of its key passages on the Read page and read each whole discourse around the verse, not just the verse itself."
     },
     {
+     "label": "Compare the top passages",
+     "page": null,
+     "minutes": 5,
      "html": "Use the theme card's \"top two passages side by side\" link to see, in Compare, which roots the passages actually share."
     },
     {
+     "label": "Follow the top root",
+     "page": "/roots",
+     "minutes": 5,
      "html": "Follow the theme's most frequent root into <a href=\"roots.html\">Roots</a>: where else does it cluster, and in which period? Write down what the passages agree on and where they differ."
     }
    ]
@@ -81,17 +133,30 @@
    "id": "test-khan-outline",
    "title": "Test a Khan outline against the site's own computed signals",
    "intro": "Propose your own structure, reveal Dr. Khan's published outline, then see what the site's mechanical tools find — or don't find — in the same surah.",
+   "minutes": 32,
    "steps": [
     {
+     "label": "Propose your own outline",
+     "page": "/exercise",
+     "minutes": 10,
      "html": "Work through the <a href=\"exercise.html?id=asr-outline\">al-'Asr outline exercise</a>: propose your own verse-by-verse structure before revealing Khan's."
     },
     {
+     "label": "Read the computed signals",
+     "page": "/dossier",
+     "minutes": 7,
      "html": "Open the same surah's <a href=\"dossier.html?s=103\">Dossier</a>. Its Structure section shows the site's own computed discursive pivots, rhetorical features, and ring-composition test for this exact surah; its Rhyme and Formulas sections show the verse-ending pattern and recurring-phrase data. Not every mechanical detector finds something in every surah — an empty section is itself a datum, not a gap."
     },
     {
+     "label": "Follow a signal to its method",
+     "page": "/patterns",
+     "minutes": 5,
      "html": "Follow whichever signal caught your eye to its full method and corpus-wide result on <a href=\"patterns.html\">Patterns</a>."
     },
     {
+     "label": "Write up the comparison",
+     "page": "/read",
+     "minutes": 10,
      "html": "Return to <a href=\"read.html?s=103&a=1\">Read</a> at Study depth and write in the discovery worksheet where Khan's outline and the site's computed signals agree, diverge, or simply don't overlap."
     }
    ]

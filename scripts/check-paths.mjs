@@ -22,6 +22,19 @@
 // else catches that fallback silently falling behind the registry (a path
 // added to the JSON without a matching card, as happened once already).
 //
+// v2 structured fields (the path ribbon's contract):
+//   - schema: unique ids; title, intro, minutes, steps present; every
+//     step carries label, minutes (integer >= 1), page, html; a path's
+//     minutes equals the sum of its steps'
+//   - page: null, or a clean path that resolves to a file on disk AND
+//     to a page that loads assets/path-ribbon.js — a step pointing at
+//     a page with no ribbon would silently drop the walkthrough
+//   - href/page consistency: when a step's html links a tool page,
+//     the first internal href's page must BE step.page (normalized:
+//     read.html?s=1 → /read); page: null is legal only for steps whose
+//     html links nothing internal. This is the drift this checker
+//     exists to prevent: the ribbon and the rendered link diverging.
+//
 // Run: node scripts/check-paths.mjs   (exit 1 on any failure)
 
 import { existsSync, readFileSync } from "node:fs";
@@ -117,9 +130,101 @@ for (const path of paths) {
   }
 }
 
+// ── v2 structured fields ─────────────────────────────────────────────
+
+// Clean path → file on disk, the same mapping build-csp.mjs uses.
+const fileForPath = (p) =>
+  p === "/" ? "index.html" : p.replace(/^\//, "") + ".html";
+
+// Normalize an internal href to its clean page path.
+const pageOfHref = (href) => {
+  const bare = href.split(/[?#]/)[0];
+  if (bare === "" || bare === "/") return null; // fragment/query-only: same page
+  const clean = "/" + bare.replace(/^\//, "").replace(/\.html$/, "");
+  return clean === "/index" ? "/" : clean;
+};
+
+// Pages that load the ribbon script; a step's page must be one of them.
+const ribbonPages = new Set(
+  ["about", "changelog", "compare", "contribute", "coverage", "credits",
+   "datasets", "dossier", "exercise", "exercise-roots", "exercises",
+   "export", "formulas", "glossary", "how-it-works", "how-to-use",
+   "index", "navigate", "numbers", "paths", "patterns", "read", "replay",
+   "roots", "search", "sources", "themes", "validation", "watch", "words"]
+    .filter((n) => {
+      try {
+        return readFileSync(join(ROOT, n + ".html"), "utf8").includes(
+          'src="assets/path-ribbon.js"',
+        );
+      } catch {
+        return false;
+      }
+    })
+    .map((n) => (n === "index" ? "/" : "/" + n)),
+);
+
+const seenIds = new Set();
+for (const path of paths) {
+  const label = path.id || "<missing id>";
+  if (!path.id) failures.push("a path is missing its id");
+  else if (seenIds.has(path.id)) failures.push(`${label}: duplicate path id`);
+  seenIds.add(path.id);
+  for (const key of ["title", "intro"]) {
+    if (!path[key]) failures.push(`${label}: missing ${key}`);
+  }
+  if (!Array.isArray(path.steps) || !path.steps.length) {
+    failures.push(`${label}: no steps`);
+    continue;
+  }
+  if (!Number.isInteger(path.minutes) || path.minutes < 1) {
+    failures.push(`${label}: minutes must be an integer >= 1`);
+  }
+  let sum = 0;
+  for (const [i, step] of path.steps.entries()) {
+    const stepLabel = `${label} step ${i + 1}`;
+    if (!step.label) failures.push(`${stepLabel}: missing label`);
+    if (!step.html) failures.push(`${stepLabel}: missing html`);
+    if (!("page" in step)) failures.push(`${stepLabel}: missing page (use null for in-place steps)`);
+    if (!Number.isInteger(step.minutes) || step.minutes < 1) {
+      failures.push(`${stepLabel}: minutes must be an integer >= 1`);
+    } else {
+      sum += step.minutes;
+    }
+
+    // href/page consistency: the first internal href decides.
+    const firstInternal = [...(step.html || "").matchAll(HREF_RE)]
+      .map((m) => m[1])
+      .find((h) => !/^https?:\/\//.test(h));
+    const hrefPage = firstInternal ? pageOfHref(firstInternal) : null;
+    if (hrefPage && step.page !== hrefPage) {
+      failures.push(
+        `${stepLabel}: html links ${hrefPage} but page is ${JSON.stringify(step.page)}`,
+      );
+    }
+    if (!hrefPage && step.page != null) {
+      failures.push(`${stepLabel}: page ${step.page} but html links nothing internal — use null`);
+    }
+
+    if (step.page != null) {
+      if (!existsSync(join(ROOT, fileForPath(step.page)))) {
+        failures.push(`${stepLabel}: page ${step.page} has no file on disk`);
+      } else if (!ribbonPages.has(step.page)) {
+        failures.push(
+          `${stepLabel}: page ${step.page} does not load assets/path-ribbon.js — the ribbon would never render there`,
+        );
+      }
+    }
+  }
+  if (Number.isInteger(path.minutes) && sum && path.minutes !== sum) {
+    failures.push(`${label}: minutes ${path.minutes} != sum of step minutes ${sum}`);
+  }
+}
+
 if (failures.length) {
   console.error("check-paths: FAIL");
   for (const f of failures) console.error("  - " + f);
   process.exit(1);
 }
-console.log(`check-paths: OK (${paths.length} paths)`);
+console.log(
+  `check-paths: OK (${paths.length} paths, ${paths.reduce((n, p) => n + p.steps.length, 0)} steps, minutes sums and ribbon pages consistent)`,
+);

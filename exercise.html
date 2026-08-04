@@ -470,7 +470,11 @@
                   return e.id === requested;
                 }) || outlines[0];
               if (!exercise) throw new Error("No outline exercises");
-              history.replaceState(null, "", "?id=" + exercise.id);
+              // Preserve unrelated params (the study-path ribbon's
+              // ?path=&step=) rather than rebuilding the query string.
+              var canonical = new URL(window.location);
+              canonical.searchParams.set("id", exercise.id);
+              history.replaceState(null, "", canonical);
 
               document.getElementById("exTitle").textContent = exercise.title;
               // A stale or mistyped link must not silently hand the
@@ -514,5 +518,7 @@
     <script src="assets/version.js" defer></script>
     <script src="assets/cite-page.js" defer></script>
     <script src="assets/feedback.js" defer></script>
+    <script src="assets/path-data.js" defer></script>
+    <script src="assets/path-ribbon.js" defer></script>
   </body>
 </html>

@@ -728,6 +728,30 @@ blockquote.khan cite {
 .banner strong {
   color: var(--accent);
 }
+/* Study-path ribbon (assets/path-ribbon.js). */
+.path-ribbon {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0;
+}
+.path-ribbon-nav {
+  display: inline-flex;
+  gap: 0.9rem;
+  align-items: center;
+}
+.path-ribbon-close {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 1.15rem;
+  line-height: 1;
+  padding: 0 0.2rem;
+  cursor: pointer;
+}
 table.data {
   width: 100%;
   border-collapse: collapse;

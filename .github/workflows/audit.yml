@@ -72,6 +72,7 @@ jobs:
           node scripts/build-search-index.mjs --check
           node scripts/build-ask-routes.mjs --check
           node scripts/build-related.mjs --check
+          node scripts/build-path-data.mjs --check
 
       - name: Run end-to-end browser audit
         run: |
