@@ -38,13 +38,23 @@
 //             regression test instead of a one-time audit
 //   firstvisit index.html with empty storage shows the first-visit
 //             flow without breaking overflow
+//   a11y      hand-rolled WCAG 2.2 AA subset on the rendered DOM of
+//             every page: exactly one h1 + an h2 page title (embed
+//             surfaces exempt), img alt, a programmatic label on every
+//             form control, no focusable content inside
+//             aria-hidden="true"; heading-level skips are warnings
+//             (stat-grid h4/h5 templates are the house pattern). Plus
+//             a11y-contrast: every text token in every style.css
+//             palette x mode block >= 4.5:1 on --bg and --card,
+//             computed from the stylesheet so palette edits fail CI
 //   manifest  manifest.webmanifest's icons/screenshots exist at their
 //             declared pixel sizes and every shortcut url is in scope,
 //             resolves to a page, and (with a fragment) to a real id —
 //             the install surface no page renders, so nothing else
 //             would notice it rotting
 //
-// Still manual (§6.7 and friends): dark-mode visual review, focus-ring
+// Still manual (§6.7 and friends): mixed Arabic/English reading order,
+// high zoom, dark-mode visual review, focus-ring
 // aesthetics, audio playback, the netlify.toml §6.10 header checks on a
 // real deploy preview. --shots writes palette×theme screenshots of
 // index.html to help the visual review.
@@ -576,12 +586,124 @@ for (const pageFile of testPages) {
     }
   }
 
+  // Hand-rolled WCAG subset on the RENDERED DOM (the pages are
+  // JS-composed, so only a browser sees the real markup). Deliberately
+  // no vendored checker: the no-dependency invariant covers the test
+  // harness's fixtures too. Heading-level skips are warning-level —
+  // stat-grid h4/h5 blocks inside JS templates are the house pattern.
+  if (runCheck("a11y")) {
+    // embed.html and exercise-asr.html are chromeless embed/iframe
+    // surfaces with no site header, so the document-outline rules
+    // (one h1, an h2 page title) do not apply to them; every other
+    // assertion still does.
+    const CHROMELESS = new Set(["embed.html", "exercise-asr.html"]);
+    const a = await page.evaluate((skipOutline) => {
+      const problems = [];
+      const warns = [];
+      const h1s = document.querySelectorAll("h1").length;
+      if (!skipOutline && h1s !== 1) problems.push(`${h1s} h1 elements (want exactly 1)`);
+      const imgs = [...document.querySelectorAll("img")].filter(
+        (img) => !(img.getAttribute("alt") || "").trim() && img.getAttribute("role") !== "presentation",
+      );
+      if (imgs.length) problems.push(`${imgs.length} img without alt`);
+      // Programmatic labels: label[for], a wrapping label, aria-label,
+      // aria-labelledby, or title. Hidden inputs and buttons with text
+      // content need none.
+      for (const el of document.querySelectorAll("input, select, textarea")) {
+        if (el.type === "hidden" || el.closest("[hidden]")) continue;
+        const labeled =
+          el.getAttribute("aria-label") ||
+          el.getAttribute("aria-labelledby") ||
+          el.getAttribute("title") ||
+          el.closest("label") ||
+          (el.id && document.querySelector(`label[for="${el.id}"]`));
+        if (!labeled)
+          problems.push(`unlabeled ${el.tagName.toLowerCase()}#${el.id || "(no id)"} name=${el.name || "-"}`);
+      }
+      // Focusable content inside aria-hidden (WCAG 4.1.2): reachable by
+      // tab but invisible to assistive tech.
+      for (const hidden of document.querySelectorAll('[aria-hidden="true"]')) {
+        for (const f of hidden.querySelectorAll("a[href], button, input, select, textarea, [tabindex]")) {
+          if (f.getAttribute("tabindex") === "-1" || f.disabled || f.type === "hidden") continue;
+          problems.push(`focusable ${f.tagName.toLowerCase()} inside aria-hidden`);
+        }
+      }
+      // Heading order (warn only).
+      let prev = 0;
+      for (const h of document.querySelectorAll("h1, h2, h3, h4, h5, h6")) {
+        const lvl = +h.tagName[1];
+        if (prev && lvl > prev + 1)
+          warns.push(`h${prev} -> h${lvl} skip at "${(h.textContent || "").trim().slice(0, 40)}"`);
+        prev = lvl;
+      }
+      return { problems, warns: warns.slice(0, 3) };
+    }, CHROMELESS.has(pageFile));
+    if (!CHROMELESS.has(pageFile)) {
+      const h2s = await page.locator("h2").count();
+      if (!h2s) a.problems.push("no h2 (page title heading missing)");
+    }
+    report(
+      "a11y", pageFile, a.problems.length === 0,
+      a.problems.length ? a.problems.slice(0, 4).join(" | ") : "h1/labels/aria-hidden/alt clean",
+    );
+    for (const w of a.warns) report("a11y-headings", pageFile, false, w, true);
+  }
+
   if (runCheck("console")) {
     report("console", pageFile, errors.length === 0, errors.length ? errors.slice(0, 3).join(" | ") : "clean (API blocked)");
   }
   await page.close();
 }
 await ctx.close();
+
+// ── Color-token contrast (computed once from assets/style.css) ──────
+// The six palette x mode token blocks must keep every text token at
+// WCAG AA 4.5:1 against both --bg and --card. Parsed from the
+// stylesheet, not the DOM, so a palette edit fails CI before a human
+// ever squints at it. Non-text tokens (--accent-soft, --chart-*) are
+// out of scope by design.
+if (runCheck("a11y") && !PAGE_FILTER) {
+  const css = readFileSync(join(ROOT, "assets/style.css"), "utf8");
+  const lum = (hex) => {
+    const c = hex.replace("#", "");
+    const [r, g, b] = [0, 2, 4].map((i) => {
+      const v = parseInt(c.slice(i, i + 2), 16) / 255;
+      return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+    });
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  const ratio = (a, b) => {
+    const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x);
+    return (hi + 0.05) / (lo + 0.05);
+  };
+  // Selector -> token map for each block that (re)defines --bg.
+  const blocks = [];
+  const blockRe = /(:root[^{]*|@media[^{]+\{\s*:root[^{]*)\{([^}]+)\}/g;
+  for (const m of css.matchAll(blockRe)) {
+    const tokens = {};
+    for (const t of m[2].matchAll(/--([a-z-]+):\s*(#[0-9a-fA-F]{6})/g)) tokens[t[1]] = t[2];
+    if (tokens.bg && tokens.ink) blocks.push({ sel: m[1].trim().slice(0, 60), tokens });
+  }
+  const TEXT_TOKENS = ["ink", "muted", "link", "ok", "pending", "nuanced"];
+  const failuresC = [];
+  for (const { sel, tokens } of blocks) {
+    for (const name of TEXT_TOKENS) {
+      if (!tokens[name]) continue;
+      for (const bgName of ["bg", "card"]) {
+        if (!tokens[bgName]) continue;
+        const r = ratio(tokens[name], tokens[bgName]);
+        if (r < 4.5)
+          failuresC.push(`${sel}: --${name} on --${bgName} = ${r.toFixed(2)}:1 (< 4.5)`);
+      }
+    }
+  }
+  report(
+    "a11y-contrast", "assets/style.css", failuresC.length === 0,
+    failuresC.length
+      ? failuresC.slice(0, 4).join(" | ")
+      : `${blocks.length} token blocks x ${TEXT_TOKENS.length} text tokens all >= 4.5:1 on bg and card`,
+  );
+}
 
 // ── Palette × theme (index.html) ────────────────────────────────────
 if (runCheck("palette") && (!PAGE_FILTER || PAGE_FILTER === "index.html")) {

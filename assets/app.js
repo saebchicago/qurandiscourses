@@ -248,7 +248,7 @@
         <option value="sage" ${state.palette === "sage" ? "selected" : ""}>Sage</option>
       </select></div>
       <h4>Theme</h4>
-      <div class="row"><select id="setTheme">
+      <div class="row"><select id="setTheme" aria-label="Light or dark theme">
         <option value="auto" ${state.theme === "auto" ? "selected" : ""}>Auto (system)</option>
         <option value="light" ${state.theme === "light" ? "selected" : ""}>Light</option>
         <option value="dark" ${state.theme === "dark" ? "selected" : ""}>Dark</option>

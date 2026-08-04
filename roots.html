@@ -439,6 +439,10 @@
 
         <!-- Per-root detail panel — visible for all depth modes when a root is selected -->
         <div class="card" id="rootDetail" hidden>
+          <!-- The visible root name below is styled spans, not a heading;
+               this keeps the outline h2 -> h3 -> h4 without touching the
+               stat-block visuals. -->
+          <h3 class="visually-hidden">Selected root detail</h3>
           <div id="detailError" hidden></div>
 
           <!-- Root header -->
@@ -1185,8 +1189,8 @@
         >
           <input type="hidden" name="form-name" value="correction" />
           <input type="hidden" name="page" value="" />
-          <p class="feedback-hp" aria-hidden="true">
-            <label>Leave this field empty: <input name="bot-field" /></label>
+          <p class="feedback-hp">
+            <label>Leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
           </p>
           <label>
             What is wrong, and where on the page?

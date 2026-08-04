@@ -876,6 +876,8 @@ Leeds corpus v0.4.
 English meanings are editorial orientation glosses, shown for
 the most frequent roots only.
 
+### Selected root detail
+
 📌
 
 #### Occurrences ●
@@ -4915,9 +4917,14 @@ The intended baseline is WCAG 2.2 Level AA and an equivalent core
 study journey for keyboard, screen-reader, low-vision, reduced-motion,
 mobile, and low-bandwidth readers. The site uses semantic landmarks,
 a skip link, keyboard-operable navigation, visible focus, self-hosted
-fonts, and text alternatives alongside many data views. Automated
-integrity checks run on the repository, but the project has
-not yet completed an independent conformance audit ;
+fonts, and text alternatives alongside many data views. A subset of
+this is enforced mechanically on every change: the repository's
+browser audit checks each page's rendered markup for a sound heading
+outline, a programmatic label on every form control, no keyboard
+traps inside hidden regions, image text alternatives, and a 4.5:1
+contrast ratio for every text color in every palette, in light and
+dark. The project has still
+not completed an independent conformance audit ;
 charts, mixed Arabic/English reading order, dynamic citations, and
 high zoom remain priority manual-test areas.
 

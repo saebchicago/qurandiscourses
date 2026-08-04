@@ -630,8 +630,17 @@ What it covers (the old manual list, for reference) and what's left:
    *presence* is proxy-checked; its visual quality stays human.
 6. Palette × light/dark combinations actually change the background —
    automated.
+6b. Accessibility subset — automated (`--only=a11y`): heading outline
+   (one h1, an h2 page title; level skips warn), a programmatic label
+   on every form control, no focusable content inside
+   `aria-hidden="true"`, img alt, and 4.5:1 contrast for every text
+   token in every palette × mode block of `assets/style.css` (computed
+   from the stylesheet, so a palette edit fails CI before a human
+   squints at it). Chromeless embed surfaces are exempt from the
+   outline rules only.
 7. **Still manual:** dark-mode screenshots of any page you changed
-   (`--shots` helps), audio playback, overall visual judgment.
+   (`--shots` helps), audio playback, overall visual judgment, mixed
+   Arabic/English reading order, high-zoom layout.
 8. `node scripts/check-claims.mjs && node scripts/check-exercises.mjs && node scripts/check-data-nums.mjs
    && node scripts/check-paths.mjs && node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs
    && node scripts/build-canonicals.mjs --check && node scripts/build-csp.mjs --check` is mandatory after adding a page, touching the nav, an inline

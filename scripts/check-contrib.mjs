@@ -80,7 +80,10 @@ for (const p of pages) {
   for (const [needle, why] of [
     ['data-netlify="true"', "netlify detection attribute"],
     ['netlify-honeypot="bot-field"', "honeypot declaration"],
-    ['name="bot-field"', "honeypot field"],
+    // tabindex="-1" keeps the visually-hidden honeypot out of the tab
+    // order (WCAG 2.4.3/4.1.2); Netlify triggers on the NAME, so the
+    // attribute is free to carry.
+    ['name="bot-field" tabindex="-1"', "honeypot field (untabbable)"],
     ['<input type="hidden" name="form-name" value="correction" />', "hidden form-name (AJAX submissions are dropped without it)"],
     ['name="message" required', "required message field"],
     ["assets/feedback.js", "enhancement script"],
