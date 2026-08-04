@@ -60,7 +60,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { resolveChromium, launchOptions } from "./lib/playwright.mjs";
 import { startStaticServer } from "./lib/static-server.mjs";
-import { cleanPath } from "./lib/site.mjs";
+import { cleanPath, canonicalUrl, NO_CANONICAL } from "./lib/site.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
@@ -122,6 +122,41 @@ if (runCheck("sitemap") && !PAGE_FILTER) {
   if (!results.some((r) => r.check === "sitemap")) {
     report("sitemap", "(all)", true, `${pages.length} pages ⇄ ${sitemapLocs.size} sitemap entries`);
   }
+}
+
+// ── Structured data (JSON-LD) ───────────────────────────────────────
+// build-jsonld --check proves the blocks match the generator; this
+// proves what the generator produced is what a consumer needs: valid
+// JSON, schema.org context, and a WebPage node whose @id is the page's
+// own canonical URL. A malformed block fails silently in every crawler,
+// which is exactly the kind of rot that needs a loud check.
+if (runCheck("jsonld") && !PAGE_FILTER) {
+  const problems = [];
+  let count = 0;
+  for (const p of pages) {
+    if (NO_CANONICAL.has(p)) continue;
+    const html = readFileSync(join(ROOT, p), "utf8");
+    const m = html.match(/<script type="application\/ld\+json">\n([\s\S]*?)\n\s*<\/script>/);
+    if (!m) {
+      problems.push(`${p}: no ld+json block`);
+      continue;
+    }
+    count++;
+    try {
+      const doc = JSON.parse(m[1]);
+      if (doc["@context"] !== "https://schema.org") throw new Error("bad @context");
+      const webPage = (doc["@graph"] || []).find((n) => n["@type"] === "WebPage");
+      if (!webPage) throw new Error("no WebPage node");
+      if (webPage["@id"] !== canonicalUrl(p))
+        throw new Error(`WebPage @id ${webPage["@id"]} != canonical ${canonicalUrl(p)}`);
+    } catch (e) {
+      problems.push(`${p}: ${e.message}`);
+    }
+  }
+  report(
+    "jsonld", "(all)", problems.length === 0,
+    problems.length ? problems.slice(0, 3).join("; ") : `${count} pages parse with canonical WebPage nodes`,
+  );
 }
 
 // ── Web app manifest ────────────────────────────────────────────────

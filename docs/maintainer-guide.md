@@ -372,7 +372,14 @@ plus a `[[redirects]]` rule 301ing the first to the second with
 matches headers on the request path, so a clean path without its own
 block ships with no CSP. Then run
 `node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs
-&& node scripts/build-canonicals.mjs && node scripts/build-csp.mjs`.
+&& node scripts/build-canonicals.mjs && node scripts/build-jsonld.mjs
+&& node scripts/build-csp.mjs`.
+
+That ordering is a contract, not a habit: build-canonicals fixes the
+URLs that build-jsonld embeds, and build-jsonld rewrites head regions on
+pages whose real inline scripts build-csp then hashes. Canonicals, then
+jsonld, then csp, always. (ld+json blocks themselves are data, never
+hashed; build-csp documents why.)
 
 Link to it as `/newpage`, never `newpage.html`: the `.html` address is
 a 301 away, and `build-canonicals.mjs --check` rejects a link that
