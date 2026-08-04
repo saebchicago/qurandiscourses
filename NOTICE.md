@@ -125,7 +125,8 @@ the files are upstream subsets served unchanged.
 
 The following files in `data/` are authored or computed by this project
 and carry the repository's MIT license (their *inputs* keep their own
-licenses, listed above): `case-studies.json`, `citations.bib` (generated
+licenses, listed above): `ask-routes.json` (the Ask box routing tables),
+`case-studies.json`, `citations.bib` (generated
 citation metadata for the site, its export tables, and its cited
 sources), `changelog.json` (the changelog entry registry behind changelog.html
 and feed.xml), `claims.json`, `exercises.json`, `glossary.json` (the term

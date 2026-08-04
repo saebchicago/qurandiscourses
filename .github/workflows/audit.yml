@@ -40,6 +40,7 @@ jobs:
           node scripts/check-paths.mjs
           node scripts/check-notice.mjs
           node scripts/check-contrib.mjs
+          node scripts/check-ask.mjs
 
       - name: Validate navigation and deployment headers
         run: |
@@ -69,6 +70,7 @@ jobs:
           node scripts/build-changelog.mjs --check
           node scripts/build-datapack.mjs --check
           node scripts/build-search-index.mjs --check
+          node scripts/build-ask-routes.mjs --check
 
       - name: Run end-to-end browser audit
         run: |
