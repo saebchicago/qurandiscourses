@@ -41,6 +41,13 @@ function fileForPath(p) {
 // Every inline <tag>…</tag> block (no attributes) hash, in page order.
 // A browser hashes the exact text between the tags. Used for both inline
 // <script> (script-src) and inline <style> (style-src-elem).
+//
+// <script type="application/ld+json"> blocks are deliberately NOT
+// hashed: a data block is never executed, so browsers do not check it
+// against script-src, and hashing it would bloat every page's header
+// with dead entries (Netlify caps header size). The attribute-free
+// regex below already skips them — this comment exists so nobody
+// "fixes" that by widening the match.
 function hashBlocks(file, tag) {
   const abs = join(ROOT, file);
   if (!existsSync(abs)) throw new Error(`page not found: ${file}`);

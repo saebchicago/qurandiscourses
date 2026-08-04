@@ -85,6 +85,28 @@
    "onHome": false,
    "claim": "A popular claim holds that \"this world\" (<em>al-dunyā</em>) and \"the hereafter\" (<em>al-ākhira</em>) each occur exactly 115 times. At the root level the counts are not equal: d-n-w occurs 133 times and a-kh-r 250 times. The 115/115 parity holds only for particular surface forms under one counting rule.",
    "traceFull": "<strong>Why it stays Nuanced.</strong> The often-repeated \"115 each\" figure counts specific surface forms (such as the definite <em>al-dunyā</em> and <em>al-ākhira</em>) under one selection rule. At the level this site computes — the triliteral root — the counts differ: d-n-w appears 133 times and a-kh-r 250 times (a-kh-r also carries senses like \"last\" and \"other\"), both verified from the Leeds corpus and recomputable from <code>data/roots-summary.json</code>. We report the honest root numbers and note that a matched count depends entirely on which forms one chooses to count — the same caution the y-w-m example makes. This site does not endorse numerical-parity claims it cannot reproduce."
+  },
+  {
+   "id": "corpus-size",
+   "claimId": "claim.corpus.size.v1",
+   "label": "ok",
+   "labelText": "Verified",
+   "title": "corpus size",
+   "sourceIds": "leeds-corpus-v0.4",
+   "onHome": false,
+   "claim": "The bundled corpus holds 77,429 word tokens across 6,236 verses, carrying 1,642 distinct triliteral roots.",
+   "traceFull": "<strong>Source trace.</strong> Counted by <code>scripts/build-numbers.mjs</code> directly from the Leeds Quranic Arabic Corpus v0.4 morphology bundled in <code>data/morphology/</code>, so anyone can recount from the data this site ships. These three totals are the denominators behind every frequency and density figure on <a href=\"/numbers\">Numbers</a>; the counting rule and its alternatives are documented on <a href=\"/coverage\">Coverage</a>."
+  },
+  {
+   "id": "rooted-tokens",
+   "claimId": "claim.coverage.rooted-tokens.v1",
+   "label": "nuanced",
+   "labelText": "Nuanced",
+   "title": "root coverage",
+   "sourceIds": "leeds-corpus-v0.4",
+   "onHome": false,
+   "claim": "49,967 of 77,429 tokens (64.53%) carry a triliteral root; the rest are mostly particles, pronouns, and other function words that have no root by definition.",
+   "traceFull": "<strong>Source trace.</strong> Measured by <code>scripts/compute-coverage.mjs</code> over every bundled morphology token; the full field-by-field report, including the part-of-speech breakdown of the rootless remainder, is published on <a href=\"/coverage\">Coverage</a>. Marked Nuanced because the share depends on the corpus's annotation choices: it bounds what any root-based statistic here can describe, which is why it is worth citing at all."
   }
  ]
 }

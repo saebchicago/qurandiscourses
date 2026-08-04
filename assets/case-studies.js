@@ -97,12 +97,27 @@
         : cs.labelText + " · " + cs.title;
     var claimText = mode === "home" && cs.claimHome ? cs.claimHome : cs.claim;
     var trace = mode === "home" ? cs.traceShort : cs.traceFull;
+    // On validation.html (mode "full") each example is addressable: the
+    // article's id IS the stable claim id, so /validation#claim.x.y.v1
+    // cites one specific claim record. The visible section-mark link
+    // hands the reader that URL. Home renders a subset without ids so
+    // the canonical anchor lives on exactly one page.
+    var anchor =
+      mode === "full"
+        ? ' id="' + esc(cs.claimId) + '"'
+        : "";
+    var permalink =
+      mode === "full"
+        ? ' <a class="claim-anchor" href="#' + esc(cs.claimId) +
+          '" aria-label="Link to this claim">&sect;</a>'
+        : "";
     return (
-      '<article class="verify-example" data-claim-id="' + esc(cs.claimId) + '">' +
+      '<article class="verify-example"' + anchor + ' data-claim-id="' + esc(cs.claimId) + '">' +
       "<h3>" +
       badgeHTML(cs) +
       " " +
       heading +
+      permalink +
       "</h3>" +
       '<p class="claim">' +
       claimText +
@@ -136,6 +151,18 @@
             .join("");
           if (window.qdCiteEnhance) window.qdCiteEnhance(el);
         });
+        // A deep link like /validation#claim.x.y.v1 arrives before these
+        // articles exist, so the browser's own fragment scroll found
+        // nothing. Re-run it now that the target is in the DOM (:target
+        // styling already matches; only the scroll needs the nudge).
+        if (location.hash) {
+          var target = document.getElementById(
+            decodeURIComponent(location.hash.slice(1)),
+          );
+          if (target && target.classList.contains("verify-example")) {
+            target.scrollIntoView();
+          }
+        }
       })
       .catch(function () {
         /* keep whatever static fallback the page shipped */

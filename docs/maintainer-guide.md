@@ -679,6 +679,25 @@ Push to `main` → Netlify deploys production. Every PR gets a deploy
 preview (the netlify bot comments the URL). Rollback = revert the merge
 commit and push; Netlify redeploys the previous state.
 
+### Cutting a release
+
+The site is versioned so a citation can pin an exact set of numbers.
+`data/version.json` is the only file you edit; everything else follows.
+
+1. Bump `version` (and `released`) in `data/version.json`. MAJOR for a
+   counting-rule or schema change that alters published figures, MINOR
+   for new datasets or pages, PATCH for corrections.
+2. Update the version in about.html's `#cite` example (check-citation
+   fails if you forget).
+3. `node scripts/build-citations.mjs` — regenerates `data/citations.bib`
+   and `assets/version.js`. Bump CITATION.cff's `version` and
+   `date-released` to match.
+4. Add a changelog entry, run the §6 checklist, merge.
+5. Tag the merge commit: `git tag -a v<version> -m "<one-line summary>"`
+   and push the tag. The tag is what makes a citation resolvable later:
+   `github.com/saebchicago/qurandiscourses/tree/v<version>` is the exact
+   data a paper used.
+
 ## 8. Optimization backlog (known, deliberate deferrals)
 
 - words.html search covers Arabic/transliteration/root; searching by

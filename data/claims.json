@@ -1,135 +1,193 @@
 {
-  "schemaVersion": 1,
-  "_comment": "Canonical provenance records for the worked research claims. A status is deliberately multidimensional: sourceCheck says whether the cited material was inspected; reproduction describes computation; agreement records method dependence or dispute; interpretation prevents an editorial reading from masquerading as a computed fact; aiInvolvement records whether AI originated authoritative content (which is prohibited).",
-  "claims": [
-    {
-      "id": "claim.root-frequency.top-five.v1",
-      "claimType": "computed-statistic",
-      "sourceIds": ["leeds-corpus-v0.4"],
-      "sourceCheck": "source-checked",
-      "reproduction": "reproduced",
-      "agreement": "source-dependent",
-      "interpretation": "none",
-      "aiInvolvement": "language-editing",
-      "derivation": {
-        "script": "scripts/build-numbers.mjs",
-        "output": "data/numbers.json",
-        "method": "Count the root field across every Leeds v0.4 morphology token and sort descending."
-      },
-      "limitations": [
-        "The figures inherit the Leeds corpus's root assignments and tokenization.",
-        "Frequency does not establish the meaning or importance of a root in context."
-      ]
-    },
-    {
-      "id": "claim.scholarship.farahi-foundational.v1",
-      "claimType": "scholarly-attribution",
-      "sourceIds": ["farahi-primary", "mir-coherence-1986"],
-      "sourceCheck": "source-checked",
-      "reproduction": "not-applicable",
-      "agreement": "corroborated",
-      "interpretation": "attributed-scholarship",
-      "aiInvolvement": "language-editing",
-      "derivation": null,
-      "limitations": [
-        "The primary registry record does not assert an independently verified modern edition or page locator.",
-        "The claim concerns the documented lineage of a reading method, not the correctness of that method."
-      ]
-    },
-    {
-      "id": "claim.root-frequency.ywm.v1",
-      "claimType": "method-comparison",
-      "sourceIds": ["leeds-corpus-v0.4"],
-      "sourceCheck": "source-checked",
-      "reproduction": "reproduced",
-      "agreement": "method-dependent",
-      "interpretation": "none",
-      "aiInvolvement": "language-editing",
-      "derivation": {
-        "script": "scripts/build-numbers.mjs",
-        "output": "data/numbers.json",
-        "method": "Count tokens whose Leeds root field is ywm; the resulting root total is the only numerical total this record reproduces."
-      },
-      "limitations": [
-        "The total changes when the unit is changed from annotated roots to selected surface or compound forms.",
-        "Widely circulated 365 and 475 totals have not been reproduced here and lack an inspected source in this evidence record."
-      ]
-    },
-    {
-      "id": "claim.cooccurrence.rhm-ghfr.v1",
-      "claimType": "computed-statistic",
-      "sourceIds": ["leeds-corpus-v0.4"],
-      "sourceCheck": "source-checked",
-      "reproduction": "reproduced",
-      "agreement": "source-dependent",
-      "interpretation": "none",
-      "aiInvolvement": "language-editing",
-      "derivation": {
-        "script": "scripts/build-cooccurrence.mjs",
-        "output": "data/cooccurrence/",
-        "method": "Count distinct verses in which both Leeds root fields occur."
-      },
-      "limitations": [
-        "The result inherits the Leeds corpus's root assignments.",
-        "Verse-level co-occurrence does not by itself establish a semantic relationship."
-      ]
-    },
-    {
-      "id": "claim.hapax.surface-and-root.v1",
-      "claimType": "computed-statistic",
-      "sourceIds": ["leeds-corpus-v0.4"],
-      "sourceCheck": "source-checked",
-      "reproduction": "reproduced",
-      "agreement": "source-dependent",
-      "interpretation": "none",
-      "aiInvolvement": "language-editing",
-      "derivation": {
-        "script": "scripts/build-numbers.mjs",
-        "output": "data/numbers.json",
-        "method": "Count normalized surface forms and root fields with exactly one occurrence."
-      },
-      "limitations": [
-        "Hapax totals depend on the corpus's tokenization and normalization.",
-        "A surface-form hapax and a root hapax are different units."
-      ]
-    },
-    {
-      "id": "claim.chronology.exclusive-roots.v1",
-      "claimType": "computed-statistic",
-      "sourceIds": ["leeds-corpus-v0.4", "cairo-1924"],
-      "sourceCheck": "source-checked",
-      "reproduction": "reproduced",
-      "agreement": "classification-dependent",
-      "interpretation": "none",
-      "aiInvolvement": "language-editing",
-      "derivation": {
-        "script": "scripts/build-numbers.mjs",
-        "output": "data/numbers.json",
-        "method": "Group Leeds root occurrences by the Cairo 1924 Meccan/Medinan surah classification."
-      },
-      "limitations": [
-        "The boundary totals can change under another chronology classification.",
-        "The result inherits the Leeds corpus's root assignments."
-      ]
-    },
-    {
-      "id": "claim.parity.world-hereafter.v1",
-      "claimType": "method-comparison",
-      "sourceIds": ["leeds-corpus-v0.4"],
-      "sourceCheck": "source-checked",
-      "reproduction": "reproduced",
-      "agreement": "method-dependent",
-      "interpretation": "none",
-      "aiInvolvement": "language-editing",
-      "derivation": {
-        "script": "scripts/build-numbers.mjs",
-        "output": "data/roots-summary.json",
-        "method": "Compare root-field totals with a selected-surface-form parity claim."
-      },
-      "limitations": [
-        "The asserted parity depends on selecting particular surface forms.",
-        "The root a-kh-r also carries senses other than ‘the hereafter’."
-      ]
-    }
-  ]
+ "schemaVersion": 1,
+ "_comment": "Canonical provenance records for the worked research claims. A status is deliberately multidimensional: sourceCheck says whether the cited material was inspected; reproduction describes computation; agreement records method dependence or dispute; interpretation prevents an editorial reading from masquerading as a computed fact; aiInvolvement records whether AI originated authoritative content (which is prohibited).",
+ "claims": [
+  {
+   "id": "claim.root-frequency.top-five.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "source-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "language-editing",
+   "derivation": {
+    "script": "scripts/build-numbers.mjs",
+    "output": "data/numbers.json",
+    "method": "Count the root field across every Leeds v0.4 morphology token and sort descending."
+   },
+   "limitations": [
+    "The figures inherit the Leeds corpus's root assignments and tokenization.",
+    "Frequency does not establish the meaning or importance of a root in context."
+   ]
+  },
+  {
+   "id": "claim.scholarship.farahi-foundational.v1",
+   "claimType": "scholarly-attribution",
+   "sourceIds": [
+    "farahi-primary",
+    "mir-coherence-1986"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "not-applicable",
+   "agreement": "corroborated",
+   "interpretation": "attributed-scholarship",
+   "aiInvolvement": "language-editing",
+   "derivation": null,
+   "limitations": [
+    "The primary registry record does not assert an independently verified modern edition or page locator.",
+    "The claim concerns the documented lineage of a reading method, not the correctness of that method."
+   ]
+  },
+  {
+   "id": "claim.root-frequency.ywm.v1",
+   "claimType": "method-comparison",
+   "sourceIds": [
+    "leeds-corpus-v0.4"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "language-editing",
+   "derivation": {
+    "script": "scripts/build-numbers.mjs",
+    "output": "data/numbers.json",
+    "method": "Count tokens whose Leeds root field is ywm; the resulting root total is the only numerical total this record reproduces."
+   },
+   "limitations": [
+    "The total changes when the unit is changed from annotated roots to selected surface or compound forms.",
+    "Widely circulated 365 and 475 totals have not been reproduced here and lack an inspected source in this evidence record."
+   ]
+  },
+  {
+   "id": "claim.cooccurrence.rhm-ghfr.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "source-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "language-editing",
+   "derivation": {
+    "script": "scripts/build-cooccurrence.mjs",
+    "output": "data/cooccurrence/",
+    "method": "Count distinct verses in which both Leeds root fields occur."
+   },
+   "limitations": [
+    "The result inherits the Leeds corpus's root assignments.",
+    "Verse-level co-occurrence does not by itself establish a semantic relationship."
+   ]
+  },
+  {
+   "id": "claim.hapax.surface-and-root.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "source-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "language-editing",
+   "derivation": {
+    "script": "scripts/build-numbers.mjs",
+    "output": "data/numbers.json",
+    "method": "Count normalized surface forms and root fields with exactly one occurrence."
+   },
+   "limitations": [
+    "Hapax totals depend on the corpus's tokenization and normalization.",
+    "A surface-form hapax and a root hapax are different units."
+   ]
+  },
+  {
+   "id": "claim.chronology.exclusive-roots.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4",
+    "cairo-1924"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "classification-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "language-editing",
+   "derivation": {
+    "script": "scripts/build-numbers.mjs",
+    "output": "data/numbers.json",
+    "method": "Group Leeds root occurrences by the Cairo 1924 Meccan/Medinan surah classification."
+   },
+   "limitations": [
+    "The boundary totals can change under another chronology classification.",
+    "The result inherits the Leeds corpus's root assignments."
+   ]
+  },
+  {
+   "id": "claim.parity.world-hereafter.v1",
+   "claimType": "method-comparison",
+   "sourceIds": [
+    "leeds-corpus-v0.4"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "language-editing",
+   "derivation": {
+    "script": "scripts/build-numbers.mjs",
+    "output": "data/roots-summary.json",
+    "method": "Compare root-field totals with a selected-surface-form parity claim."
+   },
+   "limitations": [
+    "The asserted parity depends on selecting particular surface forms.",
+    "The root a-kh-r also carries senses other than ‘the hereafter’."
+   ]
+  },
+  {
+   "id": "claim.corpus.size.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "source-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/build-numbers.mjs",
+    "output": "data/numbers.json",
+    "method": "Count every morphology token, every verse row, and every distinct root value across the bundled Leeds v0.4 files."
+   },
+   "limitations": [
+    "Token and verse totals follow the Leeds corpus's tokenization and the Kufan verse division it encodes; other counting rules give different totals.",
+    "The 1,642 distinct roots figure counts root spellings as the corpus records them, including a small number of contested assignments."
+   ]
+  },
+  {
+   "id": "claim.coverage.rooted-tokens.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/compute-coverage.mjs",
+    "output": "data/coverage/report.json",
+    "method": "For every token, test whether the Leeds morphology assigns a triliteral root; report the with-root share and the part-of-speech distribution of the remainder."
+   },
+   "limitations": [
+    "The 64.53% share is a property of Arabic grammar plus the corpus's annotation choices, not a data gap: most rootless tokens are particles, pronouns, and other function words that have no root by definition.",
+    "Any root-based statistic on this site describes the 49,967 rooted tokens, not all 77,429."
+   ]
+  }
+ ]
 }

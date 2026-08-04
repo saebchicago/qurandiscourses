@@ -2254,6 +2254,23 @@ dd {
   border-radius: 8px;
   padding: 1rem 1.1rem;
 }
+/* A deep-linked claim (/validation#claim.x.y.v1) announces itself. */
+.verify-example:target {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.verify-example .claim-anchor {
+  margin-left: auto;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+.verify-example .claim-anchor:hover,
+.verify-example .claim-anchor:focus-visible {
+  opacity: 1;
+  color: var(--accent);
+}
 .verify-example h3 {
   margin: 0 0 0.5rem;
   font-size: 0.95rem;
@@ -2458,6 +2475,116 @@ kbd {
   color: var(--muted, #999);
   line-height: 1;
   padding: 0;
+}
+
+/* Footer correction form (Netlify Forms; assets/feedback.js enhances).
+   Quiet by default: a one-line summary that opens into a small form. */
+.footer-feedback {
+  max-width: 30rem;
+  margin: 0.75rem auto 0;
+  font-size: 0.85rem;
+  text-align: left;
+}
+.footer-feedback > summary {
+  cursor: pointer;
+  color: var(--muted);
+  text-align: center;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.footer-feedback[open] > summary {
+  color: var(--body);
+}
+.feedback-form label {
+  display: block;
+  margin: 0.6rem 0 0;
+}
+.feedback-form textarea,
+.feedback-form input[type="text"] {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  font: inherit;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--card);
+  color: var(--ink);
+}
+.feedback-form button[type="submit"] {
+  margin-top: 0.6rem;
+}
+.feedback-note {
+  margin: 0.5rem 0 0;
+}
+/* Honeypot: visually removed, still in the submitted markup. */
+.feedback-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* On-this-page mini TOC (how-it-works.html). Plain anchors: the point
+   is that every section of a long method page is citable by URL. */
+.page-toc {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  margin: 0.75rem 0 1rem;
+  font-size: 0.88rem;
+}
+.page-toc p {
+  margin: 0 0 0.25rem;
+}
+.page-toc ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 1rem;
+}
+/* A deep-linked section heading announces itself, matching the claim
+   permalink treatment on validation.html. */
+main h3:target {
+  scroll-margin-top: 0.75rem;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-radius: 4px;
+  padding: 0.1rem 0.3rem;
+}
+
+/* The static site-citation example on about.html#cite. */
+.cite-example {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  background: color-mix(in srgb, currentColor 6%, transparent);
+  border-radius: 4px;
+  padding: 0.5rem 0.7rem;
+}
+
+/* Footer "Cite this page" popover (assets/cite-page.js). Inherits the
+   .cite-popover shell above; these rules only shape the three citation
+   blocks, which unlike badge citations are meant to be copied verbatim. */
+.cite-page-pop {
+  max-width: 400px;
+}
+.cite-page-pop .cite-page-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  background: color-mix(in srgb, currentColor 6%, transparent);
+  border-radius: 4px;
+  padding: 0.4rem 0.5rem;
+  margin: 0.5rem 0 0.15rem;
+}
+.cite-page-pop li + li {
+  margin-top: 0.45rem;
 }
 
 /* ── Workspace notebook (assets/notebook.js) — client-only pins/notes ──── */

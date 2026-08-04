@@ -125,6 +125,7 @@
       '<p id="wsStatus" style="font-size:0.78rem;color:var(--muted);margin:0.5rem 0 0" aria-live="polite"></p>' +
       '<div class="share-row" style="margin-bottom:0">' +
       '<button type="button" class="button secondary share-btn" id="wsExport">Export all worksheets as Markdown</button>' +
+      '<button type="button" class="button secondary share-btn" id="wsSubmit">Submit as a structural hypothesis</button>' +
       '<button type="button" class="button secondary share-btn" id="wsClear">Clear this surah’s worksheet</button>' +
       "</div>" +
       "</div>";
@@ -254,6 +255,38 @@
     }
     var exportBtn = document.getElementById("wsExport");
     if (exportBtn) exportBtn.addEventListener("click", exportMarkdown);
+    // The last inch of the contribution pipeline: the reader has the
+    // worksheet, CONTRIBUTING.md has the review checklist, and the
+    // structural-hypothesis issue template is where the two meet. Opens
+    // the template with the export already in the body; if the text is
+    // too long for a URL, qdIssueUrl says so and the reader pastes the
+    // downloaded export instead.
+    var submitBtn = document.getElementById("wsSubmit");
+    if (submitBtn && window.qdIssueUrl) {
+      submitBtn.addEventListener("click", function () {
+        var s = currentSurah != null ? String(currentSurah) : "";
+        var built = window.qdIssueUrl({
+          template: "structural-hypothesis.md",
+          title: "Structural hypothesis: Surah " + (s || "[number]"),
+          body:
+            buildMarkdown() +
+            "\n\n(Submitted from the discovery worksheet. I confirm this is " +
+            "my own reading per CONTRIBUTING.md, not a reproduction of a " +
+            "copyrighted outline.)",
+        });
+        if (built.truncated) {
+          exportMarkdown();
+          window.alert(
+            "Your worksheets are longer than a link can carry. The issue " +
+              "form will open with the beginning filled in; your full " +
+              "export has also been downloaded so you can paste the rest.",
+          );
+        }
+        window.open(built.url, "_blank", "noopener");
+      });
+    } else if (submitBtn) {
+      submitBtn.hidden = true;
+    }
     var clearBtn = document.getElementById("wsClear");
     if (clearBtn) {
       clearBtn.addEventListener("click", function () {
@@ -285,7 +318,11 @@
     });
   }
 
-  function exportMarkdown() {
+  // The export text in one place: the download button saves it, and the
+  // submit button sends the same text into the structural-hypothesis
+  // issue template, so what a reviewer sees is exactly what the reader
+  // exported.
+  function buildMarkdown() {
     var all = loadAll();
     var surahs = Object.keys(all).sort(function (a, b) {
       return Number(a) - Number(b);
@@ -321,7 +358,11 @@
       lines.push("**My confidence:** " + (e.confidence || "draft"));
       lines.push("");
     });
-    var blob = new Blob([lines.join("\n")], { type: "text/markdown;charset=utf-8" });
+    return lines.join("\n");
+  }
+
+  function exportMarkdown() {
+    var blob = new Blob([buildMarkdown()], { type: "text/markdown;charset=utf-8" });
     var a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = "quran-discovery-worksheets.md";
