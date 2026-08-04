@@ -60,7 +60,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { resolveChromium, launchOptions } from "./lib/playwright.mjs";
 import { startStaticServer } from "./lib/static-server.mjs";
-import { cleanPath } from "./lib/site.mjs";
+import { cleanPath, canonicalUrl, NO_CANONICAL } from "./lib/site.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
@@ -122,6 +122,41 @@ if (runCheck("sitemap") && !PAGE_FILTER) {
   if (!results.some((r) => r.check === "sitemap")) {
     report("sitemap", "(all)", true, `${pages.length} pages ⇄ ${sitemapLocs.size} sitemap entries`);
   }
+}
+
+// ── Structured data (JSON-LD) ───────────────────────────────────────
+// build-jsonld --check proves the blocks match the generator; this
+// proves what the generator produced is what a consumer needs: valid
+// JSON, schema.org context, and a WebPage node whose @id is the page's
+// own canonical URL. A malformed block fails silently in every crawler,
+// which is exactly the kind of rot that needs a loud check.
+if (runCheck("jsonld") && !PAGE_FILTER) {
+  const problems = [];
+  let count = 0;
+  for (const p of pages) {
+    if (NO_CANONICAL.has(p)) continue;
+    const html = readFileSync(join(ROOT, p), "utf8");
+    const m = html.match(/<script type="application\/ld\+json">\n([\s\S]*?)\n\s*<\/script>/);
+    if (!m) {
+      problems.push(`${p}: no ld+json block`);
+      continue;
+    }
+    count++;
+    try {
+      const doc = JSON.parse(m[1]);
+      if (doc["@context"] !== "https://schema.org") throw new Error("bad @context");
+      const webPage = (doc["@graph"] || []).find((n) => n["@type"] === "WebPage");
+      if (!webPage) throw new Error("no WebPage node");
+      if (webPage["@id"] !== canonicalUrl(p))
+        throw new Error(`WebPage @id ${webPage["@id"]} != canonical ${canonicalUrl(p)}`);
+    } catch (e) {
+      problems.push(`${p}: ${e.message}`);
+    }
+  }
+  report(
+    "jsonld", "(all)", problems.length === 0,
+    problems.length ? problems.slice(0, 3).join("; ") : `${count} pages parse with canonical WebPage nodes`,
+  );
 }
 
 // ── Web app manifest ────────────────────────────────────────────────
@@ -744,6 +779,47 @@ if (runCheck("claims") && (!PAGE_FILTER || PAGE_FILTER === "validation.html")) {
       : `missing=[${state.missing}] anchors=${state.anchors}/${ledger.length} targetVisible=${state.targetVisible}`,
   );
   await cctx.close();
+}
+
+// ── Related-content panels ──────────────────────────────────────────
+// build-related --check proves data/related.json matches its inputs;
+// this proves the panels actually render from it: the dossier's
+// See-also card lists sibling surahs, and a theme card grows its
+// Related-themes line after the async theme render — both paths only
+// a browser can exercise.
+if (runCheck("related") && (!PAGE_FILTER || PAGE_FILTER === "dossier.html")) {
+  const rctx = await newContext();
+  const page = await rctx.newPage();
+  await page.goto(`${BASE}/dossier.html?s=2`, { waitUntil: "networkidle" });
+  let links = 0;
+  try {
+    await page.waitForSelector("#relatedHost .related-list li a", { timeout: 10000 });
+    links = await page.locator('#relatedHost a[href^="/dossier?s="]').count();
+  } catch {
+    links = 0;
+  }
+  report(
+    "related", "dossier.html?s=2", links >= 2,
+    `${links} sibling-surah links in the See-also panel (want >= 2)`,
+  );
+  await rctx.close();
+}
+if (runCheck("related") && (!PAGE_FILTER || PAGE_FILTER === "themes.html")) {
+  const rctx = await newContext();
+  const page = await rctx.newPage();
+  await page.goto(`${BASE}/themes.html#forgiveness`, { waitUntil: "networkidle" });
+  let ok = false;
+  try {
+    await page.waitForSelector("#forgiveness .related-themes a", { timeout: 10000 });
+    ok = (await page.locator("#forgiveness .related-themes a").count()) >= 1;
+  } catch {
+    ok = false;
+  }
+  report(
+    "related", "themes.html#forgiveness", ok,
+    ok ? "Related-themes line renders on the theme card" : "no .related-themes links rendered",
+  );
+  await rctx.close();
 }
 
 // ── First visit (empty storage) ─────────────────────────────────────

@@ -170,101 +170,78 @@
     }
 
     // Theme keywords route to the theme gateways page
-    const THEME_WORDS = {
-      forgiveness: "forgiveness",
-      forgive: "forgiveness",
-      pardon: "forgiveness",
-      repentance: "forgiveness",
-      marriage: "marriage",
-      marry: "marriage",
-      spouse: "marriage",
-      divorce: "marriage",
-      children: "children",
-      child: "children",
-      family: "children",
-      orphan: "children",
-      trade: "trade",
-      business: "trade",
-      wealth: "trade",
-      money: "trade",
-      usury: "trade",
-      peace: "peace",
-      reconciliation: "peace",
-      patience: "patience",
-      trial: "patience",
-      hardship: "patience",
-      justice: "justice",
-      fairness: "justice",
-      healing: "healing",
-      health: "healing",
-      illness: "healing",
-      knowledge: "knowledge",
-      reflection: "knowledge",
-      prayer: "prayer",
-      remembrance: "prayer",
-      gratitude: "gratitude",
-      thanks: "gratitude",
-      thankfulness: "gratitude",
-      guidance: "guidance",
-      light: "guidance",
-      fear: "fear-hope",
-      hope: "fear-hope",
-      truthfulness: "truthfulness",
-      truth: "truthfulness",
-      lying: "truthfulness",
-      falsehood: "truthfulness",
-      charity: "charity",
-      giving: "charity",
-      alms: "charity",
-      zakat: "charity",
-      death: "death",
-      mortality: "death",
-      dying: "death",
-      paradise: "paradise",
-      heaven: "paradise",
-      hellfire: "hellfire",
-      hell: "hellfire",
-      wisdom: "wisdom",
-      pilgrimage: "pilgrimage",
-      hajj: "pilgrimage",
-      fasting: "fasting",
-      fast: "fasting",
-      anger: "anger",
-      love: "love",
-      trust: "trust",
-      reliance: "trust",
-      arrogance: "arrogance",
-      pride: "arrogance",
-      humility: "arrogance",
-      brotherhood: "brotherhood",
-      community: "brotherhood",
-      consultation: "brotherhood",
-      sincerity: "sincerity",
-      tyranny: "tyranny",
-      oppression: "tyranny",
-      covenant: "covenant",
-      promise: "covenant",
-      loyalty: "covenant",
-      striving: "striving",
-      effort: "striving",
-      certainty: "certainty",
-      doubt: "certainty",
-      joy: "joy-sorrow",
-      sorrow: "joy-sorrow",
-      grief: "joy-sorrow",
-      blessing: "blessing",
-      favor: "blessing",
-    };
+    // Routing tables live in data/ask-routes.json, generated into
+    // assets/ask-routes.js (window.QD_ASK_ROUTES) so there is no fetch
+    // race on the page's most-used control. check-ask.mjs proves every
+    // target resolves; a missing tables object degrades to no
+    // theme/page/glossary routing rather than an error.
+    const ROUTES = window.QD_ASK_ROUTES || { themes: {}, pages: {}, glossary: {} };
+    const THEME_WORDS = ROUTES.themes;
     if (THEME_WORDS[q]) {
       return { route: `/themes#${THEME_WORDS[q]}`, type: "theme" };
     }
 
-    // English word fallback: the Roots page search matches English
-    // glosses (words.html is a static explainer and ignores queries)
-    if (/^[a-z\s'-]{2,}$/.test(q)) {
+    // Page names ("changelog", "export") and glossary terms ("nazm",
+    // "hapax", "llr") are destinations, not corpus queries. Both maps
+    // are validated by check-ask.mjs.
+    if (ROUTES.pages[q]) {
+      return { route: ROUTES.pages[q], type: "page" };
+    }
+    if (ROUTES.glossary[q]) {
+      return { route: ROUTES.glossary[q], type: "glossary" };
+    }
+
+    // Did-you-mean, one edit away: "bakarah" should reach al-Baqarah,
+    // not a roots query. Runs only for a single word of 4+ letters,
+    // and only when exactly ONE surah is that close — two candidates
+    // means the guess would be arbitrary, so the word falls through to
+    // the ordinary routes below.
+    if (/^[a-z'-]{4,}$/.test(q)) {
+      const withinOne = (a, b) => {
+        if (Math.abs(a.length - b.length) > 1) return false;
+        if (a === b) return true;
+        // One substitution, insertion, or deletion.
+        for (let i = 0; i < Math.max(a.length, b.length); i++) {
+          if (a[i] !== b[i]) {
+            return (
+              a.slice(i + 1) === b.slice(i + 1) || // substitution
+              a.slice(i) === b.slice(i + 1) || // deletion in a
+              a.slice(i + 1) === b.slice(i) // insertion in a
+            );
+          }
+        }
+        return true;
+      };
+      const near = SURAHS.filter((su) =>
+        su.names.some((n) => withinOne(normalize(n), q)),
+      );
+      if (near.length === 1) {
+        return {
+          route: `/read?s=${near[0].id}&a=1`,
+          type: "surah-suggest",
+          match: near[0].en,
+        };
+      }
+    }
+
+    // Single English word: the Roots page search matches English
+    // glosses, so a plain word like "mercy" still lands on live root
+    // results there.
+    if (/^[a-z'-]{2,}$/.test(q)) {
       return {
         route: `/roots?q=${encodeURIComponent(raw)}`,
         type: "word",
+      };
+    }
+
+    // Everything else that looks like English lands on the full-text
+    // search instead of dead-ending: multi-word questions, page names,
+    // method vocabulary. /search covers page prose, the glossary,
+    // sources, and themes, and offers the Ask box back for references.
+    if (/^[a-z0-9\s'.,?-]{2,}$/.test(q)) {
+      return {
+        route: `/search?q=${encodeURIComponent(raw)}`,
+        type: "search",
       };
     }
 
