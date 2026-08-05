@@ -1363,8 +1363,29 @@
           const tbody = document.getElementById("rootBody");
 
           if (shown.length === 0) {
+            // A bare "No roots match" is a dead end, and the Ask box
+            // sends English words here. Hand the reader the site-wide
+            // search for the same term instead of stopping them.
+            const esc =
+              window.qdEsc ||
+              function (v) {
+                return String(v)
+                  .replace(/&/g, "&amp;")
+                  .replace(/</g, "&lt;")
+                  .replace(/>/g, "&gt;")
+                  .replace(/"/g, "&quot;");
+              };
             tbody.innerHTML =
-              '<tr><td colspan="6" style="text-align:center;color:var(--muted)">No roots match.</td></tr>';
+              '<tr><td colspan="6" style="text-align:center;color:var(--muted)">' +
+              "No roots match" +
+              (searchTerm ? ' "' + esc(searchTerm) + '"' : "") +
+              ". " +
+              (searchTerm
+                ? '<a href="/search?q=' +
+                  encodeURIComponent(searchTerm) +
+                  '">Search the whole site for it</a>, or clear the filter.'
+                : "") +
+              "</td></tr>";
           } else {
             tbody.innerHTML = shown
               .map((r, i) => {

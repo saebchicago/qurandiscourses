@@ -47,6 +47,15 @@
 //             a11y-contrast: every text token in every style.css
 //             palette x mode block >= 4.5:1 on --bg and --card,
 //             computed from the stylesheet so palette edits fail CI
+//   askcorpus a fixed corpus of ~40 queries driven through the real
+//             router (window.parseAsk) and, where it routes to
+//             /search, the real matcher (window.qdSearch) over the
+//             shipped index. Two invariants: every query containing a
+//             letter or digit produces a route, and no /search route
+//             comes back with zero hits. Named expectations pin
+//             "juz 5", "surah 36", the theme words, and the
+//             chapter-name/concept collisions ("light", "pilgrimage")
+//             that must open the grouped search rather than guess
 //   manifest  manifest.webmanifest's icons/screenshots exist at their
 //             declared pixel sizes and every shortcut url is in scope,
 //             resolves to a page, and (with a fragment) to a real id —
@@ -1015,6 +1024,136 @@ if (runCheck("sw") && !PAGE_FILTER) {
     await sctx.setOffline(false);
   }
   await sctx.close();
+}
+
+// ── Ask + search acceptance corpus ───────────────────────────────────
+// The gate for "typing a word gets you somewhere useful". A fixed
+// corpus is run through the REAL router (window.parseAsk) and, when it
+// routes to /search, through the REAL matcher (window.qdSearch) over
+// the shipped index — no re-implementation of either, so this cannot
+// pass against a copy that has drifted.
+//
+// Two invariants hold for every entry that contains a letter or digit:
+// it produces a route, and if that route is /search the index answers
+// with at least one hit. Nothing is allowed to dead-end. Individual
+// expectations pin the behavior readers actually asked for: "juz 5"
+// lands on the verse juz 5 begins at, "surah 36" opens surah 36, and
+// a word that is both a chapter name and a concept ("light",
+// "pilgrimage") opens the grouped search showing both rather than
+// silently picking one.
+if (runCheck("askcorpus") && !PAGE_FILTER) {
+  const CORPUS = [
+    // Unambiguous references
+    { q: "2:255", route: "/read?s=2&a=255" },
+    { q: "١:١", route: "/read?s=1&a=1" },
+    { q: "surah 36", route: "/read?s=36&a=1" },
+    { q: "chapter 2", route: "/read?s=2&a=1" },
+    { q: "36", route: "/read?s=36&a=1" },
+    { q: "juz 5", route: "/read?s=4&a=24" },
+    { q: "para 3", route: "/read?s=2&a=253" },
+    { q: "sipara 30", route: "/read?s=78&a=1" },
+    // Surah names, Latin and Arabic, exact and one edit away
+    { q: "Baqarah", route: "/read?s=2&a=1" },
+    { q: "al-Kahf", route: "/read?s=18&a=1" },
+    { q: "Yasin", route: "/read?s=36&a=1" },
+    { q: "الفاتحة", route: "/read?s=1&a=1" },
+    { q: "سورة يس", route: "/read?s=36&a=1" },
+    { q: "bakarah", route: "/read?s=2&a=1" },
+    { q: "cow", route: "/read?s=2&a=1" },
+    { q: "hypocrites", route: "/read?s=63&a=1" },
+    // Roots
+    { q: "r-h-m", route: "/roots?q=r-h-m" },
+    { q: "k-t-b", route: "/roots?q=k-t-b" },
+    { q: "رحم", type: "root" },
+    // Concepts that are themes
+    { q: "forgiveness", route: "/themes#forgiveness" },
+    { q: "patience", route: "/themes#patience" },
+    { q: "justice", route: "/themes#justice" },
+    { q: "knowledge", route: "/themes#knowledge" },
+    { q: "gratitude", route: "/themes#gratitude" },
+    { q: "covenant", route: "/themes#covenant" },
+    { q: "charity", route: "/themes#charity" },
+    // Destinations
+    { q: "changelog", route: "/changelog" },
+    { q: "export", route: "/export" },
+    { q: "nazm", route: "/glossary#nazm" },
+    { q: "hapax", route: "/glossary#hapax" },
+    { q: "juz", route: "/glossary#juz" },
+    // Chapter/concept collisions: both, not a guess
+    { q: "light", kinds: ["surah", "theme", "root"] },
+    { q: "pilgrimage", kinds: ["surah", "theme"] },
+    { q: "repentance", kinds: ["surah"] },
+    // The owner's reported error, and free prose
+    { q: "mercy & forgiveness", minHits: 1 },
+    { q: "mercy", kinds: ["root"] },
+    { q: "creation", kinds: ["root"] },
+    { q: "what is ring composition?", minHits: 1 },
+    { q: "how do I compare translations", minHits: 1 },
+    // Out of range: a message, never a route
+    { q: "115", reason: "range" },
+    { q: "surah 200", reason: "range" },
+    { q: "juz 31", reason: "range" },
+  ];
+  const actx = await newContext();
+  const page = await actx.newPage();
+  await page.goto(`${BASE}/index.html`, { waitUntil: "load" });
+  // index.html carries the router (ask.js + surahs.js + ask-routes.js);
+  // the matcher and its index are pulled in here so both halves are
+  // the shipped files, exercised in one page.
+  await page.addScriptTag({ url: "/assets/search.js" });
+  const out = await page.evaluate(async (corpus) => {
+    const index = await (await fetch("/data/search-index.json")).json();
+    return corpus.map((c) => {
+      const r = window.parseAsk(c.q) || {};
+      let hits = null;
+      if (r.route && r.route.indexOf("/search?q=") === 0) {
+        const term = decodeURIComponent(r.route.slice("/search?q=".length));
+        hits = window.qdSearch.search(index, term).hits.map((h) => h.doc.k);
+      }
+      return { q: c.q, route: r.route || null, type: r.type || null, reason: r.reason || null, hits };
+    });
+  }, CORPUS);
+  await actx.close();
+
+  const problems = [];
+  for (let i = 0; i < CORPUS.length; i++) {
+    const want = CORPUS[i];
+    const got = out[i];
+    const at = JSON.stringify(want.q);
+    if (want.reason) {
+      if (got.route || got.reason !== want.reason)
+        problems.push(`${at}: wanted no route (${want.reason}), got ${got.route || got.reason}`);
+      continue;
+    }
+    if (!got.route) {
+      problems.push(`${at}: DEAD END — no route (${got.reason})`);
+      continue;
+    }
+    if (want.route && got.route !== want.route)
+      problems.push(`${at}: wanted ${want.route}, got ${got.route}`);
+    if (want.type && got.type !== want.type)
+      problems.push(`${at}: wanted type ${want.type}, got ${got.type}`);
+    if (want.kinds || want.minHits != null) {
+      if (!got.hits) {
+        problems.push(`${at}: expected the grouped search, got ${got.route}`);
+        continue;
+      }
+      if (!got.hits.length) problems.push(`${at}: DEAD END — /search returns 0 hits`);
+      for (const k of want.kinds || [])
+        if (!got.hits.includes(k)) problems.push(`${at}: no ${k} among ${got.hits.length} hits`);
+      if (want.minHits != null && got.hits.length < want.minHits)
+        problems.push(`${at}: ${got.hits.length} hits, wanted >= ${want.minHits}`);
+    }
+    // Universal: a /search route must never come back empty.
+    if (got.hits && !got.hits.length && !want.kinds && want.minHits == null)
+      problems.push(`${at}: DEAD END — /search returns 0 hits`);
+  }
+  report(
+    "askcorpus", "index.html + /search", problems.length === 0,
+    problems.length
+      ? `${problems.length} of ${CORPUS.length}: ${problems.slice(0, 4).join(" | ")}`
+      : `${CORPUS.length} queries route correctly, zero dead ends, zero unrecognized`,
+  );
 }
 
 // ── First visit (empty storage) ─────────────────────────────────────

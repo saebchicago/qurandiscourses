@@ -10,6 +10,17 @@
 //   glossary  every term in data/glossary.json
 //   sources   every work in data/sources.json
 //   themes    every theme in data/themes.json
+//   surahs    all 114, by number, transliteration, Arabic name, English
+//             meaning and every documented alias
+//   juz       all 30, by number and by the "para"/"sipara" names the
+//             same division goes by
+//   roots     the roots carrying an editorial English gloss, so an
+//             English concept can reach the root that carries it
+//
+// The last three exist because the Ask box now falls back here whenever
+// a query is ambiguous or unrecognized, and a fallback that cannot
+// answer "juz 5" or "Baqarah" is not a fallback. Before they were
+// added, a search for "juz" matched nothing in the entire index.
 //
 // Each document stores a display title, clean URL, kind, a short
 // snippet for the results list, and a folded token text for scoring.
@@ -24,6 +35,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { cleanPath } from "./lib/site.mjs";
 import { extractText, mainOf } from "./lib/extract-text.mjs";
+import { safeKey } from "./lib/safe-key.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CHECK = process.argv.includes("--check");
@@ -53,10 +65,33 @@ const fold = (s) =>
     .replace(/[ṭ]/g, "t")
     .replace(/[ẓ]/g, "z")
     .replace(/[ʿʾ]/g, "");
+// A deliberately small English suffix stripper, applied to both the
+// index and the query so the two always meet on the same string. It
+// exists because the editorial glosses are verbs ("to create", "to
+// know") while readers type nouns ("creation", "knowledge"), and a
+// search that cannot connect those two is not useful. It is not a
+// linguistics claim and it never touches Arabic script or short words:
+// over-stemming costs a little precision, under-stemming costs the
+// answer. MUST match stem() in assets/search.js.
+const stem = (t) => {
+  if (t.length <= 4 || !/^[a-z]+$/.test(t)) return t;
+  if (t.endsWith("ies")) return t.slice(0, -3) + "y";
+  if (t.endsWith("ions")) return t.slice(0, -4);
+  if (t.endsWith("ion")) return t.slice(0, -3);
+  if (t.endsWith("ness")) return t.slice(0, -4);
+  if (t.endsWith("ing")) return t.slice(0, -3);
+  if (t.endsWith("ed")) return t.slice(0, -2);
+  if (t.endsWith("ss")) return t;
+  if (t.endsWith("es")) return t.slice(0, -2);
+  if (t.endsWith("s")) return t.slice(0, -1);
+  if (t.endsWith("e")) return t.slice(0, -1);
+  return t;
+};
 const tokens = (s) =>
   fold(s)
     .split(/[^a-z0-9؀-ۿ]+/)
-    .filter((t) => t.length > 1 && !STOP.has(t));
+    .filter((t) => t.length > 1 && !STOP.has(t))
+    .map(stem);
 
 const docs = [];
 const pageTitle = (html, file) =>
@@ -142,6 +177,100 @@ for (const th of readJson("data/themes.json").themes) {
   });
 }
 
+// ── surahs (all 114) ─────────────────────────────────────────────────
+// surah-names.json carries a "_comment" key beside the numbered ones,
+// so ids are filtered rather than assumed (the build-static-fallbacks
+// lesson).
+const names = readJson("data/surah-names.json");
+const meta = readJson("data/surah-meta.json").surahs;
+const surahIds = Object.keys(names)
+  .filter((k) => /^\d+$/.test(k))
+  .map(Number)
+  .sort((a, b) => a - b);
+
+for (const n of surahIds) {
+  const s = names[String(n)];
+  const m = meta[String(n)] || {};
+  // The Arabic name is indexed as its own token so an Arabic-script
+  // query reaches the surah even when the reader types no Latin at all.
+  const searchable = [
+    s.translit,
+    s.en,
+    ...(s.aliases || []),
+    `surah ${n}`,
+    `chapter ${n}`,
+    String(n),
+  ].join(" ");
+  docs.push({
+    t: `${n}. ${s.translit} · ${s.en}`,
+    u: `/read?s=${n}&a=1`,
+    k: "surah",
+    s: `Surah ${n}, ${m.versesCount || "?"} verses, ${
+      m.revelationPlace === "madinah" ? "Madinan" : "Meccan"
+    }. Dossier: /dossier?s=${n}`.slice(0, SNIPPET_CAP),
+    x: [...new Set([...tokens(searchable), ...tokens(s.ar)])].join(" "),
+    h: [...new Set([...tokens(searchable), ...tokens(s.ar)])].join(" "),
+  });
+}
+
+// ── juz (all 30) ─────────────────────────────────────────────────────
+// One doc per juz, landing on its first verse. "para" and "sipara" are
+// the same division under the names much of South Asia uses; a reader
+// typing either must arrive in the same place.
+for (const j of readJson("data/juz.json").juz) {
+  const from = names[String(j.startSurah)];
+  const to = names[String(j.endSurah)];
+  const range = `${from.translit} ${j.startSurah}:${j.startAyah} to ${to.translit} ${j.endSurah}:${j.endAyah}`;
+  docs.push({
+    t: `Juz ${j.juz}`,
+    u: `/read?s=${j.startSurah}&a=${j.startAyah}`,
+    k: "juz",
+    s: `Juz ${j.juz} of 30: ${range}.`.slice(0, SNIPPET_CAP),
+    x: tokens(
+      `juz ${j.juz} para ${j.juz} sipara ${j.juz} part ${j.juz} ${range}`,
+    ).join(" "),
+    h: tokens(`juz ${j.juz} para ${j.juz} sipara ${j.juz}`).join(" "),
+  });
+}
+
+// ── roots that carry an English gloss ────────────────────────────────
+// assets/root-meanings.js is the editorial gloss map shared by
+// roots.html and compare.html; it is a browser global, so it is read
+// by evaluating the file rather than parsed as JSON. Only glossed
+// roots are indexed: a root with no English has nothing for an English
+// query to match, and indexing all ~1,600 would be noise plus bytes.
+const rootsList = readJson("data/roots-list.json");
+const meanings = (() => {
+  const w = {};
+  new Function("window", read("assets/root-meanings.js"))(w);
+  return w.ROOT_MEANINGS || {};
+})();
+
+for (const [bw, gloss] of Object.entries(meanings)) {
+  const r = rootsList[bw];
+  if (!r) continue; // a gloss with no root in the corpus index: skip
+  docs.push({
+    t: `${r.rootLatin} ${r.rootArabic} · ${gloss}`,
+    u: `/roots?root=${safeKey(bw)}`,
+    k: "root",
+    s: `Root ${r.rootLatin}: ${gloss}. ${r.totalCount} occurrences in the corpus.`.slice(
+      0,
+      SNIPPET_CAP,
+    ),
+    x: [
+      ...new Set([
+        ...tokens(gloss),
+        ...tokens(r.rootLatin),
+        r.rootLatin.replace(/-/g, ""),
+        ...tokens(r.rootArabic),
+      ]),
+    ].join(" "),
+    h: [...new Set([...tokens(gloss), ...tokens(r.rootLatin), r.rootLatin.replace(/-/g, "")])].join(
+      " ",
+    ),
+  });
+}
+
 const index = {
   _generated: "scripts/build-search-index.mjs",
   _note:
@@ -171,7 +300,13 @@ if (CHECK) {
   console.log(`build-search-index --check: OK (${docs.length} documents, ${Math.round(json.length / 1024)}KB).`);
 } else {
   writeFileSync(abs, json);
+  const byKind = {};
+  for (const d of docs) byKind[d.k] = (byKind[d.k] || 0) + 1;
+  const breakdown = Object.entries(byKind)
+    .sort(([a], [b]) => (a < b ? -1 : 1))
+    .map(([k, n]) => `${n} ${k}`)
+    .join(", ");
   console.log(
-    `build-search-index: ${docs.length} documents (${PAGES.length} pages sectioned + glossary + sources + themes), ${Math.round(json.length / 1024)}KB.`,
+    `build-search-index: ${docs.length} documents (${breakdown}), ${Math.round(json.length / 1024)}KB.`,
   );
 }
