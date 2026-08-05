@@ -56,7 +56,7 @@ License: [CC0 or CC-BY — your choice; state which]
 ## The other thing this project needs: translators
 
 Structural readings are the main ask, but not the only one. The site now
-carries Qur'an translations in seven languages while every word of its own
+carries Qur'an translations in 17 languages while every word of its own
 interface and explanatory prose is English. That gap is deliberate rather
 than neglected: this project does not machine-translate its own text, and
 it does not let an assistant originate a translation (see

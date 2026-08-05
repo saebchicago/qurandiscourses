@@ -45,7 +45,7 @@ Citations follow the **Chicago Manual of Style, bibliography form**:
 When a detail can't be confirmed against the work itself, omit it — never
 guess. sources.html is the reference implementation.
 
-## 2. Site map (30 pages)
+## 2. Site map (33 pages)
 
 | Group | Pages | Notes |
 |---|---|---|
@@ -54,7 +54,7 @@ guess. sources.html is the reference implementation.
 | Learn | how-to-use, how-it-works, exercises (hub), exercise, exercise-roots, paths, glossary, watch | exercises are data-driven or book-cited; exercise-asr.html is a redirect stub |
 | About | index, about, sources, datasets, validation, credits, changelog | credibility pages |
 | Off-nav, in sitemap | export (CSV/JSON downloads + schema), coverage (measured data-coverage dashboard) | reachable via contextual links (roots.html, numbers.html, datasets.html), not the primary nav — adding them to nav means editing EVERY page's nav block (check-nav-sync.mjs enforces byte-identical navs) |
-| Unlisted | embed (iframe card, the one frameable page), exercise-asr (redirect stub) | outside nav and sitemap by design |
+| Unlisted | embed (iframe card, the one frameable page), exercise-asr (redirect stub), 404 (Netlify's not-found page: search box, wayfinding cards, correction form) | outside nav and sitemap by design; 404.html carries no canonical and no JSON-LD because Netlify serves it at whatever address failed |
 
 Site-wide, not pages: `manifest.webmanifest` + `sw.js` (repo root) make
 the site installable and give it an offline shell — see "Service worker

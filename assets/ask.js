@@ -4,6 +4,19 @@
 (function () {
   const SURAHS = window.SURAHS || [];
 
+  // Routing tables live in data/ask-routes.json, generated into
+  // assets/ask-routes.js (window.QD_ASK_ROUTES) so there is no fetch
+  // race on the page's most-used control. check-ask.mjs proves every
+  // target resolves; missing tables degrade to no routing rather than
+  // an error.
+  const ROUTES = window.QD_ASK_ROUTES || {
+    themes: {},
+    pages: {},
+    glossary: {},
+    juz: [],
+  };
+  const JUZ = ROUTES.juz || [];
+
   function normalize(s) {
     return s
       .toLowerCase()
@@ -78,6 +91,44 @@
       return { route: `/read?s=${s}&a=${a}`, type: "verse" };
     }
 
+    // "surah 36", "chapter 2", "s 36" — a numbered reference spelled
+    // out. These used to fall through to the search page, which is
+    // absurd for the least ambiguous thing a reader can type.
+    const namedSurah = q.match(/^(?:surah?|chapter|sura|s)\s*(\d{1,3})$/);
+    if (namedSurah) {
+      const s = +namedSurah[1];
+      if (s >= 1 && s <= 114)
+        return { route: `/read?s=${s}&a=1`, type: "surah" };
+      return {
+        route: null,
+        reason: "range",
+        message: "Surah numbers run 1 to 114.",
+      };
+    }
+
+    // "juz 5", "para 5", "sipara 5", "chapter-of-thirty" — the same
+    // division under the names it goes by. Routes to the juz's first
+    // verse, which is the place, not a page about the place.
+    const juzMatch = q.match(/^(?:juz|para|sipara|jusu)\s*(\d{1,2})$/);
+    if (juzMatch) {
+      const n = +juzMatch[1];
+      if (n >= 1 && n <= 30) {
+        const j = JUZ.find((x) => x.juz === n);
+        if (j)
+          return {
+            route: `/read?s=${j.startSurah}&a=${j.startAyah}`,
+            type: "juz",
+            match: `Juz ${n}`,
+          };
+        return { route: `/navigate`, type: "juz" };
+      }
+      return {
+        route: null,
+        reason: "range",
+        message: "The Qur'an is divided into 30 juz.",
+      };
+    }
+
     // Bare surah number
     const surahNumMatch = q.match(/^(\d{1,3})$/);
     if (surahNumMatch) {
@@ -91,44 +142,51 @@
       };
     }
 
+    // Does the word ALSO name something this site covers in its own
+    // right? A surah alias that is equally a theme, a page or a
+    // glossary term is ambiguous by evidence rather than by guess:
+    // "light" is al-Nur and the guidance theme; "pilgrimage" is al-Hajj
+    // and the pilgrimage theme; "repentance" is al-Tawbah and the
+    // forgiveness theme. Silently opening the chapter was the single
+    // worst thing the Ask box did — it swallowed the concept whole.
+    const alsoConcept = (w) =>
+      Boolean(ROUTES.themes[w] || ROUTES.pages[w] || ROUTES.glossary[w]);
+
     // Exact surah name FIRST: 20 documented aliases are exactly three
     // Latin letters (hud, nas, asr, sun, pen, …), so the bare-root rule
     // below would otherwise capture them — surah 11 has no name that
     // isn't. Exact-name-then-root is also the Arabic branch's precedence
     // (نوح is the surah, not a root guess). The separated spelling
     // (a-s-r) never equals an alias, so it still reaches the Roots page.
-    const surahExact = SURAHS.find(
-      (s) =>
-        s.names.some((n) => normalize(n) === q) || normalize(s.en) === q,
-    );
-    if (surahExact)
+    // "Baqarah", "Yasin", "al-Kahf", "cow", "women" name nothing else
+    // here, so they still go straight to the surah; only a genuine
+    // collision is handed to the grouped search.
+    const surahByName = SURAHS.find((s) => s.names.some((n) => normalize(n) === q));
+    if (surahByName && !alsoConcept(q))
       return {
-        route: `/read?s=${surahExact.id}&a=1`,
+        route: `/read?s=${surahByName.id}&a=1`,
         type: "surah-name",
-        match: surahExact.en,
+        match: surahByName.en,
+      };
+    if (surahByName)
+      return {
+        route: `/search?q=${encodeURIComponent(raw)}`,
+        type: "search",
+        note: "ambiguous",
       };
 
-    // Root: r-h-m, r.h.m, rhm (3 latin letters separated or bare)
-    const rootMatch = q.match(/^([a-z])[-.\s]?([a-z])[-.\s]?([a-z])$/);
-    if (rootMatch && q.replace(/[-.\s]/g, "").length === 3) {
-      const root = `${rootMatch[1]}-${rootMatch[2]}-${rootMatch[3]}`;
-      return { route: `/roots?q=${root}`, type: "root" };
+    // Separated root only: r-h-m, r.h.m. The bare three-letter form is
+    // NOT treated as a root — "sin" is an English word, and turning it
+    // into the invented root s-i-n served nobody. Bare letters still
+    // reach the Roots page when they are a real root (checked against
+    // the generated root list) or via /search otherwise.
+    const rootSep = q.match(/^([a-z])[-.\s]([a-z])[-.\s]([a-z])$/);
+    if (rootSep) {
+      return {
+        route: `/roots?q=${rootSep[1]}-${rootSep[2]}-${rootSep[3]}`,
+        type: "root",
+      };
     }
-
-    // Surah name prefix fuzzing, after the root rule — a 3-letter string
-    // that is merely the START of a name (fat, kaf, nab…) stays a root
-    // query, as it always has.
-    const surah = SURAHS.find(
-      (s) =>
-        s.names.some((n) => normalize(n).startsWith(q) && q.length >= 3) ||
-        (q.length >= 4 && normalize(s.en).startsWith(q)),
-    );
-    if (surah)
-      return {
-        route: `/read?s=${surah.id}&a=1`,
-        type: "surah-name",
-        match: surah.en,
-      };
 
     // Arabic-script surah name: "الفاتحة", "سورة يس", or "فاتحة"
     if (/[؀-ۿ]/.test(raw)) {
@@ -169,13 +227,6 @@
       }
     }
 
-    // Theme keywords route to the theme gateways page
-    // Routing tables live in data/ask-routes.json, generated into
-    // assets/ask-routes.js (window.QD_ASK_ROUTES) so there is no fetch
-    // race on the page's most-used control. check-ask.mjs proves every
-    // target resolves; a missing tables object degrades to no
-    // theme/page/glossary routing rather than an error.
-    const ROUTES = window.QD_ASK_ROUTES || { themes: {}, pages: {}, glossary: {} };
     const THEME_WORDS = ROUTES.themes;
     if (THEME_WORDS[q]) {
       return { route: `/themes#${THEME_WORDS[q]}`, type: "theme" };
@@ -224,29 +275,50 @@
       }
     }
 
-    // Single English word: the Roots page search matches English
-    // glosses, so a plain word like "mercy" still lands on live root
-    // results there.
-    if (/^[a-z'-]{2,}$/.test(q)) {
+    // A surah recognizable only by its ENGLISH name, or by a prefix of
+    // either name. This is where "light" (al-Nur), "women" (al-Nisa'),
+    // "prophet" (al-Anbiya') and "pilgrimage" (al-Hajj) land — every
+    // one of them also a concept the site covers elsewhere. Rather
+    // than guess, hand the reader the grouped search, which shows the
+    // surah AND the theme AND the root together and lets them choose.
+    const surahByEnglish = SURAHS.find(
+      (s) =>
+        normalize(s.en) === q ||
+        (q.length >= 4 && normalize(s.en).startsWith(q)) ||
+        s.names.some((n) => normalize(n).startsWith(q) && q.length >= 4),
+    );
+    if (surahByEnglish) {
       return {
-        route: `/roots?q=${encodeURIComponent(raw)}`,
-        type: "word",
+        route: `/search?q=${encodeURIComponent(raw)}`,
+        type: "search",
+        note: "ambiguous",
       };
     }
 
-    // Everything else that looks like English lands on the full-text
-    // search instead of dead-ending: multi-word questions, page names,
-    // method vocabulary. /search covers page prose, the glossary,
-    // sources, and themes, and offers the Ask box back for references.
-    if (/^[a-z0-9\s'.,?-]{2,}$/.test(q)) {
+    // Everything else with letters in it goes to the full-text search.
+    // /search indexes the 114 surahs, the 30 juz, every theme, every
+    // glossed root, the glossary, page prose and the sources, so it
+    // can answer far more than it could when it held prose alone.
+    // Nothing returns "unrecognized" any more: a reader who typed
+    // something gets results or an honest empty state on a page built
+    // to help, never a rejection from a box.
+    if (/[a-z0-9؀-ۿ]/.test(q)) {
       return {
         route: `/search?q=${encodeURIComponent(raw)}`,
         type: "search",
       };
     }
 
-    // Unrecognized
-    return { route: null, reason: "unrecognized", input: raw };
+    // Only punctuation or whitespace survived normalization. There is
+    // nothing to search for, so this is the one remaining non-route,
+    // and it says what to do rather than what went wrong.
+    return {
+      route: null,
+      reason: "unrecognized",
+      input: raw,
+      message:
+        "Type a surah name or number, a verse like 1:1, a juz like juz 5, a root like r-h-m, or a keyword such as mercy.",
+    };
   }
 
   window.parseAsk = parseAsk;

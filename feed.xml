@@ -9,6 +9,132 @@
   <updated>2026-08-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>Type a word, get somewhere</title>
+    <id>https://divinediscourses.org/changelog#2026-08-type-a-word-get-somewhere</id>
+    <link href="https://divinediscourses.org/changelog#2026-08-type-a-word-get-somewhere"/>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Type a word, get somewhere.&lt;/strong&gt; The Ask box
+              used to invite concepts like "mercy" and then refuse
+              them: an ampersand made it answer "not recognized", and
+              words that name both a chapter and an idea (light,
+              pilgrimage, repentance) silently opened the chapter and
+              buried the idea. Now a reference goes straight to the
+              text ("2:255", "surah 36", "juz 5", "para 3", all 30 juz
+              landing on the verse they begin at), an unambiguous name
+              still jumps to its surah, and a genuinely ambiguous word
+              opens &lt;a href="/search"&gt;Search&lt;/a&gt; showing the chapter,
+              the theme and the root side by side so you choose. The
+              index behind that page grew to hold all 114 surahs, all
+              30 juz and every root that carries an English gloss, and
+              both halves of the matcher now connect "creation" to the
+              gloss "to create". Nothing dead-ends: a query with a
+              letter in it always lands somewhere that can help, and
+              &lt;a href="/roots"&gt;Roots&lt;/a&gt; offers a site-wide search
+              when its filter finds nothing. A 42-query acceptance
+              corpus runs the real router and the real matcher on every
+              release.</content>
+  </entry>
+  <entry>
+    <title>Seventeen languages to read alongside the Arabic</title>
+    <id>https://divinediscourses.org/changelog#2026-08-seventeen-languages</id>
+    <link href="https://divinediscourses.org/changelog#2026-08-seventeen-languages"/>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Seventeen languages to read alongside the
+              Arabic.&lt;/strong&gt; &lt;a href="/read"&gt;Read&lt;/a&gt; gained Turkish,
+              Bosnian, Chinese, Japanese, Korean, Russian, Persian,
+              German, Hindi and Swahili, joining the seven already
+              there. Each script gets typography that respects it:
+              bundled faces for Devanagari and Bengali, a Naskh setting
+              for Persian rather than the Nastaliq used for Urdu, and
+              wider line height for the CJK scripts. Every edition id
+              was confirmed against the live translation service before
+              it shipped, and an edition whose translator the service
+              does not name ships unnamed rather than borrowing a name
+              from somewhere else. The weekly check now also proves
+              that every edition offered has a label and that no label
+              points at an edition that is gone.</content>
+  </entry>
+  <entry>
+    <title>Guided paths that follow you across the site, and a site that works offline</title>
+    <id>https://divinediscourses.org/changelog#2026-08-paths-that-follow-you</id>
+    <link href="https://divinediscourses.org/changelog#2026-08-paths-that-follow-you"/>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Guided paths that follow you across the site, and
+              a site that works offline.&lt;/strong&gt; Each of the five
+              &lt;a href="/paths"&gt;learning paths&lt;/a&gt; now carries a time
+              estimate and hands every step a ribbon on the tool page
+              it sends you to, so you can see "step 2 of 4" and move
+              forward or back without returning to the list. Progress
+              stays in the same single preference key as everything
+              else. Separately, the site now caches its shell the first
+              time you visit, so a later visit with no connection still
+              renders and says so plainly instead of failing. An
+              accessibility pass fixed a hidden form field that keyboard
+              users could still land on, added missing control labels,
+              and turned heading structure, form labelling and colour
+              contrast into checks that run on every push rather than a
+              paragraph promising they were considered.</content>
+  </entry>
+  <entry>
+    <title>A search page, a contribution page, and see-also links</title>
+    <id>https://divinediscourses.org/changelog#2026-08-search-contribute-related</id>
+    <link href="https://divinediscourses.org/changelog#2026-08-search-contribute-related"/>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;A search page, a contribution page, and see-also
+              links.&lt;/strong&gt; &lt;a href="/search"&gt;Search&lt;/a&gt; matches the
+              whole site in your browser against a committed index;
+              nothing you type leaves the page, because there is no
+              server to send it to. &lt;a href="/contribute"&gt;Contribute&lt;/a&gt;
+              gathers what a submission is, the worksheet that produces
+              one, the issue templates it fits, and a standing call for
+              translators. &lt;a href="/coverage"&gt;Coverage&lt;/a&gt; now names
+              the specific surah outlines that are wanted, each with a
+              prefilled issue link. Surah dossiers and theme cards grew
+              a see-also panel built by joining the theme index against
+              the root co-occurrence data, so related material is one
+              click away rather than a search away.</content>
+  </entry>
+  <entry>
+    <title>Readable by machines, not just by people</title>
+    <id>https://divinediscourses.org/changelog#2026-08-machine-readable-layer</id>
+    <link href="https://divinediscourses.org/changelog#2026-08-machine-readable-layer"/>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Readable by machines, not just by people.&lt;/strong&gt;
+              Every page now carries structured data describing what it
+              is: the datasets on &lt;a href="/export"&gt;Export&lt;/a&gt;, the
+              defined terms in the &lt;a href="/glossary"&gt;Glossary&lt;/a&gt;, the
+              typed works on &lt;a href="/sources"&gt;Sources&lt;/a&gt;, the
+              learning paths, the breadcrumb trail. Two plain-text
+              summaries at /llms.txt and /llms-full.txt give an AI
+              reader the same tour a person gets. The changelog became
+              data, so this page and a new Atom feed at /feed.xml are
+              generated from one registry and can never disagree. The
+              data exports gained a Frictionless data package, a
+              Croissant description, a reproducible archive and a
+              per-dataset licence label, including the one whose licence
+              is still pending.</content>
+  </entry>
+  <entry>
+    <title>Cite this page</title>
+    <id>https://divinediscourses.org/changelog#2026-08-cite-this-page</id>
+    <link href="https://divinediscourses.org/changelog#2026-08-cite-this-page"/>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Cite this page.&lt;/strong&gt; The site could tell you
+              where its evidence came from but gave you no way to cite
+              it back. Every page footer now offers a citation in
+              Chicago, APA and BibTeX form with the canonical URL, the
+              version and the access date; the repository carries a
+              CITATION.cff; and one version file feeds all of them, with
+              a check that fails the build if any of them drift apart.
+              Each claim on &lt;a href="/validation"&gt;Validation&lt;/a&gt; gained
+              a permanent anchor you can link to, and the method page
+              was broken into sections that can be cited individually.
+              The glossary became a single registry, so the terms in the
+              page and the terms the tooltips use can no longer diverge.
+              A code of conduct, a security policy and a correction form
+              on every page arrived at the same time.</content>
+  </entry>
+  <entry>
     <title>A card per surah, an app that installs, and a citation you can check</title>
     <id>https://divinediscourses.org/changelog#2026-08-a-card-per-surah-an-app</id>
     <link href="https://divinediscourses.org/changelog#2026-08-a-card-per-surah-an-app"/>

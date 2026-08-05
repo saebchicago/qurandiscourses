@@ -53,6 +53,35 @@ for (const [key, target] of Object.entries(routes.glossary)) {
     failures.push(`glossary["${key}"]: target ${target} not in data/glossary.json`);
 }
 
+// The juz table is what "juz 5" and "para 3" route on. A wrong start
+// verse is invisible in the browser — the page loads, at the wrong
+// place — so it is checked against the same source it is derived from.
+const juzSource = read("data/juz.json").juz;
+const surahMeta = read("data/surah-meta.json").surahs;
+if (!Array.isArray(routes.juz) || routes.juz.length !== 30) {
+  failures.push(
+    `juz: expected 30 entries, found ${Array.isArray(routes.juz) ? routes.juz.length : "none"} — rerun build-ask-routes`,
+  );
+} else {
+  for (const j of routes.juz) {
+    const src = juzSource.find((s) => s.juz === j.juz);
+    if (!src) {
+      failures.push(`juz[${j.juz}]: no such juz in data/juz.json`);
+      continue;
+    }
+    if (src.startSurah !== j.startSurah || src.startAyah !== j.startAyah)
+      failures.push(
+        `juz[${j.juz}]: routes to ${j.startSurah}:${j.startAyah}, data/juz.json says ${src.startSurah}:${src.startAyah}`,
+      );
+    const m = surahMeta[String(j.startSurah)];
+    if (!m) failures.push(`juz[${j.juz}]: start surah ${j.startSurah} is not 1-114`);
+    else if (j.startAyah < 1 || j.startAyah > m.versesCount)
+      failures.push(
+        `juz[${j.juz}]: verse ${j.startAyah} is outside surah ${j.startSurah} (${m.versesCount} verses)`,
+      );
+  }
+}
+
 // The generated JS mirror must be current (build-ask-routes --check
 // also guards this; asserting here too keeps this checker sufficient
 // on its own).
@@ -63,6 +92,50 @@ for (const table of ["themes", "pages", "glossary"]) {
       failures.push(`assets/ask-routes.js: missing ${table} key ${key} — rerun build-ask-routes`);
   }
 }
+if (!/"juz":\s*\[/.test(generated))
+  failures.push("assets/ask-routes.js: no juz table — rerun build-ask-routes");
+
+// The search index and its client fold and stem tokens independently,
+// in two languages. They must agree exactly or a query lands in a
+// space the index does not occupy: the stopword list, the diacritic
+// folding and the suffix stripper are compared rule by rule.
+const builder = readFileSync(join(ROOT, "scripts/build-search-index.mjs"), "utf8");
+const client = readFileSync(join(ROOT, "assets/search.js"), "utf8");
+const stopOf = (src) => {
+  const m = src.match(/"(a an and are[^"]*)"/);
+  return m ? m[1] : null;
+};
+const bStop = stopOf(builder);
+const cStop = stopOf(client);
+if (!bStop || !cStop) failures.push("search folding: stopword list not found in one of the two files");
+else if (bStop !== cStop)
+  failures.push("search folding: stopword lists differ between build-search-index.mjs and assets/search.js");
+
+const foldRules = (src) =>
+  (src.match(/\.replace\(\/\[[^\]]*\]\/g?u?,\s*"[^"]*"\)/g) || []).join("|");
+if (foldRules(builder) !== foldRules(client))
+  failures.push(
+    "search folding: diacritic replace() chains differ between build-search-index.mjs and assets/search.js",
+  );
+
+// Suffix rules, normalized across the two spellings (endsWith in the
+// builder, slice() in the client) to the pair (suffix, replacement).
+const stemRules = (src) => {
+  const body = (src.match(/stem\s*(?:=|\()[\s\S]*?\n(?:};|  \})/) || [""])[0];
+  const out = [];
+  for (const m of body.matchAll(
+    /(?:endsWith\("([a-z]+)"\)|slice\(-\d+\)\s*===\s*"([a-z]+)")\)\s*return\s+t(?:\.slice\(0,\s*(-\d+)\)(?:\s*\+\s*"([a-z]+)")?)?/g,
+  ))
+    out.push([m[1] || m[2], m[3] || "0", m[4] || ""].join(":"));
+  return out.join("|");
+};
+const bStem = stemRules(builder);
+const cStem = stemRules(client);
+if (!bStem) failures.push("search folding: no stem() rules found in build-search-index.mjs");
+else if (bStem !== cStem)
+  failures.push(
+    `search folding: stem() rules differ — builder [${bStem}] vs client [${cStem}]`,
+  );
 
 if (failures.length) {
   console.error("check-ask: FAIL");

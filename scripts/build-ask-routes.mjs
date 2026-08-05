@@ -28,6 +28,14 @@ const routesPath = join(ROOT, "data/ask-routes.json");
 
 const routes = JSON.parse(readFileSync(routesPath, "utf8"));
 const glossaryTerms = JSON.parse(readFileSync(join(ROOT, "data/glossary.json"), "utf8")).terms;
+// The juz table is derived, never hand-edited: "juz 5" must land on the
+// verse juz 5 actually starts at, and data/juz.json is where that lives.
+const juz = JSON.parse(readFileSync(join(ROOT, "data/juz.json"), "utf8")).juz.map((j) => ({
+  juz: j.juz,
+  startSurah: j.startSurah,
+  startAyah: j.startAyah,
+}));
+routes.juz = juz;
 
 // Rebuild the glossary table from the registry (sorted for stable diffs).
 const glossary = {};
@@ -45,6 +53,7 @@ const js =
     themes: routes.themes,
     pages: routes.pages,
     glossary: routes.glossary,
+    juz: routes.juz,
   })};\n`;
 
 const outputs = [

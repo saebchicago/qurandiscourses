@@ -33,22 +33,45 @@
       .replace(/[ẓ]/g, "z")
       .replace(/[ʿʾ]/g, "");
   }
+  // Small English suffix stripper, applied to query and index alike so
+  // "creation" reaches the gloss "to create" and "prophets" reaches
+  // "prophet". MUST match stem() in scripts/build-search-index.mjs.
+  function stem(t) {
+    if (t.length <= 4 || !/^[a-z]+$/.test(t)) return t;
+    if (t.slice(-3) === "ies") return t.slice(0, -3) + "y";
+    if (t.slice(-4) === "ions") return t.slice(0, -4);
+    if (t.slice(-3) === "ion") return t.slice(0, -3);
+    if (t.slice(-4) === "ness") return t.slice(0, -4);
+    if (t.slice(-3) === "ing") return t.slice(0, -3);
+    if (t.slice(-2) === "ed") return t.slice(0, -2);
+    if (t.slice(-2) === "ss") return t;
+    if (t.slice(-2) === "es") return t.slice(0, -2);
+    if (t.slice(-1) === "s") return t.slice(0, -1);
+    if (t.slice(-1) === "e") return t.slice(0, -1);
+    return t;
+  }
   function tokenize(s) {
     return fold(s)
       .split(/[^a-z0-9؀-ۿ]+/)
       .filter(function (t) {
         return t.length > 1 && !STOPSET[t];
-      });
+      })
+      .map(stem);
   }
 
   var esc = window.qdEsc || function (v) {
     return String(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   };
 
+  // Order is the answer order: a reader who types "juz 5" or "Baqarah"
+  // wants the place in the text first and the prose about it second.
   var KINDS = [
-    ["page", "Pages"],
-    ["glossary", "Glossary"],
+    ["surah", "Surahs"],
+    ["juz", "Juz"],
     ["theme", "Themes"],
+    ["root", "Roots"],
+    ["glossary", "Glossary"],
+    ["page", "Pages"],
     ["source", "Sources"],
   ];
 
@@ -117,6 +140,11 @@
     }
     out.innerHTML = html;
   }
+
+  // Test seam, the same one ask.js opens with window.parseAsk: the
+  // acceptance corpus exercises the real matcher in a real browser
+  // rather than a copy of it that can drift.
+  window.qdSearch = { tokenize: tokenize, search: search, KINDS: KINDS };
 
   function ready(fn) {
     if (document.readyState === "loading") {

@@ -41,7 +41,7 @@
     <meta name="theme-color" content="#2b1d0e" />
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/changelog","url":"https://divinediscourses.org/changelog","name":"Changelog: every correction logged · Divine Discourses","description":"Every correction and material change to Divine Discourses since launch. A public record of accountability.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.0.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Changelog: every correction logged","item":"https://divinediscourses.org/changelog"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/changelog","url":"https://divinediscourses.org/changelog","name":"Changelog: every correction logged · Divine Discourses","description":"Every correction and material change to Divine Discourses since launch. A public record of accountability.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.1.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Changelog: every correction logged","item":"https://divinediscourses.org/changelog"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -135,6 +135,108 @@
           <h3>2026</h3>
           <h4>August</h4>
           <ul>
+            <li id="2026-08-type-a-word-get-somewhere">
+              <strong>Type a word, get somewhere.</strong> The Ask box
+              used to invite concepts like "mercy" and then refuse
+              them: an ampersand made it answer "not recognized", and
+              words that name both a chapter and an idea (light,
+              pilgrimage, repentance) silently opened the chapter and
+              buried the idea. Now a reference goes straight to the
+              text ("2:255", "surah 36", "juz 5", "para 3", all 30 juz
+              landing on the verse they begin at), an unambiguous name
+              still jumps to its surah, and a genuinely ambiguous word
+              opens <a href="/search">Search</a> showing the chapter,
+              the theme and the root side by side so you choose. The
+              index behind that page grew to hold all 114 surahs, all
+              30 juz and every root that carries an English gloss, and
+              both halves of the matcher now connect "creation" to the
+              gloss "to create". Nothing dead-ends: a query with a
+              letter in it always lands somewhere that can help, and
+              <a href="/roots">Roots</a> offers a site-wide search
+              when its filter finds nothing. A 42-query acceptance
+              corpus runs the real router and the real matcher on every
+              release.
+            <a class="claim-anchor" href="#2026-08-type-a-word-get-somewhere" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-08-seventeen-languages">
+              <strong>Seventeen languages to read alongside the
+              Arabic.</strong> <a href="/read">Read</a> gained Turkish,
+              Bosnian, Chinese, Japanese, Korean, Russian, Persian,
+              German, Hindi and Swahili, joining the seven already
+              there. Each script gets typography that respects it:
+              bundled faces for Devanagari and Bengali, a Naskh setting
+              for Persian rather than the Nastaliq used for Urdu, and
+              wider line height for the CJK scripts. Every edition id
+              was confirmed against the live translation service before
+              it shipped, and an edition whose translator the service
+              does not name ships unnamed rather than borrowing a name
+              from somewhere else. The weekly check now also proves
+              that every edition offered has a label and that no label
+              points at an edition that is gone.
+            <a class="claim-anchor" href="#2026-08-seventeen-languages" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-08-paths-that-follow-you">
+              <strong>Guided paths that follow you across the site, and
+              a site that works offline.</strong> Each of the five
+              <a href="/paths">learning paths</a> now carries a time
+              estimate and hands every step a ribbon on the tool page
+              it sends you to, so you can see "step 2 of 4" and move
+              forward or back without returning to the list. Progress
+              stays in the same single preference key as everything
+              else. Separately, the site now caches its shell the first
+              time you visit, so a later visit with no connection still
+              renders and says so plainly instead of failing. An
+              accessibility pass fixed a hidden form field that keyboard
+              users could still land on, added missing control labels,
+              and turned heading structure, form labelling and colour
+              contrast into checks that run on every push rather than a
+              paragraph promising they were considered.
+            <a class="claim-anchor" href="#2026-08-paths-that-follow-you" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-08-search-contribute-related">
+              <strong>A search page, a contribution page, and see-also
+              links.</strong> <a href="/search">Search</a> matches the
+              whole site in your browser against a committed index;
+              nothing you type leaves the page, because there is no
+              server to send it to. <a href="/contribute">Contribute</a>
+              gathers what a submission is, the worksheet that produces
+              one, the issue templates it fits, and a standing call for
+              translators. <a href="/coverage">Coverage</a> now names
+              the specific surah outlines that are wanted, each with a
+              prefilled issue link. Surah dossiers and theme cards grew
+              a see-also panel built by joining the theme index against
+              the root co-occurrence data, so related material is one
+              click away rather than a search away.
+            <a class="claim-anchor" href="#2026-08-search-contribute-related" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-08-machine-readable-layer">
+              <strong>Readable by machines, not just by people.</strong>
+              Every page now carries structured data describing what it
+              is: the datasets on <a href="/export">Export</a>, the
+              defined terms in the <a href="/glossary">Glossary</a>, the
+              typed works on <a href="/sources">Sources</a>, the
+              learning paths, the breadcrumb trail. Two plain-text
+              summaries at /llms.txt and /llms-full.txt give an AI
+              reader the same tour a person gets. The changelog became
+              data, so this page and a new Atom feed at /feed.xml are
+              generated from one registry and can never disagree. The
+              data exports gained a Frictionless data package, a
+              Croissant description, a reproducible archive and a
+              per-dataset licence label, including the one whose licence
+              is still pending.
+            <a class="claim-anchor" href="#2026-08-machine-readable-layer" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-08-cite-this-page">
+              <strong>Cite this page.</strong> The site could tell you
+              where its evidence came from but gave you no way to cite
+              it back. Every page footer now offers a citation in
+              Chicago, APA and BibTeX form with the canonical URL, the
+              version and the access date; the repository carries a
+              CITATION.cff; and one version file feeds all of them, with
+              a check that fails the build if any of them drift apart.
+              Each claim on <a href="/validation">Validation</a> gained
+              a permanent anchor you can link to, and the method page
+              was broken into sections that can be cited individually.
+              The glossary became a single registry, so the terms in the
+              page and the terms the tooltips use can no longer diverge.
+              A code of conduct, a security policy and a correction form
+              on every page arrived at the same time.
+            <a class="claim-anchor" href="#2026-08-cite-this-page" aria-label="Link to this entry">&sect;</a></li>
             <li id="2026-08-a-card-per-surah-an-app">
               <strong>A card per surah, an app that installs, and a
               citation you can check.</strong> Sharing a surah or a
