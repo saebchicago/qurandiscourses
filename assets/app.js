@@ -42,6 +42,23 @@
     { id: "id.indonesian", name: "Kementerian Agama (Indonesian)", lang: "id" },
     { id: "fr.hamidullah", name: "Muhammad Hamidullah (French)", lang: "fr" },
     { id: "es.cortes", name: "Julio Cortés (Spanish)", lang: "es" },
+    { id: "tr.diyanet", name: "Diyanet İşleri (Turkish)", lang: "tr" },
+    { id: "tr.yazir", name: "Elmalılı Hamdi Yazır (Turkish)", lang: "tr" },
+    { id: "bs.korkut", name: "Besim Korkut (Bosnian)", lang: "bs" },
+    { id: "bs.mlivo", name: "Mustafa Mlivo (Bosnian)", lang: "bs" },
+    { id: "zh.jian", name: "Ma Jian (Chinese)", lang: "zh" },
+    // The API names no translator for these two (it reports "Unknown"),
+    // so neither does this list. Naming one from outside the source
+    // would be an attribution the site cannot show its work for.
+    { id: "ja.japanese", name: "Japanese translation", lang: "ja" },
+    { id: "ko.korean", name: "Korean translation", lang: "ko" },
+    { id: "ru.kuliev", name: "Elmir Kuliev (Russian)", lang: "ru" },
+    { id: "fa.makarem", name: "Naser Makarem Shirazi (Persian)", lang: "fa" },
+    { id: "de.aburida", name: "Abu Rida Muhammad ibn Ahmad ibn Rassoul (German)", lang: "de" },
+    { id: "de.bubenheim", name: "Bubenheim & Elyas (German)", lang: "de" },
+    // The API does name this one's translators, unlike ja/ko.
+    { id: "hi.hindi", name: "Suhel Farooq Khan & Saifur Rahman Nadwi (Hindi)", lang: "hi" },
+    { id: "sw.barwani", name: "Ali Muhsin Al-Barwani (Swahili)", lang: "sw" },
   ];
 
   const RECITERS = [

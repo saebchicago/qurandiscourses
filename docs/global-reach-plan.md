@@ -1,7 +1,8 @@
 # Global reach plan
 
 How Divine Discourses grows toward native Arabic speakers, new translation
-languages (Bengali, Malay, Indonesian, French, Spanish), and audiences who
+languages (Bengali, Malay, Indonesian, French, Spanish, Turkish, Bosnian,
+Chinese, Japanese, Korean), and audiences who
 have never heard of it — without loosening the method that makes it worth
 trusting. Written July 2026; cross-references `docs/maintainer-guide.md`
 (the method and its rules) and `docs/engagement-research-plan.md` (how we
@@ -121,6 +122,32 @@ published human translations served by the existing alquran.cloud API:
 (Indonesian is included alongside Malay: the audiences overlap and the API
 carries the official Kementerian Agama text.)
 
+**Added since:** seven more editions in five further languages, chosen for
+the size of the Muslim readership they serve and, for Bosnian, a European
+readership with no other coherence-reading resource in its own language:
+
+| Language | Edition id | Translator |
+| --- | --- | --- |
+| Turkish | `tr.diyanet` | Diyanet İşleri Başkanlığı |
+| Turkish | `tr.yazir` | Elmalılı Hamdi Yazır |
+| Bosnian | `bs.korkut` | Besim Korkut |
+| Bosnian | `bs.mlivo` | Mustafa Mlivo |
+| Chinese | `zh.jian` | Ma Jian |
+| Japanese | `ja.japanese` | not named by the source |
+| Korean | `ko.korean` | not named by the source |
+| Russian | `ru.kuliev` | Elmir Kuliev |
+| Persian | `fa.makarem` | Naser Makarem Shirazi |
+| German | `de.aburida` | Abu Rida Muhammad ibn Ahmad ibn Rassoul |
+| German | `de.bubenheim` | A. S. F. Bubenheim and N. Elyas |
+| Hindi | `hi.hindi` | Suhel Farooq Khan and Saifur Rahman Nadwi |
+| Swahili | `sw.barwani` | Ali Muhsin Al-Barwani |
+
+The last two rows are the rule working, not a gap in it. The API reports
+`Unknown` for both, so the picker label, the Sources entry, and this table
+all say so rather than borrowing a translator's name from elsewhere; the
+edition is still worth shipping, and an attribution the site cannot show
+its work for is not.
+
 The architecture made this nearly free, by design: the reader page takes
 each edition's direction and language from the API's own edition object
 rather than a hardcoded list, so any script renders correctly without code
@@ -135,8 +162,20 @@ changes. The full recipe for adding a language, now and in the future:
    .text.<class>` rule in `assets/style.css` with a line-height suited to
    the script — the Urdu Nastaliq rule is the model. Bengali ships with
    this plan (Noto Serif Bengali, OFL, Bengali-block subset). Latin-script
-   languages need nothing.
-4. Run `node scripts/check-editions.mjs` from an unrestricted connection.
+   languages need nothing: the bundled faces all carry `latin-ext`, which
+   covers Turkish and Bosnian diacritics down to the dotless ı.
+   **CJK is the one exception to self-hosting.** Chinese, Japanese, and
+   Korean get the `.cjk` rule, which names system faces and no webfont:
+   even a subsetted Han face runs to megabytes, more than this entire
+   site, and every platform already ships a good one. Self-hosting is a
+   rule about control over rendering, not a rule about bytes at any
+   price.
+4. Run `node scripts/check-editions.mjs` from an unrestricted connection —
+   or push the branch and dispatch the "Site audit" workflow, whose
+   `external-evidence` job runs it on a GitHub runner. Read its output,
+   don't just check the exit code: it prints the language and the
+   translator name the API itself reports for every edition, which is
+   where an `Unknown` shows up before it can become a false attribution.
 
 Step 4 is not optional. alquran.cloud silently substitutes the Arabic
 `quran-simple` text for edition ids it no longer serves — this is exactly

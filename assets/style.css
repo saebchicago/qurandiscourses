@@ -1438,6 +1438,36 @@ details.chart-fallback table.data {
   line-height: 1.9;
   font-size: 1.05rem;
 }
+.verse .translation .text.devanagari {
+  /* Devanagari hangs its matras above and below the headstroke; the
+     default 1.6 leading clips them, exactly as with Bengali. Noto Serif
+     Devanagari is self-hosted (see fonts.css). */
+  font-family: "Noto Serif Devanagari", serif;
+  line-height: 1.9;
+  font-size: 1.05rem;
+}
+.verse .translation .text.arabic-script {
+  /* Persian and other Arabic-script translations that are NOT Urdu.
+     Amiri (already bundled for the Qur'anic text) is a Naskh face and
+     carries the Persian-only letters پ چ ژ گ; Nastaliq is an Urdu
+     convention and would read as wrong for modern Persian. */
+  font-family: "Amiri", serif;
+  line-height: 1.95;
+  font-size: 1.15rem;
+}
+.verse .translation .text.cjk {
+  /* Chinese, Japanese, and Korean render in the reader's own system
+     face: every platform ships a good one, and even a subsetted CJK
+     webfont costs megabytes — more than this whole site. Named faces
+     first so the choice is a serif where one exists, then the generic
+     stack. Han characters are dense at Latin body sizes and need more
+     leading than the 1.6 default. */
+  font-family: "Songti SC", "Hiragino Mincho ProN", "Yu Mincho",
+    "Noto Serif CJK SC", "Noto Serif KR", "Source Han Serif SC",
+    "Microsoft YaHei", "Malgun Gothic", serif;
+  line-height: 1.95;
+  font-size: 1.05rem;
+}
 .settings {
   position: fixed;
   right: 1rem;
