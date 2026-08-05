@@ -147,9 +147,15 @@ function perPageNodes(file) {
         "@id": `${SITE}/paths#${p.id}`,
         name: p.title,
         description: plain(p.intro || ""),
-        url: `${SITE}/paths`,
+        url: `${SITE}/paths#${p.id}`,
         teaches: "Coherence-based Qur'an reading",
         learningResourceType: "guided walkthrough",
+        ...(p.minutes ? { timeRequired: `PT${p.minutes}M` } : {}),
+        hasPart: p.steps.map((s, i) => ({
+          "@type": "HowToStep",
+          position: i + 1,
+          name: s.label,
+        })),
         provider: { "@type": "Organization", name: "Divine Discourses project" },
       })),
     );

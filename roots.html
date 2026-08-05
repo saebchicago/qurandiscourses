@@ -439,6 +439,10 @@
 
         <!-- Per-root detail panel — visible for all depth modes when a root is selected -->
         <div class="card" id="rootDetail" hidden>
+          <!-- The visible root name below is styled spans, not a heading;
+               this keeps the outline h2 -> h3 -> h4 without touching the
+               stat-block visuals. -->
+          <h3 class="visually-hidden">Selected root detail</h3>
           <div id="detailError" hidden></div>
 
           <!-- Root header -->
@@ -1185,8 +1189,8 @@
         >
           <input type="hidden" name="form-name" value="correction" />
           <input type="hidden" name="page" value="" />
-          <p class="feedback-hp" aria-hidden="true">
-            <label>Leave this field empty: <input name="bot-field" /></label>
+          <p class="feedback-hp">
+            <label>Leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
           </p>
           <label>
             What is wrong, and where on the page?
@@ -1412,19 +1416,28 @@
             const exNote = document.getElementById("exampleNote");
             if (exNote) exNote.remove();
           }
+          // URL rewrites preserve unrelated params (the study-path
+          // ribbon's ?path=&step= arrives on this page) instead of
+          // rebuilding the query string from scratch.
           if (selectedBW === bw && !opts.example) {
             selectedBW = null;
             detailData = null;
             hideDetail();
             render();
-            history.replaceState(null, "", location.pathname);
+            const cleared = new URL(window.location);
+            cleared.searchParams.delete("root");
+            cleared.searchParams.delete("q");
+            history.replaceState(null, "", cleared);
             if (window.qdSetShareUrl) window.qdSetShareUrl(null);
             return;
           }
           selectedBW = bw;
           render();
           if (!opts.example) {
-            history.replaceState(null, "", `?root=${safeKey(bw)}`);
+            const withRoot = new URL(window.location);
+            withRoot.searchParams.delete("q");
+            withRoot.searchParams.set("root", safeKey(bw));
+            history.replaceState(null, "", withRoot);
             // The share page carries this root's link-preview tags.
             if (window.qdSetShareUrl)
               window.qdSetShareUrl(
@@ -2402,5 +2415,7 @@
     <script src="assets/version.js" defer></script>
     <script src="assets/cite-page.js" defer></script>
     <script src="assets/feedback.js" defer></script>
+    <script src="assets/path-data.js" defer></script>
+    <script src="assets/path-ribbon.js" defer></script>
   </body>
 </html>

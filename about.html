@@ -333,9 +333,14 @@
           study journey for keyboard, screen-reader, low-vision, reduced-motion,
           mobile, and low-bandwidth readers. The site uses semantic landmarks,
           a skip link, keyboard-operable navigation, visible focus, self-hosted
-          fonts, and text alternatives alongside many data views. Automated
-          integrity checks run on the repository, but the project has
-          <strong>not yet completed an independent conformance audit</strong>;
+          fonts, and text alternatives alongside many data views. A subset of
+          this is enforced mechanically on every change: the repository's
+          browser audit checks each page's rendered markup for a sound heading
+          outline, a programmatic label on every form control, no keyboard
+          traps inside hidden regions, image text alternatives, and a 4.5:1
+          contrast ratio for every text color in every palette, in light and
+          dark. The project has still
+          <strong>not completed an independent conformance audit</strong>;
           charts, mixed Arabic/English reading order, dynamic citations, and
           high zoom remain priority manual-test areas.
         </p>
@@ -459,8 +464,8 @@
         >
           <input type="hidden" name="form-name" value="correction" />
           <input type="hidden" name="page" value="" />
-          <p class="feedback-hp" aria-hidden="true">
-            <label>Leave this field empty: <input name="bot-field" /></label>
+          <p class="feedback-hp">
+            <label>Leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
           </p>
           <label>
             What is wrong, and where on the page?

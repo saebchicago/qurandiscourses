@@ -158,7 +158,7 @@
   // browser-only, like everything else in qd_state — so the Exercises hub
   // can show "attempted N times, last score X/Y".
   window.qdMarkExerciseDone = function (exerciseId, score) {
-    if (!state.progress) state.progress = { lastRead: null, exercises: {} };
+    if (!state.progress) state.progress = { lastRead: null, exercises: {}, paths: {} };
     var prev = state.progress.exercises[exerciseId] || {};
     var entry = {
       at: new Date().toISOString(),
@@ -248,7 +248,7 @@
         <option value="sage" ${state.palette === "sage" ? "selected" : ""}>Sage</option>
       </select></div>
       <h4>Theme</h4>
-      <div class="row"><select id="setTheme">
+      <div class="row"><select id="setTheme" aria-label="Light or dark theme">
         <option value="auto" ${state.theme === "auto" ? "selected" : ""}>Auto (system)</option>
         <option value="light" ${state.theme === "light" ? "selected" : ""}>Light</option>
         <option value="dark" ${state.theme === "dark" ? "selected" : ""}>Dark</option>
@@ -746,5 +746,39 @@
     window.addEventListener("load", () => {
       navigator.serviceWorker.register("/sw.js").catch(() => {});
     });
+  }
+
+  // Offline indicator: a slim status strip at the top of <main> while
+  // the browser reports no connection, so a reader knows they are on
+  // the service worker's saved copy rather than a broken site. Created
+  // lazily, toggled by the online/offline events; no storage involved.
+  function initOfflineIndicator() {
+    if (!("onLine" in navigator)) return;
+    var strip = null;
+    function show() {
+      if (!strip) {
+        var main = document.querySelector("main");
+        if (!main) return;
+        strip = document.createElement("div");
+        strip.className = "banner note offline-banner";
+        strip.setAttribute("role", "status");
+        strip.setAttribute("aria-live", "polite");
+        strip.textContent =
+          "Offline. Showing your saved copy; live text, audio, and forms resume with the connection.";
+        main.insertBefore(strip, main.firstChild);
+      }
+      strip.hidden = false;
+    }
+    function hide() {
+      if (strip) strip.hidden = true;
+    }
+    window.addEventListener("offline", show);
+    window.addEventListener("online", hide);
+    if (navigator.onLine === false) show();
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initOfflineIndicator);
+  } else {
+    initOfflineIndicator();
   }
 })();

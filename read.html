@@ -348,8 +348,8 @@
         >
           <input type="hidden" name="form-name" value="correction" />
           <input type="hidden" name="page" value="" />
-          <p class="feedback-hp" aria-hidden="true">
-            <label>Leave this field empty: <input name="bot-field" /></label>
+          <p class="feedback-hp">
+            <label>Leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
           </p>
           <label>
             What is wrong, and where on the page?
@@ -1072,7 +1072,9 @@
                 // own line-height. Latin-script editions need nothing.
                 const scriptClass =
                   { ur: " nastaliq", bn: " bengali" }[t.edition.language] || "";
-                html += `<div class="translation"><div class="label">${qdEsc(t.edition.englishName)} · ${qdEsc(t.edition.name)}</div><div class="text${scriptClass}"${dirAttr}${langAttr}>${qdEsc(t.text)}</div></div>`;
+                // The edition's native-script name gets the same lang/dir
+                // as the text it names, so screen readers switch voices.
+                html += `<div class="translation"><div class="label">${qdEsc(t.edition.englishName)} · <span${dirAttr}${langAttr}>${qdEsc(t.edition.name)}</span></div><div class="text${scriptClass}"${dirAttr}${langAttr}>${qdEsc(t.text)}</div></div>`;
               });
               if (needsMorph && qdState.features.showWords !== false) {
                 const words = morphCache[s] && morphCache[s][String(ayahNum)];
@@ -1567,5 +1569,7 @@
     <script src="assets/version.js" defer></script>
     <script src="assets/cite-page.js" defer></script>
     <script src="assets/feedback.js" defer></script>
+    <script src="assets/path-data.js" defer></script>
+    <script src="assets/path-ribbon.js" defer></script>
   </body>
 </html>
