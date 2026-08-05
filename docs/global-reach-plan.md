@@ -135,6 +135,12 @@ readership with no other coherence-reading resource in its own language:
 | Chinese | `zh.jian` | Ma Jian |
 | Japanese | `ja.japanese` | not named by the source |
 | Korean | `ko.korean` | not named by the source |
+| Russian | `ru.kuliev` | Elmir Kuliev |
+| Persian | `fa.makarem` | Naser Makarem Shirazi |
+| German | `de.aburida` | Abu Rida Muhammad ibn Ahmad ibn Rassoul |
+| German | `de.bubenheim` | A. S. F. Bubenheim and N. Elyas |
+| Hindi | `hi.hindi` | Suhel Farooq Khan and Saifur Rahman Nadwi |
+| Swahili | `sw.barwani` | Ali Muhsin Al-Barwani |
 
 The last two rows are the rule working, not a gap in it. The API reports
 `Unknown` for both, so the picker label, the Sources entry, and this table
