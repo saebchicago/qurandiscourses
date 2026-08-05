@@ -160,6 +160,11 @@
           <a href="/search?q=verse+length">verse length</a>
         </p>
         <div id="searchStatus" role="status" aria-live="polite"></div>
+        <!-- Best answer: when the query names one surah, assets/search.js
+             renders the passage panel here, so a reader who typed "37"
+             learns it has 182 verses and can take any part of it without
+             scrolling into the results. -->
+        <div id="searchPassage"></div>
         <div id="searchResults"></div>
       </section>
     </main>
@@ -231,6 +236,10 @@
     <script src="assets/glossary.js" defer></script>
     <script src="assets/search.js" defer></script>
     <script src="assets/surahs.js"></script>
+    <script src="assets/ask-routes.js"></script>
+    <script src="assets/ask.js"></script>
+    <script src="assets/picker.js" defer></script>
+    <script src="assets/passage.js" defer></script>
     <script src="assets/version.js" defer></script>
     <script src="assets/cite-page.js" defer></script>
     <script src="assets/feedback.js" defer></script>

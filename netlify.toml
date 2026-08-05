@@ -335,12 +335,12 @@
 [[headers]]
   for = "/navigate.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-VooKvBiCF3DfMh+KZ8vBlHCtY+z9knsqSMAmkuaqm6Q='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-BlQATcueVYfF34odeNRzjADWRUEMns7NkY+qbVE437Y='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-iVj01AMvGTDgOsfMvwA5QH39JrAQYzwAa24ugiPOIrg='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-BlQATcueVYfF34odeNRzjADWRUEMns7NkY+qbVE437Y='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/navigate"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-VooKvBiCF3DfMh+KZ8vBlHCtY+z9knsqSMAmkuaqm6Q='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-BlQATcueVYfF34odeNRzjADWRUEMns7NkY+qbVE437Y='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-iVj01AMvGTDgOsfMvwA5QH39JrAQYzwAa24ugiPOIrg='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-BlQATcueVYfF34odeNRzjADWRUEMns7NkY+qbVE437Y='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/numbers.html"

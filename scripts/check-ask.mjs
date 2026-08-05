@@ -95,6 +95,33 @@ for (const table of ["themes", "pages", "glossary"]) {
 if (!/"juz":\s*\[/.test(generated))
   failures.push("assets/ask-routes.js: no juz table — rerun build-ask-routes");
 
+// The passage panel is FAIL-OPEN in exactly the way the per-page CSP
+// is: a page can carry the Ask box or the search box, look completely
+// correct in review, and silently never offer the verse control because
+// one script tag is missing. The panel is also the only place a reader
+// learns how many verses a surah has, so its absence is invisible until
+// someone needs the number. Hence a checker, not a convention.
+// Applies to pages that ANSWER a query themselves. 404.html carries a
+// search box too, but it only forwards to /search with a plain GET, so
+// the panel is the destination's job, not its own — requiring the
+// scripts there would be cargo cult.
+const PANEL_DEPS = ["assets/picker.js", "assets/passage.js"];
+for (const file of readdirSync(ROOT).filter((f) => f.endsWith(".html"))) {
+  const html = readFileSync(join(ROOT, file), "utf8");
+  const box = html.includes('id="ask-input"')
+    ? "Ask box"
+    : html.includes('id="search-input"') && html.includes('src="assets/search.js"')
+      ? "search box"
+      : null;
+  if (!box) continue;
+  for (const dep of PANEL_DEPS) {
+    if (!html.includes(`src="${dep}"`))
+      failures.push(`${file}: carries the ${box} but does not load ${dep} — the verse panel would never render`);
+  }
+  if (!html.includes('id="ask-passage"') && !html.includes('id="searchPassage"'))
+    failures.push(`${file}: carries the ${box} but has no panel container (ask-passage / searchPassage)`);
+}
+
 // The search index and its client fold and stem tokens independently,
 // in two languages. They must agree exactly or a query lands in a
 // space the index does not occupy: the stopword list, the diacritic

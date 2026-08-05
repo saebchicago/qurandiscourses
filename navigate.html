@@ -325,6 +325,19 @@
             other traditions.</p>
           </details>
         </div>
+        <!-- Click-first entry, unhidden by the picker the same way
+             read.html's #pickerEntry is. The table below is the no-JS
+             baseline and is unchanged. -->
+        <div class="card" id="navPickerEntry" hidden>
+          <div class="picker-entry-row">
+            <button type="button" class="button btn-primary" id="navChoose">
+              Choose a surah and verses
+            </button>
+            <p class="picker-entry-current t-annotation">
+              Pick any passage without knowing where a surah ends.
+            </p>
+          </div>
+        </div>
         <div class="card">
           <h3>Filter</h3>
           <div
@@ -532,7 +545,7 @@
           })
           .map(
             (s) =>
-              `<tr><td>${s.id}</td><td><a href="/read?s=${s.id}">${s.translit}</a> <button type="button" class="profile-toggle" data-surah="${s.id}" data-name="${s.translit}" aria-expanded="false" aria-controls="surahProfilePanel">Profile ▾</button></td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${s.ar}</span></td><td>${s.verseCount}</td><td>${s.cls === "m" ? "Meccan" : "Medinan"}</td><td class="study-only">${s.revOrder}</td></tr>`,
+              `<tr><td>${s.id}</td><td><a href="/read?s=${s.id}">${s.translit}</a> <button type="button" class="profile-toggle" data-surah="${s.id}" data-name="${s.translit}" aria-expanded="false" aria-controls="surahProfilePanel">Profile ▾</button></td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${s.ar}</span></td><td><button type="button" class="verse-count-btn" data-verses="${s.id}" aria-label="Choose verses in ${s.translit}, ${s.verseCount} verses">${s.verseCount}</button></td><td>${s.cls === "m" ? "Meccan" : "Medinan"}</td><td class="study-only">${s.revOrder}</td></tr>`,
           )
           .join("");
         body.innerHTML =
@@ -777,5 +790,8 @@
     <script src="assets/feedback.js" defer></script>
     <script src="assets/path-data.js" defer></script>
     <script src="assets/path-ribbon.js" defer></script>
+    <script src="assets/picker.js" defer></script>
+    <script src="assets/passage.js" defer></script>
+    <script src="assets/navigate-picker.js" defer></script>
   </body>
 </html>

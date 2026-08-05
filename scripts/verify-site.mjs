@@ -1156,6 +1156,179 @@ if (runCheck("askcorpus") && !PAGE_FILTER) {
   );
 }
 
+// ── Passage panel: the verse bounds a reader cannot know ────────────
+// The gate for "name a chapter, get its real size and any part of it".
+// Everything here is asserted on the RENDERED page, because the whole
+// point is a control that only exists after JS composes qdRange with
+// window.SURAHS: a unit test of either half would prove nothing.
+if (runCheck("passage") && !PAGE_FILTER) {
+  // al-Saffat: long enough to trigger the long-passage note, short
+  // enough that nobody would guess 182.
+  const SURAH = 37;
+  const COUNT = 182;
+
+  const pctx = await newContext();
+  const page = await pctx.newPage();
+  await page.goto(`${BASE}/index.html`, { waitUntil: "load" });
+
+  // 1. Typing a chapter answers with its size instead of silently
+  //    opening verse 1.
+  await page.fill("#ask-input", "saffat");
+  await page.click("#ask-go");
+  await page.waitForSelector("#ask-passage .passage-panel", { timeout: 5000 });
+  const typed = await page.evaluate(() => {
+    const p = document.querySelector("#ask-passage .passage-panel");
+    const read = p.querySelector(".passage-read");
+    const to = p.querySelector('input[id$="To"]');
+    const from = p.querySelector('input[id$="From"]');
+    return {
+      meta: p.querySelector(".passage-meta").textContent,
+      label: read.textContent.trim(),
+      href: read.getAttribute("href"),
+      toMax: to && to.max,
+      toValue: to && to.value,
+      fromValue: from && from.value,
+      note: !p.querySelector(".passage-note").hidden,
+      onPage: location.pathname,
+    };
+  });
+  const wantHref = `/read?s=${SURAH}&a=1-${COUNT}`;
+  report(
+    "passage", "index.html · named chapter",
+    typed.onPage === "/index.html" &&
+      typed.meta.includes(`${COUNT} verses`) &&
+      typed.toMax === String(COUNT) &&
+      typed.toValue === String(COUNT) &&
+      typed.fromValue === "1" &&
+      typed.href === wantHref &&
+      typed.label === `Read all ${COUNT} verses` &&
+      typed.note === true,
+    `"saffat" -> ${typed.meta.trim()}; To max=${typed.toMax} value=${typed.toValue}; ` +
+      `button "${typed.label}" -> ${typed.href} (want ${wantHref}); long-passage note=${typed.note}`,
+  );
+
+  // 2. The range drives the button: narrowing it must change both the
+  //    label and the destination, or the second box is decoration.
+  await page.fill('#ask-passage input[id$="To"]', "20");
+  await page.dispatchEvent('#ask-passage input[id$="To"]', "blur");
+  const narrowed = await page.evaluate(() => {
+    const read = document.querySelector("#ask-passage .passage-read");
+    return {
+      label: read.textContent.trim(),
+      href: read.getAttribute("href"),
+      note: !document.querySelector("#ask-passage .passage-note").hidden,
+    };
+  });
+  report(
+    "passage", "index.html · range drives the button",
+    narrowed.href === `/read?s=${SURAH}&a=1-20` &&
+      narrowed.label === `Read ${SURAH}:1-20` &&
+      narrowed.note === false,
+    `To=20 -> "${narrowed.label}" -> ${narrowed.href}; long-passage note cleared=${!narrowed.note}`,
+  );
+
+  // 3. Out-of-bounds is impossible, not merely discouraged: the clamp
+  //    is the reason a reader never needs to know the last verse.
+  await page.fill('#ask-passage input[id$="To"]', "9999");
+  await page.dispatchEvent('#ask-passage input[id$="To"]', "blur");
+  const clamped = await page.evaluate(
+    () => document.querySelector('#ask-passage input[id$="To"]').value,
+  );
+  report(
+    "passage", "index.html · clamped to the real bound",
+    clamped === String(COUNT),
+    `To=9999 clamps to ${clamped} (want ${COUNT})`,
+  );
+
+  // 4. NO REGRESSION: a complete reference is not a chapter-level ask
+  //    and must still go straight to the text.
+  await page.goto(`${BASE}/index.html`, { waitUntil: "load" });
+  await page.fill("#ask-input", "2:255");
+  await Promise.all([
+    page.waitForURL(/\/read/, { timeout: 5000 }).catch(() => {}),
+    page.click("#ask-go"),
+  ]);
+  const verseUrl = page.url();
+  report(
+    "passage", "index.html · complete reference still jumps",
+    /\/read\?s=2&a=255/.test(verseUrl),
+    `"2:255" -> ${verseUrl.replace(BASE, "")}`,
+  );
+
+  // 5. The toggle: a reader who knows no names at all can still get
+  //    to a passage without typing.
+  await page.goto(`${BASE}/index.html`, { waitUntil: "load" });
+  const toggle = await page.evaluate(() => {
+    const m = document.getElementById("askMode");
+    return { present: Boolean(m), hidden: m ? m.hidden : true };
+  });
+  if (toggle.present && !toggle.hidden) {
+    await page.click('#askMode [data-mode="passage"]');
+    await page.waitForSelector("#ask-passage .passage-panel", { timeout: 5000 });
+  }
+  const passageMode = await page.evaluate(() => ({
+    rowHidden: document.getElementById("askRow").hidden,
+    inputs: document.querySelectorAll("#ask-passage .qd-range-input").length,
+    browse: Boolean(document.querySelector("#ask-passage .passage-browse")),
+  }));
+  report(
+    "passage", "index.html · passage mode",
+    toggle.present && !toggle.hidden && passageMode.rowHidden &&
+      passageMode.inputs === 2 && passageMode.browse,
+    `toggle shown=${toggle.present && !toggle.hidden}; typed row hidden=${passageMode.rowHidden}; ` +
+      `${passageMode.inputs} verse inputs (want 2); browse-all button=${passageMode.browse}`,
+  );
+  await pctx.close();
+
+  // 6. /search answers the same question above its results.
+  const sctx = await newContext();
+  const spage = await sctx.newPage();
+  await spage.goto(`${BASE}/search.html?q=${SURAH}`, { waitUntil: "networkidle" });
+  let sPanel = { ok: false, detail: "no panel" };
+  try {
+    await spage.waitForSelector("#searchPassage .passage-panel", { timeout: 8000 });
+    sPanel = await spage.evaluate(() => {
+      const p = document.querySelector("#searchPassage .passage-panel");
+      return {
+        ok: true,
+        meta: p.querySelector(".passage-meta").textContent,
+        href: p.querySelector(".passage-read").getAttribute("href"),
+      };
+    });
+  } catch {}
+  report(
+    "passage", "search.html?q=37",
+    sPanel.ok && sPanel.meta.includes(`${COUNT} verses`) && sPanel.href === wantHref,
+    sPanel.ok ? `${sPanel.meta.trim()} -> ${sPanel.href}` : sPanel.detail,
+  );
+  await sctx.close();
+
+  // 7. Navigate: the Verses column is the way in, not just a number.
+  const nctx = await newContext();
+  const npage = await nctx.newPage();
+  await npage.goto(`${BASE}/navigate.html`, { waitUntil: "networkidle" });
+  let nav = { buttons: 0, opened: false, prefilled: null };
+  try {
+    await npage.waitForSelector("#surahTable .verse-count-btn", { timeout: 8000 });
+    nav.buttons = await npage.locator("#surahTable .verse-count-btn").count();
+    await npage.click(`#surahTable .verse-count-btn[data-verses="${SURAH}"]`);
+    await npage.waitForSelector(".qd-picker-overlay", { timeout: 5000 });
+    nav.opened = true;
+    await npage.click(`.qd-picker-overlay .qd-surah[data-surah="${SURAH}"]`);
+    await npage.waitForSelector(".qd-picker-overlay .qd-range-input", { timeout: 5000 });
+    nav.prefilled = await npage.evaluate(
+      () => document.querySelector('.qd-picker-overlay input[id$="To"]').value,
+    );
+  } catch {}
+  report(
+    "passage", "navigate.html · verse counts open the picker",
+    nav.buttons === 114 && nav.opened && nav.prefilled === String(COUNT),
+    `${nav.buttons} verse-count buttons (want 114); picker opened=${nav.opened}; ` +
+      `range prefilled to ${nav.prefilled} (want ${COUNT})`,
+  );
+  await nctx.close();
+}
+
 // ── First visit (empty storage) ─────────────────────────────────────
 if (runCheck("firstvisit") && (!PAGE_FILTER || PAGE_FILTER === "index.html")) {
   const fctx = await newContext({ seenState: false });
