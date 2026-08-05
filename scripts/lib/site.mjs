@@ -40,4 +40,8 @@ export const canonicalUrl = (file) =>
 // Pages that carry no canonical tag, with the reason. embed.html is the
 // one page meant to live inside a foreign iframe; it is noindex, it is
 // not in the sitemap, and third parties already point iframe src at it.
-export const NO_CANONICAL = new Set(["embed.html"]);
+// 404.html is served BY Netlify at whatever address failed, so it has no
+// address of its own to claim: a canonical would name a page nobody
+// asked for, and structured data would describe a page that is not
+// there. It is noindex and out of the sitemap for the same reason.
+export const NO_CANONICAL = new Set(["embed.html", "404.html"]);

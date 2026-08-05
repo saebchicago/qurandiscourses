@@ -35,7 +35,7 @@
     <meta name="theme-color" content="#2b1d0e" />
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/about","url":"https://divinediscourses.org/about","name":"About this site and its method · Divine Discourses","description":"About Divine Discourses: the coherence-based method behind the site, its evidence-labeling standards, and how it's maintained.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.0.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"About this site and its method","item":"https://divinediscourses.org/about"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/about","url":"https://divinediscourses.org/about","name":"About this site and its method · Divine Discourses","description":"About Divine Discourses: the coherence-based method behind the site, its evidence-labeling standards, and how it's maintained.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.1.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"About this site and its method","item":"https://divinediscourses.org/about"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -276,15 +276,22 @@
           unexpectedly.
         </p>
         <p>
-          Opening a passage or playing recitation may request content from
-          <strong>api.alquran.cloud</strong>. Like any direct web request, that
-          provider receives technical connection information such as your IP
-          address and browser headers. The request contains the surah, verse,
-          and selected edition—not your notes, preferences, or reading history.
-          Previously loaded passages are cached in your browser, and the bundled
-          Arabic word data provides a limited offline fallback. You can use the
-          site's bundled research pages without enabling accounts, analytics, or
-          advertising services because none exist.
+          Three outside services can be contacted, and only these three. Verse
+          text and translations come from
+          <strong>api.alquran.cloud</strong>. Word-by-word meanings, when you
+          open them, come from <strong>api.quran.com</strong>. Recitation audio
+          is streamed from <strong>cdn.islamic.network</strong>. Nothing else is
+          permitted: the site's content security policy names exactly these
+          hosts, so a fourth would be blocked by your browser rather than
+          silently allowed. Like any direct web request, each provider receives
+          technical connection information such as your IP address and browser
+          headers. What the request carries is the surah, verse, selected
+          edition, or chosen reciter, and nothing else: not your notes, not your
+          preferences, not your reading history. Previously loaded passages are
+          cached in your browser, and the bundled Arabic word data provides a
+          limited offline fallback. You can use the site's bundled research
+          pages without enabling accounts, analytics, or advertising services
+          because none exist.
         </p>
         <div class="card" aria-labelledby="data-controls-title">
           <h4 id="data-controls-title">Your data controls</h4>
@@ -384,7 +391,7 @@
           including the release version. To cite the site as a whole:
         </p>
         <p class="cite-example">
-          Divine Discourses, version 1.0.0. 2026.
+          Divine Discourses, version 1.1.0. 2026.
           https://divinediscourses.org.
         </p>
         <p>

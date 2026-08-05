@@ -110,7 +110,7 @@ function report(check, page, ok, detail, warn = false) {
 }
 
 // ── Page set + sitemap sync ─────────────────────────────────────────
-const SITEMAP_EXEMPT = new Set(["embed.html", "exercise-asr.html"]);
+const SITEMAP_EXEMPT = new Set(["embed.html", "exercise-asr.html", "404.html"]);
 const pages = readdirSync(ROOT)
   .filter((f) => f.endsWith(".html"))
   .sort();

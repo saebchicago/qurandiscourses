@@ -3,8 +3,8 @@
 > A Qur'an study platform in the coherence-reading tradition of
 > Dr. Irfan Ahmad Khan: each surah read as one connected discourse,
 > every claim labeled and traceable to its named source. Static site,
-> open source, no accounts, no tracking. Version 1.0.0
-> (2026-08-04).
+> open source, no accounts, no tracking. Version 1.1.0
+> (2026-08-05).
 
 Ground rules for using this site as a source:
 
@@ -3867,7 +3867,7 @@ One archive holds all four tables in both formats, the schema,
 the data dictionary, and a citation file, so a download never
 travels without its provenance. The archive is named by release
 version and built deterministically: citing
-v1.0.0 names these exact bytes, and
+v1.1.0 names these exact bytes, and
 a new release adds a new archive rather than replacing this
 one. For toolchains that read standard packaging, the same
 tables are described as a
@@ -3875,7 +3875,11 @@ Frictionless Data package
 and as
 Croissant JSON-LD .
 
-divinediscourses-data-v1.0.0.tar.gz (all tables + schema + citation)
+divinediscourses-data-v1.1.0.tar.gz (all tables + schema + citation)
+
+Earlier releases stay downloadable, because a published citation
+points at the bytes it was written against:
+v1.0.0 .
 
 ### Preview: top 5 roots by frequency
 
@@ -3908,6 +3912,108 @@ before it was renamed "Study".
 ### 2026
 
 #### August
+
+Type a word, get somewhere. The Ask box
+used to invite concepts like "mercy" and then refuse
+them: an ampersand made it answer "not recognized", and
+words that name both a chapter and an idea (light,
+pilgrimage, repentance) silently opened the chapter and
+buried the idea. Now a reference goes straight to the
+text ("2:255", "surah 36", "juz 5", "para 3", all 30 juz
+landing on the verse they begin at), an unambiguous name
+still jumps to its surah, and a genuinely ambiguous word
+opens Search showing the chapter,
+the theme and the root side by side so you choose. The
+index behind that page grew to hold all 114 surahs, all
+30 juz and every root that carries an English gloss, and
+both halves of the matcher now connect "creation" to the
+gloss "to create". Nothing dead-ends: a query with a
+letter in it always lands somewhere that can help, and
+Roots offers a site-wide search
+when its filter finds nothing. A 42-query acceptance
+corpus runs the real router and the real matcher on every
+release.
+§
+
+Seventeen languages to read alongside the
+Arabic. Read gained Turkish,
+Bosnian, Chinese, Japanese, Korean, Russian, Persian,
+German, Hindi and Swahili, joining the seven already
+there. Each script gets typography that respects it:
+bundled faces for Devanagari and Bengali, a Naskh setting
+for Persian rather than the Nastaliq used for Urdu, and
+wider line height for the CJK scripts. Every edition id
+was confirmed against the live translation service before
+it shipped, and an edition whose translator the service
+does not name ships unnamed rather than borrowing a name
+from somewhere else. The weekly check now also proves
+that every edition offered has a label and that no label
+points at an edition that is gone.
+§
+
+Guided paths that follow you across the site, and
+a site that works offline. Each of the five
+learning paths now carries a time
+estimate and hands every step a ribbon on the tool page
+it sends you to, so you can see "step 2 of 4" and move
+forward or back without returning to the list. Progress
+stays in the same single preference key as everything
+else. Separately, the site now caches its shell the first
+time you visit, so a later visit with no connection still
+renders and says so plainly instead of failing. An
+accessibility pass fixed a hidden form field that keyboard
+users could still land on, added missing control labels,
+and turned heading structure, form labelling and colour
+contrast into checks that run on every push rather than a
+paragraph promising they were considered.
+§
+
+A search page, a contribution page, and see-also
+links. Search matches the
+whole site in your browser against a committed index;
+nothing you type leaves the page, because there is no
+server to send it to. Contribute
+gathers what a submission is, the worksheet that produces
+one, the issue templates it fits, and a standing call for
+translators. Coverage now names
+the specific surah outlines that are wanted, each with a
+prefilled issue link. Surah dossiers and theme cards grew
+a see-also panel built by joining the theme index against
+the root co-occurrence data, so related material is one
+click away rather than a search away.
+§
+
+Readable by machines, not just by people.
+Every page now carries structured data describing what it
+is: the datasets on Export , the
+defined terms in the Glossary , the
+typed works on Sources , the
+learning paths, the breadcrumb trail. Two plain-text
+summaries at /llms.txt and /llms-full.txt give an AI
+reader the same tour a person gets. The changelog became
+data, so this page and a new Atom feed at /feed.xml are
+generated from one registry and can never disagree. The
+data exports gained a Frictionless data package, a
+Croissant description, a reproducible archive and a
+per-dataset licence label, including the one whose licence
+is still pending.
+§
+
+Cite this page. The site could tell you
+where its evidence came from but gave you no way to cite
+it back. Every page footer now offers a citation in
+Chicago, APA and BibTeX form with the canonical URL, the
+version and the access date; the repository carries a
+CITATION.cff; and one version file feeds all of them, with
+a check that fails the build if any of them drift apart.
+Each claim on Validation gained
+a permanent anchor you can link to, and the method page
+was broken into sections that can be cited individually.
+The glossary became a single registry, so the terms in the
+page and the terms the tooltips use can no longer diverge.
+A code of conduct, a security policy and a correction form
+on every page arrived at the same time.
+§
 
 A card per surah, an app that installs, and a
 citation you can check. Sharing a surah or a
@@ -4900,15 +5006,22 @@ storage and are never sent by this site. They are deliberately kept
 in separate stores so clearing display settings cannot erase writing
 unexpectedly.
 
-Opening a passage or playing recitation may request content from
-api.alquran.cloud . Like any direct web request, that
-provider receives technical connection information such as your IP
-address and browser headers. The request contains the surah, verse,
-and selected edition—not your notes, preferences, or reading history.
-Previously loaded passages are cached in your browser, and the bundled
-Arabic word data provides a limited offline fallback. You can use the
-site's bundled research pages without enabling accounts, analytics, or
-advertising services because none exist.
+Three outside services can be contacted, and only these three. Verse
+text and translations come from
+api.alquran.cloud . Word-by-word meanings, when you
+open them, come from api.quran.com . Recitation audio
+is streamed from cdn.islamic.network . Nothing else is
+permitted: the site's content security policy names exactly these
+hosts, so a fourth would be blocked by your browser rather than
+silently allowed. Like any direct web request, each provider receives
+technical connection information such as your IP address and browser
+headers. What the request carries is the surah, verse, selected
+edition, or chosen reciter, and nothing else: not your notes, not your
+preferences, not your reading history. Previously loaded passages are
+cached in your browser, and the bundled Arabic word data provides a
+limited offline fallback. You can use the site's bundled research
+pages without enabling accounts, analytics, or advertising services
+because none exist.
 
 #### Your data controls
 
@@ -5002,7 +5115,7 @@ Every page footer has a Cite link that produces a ready-made
 reference for that page in Chicago, APA, and BibTeX form,
 including the release version. To cite the site as a whole:
 
-Divine Discourses, version 1.0.0. 2026.
+Divine Discourses, version 1.1.0. 2026.
 https://divinediscourses.org.
 
 Machine-readable citation metadata lives in
