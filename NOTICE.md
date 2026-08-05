@@ -106,6 +106,10 @@ Each face's upstream license text is bundled beside the binaries in
 - **Noto Serif Bengali** (`notoserifbengali-bengali.woff2`, Bengali-block
   subset) — Copyright 2022 The Noto Project Authors
   (https://github.com/notofonts/bengali) — `OFL-NotoSerifBengali.txt`.
+- **Noto Serif Devanagari** (`notoserifdevanagari-devanagari.woff2`,
+  Devanagari-block subset) — Copyright 2022 The Noto Project Authors
+  (https://github.com/notofonts/devanagari) —
+  `OFL-NotoSerifDevanagari.txt`.
 - **Noto Nastaliq Urdu** (`notonastaliqurdu-arabic.woff2`) — Copyright
   2022 The Noto Project Authors (https://github.com/notofonts/nastaliq)
   — `OFL-NotoNastaliqUrdu.txt`.

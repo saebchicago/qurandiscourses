@@ -21,8 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
 
@@ -84,12 +84,22 @@ jobs:
 
   external-evidence:
     name: External citation and edition health
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    # Also runs on pull_request, but NEVER blocks one: these checks call
+    # third-party endpoints, so a merge must not wait on someone else's
+    # downtime. continue-on-error keeps the job advisory while still
+    # surfacing rot on the PR that introduces it — a dead Discussions
+    # link shipped for a whole phase because this job was
+    # schedule-only, and nobody reads a weekly cron until it is too
+    # late. The scheduled run is unchanged and stays the hard signal.
+    if: >-
+      github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+      || github.event_name == 'pull_request'
+    continue-on-error: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
 
