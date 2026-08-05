@@ -48,6 +48,25 @@ if (!ids.length) {
 }
 const langOf = new Map(entries.map((e) => [e.id, e.lang]));
 
+// Offline half, run before the network so it reports even from a
+// sandbox: every language in TRANSLATIONS needs a display name in
+// read.html's LANG_LABELS, or the translation picker groups that
+// edition under a bare code ("ko") instead of "Korean".
+const readHtml = readFileSync(join(ROOT, "read.html"), "utf8");
+const labelsMatch = readHtml.match(/const LANG_LABELS = \{([\s\S]*?)\};/);
+if (!labelsMatch) {
+  console.error("check-editions: FAIL — could not locate LANG_LABELS in read.html");
+  process.exit(2);
+}
+const labelled = new Set([...labelsMatch[1].matchAll(/(\w+):/g)].map((m) => m[1]));
+const unlabelled = [...new Set(entries.map((e) => e.lang))].filter((l) => !labelled.has(l));
+if (unlabelled.length) {
+  console.error(
+    `check-editions: FAIL — no LANG_LABELS entry in read.html for: ${unlabelled.join(", ")}`,
+  );
+  process.exit(1);
+}
+
 const editions = ["quran-uthmani", ...ids];
 const url = `https://api.alquran.cloud/v1/ayah/1:2/editions/${editions.join(",")}`;
 

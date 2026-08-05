@@ -47,7 +47,10 @@
     { id: "bs.korkut", name: "Besim Korkut (Bosnian)", lang: "bs" },
     { id: "bs.mlivo", name: "Mustafa Mlivo (Bosnian)", lang: "bs" },
     { id: "zh.jian", name: "Ma Jian (Chinese)", lang: "zh" },
-    { id: "ja.japanese", name: "Ryoichi Mita (Japanese)", lang: "ja" },
+    // The API names no translator for these two (it reports "Unknown"),
+    // so neither does this list. Naming one from outside the source
+    // would be an attribution the site cannot show its work for.
+    { id: "ja.japanese", name: "Japanese translation", lang: "ja" },
     { id: "ko.korean", name: "Korean translation", lang: "ko" },
   ];
 
