@@ -54,9 +54,10 @@
     { id: "ko.korean", name: "Korean translation", lang: "ko" },
     { id: "ru.kuliev", name: "Elmir Kuliev (Russian)", lang: "ru" },
     { id: "fa.makarem", name: "Naser Makarem Shirazi (Persian)", lang: "fa" },
-    { id: "de.aburida", name: "Abu Rida Muhammad ibn Ahmad (German)", lang: "de" },
+    { id: "de.aburida", name: "Abu Rida Muhammad ibn Ahmad ibn Rassoul (German)", lang: "de" },
     { id: "de.bubenheim", name: "Bubenheim & Elyas (German)", lang: "de" },
-    { id: "hi.hindi", name: "Hindi translation", lang: "hi" },
+    // The API does name this one's translators, unlike ja/ko.
+    { id: "hi.hindi", name: "Suhel Farooq Khan & Saifur Rahman Nadwi (Hindi)", lang: "hi" },
     { id: "sw.barwani", name: "Ali Muhsin Al-Barwani (Swahili)", lang: "sw" },
   ];
 
