@@ -278,7 +278,21 @@
               <label for="ask-input" class="ask-label" id="ask-label"
                 >Or ask for a starting point</label
               >
-              <div class="ask-row">
+              <div
+                class="ask-mode"
+                id="askMode"
+                role="group"
+                aria-label="Search, or go straight to a passage"
+                hidden
+              >
+                <button type="button" class="qd-chip is-on" data-mode="search">
+                  Search
+                </button>
+                <button type="button" class="qd-chip" data-mode="passage">
+                  Go to a passage
+                </button>
+              </div>
+              <div class="ask-row" id="askRow">
                 <input
                   type="text"
                   id="ask-input"
@@ -309,6 +323,7 @@
                 role="status"
                 aria-live="polite"
               ></div>
+              <div id="ask-passage" class="ask-passage"></div>
             </div>
           </div>
         </div>
@@ -1585,6 +1600,7 @@
       }
     </script>
     <script src="assets/picker.js" defer></script>
+    <script src="assets/passage.js" defer></script>
     <script src="assets/read-picker.js" defer></script>
     <script src="assets/read-polish.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>

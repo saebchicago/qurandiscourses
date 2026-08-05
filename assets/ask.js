@@ -334,17 +334,81 @@
     var button = document.getElementById("ask-go");
     var feedback = document.getElementById("ask-feedback");
     var chips = document.querySelectorAll(".ask-chips .chip");
+    var passageHost = document.getElementById("ask-passage");
+    var mode = document.getElementById("askMode");
+    var row = document.getElementById("askRow");
+    var hasPassage = Boolean(passageHost && window.qdPassage);
+
+    // A chapter without a verse is the case this whole panel exists for:
+    // the reader named a surah but has no way to know where it ends, so
+    // answering with verse 1 and moving on throws away the question. A
+    // complete reference (2:255), a juz, a theme, a root or a page is
+    // not that case and still goes straight where it was going.
+    function showPassage(surah) {
+      var ctl = window.qdPassage.panel(passageHost, surah);
+      if (ctl) {
+        feedback.textContent = "";
+        ctl.focus(); // so a second Enter reads it, no extra reach
+      }
+      return Boolean(ctl);
+    }
 
     function go() {
       var result = window.parseAsk(input.value);
       if (result && result.route) {
+        var surah = hasPassage ? window.qdPassage.surahOf(result) : null;
+        if (surah && showPassage(surah)) return;
         window.location.href = result.route;
       } else if (result && result.message) {
+        if (hasPassage) window.qdPassage.clear(passageHost);
         feedback.textContent = result.message;
       } else {
+        if (hasPassage) window.qdPassage.clear(passageHost);
         feedback.textContent =
           "Not recognized. Try a surah name (Fatihah or الفاتحة), a verse like 1:1 or ٢:٥, a root like r-h-m or رحم, or an English word.";
       }
+    }
+
+    // ── Mode toggle ─────────────────────────────────────────────────
+    // Two ways in, because readers arrive with different amounts of
+    // knowledge: type what you know, or pick from a list when you know
+    // nothing. Revealed only once the picker is on the page, so the
+    // no-JS baseline stays the typed box it always was.
+    if (mode && hasPassage && window.qdPicker) {
+      mode.hidden = false;
+      var modeBtns = mode.querySelectorAll("[data-mode]");
+      var setMode = function (name) {
+        modeBtns.forEach(function (b) {
+          var on = b.getAttribute("data-mode") === name;
+          b.classList.toggle("is-on", on);
+          b.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        var passage = name === "passage";
+        if (row) row.hidden = passage;
+        var help = document.querySelector(".ask-section .ask-help");
+        var chipRow = document.querySelector(".ask-section .ask-chips");
+        if (help) help.hidden = passage;
+        if (chipRow) chipRow.hidden = passage;
+        feedback.textContent = "";
+        if (passage) {
+          // Open on the surah they last read, so the common case is
+          // already loaded before they touch anything.
+          var st = window.qdState;
+          var recent =
+            st && st.progress && Array.isArray(st.progress.recentSurahs)
+              ? st.progress.recentSurahs[0]
+              : null;
+          window.qdPassage.panel(passageHost, recent || 1);
+        } else {
+          window.qdPassage.clear(passageHost);
+        }
+      };
+      modeBtns.forEach(function (b) {
+        b.setAttribute("aria-pressed", b.classList.contains("is-on") ? "true" : "false");
+        b.addEventListener("click", function () {
+          setMode(b.getAttribute("data-mode"));
+        });
+      });
     }
 
     if (button) button.addEventListener("click", go);

@@ -360,7 +360,15 @@
           <span class="ar notranslate" translate="no" lang="ar" dir="rtl">رحم</span>),
           or an English keyword.
         </p>
-        <div class="ask-row">
+        <!-- Hidden until assets/ask.js confirms the picker loaded, the
+             same progressive-enhancement contract read.html's
+             #pickerEntry uses: with scripts off the typed box below is
+             the whole interface, exactly as before. -->
+        <div class="ask-mode" id="askMode" role="group" aria-label="Search, or go straight to a passage" hidden>
+          <button type="button" class="qd-chip is-on" data-mode="search">Search</button>
+          <button type="button" class="qd-chip" data-mode="passage">Go to a passage</button>
+        </div>
+        <div class="ask-row" id="askRow">
           <input
             type="text"
             id="ask-input"
@@ -380,6 +388,7 @@
           <button type="button" class="chip" data-fill="الفاتحة"><span class="ar notranslate" translate="no" lang="ar" dir="rtl">الفاتحة</span></button>
         </div>
         <div id="ask-feedback" class="ask-feedback" role="status" aria-live="polite"></div>
+        <div id="ask-passage" class="ask-passage"></div>
       </section>
 
       <section id="workedExample" class="workflow-section">
@@ -488,6 +497,8 @@
     <script src="assets/ask.js"></script>
     <script src="assets/app.js"></script>
     <script src="assets/share.js" defer></script>
+    <script src="assets/picker.js" defer></script>
+    <script src="assets/passage.js" defer></script>
     <script src="assets/case-studies.js" defer></script>
     <script src="assets/tour.js" defer></script>
     <script>

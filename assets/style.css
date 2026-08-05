@@ -3668,6 +3668,95 @@ html[data-focus] .ar.xl {
   margin-top: 0.9rem;
 }
 
+/* ── Passage panel (assets/passage.js) ─────────────────────────────
+   The answer a reader gets when they name a chapter but not a verse:
+   the surah, its real verse count, and the From/To control bounded by
+   that count. Every color is an existing token, because verify-site
+   recomputes each text token against --bg and --card at 4.5:1 across
+   all six palette blocks. Layout only below. */
+.ask-mode {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0 0 0.6rem;
+}
+.ask-passage:empty {
+  display: none;
+}
+.ask-passage {
+  margin-top: 0.9rem;
+}
+.passage-panel {
+  padding: 1rem 1.1rem;
+}
+.passage-id {
+  margin: 0 0 0.15rem;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  color: var(--ink);
+}
+.passage-id .ar {
+  font-size: 1.35rem;
+}
+.passage-en {
+  color: var(--muted);
+  font-size: 1rem;
+}
+.passage-meta {
+  margin: 0 0 0.75rem;
+}
+.passage-range {
+  margin-bottom: 0.6rem;
+}
+.passage-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.9rem 0 0;
+}
+/* The count on the primary button is the point of the panel, so it must
+   never be truncated on a narrow screen. */
+.passage-actions .passage-read {
+  white-space: nowrap;
+}
+.passage-note {
+  margin: 0.6rem 0 0;
+}
+/* navigate.html: the Verses column becomes the way in, not just a
+   number to read. Sized as a text button so the table stays a table. */
+.verse-count-btn {
+  padding: 0.25rem 0.4rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  color: var(--link);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  min-height: 44px;
+  /* Dotted rather than solid: this opens a chooser, it does not
+     navigate, and the surah name in the next column is the solid
+     underline. A count that looks like plain text is not an
+     affordance, which is how this column read for its whole life. */
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+.verse-count-btn::after {
+  content: " ▾";
+  font-size: 0.75em;
+  color: var(--muted);
+}
+.verse-count-btn:hover,
+.verse-count-btn:focus-visible {
+  border-color: var(--accent-soft);
+  color: var(--accent);
+}
+@media (max-width: 640px) {
+  .passage-actions .button {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+}
+
 /* ── Read polish (assets/read-polish.js) ───────────────────────────
    Text size scales the reading column only, so a large step cannot
    push the nav or the page chrome off a narrow screen. */

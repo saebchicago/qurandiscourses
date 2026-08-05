@@ -161,10 +161,28 @@
     var out = document.getElementById("searchResults");
     if (!input || !form || !status || !out) return;
 
+    var passageHost = document.getElementById("searchPassage");
+
     var index = null;
     var pending = null;
 
+    // A query that names exactly one surah gets answered above the list
+    // rather than inside it. The results below still show the surah, the
+    // theme and the root; this only puts the thing a reader most likely
+    // wanted — the passage, and how many verses it has — where they do
+    // not have to go looking for it.
+    function renderPassage(query) {
+      if (!passageHost || !window.qdPassage) return;
+      var surah = window.qdPassage.surahOf(
+        window.parseAsk ? window.parseAsk(query) : null,
+        query,
+      );
+      if (surah) window.qdPassage.panel(passageHost, surah);
+      else window.qdPassage.clear(passageHost);
+    }
+
     function run(query) {
+      renderPassage(query);
       if (!index) {
         pending = query;
         return;
