@@ -1,0 +1,2850 @@
+{
+ "_generated": "build-structure-tests.mjs",
+ "_hypothesis": "Do the sections build-structure.mjs computed for a surah show more block-level mirror symmetry (mirrored-section vocabulary overlap, first/last-section bookending by vocabulary and by recurring phrases, verse-length palindrome) than the same sections in a random order would, more often than testing 114 surahs at once would produce by chance?",
+ "_method": "Four tests per surah (concentricParallelism, inclusio, formulaBookending over the sections in data/structure/{surah}.json; lengthSymmetry over raw per-verse token counts, independent of sections). Null: exact enumeration of all section orderings when count! <= 40320 (8!), else 10000 block-order Monte Carlo shuffles (verse-length test always uses 10000 verse-order shuffles, seeded, via scripts/lib/permute.mjs). Content roots exclude corpus-wide frequency > 700 (build-cooccurrence.mjs's rule). All candidate p-values from all four tests, across every surah where a test applies, are pooled into one Benjamini-Hochberg correction at q < 0.05 (not corrected per test or per surah), with Bonferroni reported alongside.",
+ "_scope": "A surviving result says these sections show more of this mechanical property than chance reordering, corrected for testing many surahs jointly — nothing more. Not literary ring composition, not inclusio as the term is used in the scholarship cited on patterns.html, not attributed to any scholar. build-symmetry-test.mjs's separate, narrower point-pair test (data/symmetry-test.json) is unrelated and unchanged by this.",
+ "totalCandidates": 345,
+ "fdrQThreshold": 0.05,
+ "fdrSurvivors": 0,
+ "bonferroniAlpha": 0.00014492753623188405,
+ "bonferroniSurvivors": 0,
+ "survivors": [],
+ "closestMisses": {
+  "concentricParallelism": [
+   {
+    "surah": 2,
+    "observed": 0.167,
+    "pValue": 0.0047
+   },
+   {
+    "surah": 10,
+    "observed": 0.1437,
+    "pValue": 0.133
+   },
+   {
+    "surah": 42,
+    "observed": 0.1126,
+    "pValue": 0.1333
+   },
+   {
+    "surah": 26,
+    "observed": 0.121,
+    "pValue": 0.2
+   },
+   {
+    "surah": 30,
+    "observed": 0.1258,
+    "pValue": 0.2
+   }
+  ],
+  "inclusio": [
+   {
+    "surah": 10,
+    "observed": 0.316,
+    "pValue": 0.0278
+   },
+   {
+    "surah": 11,
+    "observed": 0.2618,
+    "pValue": 0.0434
+   },
+   {
+    "surah": 26,
+    "observed": 0.2421,
+    "pValue": 0.1
+   },
+   {
+    "surah": 42,
+    "observed": 0.16,
+    "pValue": 0.1
+   },
+   {
+    "surah": 3,
+    "observed": 0.2257,
+    "pValue": 0.1073
+   }
+  ],
+  "formulaBookending": [
+   {
+    "surah": 10,
+    "observed": 15,
+    "pValue": 0.0278
+   },
+   {
+    "surah": 3,
+    "observed": 45,
+    "pValue": 0.0464
+   },
+   {
+    "surah": 30,
+    "observed": 21,
+    "pValue": 0.0667
+   },
+   {
+    "surah": 26,
+    "observed": 78,
+    "pValue": 0.1
+   },
+   {
+    "surah": 42,
+    "observed": 15,
+    "pValue": 0.1
+   }
+  ],
+  "lengthSymmetry": [
+   {
+    "surah": 89,
+    "observed": 0.7291,
+    "pValue": 0.0011
+   },
+   {
+    "surah": 34,
+    "observed": 0.4106,
+    "pValue": 0.0113
+   },
+   {
+    "surah": 39,
+    "observed": 0.2665,
+    "pValue": 0.0545
+   },
+   {
+    "surah": 76,
+    "observed": 0.3915,
+    "pValue": 0.0613
+   },
+   {
+    "surah": 53,
+    "observed": 0.2482,
+    "pValue": 0.0818
+   }
+  ]
+ },
+ "perSurah": [
+  {
+   "surah": 1,
+   "verseCount": 7,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": 0.0278,
+    "pValue": 0.5356,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 2,
+   "verseCount": 286,
+   "sections": 17,
+   "concentricParallelism": {
+    "observed": 0.167,
+    "pValue": 0.0047,
+    "permutations": 10000,
+    "exact": false
+   },
+   "inclusio": {
+    "observed": 0.1795,
+    "pValue": 0.2362,
+    "permutations": 10000,
+    "exact": false
+   },
+   "formulaBookending": {
+    "observed": 9,
+    "candidatePhrases": 938,
+    "pValue": 0.3428,
+    "permutations": 10000,
+    "exact": false
+   },
+   "lengthSymmetry": {
+    "observed": -0.0658,
+    "pValue": 0.7746,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 3,
+   "verseCount": 200,
+   "sections": 12,
+   "concentricParallelism": {
+    "observed": 0.1131,
+    "pValue": 0.8175,
+    "permutations": 10000,
+    "exact": false
+   },
+   "inclusio": {
+    "observed": 0.2257,
+    "pValue": 0.1073,
+    "permutations": 10000,
+    "exact": false
+   },
+   "formulaBookending": {
+    "observed": 45,
+    "candidatePhrases": 380,
+    "pValue": 0.0464,
+    "permutations": 10000,
+    "exact": false
+   },
+   "lengthSymmetry": {
+    "observed": 0.1299,
+    "pValue": 0.0908,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 4,
+   "verseCount": 176,
+   "sections": 11,
+   "concentricParallelism": {
+    "observed": 0.1555,
+    "pValue": 0.4193,
+    "permutations": 10000,
+    "exact": false
+   },
+   "inclusio": {
+    "observed": 0.2154,
+    "pValue": 0.144,
+    "permutations": 10000,
+    "exact": false
+   },
+   "formulaBookending": {
+    "observed": 13,
+    "candidatePhrases": 557,
+    "pValue": 0.2188,
+    "permutations": 10000,
+    "exact": false
+   },
+   "lengthSymmetry": {
+    "observed": 0.0659,
+    "pValue": 0.2349,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 5,
+   "verseCount": 120,
+   "sections": 9,
+   "concentricParallelism": {
+    "observed": 0.1164,
+    "pValue": 0.804,
+    "permutations": 10000,
+    "exact": false
+   },
+   "inclusio": {
+    "observed": 0.1616,
+    "pValue": 0.3624,
+    "permutations": 10000,
+    "exact": false
+   },
+   "formulaBookending": {
+    "observed": 9,
+    "candidatePhrases": 367,
+    "pValue": 0.3929,
+    "permutations": 10000,
+    "exact": false
+   },
+   "lengthSymmetry": {
+    "observed": 0.0665,
+    "pValue": 0.2766,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 6,
+   "verseCount": 165,
+   "sections": 11,
+   "concentricParallelism": {
+    "observed": 0.1066,
+    "pValue": 0.6377,
+    "permutations": 10000,
+    "exact": false
+   },
+   "inclusio": {
+    "observed": 0.037,
+    "pValue": 0.9293,
+    "permutations": 10000,
+    "exact": false
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 241,
+    "pValue": 1,
+    "permutations": 10000,
+    "exact": false
+   },
+   "lengthSymmetry": {
+    "observed": -0.2376,
+    "pValue": 0.9868,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 7,
+   "verseCount": 206,
+   "sections": 15,
+   "concentricParallelism": {
+    "observed": 0.0527,
+    "pValue": 0.9333,
+    "permutations": 10000,
+    "exact": false
+   },
+   "inclusio": {
+    "observed": 0.049,
+    "pValue": 0.5797,
+    "permutations": 10000,
+    "exact": false
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 339,
+    "pValue": 1,
+    "permutations": 10000,
+    "exact": false
+   },
+   "lengthSymmetry": {
+    "observed": 0.1305,
+    "pValue": 0.0906,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 8,
+   "verseCount": 75,
+   "sections": 6,
+   "concentricParallelism": {
+    "observed": 0.0839,
+    "pValue": 0.3333,
+    "permutations": 720,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1209,
+    "pValue": 0.2667,
+    "permutations": 720,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 10,
+    "candidatePhrases": 97,
+    "pValue": 0.1333,
+    "permutations": 720,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.0583,
+    "pValue": 0.6278,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 9,
+   "verseCount": 129,
+   "sections": 11,
+   "concentricParallelism": {
+    "observed": 0.1073,
+    "pValue": 0.6142,
+    "permutations": 10000,
+    "exact": false
+   },
+   "inclusio": {
+    "observed": 0.0828,
+    "pValue": 0.7009,
+    "permutations": 10000,
+    "exact": false
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 245,
+    "pValue": 1,
+    "permutations": 10000,
+    "exact": false
+   },
+   "lengthSymmetry": {
+    "observed": -0.0272,
+    "pValue": 0.5773,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 10,
+   "verseCount": 109,
+   "sections": 9,
+   "concentricParallelism": {
+    "observed": 0.1437,
+    "pValue": 0.133,
+    "permutations": 10000,
+    "exact": false
+   },
+   "inclusio": {
+    "observed": 0.316,
+    "pValue": 0.0278,
+    "permutations": 10000,
+    "exact": false
+   },
+   "formulaBookending": {
+    "observed": 15,
+    "candidatePhrases": 92,
+    "pValue": 0.0278,
+    "permutations": 10000,
+    "exact": false
+   },
+   "lengthSymmetry": {
+    "observed": 0.0494,
+    "pValue": 0.3559,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 11,
+   "verseCount": 123,
+   "sections": 10,
+   "concentricParallelism": {
+    "observed": 0.1135,
+    "pValue": 0.3403,
+    "permutations": 10000,
+    "exact": false
+   },
+   "inclusio": {
+    "observed": 0.2618,
+    "pValue": 0.0434,
+    "permutations": 10000,
+    "exact": false
+   },
+   "formulaBookending": {
+    "observed": 11,
+    "candidatePhrases": 199,
+    "pValue": 0.1764,
+    "permutations": 10000,
+    "exact": false
+   },
+   "lengthSymmetry": {
+    "observed": 0.0279,
+    "pValue": 0.4072,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 12,
+   "verseCount": 111,
+   "sections": 7,
+   "concentricParallelism": {
+    "observed": 0.1334,
+    "pValue": 0.7206,
+    "permutations": 5040,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1938,
+    "pValue": 0.2857,
+    "permutations": 5040,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 4,
+    "candidatePhrases": 157,
+    "pValue": 0.4762,
+    "permutations": 5040,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.2138,
+    "pValue": 0.9495,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 13,
+   "verseCount": 43,
+   "sections": 5,
+   "concentricParallelism": {
+    "observed": 0.1113,
+    "pValue": 0.2667,
+    "permutations": 120,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1429,
+    "pValue": 0.2,
+    "permutations": 120,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 54,
+    "pValue": 1,
+    "permutations": 120,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.145,
+    "pValue": 0.2388,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 14,
+   "verseCount": 52,
+   "sections": 7,
+   "concentricParallelism": {
+    "observed": 0.0854,
+    "pValue": 0.9429,
+    "permutations": 5040,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1429,
+    "pValue": 0.1905,
+    "permutations": 5040,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 13,
+    "pValue": 1,
+    "permutations": 5040,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.1414,
+    "pValue": 0.1997,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 15,
+   "verseCount": 99,
+   "sections": 6,
+   "concentricParallelism": {
+    "observed": 0.0391,
+    "pValue": 0.4,
+    "permutations": 720,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0822,
+    "pValue": 0.1333,
+    "permutations": 720,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 9,
+    "pValue": 1,
+    "permutations": 720,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.1998,
+    "pValue": 0.9248,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 16,
+   "verseCount": 128,
+   "sections": 9,
+   "concentricParallelism": {
+    "observed": 0.0713,
+    "pValue": 0.8037,
+    "permutations": 10000,
+    "exact": false
+   },
+   "inclusio": {
+    "observed": 0.0149,
+    "pValue": 0.8631,
+    "permutations": 10000,
+    "exact": false
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 138,
+    "pValue": 1,
+    "permutations": 10000,
+    "exact": false
+   },
+   "lengthSymmetry": {
+    "observed": 0.0864,
+    "pValue": 0.2271,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 17,
+   "verseCount": 111,
+   "sections": 4,
+   "concentricParallelism": {
+    "observed": 0.1523,
+    "pValue": 0.3333,
+    "permutations": 24,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.2078,
+    "pValue": 0.1667,
+    "permutations": 24,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 34,
+    "candidatePhrases": 69,
+    "pValue": 0.1667,
+    "permutations": 24,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.0119,
+    "pValue": 0.4493,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 18,
+   "verseCount": 110,
+   "sections": 8,
+   "concentricParallelism": {
+    "observed": 0.0943,
+    "pValue": 0.2667,
+    "permutations": 40320,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0378,
+    "pValue": 0.8571,
+    "permutations": 40320,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 32,
+    "pValue": 1,
+    "permutations": 40320,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.0485,
+    "pValue": 0.6099,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 19,
+   "verseCount": 98,
+   "sections": 6,
+   "concentricParallelism": {
+    "observed": 0.1016,
+    "pValue": 0.4444,
+    "permutations": 720,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1192,
+    "pValue": 0.3333,
+    "permutations": 720,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 71,
+    "pValue": 1,
+    "permutations": 720,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.0814,
+    "pValue": 0.682,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 20,
+   "verseCount": 135,
+   "sections": 6,
+   "concentricParallelism": {
+    "observed": 0.0797,
+    "pValue": 0.4667,
+    "permutations": 720,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1636,
+    "pValue": 0.2,
+    "permutations": 720,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 25,
+    "pValue": 1,
+    "permutations": 720,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.0828,
+    "pValue": 0.2395,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 21,
+   "verseCount": 112,
+   "sections": 3,
+   "concentricParallelism": {
+    "observed": 0.1095,
+    "pValue": 1,
+    "permutations": 6,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1095,
+    "pValue": 1,
+    "permutations": 6,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 23,
+    "pValue": 1,
+    "permutations": 6,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.0509,
+    "pValue": 0.614,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 22,
+   "verseCount": 78,
+   "sections": 5,
+   "concentricParallelism": {
+    "observed": 0.1093,
+    "pValue": 0.4,
+    "permutations": 120,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1779,
+    "pValue": 0.2,
+    "permutations": 120,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 6,
+    "candidatePhrases": 121,
+    "pValue": 0.2,
+    "permutations": 120,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.2551,
+    "pValue": 0.9709,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 23,
+   "verseCount": 118,
+   "sections": 6,
+   "concentricParallelism": {
+    "observed": 0.0336,
+    "pValue": 0.2667,
+    "permutations": 720,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0563,
+    "pValue": 0.2,
+    "permutations": 720,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 67,
+    "pValue": 1,
+    "permutations": 720,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.0643,
+    "pValue": 0.6421,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 24,
+   "verseCount": 64,
+   "sections": 3,
+   "concentricParallelism": {
+    "observed": 0.1228,
+    "pValue": 0.6667,
+    "permutations": 6,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1228,
+    "pValue": 0.6667,
+    "permutations": 6,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 2,
+    "candidatePhrases": 129,
+    "pValue": 1,
+    "permutations": 6,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.1261,
+    "pValue": 0.7247,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 25,
+   "verseCount": 77,
+   "sections": 5,
+   "concentricParallelism": {
+    "observed": 0.1367,
+    "pValue": 0.4,
+    "permutations": 120,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0826,
+    "pValue": 0.9,
+    "permutations": 120,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 11,
+    "pValue": 1,
+    "permutations": 120,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.111,
+    "pValue": 0.2418,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 26,
+   "verseCount": 227,
+   "sections": 5,
+   "concentricParallelism": {
+    "observed": 0.121,
+    "pValue": 0.2,
+    "permutations": 120,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.2421,
+    "pValue": 0.1,
+    "permutations": 120,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 78,
+    "candidatePhrases": 93,
+    "pValue": 0.1,
+    "permutations": 120,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.133,
+    "pValue": 0.9322,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 27,
+   "verseCount": 93,
+   "sections": 6,
+   "concentricParallelism": {
+    "observed": 0.0746,
+    "pValue": 0.7333,
+    "permutations": 720,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1277,
+    "pValue": 0.2667,
+    "permutations": 720,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 1,
+    "candidatePhrases": 29,
+    "pValue": 0.5333,
+    "permutations": 720,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.246,
+    "pValue": 0.9637,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 28,
+   "verseCount": 88,
+   "sections": 4,
+   "concentricParallelism": {
+    "observed": 0.1173,
+    "pValue": 0.3333,
+    "permutations": 24,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.2145,
+    "pValue": 0.1667,
+    "permutations": 24,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 9,
+    "candidatePhrases": 94,
+    "pValue": 0.3333,
+    "permutations": 24,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.2978,
+    "pValue": 0.9734,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 29,
+   "verseCount": 69,
+   "sections": 6,
+   "concentricParallelism": {
+    "observed": 0.0877,
+    "pValue": 0.7333,
+    "permutations": 720,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.037,
+    "pValue": 0.8667,
+    "permutations": 720,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 49,
+    "pValue": 1,
+    "permutations": 720,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.1147,
+    "pValue": 0.2526,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 30,
+   "verseCount": 60,
+   "sections": 6,
+   "concentricParallelism": {
+    "observed": 0.1258,
+    "pValue": 0.2,
+    "permutations": 720,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.2029,
+    "pValue": 0.1333,
+    "permutations": 720,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 21,
+    "candidatePhrases": 62,
+    "pValue": 0.0667,
+    "permutations": 720,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.0449,
+    "pValue": 0.5506,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 31,
+   "verseCount": 34,
+   "sections": 3,
+   "concentricParallelism": {
+    "observed": 0.1481,
+    "pValue": 0.3333,
+    "permutations": 6,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1481,
+    "pValue": 0.3333,
+    "permutations": 6,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 2,
+    "candidatePhrases": 11,
+    "pValue": 0.6667,
+    "permutations": 6,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.2508,
+    "pValue": 0.81,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 32,
+   "verseCount": 30,
+   "sections": 3,
+   "concentricParallelism": {
+    "observed": 0.0708,
+    "pValue": 0.6667,
+    "permutations": 6,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0708,
+    "pValue": 0.6667,
+    "permutations": 6,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 1,
+    "pValue": 1,
+    "permutations": 6,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.3155,
+    "pValue": 0.0882,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 33,
+   "verseCount": 73,
+   "sections": 4,
+   "concentricParallelism": {
+    "observed": 0.1719,
+    "pValue": 0.3333,
+    "permutations": 24,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1429,
+    "pValue": 0.6667,
+    "permutations": 24,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 6,
+    "candidatePhrases": 104,
+    "pValue": 0.8333,
+    "permutations": 24,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.0882,
+    "pValue": 0.2516,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 34,
+   "verseCount": 54,
+   "sections": 6,
+   "concentricParallelism": {
+    "observed": 0.1048,
+    "pValue": 0.2,
+    "permutations": 720,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0758,
+    "pValue": 0.6667,
+    "permutations": 720,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 60,
+    "pValue": 1,
+    "permutations": 720,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.4106,
+    "pValue": 0.0113,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 35,
+   "verseCount": 45,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0.1161,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1161,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 1,
+    "candidatePhrases": 10,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.08,
+    "pValue": 0.3577,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 36,
+   "verseCount": 83,
+   "sections": 5,
+   "concentricParallelism": {
+    "observed": 0.0893,
+    "pValue": 0.6667,
+    "permutations": 120,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0952,
+    "pValue": 0.5,
+    "permutations": 120,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 17,
+    "pValue": 1,
+    "permutations": 120,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.1992,
+    "pValue": 0.9046,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 37,
+   "verseCount": 182,
+   "sections": 4,
+   "concentricParallelism": {
+    "observed": 0.0365,
+    "pValue": 0.3333,
+    "permutations": 24,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.073,
+    "pValue": 0.1667,
+    "permutations": 24,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 2,
+    "candidatePhrases": 36,
+    "pValue": 0.1667,
+    "permutations": 24,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.1025,
+    "pValue": 0.8847,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 38,
+   "verseCount": 88,
+   "sections": 3,
+   "concentricParallelism": {
+    "observed": 0.0538,
+    "pValue": 0.3333,
+    "permutations": 6,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0538,
+    "pValue": 0.3333,
+    "permutations": 6,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 30,
+    "pValue": 1,
+    "permutations": 6,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.0227,
+    "pValue": 0.4964,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 39,
+   "verseCount": 75,
+   "sections": 5,
+   "concentricParallelism": {
+    "observed": 0.1668,
+    "pValue": 0.6667,
+    "permutations": 120,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.2121,
+    "pValue": 0.6,
+    "permutations": 120,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 75,
+    "pValue": 1,
+    "permutations": 120,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.2665,
+    "pValue": 0.0545,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 40,
+   "verseCount": 85,
+   "sections": 6,
+   "concentricParallelism": {
+    "observed": 0.1712,
+    "pValue": 0.4,
+    "permutations": 720,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.2083,
+    "pValue": 0.2,
+    "permutations": 720,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 8,
+    "candidatePhrases": 104,
+    "pValue": 0.2667,
+    "permutations": 720,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.1011,
+    "pValue": 0.7345,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 41,
+   "verseCount": 54,
+   "sections": 4,
+   "concentricParallelism": {
+    "observed": 0.1076,
+    "pValue": 1,
+    "permutations": 24,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1318,
+    "pValue": 0.5,
+    "permutations": 24,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 14,
+    "pValue": 1,
+    "permutations": 24,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.171,
+    "pValue": 0.1597,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 42,
+   "verseCount": 53,
+   "sections": 5,
+   "concentricParallelism": {
+    "observed": 0.1126,
+    "pValue": 0.1333,
+    "permutations": 120,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.16,
+    "pValue": 0.1,
+    "permutations": 120,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 15,
+    "candidatePhrases": 46,
+    "pValue": 0.1,
+    "permutations": 120,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.4322,
+    "pValue": 0.9907,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 43,
+   "verseCount": 89,
+   "sections": 6,
+   "concentricParallelism": {
+    "observed": 0.056,
+    "pValue": 0.8,
+    "permutations": 720,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1241,
+    "pValue": 0.3333,
+    "permutations": 720,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 1,
+    "candidatePhrases": 21,
+    "pValue": 0.1333,
+    "permutations": 720,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.0363,
+    "pValue": 0.3941,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 44,
+   "verseCount": 59,
+   "sections": 3,
+   "concentricParallelism": {
+    "observed": 0.0982,
+    "pValue": 0.3333,
+    "permutations": 6,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0982,
+    "pValue": 0.3333,
+    "permutations": 6,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 4,
+    "candidatePhrases": 4,
+    "pValue": 0.3333,
+    "permutations": 6,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.091,
+    "pValue": 0.3208,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 45,
+   "verseCount": 37,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0.2143,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.2143,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 1,
+    "candidatePhrases": 5,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.2338,
+    "pValue": 0.1616,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 46,
+   "verseCount": 35,
+   "sections": 4,
+   "concentricParallelism": {
+    "observed": 0.1223,
+    "pValue": 0.3333,
+    "permutations": 24,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1739,
+    "pValue": 0.1667,
+    "permutations": 24,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 2,
+    "candidatePhrases": 17,
+    "pValue": 0.1667,
+    "permutations": 24,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.0228,
+    "pValue": 0.4667,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 47,
+   "verseCount": 38,
+   "sections": 3,
+   "concentricParallelism": {
+    "observed": 0.049,
+    "pValue": 1,
+    "permutations": 6,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.049,
+    "pValue": 1,
+    "permutations": 6,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 1,
+    "candidatePhrases": 37,
+    "pValue": 0.6667,
+    "permutations": 6,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.2917,
+    "pValue": 0.9044,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 48,
+   "verseCount": 29,
+   "sections": 4,
+   "concentricParallelism": {
+    "observed": 0.1462,
+    "pValue": 1,
+    "permutations": 24,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1089,
+    "pValue": 0.8333,
+    "permutations": 24,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 44,
+    "pValue": 1,
+    "permutations": 24,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.3454,
+    "pValue": 0.9145,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 49,
+   "verseCount": 18,
+   "sections": 3,
+   "concentricParallelism": {
+    "observed": 0.098,
+    "pValue": 0.6667,
+    "permutations": 6,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.098,
+    "pValue": 0.6667,
+    "permutations": 6,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 1,
+    "candidatePhrases": 10,
+    "pValue": 0.6667,
+    "permutations": 6,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.3636,
+    "pValue": 0.8077,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 50,
+   "verseCount": 45,
+   "sections": 4,
+   "concentricParallelism": {
+    "observed": 0.0733,
+    "pValue": 1,
+    "permutations": 24,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0794,
+    "pValue": 0.6667,
+    "permutations": 24,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 0,
+    "pValue": 1,
+    "permutations": 24,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.2367,
+    "pValue": 0.8659,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 51,
+   "verseCount": 60,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": -0.4132,
+    "pValue": 0.9866,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 52,
+   "verseCount": 49,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0.0394,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0394,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 0,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.1539,
+    "pValue": 0.7826,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 53,
+   "verseCount": 62,
+   "sections": 4,
+   "concentricParallelism": {
+    "observed": 0.102,
+    "pValue": 0.3333,
+    "permutations": 24,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.13,
+    "pValue": 0.1667,
+    "permutations": 24,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 4,
+    "pValue": 1,
+    "permutations": 24,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.2482,
+    "pValue": 0.0818,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 54,
+   "verseCount": 55,
+   "sections": 4,
+   "concentricParallelism": {
+    "observed": 0.1292,
+    "pValue": 0.3333,
+    "permutations": 24,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1538,
+    "pValue": 0.1667,
+    "permutations": 24,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 24,
+    "pValue": 1,
+    "permutations": 24,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.1882,
+    "pValue": 0.1624,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 55,
+   "verseCount": 78,
+   "sections": 7,
+   "concentricParallelism": {
+    "observed": 0.0838,
+    "pValue": 0.3048,
+    "permutations": 5040,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0545,
+    "pValue": 0.4762,
+    "permutations": 5040,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 17,
+    "pValue": 1,
+    "permutations": 5040,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.1131,
+    "pValue": 0.7732,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 56,
+   "verseCount": 96,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": -0.0866,
+    "pValue": 0.6878,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 57,
+   "verseCount": 29,
+   "sections": 4,
+   "concentricParallelism": {
+    "observed": 0.1176,
+    "pValue": 0.6667,
+    "permutations": 24,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0633,
+    "pValue": 1,
+    "permutations": 24,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 45,
+    "pValue": 1,
+    "permutations": 24,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.0778,
+    "pValue": 0.6051,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 58,
+   "verseCount": 22,
+   "sections": 4,
+   "concentricParallelism": {
+    "observed": 0.0831,
+    "pValue": 0.6667,
+    "permutations": 24,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0805,
+    "pValue": 0.8333,
+    "permutations": 24,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 7,
+    "candidatePhrases": 45,
+    "pValue": 0.1667,
+    "permutations": 24,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.4222,
+    "pValue": 0.9366,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 59,
+   "verseCount": 24,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0.0728,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0728,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 5,
+    "candidatePhrases": 39,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.0298,
+    "pValue": 0.372,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 60,
+   "verseCount": 13,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0.1287,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1287,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 4,
+    "candidatePhrases": 18,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.4531,
+    "pValue": 0.1452,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 61,
+   "verseCount": 14,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0.0132,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0132,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 1,
+    "candidatePhrases": 12,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.2357,
+    "pValue": 0.6196,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 62,
+   "verseCount": 11,
+   "sections": 3,
+   "concentricParallelism": {
+    "observed": 0.0444,
+    "pValue": 0.3333,
+    "permutations": 6,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0444,
+    "pValue": 0.3333,
+    "permutations": 6,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 0,
+    "pValue": 1,
+    "permutations": 6,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.8514,
+    "pValue": 0.9895,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 63,
+   "verseCount": 11,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0.0448,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0448,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 1,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.4029,
+    "pValue": 0.8084,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 64,
+   "verseCount": 18,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0.0778,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0778,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 2,
+    "candidatePhrases": 5,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.499,
+    "pValue": 0.9207,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 65,
+   "verseCount": 12,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0.1413,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1413,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 3,
+    "candidatePhrases": 10,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.2637,
+    "pValue": 0.2042,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 66,
+   "verseCount": 12,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0.1,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 4,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.1132,
+    "pValue": 0.4952,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 67,
+   "verseCount": 30,
+   "sections": 3,
+   "concentricParallelism": {
+    "observed": 0.0727,
+    "pValue": 0.3333,
+    "permutations": 6,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0727,
+    "pValue": 0.3333,
+    "permutations": 6,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 6,
+    "pValue": 1,
+    "permutations": 6,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.1985,
+    "pValue": 0.1822,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 68,
+   "verseCount": 52,
+   "sections": 3,
+   "concentricParallelism": {
+    "observed": 0.0763,
+    "pValue": 0.3333,
+    "permutations": 6,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0763,
+    "pValue": 0.3333,
+    "permutations": 6,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 0,
+    "pValue": 1,
+    "permutations": 6,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.3098,
+    "pValue": 0.9356,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 69,
+   "verseCount": 52,
+   "sections": 3,
+   "concentricParallelism": {
+    "observed": 0.0417,
+    "pValue": 0.6667,
+    "permutations": 6,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0417,
+    "pValue": 0.6667,
+    "permutations": 6,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 1,
+    "pValue": 1,
+    "permutations": 6,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.0569,
+    "pValue": 0.3251,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 70,
+   "verseCount": 44,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": -0.0524,
+    "pValue": 0.5353,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 71,
+   "verseCount": 28,
+   "sections": 3,
+   "concentricParallelism": {
+    "observed": 0.0676,
+    "pValue": 0.3333,
+    "permutations": 6,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0676,
+    "pValue": 0.3333,
+    "permutations": 6,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 3,
+    "pValue": 1,
+    "permutations": 6,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.1231,
+    "pValue": 0.2734,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 72,
+   "verseCount": 28,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0.0745,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0745,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 3,
+    "candidatePhrases": 3,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.0278,
+    "pValue": 0.5011,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 73,
+   "verseCount": 20,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": -0.18,
+    "pValue": 0.9818,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 74,
+   "verseCount": 56,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": -0.0896,
+    "pValue": 0.9886,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 75,
+   "verseCount": 40,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0.0571,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0571,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 2,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.1791,
+    "pValue": 0.2113,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 76,
+   "verseCount": 31,
+   "sections": 3,
+   "concentricParallelism": {
+    "observed": 0.14,
+    "pValue": 0.3333,
+    "permutations": 6,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.14,
+    "pValue": 0.3333,
+    "permutations": 6,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 1,
+    "candidatePhrases": 1,
+    "pValue": 0.3333,
+    "permutations": 6,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.3915,
+    "pValue": 0.0613,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 77,
+   "verseCount": 50,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": -0.2409,
+    "pValue": 0.8682,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 78,
+   "verseCount": 40,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": -0.1631,
+    "pValue": 0.748,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 79,
+   "verseCount": 46,
+   "sections": 4,
+   "concentricParallelism": {
+    "observed": 0.0253,
+    "pValue": 1,
+    "permutations": 24,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0506,
+    "pValue": 0.5,
+    "permutations": 24,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 0,
+    "pValue": 1,
+    "permutations": 24,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.4291,
+    "pValue": 0.9849,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 80,
+   "verseCount": 42,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0.0429,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0429,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 0,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.0279,
+    "pValue": 0.4739,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 81,
+   "verseCount": 29,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": -0.2657,
+    "pValue": 0.8868,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 82,
+   "verseCount": 19,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": -0.4443,
+    "pValue": 0.947,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 83,
+   "verseCount": 36,
+   "sections": 4,
+   "concentricParallelism": {
+    "observed": 0.0094,
+    "pValue": 1,
+    "permutations": 24,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0189,
+    "pValue": 0.6667,
+    "permutations": 24,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 3,
+    "pValue": 1,
+    "permutations": 24,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.3915,
+    "pValue": 0.9451,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 84,
+   "verseCount": 25,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 3,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.3723,
+    "pValue": 0.9255,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 85,
+   "verseCount": 22,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": -0.1587,
+    "pValue": 0.5598,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 86,
+   "verseCount": 17,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": -0.161,
+    "pValue": 0.6854,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 87,
+   "verseCount": 19,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": 0.4464,
+    "pValue": 0.1037,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 88,
+   "verseCount": 26,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": 0.0134,
+    "pValue": 0.4408,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 89,
+   "verseCount": 30,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": 0.7291,
+    "pValue": 0.0011,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 90,
+   "verseCount": 20,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 0,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.3548,
+    "pValue": 0.1058,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 91,
+   "verseCount": 15,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": -0.1824,
+    "pValue": 0.6083,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 92,
+   "verseCount": 21,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": 0.1923,
+    "pValue": 0.2537,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 93,
+   "verseCount": 11,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": -0.2754,
+    "pValue": 0.7808,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 94,
+   "verseCount": 8,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": -0.6,
+    "pValue": 1,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 95,
+   "verseCount": 8,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": -0.28,
+    "pValue": 0.6583,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 96,
+   "verseCount": 19,
+   "sections": 3,
+   "concentricParallelism": {
+    "observed": 0,
+    "pValue": 1,
+    "permutations": 6,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0,
+    "pValue": 1,
+    "permutations": 6,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 0,
+    "pValue": 1,
+    "permutations": 6,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.4386,
+    "pValue": 0.0859,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 97,
+   "verseCount": 5,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": null
+  },
+  {
+   "surah": 98,
+   "verseCount": 8,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0.1053,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.1053,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 12,
+    "candidatePhrases": 12,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.1858,
+    "pValue": 0.4926,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 99,
+   "verseCount": 8,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": -0.5,
+    "pValue": 0.8258,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 100,
+   "verseCount": 11,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": -0.7742,
+    "pValue": 0.9997,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 101,
+   "verseCount": 11,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0.0556,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.0556,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 1,
+    "candidatePhrases": 1,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": 0.382,
+    "pValue": 0.2518,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 102,
+   "verseCount": 8,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": -0.2,
+    "pValue": 0.595,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 103,
+   "verseCount": 3,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": null
+  },
+  {
+   "surah": 104,
+   "verseCount": 9,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 0,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.5,
+    "pValue": 1,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 105,
+   "verseCount": 5,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": null
+  },
+  {
+   "surah": 106,
+   "verseCount": 4,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": null
+  },
+  {
+   "surah": 107,
+   "verseCount": 7,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": 0.4853,
+    "pValue": 0.2673,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 108,
+   "verseCount": 3,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": null
+  },
+  {
+   "surah": 109,
+   "verseCount": 6,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": {
+    "observed": 0.4,
+    "pValue": 0.3968,
+    "permutations": 10000
+   }
+  },
+  {
+   "surah": 110,
+   "verseCount": 3,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": null
+  },
+  {
+   "surah": 111,
+   "verseCount": 5,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": null
+  },
+  {
+   "surah": 112,
+   "verseCount": 4,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": null
+  },
+  {
+   "surah": 113,
+   "verseCount": 5,
+   "sections": 1,
+   "concentricParallelism": null,
+   "inclusio": null,
+   "formulaBookending": null,
+   "lengthSymmetry": null
+  },
+  {
+   "surah": 114,
+   "verseCount": 6,
+   "sections": 2,
+   "concentricParallelism": {
+    "observed": 0.125,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "inclusio": {
+    "observed": 0.125,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "formulaBookending": {
+    "observed": 0,
+    "candidatePhrases": 0,
+    "pValue": 1,
+    "permutations": 2,
+    "exact": true
+   },
+   "lengthSymmetry": {
+    "observed": -0.9091,
+    "pValue": 1,
+    "permutations": 10000
+   }
+  }
+ ]
+}

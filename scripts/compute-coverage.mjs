@@ -457,6 +457,35 @@ const ringAnalyses = {
 if (ringAnalyses.transcribed.length + ringAnalyses.wanted.length !== 114)
   throw new Error("ring analysis sets do not partition the 114 surahs");
 
+// A second, separate computed layer: data/structure-tests.json asks
+// whether the mechanically segmented sections in data/structure/{s}.json
+// show block-level mirror symmetry (concentric pairing, inclusio,
+// formula bookending, verse-length symmetry), pooled into one
+// corpus-wide FDR correction. Kept apart from ringAnalyses above for the
+// same reason the point-pair proxyTest is: it is a computed mechanical
+// property, not a transcribed literary outline, and conflating the two
+// would misrepresent what either one is.
+const structureTests = JSON.parse(
+  readFileSync(join(ROOT, "data/structure-tests.json"), "utf8"),
+);
+const structureTestsSummary = {
+  _method:
+    "Summary of data/structure-tests.json: four mechanical block-symmetry " +
+    "tests over the sections in data/structure/{s}.json, corrected jointly " +
+    "across all candidates. Its own _scope explains what a survivor would " +
+    "and would not mean; see that file for the per-surah breakdown.",
+  totalCandidates: structureTests.totalCandidates,
+  fdrSurvivors: structureTests.fdrSurvivors,
+  bonferroniSurvivors: structureTests.bonferroniSurvivors,
+  surahsWithClosestMiss: [
+    ...new Set(
+      Object.values(structureTests.closestMisses)
+        .flat()
+        .map((c) => c.surah),
+    ),
+  ].sort((a, b) => a - b),
+};
+
 const report = {
   _script: "scripts/compute-coverage.mjs",
   _method:
@@ -472,6 +501,7 @@ const report = {
   countingRuleSensitivity,
   khanOutlines,
   ringAnalyses,
+  structureTests: structureTestsSummary,
   sourceRegistry,
   sourceRegistryBlockers: blockers,
 };
