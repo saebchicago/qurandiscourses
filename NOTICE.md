@@ -150,8 +150,9 @@ data content: `association/`, `centrality/`, `cooccurrence/`,
 `structure/`, `discursive-pivots.json`, `formula-summary.json`,
 `formulas-root.json`, `formulas-surface.json`, `numbers.json`,
 `rhetorical-features.json`, `rhyme-summary.json`, `roots-index.json`,
-`roots-list.json`, `surah-profiles.json`, `symmetry-test.json`,
-`theme-surah-index.json`, `themes.json`, `word-index.json`. Each
+`roots-list.json`, `surah-profiles.json`, `structure-tests.json`,
+`symmetry-test.json`, `theme-surah-index.json`, `themes.json`,
+`word-index.json`. Each
 generator script under
 `scripts/` names its inputs in its header. Two of these additionally
 draw on other inputs: `data/coverage/report.json` includes file-count
