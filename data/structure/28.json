@@ -1,0 +1,74 @@
+{
+ "_generated": "build-structure.mjs",
+ "_method": "Lexical-cohesion depth scoring (Hearst 1997 TextTiling, adapted to verses): Jaccard similarity between 2-verse content-root windows on each side of every candidate boundary, converted to a local depth score, then an exact dynamic-programming optimal partition selects boundaries (minimum 3 verses apart) whose depth clears this surah's own mean plus 0.5 * sqrt(2 * ln(verseCount)) standard deviations. Content roots exclude corpus-wide frequency > 700 (build-cooccurrence.mjs's rule). Four further signals (rhyme-family change, verse-length delta, local-refrain onset, discursive-pivot marker) are reported per boundary as corroborating evidence; none of them drives selection.",
+ "_scope": "A computed vocabulary-cohesion boundary, nothing more. Not a literary section, rhetorical division, or evidence for or against ring composition; not attributed to any scholar. A surah with no boundary above its own threshold gets one section, reported the same as every other result.",
+ "surah": 28,
+ "verseCount": 88,
+ "sections": [
+  {
+   "index": 1,
+   "fromVerse": 1,
+   "toVerse": 65,
+   "verseCount": 65
+  },
+  {
+   "index": 2,
+   "fromVerse": 66,
+   "toVerse": 68,
+   "verseCount": 3
+  },
+  {
+   "index": 3,
+   "fromVerse": 69,
+   "toVerse": 75,
+   "verseCount": 7
+  },
+  {
+   "index": 4,
+   "fromVerse": 76,
+   "toVerse": 88,
+   "verseCount": 13
+  }
+ ],
+ "boundaries": [
+  {
+   "beforeVerse": 66,
+   "depthScore": 0.5779,
+   "threshold": 0.3508,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": 1,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 69,
+   "depthScore": 0.5779,
+   "threshold": 0.3508,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": -7,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 76,
+   "depthScore": 0.4747,
+   "threshold": 0.3508,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": 12,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  }
+ ],
+ "_candidateSummary": {
+  "totalCandidates": 87,
+  "meanDepth": 0.1154,
+  "stdDepth": 0.1573,
+  "threshold": 0.3508
+ }
+}

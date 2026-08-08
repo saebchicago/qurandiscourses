@@ -1,0 +1,57 @@
+{
+ "_generated": "build-structure.mjs",
+ "_method": "Lexical-cohesion depth scoring (Hearst 1997 TextTiling, adapted to verses): Jaccard similarity between 2-verse content-root windows on each side of every candidate boundary, converted to a local depth score, then an exact dynamic-programming optimal partition selects boundaries (minimum 3 verses apart) whose depth clears this surah's own mean plus 0.5 * sqrt(2 * ln(verseCount)) standard deviations. Content roots exclude corpus-wide frequency > 700 (build-cooccurrence.mjs's rule). Four further signals (rhyme-family change, verse-length delta, local-refrain onset, discursive-pivot marker) are reported per boundary as corroborating evidence; none of them drives selection.",
+ "_scope": "A computed vocabulary-cohesion boundary, nothing more. Not a literary section, rhetorical division, or evidence for or against ring composition; not attributed to any scholar. A surah with no boundary above its own threshold gets one section, reported the same as every other result.",
+ "surah": 62,
+ "verseCount": 11,
+ "sections": [
+  {
+   "index": 1,
+   "fromVerse": 1,
+   "toVerse": 4,
+   "verseCount": 4
+  },
+  {
+   "index": 2,
+   "fromVerse": 5,
+   "toVerse": 8,
+   "verseCount": 4
+  },
+  {
+   "index": 3,
+   "fromVerse": 9,
+   "toVerse": 11,
+   "verseCount": 3
+  }
+ ],
+ "boundaries": [
+  {
+   "beforeVerse": 5,
+   "depthScore": 0.2124,
+   "threshold": 0.1503,
+   "corroboration": {
+    "rhymeShift": true,
+    "lengthJump": 13,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 9,
+   "depthScore": 0.2009,
+   "threshold": 0.1503,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": 3,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  }
+ ],
+ "_candidateSummary": {
+  "totalCandidates": 10,
+  "meanDepth": 0.069,
+  "stdDepth": 0.0742,
+  "threshold": 0.1503
+ }
+}
