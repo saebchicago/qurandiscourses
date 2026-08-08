@@ -402,6 +402,11 @@
         var parts = juzParts(j);
         body.innerHTML =
           '<h3 class="qd-picker-group">Juz ' + j.juz + "</h3>" +
+          // The whole juz in one go, above the per-surah breakdown:
+          // juzParts() has always computed the full span and the UI
+          // only ever let a reader keep one part of it.
+          '<p class="qd-juz-whole"><a class="button btn-primary" href="/read?j=' +
+          j.juz + '">Read all of juz ' + j.juz + "</a></p>" +
           '<div class="qd-surah-list">' +
           parts
             .map(function (p) {

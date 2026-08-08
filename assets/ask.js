@@ -128,7 +128,9 @@
         const j = JUZ.find((x) => x.juz === n);
         if (j)
           return {
-            route: `/read?s=${j.startSurah}&a=${j.startAyah}`,
+            // The whole juz, not its opening verse. 28 of the 30 cross a
+            // surah boundary, which is exactly why ?j= exists.
+            route: `/read?j=${n}`,
             type: "juz",
             match: `Juz ${n}`,
           };

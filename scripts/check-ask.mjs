@@ -79,6 +79,22 @@ if (!Array.isArray(routes.juz) || routes.juz.length !== 30) {
       failures.push(
         `juz[${j.juz}]: verse ${j.startAyah} is outside surah ${j.startSurah} (${m.versesCount} verses)`,
       );
+    // The END boundaries decide where a whole-juz read stops. A truncated
+    // or wrong end is invisible in the browser: the page renders, just
+    // short. 28 of the 30 juz cross a surah, so the end is usually in a
+    // different surah than the start.
+    if (src.endSurah !== j.endSurah || src.endAyah !== j.endAyah)
+      failures.push(
+        `juz[${j.juz}]: ends at ${j.endSurah}:${j.endAyah}, data/juz.json says ${src.endSurah}:${src.endAyah}`,
+      );
+    const em = surahMeta[String(j.endSurah)];
+    if (!em) failures.push(`juz[${j.juz}]: end surah ${j.endSurah} is not 1-114`);
+    else if (j.endAyah < 1 || j.endAyah > em.versesCount)
+      failures.push(
+        `juz[${j.juz}]: verse ${j.endAyah} is outside surah ${j.endSurah} (${em.versesCount} verses)`,
+      );
+    if (j.endSurah < j.startSurah)
+      failures.push(`juz[${j.juz}]: ends in surah ${j.endSurah}, before it starts in ${j.startSurah}`);
   }
 }
 
@@ -94,6 +110,23 @@ for (const table of ["themes", "pages", "glossary"]) {
 }
 if (!/"juz":\s*\[/.test(generated))
   failures.push("assets/ask-routes.js: no juz table — rerun build-ask-routes");
+
+// A juz link must address the juz. Pointing at ?s=&a= reads one verse of
+// a span that usually crosses surahs, which is what every juz surface on
+// the site used to do.
+const index = read("data/search-index.json");
+for (const d of index.docs.filter((d) => d.k === "juz")) {
+  if (!/^\/read\?j=\d{1,2}$/.test(d.u))
+    failures.push(`search index: juz doc "${d.t}" points at ${d.u}, want /read?j=N`);
+}
+const navHtml = readFileSync(join(ROOT, "navigate.html"), "utf8");
+const juzCells = [...navHtml.matchAll(/class="juz-cell" href="([^"]+)"/g)].map((m) => m[1]);
+if (juzCells.length !== 30)
+  failures.push(`navigate.html: ${juzCells.length} juz cells (want 30)`);
+for (const href of juzCells) {
+  if (!/^\/read\?j=\d{1,2}$/.test(href))
+    failures.push(`navigate.html: juz cell links to ${href}, want /read?j=N`);
+}
 
 // The passage panel is FAIL-OPEN in exactly the way the per-page CSP
 // is: a page can carry the Ask box or the search box, look completely

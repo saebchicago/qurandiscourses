@@ -1051,9 +1051,9 @@ if (runCheck("askcorpus") && !PAGE_FILTER) {
     { q: "surah 36", route: "/read?s=36&a=1-83" },
     { q: "chapter 2", route: "/read?s=2&a=1-286" },
     { q: "36", route: "/read?s=36&a=1-83" },
-    { q: "juz 5", route: "/read?s=4&a=24" },
-    { q: "para 3", route: "/read?s=2&a=253" },
-    { q: "sipara 30", route: "/read?s=78&a=1" },
+    { q: "juz 5", route: "/read?j=5" },
+    { q: "para 3", route: "/read?j=3" },
+    { q: "sipara 30", route: "/read?j=30" },
     // Surah names, Latin and Arabic, exact and one edit away
     { q: "Baqarah", route: "/read?s=2&a=1-286" },
     { q: "al-Kahf", route: "/read?s=18&a=1-110" },

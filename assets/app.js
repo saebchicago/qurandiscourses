@@ -524,6 +524,44 @@
     return qdMarkEditionMismatches(data, editions);
   };
 
+  // A juz is the one division the surah endpoint cannot express: 28 of
+  // the 30 cross a surah boundary. alquran.cloud has no MULTI-edition
+  // juz endpoint (verified live: /v1/juz/N/editions/a,b is a 404), so
+  // this fans out one request PER EDITION and reshapes the result to
+  // look exactly like qdFetchSurah's, which is what every caller
+  // already knows how to read. Cost is one request per edition no
+  // matter how many surahs the juz spans, so juz 30 (37 surahs) is as
+  // cheap as juz 2 (one). scripts/check-juz-endpoint.mjs guards the
+  // contract this depends on.
+  window.qdFetchJuz = async function (juz) {
+    const editions = editionList();
+    const parts = await Promise.all(
+      editions.map((ed) =>
+        apiCachedFetch(`https://api.alquran.cloud/v1/juz/${juz}/${ed}`).then(
+          (d) => ({ edition: ed, payload: d }),
+          () => ({ edition: ed, payload: null }),
+        ),
+      ),
+    );
+    // Shape: one entry per edition, each carrying its own ayahs, the
+    // same array qdFetchSurah returns. Editions that failed are dropped
+    // rather than faked; the Arabic is first in editionList, so a
+    // partial result still renders the text.
+    // qdMarkEditionMismatches pairs data[i] with requested[i] by
+    // POSITION, so the surviving editions must be passed, not the
+    // original list — otherwise one dropped edition shifts every
+    // remaining comparison and reports mismatches that do not exist.
+    const kept = parts.filter((p) => p.payload && p.payload.ayahs);
+    const data = kept.map((p) => ({
+      edition: p.payload.edition || { identifier: p.edition },
+      ayahs: p.payload.ayahs,
+    }));
+    return qdMarkEditionMismatches(
+      data,
+      kept.map((p) => p.edition),
+    );
+  };
+
   const TOOLTIPS = {
     "depth-simple":
       "Shows verse text, word-by-word meanings, translations, and audio. No morphology tables or annotations.",
