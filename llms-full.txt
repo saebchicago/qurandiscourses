@@ -2465,11 +2465,15 @@ Khan's.
 
 Open the same surah's Dossier .
 Its Structure section shows the site's own computed discursive
-pivots, rhetorical features, and ring-composition test for this
-exact surah; its Rhyme and Formulas sections show the
-verse-ending pattern and recurring-phrase data. Not every
-mechanical detector finds something in every surah — an empty
-section is itself a datum, not a gap.
+pivots and rhetorical features for this exact surah; its Rhyme
+and Formulas sections show the verse-ending pattern and
+recurring-phrase data. The ring-composition proxy is a
+corpus-wide test with no surviving result in any surah, so the
+Dossier reports it as no result rather than showing one; read
+the test itself on
+Patterns . Not every
+mechanical detector finds something in every surah, and an
+empty section is itself a datum, not a gap.
 
 Follow whichever signal caught your eye to its full method and
 corpus-wide result on Patterns .
@@ -2631,6 +2635,17 @@ Where a figure or claim comes from: the named source, edition,
 and method it can be traced to. On this site every research
 claim carries its provenance — a citation you can follow and a
 badge stating how far it has been checked.
+
+Ring composition
+
+A structure in which a text's opening and closing mirror each
+other around a centre (A-B-C-B-A), so the middle carries the
+weight. Documented in the Qur'an by Cuypers, Farrin and others.
+This site names the phenomenon but asserts no specific ring
+outline for any surah: doing so means transcribing a published,
+page-cited analysis, not computing one. See
+Patterns for the one
+mechanical proxy the site did test, and its null result.
 
 Root
 
@@ -3761,6 +3776,27 @@ CONTRIBUTING.md , or submitting your own structural hypothesis for it, which
 needs no book at all.
 
 Loading the outline queue…
+
+### Wanted: ring and structural analyses
+
+Ring composition, where a surah's opening and closing mirror
+each other around a centre, is documented in the scholarly
+literature. This site names the phenomenon and asserts no ring
+outline for any surah, because a real one has to be
+transcribed from a published, page-cited analysis, never
+computed. Inventing verse ranges under a scholar's name would
+misattribute work they did not do, so the count below is zero
+and stays zero until someone brings a citation.
+
+Claiming one means naming the scholar, the volume and the page,
+and giving the verse ranges exactly as published. Cuypers,
+Farrin and Islahi are the obvious starting points. The
+Patterns page carries
+the one narrow mechanical proxy the site did test corpus-wide,
+and its null result, which says nothing either way about that
+literature.
+
+Loading the structural queue…
 
 ### Source registry
 
@@ -5320,6 +5356,7 @@ pending: A claim awaiting triangulation. Useful as a working figure but not yet 
 period-distribution: How a word or root's occurrences distribute across the Meccan and Medinan revelation periods, based on a chosen chronology such as the Cairo 1924 edition or Noldeke-Schwally.
 pmi: Pointwise mutual information: how much more often two words appear together than chance would predict. Rare, tightly paired words score high; very frequent words score low even when they co-occur often.
 provenance: Where a figure or claim comes from: the named source, edition, and method it can be traced to. Every research claim on this site carries a citation you can follow and a badge stating how far it has been checked.
+ring-composition: A structure in which a text's opening and closing mirror each other around a centre (A-B-C-B-A), so the middle carries the weight. Documented in the Qur'an by Cuypers, Farrin and others. This site names the phenomenon but asserts no specific ring outline for any surah: doing so means transcribing a published, page-cited analysis, not computing one.
 root: The three-letter (occasionally four-letter) consonantal skeleton from which Arabic words are derived. Every noun and verb in the Qur'an fits a root into fixed morphological patterns; the same root can carry a family of related meanings.
 surah: A chapter of the Qur'an. There are 114, varying in length from 3 verses to 286.
 surface-form: A distinct written form of a word as it actually appears in the text, before it is reduced to its dictionary form. The same lemma can appear as several surface forms (singular, plural, with attached prefixes). The Qur'an has 18,993 distinct surface forms across its 77,429 word-units.

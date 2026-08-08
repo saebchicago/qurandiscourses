@@ -12,8 +12,14 @@
 (function () {
   "use strict";
 
+  // Question words are stopwords. Without that, "what is ring
+  // composition?" required a document to contain the word "what", and
+  // the only page that happened to was a learning path — so the page
+  // that actually explains ring composition was filtered out of its own
+  // topic query by the AND pass. MUST match STOP in
+  // scripts/build-search-index.mjs; check-ask compares them.
   var STOP =
-    "a an and are as at be by for from has have in is it its of on or that the this to was were will with you your not no".split(" ");
+    "a an and are as at be by for from has have in is it its of on or that the this to was were will with you your not no what how why when where who does do can if there".split(" ");
   var STOPSET = {};
   STOP.forEach(function (w) {
     STOPSET[w] = true;

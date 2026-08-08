@@ -1089,7 +1089,10 @@ if (runCheck("askcorpus") && !PAGE_FILTER) {
     { q: "mercy & forgiveness", minHits: 1 },
     { q: "mercy", kinds: ["root"] },
     { q: "creation", kinds: ["root"] },
-    { q: "what is ring composition?", minHits: 1 },
+    // Not minHits: a bare count passed while the ONE page that explains
+    // ring composition was being filtered out of its own topic query.
+    // Name the page that must answer.
+    { q: "what is ring composition?", minHits: 1, mustInclude: "/patterns" },
     { q: "how do I compare translations", minHits: 1 },
     // Out of range: a message, never a route
     { q: "115", reason: "range" },
@@ -1108,11 +1111,14 @@ if (runCheck("askcorpus") && !PAGE_FILTER) {
     return corpus.map((c) => {
       const r = window.parseAsk(c.q) || {};
       let hits = null;
+      let urls = null;
       if (r.route && r.route.indexOf("/search?q=") === 0) {
         const term = decodeURIComponent(r.route.slice("/search?q=".length));
-        hits = window.qdSearch.search(index, term).hits.map((h) => h.doc.k);
+        const found = window.qdSearch.search(index, term).hits;
+        hits = found.map((h) => h.doc.k);
+        urls = found.map((h) => h.doc.u);
       }
-      return { q: c.q, route: r.route || null, type: r.type || null, reason: r.reason || null, hits };
+      return { q: c.q, route: r.route || null, type: r.type || null, reason: r.reason || null, hits, urls };
     });
   }, CORPUS);
   await actx.close();
@@ -1145,6 +1151,10 @@ if (runCheck("askcorpus") && !PAGE_FILTER) {
         if (!got.hits.includes(k)) problems.push(`${at}: no ${k} among ${got.hits.length} hits`);
       if (want.minHits != null && got.hits.length < want.minHits)
         problems.push(`${at}: ${got.hits.length} hits, wanted >= ${want.minHits}`);
+      if (want.mustInclude && !(got.urls || []).some((u) => u.split("#")[0] === want.mustInclude))
+        problems.push(
+          `${at}: results do not include ${want.mustInclude} (got ${(got.urls || []).slice(0, 4).join(", ") || "nothing"})`,
+        );
     }
     // Universal: a /search route must never come back empty.
     if (got.hits && !got.hits.length && !want.kinds && want.minHits == null)

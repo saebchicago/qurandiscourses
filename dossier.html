@@ -856,7 +856,15 @@
               symmetry.closestMisses &&
               symmetry.closestMisses.filter((c) => c.surah === s)) ||
             [];
-          if (myClosestMisses.length) {
+          // 110 of the 114 surahs have no entry here, because the
+          // symmetry test persists only the corpus-wide top five near
+          // misses. Those 110 used to render nothing at all, which
+          // reads as a missing feature rather than what it is: a test
+          // that ran and found nothing. The site's own line is that an
+          // empty section is a datum, so say the datum.
+          if (!myClosestMisses.length) {
+            symHtml = `<div style="margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid var(--line)"><p style="margin:0;font-size:0.85rem;color:var(--muted)">Ring-composition proxy test ${NUANCED("narrow positional proxy; zero corpus-wide significant pairs")}: no result for this surah. The test ran across all 114 and zero pairs anywhere reached significance after correction, so this is the expected outcome, not a gap in coverage. Method and full result on the <a href="/patterns#ring-composition">Patterns page</a>.</p></div>`;
+          } else {
             const items = myClosestMisses
               .map(
                 (c) =>

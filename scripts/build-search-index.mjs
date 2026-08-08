@@ -50,7 +50,7 @@ const SNIPPET_CAP = 180;
 // handling). Keep the two in sync by hand; check-ask cross-checks the
 // stopword lists.
 const STOP = new Set(
-  "a an and are as at be by for from has have in is it its of on or that the this to was were will with you your not no".split(" "),
+  "a an and are as at be by for from has have in is it its of on or that the this to was were will with you your not no what how why when where who does do can if there".split(" "),
 );
 const fold = (s) =>
   s

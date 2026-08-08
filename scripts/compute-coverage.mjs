@@ -420,6 +420,43 @@ const khanOutlines = {
   wanted,
 };
 
+// ── Ring / structural analyses ───────────────────────────────────────
+// patterns.html names ring composition as documented in the literature
+// but the site asserts no ring outline for any surah, and that is a
+// deliberate limit, not an oversight: a real outline has to be
+// transcribed from a published, page-cited analysis (Cuypers, Farrin,
+// Islahi), never computed. docs/maintainer-guide.md records the reason.
+//
+// Until now that gap was silent — unlike the Khan outlines, it had no
+// coverage entry and therefore no visible queue. Zero of 114 is a
+// number worth publishing: it tells a reader exactly what the site does
+// not claim, and it tells a contributor what to bring.
+//
+// The narrow positional proxy in data/symmetry-test.json is NOT this.
+// It tested one mechanical property and found nothing corpus-wide; its
+// own _scope says a null result there says nothing about the literary
+// scholarship. Counted separately so the two are never conflated.
+const symmetry = JSON.parse(
+  readFileSync(join(ROOT, "data/symmetry-test.json"), "utf8"),
+);
+const ringAnalyses = {
+  _method:
+    "transcribed counts surahs with a published, page-cited ring/structural outline recorded in repository data. There are none: the site computes no ring structure and will not attribute an outline to a scholar who did not publish it. wanted is therefore all 114. Separately, proxyTest records the one mechanical positional test the site DID run corpus-wide (data/symmetry-test.json), whose null result is not evidence about the literary scholarship.",
+  totalSurahs: 114,
+  transcribed: [],
+  wanted: Array.from({ length: 114 }, (_, i) => i + 1),
+  proxyTest: {
+    candidatePairs: symmetry.totalCandidates,
+    fdrSurvivors: symmetry.fdrSurvivors,
+    bonferroniSurvivors: symmetry.bonferroniSurvivors,
+    surahsWithClosestMiss: [
+      ...new Set((symmetry.closestMisses || []).map((c) => c.surah)),
+    ].sort((a, b) => a - b),
+  },
+};
+if (ringAnalyses.transcribed.length + ringAnalyses.wanted.length !== 114)
+  throw new Error("ring analysis sets do not partition the 114 surahs");
+
 const report = {
   _script: "scripts/compute-coverage.mjs",
   _method:
@@ -434,6 +471,7 @@ const report = {
   qursim,
   countingRuleSensitivity,
   khanOutlines,
+  ringAnalyses,
   sourceRegistry,
   sourceRegistryBlockers: blockers,
 };
