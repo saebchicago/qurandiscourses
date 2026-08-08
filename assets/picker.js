@@ -122,6 +122,7 @@
       '<button type="button" class="qd-step" data-step="to-down" aria-label="Decrease last verse">&minus;</button>' +
       '<input type="number" id="' + uid + 'To" class="qd-range-input" inputmode="numeric" min="1" />' +
       '<button type="button" class="qd-step" data-step="to-up" aria-label="Increase last verse">+</button>' +
+      '<button type="button" class="qd-to-end" data-step="to-end">to end</button>' +
       "</div></div>" +
       '<p class="qd-range-readout" role="status" aria-live="polite"></p>' +
       "</div>";
@@ -149,6 +150,9 @@
       if (step === "from-up") fromEl.value = Number(fromEl.value) + 1;
       if (step === "to-down") toEl.value = Number(toEl.value) - 1;
       if (step === "to-up") toEl.value = Number(toEl.value) + 1;
+      // "to end" is the reason this control exists: a reader who does
+      // not know where the surah stops should not have to.
+      if (step === "to-end") toEl.value = verseCount(surah);
       paint(step.indexOf("to-") === 0 ? "to" : "from");
     });
     fromEl.addEventListener("input", function () {

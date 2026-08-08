@@ -106,6 +106,13 @@ jobs:
       - name: Check citation links
         run: node scripts/check-source-links.mjs --timeout 20000
 
+      - name: Check the juz endpoint whole-juz reading depends on
+        # Independent of the checks around it: a juz endpoint that stops
+        # returning cross-surah ayahs would shorten every juz read
+        # without erroring anywhere a reader could see.
+        if: ${{ !cancelled() }}
+        run: node scripts/check-juz-endpoint.mjs
+
       - name: Check translation edition identities
         # Runs even when citation links have rotted: the two checks are
         # independent, and a dead external link must not mask a silently

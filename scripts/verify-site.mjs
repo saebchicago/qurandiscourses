@@ -1043,24 +1043,26 @@ if (runCheck("sw") && !PAGE_FILTER) {
 // silently picking one.
 if (runCheck("askcorpus") && !PAGE_FILTER) {
   const CORPUS = [
-    // Unambiguous references
+    // Unambiguous references. A VERSE reference names a place and opens
+    // that place; a CHAPTER reference names the chapter and opens all of
+    // it, which is why these carry a range and 2:255 does not.
     { q: "2:255", route: "/read?s=2&a=255" },
     { q: "١:١", route: "/read?s=1&a=1" },
-    { q: "surah 36", route: "/read?s=36&a=1" },
-    { q: "chapter 2", route: "/read?s=2&a=1" },
-    { q: "36", route: "/read?s=36&a=1" },
+    { q: "surah 36", route: "/read?s=36&a=1-83" },
+    { q: "chapter 2", route: "/read?s=2&a=1-286" },
+    { q: "36", route: "/read?s=36&a=1-83" },
     { q: "juz 5", route: "/read?s=4&a=24" },
     { q: "para 3", route: "/read?s=2&a=253" },
     { q: "sipara 30", route: "/read?s=78&a=1" },
     // Surah names, Latin and Arabic, exact and one edit away
-    { q: "Baqarah", route: "/read?s=2&a=1" },
-    { q: "al-Kahf", route: "/read?s=18&a=1" },
-    { q: "Yasin", route: "/read?s=36&a=1" },
-    { q: "الفاتحة", route: "/read?s=1&a=1" },
-    { q: "سورة يس", route: "/read?s=36&a=1" },
-    { q: "bakarah", route: "/read?s=2&a=1" },
-    { q: "cow", route: "/read?s=2&a=1" },
-    { q: "hypocrites", route: "/read?s=63&a=1" },
+    { q: "Baqarah", route: "/read?s=2&a=1-286" },
+    { q: "al-Kahf", route: "/read?s=18&a=1-110" },
+    { q: "Yasin", route: "/read?s=36&a=1-83" },
+    { q: "الفاتحة", route: "/read?s=1&a=1-7" },
+    { q: "سورة يس", route: "/read?s=36&a=1-83" },
+    { q: "bakarah", route: "/read?s=2&a=1-286" },
+    { q: "cow", route: "/read?s=2&a=1-286" },
+    { q: "hypocrites", route: "/read?s=63&a=1-11" },
     // Roots
     { q: "r-h-m", route: "/roots?q=r-h-m" },
     { q: "k-t-b", route: "/roots?q=k-t-b" },

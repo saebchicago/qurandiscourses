@@ -195,7 +195,7 @@
                 type="text"
                 id="ayahInput"
                 value="1"
-                placeholder="e.g. 5 or 1–7"
+                placeholder="e.g. 5, 1-7, or 1-end"
                 style="width: 120px"
             /></label>
             <button class="button" id="loadBtn">Load</button>
@@ -892,12 +892,19 @@
         const rawA = document.getElementById("ayahInput").value.trim();
         const container = document.getElementById("verseContainer");
 
-        const rangeMatch = rawA.match(/^(\d+)-(\d+)$/);
+        // "1-7", "1–7" (the en-dash the placeholder has always shown and
+        // this regex used to reject), "1-" and "1-end" all parse. An
+        // open or "end" tail means the surah's last verse: a reader
+        // asking for the rest of a surah should not have to know where
+        // it stops. The downward clamp below already handles overflow,
+        // so Infinity is a safe way to say "as far as it goes".
+        const rangeMatch = rawA.match(/^(\d+)\s*[-–—]\s*(\d+|end)?$/i);
         const singleMatch = rawA.match(/^(\d+)$/);
         let ayahStart, ayahEnd;
         if (rangeMatch) {
           ayahStart = parseInt(rangeMatch[1]);
-          ayahEnd = parseInt(rangeMatch[2]);
+          const tail = rangeMatch[2];
+          ayahEnd = tail && /^\d+$/.test(tail) ? parseInt(tail) : Infinity;
         } else if (singleMatch) {
           ayahStart = parseInt(singleMatch[1]);
           ayahEnd = ayahStart;
@@ -923,6 +930,10 @@
           container.innerHTML = `<div class="card"><p>${qdEsc(surahMeta.translit)} (surah ${s}) has ${verseCount} verses — verse ${ayahStart} doesn't exist. <a href="/read?s=${s}&a=${verseCount}">Go to its last verse</a>.</p></div>`;
           return;
         }
+        // No surah dataset yet (first paint before surahs.js): an open
+        // range has nothing to resolve against, so read the one verse
+        // rather than loop forever.
+        if (!verseCount && !isFinite(ayahEnd)) ayahEnd = ayahStart;
         if (verseCount && ayahEnd > verseCount) {
           ayahEnd = verseCount;
           document.getElementById("ayahInput").value =

@@ -545,7 +545,7 @@
           })
           .map(
             (s) =>
-              `<tr><td>${s.id}</td><td><a href="/read?s=${s.id}">${s.translit}</a> <button type="button" class="profile-toggle" data-surah="${s.id}" data-name="${s.translit}" aria-expanded="false" aria-controls="surahProfilePanel">Profile ▾</button></td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${s.ar}</span></td><td><button type="button" class="verse-count-btn" data-verses="${s.id}" aria-label="Choose verses in ${s.translit}, ${s.verseCount} verses">${s.verseCount}</button></td><td>${s.cls === "m" ? "Meccan" : "Medinan"}</td><td class="study-only">${s.revOrder}</td></tr>`,
+              `<tr><td>${s.id}</td><td><a href="/read?s=${s.id}&a=1-${s.verseCount}">${s.translit}</a> <button type="button" class="profile-toggle" data-surah="${s.id}" data-name="${s.translit}" aria-expanded="false" aria-controls="surahProfilePanel">Profile ▾</button></td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${s.ar}</span></td><td><button type="button" class="verse-count-btn" data-verses="${s.id}" aria-label="Choose verses in ${s.translit}, ${s.verseCount} verses">${s.verseCount}</button></td><td>${s.cls === "m" ? "Meccan" : "Medinan"}</td><td class="study-only">${s.revOrder}</td></tr>`,
           )
           .join("");
         body.innerHTML =
@@ -628,7 +628,7 @@
             "Scatter of all 114 surahs: length in word tokens against root diversity ratio, colored by chronological period",
           filename: "surahs-length-vs-diversity.svg",
           onPointClick: (p) => {
-            location.href = `/read?s=${p.surah}&a=1`;
+            location.href = `/read?s=${p.surah}&a=1-${p.verseCount || 1}`;
           },
         });
       });
