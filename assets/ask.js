@@ -17,6 +17,18 @@
   };
   const JUZ = ROUTES.juz || [];
 
+  // Naming a chapter means the chapter, not its first line. Every route
+  // that resolves to a surah hands back the whole thing; read.html
+  // already fetches the entire surah for any multi-verse range, so this
+  // costs nothing it was not already paying. Falls back to verse 1 only
+  // if the surah dataset has not loaded.
+  function wholeSurah(id) {
+    const meta = SURAHS.find((x) => x.id === Number(id));
+    return meta
+      ? `/read?s=${id}&a=1-${meta.verseCount}`
+      : `/read?s=${id}&a=1`;
+  }
+
   function normalize(s) {
     return s
       .toLowerCase()
@@ -98,7 +110,7 @@
     if (namedSurah) {
       const s = +namedSurah[1];
       if (s >= 1 && s <= 114)
-        return { route: `/read?s=${s}&a=1`, type: "surah" };
+        return { route: wholeSurah(s), type: "surah" };
       return {
         route: null,
         reason: "range",
@@ -116,7 +128,9 @@
         const j = JUZ.find((x) => x.juz === n);
         if (j)
           return {
-            route: `/read?s=${j.startSurah}&a=${j.startAyah}`,
+            // The whole juz, not its opening verse. 28 of the 30 cross a
+            // surah boundary, which is exactly why ?j= exists.
+            route: `/read?j=${n}`,
             type: "juz",
             match: `Juz ${n}`,
           };
@@ -134,7 +148,7 @@
     if (surahNumMatch) {
       const s = +surahNumMatch[1];
       if (s >= 1 && s <= 114)
-        return { route: `/read?s=${s}&a=1`, type: "surah" };
+        return { route: wholeSurah(s), type: "surah" };
       return {
         route: null,
         reason: "range",
@@ -164,7 +178,7 @@
     const surahByName = SURAHS.find((s) => s.names.some((n) => normalize(n) === q));
     if (surahByName && !alsoConcept(q))
       return {
-        route: `/read?s=${surahByName.id}&a=1`,
+        route: wholeSurah(surahByName.id),
         type: "surah-name",
         match: surahByName.en,
       };
@@ -199,7 +213,7 @@
       );
       if (surahAr)
         return {
-          route: `/read?s=${surahAr.id}&a=1`,
+          route: wholeSurah(surahAr.id),
           type: "surah-name",
           match: surahAr.en,
         };
@@ -268,7 +282,7 @@
       );
       if (near.length === 1) {
         return {
-          route: `/read?s=${near[0].id}&a=1`,
+          route: wholeSurah(near[0].id),
           type: "surah-suggest",
           match: near[0].en,
         };

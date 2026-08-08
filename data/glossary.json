@@ -219,6 +219,18 @@
    "ddHtml": "              Where a figure or claim comes from: the named source, edition,\n              and method it can be traced to. On this site every research\n              claim carries its provenance — a citation you can follow and a\n              badge stating how far it has been checked."
   },
   {
+   "id": "ring-composition",
+   "labelHtml": "Ring composition",
+   "matchKeys": [
+    "chiasm",
+    "chiastic",
+    "concentric structure",
+    "ring composition"
+   ],
+   "def": "A structure in which a text's opening and closing mirror each other around a centre (A-B-C-B-A), so the middle carries the weight. Documented in the Qur'an by Cuypers, Farrin and others. This site names the phenomenon but asserts no specific ring outline for any surah: doing so means transcribing a published, page-cited analysis, not computing one.",
+   "ddHtml": "              A structure in which a text's opening and closing mirror each\n              other around a centre (A-B-C-B-A), so the middle carries the\n              weight. Documented in the Qur'an by Cuypers, Farrin and others.\n              This site names the phenomenon but asserts no specific ring\n              outline for any surah: doing so means transcribing a published,\n              page-cited analysis, not computing one. See\n              <a href=\"/patterns#ring-composition\">Patterns</a> for the one\n              mechanical proxy the site did test, and its null result."
+  },
+  {
    "id": "root",
    "labelHtml": "Root",
    "matchKeys": [

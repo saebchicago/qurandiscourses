@@ -44,6 +44,15 @@
         border-color: var(--accent);
         color: var(--accent);
       }
+      #surahTable thead th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background: var(--bg);
+      }
+      .surah-en {
+        color: var(--muted);
+      }
       .profile-panel-cell {
         background: var(--card);
         padding: 1rem 1.2rem 1.2rem;
@@ -95,10 +104,6 @@
         color: var(--muted);
         text-align: right;
         font-variant-numeric: tabular-nums;
-      }
-      .table-scroll {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
       }
       th .th-sort {
         background: none;
@@ -247,83 +252,23 @@
       <section>
         <h2>Navigate</h2>
         <p class="lede">
-          All 114 surahs. Filter by chronology, classification, or length. Click
-          any surah to read it — or jump in by <a href="#juz">juz (para)</a>.
+          All 114 surahs, with their English meanings and lengths. Filter by
+          name, meaning, classification, or length, and open any surah whole.
+          Jump in by <a href="#juz">juz (para)</a> at the foot of the page.
         </p>
-        <div class="card" id="juz">
-          <h3>
-            Browse by Juz (para)
-            <span
-              class="badge nuanced"
-              data-source-ids="tanzil"
-              aria-label="Nuanced"
-              tabindex="0"
-              title="Nuanced · traditional reading division (Tanzil standard)"
-              >~</span
-            >
-          </h3>
-          <p style="font-size: 0.9rem; color: var(--muted); margin: 0.2rem 0 0.8rem">
-            The Qur'an's 30 traditional parts (<em>ajzāʾ</em>) — reading one a
-            day completes it in a month. A juz can begin in the middle of a
-            surah. Click one to start reading from its first verse.
-          </p>
-          <div class="juz-grid" id="juzGrid">
-            <!-- static:juz-grid -->
-            <a class="juz-cell" href="/read?s=1&amp;a=1"><span class="juz-n">Juz 1</span><span class="juz-range">al-Fatihah 1:1 → 2:141</span></a>
-            <a class="juz-cell" href="/read?s=2&amp;a=142"><span class="juz-n">Juz 2</span><span class="juz-range">al-Baqarah 2:142–252</span></a>
-            <a class="juz-cell" href="/read?s=2&amp;a=253"><span class="juz-n">Juz 3</span><span class="juz-range">al-Baqarah 2:253 → 3:91</span></a>
-            <a class="juz-cell" href="/read?s=3&amp;a=92"><span class="juz-n">Juz 4</span><span class="juz-range">Al ʿImran 3:92 → 4:23</span></a>
-            <a class="juz-cell" href="/read?s=4&amp;a=24"><span class="juz-n">Juz 5</span><span class="juz-range">al-Nisa' 4:24–147</span></a>
-            <a class="juz-cell" href="/read?s=4&amp;a=148"><span class="juz-n">Juz 6</span><span class="juz-range">al-Nisa' 4:148 → 5:81</span></a>
-            <a class="juz-cell" href="/read?s=5&amp;a=82"><span class="juz-n">Juz 7</span><span class="juz-range">al-Ma'idah 5:82 → 6:110</span></a>
-            <a class="juz-cell" href="/read?s=6&amp;a=111"><span class="juz-n">Juz 8</span><span class="juz-range">al-An'am 6:111 → 7:87</span></a>
-            <a class="juz-cell" href="/read?s=7&amp;a=88"><span class="juz-n">Juz 9</span><span class="juz-range">al-A'raf 7:88 → 8:40</span></a>
-            <a class="juz-cell" href="/read?s=8&amp;a=41"><span class="juz-n">Juz 10</span><span class="juz-range">al-Anfal 8:41 → 9:92</span></a>
-            <a class="juz-cell" href="/read?s=9&amp;a=93"><span class="juz-n">Juz 11</span><span class="juz-range">al-Tawbah 9:93 → 11:5</span></a>
-            <a class="juz-cell" href="/read?s=11&amp;a=6"><span class="juz-n">Juz 12</span><span class="juz-range">Hud 11:6 → 12:52</span></a>
-            <a class="juz-cell" href="/read?s=12&amp;a=53"><span class="juz-n">Juz 13</span><span class="juz-range">Yusuf 12:53 → 14:52</span></a>
-            <a class="juz-cell" href="/read?s=15&amp;a=1"><span class="juz-n">Juz 14</span><span class="juz-range">al-Hijr 15:1 → 16:128</span></a>
-            <a class="juz-cell" href="/read?s=17&amp;a=1"><span class="juz-n">Juz 15</span><span class="juz-range">al-Isra 17:1 → 18:74</span></a>
-            <a class="juz-cell" href="/read?s=18&amp;a=75"><span class="juz-n">Juz 16</span><span class="juz-range">al-Kahf 18:75 → 20:135</span></a>
-            <a class="juz-cell" href="/read?s=21&amp;a=1"><span class="juz-n">Juz 17</span><span class="juz-range">al-Anbiya 21:1 → 22:78</span></a>
-            <a class="juz-cell" href="/read?s=23&amp;a=1"><span class="juz-n">Juz 18</span><span class="juz-range">al-Mu'minun 23:1 → 25:20</span></a>
-            <a class="juz-cell" href="/read?s=25&amp;a=21"><span class="juz-n">Juz 19</span><span class="juz-range">al-Furqan 25:21 → 27:55</span></a>
-            <a class="juz-cell" href="/read?s=27&amp;a=56"><span class="juz-n">Juz 20</span><span class="juz-range">al-Naml 27:56 → 29:45</span></a>
-            <a class="juz-cell" href="/read?s=29&amp;a=46"><span class="juz-n">Juz 21</span><span class="juz-range">al-'Ankabut 29:46 → 33:30</span></a>
-            <a class="juz-cell" href="/read?s=33&amp;a=31"><span class="juz-n">Juz 22</span><span class="juz-range">al-Ahzab 33:31 → 36:27</span></a>
-            <a class="juz-cell" href="/read?s=36&amp;a=28"><span class="juz-n">Juz 23</span><span class="juz-range">Yasin 36:28 → 39:31</span></a>
-            <a class="juz-cell" href="/read?s=39&amp;a=32"><span class="juz-n">Juz 24</span><span class="juz-range">al-Zumar 39:32 → 41:46</span></a>
-            <a class="juz-cell" href="/read?s=41&amp;a=47"><span class="juz-n">Juz 25</span><span class="juz-range">Fussilat 41:47 → 45:37</span></a>
-            <a class="juz-cell" href="/read?s=46&amp;a=1"><span class="juz-n">Juz 26</span><span class="juz-range">al-Ahqaf 46:1 → 51:30</span></a>
-            <a class="juz-cell" href="/read?s=51&amp;a=31"><span class="juz-n">Juz 27</span><span class="juz-range">al-Dhariyat 51:31 → 57:29</span></a>
-            <a class="juz-cell" href="/read?s=58&amp;a=1"><span class="juz-n">Juz 28</span><span class="juz-range">al-Mujadilah 58:1 → 66:12</span></a>
-            <a class="juz-cell" href="/read?s=67&amp;a=1"><span class="juz-n">Juz 29</span><span class="juz-range">al-Mulk 67:1 → 77:50</span></a>
-            <a class="juz-cell" href="/read?s=78&amp;a=1"><span class="juz-n">Juz 30</span><span class="juz-range">al-Naba' 78:1 → 114:6</span></a>
-            <!-- /static:juz-grid -->
+        <!-- Every sibling page with study-only content exposes the depth
+             switch inline; this page was the only holdout, which left its
+             extra column and its chart undiscoverable. -->
+        <div class="depth-row">
+          <span>Depth:</span>
+          <div class="depth-toggle inline" role="group" aria-label="Depth level">
+            <button data-depth="simple">Simple</button>
+            <button data-depth="study">Study</button>
+            <button data-depth="encyclopedic">Encyclopedic</button>
           </div>
-          <p class="prov"><span
-              class="badge nuanced"
-              data-source-ids="tanzil"
-              aria-label="Nuanced"
-              tabindex="0"
-              title="Nuanced · Tanzil standard division"
-              >~</span
-            > Tanzil.</p>
-          <details class="method-note">
-            <summary>ℹ How this is computed</summary>
-            <p><span
-              class="badge nuanced"
-              data-source-ids="tanzil"
-              aria-label="Nuanced"
-              tabindex="0"
-              title="Nuanced · Tanzil standard division"
-              >~</span
-            >
-            juz boundaries follow the standard Hafs/mushaf division as published
-            in the Tanzil Project metadata. The division is a reading
-            convention, not part of the revealed text; minor variants exist in
-            other traditions.</p>
-          </details>
+          <span class="depth-hint"
+            >Keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></span
+          >
         </div>
         <!-- Click-first entry, unhidden by the picker the same way
              read.html's #pickerEntry is. The table below is the no-JS
@@ -339,7 +284,7 @@
           </div>
         </div>
         <div class="card">
-          <h3>Filter</h3>
+          <h3>Find a surah</h3>
           <div
             style="display: flex; gap: 1rem; flex-wrap: wrap; margin: 0.5rem 0"
           >
@@ -375,21 +320,21 @@
             Uthmani text. Meccan/Medinan classification per Cairo 1924 edition.</p>
           </details>
         </div>
-        <div class="banner note">
-          <strong>Method: surah profile figures.</strong> Word-token and root
-          counts are drawn from the Leeds Quranic Arabic Corpus v0.4
-          morphology files, one token per morphology entry (Leeds' Uthmani
-          tokenization). Chronology period follows the Egyptian Standard
-          (Cairo 1924) Meccan/Medinan and four-period classification. Root
-          diversity ratio divides distinct roots by all word-tokens in the
-          surah, including function words with no tagged root. Cross-reference
-          connectivity (Mishkat Mutashābihāt corpus) counts distinct other surahs
-          cross-referenced (same-surah references excluded) and covers 110
-          of 114 surahs; surahs 104, 105, 106, and 110 show no figure rather
-          than zero, since they are outside current coverage. These are
-          descriptive corpus counts, not claims about meaning or emphasis.
-        </div>
         <div class="card study-only" id="surahScatterCard">
+          <div class="banner note">
+            <strong>Method: surah profile figures.</strong> Word-token and root
+            counts are drawn from the Leeds Quranic Arabic Corpus v0.4
+            morphology files, one token per morphology entry (Leeds' Uthmani
+            tokenization). Chronology period follows the Egyptian Standard
+            (Cairo 1924) Meccan/Medinan and four-period classification. Root
+            diversity ratio divides distinct roots by all word-tokens in the
+            surah, including function words with no tagged root. Cross-reference
+            connectivity (Mishkat Mutashābihāt corpus) counts distinct other surahs
+            cross-referenced (same-surah references excluded) and covers 110
+            of 114 surahs; surahs 104, 105, 106, and 110 show no figure rather
+            than zero, since they are outside current coverage. These are
+            descriptive corpus counts, not claims about meaning or emphasis.
+          </div>
           <h3>
             The 114 surahs at a glance
             <span
@@ -420,22 +365,99 @@
             </p>
           </details>
         </div>
+        <h3 id="all-surahs">All 114 surahs</h3>
+        <p class="t-annotation" id="surahCount" role="status" aria-live="polite"></p>
         <div class="table-scroll">
           <table class="data" id="surahTable" aria-label="114 surahs">
             <thead>
               <tr>
                 <th aria-sort="ascending"><button type="button" class="th-sort" data-key="0">#</button></th>
                 <th><button type="button" class="th-sort" data-key="1">Name</button></th>
+                <th><button type="button" class="th-sort" data-key="2">Meaning</button></th>
                 <th>Arabic</th>
-                <th><button type="button" class="th-sort" data-key="3">Verses</button></th>
-                <th><button type="button" class="th-sort" data-key="4">Class</button></th>
-                <th class="study-only"><button type="button" class="th-sort" data-key="5">Cairo order</button></th>
+                <th><button type="button" class="th-sort" data-key="4">Verses</button></th>
+                <th><button type="button" class="th-sort" data-key="5">Class</button></th>
+                <th class="study-only"><button type="button" class="th-sort" data-key="6">Cairo order</button></th>
               </tr>
             </thead>
             <tbody id="surahBody"></tbody>
           </table>
         </div>
-        <div class="card" id="surahProfilePanel" hidden></div>
+        <div class="card" id="juz">
+          <h3>
+            Browse by Juz (para)
+            <span
+              class="badge nuanced"
+              data-source-ids="tanzil"
+              aria-label="Nuanced"
+              tabindex="0"
+              title="Nuanced · traditional reading division (Tanzil standard)"
+              >~</span
+            >
+          </h3>
+          <p style="font-size: 0.9rem; color: var(--muted); margin: 0.2rem 0 0.8rem">
+            The Qur'an's 30 traditional parts (<em>ajzāʾ</em>) — reading one a
+            day completes it in a month. A juz can begin in the middle of a
+            surah. Click one to start reading from its first verse.
+          </p>
+          <div class="juz-grid" id="juzGrid">
+            <!-- static:juz-grid -->
+            <a class="juz-cell" href="/read?j=1"><span class="juz-n">Juz 1</span><span class="juz-range">al-Fatihah 1:1 → 2:141</span></a>
+            <a class="juz-cell" href="/read?j=2"><span class="juz-n">Juz 2</span><span class="juz-range">al-Baqarah 2:142–252</span></a>
+            <a class="juz-cell" href="/read?j=3"><span class="juz-n">Juz 3</span><span class="juz-range">al-Baqarah 2:253 → 3:91</span></a>
+            <a class="juz-cell" href="/read?j=4"><span class="juz-n">Juz 4</span><span class="juz-range">Al ʿImran 3:92 → 4:23</span></a>
+            <a class="juz-cell" href="/read?j=5"><span class="juz-n">Juz 5</span><span class="juz-range">al-Nisa' 4:24–147</span></a>
+            <a class="juz-cell" href="/read?j=6"><span class="juz-n">Juz 6</span><span class="juz-range">al-Nisa' 4:148 → 5:81</span></a>
+            <a class="juz-cell" href="/read?j=7"><span class="juz-n">Juz 7</span><span class="juz-range">al-Ma'idah 5:82 → 6:110</span></a>
+            <a class="juz-cell" href="/read?j=8"><span class="juz-n">Juz 8</span><span class="juz-range">al-An'am 6:111 → 7:87</span></a>
+            <a class="juz-cell" href="/read?j=9"><span class="juz-n">Juz 9</span><span class="juz-range">al-A'raf 7:88 → 8:40</span></a>
+            <a class="juz-cell" href="/read?j=10"><span class="juz-n">Juz 10</span><span class="juz-range">al-Anfal 8:41 → 9:92</span></a>
+            <a class="juz-cell" href="/read?j=11"><span class="juz-n">Juz 11</span><span class="juz-range">al-Tawbah 9:93 → 11:5</span></a>
+            <a class="juz-cell" href="/read?j=12"><span class="juz-n">Juz 12</span><span class="juz-range">Hud 11:6 → 12:52</span></a>
+            <a class="juz-cell" href="/read?j=13"><span class="juz-n">Juz 13</span><span class="juz-range">Yusuf 12:53 → 14:52</span></a>
+            <a class="juz-cell" href="/read?j=14"><span class="juz-n">Juz 14</span><span class="juz-range">al-Hijr 15:1 → 16:128</span></a>
+            <a class="juz-cell" href="/read?j=15"><span class="juz-n">Juz 15</span><span class="juz-range">al-Isra 17:1 → 18:74</span></a>
+            <a class="juz-cell" href="/read?j=16"><span class="juz-n">Juz 16</span><span class="juz-range">al-Kahf 18:75 → 20:135</span></a>
+            <a class="juz-cell" href="/read?j=17"><span class="juz-n">Juz 17</span><span class="juz-range">al-Anbiya 21:1 → 22:78</span></a>
+            <a class="juz-cell" href="/read?j=18"><span class="juz-n">Juz 18</span><span class="juz-range">al-Mu'minun 23:1 → 25:20</span></a>
+            <a class="juz-cell" href="/read?j=19"><span class="juz-n">Juz 19</span><span class="juz-range">al-Furqan 25:21 → 27:55</span></a>
+            <a class="juz-cell" href="/read?j=20"><span class="juz-n">Juz 20</span><span class="juz-range">al-Naml 27:56 → 29:45</span></a>
+            <a class="juz-cell" href="/read?j=21"><span class="juz-n">Juz 21</span><span class="juz-range">al-'Ankabut 29:46 → 33:30</span></a>
+            <a class="juz-cell" href="/read?j=22"><span class="juz-n">Juz 22</span><span class="juz-range">al-Ahzab 33:31 → 36:27</span></a>
+            <a class="juz-cell" href="/read?j=23"><span class="juz-n">Juz 23</span><span class="juz-range">Yasin 36:28 → 39:31</span></a>
+            <a class="juz-cell" href="/read?j=24"><span class="juz-n">Juz 24</span><span class="juz-range">al-Zumar 39:32 → 41:46</span></a>
+            <a class="juz-cell" href="/read?j=25"><span class="juz-n">Juz 25</span><span class="juz-range">Fussilat 41:47 → 45:37</span></a>
+            <a class="juz-cell" href="/read?j=26"><span class="juz-n">Juz 26</span><span class="juz-range">al-Ahqaf 46:1 → 51:30</span></a>
+            <a class="juz-cell" href="/read?j=27"><span class="juz-n">Juz 27</span><span class="juz-range">al-Dhariyat 51:31 → 57:29</span></a>
+            <a class="juz-cell" href="/read?j=28"><span class="juz-n">Juz 28</span><span class="juz-range">al-Mujadilah 58:1 → 66:12</span></a>
+            <a class="juz-cell" href="/read?j=29"><span class="juz-n">Juz 29</span><span class="juz-range">al-Mulk 67:1 → 77:50</span></a>
+            <a class="juz-cell" href="/read?j=30"><span class="juz-n">Juz 30</span><span class="juz-range">al-Naba' 78:1 → 114:6</span></a>
+            <!-- /static:juz-grid -->
+          </div>
+          <p class="prov"><span
+              class="badge nuanced"
+              data-source-ids="tanzil"
+              aria-label="Nuanced"
+              tabindex="0"
+              title="Nuanced · Tanzil standard division"
+              >~</span
+            > Tanzil.</p>
+          <details class="method-note">
+            <summary>ℹ How this is computed</summary>
+            <p><span
+              class="badge nuanced"
+              data-source-ids="tanzil"
+              aria-label="Nuanced"
+              tabindex="0"
+              title="Nuanced · Tanzil standard division"
+              >~</span
+            >
+            juz boundaries follow the standard Hafs/mushaf division as published
+            in the Tanzil Project metadata. The division is a reading
+            convention, not part of the revealed text; minor variants exist in
+            other traditions.</p>
+          </details>
+        </div>
       </section>
     </main>
     <footer class="site">
@@ -509,7 +531,11 @@
       // Canonical surah dataset from assets/surahs.js (generated by
       // scripts/build-surahs-js.mjs). Edit data/surah-names.json, not here.
       const SURAHS = window.SURAHS;
-      const SORT_FIELDS = ["id", "translit", "ar", "verseCount", "cls", "revOrder"];
+      // Index-coupled to the column order above, so a column added in the
+// middle shifts every data-key after it. "ar" has no sort button (the
+// Arabic column is not sortable) but keeps its slot to hold the
+// alignment.
+      const SORT_FIELDS = ["id", "translit", "en", "ar", "verseCount", "cls", "revOrder"];
       let openSurah = null;
       let sortKey = 0;
       let sortDir = 1;
@@ -521,10 +547,16 @@
         const c = document.getElementById("classFilter").value;
         const l = document.getElementById("lengthFilter").value;
         const body = document.getElementById("surahBody");
-        const rows = SURAHS.filter((s) => {
+        const matched = SURAHS.filter((s) => {
           if (
             q &&
-            !(String(s.id).startsWith(q) || s.translit.toLowerCase().includes(q))
+            !(
+              String(s.id).startsWith(q) ||
+              s.translit.toLowerCase().includes(q) ||
+              (s.en || "").toLowerCase().includes(q) ||
+              (s.ar || "").includes(q) ||
+              (s.names || []).some((n) => n.includes(q))
+            )
           )
             return false;
           if (c && s.cls !== c) return false;
@@ -532,7 +564,8 @@
           if (l === "mid" && (s.verseCount < 30 || s.verseCount >= 100)) return false;
           if (l === "short" && s.verseCount >= 30) return false;
           return true;
-        })
+        });
+        const rows = matched
           .sort((a, b) => {
             const f = SORT_FIELDS[sortKey];
             const va = a[f],
@@ -545,17 +578,30 @@
           })
           .map(
             (s) =>
-              `<tr><td>${s.id}</td><td><a href="/read?s=${s.id}">${s.translit}</a> <button type="button" class="profile-toggle" data-surah="${s.id}" data-name="${s.translit}" aria-expanded="false" aria-controls="surahProfilePanel">Profile ▾</button></td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${s.ar}</span></td><td><button type="button" class="verse-count-btn" data-verses="${s.id}" aria-label="Choose verses in ${s.translit}, ${s.verseCount} verses">${s.verseCount}</button></td><td>${s.cls === "m" ? "Meccan" : "Medinan"}</td><td class="study-only">${s.revOrder}</td></tr>`,
+              `<tr><td>${s.id}</td><td><a href="/read?s=${s.id}&a=1-${s.verseCount}">${s.translit}</a> <button type="button" class="profile-toggle study-only" data-surah="${s.id}" data-name="${s.translit}" aria-expanded="false" aria-controls="surahProfileRow">Profile ▾</button></td><td class="surah-en">${s.en}</td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${s.ar}</span></td><td><button type="button" class="verse-count-btn" data-verses="${s.id}" aria-label="Choose verses in ${s.translit}, ${s.verseCount} verses">${s.verseCount}</button></td><td>${s.cls === "m" ? "Meccan" : "Medinan"}</td><td class="study-only">${s.revOrder}</td></tr>`,
           )
           .join("");
+        // colspan spans every column that can be visible; a short
+        // colspan leaves the empty-state cell not spanning the table.
         body.innerHTML =
           rows ||
-          '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:1rem">No surahs match.</td></tr>';
-        document.getElementById("surahProfilePanel").hidden = true;
-        openSurah = null;
+          '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:1rem">No surahs match.</td></tr>';
+        const countEl = document.getElementById("surahCount");
+        if (countEl)
+          countEl.textContent =
+            matched.length === SURAHS.length
+              ? `All ${SURAHS.length} surahs.`
+              : `Showing ${matched.length} of ${SURAHS.length} surahs.`;
+        closePanel();
       }
+      // Debounced: render() rebuilds all 114 rows, and this used to run
+      // on every keystroke.
+      let filterTimer = null;
       ["searchBox", "classFilter", "lengthFilter"].forEach((id) =>
-        document.getElementById(id).addEventListener("input", render),
+        document.getElementById(id).addEventListener("input", () => {
+          clearTimeout(filterTimer);
+          filterTimer = setTimeout(render, 120);
+        }),
       );
       document.querySelectorAll("#surahTable .th-sort").forEach((btn) => {
         btn.addEventListener("click", () => {
@@ -628,7 +674,7 @@
             "Scatter of all 114 surahs: length in word tokens against root diversity ratio, colored by chronological period",
           filename: "surahs-length-vs-diversity.svg",
           onPointClick: (p) => {
-            location.href = `/read?s=${p.surah}&a=1`;
+            location.href = `/read?s=${p.surah}&a=1-${p.verseCount || 1}`;
           },
         });
       });
@@ -707,9 +753,8 @@
       }
 
       function closePanel() {
-        const panel = document.getElementById("surahProfilePanel");
-        panel.hidden = true;
-        panel.innerHTML = "";
+        const row = document.getElementById("surahProfileRow");
+        if (row) row.remove();
         openSurah = null;
         document
           .querySelectorAll(".profile-toggle[aria-expanded='true']")
@@ -735,53 +780,37 @@
         openSurah = surahNum;
 
         await profilesReady;
+        // The reader may have filtered or sorted while the profile data
+        // was in flight, in which case their row is gone and the panel
+        // has nowhere to belong.
+        if (openSurah !== surahNum) return;
+        const tr = btn.closest("tr");
+        if (!tr) return;
         const p = PROFILES && PROFILES[surahNum];
-        const panel = document.getElementById("surahProfilePanel");
-        panel.innerHTML =
-          `<h3>Surah ${surahNum} profile: ${btn.dataset.name}</h3>` +
+        const row = document.createElement("tr");
+        row.id = "surahProfileRow";
+        const cell = document.createElement("td");
+        cell.className = "profile-panel-cell";
+        cell.colSpan = 7;
+        cell.innerHTML =
+          `<h4 style="margin-top:0">Surah ${surahNum} profile: ${btn.dataset.name}</h4>` +
           (p
             ? profilePanelHTML(p)
             : '<p style="color:var(--muted)">Profile data unavailable.</p>');
-        panel.hidden = false;
-        panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        row.appendChild(cell);
+        tr.insertAdjacentElement("afterend", row);
+        if (window.qdCiteEnhance) window.qdCiteEnhance(cell);
       });
 
       // ── Juz (para) browse grid ──────────────────────────────────────
       // Loads data/juz.json (generated by scripts/build-juz.mjs from the
       // Tanzil standard division) and renders 30 cells linking into Read.
-      (function renderJuz() {
-        const grid = document.getElementById("juzGrid");
-        if (!grid) return;
-        const surahName = (n) => {
-          const s = window.SURAHS && window.SURAHS.find((x) => x.id === n);
-          return s ? s.translit : "Surah " + n;
-        };
-        fetch("data/juz.json")
-          .then((r) => {
-            if (!r.ok) throw new Error("HTTP " + r.status);
-            return r.json();
-          })
-          .then((d) => {
-            grid.innerHTML = d.juz
-              .map((j) => {
-                const range =
-                  j.startSurah === j.endSurah
-                    ? `${surahName(j.startSurah)} ${j.startSurah}:${j.startAyah}–${j.endAyah}`
-                    : `${surahName(j.startSurah)} ${j.startSurah}:${j.startAyah} → ${j.endSurah}:${j.endAyah}`;
-                return (
-                  `<a class="juz-cell" href="/read?s=${j.startSurah}&a=${j.startAyah}">` +
-                  `<span class="juz-n">Juz ${j.juz}</span>` +
-                  `<span class="juz-range">${range}</span>` +
-                  `</a>`
-                );
-              })
-              .join("");
-          })
-          .catch(() => {
-            grid.innerHTML =
-              '<p style="color:var(--muted);font-size:0.85rem">Juz list unavailable — <a href="/read">open Read</a> to navigate by surah and verse.</p>';
-          });
-      })();
+      // The juz grid is generated into the static:juz-grid markers by
+      // scripts/build-static-fallbacks.mjs and is correct as shipped.
+      // A JS re-render used to replace all 30 cells on every load with
+      // near-identical markup, which cost a fetch, threw away the no-JS
+      // baseline it had just been handed, and quietly kept an older
+      // href. Deleted: one grid, one source, one link.
     </script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>

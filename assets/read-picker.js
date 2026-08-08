@@ -78,9 +78,17 @@
       var raw = (surahInput.value || "").trim();
       var id = resolve(raw);
       var a = (ayahInput.value || "").trim();
-      var m = a.match(/^(\d+)\s*[-–]\s*(\d+)$/);
+      // Accept every range form read.html's own parser accepts,
+      // including the open "1-" and "1-end" that mean the surah's last
+      // verse. This parser used to be narrower than that one, so an
+      // open range typed in the box was silently rewritten to a single
+      // verse before load() ever saw it.
+      var m = a.match(/^(\d+)\s*[-–—]\s*(\d+|end)?$/i);
       var from = m ? Number(m[1]) : parseInt(a, 10) || 1;
-      var to = m ? Number(m[2]) : from;
+      var openEnded = Boolean(m) && !(m[2] && /^\d+$/.test(m[2]));
+      var to = m ? (openEnded ? NaN : Number(m[2])) : from;
+      // clampRange turns a non-numeric `to` into the surah's last verse
+      // — the one place "to end" is defined.
       var c = window.qdPicker.clampRange(id || 1, from, to);
       return {
         surah: id || 1,

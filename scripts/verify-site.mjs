@@ -1043,24 +1043,26 @@ if (runCheck("sw") && !PAGE_FILTER) {
 // silently picking one.
 if (runCheck("askcorpus") && !PAGE_FILTER) {
   const CORPUS = [
-    // Unambiguous references
+    // Unambiguous references. A VERSE reference names a place and opens
+    // that place; a CHAPTER reference names the chapter and opens all of
+    // it, which is why these carry a range and 2:255 does not.
     { q: "2:255", route: "/read?s=2&a=255" },
     { q: "١:١", route: "/read?s=1&a=1" },
-    { q: "surah 36", route: "/read?s=36&a=1" },
-    { q: "chapter 2", route: "/read?s=2&a=1" },
-    { q: "36", route: "/read?s=36&a=1" },
-    { q: "juz 5", route: "/read?s=4&a=24" },
-    { q: "para 3", route: "/read?s=2&a=253" },
-    { q: "sipara 30", route: "/read?s=78&a=1" },
+    { q: "surah 36", route: "/read?s=36&a=1-83" },
+    { q: "chapter 2", route: "/read?s=2&a=1-286" },
+    { q: "36", route: "/read?s=36&a=1-83" },
+    { q: "juz 5", route: "/read?j=5" },
+    { q: "para 3", route: "/read?j=3" },
+    { q: "sipara 30", route: "/read?j=30" },
     // Surah names, Latin and Arabic, exact and one edit away
-    { q: "Baqarah", route: "/read?s=2&a=1" },
-    { q: "al-Kahf", route: "/read?s=18&a=1" },
-    { q: "Yasin", route: "/read?s=36&a=1" },
-    { q: "الفاتحة", route: "/read?s=1&a=1" },
-    { q: "سورة يس", route: "/read?s=36&a=1" },
-    { q: "bakarah", route: "/read?s=2&a=1" },
-    { q: "cow", route: "/read?s=2&a=1" },
-    { q: "hypocrites", route: "/read?s=63&a=1" },
+    { q: "Baqarah", route: "/read?s=2&a=1-286" },
+    { q: "al-Kahf", route: "/read?s=18&a=1-110" },
+    { q: "Yasin", route: "/read?s=36&a=1-83" },
+    { q: "الفاتحة", route: "/read?s=1&a=1-7" },
+    { q: "سورة يس", route: "/read?s=36&a=1-83" },
+    { q: "bakarah", route: "/read?s=2&a=1-286" },
+    { q: "cow", route: "/read?s=2&a=1-286" },
+    { q: "hypocrites", route: "/read?s=63&a=1-11" },
     // Roots
     { q: "r-h-m", route: "/roots?q=r-h-m" },
     { q: "k-t-b", route: "/roots?q=k-t-b" },
@@ -1087,7 +1089,10 @@ if (runCheck("askcorpus") && !PAGE_FILTER) {
     { q: "mercy & forgiveness", minHits: 1 },
     { q: "mercy", kinds: ["root"] },
     { q: "creation", kinds: ["root"] },
-    { q: "what is ring composition?", minHits: 1 },
+    // Not minHits: a bare count passed while the ONE page that explains
+    // ring composition was being filtered out of its own topic query.
+    // Name the page that must answer.
+    { q: "what is ring composition?", minHits: 1, mustInclude: "/patterns" },
     { q: "how do I compare translations", minHits: 1 },
     // Out of range: a message, never a route
     { q: "115", reason: "range" },
@@ -1106,11 +1111,14 @@ if (runCheck("askcorpus") && !PAGE_FILTER) {
     return corpus.map((c) => {
       const r = window.parseAsk(c.q) || {};
       let hits = null;
+      let urls = null;
       if (r.route && r.route.indexOf("/search?q=") === 0) {
         const term = decodeURIComponent(r.route.slice("/search?q=".length));
-        hits = window.qdSearch.search(index, term).hits.map((h) => h.doc.k);
+        const found = window.qdSearch.search(index, term).hits;
+        hits = found.map((h) => h.doc.k);
+        urls = found.map((h) => h.doc.u);
       }
-      return { q: c.q, route: r.route || null, type: r.type || null, reason: r.reason || null, hits };
+      return { q: c.q, route: r.route || null, type: r.type || null, reason: r.reason || null, hits, urls };
     });
   }, CORPUS);
   await actx.close();
@@ -1143,6 +1151,10 @@ if (runCheck("askcorpus") && !PAGE_FILTER) {
         if (!got.hits.includes(k)) problems.push(`${at}: no ${k} among ${got.hits.length} hits`);
       if (want.minHits != null && got.hits.length < want.minHits)
         problems.push(`${at}: ${got.hits.length} hits, wanted >= ${want.minHits}`);
+      if (want.mustInclude && !(got.urls || []).some((u) => u.split("#")[0] === want.mustInclude))
+        problems.push(
+          `${at}: results do not include ${want.mustInclude} (got ${(got.urls || []).slice(0, 4).join(", ") || "nothing"})`,
+        );
     }
     // Universal: a /search route must never come back empty.
     if (got.hits && !got.hits.length && !want.kinds && want.minHits == null)
@@ -1325,6 +1337,89 @@ if (runCheck("passage") && !PAGE_FILTER) {
     nav.buttons === 114 && nav.opened && nav.prefilled === String(COUNT),
     `${nav.buttons} verse-count buttons (want 114); picker opened=${nav.opened}; ` +
       `range prefilled to ${nav.prefilled} (want ${COUNT})`,
+  );
+  await nctx.close();
+}
+
+// ── Navigate: the list must be the page ─────────────────────────────
+// This page is titled "Browse all 114 surahs" and used to open with
+// ~985px of juz grid, filters and method prose before the first row,
+// with the profile panel rendering below all 114 rows so opening one
+// from the top smooth-scrolled ~4,900px to the footer.
+if (runCheck("navigate") && !PAGE_FILTER) {
+  const nctx = await newContext();
+  const page = await nctx.newPage();
+  await page.goto(`${BASE}/navigate.html`, { waitUntil: "networkidle" });
+  await page.waitForSelector("#surahBody tr", { timeout: 8000 });
+
+  const reach = await page.evaluate(() => {
+    const first = document.querySelector("#surahBody tr");
+    return {
+      firstRowTop: Math.round(first.getBoundingClientRect().top + window.scrollY),
+      viewport: window.innerHeight,
+      count: document.getElementById("surahCount").textContent.trim(),
+      meaning: first.querySelector(".surah-en") ? first.querySelector(".surah-en").textContent.trim() : null,
+      rows: document.querySelectorAll("#surahBody tr").length,
+    };
+  });
+  report(
+    "navigate", "navigate.html · the list is the page",
+    reach.firstRowTop < reach.viewport * 1.5 && reach.rows === 114 &&
+      reach.meaning === "The Opening" && /114/.test(reach.count),
+    `first row at ${reach.firstRowTop}px (viewport ${reach.viewport}); ${reach.rows} rows; ` +
+      `meaning column="${reach.meaning}"; count="${reach.count}"`,
+  );
+
+  // The profile panel opens next to the row that asked for it.
+  await page.evaluate(() => document.documentElement.setAttribute("data-depth", "study"));
+  await page.click('#surahBody tr:first-child .profile-toggle');
+  await page.waitForSelector("#surahProfileRow", { timeout: 8000 });
+  const near = await page.evaluate(() => {
+    const btn = document.querySelector('#surahBody tr:first-child .profile-toggle');
+    const panel = document.getElementById("surahProfileRow");
+    return {
+      gap: Math.round(panel.getBoundingClientRect().top - btn.getBoundingClientRect().bottom),
+      insideTable: Boolean(panel.closest("#surahTable")),
+    };
+  });
+  report(
+    "navigate", "navigate.html · profile opens at its row",
+    near.insideTable && Math.abs(near.gap) < 200,
+    `panel is ${near.gap}px from its button and ${near.insideTable ? "inside" : "OUTSIDE"} the table`,
+  );
+
+  // Searching by English meaning: the page's own filter used to match
+  // only the id prefix and the transliteration.
+  await page.fill("#searchBox", "cow");
+  await page.waitForTimeout(300);
+  const byMeaning = await page.evaluate(() => ({
+    rows: document.querySelectorAll("#surahBody tr").length,
+    first: document.querySelector("#surahBody tr a") ? document.querySelector("#surahBody tr a").textContent.trim() : null,
+    count: document.getElementById("surahCount").textContent.trim(),
+  }));
+  report(
+    "navigate", "navigate.html · search by English meaning",
+    byMeaning.first === "al-Baqarah" && /Showing/.test(byMeaning.count),
+    `"cow" -> ${byMeaning.rows} row(s), first "${byMeaning.first}", count "${byMeaning.count}"`,
+  );
+
+  // The juz grid links to whole juz, and sits below the list.
+  const juz = await page.evaluate(() => {
+    const cells = [...document.querySelectorAll(".juz-cell")];
+    const table = document.getElementById("surahTable");
+    return {
+      n: cells.length,
+      allWhole: cells.every((c) => /\/read\?j=\d{1,2}$/.test(c.getAttribute("href"))),
+      belowTable: cells.length
+        ? cells[0].getBoundingClientRect().top + window.scrollY >
+          table.getBoundingClientRect().top + window.scrollY
+        : false,
+    };
+  });
+  report(
+    "navigate", "navigate.html · juz grid",
+    juz.n === 30 && juz.allWhole && juz.belowTable,
+    `${juz.n} cells; all link to /read?j=N: ${juz.allWhole}; below the table: ${juz.belowTable}`,
   );
   await nctx.close();
 }

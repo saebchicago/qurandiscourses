@@ -58,7 +58,9 @@ const juzGrid = juz
         ? `${translit(j.startSurah)} ${j.startSurah}:${j.startAyah}–${j.endAyah}`
         : `${translit(j.startSurah)} ${j.startSurah}:${j.startAyah} → ${j.endSurah}:${j.endAyah}`;
     return (
-      `<a class="juz-cell" href="/read?s=${j.startSurah}&amp;a=${j.startAyah}">` +
+      // ?j= reads the WHOLE juz. These cells used to advertise a span
+      // like "78:1 → 114:6" and link to 78:1 alone.
+      `<a class="juz-cell" href="/read?j=${j.juz}">` +
       `<span class="juz-n">Juz ${j.juz}</span>` +
       `<span class="juz-range">${esc(range)}</span>` +
       `</a>`

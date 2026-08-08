@@ -287,6 +287,32 @@
       </section>
 
       <section>
+        <h3 id="wanted-ring">Wanted: ring and structural analyses</h3>
+        <p>
+          Ring composition, where a surah's opening and closing mirror
+          each other around a centre, is documented in the scholarly
+          literature. This site names the phenomenon and asserts no ring
+          outline for any surah, because a real one has to be
+          transcribed from a published, page-cited analysis, never
+          computed. Inventing verse ranges under a scholar's name would
+          misattribute work they did not do, so the count below is zero
+          and stays zero until someone brings a citation.
+        </p>
+        <p>
+          Claiming one means naming the scholar, the volume and the page,
+          and giving the verse ranges exactly as published. Cuypers,
+          Farrin and Islahi are the obvious starting points. The
+          <a href="/patterns#ring-composition">Patterns page</a> carries
+          the one narrow mechanical proxy the site did test corpus-wide,
+          and its null result, which says nothing either way about that
+          literature.
+        </p>
+        <div id="wantedRing">
+          <p style="color: var(--muted)">Loading the structural queue…</p>
+        </div>
+      </section>
+
+      <section>
         <h3>Source registry</h3>
         <p>
           For each dataset in use: name, version, license, and source
@@ -406,6 +432,7 @@
           renderQursim(report.qursim);
           renderSensitivity(report.countingRuleSensitivity);
           renderWanted(report.khanOutlines);
+          renderWantedRing(report.ringAnalyses);
           renderRegistry(report.sourceRegistry, report.sourceRegistryBlockers);
         })
         .catch((err) => {
@@ -446,6 +473,38 @@
           `<p>${k.transcribed.length} of ${k.publishedCount} transcribed; ` +
           `<strong>${k.wanted.length} wanted</strong>:</p>` +
           `<ul class="wanted-list">${rows}</ul>`;
+        if (window.qdCiteEnhance) window.qdCiteEnhance(el);
+      }
+
+      // The ring queue is all 114 surahs, so it is summarised rather
+      // than listed: 114 "Claim it" links would bury the page and none
+      // of them is more wanted than another. The proxy test's four
+      // near-miss surahs are named because they are the only surahs the
+      // site has any positional evidence about at all, and a reader
+      // deserves to know it did not survive correction.
+      function renderWantedRing(r) {
+        const el = document.getElementById("wantedRing");
+        if (!el || !r) return;
+        // qdIssueUrl takes ONE options object and returns
+        // { url, truncated } — not a bare string.
+        const issue =
+          window.qdIssueUrl &&
+          window.qdIssueUrl({
+            template: "structural-hypothesis.md",
+            title: "Ring/structural analysis: surah ",
+          });
+        const cta =
+          issue && issue.url
+            ? ` <a href="${issue.url}" rel="noopener">Propose one</a>`
+            : "";
+        const near = (r.proxyTest && r.proxyTest.surahsWithClosestMiss) || [];
+        el.innerHTML =
+          `<p><strong>${r.transcribed.length} of ${r.totalSurahs}</strong> surahs have a transcribed, page-cited ` +
+          `structural analysis. <strong>${r.wanted.length} wanted</strong>, which is all of them.${cta}</p>` +
+          `<p style="color:var(--muted);font-size:0.9rem">Separately, the mechanical positional proxy tested ` +
+          `${(r.proxyTest ? r.proxyTest.candidatePairs : 0).toLocaleString("en-US")} candidate root pairs across all 114 surahs and ` +
+          `${r.proxyTest ? r.proxyTest.fdrSurvivors : 0} reached significance. Its closest non-significant cases sit in ` +
+          `surah${near.length === 1 ? "" : "s"} ${near.join(", ") || "none"}.</p>`;
         if (window.qdCiteEnhance) window.qdCiteEnhance(el);
       }
 

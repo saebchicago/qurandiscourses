@@ -3668,6 +3668,29 @@ html[data-focus] .ar.xl {
   margin-top: 0.9rem;
 }
 
+/* A juz runs across surahs; name each one where it begins so the
+   reader always knows which discourse they are inside. Only a juz read
+   emits these, so single-surah reading is untouched. */
+.juz-surah-divider {
+  margin: 2rem 0 0.75rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  color: var(--accent);
+}
+.juz-surah-divider:first-child {
+  margin-top: 0;
+}
+.juz-surah-en {
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-family: var(--sans, inherit);
+}
+.qd-juz-whole {
+  margin: 0 0 0.9rem;
+}
+
 /* ── Passage panel (assets/passage.js) ─────────────────────────────
    The answer a reader gets when they name a chapter but not a verse:
    the surah, its real verse count, and the From/To control bounded by

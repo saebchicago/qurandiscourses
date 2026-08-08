@@ -34,6 +34,11 @@ const juz = JSON.parse(readFileSync(join(ROOT, "data/juz.json"), "utf8")).juz.ma
   juz: j.juz,
   startSurah: j.startSurah,
   startAyah: j.startAyah,
+  // The end boundaries matter now that "juz 5" reads the whole juz:
+  // check-ask validates the span, and a truncated table would let a
+  // wrong end ship unnoticed.
+  endSurah: j.endSurah,
+  endAyah: j.endAyah,
 }));
 routes.juz = juz;
 

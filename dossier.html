@@ -541,7 +541,7 @@
             `<div class="card"><h3 style="margin-top:0">Cross-references</h3>${ph("secXref", "Loading the cross-reference profile…")}</div>` +
             `<div class="card"><h3 style="margin-top:0">Structure</h3>${ph("secStructure", "Loading structural notes…")}</div>` +
             `<div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin:1.25rem 0">` +
-            `<a class="button" href="/read?s=${su.id}&a=1">Read this surah</a>` +
+            `<a class="button" href="/read?s=${su.id}&a=1-${su.verseCount}">Read this surah</a>` +
             `<a class="button secondary" href="/replay?s=${su.id}">Replay it</a>` +
             `<a class="button secondary" href="/navigate">All 114 surahs</a>` +
             `</div>`
@@ -782,7 +782,7 @@
           } else if (s >= 85) {
             outlineHtml = `<p style="margin:0">${PENDING("awaiting transcription")} Khan's <em>An Exercise in Understanding the Qur'an</em> (2013) covers surahs 85–114, so a published outline for this surah exists; it is not yet transcribed here.</p>`;
           } else {
-            outlineHtml = `<p style="margin:0">${PENDING("no published outline")} Khan's 2013 outlines cover only surahs 85–114 — no published outline exists here. The site asserts no structure it cannot cite; <a href="/read?s=${s}&a=1">read the surah</a> and propose your own divisions in the discovery worksheet (Study depth).</p>`;
+            outlineHtml = `<p style="margin:0">${PENDING("no published outline")} Khan's 2013 outlines cover only surahs 85–114 — no published outline exists here. The site asserts no structure it cannot cite; <a href="/read?s=${s}&a=1-${(window.SURAHS||[]).find((x)=>x.id===s)?.verseCount||1}">read the surah</a> and propose your own divisions in the discovery worksheet (Study depth).</p>`;
           }
           const myPivots =
             (pivots && pivots.occurrences
@@ -856,7 +856,15 @@
               symmetry.closestMisses &&
               symmetry.closestMisses.filter((c) => c.surah === s)) ||
             [];
-          if (myClosestMisses.length) {
+          // 110 of the 114 surahs have no entry here, because the
+          // symmetry test persists only the corpus-wide top five near
+          // misses. Those 110 used to render nothing at all, which
+          // reads as a missing feature rather than what it is: a test
+          // that ran and found nothing. The site's own line is that an
+          // empty section is a datum, so say the datum.
+          if (!myClosestMisses.length) {
+            symHtml = `<div style="margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid var(--line)"><p style="margin:0;font-size:0.85rem;color:var(--muted)">Ring-composition proxy test ${NUANCED("narrow positional proxy; zero corpus-wide significant pairs")}: no result for this surah. The test ran across all 114 and zero pairs anywhere reached significance after correction, so this is the expected outcome, not a gap in coverage. Method and full result on the <a href="/patterns#ring-composition">Patterns page</a>.</p></div>`;
+          } else {
             const items = myClosestMisses
               .map(
                 (c) =>

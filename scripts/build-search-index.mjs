@@ -50,7 +50,7 @@ const SNIPPET_CAP = 180;
 // handling). Keep the two in sync by hand; check-ask cross-checks the
 // stopword lists.
 const STOP = new Set(
-  "a an and are as at be by for from has have in is it its of on or that the this to was were will with you your not no".split(" "),
+  "a an and are as at be by for from has have in is it its of on or that the this to was were will with you your not no what how why when where who does do can if there".split(" "),
 );
 const fold = (s) =>
   s
@@ -214,7 +214,8 @@ for (const n of surahIds) {
 }
 
 // ── juz (all 30) ─────────────────────────────────────────────────────
-// One doc per juz, landing on its first verse. "para" and "sipara" are
+// One doc per juz, landing on the WHOLE juz (?j=), not its first verse:
+// 28 of the 30 span more than one surah. "para" and "sipara" are
 // the same division under the names much of South Asia uses; a reader
 // typing either must arrive in the same place.
 for (const j of readJson("data/juz.json").juz) {
@@ -223,7 +224,7 @@ for (const j of readJson("data/juz.json").juz) {
   const range = `${from.translit} ${j.startSurah}:${j.startAyah} to ${to.translit} ${j.endSurah}:${j.endAyah}`;
   docs.push({
     t: `Juz ${j.juz}`,
-    u: `/read?s=${j.startSurah}&a=${j.startAyah}`,
+    u: `/read?j=${j.juz}`,
     k: "juz",
     s: `Juz ${j.juz} of 30: ${range}.`.slice(0, SNIPPET_CAP),
     x: tokens(

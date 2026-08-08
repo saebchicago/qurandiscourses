@@ -195,7 +195,7 @@
                 type="text"
                 id="ayahInput"
                 value="1"
-                placeholder="e.g. 5 or 1–7"
+                placeholder="e.g. 5, 1-7, or 1-end"
                 style="width: 120px"
             /></label>
             <button class="button" id="loadBtn">Load</button>
@@ -887,17 +887,37 @@
         }
       }
 
-      async function load() {
+      // Reading a juz. 28 of the 30 cross a surah boundary, so a juz
+      // cannot be expressed as a surah plus a range; it is its own mode.
+      // Set by the ?j= hydration below, cleared by any surah load, so
+      // the two never fight over the URL.
+      let activeJuz = null;
+
+      // load() with NO argument re-renders whatever is currently being
+      // read, juz included — depth changes, translation changes and the
+      // load-on-idle path all rely on that. Passing null explicitly is
+      // how a surah action says "stop reading a juz".
+      async function load(juzArg) {
+        if (juzArg !== undefined)
+          activeJuz = juzArg ? Number(juzArg) : null;
+        const juzMode = activeJuz;
         const s = resolveSurah(document.getElementById("surahInput").value);
         const rawA = document.getElementById("ayahInput").value.trim();
         const container = document.getElementById("verseContainer");
 
-        const rangeMatch = rawA.match(/^(\d+)-(\d+)$/);
+        // "1-7", "1–7" (the en-dash the placeholder has always shown and
+        // this regex used to reject), "1-" and "1-end" all parse. An
+        // open or "end" tail means the surah's last verse: a reader
+        // asking for the rest of a surah should not have to know where
+        // it stops. The downward clamp below already handles overflow,
+        // so Infinity is a safe way to say "as far as it goes".
+        const rangeMatch = rawA.match(/^(\d+)\s*[-–—]\s*(\d+|end)?$/i);
         const singleMatch = rawA.match(/^(\d+)$/);
         let ayahStart, ayahEnd;
         if (rangeMatch) {
           ayahStart = parseInt(rangeMatch[1]);
-          ayahEnd = parseInt(rangeMatch[2]);
+          const tail = rangeMatch[2];
+          ayahEnd = tail && /^\d+$/.test(tail) ? parseInt(tail) : Infinity;
         } else if (singleMatch) {
           ayahStart = parseInt(singleMatch[1]);
           ayahEnd = ayahStart;
@@ -907,7 +927,7 @@
           return;
         }
 
-        if (!s || s < 1 || s > 114 || ayahStart < 1 || ayahEnd < ayahStart) {
+        if (!juzMode && (!s || s < 1 || s > 114 || ayahStart < 1 || ayahEnd < ayahStart)) {
           container.innerHTML =
             '<div class="card"><p>Please enter a valid surah (1–114) and verse number.</p></div>';
           return;
@@ -919,11 +939,15 @@
         // matching how the range fetcher already stops at the last verse.
         const surahMeta = (window.SURAHS || []).find((x) => x.id === s);
         const verseCount = surahMeta ? surahMeta.verseCount : null;
-        if (verseCount && ayahStart > verseCount) {
+        if (!juzMode && verseCount && ayahStart > verseCount) {
           container.innerHTML = `<div class="card"><p>${qdEsc(surahMeta.translit)} (surah ${s}) has ${verseCount} verses — verse ${ayahStart} doesn't exist. <a href="/read?s=${s}&a=${verseCount}">Go to its last verse</a>.</p></div>`;
           return;
         }
-        if (verseCount && ayahEnd > verseCount) {
+        // No surah dataset yet (first paint before surahs.js): an open
+        // range has nothing to resolve against, so read the one verse
+        // rather than loop forever.
+        if (!verseCount && !isFinite(ayahEnd)) ayahEnd = ayahStart;
+        if (!juzMode && verseCount && ayahEnd > verseCount) {
           ayahEnd = verseCount;
           document.getElementById("ayahInput").value =
             ayahEnd > ayahStart ? `${ayahStart}-${ayahEnd}` : String(ayahStart);
@@ -935,10 +959,54 @@
         try {
           const depth =
             document.documentElement.getAttribute("data-depth") || "simple";
-          const needsMorph = depth === "study" || depth === "encyclopedic";
+          // Morphology, glosses, cross-references and the vocabulary
+          // panel are all keyed to ONE surah. A juz spans up to
+          // thirty-seven of them, so fetching them all would cost more
+          // than the text; they are offered on a single-surah read and
+          // named as absent here rather than quietly missing.
+          const needsMorph =
+            !juzMode && (depth === "study" || depth === "encyclopedic");
           let verses;
 
-          if (!isRange) {
+          if (juzMode) {
+            const juzData = await qdFetchJuz(juzMode);
+            const arEd = juzData.find(
+              (d) => d.edition.identifier === "quran-uthmani",
+            );
+            if (!arEd || !arEd.ayahs || !arEd.ayahs.length)
+              throw new Error("juz " + juzMode + " returned no verses");
+            const transEds = juzData.filter(
+              (d) => d.edition.identifier !== "quran-uthmani",
+            );
+            // Translations are matched on the GLOBAL ayah number, never
+            // numberInSurah: the latter restarts at 1 in every surah, so
+            // across a juz it would pair the wrong verses together.
+            const byNumber = transEds.map((ed) => {
+              const m = new Map();
+              (ed.ayahs || []).forEach((v) => m.set(v.number, v.text));
+              return { edition: ed.edition, _mismatchOf: ed._mismatchOf, m };
+            });
+            verses = arEd.ayahs.map((v) => {
+              const sn = v.surah ? v.surah.number : s;
+              return {
+                ayahNum: v.numberInSurah,
+                surahNum: sn,
+                arText: qdEsc(v.text),
+                surahName:
+                  SURAH_DISPLAY_NAMES[sn] ||
+                  qdEsc((v.surah && v.surah.englishName) || ""),
+                surahNameTranslation: qdEsc(
+                  (v.surah && v.surah.englishNameTranslation) || "",
+                ),
+                arNumber: v.number,
+                translations: byNumber.map((t) => ({
+                  edition: t.edition,
+                  text: t.m.get(v.number) || "",
+                  _mismatchOf: t._mismatchOf,
+                })),
+              };
+            });
+          } else if (!isRange) {
             const fetches = [qdFetchVerse(s, ayahStart)];
             if (needsMorph && !morphCache[s]) {
               fetches.push(
@@ -1021,6 +1089,7 @@
           const vocabPanelEl = document.getElementById("vocabPanel");
           if (vocabPanelEl) vocabPanelEl.innerHTML = "";
           let allHtml = "";
+          let lastSurah = null;
           verses.forEach(
             (
               {
@@ -1033,6 +1102,21 @@
               },
               vi,
             ) => {
+              // A juz runs across surahs; name each one as it begins so
+              // the reader always knows which discourse they are inside.
+              const thisSurah = verses[vi].surahNum;
+              if (juzMode && thisSurah && thisSurah !== lastSurah) {
+                allHtml +=
+                  '<h3 class="juz-surah-divider">' +
+                  thisSurah +
+                  ". " +
+                  surahName +
+                  (surahNameTranslation
+                    ? ' <span class="juz-surah-en">' + surahNameTranslation + "</span>"
+                    : "") +
+                  "</h3>";
+                lastSurah = thisSurah;
+              }
               const transCount = translations.length;
               let arHtml = needsMorph
                 ? buildArHtml(
@@ -1325,30 +1409,42 @@
             });
           });
 
-          attachXrefs(
-            s,
-            verses.map((v) => v.ayahNum),
-            depth,
-          );
-
-          attachRootTooltips(s, recurringRoots);
-          if (depth === "encyclopedic") renderVocabPanel(s, recurringRoots);
+          if (!juzMode) {
+            attachXrefs(
+              s,
+              verses.map((v) => v.ayahNum),
+              depth,
+            );
+            attachRootTooltips(s, recurringRoots);
+            if (depth === "encyclopedic") renderVocabPanel(s, recurringRoots);
+          }
 
           const aParam = isRange
             ? `${ayahStart}-${ayahEnd}`
             : String(ayahStart);
           const url = new URL(window.location);
-          url.searchParams.set("s", s);
-          url.searchParams.set("a", aParam);
+          if (juzMode) {
+            // ?j= is the whole address of a juz read. Writing s/a here
+            // would collapse it back to whichever surah happened to be
+            // in the form, which is how ?j= used to lose 27 of its 28
+            // cross-surah juz.
+            url.searchParams.set("j", juzMode);
+            url.searchParams.delete("s");
+            url.searchParams.delete("a");
+          } else {
+            url.searchParams.delete("j");
+            url.searchParams.set("s", s);
+            url.searchParams.set("a", aParam);
+          }
           history.replaceState({}, "", url);
-          if (window.qdSaveLastRead) window.qdSaveLastRead(s, aParam);
+          if (window.qdSaveLastRead && !juzMode) window.qdSaveLastRead(s, aParam);
           maybeShowMethodStrip();
           // Whole-surah views (starting at verse 1) share via the surah's
           // link-preview page; specific-verse views keep the live URL so
           // the exact verse is never lost to a redirect.
           if (window.qdSetShareUrl)
             window.qdSetShareUrl(
-              ayahStart === 1
+              !juzMode && ayahStart === 1
                 ? `https://divinediscourses.org/s/surah/${s}.html`
                 : null,
             );
@@ -1356,7 +1452,11 @@
           // share sheet; the copy fallback stays URL-only.
           if (window.qdSetShareText)
             window.qdSetShareText(
-              verses.length ? `${verses[0].surahName} ${s}:${aParam}` : null,
+              juzMode
+                ? `Juz ${juzMode}`
+                : verses.length
+                  ? `${verses[0].surahName} ${s}:${aParam}`
+                  : null,
             );
           container.insertAdjacentHTML(
             "beforeend",
@@ -1478,14 +1578,17 @@
         } catch (e) {}
       }
 
-      document.getElementById("loadBtn").addEventListener("click", load);
+      // Explicit surah actions pass null: they mean "read what the two
+      // boxes say", which ends a juz read. addEventListener would
+      // otherwise hand load() the click event as its juz argument.
+      document.getElementById("loadBtn").addEventListener("click", () => load(null));
       document.getElementById("prevBtn").addEventListener("click", () => {
         const rawA = document.getElementById("ayahInput").value.trim();
         const rm = rawA.match(/^(\d+)-(\d+)$/);
         const start = rm ? parseInt(rm[1]) : parseInt(rawA) || 1;
         if (start > 1) {
           document.getElementById("ayahInput").value = start - 1;
-          load();
+          load(null);
           return;
         }
         // At verse 1, continue into the previous surah's last verse.
@@ -1497,7 +1600,7 @@
         if (!prevMeta) return;
         document.getElementById("surahInput").value = s - 1;
         document.getElementById("ayahInput").value = prevMeta.verseCount;
-        load();
+        load(null);
       });
       document.getElementById("nextBtn").addEventListener("click", () => {
         const rawA = document.getElementById("ayahInput").value.trim();
@@ -1513,11 +1616,11 @@
           if (!s || s >= 114) return;
           document.getElementById("surahInput").value = s + 1;
           document.getElementById("ayahInput").value = 1;
-          load();
+          load(null);
           return;
         }
         document.getElementById("ayahInput").value = end + 1;
-        load();
+        load(null);
       });
       const params = new URLSearchParams(location.search);
       const juzParam = params.get("j");
@@ -1564,29 +1667,55 @@
         if (hlSpec && sNum >= 1 && sNum <= 114 && aNum >= 1)
           deepLinkHl = { surah: sNum, ayah: aNum, spec: hlSpec };
       }
-      // Deep link ?j=N — resolve the juz's first verse from data/juz.json
-      // (Tanzil standard division) and load it. Only used when no explicit
-      // surah was given, so ?s=/?a= always win.
+      // Deep link ?j=N — read the WHOLE juz, all the way across whatever
+      // surahs it spans. This used to set the form to the juz's first
+      // verse and load that one ayah, ignoring the endSurah/endAyah
+      // sitting in the same record: 28 of the 30 juz cross a surah
+      // boundary, so 27 of them silently delivered a single verse of a
+      // multi-surah span. Only used when no explicit surah was given, so
+      // ?s=/?a= always win.
       if (juzParam && !params.get("s")) {
-        fetch("data/juz.json")
-          .then((r) => (r.ok ? r.json() : null))
-          .then((d) => {
-            const j =
-              d && d.juz.find((x) => String(x.juz) === juzParam.trim());
-            if (j) {
-              document.getElementById("surahInput").value = j.startSurah;
-              document.getElementById("ayahInput").value = j.startAyah;
-              load();
-            }
-          })
-          .catch(() => {});
+        const jn = parseInt(juzParam.trim(), 10);
+        if (jn >= 1 && jn <= 30) {
+          // Claim juz mode SYNCHRONOUSLY, before the juz.json fetch
+          // resolves. The load-on-idle path fires 200ms after window
+          // load and would otherwise run a single-verse read against the
+          // seeded form first — one wasted request and a flash of the
+          // wrong passage before the juz replaced it.
+          activeJuz = jn;
+          // Seed the form so the surah box is not left empty (the
+          // load-on-idle guard below requires it), then read the juz.
+          fetch("data/juz.json")
+            .then((r) => (r.ok ? r.json() : null))
+            .then((d) => {
+              const j = d && d.juz.find((x) => x.juz === jn);
+              if (j) {
+                document.getElementById("surahInput").value = j.startSurah;
+                document.getElementById("ayahInput").value = j.startAyah;
+              }
+              load(jn);
+            })
+            .catch(() => load(jn));
+        }
       }
       if (hasParams) {
-        document.addEventListener("qd:translations-changed", load);
-        document.addEventListener("qd:depth-changed", load);
-        document.addEventListener("qd:features-changed", load);
+        // Wrapped, not passed bare: addEventListener hands the handler
+        // an Event, and load()'s first parameter is the juz to read.
+        // A bare `load` therefore received an Event, coerced it to NaN,
+        // and silently dropped juz mode on the first depth or
+        // translation change. These are re-renders, so they take no
+        // argument and keep whatever is being read.
+        const rerender = () => load();
+        document.addEventListener("qd:translations-changed", rerender);
+        document.addEventListener("qd:depth-changed", rerender);
+        document.addEventListener("qd:features-changed", rerender);
         window.addEventListener("load", () =>
           setTimeout(() => {
+            // A ?j= link owns its own initial load; the form has only
+            // been seeded so the picker has something to show, and
+            // reading it here would fire a second, single-verse request
+            // for a passage nobody asked for.
+            if (juzParam) return;
             if (document.getElementById("surahInput").value.trim()) load();
           }, 200),
         );
