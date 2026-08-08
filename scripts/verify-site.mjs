@@ -1012,6 +1012,52 @@ if (runCheck("related") && (!PAGE_FILTER || PAGE_FILTER === "dossier.html")) {
   );
   await rctx.close();
 }
+// Computed section structure panel: a multi-section surah must render
+// its section links and per-test results; a one-section surah must
+// render the "no shift cleared" branch, not collapse to nothing. Both
+// paths are Encyclopedic-depth content (the panel sits alongside the
+// existing pivot/rhetorical/symmetry evidence), so depth is set before
+// the async render fires.
+if (runCheck("structurepanel") && (!PAGE_FILTER || PAGE_FILTER === "dossier.html")) {
+  const sctx = await newContext();
+  const spage = await sctx.newPage();
+  await spage.addInitScript(() => {
+    try {
+      const s = JSON.parse(localStorage.getItem("qd_state") || "{}");
+      s.seen = true;
+      s.depth = "encyclopedic";
+      localStorage.setItem("qd_state", JSON.stringify(s));
+    } catch (e) {}
+  });
+  await spage.goto(`${BASE}/dossier.html?s=2`, { waitUntil: "networkidle" });
+  const multi = await spage.evaluate(() => {
+    const t = document.getElementById("secStructure")?.innerText || "";
+    return {
+      hasHeading: t.includes("Computed section structure"),
+      hasSectionLink: !!document.querySelector('#secStructure a[href^="/read?s=2&a="]'),
+      mentionsCorrection: t.includes("false-discovery correction"),
+    };
+  });
+  report(
+    "structurepanel-multi", "dossier.html?s=2",
+    multi.hasHeading && multi.hasSectionLink && multi.mentionsCorrection,
+    `heading=${multi.hasHeading} sectionLink=${multi.hasSectionLink} correctionText=${multi.mentionsCorrection}`,
+  );
+  await spage.goto(`${BASE}/dossier.html?s=103`, { waitUntil: "networkidle" });
+  const single = await spage.evaluate(() => {
+    const t = document.getElementById("secStructure")?.innerText || "";
+    return {
+      hasHeading: t.includes("Computed section structure"),
+      saysOneSection: t.includes("no shift cleared this surah's own threshold"),
+    };
+  });
+  report(
+    "structurepanel-single", "dossier.html?s=103",
+    single.hasHeading && single.saysOneSection,
+    `heading=${single.hasHeading} noSignalBranch=${single.saysOneSection}`,
+  );
+  await sctx.close();
+}
 if (runCheck("related") && (!PAGE_FILTER || PAGE_FILTER === "themes.html")) {
   const rctx = await newContext();
   const page = await rctx.newPage();

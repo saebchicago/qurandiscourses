@@ -764,6 +764,8 @@
           interpretations,
           rhetorical,
           symmetry,
+          structure,
+          structureTests,
         ) {
           let outlineHtml;
           const outline =
@@ -874,6 +876,58 @@
             symHtml = `<div style="margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid var(--line)"><p style="margin:0 0 0.3rem;font-size:0.85rem;color:var(--muted)">Ring-composition proxy test ${NUANCED("narrow positional proxy; zero corpus-wide significant pairs")}: this surah's closest — still not significant — candidate${myClosestMisses.length === 1 ? "" : "s"} for a rare root sitting at matching distances from the surah's start and end:</p><ul style="margin:0.2rem 0 0;padding-left:1.2rem;font-size:0.9rem;line-height:1.7">${items}</ul><p style="margin:0.3rem 0 0;font-size:0.82rem;color:var(--muted)">Zero pairs reached significance anywhere in the corpus after correction — method and full result on the <a href="/patterns">Patterns page</a>.</p></div>`;
           }
 
+          // A third, separate computed layer, never to be confused with
+          // outlineHtml above: build-structure.mjs mechanically divides
+          // every surah into sections by where its vocabulary shifts
+          // (TextTiling-style lexical cohesion, not a scholar's reading),
+          // and build-structure-tests.mjs asks whether those sections
+          // mirror each other — the ring-composition-shaped question —
+          // with a corpus-wide FDR correction, not a per-surah eyeball.
+          // Kept in its own block, its own heading, its own Nuanced
+          // badge, and its own explicit "this is not a literary finding"
+          // line, because a computed section list sitting next to Khan's
+          // transcribed outline is exactly the kind of thing a skimming
+          // reader could mistake for one.
+          let computedStructureHtml = "";
+          if (structure && structure.sections) {
+            const K = structure.sections.length;
+            const sectionLinks = structure.sections
+              .map(
+                (sec) =>
+                  `<a href="/read?s=${s}&a=${sec.fromVerse}-${sec.toVerse}">${sec.fromVerse}${sec.toVerse > sec.fromVerse ? `–${sec.toVerse}` : ""}</a>`,
+              )
+              .join(", ");
+            const perSurah =
+              structureTests &&
+              structureTests.perSurah &&
+              structureTests.perSurah.find((e) => e.surah === s);
+            const TEST_LABELS = {
+              concentricParallelism: "mirrored-section vocabulary overlap",
+              inclusio: "first-section/last-section overlap",
+              formulaBookending: "recurring phrases bracketing first and last section",
+              lengthSymmetry: "verse-length palindrome",
+            };
+            const survivorSet = new Set(
+              (structureTests && structureTests.survivors ? structureTests.survivors : [])
+                .filter((v) => v.surah === s)
+                .map((v) => v.test),
+            );
+            let testItems = "";
+            if (perSurah) {
+              for (const [key, label] of Object.entries(TEST_LABELS)) {
+                const t = perSurah[key];
+                if (!t) continue;
+                const survived = survivorSet.has(key);
+                testItems += `<li>${label}: ${survived ? "reached significance after corpus-wide correction" : "not significant after corpus-wide correction"} (observed ${qdEsc(String(t.observed))}, p=${qdEsc(String(t.pValue))})</li>`;
+              }
+            }
+            const corpusNote =
+              structureTests && typeof structureTests.fdrSurvivors === "number"
+                ? `${structureTests.fdrSurvivors} of ${structureTests.totalCandidates} candidates survived anywhere in the corpus, as of this data`
+                : "corpus-wide result unavailable";
+            computedStructureHtml = `<div style="margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid var(--line)"><p style="margin:0 0 0.3rem;font-size:0.85rem;color:var(--muted)">Computed section structure ${NUANCED("mechanical vocabulary-shift segmentation, not a literary reading")}: ${K} section${K === 1 ? "" : "s"} by where this surah's vocabulary shifts most${K > 1 ? `: ${sectionLinks}` : " (no shift cleared this surah's own threshold, so the whole surah is one section)"}.</p>${testItems ? `<p style="margin:0.5rem 0 0.2rem;font-size:0.85rem;color:var(--muted)">Whether these sections mirror each other, tested against a corpus-wide false-discovery correction (${qdEsc(corpusNote)}):</p><ul style="margin:0.2rem 0 0;padding-left:1.2rem;font-size:0.9rem;line-height:1.7">${testItems}</ul>` : ""}<p style="margin:0.3rem 0 0;font-size:0.82rem;color:var(--muted)">Not a section outline, not ring composition, not attributed to any scholar: a mechanical proxy only. Method on the <a href="/patterns#ring-composition">Patterns page</a>.</p></div>`;
+          }
+
           // Outline status and Khan's quoted reading are the card's
           // summary, shown at every depth. The mechanical pattern
           // evidence (pivot detection, rhetorical features, symmetry
@@ -887,6 +941,7 @@
               pivotHtml +
               rhetHtml +
               symHtml +
+              computedStructureHtml +
               `</div>` +
               `<p style="margin:0.6rem 0 0;font-size:0.9rem"><a href="/patterns">Pattern evidence for this surah on the Patterns page →</a></p>` +
               interpHtml,
@@ -982,8 +1037,10 @@
                 fetchJson("data/khan-interpretations.json").catch(() => null),
                 fetchJson("data/rhetorical-features.json").catch(() => null),
                 fetchJson("data/symmetry-test.json").catch(() => null),
-              ]).then(([piv, interp, rhet, sym]) =>
-                renderStructure(s, ex, piv, interp, rhet, sym),
+                fetchJson(`data/structure/${s}.json`).catch(() => null),
+                fetchJson("data/structure-tests.json").catch(() => null),
+              ]).then(([piv, interp, rhet, sym, struct, structTests]) =>
+                renderStructure(s, ex, piv, interp, rhet, sym, struct, structTests),
               ),
             )
             .catch(() => fail("secStructure", "Structural notes"));

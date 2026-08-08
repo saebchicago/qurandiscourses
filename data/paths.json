@@ -139,13 +139,13 @@
      "label": "Propose your own outline",
      "page": "/exercise",
      "minutes": 10,
-     "html": "Work through the <a href=\"exercise.html?id=asr-outline\">al-'Asr outline exercise</a>: propose your own verse-by-verse structure before revealing Khan's."
+     "html": "Work through the <a href=\"exercise.html?id=alaq-outline\">al-'Alaq outline exercise</a>: propose your own verse-by-verse structure before revealing Khan's."
     },
     {
      "label": "Read the computed signals",
      "page": "/dossier",
      "minutes": 7,
-     "html": "Open the same surah's <a href=\"dossier.html?s=103\">Dossier</a>. Its Structure section shows the site's own computed discursive pivots and rhetorical features for this exact surah; its Rhyme and Formulas sections show the verse-ending pattern and recurring-phrase data. The ring-composition proxy is a corpus-wide test with no surviving result in any surah, so the Dossier reports it as no result rather than showing one; read the test itself on <a href=\"patterns.html#ring-composition\">Patterns</a>. Not every mechanical detector finds something in every surah, and an empty section is itself a datum, not a gap."
+     "html": "Open the same surah's <a href=\"dossier.html?s=96\">Dossier</a>. Its Structure section shows the site's own computed discursive pivots, rhetorical features, and mechanically segmented sections for this exact surah, plus its Rhyme and Formulas sections. Al-'Alaq is one of the few Khan-outline surahs where the computed segmentation finds more than one section (3, from a 19-verse surah), so the block-mirror tests actually have something to test here, though none of them reached significance. The ring-composition proxy is a corpus-wide test with no surviving result in any surah, so the Dossier reports it as no result rather than showing one; read both tests on <a href=\"patterns.html#ring-composition\">Patterns</a>. Not every mechanical detector finds something significant, and a non-significant result is itself a datum, not a gap."
     },
     {
      "label": "Follow a signal to its method",
@@ -157,7 +157,7 @@
      "label": "Write up the comparison",
      "page": "/read",
      "minutes": 10,
-     "html": "Return to <a href=\"read.html?s=103&a=1-3\">Read</a> at Study depth and write in the discovery worksheet where Khan's outline and the site's computed signals agree, diverge, or simply don't overlap."
+     "html": "Return to <a href=\"read.html?s=96&a=1-19\">Read</a> at Study depth and write in the discovery worksheet where Khan's outline and the site's computed signals agree, diverge, or simply don't overlap."
     }
    ]
   }
