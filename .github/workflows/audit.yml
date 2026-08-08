@@ -41,6 +41,7 @@ jobs:
           node scripts/check-notice.mjs
           node scripts/check-contrib.mjs
           node scripts/check-ask.mjs
+          node scripts/check-root-datasets.mjs
 
       - name: Validate navigation and deployment headers
         run: |

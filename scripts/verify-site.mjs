@@ -834,6 +834,83 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
   }
 }
 
+// ── read.html: the root-detail panel opens the root you clicked ─────
+// This shipped resolving the clicked word's Buckwalter root against
+// roots-index.json (keyed by canonical Latin) with a substring match.
+// Digraphs collapse under that comparison, so 76 of 1642 roots opened a
+// DIFFERENT root's Arabic, frequency, occurrences and derived forms --
+// under the green Verified badge. Nothing caught it because no check had
+// ever clicked one of these buttons.
+//
+// Surah 114:4 is the sharpest case available in a short surah: the word
+// is from kh-n-s (خ ن س, "to withdraw"), and the old matcher resolved it
+// to k-h-n (ك ه ن, "soothsayer"). The assertion is on the Arabic the
+// panel renders, not just the title, because the title and the body read
+// from different places and only the body carries the statistics.
+if (runCheck("rootdetail") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) {
+  const rctx = await newContext({ apiMode: "stub" });
+  const page = await rctx.newPage();
+  const errors = [];
+  attachConsoleCollector(page, errors);
+  // The word table needs morphology (study depth or deeper), and it lives
+  // inside <details class="xref-panel">, which only renders open at
+  // encyclopedic. Both conditions are met by asking for encyclopedic.
+  await page.addInitScript(() => {
+    try {
+      const s = JSON.parse(localStorage.getItem("qd_state") || "{}");
+      s.seen = true;
+      s.depth = "encyclopedic";
+      localStorage.setItem("qd_state", JSON.stringify(s));
+    } catch (e) {}
+  });
+  await page.goto(`${BASE}/read.html?s=114&a=1-5`, { waitUntil: "load" });
+  const btn = 'button.root-detail-btn[data-root="xns"]';
+  await page.waitForSelector(btn, { timeout: 15000 }).catch(() => {});
+  const found = await page.locator(btn).count();
+  if (!found) {
+    report("read-rootdetail", "read.html", false, "no root-detail button for kh-n-s at 114:4 -- word table did not render");
+  } else {
+    const label = await page.locator(btn).first().textContent();
+    await page.locator(btn).first().click();
+    // The settings panel is also role="dialog", so match the root modal by
+    // its aria-label prefix. A wrong root still produces "Root: ...", so
+    // this narrowing cannot mask the regression it is here to catch.
+    await page
+      .waitForSelector('[role="dialog"][aria-label^="Root:"]', { timeout: 5000 })
+      .catch(() => {});
+    const shown = await page.evaluate(() => {
+      const d = document.querySelector('[role="dialog"][aria-label^="Root:"]');
+      if (!d)
+        return {
+          title: [...document.querySelectorAll('[role="dialog"]')]
+            .map((x) => x.getAttribute("aria-label"))
+            .join(", ") || "(no dialog)",
+          arabic: "",
+        };
+      return {
+        title: d.getAttribute("aria-label") || "",
+        arabic: (d.querySelector(".ar") || {}).textContent?.trim() || "",
+      };
+    });
+    // خ ن س is kh-n-s; ك ه ن is k-h-n, what the substring matcher returned.
+    const ok =
+      !!shown &&
+      (label || "").trim() === "kh-n-s" &&
+      shown.title === "Root: kh-n-s" &&
+      shown.arabic === "خ ن س";
+    report(
+      "read-rootdetail",
+      "read.html",
+      ok,
+      shown
+        ? `button="${(label || "").trim()}" title="${shown.title}" arabic="${shown.arabic}" (want kh-n-s / خ ن س)`
+        : "clicking the root opened no dialog",
+    );
+  }
+  report("read-rootdetail-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+  await rctx.close();
+}
+
 // ── compare.html: citation popover in a populated state ─────────────
 // The page renders no provenance until a comparison runs, so the
 // per-page sweep above finds no visible badge and reports that the

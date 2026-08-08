@@ -1,0 +1,295 @@
+{
+ "_generated": "build-structure.mjs",
+ "_method": "Lexical-cohesion depth scoring (Hearst 1997 TextTiling, adapted to verses): Jaccard similarity between 2-verse content-root windows on each side of every candidate boundary, converted to a local depth score, then an exact dynamic-programming optimal partition selects boundaries (minimum 3 verses apart) whose depth clears this surah's own mean plus 0.5 * sqrt(2 * ln(verseCount)) standard deviations. Content roots exclude corpus-wide frequency > 700 (build-cooccurrence.mjs's rule). Four further signals (rhyme-family change, verse-length delta, local-refrain onset, discursive-pivot marker) are reported per boundary as corroborating evidence; none of them drives selection.",
+ "_scope": "A computed vocabulary-cohesion boundary, nothing more. Not a literary section, rhetorical division, or evidence for or against ring composition; not attributed to any scholar. A surah with no boundary above its own threshold gets one section, reported the same as every other result.",
+ "surah": 2,
+ "verseCount": 286,
+ "sections": [
+  {
+   "index": 1,
+   "fromVerse": 1,
+   "toVerse": 33,
+   "verseCount": 33
+  },
+  {
+   "index": 2,
+   "fromVerse": 34,
+   "toVerse": 50,
+   "verseCount": 17
+  },
+  {
+   "index": 3,
+   "fromVerse": 51,
+   "toVerse": 53,
+   "verseCount": 3
+  },
+  {
+   "index": 4,
+   "fromVerse": 54,
+   "toVerse": 71,
+   "verseCount": 18
+  },
+  {
+   "index": 5,
+   "fromVerse": 72,
+   "toVerse": 82,
+   "verseCount": 11
+  },
+  {
+   "index": 6,
+   "fromVerse": 83,
+   "toVerse": 128,
+   "verseCount": 46
+  },
+  {
+   "index": 7,
+   "fromVerse": 129,
+   "toVerse": 133,
+   "verseCount": 5
+  },
+  {
+   "index": 8,
+   "fromVerse": 134,
+   "toVerse": 150,
+   "verseCount": 17
+  },
+  {
+   "index": 9,
+   "fromVerse": 151,
+   "toVerse": 164,
+   "verseCount": 14
+  },
+  {
+   "index": 10,
+   "fromVerse": 165,
+   "toVerse": 182,
+   "verseCount": 18
+  },
+  {
+   "index": 11,
+   "fromVerse": 183,
+   "toVerse": 189,
+   "verseCount": 7
+  },
+  {
+   "index": 12,
+   "fromVerse": 190,
+   "toVerse": 242,
+   "verseCount": 53
+  },
+  {
+   "index": 13,
+   "fromVerse": 243,
+   "toVerse": 250,
+   "verseCount": 8
+  },
+  {
+   "index": 14,
+   "fromVerse": 251,
+   "toVerse": 267,
+   "verseCount": 17
+  },
+  {
+   "index": 15,
+   "fromVerse": 268,
+   "toVerse": 274,
+   "verseCount": 7
+  },
+  {
+   "index": 16,
+   "fromVerse": 275,
+   "toVerse": 278,
+   "verseCount": 4
+  },
+  {
+   "index": 17,
+   "fromVerse": 279,
+   "toVerse": 286,
+   "verseCount": 8
+  }
+ ],
+ "boundaries": [
+  {
+   "beforeVerse": 34,
+   "depthScore": 0.2439,
+   "threshold": 0.2149,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": -9,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 51,
+   "depthScore": 0.2396,
+   "threshold": 0.2149,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": 2,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 54,
+   "depthScore": 0.2169,
+   "threshold": 0.2149,
+   "corroboration": {
+    "rhymeShift": true,
+    "lengthJump": 19,
+    "formulaOnset": true,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 72,
+   "depthScore": 0.2419,
+   "threshold": 0.2149,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": -14,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 83,
+   "depthScore": 0.2509,
+   "threshold": 0.2149,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": 19,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 129,
+   "depthScore": 0.2695,
+   "threshold": 0.2149,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": -1,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 134,
+   "depthScore": 0.2219,
+   "threshold": 0.2149,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": -12,
+    "formulaOnset": true,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 151,
+   "depthScore": 0.286,
+   "threshold": 0.2149,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": -14,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 165,
+   "depthScore": 0.2213,
+   "threshold": 0.2149,
+   "corroboration": {
+    "rhymeShift": true,
+    "lengthJump": -12,
+    "formulaOnset": true,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 183,
+   "depthScore": 0.3381,
+   "threshold": 0.2149,
+   "corroboration": {
+    "rhymeShift": true,
+    "lengthJump": -2,
+    "formulaOnset": true,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 190,
+   "depthScore": 0.2925,
+   "threshold": 0.2149,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": -14,
+    "formulaOnset": true,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 243,
+   "depthScore": 0.2769,
+   "threshold": 0.2149,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": 21,
+    "formulaOnset": true,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 251,
+   "depthScore": 0.216,
+   "threshold": 0.2149,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": 12,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 268,
+   "depthScore": 0.3519,
+   "threshold": 0.2149,
+   "corroboration": {
+    "rhymeShift": true,
+    "lengthJump": -16,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 275,
+   "depthScore": 0.3352,
+   "threshold": 0.2149,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": 28,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 279,
+   "depthScore": 0.237,
+   "threshold": 0.2149,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": 4,
+    "formulaOnset": true,
+    "discursivePivot": false
+   }
+  }
+ ],
+ "_candidateSummary": {
+  "totalCandidates": 285,
+  "meanDepth": 0.0773,
+  "stdDepth": 0.0818,
+  "threshold": 0.2149
+ }
+}

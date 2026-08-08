@@ -9,6 +9,32 @@
   <updated>2026-08-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>The root you clicked is the root you get</title>
+    <id>https://divinediscourses.org/changelog#2026-08-the-root-you-clicked</id>
+    <link href="https://divinediscourses.org/changelog#2026-08-the-root-you-clicked"/>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;The root you clicked is the root you get.&lt;/strong&gt;
+              On &lt;a href="/read"&gt;Read&lt;/a&gt;, every word in the
+              word-by-word table links to its root, and opening one
+              showed a panel of frequencies, first and last occurrence
+              and derived forms under a green Verified marker. For most
+              roots that panel was wrong. The lookup compared the
+              corpus's Buckwalter spelling against an index keyed by
+              transliteration, case-insensitively, and Buckwalter uses
+              capitals for the emphatic consonants: lowercasing them
+              erased the difference. Only 683 of 1,642 roots resolved
+              correctly. 205 opened a different root altogether, so
+              r-ḥ-m, the root of mercy, rendered the figures for
+              d-r-h-m, the root of the coin; 754 more matched nothing
+              and produced a bare "Root data not available". All 1,642
+              now resolve, because the page already contained the
+              correct mapping a few hundred lines above the fault. Two
+              new guards keep it that way: a checker that holds the six
+              root datasets to one another and to the page's own
+              transliteration map, and a browser test that clicks a
+              root and reads the panel it opens.</content>
+  </entry>
+  <entry>
     <title>Type a word, get somewhere</title>
     <id>https://divinediscourses.org/changelog#2026-08-type-a-word-get-somewhere</id>
     <link href="https://divinediscourses.org/changelog#2026-08-type-a-word-get-somewhere"/>

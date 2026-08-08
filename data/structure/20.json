@@ -1,0 +1,108 @@
+{
+ "_generated": "build-structure.mjs",
+ "_method": "Lexical-cohesion depth scoring (Hearst 1997 TextTiling, adapted to verses): Jaccard similarity between 2-verse content-root windows on each side of every candidate boundary, converted to a local depth score, then an exact dynamic-programming optimal partition selects boundaries (minimum 3 verses apart) whose depth clears this surah's own mean plus 0.5 * sqrt(2 * ln(verseCount)) standard deviations. Content roots exclude corpus-wide frequency > 700 (build-cooccurrence.mjs's rule). Four further signals (rhyme-family change, verse-length delta, local-refrain onset, discursive-pivot marker) are reported per boundary as corroborating evidence; none of them drives selection.",
+ "_scope": "A computed vocabulary-cohesion boundary, nothing more. Not a literary section, rhetorical division, or evidence for or against ring composition; not attributed to any scholar. A surah with no boundary above its own threshold gets one section, reported the same as every other result.",
+ "surah": 20,
+ "verseCount": 135,
+ "sections": [
+  {
+   "index": 1,
+   "fromVerse": 1,
+   "toVerse": 34,
+   "verseCount": 34
+  },
+  {
+   "index": 2,
+   "fromVerse": 35,
+   "toVerse": 37,
+   "verseCount": 3
+  },
+  {
+   "index": 3,
+   "fromVerse": 38,
+   "toVerse": 92,
+   "verseCount": 55
+  },
+  {
+   "index": 4,
+   "fromVerse": 93,
+   "toVerse": 95,
+   "verseCount": 3
+  },
+  {
+   "index": 5,
+   "fromVerse": 96,
+   "toVerse": 98,
+   "verseCount": 3
+  },
+  {
+   "index": 6,
+   "fromVerse": 99,
+   "toVerse": 135,
+   "verseCount": 37
+  }
+ ],
+ "boundaries": [
+  {
+   "beforeVerse": 35,
+   "depthScore": 0.2738,
+   "threshold": 0.2676,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": 2,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 38,
+   "depthScore": 0.2738,
+   "threshold": 0.2676,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": 1,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 93,
+   "depthScore": 0.3095,
+   "threshold": 0.2676,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": -3,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 96,
+   "depthScore": 0.3095,
+   "threshold": 0.2676,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": 12,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  },
+  {
+   "beforeVerse": 99,
+   "depthScore": 0.3095,
+   "threshold": 0.2676,
+   "corroboration": {
+    "rhymeShift": false,
+    "lengthJump": 1,
+    "formulaOnset": false,
+    "discursivePivot": false
+   }
+  }
+ ],
+ "_candidateSummary": {
+  "totalCandidates": 134,
+  "meanDepth": 0.1164,
+  "stdDepth": 0.0966,
+  "threshold": 0.2676
+ }
+}

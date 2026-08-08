@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-08-the-root-you-clicked",
+   "year": "2026",
+   "month": "August",
+   "html": "\n              <strong>The root you clicked is the root you get.</strong>\n              On <a href=\"/read\">Read</a>, every word in the\n              word-by-word table links to its root, and opening one\n              showed a panel of frequencies, first and last occurrence\n              and derived forms under a green Verified marker. For most\n              roots that panel was wrong. The lookup compared the\n              corpus's Buckwalter spelling against an index keyed by\n              transliteration, case-insensitively, and Buckwalter uses\n              capitals for the emphatic consonants: lowercasing them\n              erased the difference. Only 683 of 1,642 roots resolved\n              correctly. 205 opened a different root altogether, so\n              r-ḥ-m, the root of mercy, rendered the figures for\n              d-r-h-m, the root of the coin; 754 more matched nothing\n              and produced a bare \"Root data not available\". All 1,642\n              now resolve, because the page already contained the\n              correct mapping a few hundred lines above the fault. Two\n              new guards keep it that way: a checker that holds the six\n              root datasets to one another and to the page's own\n              transliteration map, and a browser test that clicks a\n              root and reads the panel it opens.\n            "
+  },
+  {
    "id": "2026-08-type-a-word-get-somewhere",
    "year": "2026",
    "month": "August",
