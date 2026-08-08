@@ -310,6 +310,24 @@
                 <div id="symmetryTestList" class="xref-list"></div>
               </details>
             </li>
+            <li>
+              <strong>Block-level mirror symmetry</strong>: a second,
+              separate test asks the question the proxy above does not:
+              whether whole <em>sections</em> of a surah (mechanically
+              divided by where its vocabulary shifts most, not a scholar's
+              reading) mirror each other in content. Four tests per surah
+              (mirrored-section vocabulary overlap, first-section/
+              last-section overlap, recurring phrases bracketing both ends,
+              verse-length palindrome), corrected jointly across every
+              candidate in the corpus. Zero of 345 candidates reached
+              significance. Like the proxy above, a survivor here would
+              describe a mechanical property, never a literary finding,
+              and is never attributed to a scholar.
+              <details id="structureTestDetails" class="xref-panel">
+                <summary>Method and closest candidates</summary>
+                <div id="structureTestList" class="xref-list"></div>
+              </details>
+            </li>
             <li><strong>Parallelism</strong>: balanced clause structures.</li>
             <li>
               <strong>Qasam</strong>: oath openings (e.g., al-'Asr, al-Shams,
@@ -688,6 +706,64 @@
                 stList.innerHTML =
                   '<p style="color:var(--muted)">Could not load the method detail.</p>';
                 stLoaded = false;
+              }
+            });
+          }
+
+          // "Method and closest candidates" for the block-level tests —
+          // same convention as the point-pair proxy above: report the
+          // corpus-wide correction, then the strongest per-test
+          // candidates, all explicitly marked not significant.
+          var sectDetails = document.getElementById("structureTestDetails");
+          var sectList = document.getElementById("structureTestList");
+          if (sectDetails && sectList) {
+            var sectLoaded = false;
+            sectDetails.addEventListener("toggle", async function () {
+              if (!sectDetails.open || sectLoaded) return;
+              sectLoaded = true;
+              sectList.innerHTML =
+                '<p style="color:var(--muted)">Loading…</p>';
+              try {
+                var r4 = await fetch("data/structure-tests.json");
+                var data4 = await r4.json();
+                var summary4 =
+                  '<p style="font-size:0.85rem;margin:0 0 0.6rem">' +
+                  qdEsc(data4.totalCandidates) +
+                  " candidates tested across four tests, pooled corpus-wide; " +
+                  qdEsc(data4.fdrSurvivors) +
+                  " reached significance after Benjamini-Hochberg correction (q<" +
+                  qdEsc(data4.fdrQThreshold) +
+                  "). Closest candidate per test, none significant:</p>";
+                var TEST_LABELS4 = {
+                  concentricParallelism: "mirrored-section overlap",
+                  inclusio: "first/last-section overlap",
+                  formulaBookending: "phrase bracketing",
+                  lengthSymmetry: "verse-length palindrome",
+                };
+                var rows4 = Object.keys(data4.closestMisses)
+                  .map(function (test) {
+                    var top = data4.closestMisses[test][0];
+                    if (!top) return "";
+                    return (
+                      '<div class="xref-item"><a href="/dossier?s=' +
+                      top.surah +
+                      '" class="xref-ref">surah ' +
+                      top.surah +
+                      "</a><span class=\"xref-cat\">" +
+                      qdEsc(TEST_LABELS4[test] || test) +
+                      " · observed " +
+                      qdEsc(top.observed) +
+                      " · p=" +
+                      qdEsc(top.pValue) +
+                      " (not significant)</span></div>"
+                    );
+                  })
+                  .join("");
+                sectList.innerHTML = summary4 + rows4;
+              } catch (e) {
+                sectList.innerHTML =
+                  '<p style="color:var(--muted)">Could not load the method detail.</p>';
+                sectLoaded = false;
               }
             });
           }
