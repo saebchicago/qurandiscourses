@@ -44,6 +44,15 @@
         border-color: var(--accent);
         color: var(--accent);
       }
+      #surahTable thead th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background: var(--bg);
+      }
+      .surah-en {
+        color: var(--muted);
+      }
       .profile-panel-cell {
         background: var(--card);
         padding: 1rem 1.2rem 1.2rem;
@@ -95,10 +104,6 @@
         color: var(--muted);
         text-align: right;
         font-variant-numeric: tabular-nums;
-      }
-      .table-scroll {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
       }
       th .th-sort {
         background: none;
@@ -247,9 +252,137 @@
       <section>
         <h2>Navigate</h2>
         <p class="lede">
-          All 114 surahs. Filter by chronology, classification, or length. Click
-          any surah to read it — or jump in by <a href="#juz">juz (para)</a>.
+          All 114 surahs, with their English meanings and lengths. Filter by
+          name, meaning, classification, or length, and open any surah whole.
+          Jump in by <a href="#juz">juz (para)</a> at the foot of the page.
         </p>
+        <!-- Every sibling page with study-only content exposes the depth
+             switch inline; this page was the only holdout, which left its
+             extra column and its chart undiscoverable. -->
+        <div class="depth-row">
+          <span>Depth:</span>
+          <div class="depth-toggle inline" role="group" aria-label="Depth level">
+            <button data-depth="simple">Simple</button>
+            <button data-depth="study">Study</button>
+            <button data-depth="encyclopedic">Encyclopedic</button>
+          </div>
+          <span class="depth-hint"
+            >Keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></span
+          >
+        </div>
+        <!-- Click-first entry, unhidden by the picker the same way
+             read.html's #pickerEntry is. The table below is the no-JS
+             baseline and is unchanged. -->
+        <div class="card" id="navPickerEntry" hidden>
+          <div class="picker-entry-row">
+            <button type="button" class="button btn-primary" id="navChoose">
+              Choose a surah and verses
+            </button>
+            <p class="picker-entry-current t-annotation">
+              Pick any passage without knowing where a surah ends.
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Find a surah</h3>
+          <div
+            style="display: flex; gap: 1rem; flex-wrap: wrap; margin: 0.5rem 0"
+          >
+            <label
+              >Search:
+              <input
+                type="text"
+                id="searchBox"
+                placeholder="surah name or number"
+            /></label>
+            <label
+              >Class:
+              <select id="classFilter">
+                <option value="">All</option>
+                <option value="m">Meccan</option>
+                <option value="d">Medinan</option>
+              </select></label
+            >
+            <label
+              >Length:
+              <select id="lengthFilter">
+                <option value="">All</option>
+                <option value="long">Long (100+ verses)</option>
+                <option value="mid">Mid (30-99)</option>
+                <option value="short">Short (under 30)</option>
+              </select></label
+            >
+          </div>
+          <p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Leeds corpus v0.4.</p>
+          <details class="method-note">
+            <summary>ℹ How this is computed</summary>
+            <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> verse counts from Tanzil
+            Uthmani text. Meccan/Medinan classification per Cairo 1924 edition.</p>
+          </details>
+        </div>
+        <div class="card study-only" id="surahScatterCard">
+          <div class="banner note">
+            <strong>Method: surah profile figures.</strong> Word-token and root
+            counts are drawn from the Leeds Quranic Arabic Corpus v0.4
+            morphology files, one token per morphology entry (Leeds' Uthmani
+            tokenization). Chronology period follows the Egyptian Standard
+            (Cairo 1924) Meccan/Medinan and four-period classification. Root
+            diversity ratio divides distinct roots by all word-tokens in the
+            surah, including function words with no tagged root. Cross-reference
+            connectivity (Mishkat Mutashābihāt corpus) counts distinct other surahs
+            cross-referenced (same-surah references excluded) and covers 110
+            of 114 surahs; surahs 104, 105, 106, and 110 show no figure rather
+            than zero, since they are outside current coverage. These are
+            descriptive corpus counts, not claims about meaning or emphasis.
+          </div>
+          <h3>
+            The 114 surahs at a glance
+            <span
+              class="badge ok"
+              data-source-ids="leeds-corpus-v0.4 cairo-1924"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · Leeds corpus counts + Cairo 1924 classification"
+              >●</span
+            >
+          </h3>
+          <p style="font-size: 0.9rem; color: var(--muted); margin: 0.2rem 0 0.6rem">
+            Each dot is a surah: length (word tokens, log scale) against
+            lexical variety (distinct roots ÷ tokens), colored by
+            chronological period. Hover a dot for the surah; click to read
+            it. Notice for yourself how the periods separate — and where the
+            exceptions sit.
+          </p>
+          <div id="surahScatter"></div>
+          <details class="method-note">
+            <summary>ℹ How this is computed</summary>
+            <p>
+              Token and distinct-root counts from the bundled Leeds v0.4
+              morphology (see the method note above); period from the Cairo
+              1924 convention. Longer texts repeat vocabulary, so diversity
+              falls with length for purely statistical reasons — the pattern
+              is descriptive, not a claim about style or meaning.
+            </p>
+          </details>
+        </div>
+        <h3 id="all-surahs">All 114 surahs</h3>
+        <p class="t-annotation" id="surahCount" role="status" aria-live="polite"></p>
+        <div class="table-scroll">
+          <table class="data" id="surahTable" aria-label="114 surahs">
+            <thead>
+              <tr>
+                <th aria-sort="ascending"><button type="button" class="th-sort" data-key="0">#</button></th>
+                <th><button type="button" class="th-sort" data-key="1">Name</button></th>
+                <th><button type="button" class="th-sort" data-key="2">Meaning</button></th>
+                <th>Arabic</th>
+                <th><button type="button" class="th-sort" data-key="4">Verses</button></th>
+                <th><button type="button" class="th-sort" data-key="5">Class</button></th>
+                <th class="study-only"><button type="button" class="th-sort" data-key="6">Cairo order</button></th>
+              </tr>
+            </thead>
+            <tbody id="surahBody"></tbody>
+          </table>
+        </div>
         <div class="card" id="juz">
           <h3>
             Browse by Juz (para)
@@ -325,117 +458,6 @@
             other traditions.</p>
           </details>
         </div>
-        <!-- Click-first entry, unhidden by the picker the same way
-             read.html's #pickerEntry is. The table below is the no-JS
-             baseline and is unchanged. -->
-        <div class="card" id="navPickerEntry" hidden>
-          <div class="picker-entry-row">
-            <button type="button" class="button btn-primary" id="navChoose">
-              Choose a surah and verses
-            </button>
-            <p class="picker-entry-current t-annotation">
-              Pick any passage without knowing where a surah ends.
-            </p>
-          </div>
-        </div>
-        <div class="card">
-          <h3>Filter</h3>
-          <div
-            style="display: flex; gap: 1rem; flex-wrap: wrap; margin: 0.5rem 0"
-          >
-            <label
-              >Search:
-              <input
-                type="text"
-                id="searchBox"
-                placeholder="surah name or number"
-            /></label>
-            <label
-              >Class:
-              <select id="classFilter">
-                <option value="">All</option>
-                <option value="m">Meccan</option>
-                <option value="d">Medinan</option>
-              </select></label
-            >
-            <label
-              >Length:
-              <select id="lengthFilter">
-                <option value="">All</option>
-                <option value="long">Long (100+ verses)</option>
-                <option value="mid">Mid (30-99)</option>
-                <option value="short">Short (under 30)</option>
-              </select></label
-            >
-          </div>
-          <p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Leeds corpus v0.4.</p>
-          <details class="method-note">
-            <summary>ℹ How this is computed</summary>
-            <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> verse counts from Tanzil
-            Uthmani text. Meccan/Medinan classification per Cairo 1924 edition.</p>
-          </details>
-        </div>
-        <div class="banner note">
-          <strong>Method: surah profile figures.</strong> Word-token and root
-          counts are drawn from the Leeds Quranic Arabic Corpus v0.4
-          morphology files, one token per morphology entry (Leeds' Uthmani
-          tokenization). Chronology period follows the Egyptian Standard
-          (Cairo 1924) Meccan/Medinan and four-period classification. Root
-          diversity ratio divides distinct roots by all word-tokens in the
-          surah, including function words with no tagged root. Cross-reference
-          connectivity (Mishkat Mutashābihāt corpus) counts distinct other surahs
-          cross-referenced (same-surah references excluded) and covers 110
-          of 114 surahs; surahs 104, 105, 106, and 110 show no figure rather
-          than zero, since they are outside current coverage. These are
-          descriptive corpus counts, not claims about meaning or emphasis.
-        </div>
-        <div class="card study-only" id="surahScatterCard">
-          <h3>
-            The 114 surahs at a glance
-            <span
-              class="badge ok"
-              data-source-ids="leeds-corpus-v0.4 cairo-1924"
-              aria-label="Verified"
-              tabindex="0"
-              title="Verified · Leeds corpus counts + Cairo 1924 classification"
-              >●</span
-            >
-          </h3>
-          <p style="font-size: 0.9rem; color: var(--muted); margin: 0.2rem 0 0.6rem">
-            Each dot is a surah: length (word tokens, log scale) against
-            lexical variety (distinct roots ÷ tokens), colored by
-            chronological period. Hover a dot for the surah; click to read
-            it. Notice for yourself how the periods separate — and where the
-            exceptions sit.
-          </p>
-          <div id="surahScatter"></div>
-          <details class="method-note">
-            <summary>ℹ How this is computed</summary>
-            <p>
-              Token and distinct-root counts from the bundled Leeds v0.4
-              morphology (see the method note above); period from the Cairo
-              1924 convention. Longer texts repeat vocabulary, so diversity
-              falls with length for purely statistical reasons — the pattern
-              is descriptive, not a claim about style or meaning.
-            </p>
-          </details>
-        </div>
-        <div class="table-scroll">
-          <table class="data" id="surahTable" aria-label="114 surahs">
-            <thead>
-              <tr>
-                <th aria-sort="ascending"><button type="button" class="th-sort" data-key="0">#</button></th>
-                <th><button type="button" class="th-sort" data-key="1">Name</button></th>
-                <th>Arabic</th>
-                <th><button type="button" class="th-sort" data-key="3">Verses</button></th>
-                <th><button type="button" class="th-sort" data-key="4">Class</button></th>
-                <th class="study-only"><button type="button" class="th-sort" data-key="5">Cairo order</button></th>
-              </tr>
-            </thead>
-            <tbody id="surahBody"></tbody>
-          </table>
-        </div>
-        <div class="card" id="surahProfilePanel" hidden></div>
       </section>
     </main>
     <footer class="site">
@@ -509,7 +531,11 @@
       // Canonical surah dataset from assets/surahs.js (generated by
       // scripts/build-surahs-js.mjs). Edit data/surah-names.json, not here.
       const SURAHS = window.SURAHS;
-      const SORT_FIELDS = ["id", "translit", "ar", "verseCount", "cls", "revOrder"];
+      // Index-coupled to the column order above, so a column added in the
+// middle shifts every data-key after it. "ar" has no sort button (the
+// Arabic column is not sortable) but keeps its slot to hold the
+// alignment.
+      const SORT_FIELDS = ["id", "translit", "en", "ar", "verseCount", "cls", "revOrder"];
       let openSurah = null;
       let sortKey = 0;
       let sortDir = 1;
@@ -521,10 +547,16 @@
         const c = document.getElementById("classFilter").value;
         const l = document.getElementById("lengthFilter").value;
         const body = document.getElementById("surahBody");
-        const rows = SURAHS.filter((s) => {
+        const matched = SURAHS.filter((s) => {
           if (
             q &&
-            !(String(s.id).startsWith(q) || s.translit.toLowerCase().includes(q))
+            !(
+              String(s.id).startsWith(q) ||
+              s.translit.toLowerCase().includes(q) ||
+              (s.en || "").toLowerCase().includes(q) ||
+              (s.ar || "").includes(q) ||
+              (s.names || []).some((n) => n.includes(q))
+            )
           )
             return false;
           if (c && s.cls !== c) return false;
@@ -532,7 +564,8 @@
           if (l === "mid" && (s.verseCount < 30 || s.verseCount >= 100)) return false;
           if (l === "short" && s.verseCount >= 30) return false;
           return true;
-        })
+        });
+        const rows = matched
           .sort((a, b) => {
             const f = SORT_FIELDS[sortKey];
             const va = a[f],
@@ -545,17 +578,30 @@
           })
           .map(
             (s) =>
-              `<tr><td>${s.id}</td><td><a href="/read?s=${s.id}&a=1-${s.verseCount}">${s.translit}</a> <button type="button" class="profile-toggle" data-surah="${s.id}" data-name="${s.translit}" aria-expanded="false" aria-controls="surahProfilePanel">Profile ▾</button></td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${s.ar}</span></td><td><button type="button" class="verse-count-btn" data-verses="${s.id}" aria-label="Choose verses in ${s.translit}, ${s.verseCount} verses">${s.verseCount}</button></td><td>${s.cls === "m" ? "Meccan" : "Medinan"}</td><td class="study-only">${s.revOrder}</td></tr>`,
+              `<tr><td>${s.id}</td><td><a href="/read?s=${s.id}&a=1-${s.verseCount}">${s.translit}</a> <button type="button" class="profile-toggle study-only" data-surah="${s.id}" data-name="${s.translit}" aria-expanded="false" aria-controls="surahProfileRow">Profile ▾</button></td><td class="surah-en">${s.en}</td><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${s.ar}</span></td><td><button type="button" class="verse-count-btn" data-verses="${s.id}" aria-label="Choose verses in ${s.translit}, ${s.verseCount} verses">${s.verseCount}</button></td><td>${s.cls === "m" ? "Meccan" : "Medinan"}</td><td class="study-only">${s.revOrder}</td></tr>`,
           )
           .join("");
+        // colspan spans every column that can be visible; a short
+        // colspan leaves the empty-state cell not spanning the table.
         body.innerHTML =
           rows ||
-          '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:1rem">No surahs match.</td></tr>';
-        document.getElementById("surahProfilePanel").hidden = true;
-        openSurah = null;
+          '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:1rem">No surahs match.</td></tr>';
+        const countEl = document.getElementById("surahCount");
+        if (countEl)
+          countEl.textContent =
+            matched.length === SURAHS.length
+              ? `All ${SURAHS.length} surahs.`
+              : `Showing ${matched.length} of ${SURAHS.length} surahs.`;
+        closePanel();
       }
+      // Debounced: render() rebuilds all 114 rows, and this used to run
+      // on every keystroke.
+      let filterTimer = null;
       ["searchBox", "classFilter", "lengthFilter"].forEach((id) =>
-        document.getElementById(id).addEventListener("input", render),
+        document.getElementById(id).addEventListener("input", () => {
+          clearTimeout(filterTimer);
+          filterTimer = setTimeout(render, 120);
+        }),
       );
       document.querySelectorAll("#surahTable .th-sort").forEach((btn) => {
         btn.addEventListener("click", () => {
@@ -707,9 +753,8 @@
       }
 
       function closePanel() {
-        const panel = document.getElementById("surahProfilePanel");
-        panel.hidden = true;
-        panel.innerHTML = "";
+        const row = document.getElementById("surahProfileRow");
+        if (row) row.remove();
         openSurah = null;
         document
           .querySelectorAll(".profile-toggle[aria-expanded='true']")
@@ -735,15 +780,26 @@
         openSurah = surahNum;
 
         await profilesReady;
+        // The reader may have filtered or sorted while the profile data
+        // was in flight, in which case their row is gone and the panel
+        // has nowhere to belong.
+        if (openSurah !== surahNum) return;
+        const tr = btn.closest("tr");
+        if (!tr) return;
         const p = PROFILES && PROFILES[surahNum];
-        const panel = document.getElementById("surahProfilePanel");
-        panel.innerHTML =
-          `<h3>Surah ${surahNum} profile: ${btn.dataset.name}</h3>` +
+        const row = document.createElement("tr");
+        row.id = "surahProfileRow";
+        const cell = document.createElement("td");
+        cell.className = "profile-panel-cell";
+        cell.colSpan = 7;
+        cell.innerHTML =
+          `<h4 style="margin-top:0">Surah ${surahNum} profile: ${btn.dataset.name}</h4>` +
           (p
             ? profilePanelHTML(p)
             : '<p style="color:var(--muted)">Profile data unavailable.</p>');
-        panel.hidden = false;
-        panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        row.appendChild(cell);
+        tr.insertAdjacentElement("afterend", row);
+        if (window.qdCiteEnhance) window.qdCiteEnhance(cell);
       });
 
       // ── Juz (para) browse grid ──────────────────────────────────────

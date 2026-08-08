@@ -239,61 +239,23 @@ features in this verse.
 
 ## Navigate
 
-All 114 surahs. Filter by chronology, classification, or length. Click
-any surah to read it — or jump in by juz (para) .
+All 114 surahs, with their English meanings and lengths. Filter by
+name, meaning, classification, or length, and open any surah whole.
+Jump in by juz (para) at the foot of the page.
 
-### Browse by Juz (para) ~
+Depth:
 
-The Qur'an's 30 traditional parts ( ajzāʾ ) — reading one a
-day completes it in a month. A juz can begin in the middle of a
-surah. Click one to start reading from its first verse.
+Simple
+Study
+Encyclopedic
 
-Juz 1 al-Fatihah 1:1 → 2:141
-Juz 2 al-Baqarah 2:142–252
-Juz 3 al-Baqarah 2:253 → 3:91
-Juz 4 Al ʿImran 3:92 → 4:23
-Juz 5 al-Nisa' 4:24–147
-Juz 6 al-Nisa' 4:148 → 5:81
-Juz 7 al-Ma'idah 5:82 → 6:110
-Juz 8 al-An'am 6:111 → 7:87
-Juz 9 al-A'raf 7:88 → 8:40
-Juz 10 al-Anfal 8:41 → 9:92
-Juz 11 al-Tawbah 9:93 → 11:5
-Juz 12 Hud 11:6 → 12:52
-Juz 13 Yusuf 12:53 → 14:52
-Juz 14 al-Hijr 15:1 → 16:128
-Juz 15 al-Isra 17:1 → 18:74
-Juz 16 al-Kahf 18:75 → 20:135
-Juz 17 al-Anbiya 21:1 → 22:78
-Juz 18 al-Mu'minun 23:1 → 25:20
-Juz 19 al-Furqan 25:21 → 27:55
-Juz 20 al-Naml 27:56 → 29:45
-Juz 21 al-'Ankabut 29:46 → 33:30
-Juz 22 al-Ahzab 33:31 → 36:27
-Juz 23 Yasin 36:28 → 39:31
-Juz 24 al-Zumar 39:32 → 41:46
-Juz 25 Fussilat 41:47 → 45:37
-Juz 26 al-Ahqaf 46:1 → 51:30
-Juz 27 al-Dhariyat 51:31 → 57:29
-Juz 28 al-Mujadilah 58:1 → 66:12
-Juz 29 al-Mulk 67:1 → 77:50
-Juz 30 al-Naba' 78:1 → 114:6
-
-~ Tanzil.
-
-ℹ How this is computed
-
-~
-juz boundaries follow the standard Hafs/mushaf division as published
-in the Tanzil Project metadata. The division is a reading
-convention, not part of the revealed text; minor variants exist in
-other traditions.
+Keys 1 2 3
 
 Choose a surah and verses
 
 Pick any passage without knowing where a surah ends.
 
-### Filter
+### Find a surah
 
 Search:
 
@@ -346,12 +308,62 @@ morphology (see the method note above); period from the Cairo
 falls with length for purely statistical reasons — the pattern
 is descriptive, not a claim about style or meaning.
 
+### All 114 surahs
+
 #
 Name
+Meaning
 Arabic
 Verses
 Class
 Cairo order
+
+### Browse by Juz (para) ~
+
+The Qur'an's 30 traditional parts ( ajzāʾ ) — reading one a
+day completes it in a month. A juz can begin in the middle of a
+surah. Click one to start reading from its first verse.
+
+Juz 1 al-Fatihah 1:1 → 2:141
+Juz 2 al-Baqarah 2:142–252
+Juz 3 al-Baqarah 2:253 → 3:91
+Juz 4 Al ʿImran 3:92 → 4:23
+Juz 5 al-Nisa' 4:24–147
+Juz 6 al-Nisa' 4:148 → 5:81
+Juz 7 al-Ma'idah 5:82 → 6:110
+Juz 8 al-An'am 6:111 → 7:87
+Juz 9 al-A'raf 7:88 → 8:40
+Juz 10 al-Anfal 8:41 → 9:92
+Juz 11 al-Tawbah 9:93 → 11:5
+Juz 12 Hud 11:6 → 12:52
+Juz 13 Yusuf 12:53 → 14:52
+Juz 14 al-Hijr 15:1 → 16:128
+Juz 15 al-Isra 17:1 → 18:74
+Juz 16 al-Kahf 18:75 → 20:135
+Juz 17 al-Anbiya 21:1 → 22:78
+Juz 18 al-Mu'minun 23:1 → 25:20
+Juz 19 al-Furqan 25:21 → 27:55
+Juz 20 al-Naml 27:56 → 29:45
+Juz 21 al-'Ankabut 29:46 → 33:30
+Juz 22 al-Ahzab 33:31 → 36:27
+Juz 23 Yasin 36:28 → 39:31
+Juz 24 al-Zumar 39:32 → 41:46
+Juz 25 Fussilat 41:47 → 45:37
+Juz 26 al-Ahqaf 46:1 → 51:30
+Juz 27 al-Dhariyat 51:31 → 57:29
+Juz 28 al-Mujadilah 58:1 → 66:12
+Juz 29 al-Mulk 67:1 → 77:50
+Juz 30 al-Naba' 78:1 → 114:6
+
+~ Tanzil.
+
+ℹ How this is computed
+
+~
+juz boundaries follow the standard Hafs/mushaf division as published
+in the Tanzil Project metadata. The division is a reading
+convention, not part of the revealed text; minor variants exist in
+other traditions.
 
 ===== Surah dossier: one profile per surah (https://divinediscourses.org/dossier) =====
 

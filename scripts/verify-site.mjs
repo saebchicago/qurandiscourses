@@ -1341,6 +1341,89 @@ if (runCheck("passage") && !PAGE_FILTER) {
   await nctx.close();
 }
 
+// ── Navigate: the list must be the page ─────────────────────────────
+// This page is titled "Browse all 114 surahs" and used to open with
+// ~985px of juz grid, filters and method prose before the first row,
+// with the profile panel rendering below all 114 rows so opening one
+// from the top smooth-scrolled ~4,900px to the footer.
+if (runCheck("navigate") && !PAGE_FILTER) {
+  const nctx = await newContext();
+  const page = await nctx.newPage();
+  await page.goto(`${BASE}/navigate.html`, { waitUntil: "networkidle" });
+  await page.waitForSelector("#surahBody tr", { timeout: 8000 });
+
+  const reach = await page.evaluate(() => {
+    const first = document.querySelector("#surahBody tr");
+    return {
+      firstRowTop: Math.round(first.getBoundingClientRect().top + window.scrollY),
+      viewport: window.innerHeight,
+      count: document.getElementById("surahCount").textContent.trim(),
+      meaning: first.querySelector(".surah-en") ? first.querySelector(".surah-en").textContent.trim() : null,
+      rows: document.querySelectorAll("#surahBody tr").length,
+    };
+  });
+  report(
+    "navigate", "navigate.html · the list is the page",
+    reach.firstRowTop < reach.viewport * 1.5 && reach.rows === 114 &&
+      reach.meaning === "The Opening" && /114/.test(reach.count),
+    `first row at ${reach.firstRowTop}px (viewport ${reach.viewport}); ${reach.rows} rows; ` +
+      `meaning column="${reach.meaning}"; count="${reach.count}"`,
+  );
+
+  // The profile panel opens next to the row that asked for it.
+  await page.evaluate(() => document.documentElement.setAttribute("data-depth", "study"));
+  await page.click('#surahBody tr:first-child .profile-toggle');
+  await page.waitForSelector("#surahProfileRow", { timeout: 8000 });
+  const near = await page.evaluate(() => {
+    const btn = document.querySelector('#surahBody tr:first-child .profile-toggle');
+    const panel = document.getElementById("surahProfileRow");
+    return {
+      gap: Math.round(panel.getBoundingClientRect().top - btn.getBoundingClientRect().bottom),
+      insideTable: Boolean(panel.closest("#surahTable")),
+    };
+  });
+  report(
+    "navigate", "navigate.html · profile opens at its row",
+    near.insideTable && Math.abs(near.gap) < 200,
+    `panel is ${near.gap}px from its button and ${near.insideTable ? "inside" : "OUTSIDE"} the table`,
+  );
+
+  // Searching by English meaning: the page's own filter used to match
+  // only the id prefix and the transliteration.
+  await page.fill("#searchBox", "cow");
+  await page.waitForTimeout(300);
+  const byMeaning = await page.evaluate(() => ({
+    rows: document.querySelectorAll("#surahBody tr").length,
+    first: document.querySelector("#surahBody tr a") ? document.querySelector("#surahBody tr a").textContent.trim() : null,
+    count: document.getElementById("surahCount").textContent.trim(),
+  }));
+  report(
+    "navigate", "navigate.html · search by English meaning",
+    byMeaning.first === "al-Baqarah" && /Showing/.test(byMeaning.count),
+    `"cow" -> ${byMeaning.rows} row(s), first "${byMeaning.first}", count "${byMeaning.count}"`,
+  );
+
+  // The juz grid links to whole juz, and sits below the list.
+  const juz = await page.evaluate(() => {
+    const cells = [...document.querySelectorAll(".juz-cell")];
+    const table = document.getElementById("surahTable");
+    return {
+      n: cells.length,
+      allWhole: cells.every((c) => /\/read\?j=\d{1,2}$/.test(c.getAttribute("href"))),
+      belowTable: cells.length
+        ? cells[0].getBoundingClientRect().top + window.scrollY >
+          table.getBoundingClientRect().top + window.scrollY
+        : false,
+    };
+  });
+  report(
+    "navigate", "navigate.html · juz grid",
+    juz.n === 30 && juz.allWhole && juz.belowTable,
+    `${juz.n} cells; all link to /read?j=N: ${juz.allWhole}; below the table: ${juz.belowTable}`,
+  );
+  await nctx.close();
+}
+
 // ── First visit (empty storage) ─────────────────────────────────────
 if (runCheck("firstvisit") && (!PAGE_FILTER || PAGE_FILTER === "index.html")) {
   const fctx = await newContext({ seenState: false });

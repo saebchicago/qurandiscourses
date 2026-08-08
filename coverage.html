@@ -485,14 +485,18 @@
       function renderWantedRing(r) {
         const el = document.getElementById("wantedRing");
         if (!el || !r) return;
+        // qdIssueUrl takes ONE options object and returns
+        // { url, truncated } — not a bare string.
         const issue =
           window.qdIssueUrl &&
-          window.qdIssueUrl("structural-hypothesis.md", {
+          window.qdIssueUrl({
+            template: "structural-hypothesis.md",
             title: "Ring/structural analysis: surah ",
           });
-        const cta = issue
-          ? ` <a href="${issue}" rel="noopener">Propose one</a>`
-          : "";
+        const cta =
+          issue && issue.url
+            ? ` <a href="${issue.url}" rel="noopener">Propose one</a>`
+            : "";
         const near = (r.proxyTest && r.proxyTest.surahsWithClosestMiss) || [];
         el.innerHTML =
           `<p><strong>${r.transcribed.length} of ${r.totalSurahs}</strong> surahs have a transcribed, page-cited ` +

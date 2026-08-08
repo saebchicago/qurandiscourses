@@ -185,12 +185,12 @@
 [[headers]]
   for = "/coverage.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-3nCm4yWhXEixgWjgT4VnxJtJlw8AZ4Irln67+0ZbeLw='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-RLLRNEsdbkmOyC5rxRTZbZIadGWoVevCHLop5yOiPM4='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-27EQJaZ27KEdmWCcVCLUEHKMaauSdpKaGQ43F5Tx9SE='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-RLLRNEsdbkmOyC5rxRTZbZIadGWoVevCHLop5yOiPM4='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/coverage"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-3nCm4yWhXEixgWjgT4VnxJtJlw8AZ4Irln67+0ZbeLw='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-RLLRNEsdbkmOyC5rxRTZbZIadGWoVevCHLop5yOiPM4='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-27EQJaZ27KEdmWCcVCLUEHKMaauSdpKaGQ43F5Tx9SE='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-RLLRNEsdbkmOyC5rxRTZbZIadGWoVevCHLop5yOiPM4='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/changelog.html"
@@ -335,12 +335,12 @@
 [[headers]]
   for = "/navigate.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-551647IUJB589LRyvXaESVehfJwfcP1u6KU8kJ7Cx6o='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-BlQATcueVYfF34odeNRzjADWRUEMns7NkY+qbVE437Y='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-uLuDzat0WZXwC2FirRbT5rDrgcpdOdNRLTMATwKUD68='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-wi+2j/41kE6BcMGeafSd27QxTjfEhPZZ4UIu0lNqvsY='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/navigate"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-551647IUJB589LRyvXaESVehfJwfcP1u6KU8kJ7Cx6o='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-BlQATcueVYfF34odeNRzjADWRUEMns7NkY+qbVE437Y='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-uLuDzat0WZXwC2FirRbT5rDrgcpdOdNRLTMATwKUD68='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-wi+2j/41kE6BcMGeafSd27QxTjfEhPZZ4UIu0lNqvsY='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/numbers.html"
