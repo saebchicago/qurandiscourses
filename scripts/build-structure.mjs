@@ -66,6 +66,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { FREQUENCY_CEILING } from "./lib/stats.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_DIR = join(ROOT, "data", "structure");
@@ -74,7 +75,6 @@ mkdirSync(OUT_DIR, { recursive: true });
 // Same rule as build-cooccurrence.mjs / build-discursive-pivots.mjs /
 // build-symmetry-test.mjs: roots this frequent co-occur with nearly
 // everything, so they carry no topical signal.
-const FREQUENCY_CEILING = 700;
 const rootsSummary = JSON.parse(
   readFileSync(join(ROOT, "data", "roots-summary.json"), "utf8"),
 );

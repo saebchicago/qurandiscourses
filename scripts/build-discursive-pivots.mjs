@@ -27,6 +27,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { FREQUENCY_CEILING } from "./lib/stats.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -37,7 +38,6 @@ const rootsSummary = JSON.parse(
 // Same rule as scripts/build-cooccurrence.mjs: roots this frequent co-occur
 // with nearly everything, so "shared root" would be meaningless noise if
 // they counted. Kept identical to that script's ceiling for consistency.
-const FREQUENCY_CEILING = 700;
 const excludedRoots = new Set(
   Object.entries(rootsSummary)
     .filter(([, meta]) => meta.totalCount > FREQUENCY_CEILING)

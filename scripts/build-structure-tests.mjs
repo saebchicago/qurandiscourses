@@ -63,10 +63,15 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { mulberry32, shuffle } from "./lib/permute.mjs";
+import {
+  FREQUENCY_CEILING,
+  pearson,
+  benjaminiHochbergSurvivorCount,
+  bonferroniAlpha as computeBonferroniAlpha,
+} from "./lib/stats.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
-const FREQUENCY_CEILING = 700; // same rule as build-cooccurrence.mjs etc.
 const MAX_EXACT_FACTORIAL = 40320; // 8!; covers every surah up to 8 sections
 const MONTE_CARLO_B = 10000;
 const FDR_Q = 0.05;
@@ -86,24 +91,6 @@ function jaccard(a, b) {
   for (const x of a) if (b.has(x)) intersection++;
   const union = a.size + b.size - intersection;
   return union === 0 ? 1 : intersection / union;
-}
-
-function pearson(x, y) {
-  const n = x.length;
-  const meanX = x.reduce((s, v) => s + v, 0) / n;
-  const meanY = y.reduce((s, v) => s + v, 0) / n;
-  let num = 0,
-    denX = 0,
-    denY = 0;
-  for (let i = 0; i < n; i++) {
-    const dx = x[i] - meanX;
-    const dy = y[i] - meanY;
-    num += dx * dy;
-    denX += dx * dx;
-    denY += dy * dy;
-  }
-  const den = Math.sqrt(denX * denY);
-  return den === 0 ? 0 : num / den;
 }
 
 function factorial(n) {
@@ -152,20 +139,6 @@ function bracketCount(order, refrainSectionSets) {
   let count = 0;
   for (const secSet of refrainSectionSets) if (secSet.has(first) && secSet.has(last)) count++;
   return count;
-}
-
-// Benjamini-Hochberg: sort p-values ascending, find the largest rank k
-// where p(k) <= (k/m) * q; everything at or before that rank survives.
-// Returns the count of survivors (the first `count` entries of the
-// ascending-sorted input are the survivors).
-function benjaminiHochbergSurvivorCount(sortedPValues, q) {
-  const m = sortedPValues.length;
-  let maxK = 0;
-  for (let i = 0; i < m; i++) {
-    const rank = i + 1;
-    if (sortedPValues[i] <= (rank / m) * q) maxK = rank;
-  }
-  return maxK;
 }
 
 {
@@ -368,7 +341,7 @@ const survivorCount = benjaminiHochbergSurvivorCount(
   FDR_Q,
 );
 const survivors = sorted.slice(0, survivorCount);
-const bonferroniAlpha = 0.05 / m;
+const bonferroniAlpha = computeBonferroniAlpha(m);
 const bonferroniSurvivors = candidates.filter((c) => c.pValue <= bonferroniAlpha);
 
 const survivorKeys = new Set(survivors.map((c) => `${c.surah}:${c.test}`));

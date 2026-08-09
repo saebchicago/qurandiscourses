@@ -64,13 +64,13 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { safeKey } from "./lib/safe-key.mjs";
 import { computedDate } from "./lib/computed-date.mjs";
+import { FREQUENCY_CEILING } from "./lib/stats.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
 const DATA = join(ROOT, "data");
 const OUT = join(DATA, "cooccurrence");
 
-const FREQUENCY_CEILING = 700;
 const TOP_N = 12;
 const TOP_N_CHRON = 6;
 const TOP_N_PMI = 10;
