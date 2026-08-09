@@ -59,6 +59,12 @@
     // The API does name this one's translators, unlike ja/ko.
     { id: "hi.hindi", name: "Suhel Farooq Khan & Saifur Rahman Nadwi (Hindi)", lang: "hi" },
     { id: "sw.barwani", name: "Ali Muhsin Al-Barwani (Swahili)", lang: "sw" },
+    { id: "ha.gumi", name: "Abubakar Mahmoud Gumi (Hausa)", lang: "ha" },
+    { id: "so.abduh", name: "Mahmud Muhammad Abduh (Somali)", lang: "so" },
+    { id: "uz.sodik", name: "Muhammad Sodik Muhammad Yusuf (Uzbek)", lang: "uz" },
+    { id: "az.mammadaliyev", name: "Vasim Mammadaliyev & Ziya Bunyadov (Azerbaijani)", lang: "az" },
+    { id: "ps.abdulwali", name: "Abdul Wali (Pashto)", lang: "ps" },
+    { id: "ku.asan", name: "Burhan Muhammad-Amin (Kurdish)", lang: "ku" },
   ];
 
   const RECITERS = [

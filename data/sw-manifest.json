@@ -2,7 +2,7 @@
  "_generated": "scripts/build-sw-manifest.mjs — the service worker's precache list and content fingerprint. A hash diff here alongside an unchanged version is the reviewer's cue to consider a SW_VERSION bump (see docs/maintainer-guide.md).",
  "version": "v10",
  "hashes": {
-  "assets/app.js": "f0b76353c6479dfc17c9b2d07733449375dc6f1668c16b3a43357be1f2489971",
+  "assets/app.js": "1a4000562abaaf08159c5ccd796c4408b21941e3762fe0217f4521578687dca8",
   "assets/ask-routes.js": "4dc5c1a5262382d4d0c8eedba2a3111d436687ac949913443151b6ca6b6d8092",
   "assets/ask.js": "2d168631b97e0766ba2f464fb2668c130389f76db5b8352cf96b1244b9bfd112",
   "assets/case-studies.js": "4b02eb58852ca74cc747d7fdface11c8a6b921b985b210e776f0ef73a58dcfcc",
@@ -39,7 +39,7 @@
   "assets/wordbw.js": "5b4f6170ff716e2b1b984eca4bdc2725833d250c063ab17c0785cedb97cb910f",
   "data/ask-routes.json": "add910a7eddb3c933ded978e999c8f57a215183a44014e6c9d8375b773f2d980",
   "data/case-studies.json": "c46a3b020f377d19f56c783db23ee01450496059d9886edc1993bb4d2dcb82be",
-  "data/changelog.json": "bbf3240a7c801d7672588375d97c4a2215b36fa40782b192ad2207834d083b82",
+  "data/changelog.json": "4ba156bb2952f0526b8a7b8ec19d35ae53d42f647f53bdb15114055e55d07438",
   "data/chronology.json": "db3a30121b07c3a96326621adef0a2ea710e0eab84f68f8ffe1a20228b08abf7",
   "data/claims.json": "1b0abf1674168bdecde4eccd1f455a977f9ff6eef5b1eea6cfa63508031eb026",
   "data/contributors.json": "d13308ad1a8291e2b8f974b9d19da9e284d692333fcc65f65037a72c23ebca5c",
@@ -59,7 +59,7 @@
   "data/roots-index.json": "ede890265ea2ab92cf2355f546e261d341a40a66b66f33b10ad70528a216bbdd",
   "data/roots-list.json": "477cff50fa62cb1067125ba01b1a8ffc223b09b55daf4cb1d8d983c2ea2f8af3",
   "data/roots-summary.json": "c75bb05f6429f11483e470fce9579407cbbf6622e058846273a27afd8f6a5dc4",
-  "data/search-index.json": "408ca9d1a61434024d59bf424f29a3de1ad746c717f53657d8c8ec38d99eef05",
+  "data/search-index.json": "f62039c045532b5a7f943ed185450e213aca5c8e3049bff58db1c74c2b801f1e",
   "data/sources.json": "53a2cdc098a02a61b297a673e49b760f89a95a80f5682a642f609b5e37b8d00a",
   "data/structure-tests.json": "0993bdd2e10cb073478b9cd544ec2d9e3f1afe3e11a80e6531a48ed008667193",
   "data/surah-meta.json": "a3448191e3bfea6c15069ac2485478942e7cab6423216d772802b9cae4cb6454",
@@ -74,7 +74,7 @@
   "index.html": "ff1aae4ab07d020fccc0e9039e28771da1253de9cc329986d36fb13a92353717",
   "navigate.html": "d3e6c9886200275d5273cefbce301e842372d4afeabeffac3020e5d7fa3908ff",
   "paths.html": "85c76357c12223edec29d1c4346ad6751b259b8d9e89937734148343c34ab959",
-  "read.html": "b11c571779f97cd7616086cebe4f959eef33677924528e61dfabd2a99fdd56c4",
+  "read.html": "a26bd484c30c9aab5316d57fe5b19ccc56c1387e7b1bbd6f0afa77e9fcca2051",
   "search.html": "fb10b19630138e726515a122b1c9b4c0ffefdbdfad1d3f2ae11a10d3efceb26b"
  }
 }

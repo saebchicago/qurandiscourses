@@ -47,6 +47,29 @@
               stopped matching reality the next time a source was added.</content>
   </entry>
   <entry>
+    <title>Eight more download tables, and Compare stopped front-loading 368KB nobody asked for</title>
+    <id>https://divinediscourses.org/changelog#2026-08-twelve-tables-and-a-lighter-compare</id>
+    <link href="https://divinediscourses.org/changelog#2026-08-twelve-tables-and-a-lighter-compare"/>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Eight more download tables, and Compare stopped
+              front-loading 368KB nobody asked for.&lt;/strong&gt; The public
+              &lt;a href="/export"&gt;Export&lt;/a&gt; page carried four tables since
+              its first release; it now carries twelve. The new ones
+              republish, as CSV and JSON with the same schema and data
+              dictionary as the rest, exactly what Formulas, the root
+              detail centrality panel, Patterns' rhyme ranking, the
+              fawatih count, discursive pivots, the computed-structure
+              panel, and the theme density behind Themes already show in
+              the browser, so any of it can be recomputed or reused
+              without scraping a page. Separately, &lt;a
+              href="/compare"&gt;Compare&lt;/a&gt; fetched its 368KB root list on
+              every visit, whether or not a reader ever searched for a
+              root; it now fetches that file on first use (typing into a
+              root field, following a deep link, or clicking one of the
+              example pairs) and not before. A blank visit to Compare no
+              longer downloads it at all.</content>
+  </entry>
+  <entry>
     <title>The root you clicked is the root you get</title>
     <id>https://divinediscourses.org/changelog#2026-08-the-root-you-clicked</id>
     <link href="https://divinediscourses.org/changelog#2026-08-the-root-you-clicked"/>

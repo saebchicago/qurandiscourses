@@ -587,6 +587,28 @@
 
         let allRoots = [];
         let rowSeq = 0;
+        // data/roots-list.json (368KB) is only needed once a reader
+        // actually searches for a root, so it is fetched lazily on
+        // first focus/input of a root field rather than at page load —
+        // except when the URL already names roots to compare, where it
+        // is needed immediately to resolve them.
+        let rootsListP = null;
+        function ensureRootsList() {
+          if (!rootsListP) {
+            rootsListP = fetch("data/roots-list.json")
+              .then((r) => {
+                if (!r.ok) throw new Error("HTTP " + r.status);
+                return r.json();
+              })
+              .then((data) => {
+                window.__rootsMeta = data;
+                allRoots = Object.values(data).sort(
+                  (a, b) => b.totalCount - a.totalCount,
+                );
+              });
+          }
+          return rootsListP;
+        }
 
         function rootsSafeKey(bw) {
           let out = "";
@@ -697,11 +719,15 @@
             renderCompare();
           };
           inp.addEventListener("input", () => {
-            renderSuggestions(list, matchRoots(inp.value.trim()), onSelect);
-            if (!inp.value.trim() && row._sel) {
-              row._sel = null;
-              renderCompare();
-            }
+            ensureRootsList()
+              .then(() => {
+                renderSuggestions(list, matchRoots(inp.value.trim()), onSelect);
+                if (!inp.value.trim() && row._sel) {
+                  row._sel = null;
+                  renderCompare();
+                }
+              })
+              .catch(() => {});
           });
           inp.addEventListener("blur", () => {
             setTimeout(() => {
@@ -710,7 +736,9 @@
           });
           inp.addEventListener("focus", () => {
             if (inp.value.trim())
-              renderSuggestions(list, matchRoots(inp.value.trim()), onSelect);
+              ensureRootsList()
+                .then(() => renderSuggestions(list, matchRoots(inp.value.trim()), onSelect))
+                .catch(() => {});
           });
         }
         function addRootRow(preRoot) {
@@ -1046,7 +1074,9 @@
         document.querySelectorAll("[data-roots]").forEach((a) => {
           a.addEventListener("click", (e) => {
             e.preventDefault();
-            applyRoots(a.dataset.roots.split(","));
+            ensureRootsList()
+              .then(() => applyRoots(a.dataset.roots.split(",")))
+              .catch(() => {});
             document
               .getElementById("compareCanvas")
               .scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -1059,35 +1089,28 @@
         });
 
         // ── Boot ──────────────────────────────────────────────────────────────
-        fetch("data/roots-list.json")
-          .then((r) => {
-            if (!r.ok) throw new Error("HTTP " + r.status);
-            return r.json();
-          })
-          .then((data) => {
-            window.__rootsMeta = data;
-            allRoots = Object.values(data).sort(
-              (a, b) => b.totalCount - a.totalCount,
-            );
-
-            const params = new URLSearchParams(location.search);
-            let initial = [];
-            if (params.get("roots")) {
-              initial = params.get("roots").split(",").filter(Boolean);
-            } else if (params.get("a") && params.get("b")) {
-              initial = [params.get("a"), params.get("b")]; // legacy links
-            }
-            if (initial.length >= 2) {
-              applyRoots(initial);
-            } else {
-              addRootRow();
-              addRootRow();
-            }
-          })
-          .catch(() => {
-            document.getElementById("comparePrompt").textContent =
-              "Root data unavailable. Please try again later.";
-          });
+        (() => {
+          const params = new URLSearchParams(location.search);
+          let initial = [];
+          if (params.get("roots")) {
+            initial = params.get("roots").split(",").filter(Boolean);
+          } else if (params.get("a") && params.get("b")) {
+            initial = [params.get("a"), params.get("b")]; // legacy links
+          }
+          if (initial.length >= 2) {
+            // A deep link names roots to compare, so the data is needed
+            // immediately, not deferred to the first interaction.
+            ensureRootsList()
+              .then(() => applyRoots(initial))
+              .catch(() => {
+                document.getElementById("comparePrompt").textContent =
+                  "Root data unavailable. Please try again later.";
+              });
+          } else {
+            addRootRow();
+            addRootRow();
+          }
+        })();
       })();
     </script>
     <script>
