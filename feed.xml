@@ -9,6 +9,30 @@
   <updated>2026-08-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>Choosing translations no longer means scrolling five screens of checkboxes</title>
+    <id>https://divinediscourses.org/changelog#2026-08-choosing-translations-got-easier</id>
+    <link href="https://divinediscourses.org/changelog#2026-08-choosing-translations-got-easier"/>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Choosing translations no longer means scrolling five screens of checkboxes.&lt;/strong&gt;
+              The old "N selected" button opened a search-less list of
+              every edition grouped by language, and every tap reloaded
+              the whole passage immediately -- ticking three boxes meant
+              three reloads. It now opens a searchable dialog (by
+              translator, language, or edition id), your current
+              selection sorts to a "Selected" group at the top, and every
+              change applies once, on confirm. The button itself now
+              names the translators you picked instead of just counting
+              them. &lt;a href="/read"&gt;Read&lt;/a&gt;'s address bar carries the
+              selection too (&lt;code&gt;?t=&lt;/code&gt;), so a shared link shows
+              the translations its sender actually saw. The
+              &lt;a href="/compare"&gt;Compare&lt;/a&gt; page's passage view rendered
+              only the first saved translation and dropped the rest
+              silently; it now renders every one, each with its own
+              translator credit and correct script. The gear panel
+              (every page) gets a Translations row so the setting is no
+              longer Read-only.</content>
+  </entry>
+  <entry>
     <title>18,408 recurring phrases now answer a harder question: how much of a surah are they?</title>
     <id>https://divinediscourses.org/changelog#2026-08-how-formulaic-is-this-surah</id>
     <link href="https://divinediscourses.org/changelog#2026-08-how-formulaic-is-this-surah"/>

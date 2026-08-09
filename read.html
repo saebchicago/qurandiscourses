@@ -1107,6 +1107,15 @@
           }
           const vocabPanelEl = document.getElementById("vocabPanel");
           if (vocabPanelEl) vocabPanelEl.innerHTML = "";
+          // Requested (qdState.translations) vs rendered (what actually
+          // came back per verse) can disagree on the juz path, where a
+          // failed per-edition fetch is silently dropped rather than
+          // shown as an "unavailable" placeholder the way the surah
+          // path does -- so the button always names the requested set,
+          // never a rendered count that can quietly undercount it.
+          const transSummary = window.qdTransPickerSummary
+            ? window.qdTransPickerSummary()
+            : `${qdState.translations.length} selected`;
           let allHtml = "";
           let lastSurah = null;
           verses.forEach(
@@ -1136,7 +1145,6 @@
                   "</h3>";
                 lastSurah = thisSurah;
               }
-              const transCount = translations.length;
               let arHtml = needsMorph
                 ? buildArHtml(
                     arText,
@@ -1156,7 +1164,7 @@
                   resolveHlSet(deepLinkHl.spec, tokenCount),
                 );
               }
-              let html = `<div class="verse" data-ayah="${ayahNum}"><div class="meta"><strong><a class="vref" href="/read?s=${s}&a=${ayahNum}" title="Link to this verse">${s}:${ayahNum}</a></strong><span>${surahName} · ${surahNameTranslation}</span><button type="button" class="notebook-pin-btn" data-notebook-type="verse" data-notebook-ref="${s}:${ayahNum}" data-notebook-label="${qdEsc(s + ":" + ayahNum + " · " + surahName)}" title="Pin this verse to your workspace" aria-label="Pin verse ${s}:${ayahNum} to your workspace">📌</button></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button id="transBtn-${ayahNum}" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem">${transCount} selected ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arHtml}</p>`;
+              let html = `<div class="verse" data-ayah="${ayahNum}"><div class="meta"><strong><a class="vref" href="/read?s=${s}&a=${ayahNum}" title="Link to this verse">${s}:${ayahNum}</a></strong><span>${surahName} · ${surahNameTranslation}</span><button type="button" class="notebook-pin-btn" data-notebook-type="verse" data-notebook-ref="${s}:${ayahNum}" data-notebook-label="${qdEsc(s + ":" + ayahNum + " · " + surahName)}" title="Pin this verse to your workspace" aria-label="Pin verse ${s}:${ayahNum} to your workspace">📌</button></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button type="button" class="trans-open-btn" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem;max-width:min(100%,22rem);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${qdEsc(transSummary)} ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arHtml}</p>`;
               // Word-by-word meanings (assets/wordbw.js) render at every
               // depth: knowing what the words say is reading, not
               // analysis. Filled after the passage paints; stays hidden
@@ -1185,27 +1193,13 @@
                 const langAttr = t.edition.language
                   ? ` lang="${qdEsc(t.edition.language)}"`
                   : "";
-                // Script-specific font classes. Urdu gets Nastaliq, Bengali
-                // gets Noto Serif Bengali — both self-hosted, each with its
-                // own line-height. Chinese, Japanese, and Korean get the
-                // reader's own system CJK face: a subsetted CJK webfont
-                // still runs to megabytes, which is not a trade this site
-                // makes for text every device can already render.
-                // Latin-script editions (including Turkish and Bosnian,
-                // whose diacritics live in the bundled latin-ext subsets)
-                // need nothing.
-                const scriptClass =
-                  {
-                    ur: " nastaliq",
-                    bn: " bengali",
-                    hi: " devanagari",
-                    fa: " arabic-script",
-                    ps: " arabic-script",
-                    ku: " arabic-script",
-                    zh: " cjk",
-                    ja: " cjk",
-                    ko: " cjk",
-                  }[t.edition.language] || "";
+                // Script class from the shared assets/lang-labels.js
+                // lookup, not a local copy — Compare renders translations
+                // too and needs the exact same mapping, not a second one
+                // that can silently drift from this one.
+                const scriptClass = window.qdScriptClass
+                  ? window.qdScriptClass(t.edition.language)
+                  : "";
                 // The edition's native-script name gets the same lang/dir
                 // as the text it names, so screen readers switch voices.
                 html += `<div class="translation"><div class="label">${qdEsc(t.edition.englishName)} · <span${dirAttr}${langAttr}>${qdEsc(t.edition.name)}</span></div><div class="text${scriptClass}"${dirAttr}${langAttr}>${qdEsc(t.text)}</div></div>`;
@@ -1283,74 +1277,21 @@
             );
           }
 
-          verses.forEach(({ ayahNum }) => {
-            const transBtn = document.getElementById(`transBtn-${ayahNum}`);
-            if (transBtn) {
-              transBtn.addEventListener("click", () => {
-                const LANG_LABELS = {
-                  en: "English",
-                  ur: "Urdu",
-                  bn: "Bengali",
-                  ms: "Malay",
-                  id: "Indonesian",
-                  fr: "French",
-                  es: "Spanish",
-                  tr: "Turkish",
-                  bs: "Bosnian",
-                  zh: "Chinese",
-                  ja: "Japanese",
-                  ko: "Korean",
-                  ru: "Russian",
-                  fa: "Persian",
-                  de: "German",
-                  hi: "Hindi",
-                  sw: "Swahili",
-                  ha: "Hausa",
-                  so: "Somali",
-                  uz: "Uzbek",
-                  az: "Azerbaijani",
-                  ps: "Pashto",
-                  ku: "Kurdish",
-                };
-                const groups = new Map();
-                qdTranslations.forEach((t) => {
-                  const lang = t.lang || "en";
-                  if (!groups.has(lang)) groups.set(lang, []);
-                  groups.get(lang).push(t);
-                });
-                const transList = [...groups.entries()]
-                  .map(([lang, items]) => {
-                    const rows = items
-                      .map(
-                        (t) =>
-                          `<label style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem;border-bottom:1px solid var(--line);cursor:pointer"><input type="checkbox" data-trans="${t.id}" ${qdState.translations.includes(t.id) ? "checked" : ""}> <span style="flex:1">${t.name}</span><span style="font-size:0.7rem;padding:0.1rem 0.4rem;border-radius:4px;background:var(--card);border:1px solid var(--line);color:var(--muted)">${lang}</span></label>`,
-                      )
-                      .join("");
-                    return `<div style="padding:0.5rem 0.75rem;font-size:0.78rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:var(--muted);background:var(--bg)">${LANG_LABELS[lang] || lang}</div>${rows}`;
-                  })
-                  .join("");
-                const { modal } = qdOpenModal(
-                  "Choose Translations",
-                  `<div id="transListContainer">${transList}</div>`,
-                );
-                modal.querySelectorAll("[data-trans]").forEach((cb) => {
-                  cb.addEventListener("change", () => {
-                    const id = cb.getAttribute("data-trans");
-                    if (cb.checked) {
-                      if (!qdState.translations.includes(id))
-                        qdState.translations.push(id);
-                    } else {
-                      qdState.translations = qdState.translations.filter(
-                        (x) => x !== id,
-                      );
-                    }
-                    qdSaveState();
-                    load();
-                  });
-                });
-              });
-            }
+          // One delegated listener, not one addEventListener per verse:
+          // every verse's translation button opens the exact same
+          // shared dialog (assets/trans-picker.js), so there is nothing
+          // verse-specific to close over. Attached once per render
+          // rather than once per page load so it keeps working after a
+          // reload rebuilds the verse markup underneath it.
+          if (!container.__transDelegated) {
+            container.__transDelegated = true;
+            container.addEventListener("click", (e) => {
+              const btn = e.target.closest && e.target.closest(".trans-open-btn");
+              if (btn && window.qdOpenTransPicker) window.qdOpenTransPicker(btn);
+            });
+          }
 
+          verses.forEach(({ ayahNum }) => {
             const reciterBtn = document.getElementById(`reciterBtn-${ayahNum}`);
             if (reciterBtn) {
               reciterBtn.addEventListener("click", () => {
@@ -1460,6 +1401,7 @@
             url.searchParams.set("s", s);
             url.searchParams.set("a", aParam);
           }
+          url.searchParams.set("t", qdState.translations.join(","));
           history.replaceState({}, "", url);
           if (window.qdSaveLastRead && !juzMode) window.qdSaveLastRead(s, aParam);
           maybeShowMethodStrip();
@@ -1542,6 +1484,7 @@
             const url = new URL(window.location);
             url.searchParams.set("s", s);
             url.searchParams.set("a", aParam);
+            url.searchParams.set("t", qdState.translations.join(","));
             history.replaceState({}, "", url);
             if (window.qdSaveLastRead) window.qdSaveLastRead(s, aParam);
             maybeShowMethodStrip();
@@ -1653,6 +1596,22 @@
         document.getElementById("surahInput").value = params.get("s");
       if (params.get("a"))
         document.getElementById("ayahInput").value = params.get("a");
+      // ?t=en.sahih,en.asad — the reading's translation selection, made
+      // shareable and citable the way s/a/j/hl already are. The URL wins
+      // over the saved qd_state when present, so a shared link always
+      // shows what its sender actually saw rather than whatever the
+      // visitor happened to have chosen before. Silently ignores an
+      // empty result (a stale or hand-edited param naming zero known
+      // editions) rather than leaving the reader with nothing selected.
+      if (params.get("t")) {
+        const known = new Set((window.qdTranslations || []).map((t) => t.id));
+        const requested = params
+          .get("t")
+          .split(",")
+          .map((id) => id.trim())
+          .filter((id) => known.has(id));
+        if (requested.length) qdState.translations = requested;
+      }
       // Deep-linked arrivals: swap the tall "Start reading" welcome card
       // for a compact loading card NOW — this script runs mid-parse
       // (non-deferred, after #verseContainer), so the swap lands before
@@ -1753,6 +1712,8 @@
       }
     </script>
     <script src="assets/picker.js" defer></script>
+    <script src="assets/lang-labels.js" defer></script>
+    <script src="assets/trans-picker.js" defer></script>
     <script src="assets/passage.js" defer></script>
     <script src="assets/read-picker.js" defer></script>
     <script src="assets/read-polish.js" defer></script>

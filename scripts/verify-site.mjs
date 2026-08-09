@@ -972,6 +972,166 @@ if (runCheck("rootdetail") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !
   await rctx.close();
 }
 
+// ── read.html: translation picker (assets/trans-picker.js) ──────────
+// Search, apply as one batched commit (not per-checkbox), Escape closes
+// and restores focus, and a change made inside the dialog without
+// confirming must not silently persist.
+if (runCheck("transpicker") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) {
+  const tctx = await newContext({ apiMode: "stub" });
+  const page = await tctx.newPage();
+  const errors = [];
+  attachConsoleCollector(page, errors);
+  await page.goto(`${BASE}/read.html?s=103&a=1-3`, { waitUntil: "load" });
+  await page.waitForSelector(".trans-open-btn", { timeout: 15000 }).catch(() => {});
+  // read.html's own deep-link ("hasParams") path renders twice on a
+  // fresh load -- once from app.js's unconditional qd:depth-changed
+  // dispatch on DOMContentLoaded, again from its documented "load +
+  // 200ms" idle fallback -- and the second pass replaces the verse
+  // markup, which would detach a trigger clicked in that window before
+  // this check ever touches it. Pre-existing on main, independent of
+  // the picker; settling past it here tests the picker in the steady
+  // state a reader actually interacts in, not that unrelated race.
+  await page.waitForTimeout(500);
+  const trigger = page.locator(".trans-open-btn").first();
+  const before = await trigger.textContent().catch(() => null);
+  await trigger.click();
+  await page.waitForSelector(".qd-picker-overlay .qd-list-row", { timeout: 5000 }).catch(() => {});
+  const totalRows = await page.locator(".qd-picker-overlay .qd-list-row").count();
+  await page.fill(".qd-picker-q", "asad");
+  await page.waitForTimeout(150);
+  const filteredRows = await page.locator(".qd-picker-overlay .qd-list-row").count();
+  await page.fill(".qd-picker-q", "");
+  await page.waitForTimeout(150);
+  // Check a box, then abandon via Escape (not confirm) -- this must not
+  // persist, the same contract every other unsaved-edit dialog on the
+  // site honors.
+  await page.locator('.qd-picker-overlay [data-item="en.asad"]').check();
+  await page.keyboard.press("Escape");
+  await page.waitForTimeout(150);
+  const overlayGoneOnEscape = (await page.locator(".qd-picker-overlay").count()) === 0;
+  const focusRestored = await page.evaluate(
+    () => document.activeElement && document.activeElement.classList.contains("trans-open-btn"),
+  );
+  const abandonedState = await page.evaluate(() =>
+    (JSON.parse(localStorage.getItem("qd_state") || "{}").translations || []).includes("en.asad"),
+  );
+  report(
+    "read-transpicker-search",
+    "read.html",
+    totalRows > 0 && filteredRows > 0 && filteredRows < totalRows,
+    `${totalRows} rows unfiltered, ${filteredRows} rows for "asad"`,
+  );
+  report(
+    "read-transpicker-escape",
+    "read.html",
+    overlayGoneOnEscape && focusRestored && !abandonedState,
+    `overlayGone=${overlayGoneOnEscape} focusRestored=${focusRestored} abandonedEditPersisted=${abandonedState} (want false)`,
+  );
+  // Reopen and actually apply -- one batched commit, not a reload per
+  // checkbox: the button label, the qd_state, and the URL's ?t= must
+  // all reflect the FULL new set after a single confirm.
+  await trigger.click();
+  await page.waitForSelector(".qd-picker-overlay .qd-list-row", { timeout: 5000 }).catch(() => {});
+  await page.locator('.qd-picker-overlay [data-item="en.asad"]').check();
+  await page.click(".qd-picker-confirm");
+  await page.waitForTimeout(400);
+  const after = await trigger.textContent().catch(() => null);
+  const appliedState = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("qd_state") || "{}").translations || [],
+  );
+  const url = new URL(page.url());
+  const tParam = (url.searchParams.get("t") || "").split(",");
+  const ok =
+    before !== after &&
+    appliedState.includes("en.asad") &&
+    tParam.includes("en.asad");
+  report(
+    "read-transpicker-apply",
+    "read.html",
+    ok,
+    `before="${(before || "").trim()}" after="${(after || "").trim()}" qd_state=${JSON.stringify(appliedState)} ?t=${tParam.join(",")}`,
+  );
+  report("read-transpicker-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+  await tctx.close();
+}
+
+// ── read.html: ?t= URL parameter selects translations on load ───────
+if (runCheck("transurl") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) {
+  const uctx = await newContext({ apiMode: "stub" });
+  const page = await uctx.newPage();
+  const errors = [];
+  attachConsoleCollector(page, errors);
+  await page.goto(`${BASE}/read.html?s=103&a=1-3&t=en.pickthall`, { waitUntil: "load" });
+  await page.waitForSelector(".verse .translation .text", { timeout: 15000 }).catch(() => {});
+  const state = await page.evaluate(() => ({
+    verses: document.querySelectorAll(".verse").length,
+    // One translation per verse, not one for the whole page -- surah
+    // 103 has 3 verses, so 3 total .translation divs is correct as long
+    // as each verse carries exactly one.
+    perVerseCounts: [...document.querySelectorAll(".verse")].map(
+      (v) => v.querySelectorAll(".translation").length,
+    ),
+    label: (document.querySelector(".trans-open-btn") || {}).textContent || "",
+    saved: JSON.parse(localStorage.getItem("qd_state") || "{}").translations || [],
+  }));
+  const ok =
+    state.verses > 0 &&
+    state.perVerseCounts.every((n) => n === 1) &&
+    /Pickthall/.test(state.label) &&
+    state.saved.length === 1 &&
+    state.saved[0] === "en.pickthall";
+  report(
+    "read-transurl",
+    "read.html",
+    ok,
+    `?t=en.pickthall -> per-verse translation counts ${JSON.stringify(state.perVerseCounts)} (want all 1), button="${state.label.trim()}", saved=${JSON.stringify(state.saved)}`,
+  );
+  report("read-transurl-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+  await uctx.close();
+}
+
+// ── compare.html: renders every selected translation, not just one ──
+// fetchPassageText/render used to keep only the first non-mismatched
+// edition; this drives two saved translations through an actual
+// ?mode=passages deep link and checks all four resulting blocks (2
+// passages x 2 translations) render, each with its own translator
+// credit and dir/lang/script-class, at both a narrow and a wide
+// viewport (the narrow one also catching a reintroduced overflow).
+if (runCheck("comparetrans") && (!PAGE_FILTER || PAGE_FILTER === "compare.html") && !LIVE) {
+  for (const width of [375, 1280]) {
+    const cctx = await newContext({ apiMode: "stub" });
+    const page = await cctx.newPage();
+    const errors = [];
+    attachConsoleCollector(page, errors);
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto(`${BASE}/compare.html?mode=passages&p1=1:1-3&p2=1:4-7`, {
+      waitUntil: "load",
+    });
+    await page.waitForSelector(".cmp-trans", { timeout: 15000 }).catch(() => {});
+    const state = await page.evaluate(() => ({
+      blocks: document.querySelectorAll(".cmp-trans").length,
+      credited: [...document.querySelectorAll(".cmp-trans p")].every((p) =>
+        p.textContent.trim().length > 0,
+      ),
+      overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
+    }));
+    const ok = state.blocks === 4 && state.credited && !state.overflow;
+    report(
+      "compare-translations",
+      `compare.html@${width}`,
+      ok,
+      `${state.blocks} .cmp-trans blocks (want 4), credited=${state.credited}, overflow=${state.overflow}`,
+    );
+    report(
+      `compare-translations-console`,
+      `compare.html@${width}`,
+      errors.length === 0,
+      errors.slice(0, 3).join(" | ") || "clean",
+    );
+    await cctx.close();
+  }
+}
+
 // ── compare.html: citation popover in a populated state ─────────────
 // The page renders no provenance until a comparison runs, so the
 // per-page sweep above finds no visible badge and reports that the
