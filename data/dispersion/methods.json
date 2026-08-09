@@ -1,0 +1,278 @@
+{
+ "_script": "scripts/compute-dispersion.mjs",
+ "_source": "data/surah-profiles.json (surah token counts, i.e. part sizes) and data/root-analytics/*.json (per-surah occurrence counts), both themselves derived from Leeds Quranic Arabic Corpus v0.4.",
+ "_parts": {
+  "count": 114,
+  "unit": "surah",
+  "sizeMeasure": "token count (data/surah-profiles.json's tokenCount)",
+  "totalTokens": 77429,
+  "minPartShare": 0.000129,
+  "minPartSurah": 108,
+  "note": "Parts are the 114 surahs, weighted by token count, not treated as equal-sized -- they range from 3 to 286 verses. dp/dpNorm handle this by construction; juillandD does not (see its own note below) and is reported anyway, with that caveat, for comparability."
+ },
+ "_formulas": {
+  "dp": "Gries's Deviation of Proportions (Gries 2008, International Journal of Corpus Linguistics 13(4), 403-437): DP = 0.5 * sum_i |v_i - s_i|, s_i = part i's token-count share of the corpus, v_i = the root's occurrence share in part i. Range [0, 1 - min(s_i)).",
+  "dpNorm": "DP rescaled to [0, 1]: dpNorm = DP / (1 - min(s_i)), following the corrected normalization in Lijffijt & Gries (2012, IJCL 17(1), 147-149), not the original 2008 formulation.",
+  "juillandD": "Juilland & Chang-Rodriguez (1964, Frequency Dictionary of Spanish Words, The Hague: Mouton): D = 1 - CV / sqrt(n-1), CV = population-SD / mean of the root's per-1,000-token rate across the 114 surahs (n=114). Classically assumes comparably-sized parts; this corpus's do not. Not clamped -- can be < 0.",
+  "range": "Count of the 114 surahs the root occurs in at least once.",
+  "adjustedFrequency": "totalCount * (1 - DP) -- Gries's (2008) simplest dispersion-adjusted frequency; one of several formulations in the literature, not the only one."
+ },
+ "_dpRange": {
+  "min": 0.18027,
+  "minRoot": "Elm",
+  "minRootLatin": "ʿ-l-m",
+  "max": 0.999871,
+  "maxRoot": "nHr",
+  "maxRootLatin": "n-ḥ-r"
+ },
+ "_rankingEligibility": {
+  "minFrequency": 20,
+  "eligibleRoots": 411,
+  "note": "topEvenlySpread/topClumped below are restricted to roots with corpus-wide frequency >= 20: a root occurring once is trivially maximally concentrated (dpNorm=1) without that being an informative dispersion result."
+ },
+ "topEvenlySpread": [
+  {
+   "root": "Elm",
+   "safeKey": "uElm",
+   "rootLatin": "ʿ-l-m",
+   "arabic": "ع ل م",
+   "totalCount": 854,
+   "dpNorm": 0.180293
+  },
+  {
+   "root": "Aty",
+   "safeKey": "uAty",
+   "rootLatin": "a-t-y",
+   "arabic": "ا ت ي",
+   "totalCount": 549,
+   "dpNorm": 0.180482
+  },
+  {
+   "root": "kll",
+   "safeKey": "kll",
+   "rootLatin": "k-l-l",
+   "arabic": "ك ل ل",
+   "totalCount": 377,
+   "dpNorm": 0.184831
+  },
+  {
+   "root": "kwn",
+   "safeKey": "kwn",
+   "rootLatin": "k-w-n",
+   "arabic": "ك و ن",
+   "totalCount": 1390,
+   "dpNorm": 0.18517
+  },
+  {
+   "root": "byn",
+   "safeKey": "byn",
+   "rootLatin": "b-y-n",
+   "arabic": "ب ي ن",
+   "totalCount": 523,
+   "dpNorm": 0.196703
+  },
+  {
+   "root": "qwl",
+   "safeKey": "qwl",
+   "rootLatin": "q-w-l",
+   "arabic": "ق و ل",
+   "totalCount": 1722,
+   "dpNorm": 0.204843
+  },
+  {
+   "root": "qbl",
+   "safeKey": "qbl",
+   "rootLatin": "q-b-l",
+   "arabic": "ق ب ل",
+   "totalCount": 294,
+   "dpNorm": 0.207399
+  },
+  {
+   "root": "$yA",
+   "safeKey": "shyuA",
+   "rootLatin": "sh-y-a",
+   "arabic": "ش ي ا",
+   "totalCount": 519,
+   "dpNorm": 0.211339
+  },
+  {
+   "root": "ArD",
+   "safeKey": "uAruD",
+   "rootLatin": "a-r-ḍ",
+   "arabic": "ا ر ض",
+   "totalCount": 461,
+   "dpNorm": 0.216355
+  },
+  {
+   "root": "qwm",
+   "safeKey": "qwm",
+   "rootLatin": "q-w-m",
+   "arabic": "ق و م",
+   "totalCount": 660,
+   "dpNorm": 0.229148
+  },
+  {
+   "root": "Zlm",
+   "safeKey": "uZlm",
+   "rootLatin": "ẓ-l-m",
+   "arabic": "ظ ل م",
+   "totalCount": 315,
+   "dpNorm": 0.231022
+  },
+  {
+   "root": "Axr",
+   "safeKey": "uAxr",
+   "rootLatin": "a-kh-r",
+   "arabic": "ا خ ر",
+   "totalCount": 250,
+   "dpNorm": 0.234468
+  },
+  {
+   "root": "Eml",
+   "safeKey": "uEml",
+   "rootLatin": "ʿ-m-l",
+   "arabic": "ع م ل",
+   "totalCount": 360,
+   "dpNorm": 0.240144
+  },
+  {
+   "root": "E*b",
+   "safeKey": "uEdhb",
+   "rootLatin": "ʿ-dh-b",
+   "arabic": "ع ذ ب",
+   "totalCount": 373,
+   "dpNorm": 0.247979
+  },
+  {
+   "root": "nfs",
+   "safeKey": "nfs",
+   "rootLatin": "n-f-s",
+   "arabic": "ن ف س",
+   "totalCount": 298,
+   "dpNorm": 0.248692
+  }
+ ],
+ "topClumped": [
+  {
+   "root": "Alw",
+   "safeKey": "uAlw",
+   "rootLatin": "a-l-w",
+   "arabic": "ا ل و",
+   "totalCount": 37,
+   "dpNorm": 0.877002
+  },
+  {
+   "root": "dry",
+   "safeKey": "dry",
+   "rootLatin": "d-r-y",
+   "arabic": "د ر ي",
+   "totalCount": 29,
+   "dpNorm": 0.85306
+  },
+  {
+   "root": "fty",
+   "safeKey": "fty",
+   "rootLatin": "f-t-y",
+   "arabic": "ف ت ي",
+   "totalCount": 21,
+   "dpNorm": 0.850308
+  },
+  {
+   "root": "wzr",
+   "safeKey": "wzr",
+   "rootLatin": "w-z-r",
+   "arabic": "و ز ر",
+   "totalCount": 27,
+   "dpNorm": 0.84881
+  },
+  {
+   "root": "n$r",
+   "safeKey": "nshr",
+   "rootLatin": "n-sh-r",
+   "arabic": "ن ش ر",
+   "totalCount": 21,
+   "dpNorm": 0.845813
+  },
+  {
+   "root": "Tlq",
+   "safeKey": "uTlq",
+   "rootLatin": "ṭ-l-q",
+   "arabic": "ط ل ق",
+   "totalCount": 23,
+   "dpNorm": 0.837249
+  },
+  {
+   "root": "Hmm",
+   "safeKey": "uHmm",
+   "rootLatin": "ḥ-m-m",
+   "arabic": "ح م م",
+   "totalCount": 21,
+   "dpNorm": 0.827768
+  },
+  {
+   "root": "fjr",
+   "safeKey": "fjr",
+   "rootLatin": "f-j-r",
+   "arabic": "ف ج ر",
+   "totalCount": 24,
+   "dpNorm": 0.824423
+  },
+  {
+   "root": "n$A",
+   "safeKey": "nshuA",
+   "rootLatin": "n-sh-a",
+   "arabic": "ن ش ا",
+   "totalCount": 28,
+   "dpNorm": 0.824178
+  },
+  {
+   "root": "nkH",
+   "safeKey": "nkuH",
+   "rootLatin": "n-k-ḥ",
+   "arabic": "ن ك ح",
+   "totalCount": 23,
+   "dpNorm": 0.816143
+  },
+  {
+   "root": "Sly",
+   "safeKey": "uSly",
+   "rootLatin": "ṣ-l-y",
+   "arabic": "ص ل ي",
+   "totalCount": 25,
+   "dpNorm": 0.81564
+  },
+  {
+   "root": "Avr",
+   "safeKey": "uAvr",
+   "rootLatin": "a-th-r",
+   "arabic": "ا ث ر",
+   "totalCount": 21,
+   "dpNorm": 0.810589
+  },
+  {
+   "root": "Hzb",
+   "safeKey": "uHzb",
+   "rootLatin": "ḥ-z-b",
+   "arabic": "ح ز ب",
+   "totalCount": 20,
+   "dpNorm": 0.802542
+  },
+  {
+   "root": "jHm",
+   "safeKey": "juHm",
+   "rootLatin": "j-ḥ-m",
+   "arabic": "ج ح م",
+   "totalCount": 26,
+   "dpNorm": 0.798899
+  },
+  {
+   "root": "gwy",
+   "safeKey": "gwy",
+   "rootLatin": "gh-w-y",
+   "arabic": "غ و ي",
+   "totalCount": 22,
+   "dpNorm": 0.788185
+  }
+ ],
+ "_computed": "2026-08-09"
+}

@@ -49,6 +49,13 @@
   },
   {
    "@type": "cr:FileObject",
+   "@id": "dispersion.csv",
+   "name": "dispersion.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/dispersion.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
    "@id": "fawatih.csv",
    "name": "fawatih.csv",
    "contentUrl": "https://divinediscourses.org/data/exports/fawatih.csv",
@@ -528,6 +535,149 @@
       },
       "extract": {
        "column": "sharedRoots"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "dispersion",
+   "name": "dispersion",
+   "description": "How evenly each of the 1,642 roots is spread across the 114 surahs, weighted by surah token count.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "dispersion/root",
+     "name": "root",
+     "description": "Buckwalter-transliterated root.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "dispersion.csv"
+      },
+      "extract": {
+       "column": "root"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "dispersion/safeKey",
+     "name": "safeKey",
+     "description": "URL/filename-safe encoding of root.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "dispersion.csv"
+      },
+      "extract": {
+       "column": "safeKey"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "dispersion/rootLatin",
+     "name": "rootLatin",
+     "description": "Root in Latin transliteration with diacritics.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "dispersion.csv"
+      },
+      "extract": {
+       "column": "rootLatin"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "dispersion/totalCount",
+     "name": "totalCount",
+     "description": "Corpus-wide occurrence count.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "dispersion.csv"
+      },
+      "extract": {
+       "column": "totalCount"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "dispersion/surahsOccurringIn",
+     "name": "surahsOccurringIn",
+     "description": "Count of the 114 surahs the root occurs in at least once.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "dispersion.csv"
+      },
+      "extract": {
+       "column": "surahsOccurringIn"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "dispersion/dp",
+     "name": "dp",
+     "description": "Gries's Deviation of Proportions. Range [0, 1 - min part share]. Attains 1 - min part share exactly when all occurrences fall in the corpus's smallest part.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "dispersion.csv"
+      },
+      "extract": {
+       "column": "dp"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "dispersion/dpNorm",
+     "name": "dpNorm",
+     "description": "DP rescaled to [0, 1] via the Lijffijt & Gries (2012) correction. Attains 1 at the same extreme as dp's own maximum.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "dispersion.csv"
+      },
+      "extract": {
+       "column": "dpNorm"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "dispersion/juillandD",
+     "name": "juillandD",
+     "description": "Juilland's D; 1 = perfectly even. Not clamped, can be negative.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "dispersion.csv"
+      },
+      "extract": {
+       "column": "juillandD"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "dispersion/adjustedFrequency",
+     "name": "adjustedFrequency",
+     "description": "totalCount * (1 - dp): raw frequency discounted for clumping.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "dispersion.csv"
+      },
+      "extract": {
+       "column": "adjustedFrequency"
       }
      }
     }

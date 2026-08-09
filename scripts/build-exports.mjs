@@ -462,6 +462,33 @@ writeTable("formulaic-density", formulaicDensityRows, [
   "meanDensitySurface", "pValueSurface", "survivorSurface",
 ]);
 
+// ── Table 14: dispersion (data/dispersion/*.json) ────────────────────────
+
+console.log("\nBuilding dispersion…");
+const dispersionRows = [];
+for (const bw of Object.keys(rootsSummary)) {
+  const d = JSON.parse(readFileSync(join(DATA, "dispersion", `${safeKey(bw)}.json`), "utf8"));
+  dispersionRows.push({
+    root: bw,
+    safeKey: d.safeKey,
+    rootLatin: d.rootLatin,
+    totalCount: d.totalCount,
+    surahsOccurringIn: d.surahsOccurringIn,
+    dp: d.dp,
+    dpNorm: d.dpNorm,
+    juillandD: d.juillandD,
+    adjustedFrequency: d.adjustedFrequency,
+  });
+}
+if (dispersionRows.length !== TOTAL_ROOTS)
+  throw new Error(`Expected ${TOTAL_ROOTS} dispersion rows, found ${dispersionRows.length}. STOPPING.`);
+dispersionRows.sort((a, b) => a.dpNorm - b.dpNorm || a.root.localeCompare(b.root));
+const dispersionColumns = [
+  "root", "safeKey", "rootLatin", "totalCount", "surahsOccurringIn",
+  "dp", "dpNorm", "juillandD", "adjustedFrequency",
+];
+writeTable("dispersion", dispersionRows, dispersionColumns);
+
 // ── schema.json ──────────────────────────────────────────────────────
 
 console.log("\nWriting schema.json and DATA-DICTIONARY.md…");
@@ -689,6 +716,23 @@ const schema = {
         { name: "meanDensitySurface", type: "number", unit: null, description: "Mean per-verse surface-stream formulaic density, 0-1." },
         { name: "pValueSurface", type: "number", unit: null, description: "One-sided permutation p-value, surface stream." },
         { name: "survivorSurface", type: "boolean", unit: null, description: "Survives the pooled BH-FDR correction at q<0.05, surface stream." },
+      ],
+    },
+    dispersion: {
+      description: "How evenly each of the 1,642 roots is spread across the 114 surahs, weighted by surah token count.",
+      rowCount: dispersionRows.length,
+      countingRule: "dp/dpNorm: Gries's Deviation of Proportions (Gries 2008) and its corrected normalization (Lijffijt & Gries 2012). juillandD: Juilland & Chang-Rodriguez (1964), over each surah's per-1,000-token rate; classically assumes comparably-sized parts, which this corpus's 114 surahs are not. adjustedFrequency = totalCount * (1 - dp). Method detail in data/dispersion/methods.json.",
+      verification: "Nuanced: dp/dpNorm and juillandD are independent formulas that can and do disagree; this site reports both rather than picking one as authoritative.",
+      fields: [
+        { name: "root", type: "string", unit: null, description: "Buckwalter-transliterated root." },
+        { name: "safeKey", type: "string", unit: null, description: "URL/filename-safe encoding of root." },
+        { name: "rootLatin", type: "string", unit: null, description: "Root in Latin transliteration with diacritics." },
+        { name: "totalCount", type: "integer", unit: "occurrences", description: "Corpus-wide occurrence count." },
+        { name: "surahsOccurringIn", type: "integer", unit: null, description: "Count of the 114 surahs the root occurs in at least once." },
+        { name: "dp", type: "number", unit: null, description: "Gries's Deviation of Proportions. Range [0, 1 - min part share]. Attains 1 - min part share exactly when all occurrences fall in the corpus's smallest part." },
+        { name: "dpNorm", type: "number", unit: null, description: "DP rescaled to [0, 1] via the Lijffijt & Gries (2012) correction. Attains 1 at the same extreme as dp's own maximum." },
+        { name: "juillandD", type: "number", unit: null, description: "Juilland's D; 1 = perfectly even. Not clamped, can be negative." },
+        { name: "adjustedFrequency", type: "number", unit: null, description: "totalCount * (1 - dp): raw frequency discounted for clumping." },
       ],
     },
   },

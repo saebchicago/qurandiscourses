@@ -1145,6 +1145,41 @@ exegetical, or theological importance.
 
 How complete is the underlying data? →
 
+#### Dispersion across the Qur'an ●
+
+ℹ How this is computed
+
+Computed by scripts/compute-dispersion.mjs over
+the 114 surahs as corpus parts, weighted by each surah's
+token count. Four measures reported side by side, since the
+dispersion literature disagrees which is best: Gries's
+Deviation of Proportions (DP) and its normalized form
+(DPnorm), Juilland's D, and plain range. DPnorm 0 means the
+root's occurrences track surah size exactly; DPnorm 1 means
+total concentration in the smallest surah. Juilland's D runs
+the other way (1 = perfectly even) and classically assumes
+comparably-sized parts, which this corpus's 114 surahs (3 to
+286 verses) are not — reported anyway for comparability with
+the wider literature, not as the preferred measure.
+Adjusted frequency discounts the raw count toward zero the
+more clumped the root is.
+
+Surahs occurring in
+
+Deviation of Proportions (DP)
+
+Normalized DP (0 = evenly spread, 1 = maximally clumped)
+
+Juilland's D (1 = perfectly even)
+
+Dispersion-adjusted frequency
+
+Dispersion describes where a root's occurrences fall, not what
+they mean. It does not indicate thematic, exegetical, or
+theological importance.
+
+Most/least evenly spread roots corpus-wide →
+
 View at corpus.quran.com →
 
 Embed this root
@@ -2043,6 +2078,33 @@ on the period assignment itself (Cairo 1924 / Nöldeke-Bell).
 Full root-frequency and keyness tables (CSV/JSON):
 Export .
 
+### How evenly roots are spread across the Qur'an ●
+
+Frequency alone cannot tell whether a root recurs across the
+whole text or clumps inside a few surahs telling one story.
+Gries's Deviation of Proportions (normalized, DPnorm) measures
+exactly that, for every root with at least 20 corpus-wide
+occurrences: 0 means the root's occurrences track surah size as
+closely as possible; 1 means total concentration in the
+smallest surah.
+
+Per-root detail (DP, DPnorm, Juilland's D, range, adjusted
+frequency): open any root on the Roots page .
+
+ℹ How this is computed
+
+●
+Computed by scripts/compute-dispersion.mjs over
+the 114 surahs, weighted by token count (not treated as
+equal-sized). DP = 0.5·Σ|v_i − s_i|; DPnorm = DP / (1 −
+min(s_i)), the corrected normalization from Lijffijt &
+Gries (2012). Roots below 20 corpus-wide occurrences are
+excluded from this ranking (though every root's own DP/DPnorm
+still appears on its Roots page detail) since a rare root is
+trivially maximally concentrated without that being
+informative. Full per-root table (CSV/JSON):
+Export .
+
 ### Explore further
 
 See any of these roots in context on the Roots page →
@@ -2915,6 +2977,20 @@ oral-formulaic study. This site tests whether a surah's density is higher
 than a length-matched resampling of corpus verses would predict, correcting
 for the fact that short surahs mechanically show noisier density than long
 ones.
+
+Dispersion
+
+How evenly a root's occurrences are spread across the 114 surahs, as distinct
+from raw frequency. This site reports Gries's Deviation of Proportions (DP,
+DPnorm) and Juilland's D side by side, since the two can disagree and the
+literature has no single preferred measure.
+
+Juilland's D
+
+An older lexical-dispersion measure (Juilland & Chang-Rodriguez 1964), on
+a 0-1 scale where 1 is perfectly even. It classically assumes comparably-sized
+corpus parts; this site's 114 surahs range from 3 to 286 verses, so it is
+reported for comparability with the literature, not as the preferred measure.
 
 This glossary is also available inline throughout the site. Technical
 terms are marked with a dotted underline and reveal their definition
@@ -4346,6 +4422,28 @@ sit at exactly 0%. New panel on every
 Dossier page and a corpus-wide
 ranking on Formulas; a 13th table on
 Export .
+§
+
+A root's frequency was never the whole story; now its spread is measured too.
+Every root already carried a raw count, but two roots with
+the same count can look completely different: one recurring
+across the whole text, the other clustered inside a
+handful of surahs telling one story. Root
+detail now reports a new dispersion panel for all 1,642
+roots: Gries's Deviation of Proportions (DP, DPnorm,
+corrected per Lijffijt & Gries 2012), Juilland's D, the
+plain surah count, and a dispersion-adjusted frequency,
+rather than picking one measure as authoritative, since the
+literature does not agree which is best. j-h-m (Hellfire)
+is the worked example on Validation :
+it occurs in 18 of 114 surahs, moderate by plain range, but
+those 18 are disproportionately short Meccan surahs, so its
+normalized DP is 0.7989, near the top of the ranking.
+Numbers gets a most/least evenly
+spread ranking; Export gets a
+fourteenth table; three new sources (Gries 2008, its 2012
+correction, and Juilland & Chang-Rodriguez 1964) are
+cited throughout.
 §
 
 Six sources got an id, and eleven numbers got a claim record.
@@ -5844,6 +5942,8 @@ centrality: A family of statistical measures of a node's position in a network, 
 tadabbur: Reflective, contemplative study of the Qur'an, read as a connected discourse rather than isolated verses. The term names the reading approach behind Islahi's Tadabbur-i Qur'an and this site's discovery-worksheet exercises.
 mishkat: The Mishkat Mutashabihat corpus, a compilation of verse-to-verse cross-references drawn from 13 classical books of mutashabihat scholarship, powering this site's Related-verses feature. Its rights holder has not published a license; see Sources.
 formulaic-density: The share of a verse's or surah's words that belong to a recurring formula, operationalizing the central quantity in Bannister's (2014) computerized oral-formulaic study. This site tests whether a surah's density is higher than a length-matched resampling of corpus verses would predict, correcting for the fact that short surahs mechanically show noisier density than long ones.
+dispersion: How evenly a root's occurrences are spread across the 114 surahs, as distinct from raw frequency. This site reports Gries's Deviation of Proportions (DP, DPnorm) and Juilland's D side by side, since the two can disagree and the literature has no single preferred measure.
+juilland-d: An older lexical-dispersion measure (Juilland & Chang-Rodriguez 1964), on a 0-1 scale where 1 is perfectly even. It classically assumes comparably-sized corpus parts; this site's 114 surahs range from 3 to 286 verses, so it is reported for comparability with the literature, not as the preferred measure.
 
 ===== Export data dictionary =====
 
@@ -6110,6 +6210,26 @@ Per-surah mean share of words covered by a recurring 3-5-word phrase (Bannister'
 | `meanDensitySurface` | number | n/a | Mean per-verse surface-stream formulaic density, 0-1. |
 | `pValueSurface` | number | n/a | One-sided permutation p-value, surface stream. |
 | `survivorSurface` | boolean | n/a | Survives the pooled BH-FDR correction at q<0.05, surface stream. |
+
+## dispersion
+
+How evenly each of the 1,642 roots is spread across the 114 surahs, weighted by surah token count. (1642 rows.)
+
+**Counting rule:** dp/dpNorm: Gries's Deviation of Proportions (Gries 2008) and its corrected normalization (Lijffijt & Gries 2012). juillandD: Juilland & Chang-Rodriguez (1964), over each surah's per-1,000-token rate; classically assumes comparably-sized parts, which this corpus's 114 surahs are not. adjustedFrequency = totalCount * (1 - dp). Method detail in data/dispersion/methods.json.
+
+**Verification:** Nuanced: dp/dpNorm and juillandD are independent formulas that can and do disagree; this site reports both rather than picking one as authoritative.
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `root` | string | n/a | Buckwalter-transliterated root. |
+| `safeKey` | string | n/a | URL/filename-safe encoding of root. |
+| `rootLatin` | string | n/a | Root in Latin transliteration with diacritics. |
+| `totalCount` | integer | occurrences | Corpus-wide occurrence count. |
+| `surahsOccurringIn` | integer | n/a | Count of the 114 surahs the root occurs in at least once. |
+| `dp` | number | n/a | Gries's Deviation of Proportions. Range [0, 1 - min part share]. Attains 1 - min part share exactly when all occurrences fall in the corpus's smallest part. |
+| `dpNorm` | number | n/a | DP rescaled to [0, 1] via the Lijffijt & Gries (2012) correction. Attains 1 at the same extreme as dp's own maximum. |
+| `juillandD` | number | n/a | Juilland's D; 1 = perfectly even. Not clamped, can be negative. |
+| `adjustedFrequency` | number | n/a | totalCount * (1 - dp): raw frequency discounted for clumping. |
 
 ## Files
 

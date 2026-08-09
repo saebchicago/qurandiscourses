@@ -298,6 +298,34 @@
    "publisher": "Behavior Research Methods 42, no. 2, pp. 381–392",
    "year": "2010",
    "note": "Source of MTLD (factor threshold 0.72, bidirectional averaging), the second length-robust lexical-diversity measure this site reports alongside MATTR and plain TTR."
+  },
+  {
+   "id": "gries-dispersion-2008",
+   "type": "paper",
+   "author": "Gries, Stefan Th.",
+   "name": "Dispersions and adjusted frequencies in corpora",
+   "publisher": "International Journal of Corpus Linguistics 13, no. 4, pp. 403–437",
+   "year": "2008",
+   "note": "Proposes the Deviation of Proportions (DP) dispersion measure and a DP-adjusted frequency, used by data/dispersion/*.json alongside Juilland's D and plain range. Amended by Lijffijt & Gries (2012), cited separately."
+  },
+  {
+   "id": "lijffijt-gries-dispersion-correction-2012",
+   "type": "paper",
+   "author": "Lijffijt, Jefrey, and Stefan Th. Gries",
+   "name": "Correction to Stefan Th. Gries' \"Dispersions and adjusted frequencies in corpora\"",
+   "publisher": "International Journal of Corpus Linguistics 17, no. 1, pp. 147–149",
+   "year": "2012",
+   "note": "Corrects the normalization of DP into DPnorm for corpora with unequal-sized parts; data/dispersion/*.json implements this corrected formula, not the 2008 original."
+  },
+  {
+   "id": "juilland-chang-rodriguez-1964",
+   "type": "book",
+   "author": "Juilland, Alphonse, and Eugenio Chang-Rodríguez",
+   "name": "Frequency Dictionary of Spanish Words",
+   "edition": "The Romance Languages and their Structures, First Series, S1",
+   "publisher": "The Hague: Mouton & Co.",
+   "year": "1964",
+   "note": "Source of Juilland's D, the older equal-parts dispersion measure reported in data/dispersion/*.json alongside Gries's DP for comparability with the wider literature."
   }
  ]
 }

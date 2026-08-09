@@ -34,6 +34,32 @@
               &lt;a href="/export"&gt;Export&lt;/a&gt;.</content>
   </entry>
   <entry>
+    <title>A root's frequency was never the whole story; now its spread is measured too</title>
+    <id>https://divinediscourses.org/changelog#2026-08-how-evenly-a-root-is-spread</id>
+    <link href="https://divinediscourses.org/changelog#2026-08-how-evenly-a-root-is-spread"/>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;A root's frequency was never the whole story; now its spread is measured too.&lt;/strong&gt;
+              Every root already carried a raw count, but two roots with
+              the same count can look completely different: one recurring
+              across the whole text, the other clustered inside a
+              handful of surahs telling one story. &lt;a href="/roots"&gt;Root
+              detail&lt;/a&gt; now reports a new dispersion panel for all 1,642
+              roots: Gries's Deviation of Proportions (DP, DPnorm,
+              corrected per Lijffijt &amp;amp; Gries 2012), Juilland's D, the
+              plain surah count, and a dispersion-adjusted frequency,
+              rather than picking one measure as authoritative, since the
+              literature does not agree which is best. j-h-m (Hellfire)
+              is the worked example on &lt;a href="/validation"&gt;Validation&lt;/a&gt;:
+              it occurs in 18 of 114 surahs, moderate by plain range, but
+              those 18 are disproportionately short Meccan surahs, so its
+              normalized DP is 0.7989, near the top of the ranking.
+              &lt;a href="/numbers"&gt;Numbers&lt;/a&gt; gets a most/least evenly
+              spread ranking; &lt;a href="/export"&gt;Export&lt;/a&gt; gets a
+              fourteenth table; three new sources (Gries 2008, its 2012
+              correction, and Juilland &amp;amp; Chang-Rodriguez 1964) are
+              cited throughout.</content>
+  </entry>
+  <entry>
     <title>Six sources got an id, and eleven numbers got a claim record</title>
     <id>https://divinediscourses.org/changelog#2026-08-closing-the-apparatus-gaps</id>
     <link href="https://divinediscourses.org/changelog#2026-08-closing-the-apparatus-gaps"/>
