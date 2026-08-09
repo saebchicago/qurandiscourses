@@ -1414,14 +1414,21 @@ details.chart-fallback table.data {
   text-transform: uppercase;
   margin-bottom: 0.2rem;
 }
-.verse .translation .text {
+.verse .translation .text,
+.cmp-trans .text {
   font-size: 1.02rem;
   line-height: 1.6;
 }
-.verse .translation .text[dir="rtl"] {
+.verse .translation .text[dir="rtl"],
+.cmp-trans .text[dir="rtl"] {
   text-align: right;
 }
-.verse .translation .text.nastaliq {
+/* Script-specific font classes, shared by Read (.verse .translation) and
+   Compare (.cmp-trans) — one rule set, applied via window.qdScriptClass
+   (assets/lang-labels.js) on both pages, so a translation is never
+   styled correctly on one and not the other. */
+.verse .translation .text.nastaliq,
+.cmp-trans .text.nastaliq {
   font-family: "Noto Nastaliq Urdu", "Amiri", serif;
   /* Nastaliq stacks diagonally and clips against tight leading at normal
      line-height; 2.1 gives each line room without the loose feel a wider
@@ -1429,7 +1436,8 @@ details.chart-fallback table.data {
   line-height: 2.1;
   font-size: 1.15rem;
 }
-.verse .translation .text.bengali {
+.verse .translation .text.bengali,
+.cmp-trans .text.bengali {
   /* Bengali script carries stacked conjuncts and marks above and below
      the headline; the default 1.6 leading clips them. Noto Serif Bengali
      is self-hosted (see fonts.css); the generic serif is the fallback if
@@ -1438,7 +1446,8 @@ details.chart-fallback table.data {
   line-height: 1.9;
   font-size: 1.05rem;
 }
-.verse .translation .text.devanagari {
+.verse .translation .text.devanagari,
+.cmp-trans .text.devanagari {
   /* Devanagari hangs its matras above and below the headstroke; the
      default 1.6 leading clips them, exactly as with Bengali. Noto Serif
      Devanagari is self-hosted (see fonts.css). */
@@ -1446,7 +1455,8 @@ details.chart-fallback table.data {
   line-height: 1.9;
   font-size: 1.05rem;
 }
-.verse .translation .text.arabic-script {
+.verse .translation .text.arabic-script,
+.cmp-trans .text.arabic-script {
   /* Persian and other Arabic-script translations that are NOT Urdu.
      Amiri (already bundled for the Qur'anic text) is a Naskh face and
      carries the Persian-only letters پ چ ژ گ; Nastaliq is an Urdu
@@ -1455,7 +1465,8 @@ details.chart-fallback table.data {
   line-height: 1.95;
   font-size: 1.15rem;
 }
-.verse .translation .text.cjk {
+.verse .translation .text.cjk,
+.cmp-trans .text.cjk {
   /* Chinese, Japanese, and Korean render in the reader's own system
      face: every platform ships a good one, and even a subsetted CJK
      webfont costs megabytes — more than this whole site. Named faces
@@ -3549,6 +3560,66 @@ html[data-focus] .ar.xl {
   cursor: pointer;
   min-height: 44px;
 }
+/* ── Generic list-picker (qdPicker.openList), e.g. trans-picker.js ── */
+.qd-picker-group-count {
+  text-transform: none;
+  letter-spacing: normal;
+}
+.qd-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.qd-list-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 48px;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.qd-list-row:hover,
+.qd-list-row:focus-within {
+  border-color: var(--accent);
+  background: var(--bg);
+}
+.qd-list-row input[type="checkbox"] {
+  min-width: 20px;
+  min-height: 20px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
+.qd-list-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0.5rem;
+  flex: 1;
+  min-width: 0;
+}
+.qd-list-primary {
+  font-weight: 500;
+}
+.qd-list-secondary {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.qd-list-meta {
+  color: var(--muted);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+.qd-picker-count {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.qd-picker-confirm:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 .qd-juz-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
@@ -3848,10 +3919,32 @@ html[data-focus] .ar.xl {
   font-family: var(--serif);
   font-size: 1.05rem;
   color: var(--ink);
+  flex-shrink: 0;
+}
+.read-context-trans {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.82rem;
+  text-align: left;
+  cursor: pointer;
+  min-height: 44px;
+  padding: 0;
+}
+.read-context-trans:hover,
+.read-context-trans:focus-visible {
+  color: var(--link);
 }
 .read-context-actions {
   display: flex;
   gap: 0.3rem;
+  flex-shrink: 0;
 }
 .read-context button[disabled] {
   opacity: 0.45;

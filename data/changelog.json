@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-08-choosing-translations-got-easier",
+   "year": "2026",
+   "month": "August",
+   "html": "\n              <strong>Choosing translations no longer means scrolling five screens of checkboxes.</strong>\n              The old \"N selected\" button opened a search-less list of\n              every edition grouped by language, and every tap reloaded\n              the whole passage immediately -- ticking three boxes meant\n              three reloads. It now opens a searchable dialog (by\n              translator, language, or edition id), your current\n              selection sorts to a \"Selected\" group at the top, and every\n              change applies once, on confirm. The button itself now\n              names the translators you picked instead of just counting\n              them. <a href=\"/read\">Read</a>'s address bar carries the\n              selection too (<code>?t=</code>), so a shared link shows\n              the translations its sender actually saw. The\n              <a href=\"/compare\">Compare</a> page's passage view rendered\n              only the first saved translation and dropped the rest\n              silently; it now renders every one, each with its own\n              translator credit and correct script. The gear panel\n              (every page) gets a Translations row so the setting is no\n              longer Read-only.\n            "
+  },
+  {
    "id": "2026-08-how-formulaic-is-this-surah",
    "year": "2026",
    "month": "August",

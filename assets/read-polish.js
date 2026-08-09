@@ -235,6 +235,7 @@
       ctxBar.hidden = true;
       ctxBar.innerHTML =
         '<span class="read-context-ref"></span>' +
+        '<button type="button" class="read-context-trans" data-ctx="translations"></button>' +
         '<span class="read-context-actions">' +
         '<button type="button" class="btn-utility" data-ctx="change">Change</button>' +
         '<button type="button" class="btn-utility" data-ctx="prev" aria-label="Previous verse">&lsaquo;</button>' +
@@ -247,6 +248,9 @@
         if (which === "change") {
           var open = document.getElementById("openPicker");
           if (open) open.click();
+        }
+        if (which === "translations" && window.qdOpenTransPicker) {
+          window.qdOpenTransPicker(b);
         }
         if (which === "prev" && prevBtn) prevBtn.click();
         if (which === "next" && nextBtn) nextBtn.click();
@@ -268,6 +272,12 @@
       var ref = s + ":" + (first === last ? first : first + "-" + last);
       ctxBar.querySelector(".read-context-ref").textContent =
         (su ? su.translit + ", " : "") + ref;
+      var transEl = ctxBar.querySelector(".read-context-trans");
+      if (transEl) {
+        transEl.textContent = window.qdTransPickerSummary
+          ? window.qdTransPickerSummary()
+          : "";
+      }
       // Prev at surah 1 verse 1 and next at 114's end are the page's own
       // to decide; mirror whatever it has done with its buttons.
       ctxBar.querySelector('[data-ctx="prev"]').disabled = !!(

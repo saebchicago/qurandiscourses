@@ -4403,6 +4403,26 @@ before it was renamed "Study".
 
 #### August
 
+Choosing translations no longer means scrolling five screens of checkboxes.
+The old "N selected" button opened a search-less list of
+every edition grouped by language, and every tap reloaded
+the whole passage immediately -- ticking three boxes meant
+three reloads. It now opens a searchable dialog (by
+translator, language, or edition id), your current
+selection sorts to a "Selected" group at the top, and every
+change applies once, on confirm. The button itself now
+names the translators you picked instead of just counting
+them. Read 's address bar carries the
+selection too ( ?t= ), so a shared link shows
+the translations its sender actually saw. The
+Compare page's passage view rendered
+only the first saved translation and dropped the rest
+silently; it now renders every one, each with its own
+translator credit and correct script. The gear panel
+(every page) gets a Translations row so the setting is no
+longer Read-only.
+§
+
 18,408 recurring phrases now answer a harder question: how much of a surah are they?
 The Formulas index already listed
 every phrase that recurs somewhere in the Qur'an; it never

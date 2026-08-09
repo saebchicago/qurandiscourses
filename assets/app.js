@@ -245,11 +245,21 @@
     const panel = document.getElementById("settingsPanel");
     if (!panel) return;
 
-    // Translations and reciter are chosen on the Read page (the
-    // per-verse "N selected" and 🎤 buttons), not here — the panel
-    // covers cross-page presentation only.
+    // Reciter is still chosen on the Read page's own 🎤 button — it is
+    // meaningless anywhere audio isn't playing. Translations are not:
+    // Read AND Compare both fetch state.translations, so this is the
+    // one setting that genuinely belongs in the cross-page panel rather
+    // than pinned to a single page.
+    const transLabel = window.qdTransPickerSummary
+      ? window.qdTransPickerSummary()
+      : `${state.translations.length} selected`;
     panel.innerHTML = `
       <h3>Display</h3>
+      <h4>Translations</h4>
+      <div class="row">
+        <span class="small" id="transSummary">${qdEsc(transLabel)}</span>
+        <button type="button" id="openTransPicker" class="btn-ghost">Change</button>
+      </div>
       <h4>Depth <span class="small" style="font-weight: 400">(keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>)</span></h4>
       <div class="row"><select id="setDepth" aria-label="Depth level">
         <option value="simple" ${state.depth === "simple" ? "selected" : ""}>Simple — just read</option>
@@ -281,6 +291,12 @@
       </div>
       <p class="small">This clears display choices, reading progress, and the passage cache from this browser. It does not delete study notes. <a href="/about#privacy">Privacy and data controls</a>.</p>
     `;
+
+    const transBtn = document.getElementById("openTransPicker");
+    if (transBtn)
+      transBtn.addEventListener("click", () => {
+        if (window.qdOpenTransPicker) window.qdOpenTransPicker(transBtn);
+      });
 
     panel.querySelectorAll("[data-feature]").forEach((cb) => {
       cb.addEventListener("change", () => {
@@ -368,6 +384,16 @@
     }
     btn.addEventListener("click", () => {
       setOpen(panel.hasAttribute("hidden"));
+    });
+    // Registered once here, not inside buildPanel() (which re-runs on
+    // every "Clear preferences" click and would otherwise stack a new
+    // listener each time): keeps the summary line honest after a
+    // translation change made from elsewhere on the page (e.g. Read's
+    // per-verse button) while this panel happens to be open.
+    document.addEventListener("qd:translations-changed", () => {
+      const summaryEl = document.getElementById("transSummary");
+      if (summaryEl && window.qdTransPickerSummary)
+        summaryEl.textContent = window.qdTransPickerSummary();
     });
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && !panel.hasAttribute("hidden")) {

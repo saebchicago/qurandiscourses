@@ -554,6 +554,7 @@
       ></div>
     </div>
     <script src="assets/app.js"></script>
+    <script src="assets/trans-picker.js" defer></script>
     <script src="assets/share.js" defer></script>
     <script src="assets/chart.js" defer></script>
     <script src="assets/root-meanings.js"></script>
@@ -1191,22 +1192,26 @@
             ).filter(function (a) {
               return a.numberInSurah >= start && a.numberInSurah <= end;
             });
-            // editions[0] is always quran-uthmani; among the rest, use the
-            // first one the API actually served rather than assuming
-            // index 1 is valid — a mismatched edition (see qdFetchVerse)
-            // would otherwise leak substituted text into this passage view.
-            const transEdition = editions
+            // editions[0] is always quran-uthmani; every one of the rest
+            // the API actually served (not mismatched — see
+            // qdFetchVerse) renders, not just the first. A reader
+            // comparing passages picked their translations for a
+            // reason; Compare silently keeping only one of them was the
+            // bug this replaced.
+            const translations = editions
               .slice(1)
-              .find(function (ed) {
+              .filter(function (ed) {
                 return !ed._mismatchOf;
+              })
+              .map(function (ed) {
+                return {
+                  edition: ed,
+                  ayahs: (ed.ayahs || []).filter(function (a) {
+                    return a.numberInSurah >= start && a.numberInSurah <= end;
+                  }),
+                };
               });
-            const transAyahs = (
-              (transEdition && transEdition.ayahs) ||
-              []
-            ).filter(function (a) {
-              return a.numberInSurah >= start && a.numberInSurah <= end;
-            });
-            return { arabicAyahs: arabicAyahs, transAyahs: transAyahs };
+            return { arabicAyahs: arabicAyahs, translations: translations };
           });
         }
 
@@ -1347,11 +1352,34 @@
               html += "</div>";
             }
 
-            if (p.transAyahs.length) {
+            for (let ti = 0; ti < p.translations.length; ti++) {
+              const tr = p.translations[ti];
+              if (!tr.ayahs.length) continue;
+              const dirAttr = tr.edition.direction === "rtl" ? ' dir="rtl"' : "";
+              const langAttr = tr.edition.language
+                ? ' lang="' + qdEsc(tr.edition.language) + '"'
+                : "";
+              const scriptClass = window.qdScriptClass
+                ? window.qdScriptClass(tr.edition.language)
+                : "";
               html +=
-                '<div style="font-size:0.88rem;line-height:1.65;border-top:1px solid var(--line);padding-top:0.5rem">';
-              for (let j = 0; j < p.transAyahs.length; j++) {
-                const a = p.transAyahs[j];
+                '<div class="cmp-trans" style="border-top:1px solid var(--line);padding-top:0.5rem;margin-top:0.5rem">' +
+                '<p style="margin:0 0 0.3rem;font-size:0.78rem;color:var(--muted)">' +
+                qdEsc(tr.edition.englishName) +
+                " · <span" +
+                dirAttr +
+                langAttr +
+                ">" +
+                qdEsc(tr.edition.name) +
+                "</span></p>" +
+                '<div class="text' +
+                scriptClass +
+                '"' +
+                dirAttr +
+                langAttr +
+                ">";
+              for (let j = 0; j < tr.ayahs.length; j++) {
+                const a = tr.ayahs[j];
                 html +=
                   '<p style="margin:0 0 0.35rem">(' +
                   a.numberInSurah +
@@ -1359,7 +1387,7 @@
                   qdEsc(a.text) +
                   "</p>";
               }
-              html += "</div>";
+              html += "</div></div>";
             }
 
             html +=
@@ -1570,7 +1598,7 @@
                     end: inp.end,
                     rootCounts: results[0],
                     arabicAyahs: results[1].arabicAyahs,
-                    transAyahs: results[1].transAyahs,
+                    translations: results[1].translations,
                   };
                 }),
               );
@@ -2012,6 +2040,7 @@
       })();
     </script>
     <script src="assets/picker.js" defer></script>
+    <script src="assets/lang-labels.js" defer></script>
     <script src="assets/compare-picker.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>

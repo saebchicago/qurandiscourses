@@ -50,12 +50,12 @@ const langOf = new Map(entries.map((e) => [e.id, e.lang]));
 
 // Offline half, run before the network so it reports even from a
 // sandbox: every language in TRANSLATIONS needs a display name in
-// read.html's LANG_LABELS, or the translation picker groups that
-// edition under a bare code ("ko") instead of "Korean".
-const readHtml = readFileSync(join(ROOT, "read.html"), "utf8");
-const labelsMatch = readHtml.match(/const LANG_LABELS = \{([\s\S]*?)\};/);
+// assets/lang-labels.js's QD_LANG_LABELS, or the translation picker
+// groups that edition under a bare code ("ko") instead of "Korean".
+const langLabelsJs = readFileSync(join(ROOT, "assets", "lang-labels.js"), "utf8");
+const labelsMatch = langLabelsJs.match(/const QD_LANG_LABELS = \{([\s\S]*?)\};/);
 if (!labelsMatch) {
-  console.error("check-editions: FAIL — could not locate LANG_LABELS in read.html");
+  console.error("check-editions: FAIL — could not locate QD_LANG_LABELS in assets/lang-labels.js");
   process.exit(2);
 }
 const labelled = new Set([...labelsMatch[1].matchAll(/(\w+):/g)].map((m) => m[1]));

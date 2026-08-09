@@ -17,6 +17,16 @@
        Opens the dialog. onSelect({surah, from, to}) fires on confirm.
        rangeMode "range" (default) shows the From/To step; "surah"
        skips it and confirms on surah tap.
+     qdPicker.openList({items, groups, filters, selected, multi, title,
+                         searchPlaceholder, confirmLabel, minSelected,
+                         trigger, onConfirm})
+       A second, generic dialog mode sharing this module's overlay,
+       search box, filter chips, and focus trap, but over an arbitrary
+       item list (checkboxes, not surah rows) instead of surahs. Built
+       for assets/trans-picker.js; any future host with its own list to
+       pick from can reuse it the same way. onConfirm(ids) fires once,
+       on confirm, with every checked item's id -- nothing commits
+       per-checkbox.
      qdRange.create(container, {surah, from, to, onChange})
        The From/To control on its own, for hosts that want it inline.
        Returns {set(surah, from, to), get(), destroy()}.
@@ -214,6 +224,39 @@
     document.removeEventListener("keydown", openState.onKey, true);
     openState = null;
     if (restoreFocus !== false && trigger && trigger.focus) trigger.focus();
+  }
+
+  // Escape-closes, Tab-wraps within dialog. Shared by open() and
+  // openList() so there is exactly one focus-trap implementation, not
+  // two dialogs quietly drifting apart.
+  function makeKeyHandler(dialog) {
+    function focusable() {
+      return Array.prototype.slice
+        .call(dialog.querySelectorAll("button, input, [href], select"))
+        .filter(function (el) {
+          return el.offsetParent !== null && !el.disabled;
+        });
+    }
+    return function (e) {
+      if (!openState) return;
+      if (e.key === "Escape") {
+        e.preventDefault();
+        close();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      var els = focusable();
+      if (!els.length) return;
+      var first = els[0];
+      var last = els[els.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
   }
 
   function open(opts) {
@@ -467,34 +510,7 @@
       renderList(f, qInput.value.trim());
     });
 
-    function focusable() {
-      return Array.prototype.slice
-        .call(dialog.querySelectorAll("button, input, [href], select"))
-        .filter(function (el) {
-          return el.offsetParent !== null && !el.disabled;
-        });
-    }
-
-    var onKey = function (e) {
-      if (!openState) return;
-      if (e.key === "Escape") {
-        e.preventDefault();
-        close();
-        return;
-      }
-      if (e.key !== "Tab") return;
-      var els = focusable();
-      if (!els.length) return;
-      var first = els[0];
-      var last = els[els.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    };
+    var onKey = makeKeyHandler(dialog);
     document.addEventListener("keydown", onKey, true);
 
     openState = { overlay: overlay, trigger: opts.trigger || null, onKey: onKey };
@@ -503,6 +519,204 @@
     if (closeBtn) closeBtn.focus();
   }
 
-  window.qdPicker = { open: open, close: close, clampRange: clampRange, refLabel: refLabel };
+  // ── Generic multi-select list dialog ────────────────────────────────
+  // Same overlay/search/filter-chip/focus-trap chrome as open(), over an
+  // arbitrary item list instead of surahs. items: [{id, primary,
+  // secondary, group, meta, searchText}]. groups (optional): [{key,
+  // label}] in display order; ungrouped items render in one flat list
+  // after named groups. filters (optional): [{key, label, test(item)}].
+  function openList(opts) {
+    opts = opts || {};
+    if (openState) close(false);
+
+    var multi = opts.multi !== false;
+    var items = opts.items || [];
+    var groups = opts.groups || [];
+    var filters = opts.filters || [];
+    var selected = {};
+    (opts.selected || []).forEach(function (id) {
+      selected[id] = true;
+    });
+    var confirmLabel = opts.confirmLabel || "Apply";
+    var title = opts.title || "Choose";
+    var searchPlaceholder = opts.searchPlaceholder || "Type to filter";
+    var emptyText = opts.emptyText || "Nothing matches that.";
+    var minSelected = opts.minSelected != null ? opts.minSelected : multi ? 1 : 0;
+
+    var overlay = document.createElement("div");
+    overlay.className = "qd-picker-overlay";
+    overlay.innerHTML =
+      '<div class="qd-picker qd-picker-list" role="dialog" aria-modal="true" aria-labelledby="qdPickerTitle">' +
+      '<div class="qd-picker-head">' +
+      '<h2 id="qdPickerTitle">' + esc(title) + "</h2>" +
+      '<button type="button" class="qd-picker-close" aria-label="Close">&times;</button>' +
+      "</div>" +
+      (filters.length
+        ? '<div class="qd-picker-filters" role="group" aria-label="Filter">' +
+          '<button type="button" class="qd-chip is-on" data-filter="all">All</button>' +
+          filters
+            .map(function (f) {
+              return '<button type="button" class="qd-chip" data-filter="' + esc(f.key) + '">' + esc(f.label) + "</button>";
+            })
+            .join("") +
+          "</div>"
+        : "") +
+      '<label class="qd-picker-search"><span>Search</span>' +
+      '<input type="text" class="qd-picker-q" autocomplete="off" spellcheck="false" placeholder="' + esc(searchPlaceholder) + '" /></label>' +
+      '<div class="qd-picker-body"></div>' +
+      '<div class="qd-picker-foot">' +
+      '<div class="qd-picker-count" role="status" aria-live="polite"></div>' +
+      '<button type="button" class="button qd-picker-confirm">' + esc(confirmLabel) + "</button>" +
+      "</div>" +
+      "</div>";
+    document.body.appendChild(overlay);
+
+    var dialog = overlay.querySelector(".qd-picker");
+    var body = overlay.querySelector(".qd-picker-body");
+    var qInput = overlay.querySelector(".qd-picker-q");
+    var countEl = overlay.querySelector(".qd-picker-count");
+    var confirmBtn = overlay.querySelector(".qd-picker-confirm");
+
+    function selectedCount() {
+      var n = 0;
+      for (var k in selected) if (selected[k]) n++;
+      return n;
+    }
+
+    function paintFoot() {
+      var n = selectedCount();
+      countEl.textContent = n + (n === 1 ? " selected" : " selected");
+      confirmBtn.disabled = n < minSelected;
+    }
+
+    function itemRowHtml(it) {
+      return (
+        '<label class="qd-list-row">' +
+        '<input type="checkbox" data-item="' + esc(it.id) + '"' +
+        (selected[it.id] ? " checked" : "") + ">" +
+        '<span class="qd-list-main">' +
+        '<span class="qd-list-primary">' + esc(it.primary) + "</span>" +
+        (it.secondary ? '<span class="qd-list-secondary">' + esc(it.secondary) + "</span>" : "") +
+        "</span>" +
+        (it.meta ? '<span class="qd-list-meta">' + esc(it.meta) + "</span>" : "") +
+        "</label>"
+      );
+    }
+
+    function renderList(filterKey, q) {
+      var list = items.slice();
+      if (filterKey && filterKey !== "all") {
+        var filt = filters.filter(function (f) {
+          return f.key === filterKey;
+        })[0];
+        if (filt && filt.test) list = list.filter(filt.test);
+      }
+      if (q) {
+        var needle = q.toLowerCase();
+        list = list.filter(function (it) {
+          return (it.searchText || it.primary + " " + (it.secondary || "")).toLowerCase().indexOf(needle) !== -1;
+        });
+      }
+
+      var html = "";
+      var showSelectedGroup = !q && (!filterKey || filterKey === "all");
+      var rendered = {};
+      if (showSelectedGroup) {
+        var selItems = list.filter(function (it) {
+          return selected[it.id];
+        });
+        if (selItems.length) {
+          html += '<h3 class="qd-picker-group">Selected</h3><div class="qd-list">' + selItems.map(itemRowHtml).join("") + "</div>";
+          selItems.forEach(function (it) {
+            rendered[it.id] = true;
+          });
+        }
+      }
+
+      if (groups.length) {
+        groups.forEach(function (g) {
+          var groupItems = list.filter(function (it) {
+            return it.group === g.key && !rendered[it.id];
+          });
+          if (!groupItems.length) return;
+          html +=
+            '<h3 class="qd-picker-group">' + esc(g.label) +
+            ' <span class="qd-picker-group-count">(' + groupItems.length + ")</span></h3>" +
+            '<div class="qd-list">' + groupItems.map(itemRowHtml).join("") + "</div>";
+        });
+        var ungrouped = list.filter(function (it) {
+          return !rendered[it.id] && !groups.some(function (g) {
+            return g.key === it.group;
+          });
+        });
+        if (ungrouped.length) {
+          html += '<div class="qd-list">' + ungrouped.map(itemRowHtml).join("") + "</div>";
+        }
+      } else {
+        var flat = list.filter(function (it) {
+          return !rendered[it.id];
+        });
+        if (flat.length) html += '<div class="qd-list">' + flat.map(itemRowHtml).join("") + "</div>";
+      }
+
+      if (!list.length) html = '<p class="qd-picker-empty">' + esc(emptyText) + "</p>";
+      body.innerHTML = html;
+    }
+
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay) return close();
+
+      var chip = e.target.closest && e.target.closest(".qd-chip");
+      if (chip) {
+        overlay.querySelectorAll(".qd-chip").forEach(function (c) {
+          c.classList.toggle("is-on", c === chip);
+        });
+        qInput.value = "";
+        renderList(chip.getAttribute("data-filter"), "");
+        return;
+      }
+
+      if (e.target.closest && e.target.closest(".qd-picker-confirm")) {
+        if (confirmBtn.disabled) return;
+        close();
+        var ids = [];
+        for (var k in selected) if (selected[k]) ids.push(k);
+        if (opts.onConfirm) opts.onConfirm(ids);
+        return;
+      }
+      if (e.target.closest && e.target.closest(".qd-picker-close")) close();
+    });
+
+    overlay.addEventListener("change", function (e) {
+      var cb = e.target.closest && e.target.closest("[data-item]");
+      if (!cb) return;
+      var id = cb.getAttribute("data-item");
+      if (!multi) {
+        selected = {};
+        overlay.querySelectorAll("[data-item]").forEach(function (other) {
+          other.checked = other === cb;
+        });
+      }
+      selected[id] = cb.checked;
+      paintFoot();
+    });
+
+    qInput.addEventListener("input", function () {
+      var on = overlay.querySelector(".qd-chip.is-on");
+      var f = on ? on.getAttribute("data-filter") : "all";
+      renderList(f, qInput.value.trim());
+    });
+
+    var onKey = makeKeyHandler(dialog);
+    document.addEventListener("keydown", onKey, true);
+
+    openState = { overlay: overlay, trigger: opts.trigger || null, onKey: onKey };
+    renderList("all", "");
+    paintFoot();
+    var closeBtn = overlay.querySelector(".qd-picker-close");
+    if (closeBtn) closeBtn.focus();
+  }
+
+  window.qdPicker = { open: open, openList: openList, close: close, clampRange: clampRange, refLabel: refLabel };
   window.qdRange = { create: createRange };
 })();
