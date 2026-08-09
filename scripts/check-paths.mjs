@@ -144,6 +144,11 @@ const pageOfHref = (href) => {
   return clean === "/index" ? "/" : clean;
 };
 
+// The query string an internal href carries, "" if none — the ribbon's
+// stepHref() reads this straight from step.query rather than parsing
+// html at render time, so this is what has to stay in sync.
+const queryOfHref = (href) => href.split("#")[0].split("?")[1] || "";
+
 // Pages that load the ribbon script; a step's page must be one of them.
 const ribbonPages = new Set(
   ["about", "changelog", "compare", "contribute", "coverage", "credits",
@@ -203,6 +208,24 @@ for (const path of paths) {
     }
     if (!hrefPage && step.page != null) {
       failures.push(`${stepLabel}: page ${step.page} but html links nothing internal — use null`);
+    }
+
+    // query/href consistency: the ribbon builds Previous/Next from
+    // step.query, never from html, so a drift here would silently ship
+    // a link that loses whatever params the step's real destination
+    // needs (the bug this field exists to prevent).
+    if (hrefPage) {
+      const hrefQuery = queryOfHref(firstInternal);
+      const stepQuery = step.query;
+      if (typeof stepQuery !== "string") {
+        failures.push(`${stepLabel}: missing query (use "" when the href has no query string)`);
+      } else if (stepQuery !== hrefQuery) {
+        failures.push(
+          `${stepLabel}: html links ${firstInternal} (query ${JSON.stringify(hrefQuery)}) but query is ${JSON.stringify(stepQuery)}`,
+        );
+      }
+    } else if ("query" in step) {
+      failures.push(`${stepLabel}: query is set but html links nothing internal — remove it`);
     }
 
     if (step.page != null) {

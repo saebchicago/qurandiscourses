@@ -27,6 +27,10 @@
 //   badgeretry a data/sources.json fetch failing on the first click
 //             surfaces a toast, not silence; a retry once the network
 //             recovers still opens the popover (sources.html)
+//   pathribbon every study-path step's rendered Previous/Next hrefs
+//             carry the step's real query params, checked against
+//             data/paths.json independently of path-ribbon.js's own
+//             concatenation logic
 //   keyboard  §6.5 nav groups at 375px (no hamburger: the details
 //             groups stay visible), dropdown menus at 1280px,
 //             settings gear, Escape behavior (nav is identical on all
@@ -1047,6 +1051,71 @@ if (runCheck("badgeretry") && (!PAGE_FILTER || PAGE_FILTER === "sources.html")) 
     report("badge-retry", "sources.html", false, "no visible cited badge on sources.html to test");
   }
   await bctx.close();
+}
+
+// ── path-ribbon.js: Previous/Next hrefs carry the step's real query ─
+// Regression test for the dropped-query-param bug: renders every step
+// of every path and compares the ribbon's ACTUAL Previous/Next hrefs
+// against a value computed independently from data/paths.json (never
+// by importing path-ribbon.js, which is a private IIFE) — so a future
+// bug in how the two fields get concatenated would be caught even
+// though check-paths.mjs's static check already guarantees the JSON
+// itself can't drift from the authored html. Steps whose ADJACENT step
+// has page: null are skipped: that step's real href depends on
+// whatever page it happens to render on, a distinct, out-of-scope
+// defect from the one this fix addresses (noted in the PR).
+if (runCheck("pathribbon") && !PAGE_FILTER) {
+  const pathsReg = JSON.parse(readFileSync(join(ROOT, "data/paths.json"), "utf8")).paths;
+  const fileForClean = (p) => (p === "/" ? "index.html" : p.replace(/^\//, "") + ".html");
+  const expectedHref = (step, pathId, stepNum) =>
+    step.page +
+    "?" +
+    (step.query ? step.query + "&" : "") +
+    "path=" +
+    encodeURIComponent(pathId) +
+    "&step=" +
+    stepNum;
+
+  const rctx2 = await newContext();
+  for (const p of pathsReg) {
+    for (const [i, step] of p.steps.entries()) {
+      const n = i + 1;
+      if (!step.page) continue; // this step's own page renders it in-place; not visitable in isolation
+      const page = await rctx2.newPage();
+      await page.goto(`${BASE}/${fileForClean(step.page)}?path=${p.id}&step=${n}`, {
+        waitUntil: "load",
+      });
+
+      const prevStep = n > 1 ? p.steps[n - 2] : null;
+      if (prevStep && prevStep.page) {
+        const expected = expectedHref(prevStep, p.id, n - 1);
+        const actual = await page
+          .locator(".path-ribbon-nav a", { hasText: "Previous" })
+          .getAttribute("href")
+          .catch(() => null);
+        report(
+          "pathribbon", `${p.id} step ${n} (prev)`, actual === expected,
+          actual === expected ? `matches ${expected}` : `got ${actual}, want ${expected}`,
+        );
+      }
+
+      const nextStep = n < p.steps.length ? p.steps[n] : null;
+      if (nextStep && nextStep.page) {
+        const expected = expectedHref(nextStep, p.id, n + 1);
+        const actual = await page
+          .locator("#pathRibbonNext")
+          .getAttribute("href")
+          .catch(() => null);
+        report(
+          "pathribbon", `${p.id} step ${n} (next)`, actual === expected,
+          actual === expected ? `matches ${expected}` : `got ${actual}, want ${expected}`,
+        );
+      }
+
+      await page.close();
+    }
+  }
+  await rctx2.close();
 }
 
 // ── Claim permalinks ────────────────────────────────────────────────
