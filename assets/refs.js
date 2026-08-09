@@ -183,13 +183,23 @@
     if (summaryPromise) return summaryPromise;
     summaryPromise = fetch("data/roots-list.json")
       .then(function (r) {
-        return r.ok ? r.json() : null;
+        // A non-ok response must reach .catch() too, not just a network
+        // exception: resolving it to null here would look identical to
+        // a real "no data" response and never retry (the case a plain
+        // r.ok ? r.json() : null used to miss).
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
       })
       .then(function (d) {
         summaryCache = d;
         return d;
       })
       .catch(function () {
+        // Don't cache a failure: without this, one network blip
+        // permanently blanks every root popover's occurrence count for
+        // the rest of the page's life, since a resolved-to-null promise
+        // looks identical to a real "no data" response forever after.
+        summaryPromise = null;
         return null;
       });
     return summaryPromise;
