@@ -24,6 +24,9 @@
 //             data/sources.json (hard fail), and the first badge on
 //             each page opens by mouse AND Enter/Space, closes on
 //             Escape
+//   badgeretry a data/sources.json fetch failing on the first click
+//             surfaces a toast, not silence; a retry once the network
+//             recovers still opens the popover (sources.html)
 //   keyboard  §6.5 nav groups at 375px (no hamburger: the details
 //             groups stay visible), dropdown menus at 1280px,
 //             settings gear, Escape behavior (nav is identical on all
@@ -1003,6 +1006,49 @@ if (runCheck("comparepopover") && (!PAGE_FILTER || PAGE_FILTER === "compare.html
   await cctx.close();
 }
 
+// ── cite-badge.js: a failed sources.json fetch must not stay broken ─
+// Regression test for the silent-permanent-failure bug: the first
+// data/sources.json request fails, so the click must surface a toast
+// rather than doing nothing; the SECOND click, with the network now
+// fine, must still open the popover — proving the failure wasn't
+// cached forever the way it used to be.
+if (runCheck("badgeretry") && (!PAGE_FILTER || PAGE_FILTER === "sources.html")) {
+  const bctx = await newContext();
+  const page = await bctx.newPage();
+  let failedOnce = false;
+  await page.route("**/data/sources.json", (route) => {
+    if (!failedOnce) {
+      failedOnce = true;
+      return route.fulfill({ status: 500, body: "error" });
+    }
+    return route.continue();
+  });
+  await page.goto(`${BASE}/sources.html`, { waitUntil: "load" });
+  const badge = page.locator(".badge[data-source-ids]:visible").first();
+  if ((await badge.count()) > 0) {
+    await badge.click();
+    const toastShown = await page
+      .locator(".qd-toast.show")
+      .waitFor({ state: "visible", timeout: 3000 })
+      .then(() => true, () => false);
+    const popoverAfterFailure = (await page.locator(".cite-popover").count()) > 0;
+    await badge.click();
+    const popoverAfterRetry = await page
+      .locator(".cite-popover")
+      .waitFor({ state: "visible", timeout: 3000 })
+      .then(() => true, () => false);
+    const ok = toastShown && !popoverAfterFailure && popoverAfterRetry;
+    report(
+      "badge-retry", "sources.html", ok,
+      ok ? "fetch failure shows a toast; retry on the next click opens the popover"
+         : `toast=${toastShown} popoverAfterFailure=${popoverAfterFailure} popoverAfterRetry=${popoverAfterRetry}`,
+    );
+  } else {
+    report("badge-retry", "sources.html", false, "no visible cited badge on sources.html to test");
+  }
+  await bctx.close();
+}
+
 // ── Claim permalinks ────────────────────────────────────────────────
 // Every claim in data/claims.json must be addressable as
 // /validation#<claim-id>: the articles are JS-rendered, so only a
@@ -1162,6 +1208,7 @@ if (runCheck("sw") && !PAGE_FILTER) {
     const pre = await page.evaluate(async () => {
       const names = await caches.keys();
       let readCached = false;
+      let sourcesCached = false;
       const crossOrigin = [];
       for (const n of names) {
         const c = await caches.open(n);
@@ -1169,13 +1216,21 @@ if (runCheck("sw") && !PAGE_FILTER) {
           const u = new URL(req.url);
           if (u.origin !== location.origin) crossOrigin.push(req.url);
           if (u.pathname === "/read") readCached = true;
+          if (u.pathname === "/data/sources.json") sourcesCached = true;
         }
       }
-      return { caches: names.length, readCached, crossOrigin: crossOrigin.length };
+      return { caches: names.length, readCached, sourcesCached, crossOrigin: crossOrigin.length };
     });
     report(
       "sw", "precache", pre.readCached && pre.crossOrigin === 0,
       `${pre.caches} caches; /read precached before any visit=${pre.readCached}; cross-origin entries=${pre.crossOrigin} (want 0)`,
+    );
+    // data/sources.json backs every citation badge on 24 of 32 pages —
+    // if it's ever dropped from PRECACHE_DATA, an offline visitor's
+    // badges fail the same silent way a network error used to.
+    report(
+      "sw", "precache-sources", pre.sourcesCached,
+      `/data/sources.json precached before any visit=${pre.sourcesCached}`,
     );
 
     await sctx.setOffline(true);

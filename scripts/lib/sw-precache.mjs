@@ -14,7 +14,10 @@
 //           Font binaries are deliberately NOT precached — they are
 //           large and the stale-while-revalidate route caches them on
 //           first use.
-//   data    the small always-needed files (surah names, juz, version).
+//   data    the small always-needed files (surah names, juz, version,
+//           sources — cite-badge.js loads on 24 of 32 pages, and
+//           without this its badges break the same silent way offline
+//           as they do on a plain network failure).
 //
 // The manifest hashes those files PLUS every top-level data/*.json:
 // the point is that any content change shows up as a manifest diff in
@@ -29,6 +32,7 @@ export const PRECACHE_DATA = [
   "/data/surah-names.json",
   "/data/juz.json",
   "/data/version.json",
+  "/data/sources.json",
 ];
 const EXTRA_ASSETS = [
   "/assets/icons/icon-192.png",

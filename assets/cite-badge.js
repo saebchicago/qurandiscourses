@@ -14,21 +14,31 @@
   // <style> injection, so the CSP can keep style-src-elem free of
   // 'unsafe-inline'.
 
-  let sourcesCache = null;
+  let sourcesPromise = null;
   let activePopover = null;
 
-  async function loadSources() {
-    if (sourcesCache) return sourcesCache;
-    try {
-      const resp = await fetch("data/sources.json");
-      if (!resp.ok) throw new Error("HTTP " + resp.status);
-      const data = await resp.json();
-      sourcesCache = {};
-      for (const s of data.sources || []) sourcesCache[s.id] = s;
-    } catch {
-      sourcesCache = {};
+  // A failed fetch must not be cached: caching it would look identical
+  // to a real, successful "no sources" response, and every later click
+  // would silently do nothing forever, online or offline, with no
+  // console output and no visible sign the badge is broken.
+  function loadSources() {
+    if (!sourcesPromise) {
+      sourcesPromise = fetch("data/sources.json")
+        .then((resp) => {
+          if (!resp.ok) throw new Error("HTTP " + resp.status);
+          return resp.json();
+        })
+        .then((data) => {
+          const map = {};
+          for (const s of data.sources || []) map[s.id] = s;
+          return map;
+        })
+        .catch((err) => {
+          sourcesPromise = null;
+          throw err;
+        });
     }
-    return sourcesCache;
+    return sourcesPromise;
   }
 
   // Chicago bibliography order:
@@ -201,7 +211,13 @@
       const ids = (badge.dataset.sourceIds || "").split(/\s+/).filter(Boolean);
       if (ids.length === 0) return;
 
-      const map = await loadSources();
+      let map;
+      try {
+        map = await loadSources();
+      } catch {
+        if (window.qdToast) window.qdToast("Citation data unavailable. Try again.");
+        return;
+      }
       const sources = ids.map((id) => map[id]).filter(Boolean);
       if (sources.length === 0) return;
 
