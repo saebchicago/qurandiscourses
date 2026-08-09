@@ -31,7 +31,7 @@ text is bundled in this repository.
 
 The translation editions registered in `assets/app.js` (Saheeh
 International, Pickthall, Yusuf Ali, Muhammad Asad, and others across
-17 languages) are likewise fetched at runtime from the alquran.cloud
+23 languages) are likewise fetched at runtime from the alquran.cloud
 API and are **not bundled** in this repository. Copyright in each
 translation remains with its translator or publisher; the translator is
 named beside every rendered verse. Anyone redistributing translation
