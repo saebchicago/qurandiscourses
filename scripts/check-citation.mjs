@@ -48,7 +48,8 @@ if (!exportPage.includes(`divinediscourses-data-v${version}.tar.gz`))
 // Every source carries a valid type (BibTeX generation keys off it; the
 // generator throws too, but this reports ALL offenders at once).
 const TYPES = new Set(["book", "paper", "dataset", "api"]);
-for (const s of JSON.parse(read("data/sources.json")).sources) {
+const sources = JSON.parse(read("data/sources.json")).sources;
+for (const s of sources) {
   if (!TYPES.has(s.type))
     failures.push(`data/sources.json: "${s.id}" type "${s.type}" not in {${[...TYPES].join(", ")}}`);
 }
@@ -74,4 +75,4 @@ if (failures.length) {
   for (const f of failures) console.error("  - " + f);
   process.exit(1);
 }
-console.log(`check-citation: OK (v${version} consistent across cff, about.html, and 25 typed sources).`);
+console.log(`check-citation: OK (v${version} consistent across cff, about.html, and ${sources.length} typed sources).`);

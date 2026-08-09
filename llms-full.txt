@@ -1525,7 +1525,8 @@ site ships ( scripts/build-formulas.mjs ). What is
 counted is recurrence , nothing more: whether a recurring
 phrase is a "formula" in the technical, oral-formulaic sense is a
 scholarly judgment about composition, argued in the literature
-(Bannister 2014, on Sources ) — this
+( ●
+Bannister 2014, on Sources ) — this
 page does not make it.
 
 View
@@ -2748,6 +2749,126 @@ token — the smallest counted
 piece of the text. Used in place of "word" wherever a count could
 otherwise be mistaken for written words.
 
+Fāṣila
+
+The word or syllable a verse ends on. When the same ending recurs across
+consecutive verses it produces the rhyme or assonance pattern (fawāṣil,
+plural) scholars read structure from.
+
+Qasam
+
+An oath opening: a surah or passage that begins by swearing on something
+(time, the sun, the fig tree) before making its claim. Surahs al-'Asr,
+al-Shams, and al-Tin open this way.
+
+Parallelism
+
+Balanced clause or phrase structures, where successive units
+echo each other's grammar or meaning. Concentric parallelism,
+where the echo runs from a text's edges toward its centre, is
+one specific case. See Ring composition .
+
+Fawātiḥ
+
+The "opening letters" (also called al-muqatta'at, "the disjointed letters"):
+one to five Arabic letters that open 29 surahs, in 14 distinct combinations,
+before the surah's first sentence. Their meaning has never been settled in
+the classical tradition.
+
+Oral-formulaic
+
+A framework from the study of oral literature, applied to the Qur'an by
+Bannister (2014), that reads recurring phrases as evidence of formulaic
+composition. This site counts recurrence mechanically; whether that
+recurrence is oral-formulaic in this technical sense is the scholarly
+argument, not something the count settles.
+
+Formula
+
+A sequence of three to five consecutive words that recurs somewhere else in
+the Qur'an, counted by root sequence or by surface form on the Formulas
+page. What is counted is recurrence; whether a formula is formulaic in the
+technical oral-formulaic sense is a separate scholarly question.
+
+Benjamini-Hochberg correction
+
+A statistical correction applied when many hypotheses are tested at once
+(every surah, or every root pair), controlling the false discovery rate
+(FDR): the expected share of "significant" results that are actually false
+positives. Used throughout this site's corpus-wide tests instead of judging
+each result alone.
+
+Null distribution
+
+The range of results a statistic would produce under a random or shuffled
+version of the data, used as the yardstick a real result is judged against.
+A result counts as significant when it falls where the null distribution
+says chance rarely lands.
+
+Nöldeke-Bell
+
+A four-period chronological classification of the surahs
+(three Meccan periods plus Medinan), descended from Theodor
+Nöldeke and Friedrich Schwally's source-critical scholarship as
+adapted by Richard Bell. This site pairs it with the Cairo 1924
+edition's revelation order. See Watt's Bell's Introduction to
+the Qur'an on Sources .
+
+Revelation order
+
+The sequence the surahs are traditionally held to have been revealed in,
+distinct from their fixed position in the mushaf (the standard printed
+Qur'an). This site follows the Egyptian Standard (Cairo 1924) revelation
+order, a convention rather than a documented historical record.
+
+Uthmani
+
+The standard Arabic script and verse divisions used in nearly all printed
+and digital copies of the Qur'an today, following the consonantal skeleton
+fixed under the caliph Uthman. The Arabic text on this site is the Tanzil
+Uthmani edition.
+
+Normalized frequency
+
+An occurrence count divided by the size of the text it is drawn from (here,
+per 1,000 tokens), so counts from different-sized samples, such as the
+Meccan and Medinan periods, can be compared directly.
+
+Tokenization
+
+Splitting text into the smallest countable units (tokens). The Leeds corpus
+tokenizes Arabic below the level of the written word: a single written word
+like bismi splits into two tokens (bi + ism), which is why token counts run
+higher than word counts on this site.
+
+Discursive pivot
+
+A verse mechanically flagged for opening with a temporal
+particle (like idh or idha ) while sharing
+vocabulary with what precedes it, a candidate marker of where a
+passage turns. Detected by pattern matching, not by a scholar's
+reading. See Patterns .
+
+Centrality
+
+A family of statistical measures of a node's position in a network, such as
+this site's root co-occurrence graph. This site reports degree, betweenness,
+and eigenvector centrality; none of them indicate a root's importance, only
+its structural position.
+
+Tadabbur
+
+Reflective, contemplative study of the Qur'an, read as a connected discourse
+rather than isolated verses. The term names the reading approach behind
+Islahi's Tadabbur-i Qur'an and this site's discovery-worksheet exercises.
+
+Mishkat
+
+The Mishkat Mutashabihat corpus, a compilation of verse-to-verse
+cross-references drawn from 13 classical books of mutashabihat scholarship,
+powering this site's Related-verses feature. Its rights holder has not
+published a license; see Sources.
+
 This glossary is also available inline throughout the site. Technical
 terms are marked with a dotted underline and reveal their definition
 on hover or tap. Categories: Method (nazm, khitab, tafsir,
@@ -3052,6 +3173,15 @@ that moved the Farahi entry above from Pending to Verified.
 
 Mir, Mustansir. "Thematic and Structural Coherence in the Qur'ān."
 PhD diss., University of Michigan, 1983.
+
+Farrin, Raymond.
+Structure and Qur'anic Interpretation: A Study of Symmetry and
+Coherence in Islam's Holy Text . Islamic Encounter Series. Ashland, OR: White Cloud Press, 2014.
+ISBN 9781935952985. Named on the
+Coverage page as one of the
+obvious starting points for a page-cited ring outline; this site
+asserts no outline from this book, only the mechanical
+block-structure test on Patterns .
 
 Saleem, Shehzad, and the al-Mawrid Institute.
 https://www.al-mawrid.org/ .
@@ -3782,6 +3912,25 @@ morphological field.
 1,642 roots ( 0% )
 have an English gloss sourced from a verified local file.
 
+### Per-word gloss coverage ●
+
+A different question from root gloss coverage above:
+6 of
+114 surahs
+( 5.26% ) have a
+per-word English gloss, transcribed from Khan (2011), behind
+the Meaning column on the reading page.
+
+### Khan 2005 Reflections coverage ○
+
+Khan's 2005 volume is a full tafsir of the two most-read
+surahs on this site, al-Fatihah and al-Baqarah.
+0 of 2 surahs have any transcribed excerpt
+from it: data/khan-interpretations.json draws
+only on the 2011 volume. The count stays zero until someone
+brings a page-cited transcription; see
+Sources .
+
 ### QurSim (Mishkat) cross-reference coverage ●
 
 110 of
@@ -3850,6 +3999,19 @@ Author
 Year
 License
 URL
+
+### Source-id usage across the site
+
+A source can be fully cited in data/sources.json
+and still be reachable from no badge anywhere: nothing checked
+for that until this measurement.
+25 of
+31 sources appear in at
+least one data-source-ids attribute on the site,
+static or built at render time. The rest are cited in the
+bibliography on Sources but not yet
+attached to any specific claim a reader can badge-click
+through to.
 
 For downloadable CSV/JSON tables of the underlying corpus
 statistics, see Export . For every
@@ -4000,6 +4162,40 @@ before it was renamed "Study".
 ### 2026
 
 #### August
+
+Six sources got an id, and eleven numbers got a claim record.
+Islahi, Farrin, Nöldeke and Schwally, Watt, Mustansir Mir's
+1983 dissertation, and Sadeghi and Goudarzi were all
+already cited in prose on Sources ,
+but carried no machine-readable id, so no badge could ever
+resolve to them; Farrin in particular had no citation
+anywhere at all despite being named twice as a starting
+point for ring-composition scholarship. All six now have a
+full entry in data/sources.json . Separately,
+eleven numbers this site had been showing for months
+without a provenance record, the 89 direct-address verses,
+the 29/14 fawatih count, both structural null results
+(3,067 and 345 candidates, zero survivors either way), a
+monorhyme surah, one root's association scores and network
+centrality, the discursive-pivot count, an export's row
+count, vocabulary variety by period, and the 18,408
+recurring phrases, now each have a
+claim record with its sources,
+its reproduction method, and its limitations spelled out.
+A new coverage measurement found that six sources,
+including two load-bearing ones, khan-introduction-2011
+and bannister-2014, were reachable from no badge anywhere
+on the site; bannister-2014 is now cited on
+Formulas . The Khan outline queue's
+headline number turned out to conflate two different
+books: of the six "transcribed" outlines in surahs 85-114,
+only one is actually from the 2013 volume the queue is
+named after, so 29 of 30 remain wanted from that book
+specifically, not 24. Also fixed: a malformed prefilled
+issue-link title on Coverage, and a hardcoded source count
+in check-citation.mjs that would have quietly
+stopped matching reality the next time a source was added.
+§
 
 The root you clicked is the root you get.
 On Read , every word in the
@@ -5427,6 +5623,23 @@ triangulate: To cross-check a claim against two or more independent sources. Agr
 ttr: Type-token ratio: distinct word forms divided by total words, a measure of vocabulary variety. Smaller samples score higher mechanically, so the trend matters more than the absolute values.
 verified: A claim on this site backed by direct corpus data, primary text, or peer-reviewed scholarship. The strongest confidence label.
 word-unit: This site's plain-language name for a corpus token — the smallest counted piece of the text. Used in place of "word" wherever a count could otherwise be mistaken for written words.
+fasila: The word or syllable a verse ends on. When the same ending recurs across consecutive verses it produces the rhyme or assonance pattern (fawāṣil, plural) scholars read structure from.
+qasam: An oath opening: a surah or passage that begins by swearing on something (time, the sun, the fig tree) before making its claim. Surahs al-'Asr, al-Shams, and al-Tin open this way.
+parallelism: Balanced clause or phrase structures, where successive units echo each other's grammar or meaning. Concentric parallelism, where the echo runs from a text's edges toward its centre, is one specific case; see Ring composition.
+fawatih: The "opening letters" (also called al-muqatta'at, "the disjointed letters"): one to five Arabic letters that open 29 surahs, in 14 distinct combinations, before the surah's first sentence. Their meaning has never been settled in the classical tradition.
+oral-formulaic: A framework from the study of oral literature, applied to the Qur'an by Bannister (2014), that reads recurring phrases as evidence of formulaic composition. This site counts recurrence mechanically; whether that recurrence is oral-formulaic in this technical sense is the scholarly argument, not something the count settles.
+formula: A sequence of three to five consecutive words that recurs somewhere else in the Qur'an, counted by root sequence or by surface form on the Formulas page. What is counted is recurrence; whether a formula is formulaic in the technical oral-formulaic sense is a separate scholarly question.
+benjamini-hochberg: A statistical correction applied when many hypotheses are tested at once (every surah, or every root pair), controlling the false discovery rate (FDR): the expected share of "significant" results that are actually false positives. Used throughout this site's corpus-wide tests instead of judging each result alone.
+null-distribution: The range of results a statistic would produce under a random or shuffled version of the data, used as the yardstick a real result is judged against. A result counts as significant when it falls where the null distribution says chance rarely lands.
+noldeke-bell: A four-period chronological classification of the surahs (three Meccan periods plus Medinan), descended from Theodor Nöldeke and Friedrich Schwally's source-critical scholarship as adapted by Richard Bell. This site pairs it with the Cairo 1924 edition's revelation order; see Watt's Bell's Introduction to the Qur'an on Sources.
+revelation-order: The sequence the surahs are traditionally held to have been revealed in, distinct from their fixed position in the mushaf (the standard printed Qur'an). This site follows the Egyptian Standard (Cairo 1924) revelation order, a convention rather than a documented historical record.
+uthmani: The standard Arabic script and verse divisions used in nearly all printed and digital copies of the Qur'an today, following the consonantal skeleton fixed under the caliph Uthman. The Arabic text on this site is the Tanzil Uthmani edition.
+normalized-frequency: An occurrence count divided by the size of the text it is drawn from (here, per 1,000 tokens), so counts from different-sized samples, such as the Meccan and Medinan periods, can be compared directly.
+tokenization: Splitting text into the smallest countable units (tokens). The Leeds corpus tokenizes Arabic below the level of the written word: a single written word like bismi splits into two tokens (bi + ism), which is why token counts run higher than word counts on this site.
+discursive-pivot: A verse mechanically flagged for opening with a temporal particle (like idh or idha) while sharing vocabulary with what precedes it, a candidate marker of where a passage turns. Detected by pattern matching, not by a scholar's reading; see Patterns.
+centrality: A family of statistical measures of a node's position in a network, such as this site's root co-occurrence graph. This site reports degree, betweenness, and eigenvector centrality; none of them indicate a root's importance, only its structural position.
+tadabbur: Reflective, contemplative study of the Qur'an, read as a connected discourse rather than isolated verses. The term names the reading approach behind Islahi's Tadabbur-i Qur'an and this site's discovery-worksheet exercises.
+mishkat: The Mishkat Mutashabihat corpus, a compilation of verse-to-verse cross-references drawn from 13 classical books of mutashabihat scholarship, powering this site's Related-verses feature. Its rights holder has not published a license; see Sources.
 
 ===== Export data dictionary =====
 

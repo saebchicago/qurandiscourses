@@ -383,6 +383,78 @@ if (blockers.length) {
   console.log(`  BLOCKER flagged: ${blockers.map((b) => b.field).join(", ")}`);
 }
 
+// ── Step F: per-word gloss coverage (Khan 2011, worked surahs) ───────
+// data/gloss/{surah}.json is per-WORD, not per-root (rootGloss above
+// measures a different question). Read straight from the manifest
+// build-gloss.mjs itself maintains, so this can never drift from what
+// the reading page actually serves.
+
+console.log("\nMeasuring per-word gloss coverage (data/gloss/)...");
+
+const glossIndex = JSON.parse(readFileSync(join(DATA, "gloss", "index.json"), "utf8"));
+const glossedSurahs = [...glossIndex.surahs].sort((a, b) => a - b);
+const perWordGloss = {
+  totalSurahs: TOTAL_SURAHS,
+  covered: glossedSurahs.length,
+  coveredSurahs: glossedSurahs,
+  percentWith: pct(glossedSurahs.length, TOTAL_SURAHS),
+  _method:
+    "Counted from data/gloss/index.json, the manifest scripts/build-gloss.mjs maintains of which " +
+    "data/gloss/{surah}.json files exist. Per-word glosses transcribed from Khan (2011); see NOTICE.md. " +
+    "Distinct from rootGloss above, which measures per-ROOT glosses (a different, currently unmet, question).",
+};
+console.log(`  Covered: ${perWordGloss.covered}/${TOTAL_SURAHS} (${perWordGloss.percentWith}%): [${glossedSurahs.join(", ")}]`);
+
+// ── Step G: Khan 2005 Reflections coverage ───────────────────────────
+// Khan's 2005 volume is a full tafsir of the two most-read surahs
+// (al-Fatihah, al-Baqarah), cited in data/sources.json as
+// khan-reflections-2005, but nothing on the site quotes or transcribes
+// it the way khan-interpretations.json does for the 2011 volume. Named
+// explicitly here rather than left silently absent, per the same
+// "publish the deliberate zero" precedent as ringAnalyses.
+const khanReflections2005 = {
+  coveredSurahs: [],
+  wantedSurahs: [1, 2],
+  _method:
+    "Khan (2005), Reflections on the Qur'an: Understanding Surahs al-Fatihah and al-Baqarah (source " +
+    "khan-reflections-2005 in data/sources.json), covers surahs 1 and 2 in full. No transcribed excerpt " +
+    "from this volume exists anywhere in the repository (data/khan-interpretations.json only draws on the " +
+    "2011 volume). The count is zero and stays zero until someone brings a page-cited transcription.",
+};
+console.log(`  Khan 2005 Reflections: 0/2 transcribed (surahs 1, 2 both wanted).`);
+
+// ── Step H: source-id usage across the site ──────────────────────────
+// A source can be fully, correctly cited in data/sources.json and still
+// be invisible to a reader if no badge anywhere actually points at it
+// (found by hand for khan-introduction-2011/bannister-2014 during an
+// audit; both are now fixed, but nothing before this caught it
+// mechanically). Every data-source-ids badge, static or built from a
+// JS template literal, carries the source id as a literal string
+// somewhere in the page's HTML/JS source — so a plain substring scan
+// across every page finds them all, static or dynamic alike.
+console.log("\nMeasuring source-id usage across the site...");
+
+const allHtmlFiles = readdirSync(ROOT).filter((f) => f.endsWith(".html"));
+const htmlText = allHtmlFiles.map((f) => readFileSync(join(ROOT, f), "utf8")).join("\n");
+const sourceUsage = sourcesJson.sources.map((s) => ({
+  id: s.id,
+  used: htmlText.includes(s.id),
+})).sort((a, b) => (a.id < b.id ? -1 : 1));
+const unusedSourceIds = sourceUsage.filter((s) => !s.used).map((s) => s.id);
+const sourceUsageSummary = {
+  totalSources: sourceUsage.length,
+  used: sourceUsage.length - unusedSourceIds.length,
+  unusedIds: unusedSourceIds,
+  _method:
+    "For each id in data/sources.json, checked whether that exact string appears anywhere in any .html " +
+    "file's source (static data-source-ids attributes and the JS string literals that build them alike). " +
+    "A source with zero hits is cited in the bibliography but reachable from no badge anywhere on the site.",
+};
+console.log(
+  `  ${sourceUsageSummary.used}/${sourceUsageSummary.totalSources} sources reachable from at least one badge. ` +
+    `Unused: [${unusedSourceIds.join(", ") || "(none)"}]`,
+);
+
 // ── Write output ─────────────────────────────────────────────────────
 
 const COMPUTED_DATE = computedDate();
@@ -398,10 +470,8 @@ const KHAN_PUBLISHED_END = 114;
 const exercisesReg = JSON.parse(
   readFileSync(join(ROOT, "data/exercises.json"), "utf8"),
 );
-const transcribed = exercisesReg.exercises
-  .filter((e) => e.type === "outline")
-  .map((e) => e.surah)
-  .sort((a, b) => a - b);
+const outlineExercises = exercisesReg.exercises.filter((e) => e.type === "outline");
+const transcribed = outlineExercises.map((e) => e.surah).sort((a, b) => a - b);
 const published = [];
 for (let s = KHAN_PUBLISHED_START; s <= KHAN_PUBLISHED_END; s++) published.push(s);
 const wanted = published.filter((s) => !transcribed.includes(s));
@@ -411,10 +481,27 @@ for (const s of transcribed) {
 }
 if (wanted.length + transcribed.length !== published.length)
   throw new Error("khan outline sets do not partition the published range");
+// transcribed conflates two different Khan books that happen to share this
+// numeric range: the 2013 volume's own 30-surah project, and 5 surahs that
+// are illustrative examples in the unrelated 2011 volume and only fall in
+// 85-114 by coincidence. A reader crediting "6 of 30" toward the 2013
+// project would be wrong by 5 — this breaks the two out explicitly.
+const transcribedFrom2013 = outlineExercises
+  .filter((e) => e.sourceIds === "khan-exercise-2013")
+  .map((e) => e.surah)
+  .sort((a, b) => a - b);
+const transcribedFrom2011 = outlineExercises
+  .filter((e) => e.sourceIds === "khan-introduction-2011")
+  .map((e) => e.surah)
+  .sort((a, b) => a - b);
+if (transcribedFrom2013.length + transcribedFrom2011.length !== transcribed.length)
+  throw new Error("every transcribed outline must carry sourceIds khan-exercise-2013 or khan-introduction-2011");
 const khanOutlines = {
   _method:
-    "published = surahs 85-114, the range of Khan's 2013 outline volume (source khan-exercise-2013); transcribed is read from data/exercises.json type=outline entries; wanted is the difference. Transcription requires the book and the review checklist in CONTRIBUTING.md.",
+    "published = surahs 85-114, the range of Khan's 2013 outline volume (source khan-exercise-2013); transcribed is read from data/exercises.json type=outline entries; wanted is the difference. transcribedFrom2013/transcribedFrom2011 split the same transcribed set by which book's outline it actually is (data/exercises.json sourceIds), since 5 of the 6 transcribed surahs are illustrative examples from the unrelated 2011 volume that happen to fall in this numeric range, not part of the 2013 project. Transcription requires the book and the review checklist in CONTRIBUTING.md.",
   publishedRange: [KHAN_PUBLISHED_START, KHAN_PUBLISHED_END],
+  transcribedFrom2013,
+  transcribedFrom2011,
   publishedCount: published.length,
   transcribed,
   wanted,
@@ -497,6 +584,8 @@ const report = {
   _computed: COMPUTED_DATE,
   morphology,
   rootGloss,
+  perWordGloss,
+  khanReflections2005,
   qursim,
   countingRuleSensitivity,
   khanOutlines,
@@ -504,6 +593,7 @@ const report = {
   structureTests: structureTestsSummary,
   sourceRegistry,
   sourceRegistryBlockers: blockers,
+  sourceUsage: sourceUsageSummary,
 };
 
 writeFileSync(join(OUT, "report.json"), JSON.stringify(report, null, 1) + "\n");

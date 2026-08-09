@@ -207,6 +207,51 @@
 
       <section>
         <h3>
+          Per-word gloss coverage
+          <span
+            class="badge ok"
+            data-source-ids="khan-introduction-2011"
+            aria-label="Verified"
+            tabindex="0"
+            title="Verified · counted from the manifest the reading page itself consults"
+            >●</span
+          >
+        </h3>
+        <p>
+          A different question from root gloss coverage above:
+          <strong id="perWordGlossCovered">6</strong> of
+          <span id="perWordGlossTotal">114</span> surahs
+          (<strong id="perWordGlossPercent">5.26%</strong>) have a
+          per-word English gloss, transcribed from Khan (2011), behind
+          the Meaning column on the reading page.
+        </p>
+        <p class="caption-note" id="perWordGlossSurahs"></p>
+      </section>
+
+      <section>
+        <h3>
+          Khan 2005 <em>Reflections</em> coverage
+          <span
+            class="badge pending"
+            aria-label="Pending"
+            tabindex="0"
+            title="Pending · the deliberate zero, published as such"
+            >○</span
+          >
+        </h3>
+        <p>
+          Khan's 2005 volume is a full tafsir of the two most-read
+          surahs on this site, al-Fatihah and al-Baqarah.
+          <strong>0 of 2</strong> surahs have any transcribed excerpt
+          from it: <code>data/khan-interpretations.json</code> draws
+          only on the 2011 volume. The count stays zero until someone
+          brings a page-cited transcription; see
+          <a href="/sources#khans-works-and-lineage">Sources</a>.
+        </p>
+      </section>
+
+      <section>
+        <h3>
           QurSim (Mishkat) cross-reference coverage
           <span
             class="badge ok"
@@ -341,6 +386,23 @@
       </section>
 
       <section>
+        <h3>Source-id usage across the site</h3>
+        <p>
+          A source can be fully cited in <code>data/sources.json</code>
+          and still be reachable from no badge anywhere: nothing checked
+          for that until this measurement.
+          <strong id="sourceUsageUsed">25</strong> of
+          <span id="sourceUsageTotal">31</span> sources appear in at
+          least one <code>data-source-ids</code> attribute on the site,
+          static or built at render time. The rest are cited in the
+          bibliography on <a href="/sources">Sources</a> but not yet
+          attached to any specific claim a reader can badge-click
+          through to.
+        </p>
+        <p class="caption-note" id="sourceUsageUnused"></p>
+      </section>
+
+      <section>
         <p>
           For downloadable CSV/JSON tables of the underlying corpus
           statistics, see <a href="/export">Export</a>. For every
@@ -429,11 +491,13 @@
         .then((report) => {
           renderMorphology(report.morphology);
           renderGloss(report.rootGloss);
+          renderPerWordGloss(report.perWordGloss);
           renderQursim(report.qursim);
           renderSensitivity(report.countingRuleSensitivity);
           renderWanted(report.khanOutlines);
           renderWantedRing(report.ringAnalyses, report.structureTests);
           renderRegistry(report.sourceRegistry, report.sourceRegistryBlockers);
+          renderSourceUsage(report.sourceUsage);
         })
         .catch((err) => {
           document.getElementById("main").insertAdjacentHTML(
@@ -469,9 +533,20 @@
             return `<li><strong>Surah ${n}</strong> ${name(n)}${cta}</li>`;
           })
           .join("");
+        const from2013 = (k.transcribedFrom2013 || []).length;
+        const from2011 = (k.transcribedFrom2011 || []).length;
+        const bookNote =
+          from2011 > 0
+            ? `<p style="color:var(--muted);font-size:0.9rem">Of those ${k.transcribed.length}, only ` +
+              `<strong>${from2013}</strong> ${from2013 === 1 ? "is" : "are"} actually from the 2013 volume ` +
+              `itself; the other <strong>${from2011}</strong> are illustrative examples from Khan's unrelated ` +
+              `2011 book that happen to fall in surahs 85-114 too. So <strong>${k.publishedCount - from2013} of ` +
+              `${k.publishedCount}</strong> outlines from the 2013 volume specifically remain untranscribed.</p>`
+            : "";
         el.innerHTML =
           `<p>${k.transcribed.length} of ${k.publishedCount} transcribed; ` +
           `<strong>${k.wanted.length} wanted</strong>:</p>` +
+          bookNote +
           `<ul class="wanted-list">${rows}</ul>`;
         if (window.qdCiteEnhance) window.qdCiteEnhance(el);
       }
@@ -491,7 +566,6 @@
           window.qdIssueUrl &&
           window.qdIssueUrl({
             template: "structural-hypothesis.md",
-            title: "Ring/structural analysis: surah ",
           });
         const cta =
           issue && issue.url
@@ -662,6 +736,24 @@
         document.getElementById("qursimCovered").textContent = qursim.covered;
         document.getElementById("qursimTotal").textContent = qursim.totalSurahs;
         document.getElementById("qursimUncovered").textContent = qursim.uncovered.join(", ");
+      }
+
+      function renderPerWordGloss(g) {
+        if (!g) return;
+        document.getElementById("perWordGlossCovered").textContent = g.covered;
+        document.getElementById("perWordGlossTotal").textContent = g.totalSurahs;
+        document.getElementById("perWordGlossPercent").textContent = g.percentWith + "%";
+        document.getElementById("perWordGlossSurahs").textContent =
+          "Covered surahs: " + g.coveredSurahs.join(", ") + ".";
+      }
+
+      function renderSourceUsage(u) {
+        if (!u) return;
+        document.getElementById("sourceUsageUsed").textContent = u.used;
+        document.getElementById("sourceUsageTotal").textContent = u.totalSources;
+        document.getElementById("sourceUsageUnused").textContent = u.unusedIds.length
+          ? "Not yet reachable from any badge: " + u.unusedIds.join(", ") + "."
+          : "Every registered source is reachable from at least one badge.";
       }
 
       function renderSensitivity(entries) {

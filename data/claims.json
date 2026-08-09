@@ -188,6 +188,238 @@
     "The 64.53% share is a property of Arabic grammar plus the corpus's annotation choices, not a data gap: most rootless tokens are particles, pronouns, and other function words that have no root by definition.",
     "Any root-based statistic on this site describes the 49,967 rooted tokens, not all 77,429."
    ]
+  },
+  {
+   "id": "claim.rhetoric.direct-address-89.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "source-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/build-rhetorical-features.mjs",
+    "output": "data/rhetorical-features.json",
+    "method": "Count verses whose morphology matches the believers' vocative formula (ya ayyuha alladhina amanu) across all 114 surahs."
+   },
+   "limitations": [
+    "Counts one specific direct-address formula only; the Qur'an's direct address is far broader, reaching even single pronouns, and no single count could capture all of it.",
+    "The count inherits the Leeds corpus's lemmatization of the formula's three words."
+   ]
+  },
+  {
+   "id": "claim.rhetoric.fawatih-29-14.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "source-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/build-rhetorical-features.mjs",
+    "output": "data/rhetorical-features.json",
+    "method": "Detect the isolated-letter sequence opening each surah and group the 114 surahs by whether one is present, then by which exact letter combination."
+   },
+   "limitations": [
+    "The count of surahs and combinations is mechanical; the classical tradition has never settled what, if anything, the letters mean.",
+    "The result inherits the Leeds corpus's verse and word segmentation."
+   ]
+  },
+  {
+   "id": "claim.structure.symmetry-null.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/build-symmetry-test.mjs",
+    "output": "data/symmetry-test.json",
+    "method": "Test whether roots occurring exactly twice in a surah sit at mirrored distances from the surah's start and end, against an exact per-length null, corrected jointly across all 3,067 candidates."
+   },
+   "limitations": [
+    "Tests only roots occurring exactly twice; a root repeating three or more times is outside this test's scope entirely.",
+    "This is a narrow point-pair proxy, not a test of literary ring composition; a null result here says nothing about the scholarly literature on ring structure."
+   ]
+  },
+  {
+   "id": "claim.structure.structure-tests-null.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/build-structure-tests.mjs",
+    "output": "data/structure-tests.json",
+    "method": "Run four block-level mirror-symmetry tests (concentric pairing, inclusio, formula bookending, verse-length symmetry) over the mechanically segmented sections in data/structure/, corrected jointly across all 345 candidates."
+   },
+   "limitations": [
+    "The sections tested are computed by a changepoint model, not a scholar's outline; a different segmentation could change every result.",
+    "A null result describes this specific mechanical test, not the scholarly literature on ring composition, which this site never asserts an outline from."
+   ]
+  },
+  {
+   "id": "claim.rhyme.mean-run-91.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "source-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/build-rhyme-map.mjs",
+    "output": "data/rhyme-summary.json",
+    "method": "For surah 91 (al-Shams), all 15 verses share one rhyme-ending key with zero shifts, giving a mean run length of 15 (verse count divided by shift count plus one): the maximum possible value, a full monorhyme."
+   },
+   "limitations": [
+    "Rhyme-ending classification is an orthographic proxy (final letters after diacritic stripping), not a phonological transcription of recitation.",
+    "This result happens to be invariant between the fine and coarse rhyme-key definitions the site also computes; that is not true for most surahs."
+   ]
+  },
+  {
+   "id": "claim.association.rhm-ghfr-scores.v1",
+   "claimType": "method-comparison",
+   "sourceIds": [
+    "leeds-corpus-v0.4"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/compute-association-stats.mjs",
+    "output": "data/association/ruHm.json",
+    "method": "For the root pair r-h-m (mercy) and gh-f-r (forgive), compute PMI, the Dice coefficient, and the log-likelihood ratio (LLR) over their shared verses, and rank r-h-m's partners by each measure."
+   },
+   "limitations": [
+    "PMI, Dice, and LLR are three different measures of the same co-occurrence data and rank pairs differently by design; a pair can score high on one and moderate on another.",
+    "Any of these scores measures distribution, not meaning; shared verses do not by themselves establish a semantic or theological relationship."
+   ]
+  },
+  {
+   "id": "claim.centrality.rhm.v1",
+   "claimType": "method-comparison",
+   "sourceIds": [
+    "leeds-corpus-v0.4"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/compute-centrality.mjs",
+    "output": "data/centrality/ruHm.json",
+    "method": "Compute degree, weighted degree, betweenness, and eigenvector centrality for the root r-h-m over the 1,642-root co-occurrence graph, and rank it against every other root on each measure."
+   },
+   "limitations": [
+    "The four centrality measures rank r-h-m differently (32nd by degree, 56th by betweenness, 53rd by eigenvector out of 1,642), because they capture different notions of network position.",
+    "Centrality measures a root's position in the co-occurrence graph, not its theological or semantic importance."
+   ]
+  },
+  {
+   "id": "claim.rhetoric.discursive-pivots-137.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/build-discursive-pivots.mjs",
+    "output": "data/discursive-pivots.json",
+    "method": "Flag verses opening with a temporal particle (idh or idha) that also share a content root with the immediately preceding verse, across the whole corpus."
+   },
+   "limitations": [
+    "The count depends on the fixed marker-word list (idh, idha) and the content-root stoplist chosen; a different marker list would change it.",
+    "This is a mechanically detected candidate list, not a scholar's identification of a genuine discursive turn."
+   ]
+  },
+  {
+   "id": "claim.export.association-pairs-rows.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/build-exports.mjs",
+    "output": "data/exports/association-pairs.json",
+    "method": "Deduplicate the union of every root's top-25-by-LLR partner list into one unordered-pair table."
+   },
+   "limitations": [
+    "The row count is a direct function of the top-25 cutoff; a different cutoff would produce a different row count.",
+    "The table is not every possible root pair in the corpus, only those appearing in some root's own top-25 list."
+   ]
+  },
+  {
+   "id": "claim.numbers.ttr-by-period.v1",
+   "claimType": "method-comparison",
+   "sourceIds": [
+    "leeds-corpus-v0.4",
+    "cairo-1924"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/build-numbers.mjs",
+    "output": "data/numbers.json",
+    "method": "For each of the four Cairo 1924 revelation periods, compute form type-token ratio (distinct surface forms over tokens) and lemma type-token ratio (distinct lemmas over tokens)."
+   },
+   "limitations": [
+    "Type-token ratio is sensitive to sample size, and the four periods range from 2,704 tokens (Early Meccan) to 30,572 (Late Meccan), so the ratios are not directly comparable without accounting for this.",
+    "Form TTR and lemma TTR are different units measuring different levels of vocabulary variety."
+   ]
+  },
+  {
+   "id": "claim.formulas.total-recurring-18408.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/build-formulas.mjs",
+    "output": "data/formulas-root.json",
+    "method": "Count distinct 3-5-word sequences recurring anywhere in the corpus, once by root sequence (6,403) and once by surface form (12,005, in data/formulas-surface.json), for a combined 18,408."
+   },
+   "limitations": [
+    "The window (3-5 words) and the frequency-ceiling stoplist are fixed methodological choices; a different window or stoplist changes the total materially.",
+    "What is counted is recurrence; whether a recurring phrase is a formula in the technical oral-formulaic sense (Bannister 2014) is a separate scholarly question this count does not settle."
+   ]
   }
  ]
 }

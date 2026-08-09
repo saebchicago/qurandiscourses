@@ -107,6 +107,127 @@
    "onHome": false,
    "claim": "49,967 of 77,429 tokens (64.53%) carry a triliteral root; the rest are mostly particles, pronouns, and other function words that have no root by definition.",
    "traceFull": "<strong>Source trace.</strong> Measured by <code>scripts/compute-coverage.mjs</code> over every bundled morphology token; the full field-by-field report, including the part-of-speech breakdown of the rootless remainder, is published on <a href=\"/coverage\">Coverage</a>. Marked Nuanced because the share depends on the corpus's annotation choices: it bounds what any root-based statistic here can describe, which is why it is worth citing at all."
+  },
+  {
+   "id": "direct-address-89",
+   "claimId": "claim.rhetoric.direct-address-89.v1",
+   "label": "ok",
+   "labelText": "Verified",
+   "title": "believers' vocative, 89 verses",
+   "sourceIds": "leeds-corpus-v0.4",
+   "onHome": false,
+   "claim": "The formula \"ya ayyuha alladhina amanu\" (O you who believe) opens 89 verses across the Qur'an.",
+   "traceFull": "<strong>Source trace.</strong> Counted from the Leeds Quranic Arabic Corpus morphology by <code>scripts/build-rhetorical-features.mjs</code>, written to <code>data/rhetorical-features.json</code>. Full list on <a href=\"patterns.html#ring-composition\">Patterns</a>."
+  },
+  {
+   "id": "fawatih-29-14",
+   "claimId": "claim.rhetoric.fawatih-29-14.v1",
+   "label": "ok",
+   "labelText": "Verified",
+   "title": "fawatih, 29 surahs / 14 combinations",
+   "sourceIds": "leeds-corpus-v0.4",
+   "onHome": false,
+   "claim": "29 surahs open with a sequence of isolated letters (fawatih), in 14 distinct combinations.",
+   "traceFull": "<strong>Source trace.</strong> Counted from the Leeds Quranic Arabic Corpus by <code>scripts/build-rhetorical-features.mjs</code>, written to <code>data/rhetorical-features.json</code>. Full breakdown on <a href=\"numbers.html\">Numbers</a>."
+  },
+  {
+   "id": "symmetry-null",
+   "claimId": "claim.structure.symmetry-null.v1",
+   "label": "nuanced",
+   "labelText": "Nuanced",
+   "title": "point-pair symmetry, 0 of 3,067",
+   "sourceIds": "leeds-corpus-v0.4",
+   "onHome": false,
+   "claim": "3,067 candidate root pairs tested for mirrored position around a surah's centre; 0 reached significance after Benjamini-Hochberg correction.",
+   "traceFull": "<strong>Source trace.</strong> Computed by <code>scripts/build-symmetry-test.mjs</code>, written to <code>data/symmetry-test.json</code>. Method and closest near-misses on <a href=\"patterns.html#ring-composition\">Patterns</a>."
+  },
+  {
+   "id": "structure-tests-null",
+   "claimId": "claim.structure.structure-tests-null.v1",
+   "label": "nuanced",
+   "labelText": "Nuanced",
+   "title": "block-level symmetry, 0 of 345",
+   "sourceIds": "leeds-corpus-v0.4",
+   "onHome": false,
+   "claim": "345 candidates across four block-level mirror-symmetry tests, pooled corpus-wide; 0 reached significance after correction.",
+   "traceFull": "<strong>Source trace.</strong> Computed by <code>scripts/build-structure-tests.mjs</code> over the sections in <code>data/structure/</code>, written to <code>data/structure-tests.json</code>. Method and closest near-misses on <a href=\"patterns.html#ring-composition\">Patterns</a>."
+  },
+  {
+   "id": "rhyme-mean-run-91",
+   "claimId": "claim.rhyme.mean-run-91.v1",
+   "label": "ok",
+   "labelText": "Verified",
+   "title": "surah 91, mean run length 15",
+   "sourceIds": "leeds-corpus-v0.4",
+   "onHome": false,
+   "claim": "Surah 91 (al-Shams) is a monorhyme: all 15 verses share one rhyme-ending key, for a mean run length of 15, the maximum possible value.",
+   "traceFull": "<strong>Source trace.</strong> Computed from the Leeds Quranic Arabic Corpus by <code>scripts/build-rhyme-map.mjs</code>, written to <code>data/rhyme-summary.json</code> and <code>data/rhyme/91.json</code>. Rhyme regularity ranking on <a href=\"patterns.html#rhyme\">Patterns</a>."
+  },
+  {
+   "id": "association-rhm-ghfr-scores",
+   "claimId": "claim.association.rhm-ghfr-scores.v1",
+   "label": "nuanced",
+   "labelText": "Nuanced",
+   "title": "r-h-m / gh-f-r association scores",
+   "sourceIds": "leeds-corpus-v0.4",
+   "onHome": false,
+   "claim": "r-h-m (mercy) and gh-f-r (forgive) share 91 verses: PMI 3.17, Dice 0.353, LLR 302.86, gh-f-r's top partner by every measure.",
+   "traceFull": "<strong>Source trace.</strong> Computed by <code>scripts/compute-association-stats.mjs</code>, written to <code>data/association/</code> (per-root files). Method note in <code>data/association/methods.json</code>. Panel on the <a href=\"roots.html\">root detail view</a>."
+  },
+  {
+   "id": "centrality-rhm",
+   "claimId": "claim.centrality.rhm.v1",
+   "label": "nuanced",
+   "labelText": "Nuanced",
+   "title": "r-h-m network centrality",
+   "sourceIds": "leeds-corpus-v0.4",
+   "onHome": false,
+   "claim": "r-h-m ranks 32nd of 1,642 roots by degree centrality, 56th by betweenness, and 53rd by eigenvector centrality, over the root co-occurrence graph.",
+   "traceFull": "<strong>Source trace.</strong> Computed by <code>scripts/compute-centrality.mjs</code>, written to <code>data/centrality/</code> (per-root files). Method note in <code>data/centrality/methods.json</code>. Panel on the <a href=\"roots.html\">root detail view</a>."
+  },
+  {
+   "id": "discursive-pivots-137",
+   "claimId": "claim.rhetoric.discursive-pivots-137.v1",
+   "label": "nuanced",
+   "labelText": "Nuanced",
+   "title": "discursive pivots, 137 occurrences",
+   "sourceIds": "leeds-corpus-v0.4",
+   "onHome": false,
+   "claim": "137 verses open with a temporal particle (idh or idha) while sharing a content root with the verse before them.",
+   "traceFull": "<strong>Source trace.</strong> Computed by <code>scripts/build-discursive-pivots.mjs</code>, written to <code>data/discursive-pivots.json</code>. Full list on <a href=\"patterns.html\">Patterns</a>."
+  },
+  {
+   "id": "export-association-pairs-rows",
+   "claimId": "claim.export.association-pairs-rows.v1",
+   "label": "ok",
+   "labelText": "Verified",
+   "title": "association-pairs export, 5,211 rows",
+   "sourceIds": "leeds-corpus-v0.4",
+   "onHome": false,
+   "claim": "The downloadable association-pairs table has 5,211 rows: the deduplicated union of every root's top-25-by-LLR partner list.",
+   "traceFull": "<strong>Source trace.</strong> Generated by <code>scripts/build-exports.mjs</code>, written to <code>data/exports/association-pairs.csv</code> and <code>.json</code>. Download and schema on <a href=\"export.html\">Export</a>."
+  },
+  {
+   "id": "ttr-by-period",
+   "claimId": "claim.numbers.ttr-by-period.v1",
+   "label": "nuanced",
+   "labelText": "Nuanced",
+   "title": "vocabulary variety by period (TTR)",
+   "sourceIds": "leeds-corpus-v0.4 cairo-1924",
+   "onHome": false,
+   "claim": "Form type-token ratio falls from 0.6202 (Early Meccan, 2,704 tokens) to 0.3005 (Medinan, 29,990 tokens) across the four Cairo 1924 revelation periods.",
+   "traceFull": "<strong>Source trace.</strong> Computed by <code>scripts/build-numbers.mjs</code>, written to <code>data/numbers.json</code>. Full table on <a href=\"numbers.html\">Numbers</a>."
+  },
+  {
+   "id": "formulas-total-18408",
+   "claimId": "claim.formulas.total-recurring-18408.v1",
+   "label": "nuanced",
+   "labelText": "Nuanced",
+   "title": "18,408 recurring sequences",
+   "sourceIds": "leeds-corpus-v0.4",
+   "onHome": false,
+   "claim": "18,408 distinct 3-5-word sequences recur somewhere else in the Qur'an: 6,403 by root sequence and 12,005 by surface form.",
+   "traceFull": "<strong>Source trace.</strong> Generated by <code>scripts/build-formulas.mjs</code>, written to <code>data/formulas-root.json</code> and <code>data/formulas-surface.json</code>. Browse every one on <a href=\"formulas.html\">Formulas</a>."
   }
  ]
 }
