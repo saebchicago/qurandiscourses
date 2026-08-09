@@ -23,11 +23,17 @@
     }
   }
 
+  // Clean-URL hrefs (/read, never /read.html) mean this must normalize
+  // the path itself rather than looking for a file extension: a bare
+  // last-segment check used to fall through to "/" on every real page,
+  // marking the wrong nav link everywhere but the home page itself.
   function currentPage() {
-    var path = (window.location.pathname || "").toLowerCase();
-    var last = path.split("/").filter(Boolean).pop() || "";
-    if (!last || last.indexOf(".") === -1) return "/";
-    return last;
+    var path = (window.location.pathname || "/").toLowerCase();
+    path = path.replace(/\/index\.html$/, "/").replace(/\.html$/, "");
+    if (path.length > 1 && path.charAt(path.length - 1) === "/") {
+      path = path.slice(0, -1);
+    }
+    return path || "/";
   }
 
   ready(function () {

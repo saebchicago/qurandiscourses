@@ -7,8 +7,12 @@
 // assets/path-ribbon.js can validate ?path=&step= and render the
 // "Step N of M" ribbon with no fetch race — the same pattern as
 // assets/version.js and assets/ask-routes.js. Only what the ribbon
-// needs travels: title, per-step label and page, path minutes. The
-// step html stays on paths.html, where it renders.
+// needs travels: title, per-step label, page and query, path minutes.
+// The step html stays on paths.html, where it renders. query travels
+// alongside page because the ribbon builds Previous/Next from these
+// fields directly rather than parsing html at render time — omitting
+// it here would silently strip every step's query params even though
+// check-paths.mjs enforces the JSON side correctly.
 //
 // check-paths.mjs (separate, in CI) validates the registry itself:
 // schema, minutes sums, href/page consistency, and that every page a
@@ -29,7 +33,7 @@ for (const p of paths) {
   table[p.id] = {
     title: p.title,
     minutes: p.minutes,
-    steps: p.steps.map((s) => ({ label: s.label, page: s.page })),
+    steps: p.steps.map((s) => ({ label: s.label, page: s.page, query: s.query || "" })),
   };
 }
 

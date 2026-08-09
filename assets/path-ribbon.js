@@ -37,10 +37,13 @@
   }
 
   // Build the href for a step: its own page (or the current page when
-  // the step happens in place), carrying path and step params.
+  // the step happens in place), carrying its own query params (query,
+  // from data/paths.json via assets/path-data.js — check-paths.mjs
+  // keeps it in sync with the step's authored html) plus path/step.
   function stepHref(pathId, stepNum, step) {
     var page = step.page || window.location.pathname.replace(/\.html$/, "").replace(/^\/index$/, "/");
-    return page + "?path=" + encodeURIComponent(pathId) + "&step=" + stepNum;
+    var query = step.query ? step.query + "&" : "";
+    return page + "?" + query + "path=" + encodeURIComponent(pathId) + "&step=" + stepNum;
   }
 
   function init() {
