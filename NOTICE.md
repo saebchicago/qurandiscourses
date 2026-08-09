@@ -148,7 +148,7 @@ Files computed from the GPL Leeds morphology inherit the GPL for their
 data content: `association/`, `centrality/`, `cooccurrence/`,
 `coverage/`, `exports/`, `network/`, `rhyme/`, `root-analytics/`,
 `structure/`, `discursive-pivots.json`, `formula-summary.json`,
-`formulas-root.json`, `formulas-surface.json`, `numbers.json`,
+`formulaic-density.json`, `formulas-root.json`, `formulas-surface.json`, `numbers.json`,
 `rhetorical-features.json`, `rhyme-summary.json`, `roots-index.json`,
 `roots-list.json`, `surah-profiles.json`, `structure-tests.json`,
 `symmetry-test.json`, `theme-surah-index.json`, `themes.json`,

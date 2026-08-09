@@ -69,6 +69,7 @@ window.GLOSSARY = {
   "centrality": "A family of statistical measures of a node's position in a network, such as this site's root co-occurrence graph. This site reports degree, betweenness, and eigenvector centrality; none of them indicate a root's importance, only its structural position.",
   "tadabbur": "Reflective, contemplative study of the Qur'an, read as a connected discourse rather than isolated verses. The term names the reading approach behind Islahi's Tadabbur-i Qur'an and this site's discovery-worksheet exercises.",
   "mishkat": "The Mishkat Mutashabihat corpus, a compilation of verse-to-verse cross-references drawn from 13 classical books of mutashabihat scholarship, powering this site's Related-verses feature. Its rights holder has not published a license; see Sources.",
+  "formulaic density": "The share of a verse's or surah's words that belong to a recurring formula, operationalizing the central quantity in Bannister's (2014) computerized oral-formulaic study. This site tests whether a surah's density is higher than a length-matched resampling of corpus verses would predict, correcting for the fact that short surahs mechanically show noisier density than long ones.",
 };
 /* /GENERATED:glossary */
 

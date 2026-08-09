@@ -153,6 +153,7 @@
       #secVocab { min-height: 32em; }
       #secRhyme { min-height: 4.9em; }
       #secFormulas { min-height: 20em; }
+      #secFormulaicDensity { min-height: 10.5em; }
       #secXref { min-height: 8em; }
       #secStructure { min-height: 20.5em; }
       @media (max-width: 600px) {
@@ -160,6 +161,7 @@
         #secVocab { min-height: 50em; }
         #secRhyme { min-height: 7.9em; }
         #secFormulas { min-height: 41.7em; }
+        #secFormulaicDensity { min-height: 20em; }
         #secXref { min-height: 14.5em; }
         #secStructure { min-height: 48.5em; }
       }
@@ -538,6 +540,7 @@
             `<div class="card"><h3 style="margin-top:0">Vocabulary</h3>${ph("secVocab", "Loading the vocabulary profile…")}</div>` +
             `<div class="card"><h3 style="margin-top:0">Sound &amp; rhyme</h3>${ph("secRhyme", "Loading the verse-ending profile…")}</div>` +
             `<div class="card"><h3 style="margin-top:0">Recurring phrases</h3>${ph("secFormulas", "Loading recurring phrases…")}</div>` +
+            `<div class="card"><h3 style="margin-top:0">Formulaic density</h3>${ph("secFormulaicDensity", "Loading formulaic density…")}</div>` +
             `<div class="card"><h3 style="margin-top:0">Cross-references</h3>${ph("secXref", "Loading the cross-reference profile…")}</div>` +
             `<div class="card"><h3 style="margin-top:0">Structure</h3>${ph("secStructure", "Loading structural notes…")}</div>` +
             `<div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin:1.25rem 0">` +
@@ -693,6 +696,33 @@
             `<p style="margin:0 0 0.5rem;font-size:0.92rem">${e.rootCount} recurring root sequence${e.rootCount === 1 ? "" : "s"} and ${e.surfaceCount} surface sequence${e.surfaceCount === 1 ? "" : "s"} pass through this surah. Its most repeated:</p>` +
               rows +
               `<p class="caption-note" style="margin-top:0.6rem">${OK("leeds-corpus-v0.4", "computed from the cited corpus")} Recurrence counted from the bundled morphology; links land in the passage with the matched words highlighted. <a href="/how-it-works#regenerated">What counting does and does not claim</a>. <a href="/formulas">Browse the full index →</a></p>`,
+          );
+        }
+
+        // What share of this surah's words belong to a recurring
+        // formula (data/formulaic-density.json,
+        // scripts/build-formulaic-density.mjs), and whether that share
+        // is higher than a length-matched null predicts.
+        function renderFormulaicDensity(s, density) {
+          const e = density && density.perSurah && density.perSurah.find((x) => x.surah === s);
+          if (!e) return fail("secFormulaicDensity", "Formulaic-density profile");
+          const pct = (x) => (x * 100).toFixed(1) + "%";
+          // Deliberately NOT .formula-row/.formula-counts (renderFormulas's
+          // classes above): that pair is styled white-space:nowrap for a
+          // short right-aligned stat, and this row's text is a full
+          // sentence that needs to wrap at narrow widths.
+          const streamRow = (label, mean, p, survivor) =>
+            `<p style="margin:0 0 0.35rem;font-size:0.88rem"><strong>${label}:</strong> ${pct(mean)} of words` +
+            (survivor
+              ? ` · higher than a length-matched null predicts (p=${p.toFixed(4)}, BH-FDR q&lt;${density.fdrQThreshold})`
+              : ` · not distinguishable from a length-matched null (p=${p.toFixed(4)})`) +
+            `</p>`;
+          fill(
+            "secFormulaicDensity",
+            `<p style="margin:0 0 0.5rem;font-size:0.92rem">Share of this surah's words that belong to a phrase recurring elsewhere in the Qur'an (Bannister's central oral-formulaic quantity), tested against ${e.verseCount}-verse length-matched resampling of the whole corpus:</p>` +
+              streamRow("Root stream", e.meanDensityRoot, e.pValueRoot, e.survivorRoot) +
+              streamRow("Surface stream", e.meanDensitySurface, e.pValueSurface, e.survivorSurface) +
+              `<p class="caption-note" style="margin-top:0.6rem">${OK("leeds-corpus-v0.4 bannister-2014", "computed from the cited corpus")} Corpus mean: ${pct(density.corpusDistribution.root.mean)} (root), ${pct(density.corpusDistribution.surface.mean)} (surface). <a href="/formulas#density">Corpus-wide ranking →</a></p>`,
           );
         }
 
@@ -1029,6 +1059,10 @@
           fetchJson("data/formula-summary.json")
             .then((summary) => renderFormulas(s, summary))
             .catch(() => fail("secFormulas", "Recurring-phrase profile"));
+
+          fetchJson("data/formulaic-density.json")
+            .then((density) => renderFormulaicDensity(s, density))
+            .catch(() => fail("secFormulaicDensity", "Formulaic-density profile"));
 
           fetchJson("data/exercises.json")
             .then((ex) =>

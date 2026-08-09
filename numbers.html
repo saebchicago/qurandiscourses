@@ -556,13 +556,20 @@
             </details>
           </div>
           <div class="card study-only">
-            <h3>Vocabulary variety by period (TTR)</h3>
+            <h3>Vocabulary variety by period (TTR, MATTR, MTLD)</h3>
             <p>
               Type-token ratio (distinct surface forms, or distinct lemmas,
               divided by all word-tokens) measures vocabulary variety versus
-              repetition. It falls mechanically as sample size grows, and
-              these four periods differ greatly in token count, so treat the
-              declining trend — not the absolute values — as the signal.
+              repetition — but it falls mechanically as sample size grows,
+              and these four periods differ greatly in token count (2,704 to
+              30,572). Two length-robust alternatives are shown alongside
+              it: MATTR (a moving-average TTR over a fixed window,
+              Covington &amp; McFall 2010) and MTLD (a factor-count measure,
+              McCarthy &amp; Jarvis 2010). They tell a different story than
+              raw form TTR does: MATTR is nearly flat across all four
+              periods, and MTLD shows a real but much smaller decline. Raw
+              TTR's steep decline is mostly the sample-size artifact, not a
+              vocabulary difference this large.
             </p>
             <table class="data" id="ttrByPeriodTable">
               <thead>
@@ -571,6 +578,8 @@
                   <th class="count">Tokens</th>
                   <th class="count">Form TTR</th>
                   <th class="count">Lemma TTR</th>
+                  <th class="count">Form MATTR</th>
+                  <th class="count">Form MTLD</th>
                 </tr>
               </thead>
               <tbody>
@@ -579,33 +588,45 @@
                   <td class="count" data-num="ttrByPeriod.0.tokens">2,704</td>
                   <td class="count" id="ttrForm-0">0.6202</td>
                   <td class="count" id="ttrLemma-0">0.3528</td>
+                  <td class="count" id="ttrMattr-0">0.8707</td>
+                  <td class="count" id="ttrMtld-0">673.77</td>
                 </tr>
                 <tr>
                   <td>Middle Meccan</td>
                   <td class="count" data-num="ttrByPeriod.1.tokens">14,163</td>
                   <td class="count" id="ttrForm-1">0.4081</td>
                   <td class="count" id="ttrLemma-1">0.1466</td>
+                  <td class="count" id="ttrMattr-1">0.8913</td>
+                  <td class="count" id="ttrMtld-1">647.64</td>
                 </tr>
                 <tr>
                   <td>Late Meccan</td>
                   <td class="count" data-num="ttrByPeriod.2.tokens">30,572</td>
                   <td class="count" id="ttrForm-2">0.3073</td>
                   <td class="count" id="ttrLemma-2">0.0926</td>
+                  <td class="count" id="ttrMattr-2">0.8868</td>
+                  <td class="count" id="ttrMtld-2">609.05</td>
                 </tr>
                 <tr>
                   <td>Medinan</td>
                   <td class="count" data-num="ttrByPeriod.3.tokens">29,990</td>
                   <td class="count" id="ttrForm-3">0.3005</td>
                   <td class="count" id="ttrLemma-3">0.0902</td>
+                  <td class="count" id="ttrMattr-3">0.86</td>
+                  <td class="count" id="ttrMtld-3">395.98</td>
                 </tr>
               </tbody>
             </table>
-            <p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Leeds corpus v0.4.</p>
+            <p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924 covington-mcfall-2010 mccarthy-jarvis-2010" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Leeds corpus v0.4.</p>
             <details class="method-note">
               <summary>ℹ How this is computed</summary>
-              <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
+              <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924 covington-mcfall-2010 mccarthy-jarvis-2010" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
               distinct surface forms / lemmas ÷ word-tokens, by Cairo 1924
-              period.
+              period. Form MATTR: mean TTR over a 100-token sliding window
+              (Covington &amp; McFall 2010). Form MTLD: bidirectionally
+              averaged factor count at a 0.72 TTR threshold (McCarthy &amp;
+              Jarvis 2010). Both computed by
+              <code>scripts/lib/lexical-diversity.mjs</code>.
               <span class="badge nuanced" data-source-ids="leeds-corpus-v0.4" aria-label="Nuanced" tabindex="0" title="Nuanced · counting method varies by source">~</span>
               type-token ratio is sensitive to sample size; these periods
               range from 2,704 to 30,572 tokens, so the falling ratio partly
@@ -1006,8 +1027,12 @@
             data.ttrByPeriod.forEach(function (row, i) {
               var formEl = document.getElementById("ttrForm-" + i);
               var lemmaEl = document.getElementById("ttrLemma-" + i);
+              var mattrEl = document.getElementById("ttrMattr-" + i);
+              var mtldEl = document.getElementById("ttrMtld-" + i);
               if (formEl) formEl.textContent = row.formTTR.toFixed(4);
               if (lemmaEl) lemmaEl.textContent = row.lemmaTTR.toFixed(4);
+              if (mattrEl) mattrEl.textContent = row.formMATTR == null ? "—" : row.formMATTR.toFixed(4);
+              if (mtldEl) mtldEl.textContent = row.formMTLD == null ? "—" : row.formMTLD.toFixed(2);
             });
           }
 

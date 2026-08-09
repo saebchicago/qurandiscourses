@@ -27,6 +27,14 @@
 //     mechanically higher — so it is a within-surah-length-band
 //     comparison, not a single ranking across surahs of very different
 //     lengths.
+//   - formMATTR / formMTLD: two length-robust alternatives to raw form
+//     TTR, computed over the same ordered surface-form token sequence
+//     (scripts/lib/lexical-diversity.mjs; formulas and citations there).
+//     formMATTR: Covington & McFall (2010) moving-average TTR, 25-token
+//     window; null for the 9 surahs shorter than that window (an honest
+//     gap, not a zero). formMTLD: McCarthy & Jarvis (2010) factor-count
+//     measure, bidirectionally averaged; null only if a surah's running
+//     TTR never once reaches the 0.72 factor threshold.
 //   - Top 10 roots: per-surah frequency tally of the `root` field, sorted
 //     descending, ties broken by first appearance order.
 //   - Chronology period: chronology.json's period field (Cairo 1924
@@ -44,9 +52,19 @@ import { readFileSync, writeFileSync, existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { computedDate } from "./lib/computed-date.mjs";
+import { mattr, mtld } from "./lib/lexical-diversity.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
+
+// MATTR window: 25 tokens, well inside the smaller end of the range
+// corpus-linguistics practice uses (see build-numbers.mjs's own note on
+// the corpus-scale 100-token window it uses for the four, far larger,
+// chronological periods). Chosen specifically so most surahs clear it:
+// 9 of 114 surahs have fewer than 25 tokens and get formMATTR: null
+// rather than a value computed over a window barely smaller than the
+// whole surah -- reported as an honest gap, not hidden.
+const MATTR_WINDOW_SURAH = 25;
 const DATA = join(ROOT, "data");
 
 const chronology = JSON.parse(
@@ -70,6 +88,7 @@ function buildProfile(surahNum) {
   // thing) and distinct lemmas, for a type-token ratio at each level.
   const formSet = new Set();
   const lemmaSet = new Set();
+  const formTokens = []; // ordered surface forms, for MATTR/MTLD
   // Grammatical texture: exact counts of the two unambiguous single POS
   // tags (N nouns, V verbs) and prepositions (P). "other" is the residual
   // (all remaining function/particle tags), so no family taxonomy is
@@ -85,7 +104,10 @@ function buildProfile(surahNum) {
       if (root) {
         rootFreq.set(root, (rootFreq.get(root) || 0) + 1);
       }
-      if (word.ar) formSet.add(word.ar);
+      if (word.ar) {
+        formSet.add(word.ar);
+        formTokens.push(word.ar);
+      }
       if (word.lemma) lemmaSet.add(word.lemma);
       if (word.pos === "N") posN++;
       else if (word.pos === "V") posV++;
@@ -118,6 +140,10 @@ function buildProfile(surahNum) {
     tokenCount > 0
       ? Math.round((distinctLemmaCount / tokenCount) * 10000) / 10000
       : 0;
+  const formMattrRaw = mattr(formTokens, MATTR_WINDOW_SURAH);
+  const formMtldRaw = mtld(formTokens);
+  const formMATTR = formMattrRaw === null ? null : Math.round(formMattrRaw * 10000) / 10000;
+  const formMTLD = formMtldRaw === null ? null : Math.round(formMtldRaw * 100) / 100;
 
   const topRoots = [...rootFreq.entries()]
     .sort((a, b) => b[1] - a[1])
@@ -155,6 +181,8 @@ function buildProfile(surahNum) {
     rootDiversityRatio,
     distinctFormCount,
     formDiversityRatio,
+    formMATTR,
+    formMTLD,
     distinctLemmaCount,
     lemmaDiversityRatio,
     topRoots,

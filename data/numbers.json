@@ -219,7 +219,9 @@
    "distinctForms": 1677,
    "distinctLemmas": 954,
    "formTTR": 0.6202,
-   "lemmaTTR": 0.3528
+   "lemmaTTR": 0.3528,
+   "formMATTR": 0.8707,
+   "formMTLD": 673.77
   },
   {
    "period": "meccan-middle",
@@ -228,7 +230,9 @@
    "distinctForms": 5780,
    "distinctLemmas": 2077,
    "formTTR": 0.4081,
-   "lemmaTTR": 0.1466
+   "lemmaTTR": 0.1466,
+   "formMATTR": 0.8913,
+   "formMTLD": 647.64
   },
   {
    "period": "meccan-late",
@@ -237,7 +241,9 @@
    "distinctForms": 9395,
    "distinctLemmas": 2832,
    "formTTR": 0.3073,
-   "lemmaTTR": 0.0926
+   "lemmaTTR": 0.0926,
+   "formMATTR": 0.8868,
+   "formMTLD": 609.05
   },
   {
    "period": "medinan",
@@ -246,7 +252,9 @@
    "distinctForms": 9013,
    "distinctLemmas": 2704,
    "formTTR": 0.3005,
-   "lemmaTTR": 0.0902
+   "lemmaTTR": 0.0902,
+   "formMATTR": 0.86,
+   "formMTLD": 395.98
   }
  ],
  "verseLengthHistogram": {

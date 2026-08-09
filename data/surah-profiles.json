@@ -1,6 +1,6 @@
 {
   "_source": "Leeds Quranic Arabic Corpus v0.4 (morphology/roots); chronology.json (Egyptian Standard, Cairo 1924); data/qursim (Mishkat cross-reference index, 110/114 surahs)",
-  "_generated": "2026-07-28",
+  "_generated": "2026-08-09",
   "_note": "Descriptive corpus statistics only. Root/form/lemma diversity ratios (type-token ratios) divide distinct count by all word-tokens, including function words with no tagged root — sensitive to text length, so compare within similar surah lengths, not as a single corpus-wide ranking. QurSim connectivity counts distinct other surahs cross-referenced; null means the surah is outside current QurSim/Mishkat coverage (104, 105, 106, 110), not zero connections.",
   "surahs": {
     "1": {
@@ -11,6 +11,8 @@
       "rootDiversityRatio": 0.6207,
       "distinctFormCount": 26,
       "formDiversityRatio": 0.8966,
+      "formMATTR": 0.92,
+      "formMTLD": 78.49,
       "distinctLemmaCount": 23,
       "lemmaDiversityRatio": 0.7931,
       "topRoots": [
@@ -95,6 +97,8 @@
       "rootDiversityRatio": 0.0957,
       "distinctFormCount": 2709,
       "formDiversityRatio": 0.4429,
+      "formMATTR": 0.9512,
+      "formMTLD": 406.64,
       "distinctLemmaCount": 1136,
       "lemmaDiversityRatio": 0.1857,
       "topRoots": [
@@ -179,6 +183,8 @@
       "rootDiversityRatio": 0.1261,
       "distinctFormCount": 1725,
       "formDiversityRatio": 0.4955,
+      "formMATTR": 0.9496,
+      "formMTLD": 418.16,
       "distinctLemmaCount": 760,
       "lemmaDiversityRatio": 0.2183,
       "topRoots": [
@@ -263,6 +269,8 @@
       "rootDiversityRatio": 0.1233,
       "distinctFormCount": 1745,
       "formDiversityRatio": 0.4657,
+      "formMATTR": 0.9434,
+      "formMTLD": 322.04,
       "distinctLemmaCount": 809,
       "lemmaDiversityRatio": 0.2159,
       "topRoots": [
@@ -347,6 +355,8 @@
       "rootDiversityRatio": 0.1505,
       "distinctFormCount": 1454,
       "formDiversityRatio": 0.5185,
+      "formMATTR": 0.952,
+      "formMTLD": 474.34,
       "distinctLemmaCount": 684,
       "lemmaDiversityRatio": 0.2439,
       "topRoots": [
@@ -431,6 +441,8 @@
       "rootDiversityRatio": 0.138,
       "distinctFormCount": 1597,
       "formDiversityRatio": 0.5236,
+      "formMATTR": 0.9583,
+      "formMTLD": 545.08,
       "distinctLemmaCount": 724,
       "lemmaDiversityRatio": 0.2374,
       "topRoots": [
@@ -515,6 +527,8 @@
       "rootDiversityRatio": 0.1437,
       "distinctFormCount": 1807,
       "formDiversityRatio": 0.5443,
+      "formMATTR": 0.967,
+      "formMTLD": 556.41,
       "distinctLemmaCount": 818,
       "lemmaDiversityRatio": 0.2464,
       "topRoots": [
@@ -599,6 +613,8 @@
       "rootDiversityRatio": 0.2157,
       "distinctFormCount": 730,
       "formDiversityRatio": 0.5921,
+      "formMATTR": 0.9451,
+      "formMTLD": 307.87,
       "distinctLemmaCount": 399,
       "lemmaDiversityRatio": 0.3236,
       "topRoots": [
@@ -683,6 +699,8 @@
       "rootDiversityRatio": 0.1465,
       "distinctFormCount": 1319,
       "formDiversityRatio": 0.528,
+      "formMATTR": 0.9536,
+      "formMTLD": 405.34,
       "distinctLemmaCount": 637,
       "lemmaDiversityRatio": 0.255,
       "topRoots": [
@@ -767,6 +785,8 @@
       "rootDiversityRatio": 0.1582,
       "distinctFormCount": 1025,
       "formDiversityRatio": 0.5592,
+      "formMATTR": 0.9553,
+      "formMTLD": 385.44,
       "distinctLemmaCount": 485,
       "lemmaDiversityRatio": 0.2646,
       "topRoots": [
@@ -851,6 +871,8 @@
       "rootDiversityRatio": 0.1815,
       "distinctFormCount": 1094,
       "formDiversityRatio": 0.5707,
+      "formMATTR": 0.9601,
+      "formMTLD": 538.39,
       "distinctLemmaCount": 553,
       "lemmaDiversityRatio": 0.2885,
       "topRoots": [
@@ -935,6 +957,8 @@
       "rootDiversityRatio": 0.1891,
       "distinctFormCount": 1054,
       "formDiversityRatio": 0.5931,
+      "formMATTR": 0.9661,
+      "formMTLD": 601.72,
       "distinctLemmaCount": 511,
       "lemmaDiversityRatio": 0.2876,
       "topRoots": [
@@ -1019,6 +1043,8 @@
       "rootDiversityRatio": 0.286,
       "distinctFormCount": 583,
       "formDiversityRatio": 0.6835,
+      "formMATTR": 0.9662,
+      "formMTLD": 540.49,
       "distinctLemmaCount": 347,
       "lemmaDiversityRatio": 0.4068,
       "topRoots": [
@@ -1103,6 +1129,8 @@
       "rootDiversityRatio": 0.2711,
       "distinctFormCount": 577,
       "formDiversityRatio": 0.6952,
+      "formMATTR": 0.9641,
+      "formMTLD": 532.04,
       "distinctLemmaCount": 333,
       "lemmaDiversityRatio": 0.4012,
       "topRoots": [
@@ -1187,6 +1215,8 @@
       "rootDiversityRatio": 0.3069,
       "distinctFormCount": 474,
       "formDiversityRatio": 0.7237,
+      "formMATTR": 0.9509,
+      "formMTLD": 663.69,
       "distinctLemmaCount": 288,
       "lemmaDiversityRatio": 0.4397,
       "topRoots": [
@@ -1271,6 +1301,8 @@
       "rootDiversityRatio": 0.1941,
       "distinctFormCount": 1042,
       "formDiversityRatio": 0.5651,
+      "formMATTR": 0.9528,
+      "formMTLD": 485.18,
       "distinctLemmaCount": 551,
       "lemmaDiversityRatio": 0.2988,
       "topRoots": [
@@ -1355,6 +1387,8 @@
       "rootDiversityRatio": 0.2198,
       "distinctFormCount": 1000,
       "formDiversityRatio": 0.6427,
+      "formMATTR": 0.966,
+      "formMTLD": 804.55,
       "distinctLemmaCount": 532,
       "lemmaDiversityRatio": 0.3419,
       "topRoots": [
@@ -1439,6 +1473,8 @@
       "rootDiversityRatio": 0.2337,
       "distinctFormCount": 1031,
       "formDiversityRatio": 0.6529,
+      "formMATTR": 0.9667,
+      "formMTLD": 657.7,
       "distinctLemmaCount": 551,
       "lemmaDiversityRatio": 0.349,
       "topRoots": [
@@ -1523,6 +1559,8 @@
       "rootDiversityRatio": 0.2487,
       "distinctFormCount": 655,
       "formDiversityRatio": 0.6816,
+      "formMATTR": 0.9549,
+      "formMTLD": 529.51,
       "distinctLemmaCount": 359,
       "lemmaDiversityRatio": 0.3736,
       "topRoots": [
@@ -1607,6 +1645,8 @@
       "rootDiversityRatio": 0.2427,
       "distinctFormCount": 910,
       "formDiversityRatio": 0.6816,
+      "formMATTR": 0.9682,
+      "formMTLD": 816.05,
       "distinctLemmaCount": 482,
       "lemmaDiversityRatio": 0.361,
       "topRoots": [
@@ -1691,6 +1731,8 @@
       "rootDiversityRatio": 0.2429,
       "distinctFormCount": 779,
       "formDiversityRatio": 0.6664,
+      "formMATTR": 0.9693,
+      "formMTLD": 640.71,
       "distinctLemmaCount": 422,
       "lemmaDiversityRatio": 0.361,
       "topRoots": [
@@ -1775,6 +1817,8 @@
       "rootDiversityRatio": 0.2575,
       "distinctFormCount": 779,
       "formDiversityRatio": 0.6115,
+      "formMATTR": 0.9388,
+      "formMTLD": 344.7,
       "distinctLemmaCount": 485,
       "lemmaDiversityRatio": 0.3807,
       "topRoots": [
@@ -1859,6 +1903,8 @@
       "rootDiversityRatio": 0.2581,
       "distinctFormCount": 698,
       "formDiversityRatio": 0.6648,
+      "formMATTR": 0.9579,
+      "formMTLD": 607.83,
       "distinctLemmaCount": 391,
       "lemmaDiversityRatio": 0.3724,
       "topRoots": [
@@ -1943,6 +1989,8 @@
       "rootDiversityRatio": 0.2181,
       "distinctFormCount": 763,
       "formDiversityRatio": 0.5798,
+      "formMATTR": 0.9386,
+      "formMTLD": 354.89,
       "distinctLemmaCount": 415,
       "lemmaDiversityRatio": 0.3153,
       "topRoots": [
@@ -2027,6 +2075,8 @@
       "rootDiversityRatio": 0.28,
       "distinctFormCount": 632,
       "formDiversityRatio": 0.7077,
+      "formMATTR": 0.9633,
+      "formMTLD": 672.53,
       "distinctLemmaCount": 371,
       "lemmaDiversityRatio": 0.4155,
       "topRoots": [
@@ -2111,6 +2161,8 @@
       "rootDiversityRatio": 0.2011,
       "distinctFormCount": 737,
       "formDiversityRatio": 0.5592,
+      "formMATTR": 0.9579,
+      "formMTLD": 300.37,
       "distinctLemmaCount": 409,
       "lemmaDiversityRatio": 0.3103,
       "topRoots": [
@@ -2195,6 +2247,8 @@
       "rootDiversityRatio": 0.2302,
       "distinctFormCount": 766,
       "formDiversityRatio": 0.6655,
+      "formMATTR": 0.962,
+      "formMTLD": 613.31,
       "distinctLemmaCount": 413,
       "lemmaDiversityRatio": 0.3588,
       "topRoots": [
@@ -2279,6 +2333,8 @@
       "rootDiversityRatio": 0.207,
       "distinctFormCount": 908,
       "formDiversityRatio": 0.635,
+      "formMATTR": 0.96,
+      "formMTLD": 510.81,
       "distinctLemmaCount": 467,
       "lemmaDiversityRatio": 0.3266,
       "topRoots": [
@@ -2363,6 +2419,8 @@
       "rootDiversityRatio": 0.2285,
       "distinctFormCount": 640,
       "formDiversityRatio": 0.6557,
+      "formMATTR": 0.9559,
+      "formMTLD": 512.82,
       "distinctLemmaCount": 335,
       "lemmaDiversityRatio": 0.3432,
       "topRoots": [
@@ -2447,6 +2505,8 @@
       "rootDiversityRatio": 0.2387,
       "distinctFormCount": 528,
       "formDiversityRatio": 0.6463,
+      "formMATTR": 0.9454,
+      "formMTLD": 362.5,
       "distinctLemmaCount": 289,
       "lemmaDiversityRatio": 0.3537,
       "topRoots": [
@@ -2531,6 +2591,8 @@
       "rootDiversityRatio": 0.337,
       "distinctFormCount": 390,
       "formDiversityRatio": 0.7143,
+      "formMATTR": 0.9488,
+      "formMTLD": 384.33,
       "distinctLemmaCount": 247,
       "lemmaDiversityRatio": 0.4524,
       "topRoots": [
@@ -2615,6 +2677,8 @@
       "rootDiversityRatio": 0.3522,
       "distinctFormCount": 303,
       "formDiversityRatio": 0.8145,
+      "formMATTR": 0.9732,
+      "formMTLD": 561.56,
       "distinctLemmaCount": 192,
       "lemmaDiversityRatio": 0.5161,
       "topRoots": [
@@ -2699,6 +2763,8 @@
       "rootDiversityRatio": 0.2191,
       "distinctFormCount": 762,
       "formDiversityRatio": 0.5921,
+      "formMATTR": 0.9533,
+      "formMTLD": 406.97,
       "distinctLemmaCount": 453,
       "lemmaDiversityRatio": 0.352,
       "topRoots": [
@@ -2783,6 +2849,8 @@
       "rootDiversityRatio": 0.2503,
       "distinctFormCount": 579,
       "formDiversityRatio": 0.6557,
+      "formMATTR": 0.9525,
+      "formMTLD": 385.14,
       "distinctLemmaCount": 329,
       "lemmaDiversityRatio": 0.3726,
       "topRoots": [
@@ -2867,6 +2935,8 @@
       "rootDiversityRatio": 0.2968,
       "distinctFormCount": 533,
       "formDiversityRatio": 0.6877,
+      "formMATTR": 0.9452,
+      "formMTLD": 462.51,
       "distinctLemmaCount": 334,
       "lemmaDiversityRatio": 0.431,
       "topRoots": [
@@ -2951,6 +3021,8 @@
       "rootDiversityRatio": 0.291,
       "distinctFormCount": 522,
       "formDiversityRatio": 0.72,
+      "formMATTR": 0.9707,
+      "formMTLD": 622.33,
       "distinctLemmaCount": 297,
       "lemmaDiversityRatio": 0.4097,
       "topRoots": [
@@ -3035,6 +3107,8 @@
       "rootDiversityRatio": 0.2791,
       "distinctFormCount": 588,
       "formDiversityRatio": 0.6837,
+      "formMATTR": 0.9658,
+      "formMTLD": 507.89,
       "distinctLemmaCount": 359,
       "lemmaDiversityRatio": 0.4174,
       "topRoots": [
@@ -3119,6 +3193,8 @@
       "rootDiversityRatio": 0.3206,
       "distinctFormCount": 536,
       "formDiversityRatio": 0.7312,
+      "formMATTR": 0.9509,
+      "formMTLD": 763.66,
       "distinctLemmaCount": 337,
       "lemmaDiversityRatio": 0.4598,
       "topRoots": [
@@ -3203,6 +3279,8 @@
       "rootDiversityRatio": 0.2099,
       "distinctFormCount": 729,
       "formDiversityRatio": 0.622,
+      "formMATTR": 0.9522,
+      "formMTLD": 461.11,
       "distinctLemmaCount": 392,
       "lemmaDiversityRatio": 0.3345,
       "topRoots": [
@@ -3287,6 +3365,8 @@
       "rootDiversityRatio": 0.2108,
       "distinctFormCount": 750,
       "formDiversityRatio": 0.6153,
+      "formMATTR": 0.9517,
+      "formMTLD": 460.71,
       "distinctLemmaCount": 397,
       "lemmaDiversityRatio": 0.3257,
       "topRoots": [
@@ -3371,6 +3451,8 @@
       "rootDiversityRatio": 0.2557,
       "distinctFormCount": 586,
       "formDiversityRatio": 0.738,
+      "formMATTR": 0.9744,
+      "formMTLD": 848.66,
       "distinctLemmaCount": 310,
       "lemmaDiversityRatio": 0.3904,
       "topRoots": [
@@ -3455,6 +3537,8 @@
       "rootDiversityRatio": 0.2395,
       "distinctFormCount": 528,
       "formDiversityRatio": 0.614,
+      "formMATTR": 0.9525,
+      "formMTLD": 309.02,
       "distinctLemmaCount": 303,
       "lemmaDiversityRatio": 0.3523,
       "topRoots": [
@@ -3539,6 +3623,8 @@
       "rootDiversityRatio": 0.2711,
       "distinctFormCount": 611,
       "formDiversityRatio": 0.7361,
+      "formMATTR": 0.9678,
+      "formMTLD": 880.79,
       "distinctLemmaCount": 333,
       "lemmaDiversityRatio": 0.4012,
       "topRoots": [
@@ -3623,6 +3709,8 @@
       "rootDiversityRatio": 0.3526,
       "distinctFormCount": 276,
       "formDiversityRatio": 0.7977,
+      "formMATTR": 0.968,
+      "formMTLD": 478.86,
       "distinctLemmaCount": 182,
       "lemmaDiversityRatio": 0.526,
       "topRoots": [
@@ -3707,6 +3795,8 @@
       "rootDiversityRatio": 0.2705,
       "distinctFormCount": 351,
       "formDiversityRatio": 0.7193,
+      "formMATTR": 0.9606,
+      "formMTLD": 488,
       "distinctLemmaCount": 200,
       "lemmaDiversityRatio": 0.4098,
       "topRoots": [
@@ -3791,6 +3881,8 @@
       "rootDiversityRatio": 0.2753,
       "distinctFormCount": 472,
       "formDiversityRatio": 0.7341,
+      "formMATTR": 0.9819,
+      "formMTLD": 676.99,
       "distinctLemmaCount": 274,
       "lemmaDiversityRatio": 0.4261,
       "topRoots": [
@@ -3875,6 +3967,8 @@
       "rootDiversityRatio": 0.3043,
       "distinctFormCount": 373,
       "formDiversityRatio": 0.692,
+      "formMATTR": 0.9652,
+      "formMTLD": 334.74,
       "distinctLemmaCount": 238,
       "lemmaDiversityRatio": 0.4416,
       "topRoots": [
@@ -3959,6 +4053,8 @@
       "rootDiversityRatio": 0.3143,
       "distinctFormCount": 396,
       "formDiversityRatio": 0.7071,
+      "formMATTR": 0.956,
+      "formMTLD": 438.02,
       "distinctLemmaCount": 252,
       "lemmaDiversityRatio": 0.45,
       "topRoots": [
@@ -4043,6 +4139,8 @@
       "rootDiversityRatio": 0.3228,
       "distinctFormCount": 241,
       "formDiversityRatio": 0.6945,
+      "formMATTR": 0.9429,
+      "formMTLD": 230.39,
       "distinctLemmaCount": 159,
       "lemmaDiversityRatio": 0.4582,
       "topRoots": [
@@ -4127,6 +4225,8 @@
       "rootDiversityRatio": 0.3941,
       "distinctFormCount": 305,
       "formDiversityRatio": 0.8177,
+      "formMATTR": 0.9669,
+      "formMTLD": 572.88,
       "distinctLemmaCount": 206,
       "lemmaDiversityRatio": 0.5523,
       "topRoots": [
@@ -4211,6 +4311,8 @@
       "rootDiversityRatio": 0.3917,
       "distinctFormCount": 294,
       "formDiversityRatio": 0.8167,
+      "formMATTR": 0.9633,
+      "formMTLD": 549.82,
       "distinctLemmaCount": 193,
       "lemmaDiversityRatio": 0.5361,
       "topRoots": [
@@ -4295,6 +4397,8 @@
       "rootDiversityRatio": 0.4263,
       "distinctFormCount": 257,
       "formDiversityRatio": 0.8237,
+      "formMATTR": 0.9376,
+      "formMTLD": 495.57,
       "distinctLemmaCount": 181,
       "lemmaDiversityRatio": 0.5801,
       "topRoots": [
@@ -4379,6 +4483,8 @@
       "rootDiversityRatio": 0.3333,
       "distinctFormCount": 275,
       "formDiversityRatio": 0.7639,
+      "formMATTR": 0.9476,
+      "formMTLD": 426.92,
       "distinctLemmaCount": 187,
       "lemmaDiversityRatio": 0.5194,
       "topRoots": [
@@ -4463,6 +4569,8 @@
       "rootDiversityRatio": 0.4094,
       "distinctFormCount": 251,
       "formDiversityRatio": 0.7339,
+      "formMATTR": 0.9535,
+      "formMTLD": 325.89,
       "distinctLemmaCount": 187,
       "lemmaDiversityRatio": 0.5468,
       "topRoots": [
@@ -4547,6 +4655,8 @@
       "rootDiversityRatio": 0.2991,
       "distinctFormCount": 190,
       "formDiversityRatio": 0.5413,
+      "formMATTR": 0.7714,
+      "formMTLD": 38.05,
       "distinctLemmaCount": 141,
       "lemmaDiversityRatio": 0.4017,
       "topRoots": [
@@ -4631,6 +4741,8 @@
       "rootDiversityRatio": 0.372,
       "distinctFormCount": 289,
       "formDiversityRatio": 0.7625,
+      "formMATTR": 0.9287,
+      "formMTLD": 446.88,
       "distinctLemmaCount": 205,
       "lemmaDiversityRatio": 0.5409,
       "topRoots": [
@@ -4715,6 +4827,8 @@
       "rootDiversityRatio": 0.3049,
       "distinctFormCount": 414,
       "formDiversityRatio": 0.7213,
+      "formMATTR": 0.9734,
+      "formMTLD": 576.58,
       "distinctLemmaCount": 248,
       "lemmaDiversityRatio": 0.4321,
       "topRoots": [
@@ -4799,6 +4913,8 @@
       "rootDiversityRatio": 0.303,
       "distinctFormCount": 307,
       "formDiversityRatio": 0.6504,
+      "formMATTR": 0.9424,
+      "formMTLD": 259.56,
       "distinctLemmaCount": 197,
       "lemmaDiversityRatio": 0.4174,
       "topRoots": [
@@ -4883,6 +4999,8 @@
       "rootDiversityRatio": 0.3528,
       "distinctFormCount": 322,
       "formDiversityRatio": 0.7236,
+      "formMATTR": 0.938,
+      "formMTLD": 450.79,
       "distinctLemmaCount": 212,
       "lemmaDiversityRatio": 0.4764,
       "topRoots": [
@@ -4967,6 +5085,8 @@
       "rootDiversityRatio": 0.3075,
       "distinctFormCount": 261,
       "formDiversityRatio": 0.75,
+      "formMATTR": 0.956,
+      "formMTLD": 389.76,
       "distinctLemmaCount": 157,
       "lemmaDiversityRatio": 0.4511,
       "topRoots": [
@@ -5051,6 +5171,8 @@
       "rootDiversityRatio": 0.3665,
       "distinctFormCount": 171,
       "formDiversityRatio": 0.7738,
+      "formMATTR": 0.9608,
+      "formMTLD": 273.51,
       "distinctLemmaCount": 123,
       "lemmaDiversityRatio": 0.5566,
       "topRoots": [
@@ -5135,6 +5257,8 @@
       "rootDiversityRatio": 0.4343,
       "distinctFormCount": 142,
       "formDiversityRatio": 0.8114,
+      "formMATTR": 0.9709,
+      "formMTLD": 259.85,
       "distinctLemmaCount": 103,
       "lemmaDiversityRatio": 0.5886,
       "topRoots": [
@@ -5219,6 +5343,8 @@
       "rootDiversityRatio": 0.4056,
       "distinctFormCount": 146,
       "formDiversityRatio": 0.8111,
+      "formMATTR": 0.9572,
+      "formMTLD": 266.82,
       "distinctLemmaCount": 102,
       "lemmaDiversityRatio": 0.5667,
       "topRoots": [
@@ -5303,6 +5429,8 @@
       "rootDiversityRatio": 0.3983,
       "distinctFormCount": 197,
       "formDiversityRatio": 0.8174,
+      "formMATTR": 0.9757,
+      "formMTLD": 369.61,
       "distinctLemmaCount": 137,
       "lemmaDiversityRatio": 0.5685,
       "topRoots": [
@@ -5387,6 +5515,8 @@
       "rootDiversityRatio": 0.338,
       "distinctFormCount": 222,
       "formDiversityRatio": 0.7735,
+      "formMATTR": 0.9533,
+      "formMTLD": 354.82,
       "distinctLemmaCount": 147,
       "lemmaDiversityRatio": 0.5122,
       "topRoots": [
@@ -5471,6 +5601,8 @@
       "rootDiversityRatio": 0.3855,
       "distinctFormCount": 207,
       "formDiversityRatio": 0.8313,
+      "formMATTR": 0.9735,
+      "formMTLD": 413.34,
       "distinctLemmaCount": 143,
       "lemmaDiversityRatio": 0.5743,
       "topRoots": [
@@ -5555,6 +5687,8 @@
       "rootDiversityRatio": 0.3814,
       "distinctFormCount": 254,
       "formDiversityRatio": 0.7628,
+      "formMATTR": 0.9473,
+      "formMTLD": 393.02,
       "distinctLemmaCount": 170,
       "lemmaDiversityRatio": 0.5105,
       "topRoots": [
@@ -5639,6 +5773,8 @@
       "rootDiversityRatio": 0.41,
       "distinctFormCount": 249,
       "formDiversityRatio": 0.83,
+      "formMATTR": 0.9513,
+      "formMTLD": 494.12,
       "distinctLemmaCount": 170,
       "lemmaDiversityRatio": 0.5667,
       "topRoots": [
@@ -5723,6 +5859,8 @@
       "rootDiversityRatio": 0.438,
       "distinctFormCount": 217,
       "formDiversityRatio": 0.8411,
+      "formMATTR": 0.9405,
+      "formMTLD": 311.48,
       "distinctLemmaCount": 156,
       "lemmaDiversityRatio": 0.6047,
       "topRoots": [
@@ -5807,6 +5945,8 @@
       "rootDiversityRatio": 0.4839,
       "distinctFormCount": 188,
       "formDiversityRatio": 0.8664,
+      "formMATTR": 0.9623,
+      "formMTLD": 454.65,
       "distinctLemmaCount": 141,
       "lemmaDiversityRatio": 0.6498,
       "topRoots": [
@@ -5891,6 +6031,8 @@
       "rootDiversityRatio": 0.385,
       "distinctFormCount": 189,
       "formDiversityRatio": 0.8363,
+      "formMATTR": 0.9519,
+      "formMTLD": 386.52,
       "distinctLemmaCount": 127,
       "lemmaDiversityRatio": 0.5619,
       "topRoots": [
@@ -5975,6 +6117,8 @@
       "rootDiversityRatio": 0.3509,
       "distinctFormCount": 222,
       "formDiversityRatio": 0.7789,
+      "formMATTR": 0.9563,
+      "formMTLD": 361,
       "distinctLemmaCount": 137,
       "lemmaDiversityRatio": 0.4807,
       "topRoots": [
@@ -6059,6 +6203,8 @@
       "rootDiversityRatio": 0.4573,
       "distinctFormCount": 169,
       "formDiversityRatio": 0.8492,
+      "formMATTR": 0.9595,
+      "formMTLD": 369.61,
       "distinctLemmaCount": 128,
       "lemmaDiversityRatio": 0.6432,
       "topRoots": [
@@ -6143,6 +6289,8 @@
       "rootDiversityRatio": 0.4275,
       "distinctFormCount": 204,
       "formDiversityRatio": 0.8,
+      "formMATTR": 0.9063,
+      "formMTLD": 357,
       "distinctLemmaCount": 154,
       "lemmaDiversityRatio": 0.6039,
       "topRoots": [
@@ -6227,6 +6375,8 @@
       "rootDiversityRatio": 0.4451,
       "distinctFormCount": 134,
       "formDiversityRatio": 0.8171,
+      "formMATTR": 0.9486,
+      "formMTLD": 251.03,
       "distinctLemmaCount": 102,
       "lemmaDiversityRatio": 0.622,
       "topRoots": [
@@ -6311,6 +6461,8 @@
       "rootDiversityRatio": 0.4609,
       "distinctFormCount": 207,
       "formDiversityRatio": 0.8519,
+      "formMATTR": 0.9733,
+      "formMTLD": 459.27,
       "distinctLemmaCount": 154,
       "lemmaDiversityRatio": 0.6337,
       "topRoots": [
@@ -6395,6 +6547,8 @@
       "rootDiversityRatio": 0.4365,
       "distinctFormCount": 135,
       "formDiversityRatio": 0.7459,
+      "formMATTR": 0.8963,
+      "formMTLD": 175.22,
       "distinctLemmaCount": 107,
       "lemmaDiversityRatio": 0.5912,
       "topRoots": [
@@ -6479,6 +6633,8 @@
       "rootDiversityRatio": 0.578,
       "distinctFormCount": 151,
       "formDiversityRatio": 0.8728,
+      "formMATTR": 0.9635,
+      "formMTLD": 380.91,
       "distinctLemmaCount": 121,
       "lemmaDiversityRatio": 0.6994,
       "topRoots": [
@@ -6563,6 +6719,8 @@
       "rootDiversityRatio": 0.5196,
       "distinctFormCount": 161,
       "formDiversityRatio": 0.8994,
+      "formMATTR": 0.9775,
+      "formMTLD": 498.42,
       "distinctLemmaCount": 126,
       "lemmaDiversityRatio": 0.7039,
       "topRoots": [
@@ -6647,6 +6805,8 @@
       "rootDiversityRatio": 0.5263,
       "distinctFormCount": 121,
       "formDiversityRatio": 0.9098,
+      "formMATTR": 0.9571,
+      "formMTLD": 412.74,
       "distinctLemmaCount": 101,
       "lemmaDiversityRatio": 0.7594,
       "topRoots": [
@@ -6731,6 +6891,8 @@
       "rootDiversityRatio": 0.5577,
       "distinctFormCount": 85,
       "formDiversityRatio": 0.8173,
+      "formMATTR": 0.857,
+      "formMTLD": 159.39,
       "distinctLemmaCount": 76,
       "lemmaDiversityRatio": 0.7308,
       "topRoots": [
@@ -6815,6 +6977,8 @@
       "rootDiversityRatio": 0.4625,
       "distinctFormCount": 66,
       "formDiversityRatio": 0.825,
+      "formMATTR": 0.9064,
+      "formMTLD": 128,
       "distinctLemmaCount": 53,
       "lemmaDiversityRatio": 0.6625,
       "topRoots": [
@@ -6899,6 +7063,8 @@
       "rootDiversityRatio": 0.4024,
       "distinctFormCount": 130,
       "formDiversityRatio": 0.7692,
+      "formMATTR": 0.9572,
+      "formMTLD": 205.05,
       "distinctLemmaCount": 95,
       "lemmaDiversityRatio": 0.5621,
       "topRoots": [
@@ -6983,6 +7149,8 @@
       "rootDiversityRatio": 0.486,
       "distinctFormCount": 91,
       "formDiversityRatio": 0.8505,
+      "formMATTR": 0.9325,
+      "formMTLD": 200.36,
       "distinctLemmaCount": 75,
       "lemmaDiversityRatio": 0.7009,
       "topRoots": [
@@ -7067,6 +7235,8 @@
       "rootDiversityRatio": 0.4862,
       "distinctFormCount": 98,
       "formDiversityRatio": 0.8991,
+      "formMATTR": 0.9694,
+      "formMTLD": 302.43,
       "distinctLemmaCount": 76,
       "lemmaDiversityRatio": 0.6972,
       "topRoots": [
@@ -7151,6 +7321,8 @@
       "rootDiversityRatio": 0.541,
       "distinctFormCount": 55,
       "formDiversityRatio": 0.9016,
+      "formMATTR": 0.9416,
+      "formMTLD": 173.65,
       "distinctLemmaCount": 43,
       "lemmaDiversityRatio": 0.7049,
       "topRoots": [
@@ -7235,6 +7407,8 @@
       "rootDiversityRatio": 0.5694,
       "distinctFormCount": 69,
       "formDiversityRatio": 0.9583,
+      "formMATTR": 0.9925,
+      "formMTLD": 483.84,
       "distinctLemmaCount": 60,
       "lemmaDiversityRatio": 0.8333,
       "topRoots": [
@@ -7319,6 +7493,8 @@
       "rootDiversityRatio": 0.5435,
       "distinctFormCount": 79,
       "formDiversityRatio": 0.8587,
+      "formMATTR": 0.8912,
+      "formMTLD": 182.3,
       "distinctLemmaCount": 67,
       "lemmaDiversityRatio": 0.7283,
       "topRoots": [
@@ -7403,6 +7579,8 @@
       "rootDiversityRatio": 0.4672,
       "distinctFormCount": 117,
       "formDiversityRatio": 0.854,
+      "formMATTR": 0.9335,
+      "formMTLD": 262.77,
       "distinctLemmaCount": 93,
       "lemmaDiversityRatio": 0.6788,
       "topRoots": [
@@ -7487,6 +7665,8 @@
       "rootDiversityRatio": 0.5488,
       "distinctFormCount": 72,
       "formDiversityRatio": 0.878,
+      "formMATTR": 0.9248,
+      "formMTLD": 188.27,
       "distinctLemmaCount": 62,
       "lemmaDiversityRatio": 0.7561,
       "topRoots": [
@@ -7571,6 +7751,8 @@
       "rootDiversityRatio": 0.6667,
       "distinctFormCount": 48,
       "formDiversityRatio": 0.8889,
+      "formMATTR": 0.9027,
+      "formMTLD": 136.08,
       "distinctLemmaCount": 44,
       "lemmaDiversityRatio": 0.8148,
       "topRoots": [
@@ -7655,6 +7837,8 @@
       "rootDiversityRatio": 0.5775,
       "distinctFormCount": 62,
       "formDiversityRatio": 0.8732,
+      "formMATTR": 0.9472,
+      "formMTLD": 156.83,
       "distinctLemmaCount": 56,
       "lemmaDiversityRatio": 0.7887,
       "topRoots": [
@@ -7739,6 +7923,8 @@
       "rootDiversityRatio": 0.575,
       "distinctFormCount": 36,
       "formDiversityRatio": 0.9,
+      "formMATTR": 0.92,
+      "formMTLD": 112,
       "distinctLemmaCount": 30,
       "lemmaDiversityRatio": 0.75,
       "topRoots": [
@@ -7823,6 +8009,8 @@
       "rootDiversityRatio": 0.5185,
       "distinctFormCount": 23,
       "formDiversityRatio": 0.8519,
+      "formMATTR": 0.84,
+      "formMTLD": 51.03,
       "distinctLemmaCount": 21,
       "lemmaDiversityRatio": 0.7778,
       "topRoots": [
@@ -7907,6 +8095,8 @@
       "rootDiversityRatio": 0.6471,
       "distinctFormCount": 34,
       "formDiversityRatio": 1,
+      "formMATTR": 1,
+      "formMTLD": null,
       "distinctLemmaCount": 33,
       "lemmaDiversityRatio": 0.9706,
       "topRoots": [
@@ -7991,6 +8181,8 @@
       "rootDiversityRatio": 0.4444,
       "distinctFormCount": 59,
       "formDiversityRatio": 0.8194,
+      "formMATTR": 0.8917,
+      "formMTLD": 83,
       "distinctLemmaCount": 49,
       "lemmaDiversityRatio": 0.6806,
       "topRoots": [
@@ -8075,6 +8267,8 @@
       "rootDiversityRatio": 0.5333,
       "distinctFormCount": 27,
       "formDiversityRatio": 0.9,
+      "formMATTR": 0.8867,
+      "formMTLD": 84,
       "distinctLemmaCount": 22,
       "lemmaDiversityRatio": 0.7333,
       "topRoots": [
@@ -8159,6 +8353,8 @@
       "rootDiversityRatio": 0.4468,
       "distinctFormCount": 78,
       "formDiversityRatio": 0.8298,
+      "formMATTR": 0.9469,
+      "formMTLD": 154.63,
       "distinctLemmaCount": 58,
       "lemmaDiversityRatio": 0.617,
       "topRoots": [
@@ -8243,6 +8439,8 @@
       "rootDiversityRatio": 0.5,
       "distinctFormCount": 29,
       "formDiversityRatio": 0.8056,
+      "formMATTR": 0.87,
+      "formMTLD": 38.67,
       "distinctLemmaCount": 27,
       "lemmaDiversityRatio": 0.75,
       "topRoots": [
@@ -8327,6 +8525,8 @@
       "rootDiversityRatio": 0.575,
       "distinctFormCount": 35,
       "formDiversityRatio": 0.875,
+      "formMATTR": 0.8975,
+      "formMTLD": 89.6,
       "distinctLemmaCount": 31,
       "lemmaDiversityRatio": 0.775,
       "topRoots": [
@@ -8411,6 +8611,8 @@
       "rootDiversityRatio": 0.5278,
       "distinctFormCount": 29,
       "formDiversityRatio": 0.8056,
+      "formMATTR": 0.95,
+      "formMTLD": 38.48,
       "distinctLemmaCount": 23,
       "lemmaDiversityRatio": 0.6389,
       "topRoots": [
@@ -8495,6 +8697,8 @@
       "rootDiversityRatio": 0.3929,
       "distinctFormCount": 20,
       "formDiversityRatio": 0.7143,
+      "formMATTR": 0.68,
+      "formMTLD": 23.48,
       "distinctLemmaCount": 19,
       "lemmaDiversityRatio": 0.6786,
       "topRoots": [
@@ -8579,6 +8783,8 @@
       "rootDiversityRatio": 0.6429,
       "distinctFormCount": 13,
       "formDiversityRatio": 0.9286,
+      "formMATTR": null,
+      "formMTLD": 54.88,
       "distinctLemmaCount": 13,
       "lemmaDiversityRatio": 0.9286,
       "topRoots": [
@@ -8657,6 +8863,8 @@
       "rootDiversityRatio": 0.5758,
       "distinctFormCount": 32,
       "formDiversityRatio": 0.9697,
+      "formMATTR": 0.9867,
+      "formMTLD": 304.92,
       "distinctLemmaCount": 27,
       "lemmaDiversityRatio": 0.8182,
       "topRoots": [
@@ -8741,6 +8949,8 @@
       "rootDiversityRatio": 0.7391,
       "distinctFormCount": 22,
       "formDiversityRatio": 0.9565,
+      "formMATTR": null,
+      "formMTLD": 148.12,
       "distinctLemmaCount": 21,
       "lemmaDiversityRatio": 0.913,
       "topRoots": [
@@ -8825,6 +9035,8 @@
       "rootDiversityRatio": 0.6471,
       "distinctFormCount": 17,
       "formDiversityRatio": 1,
+      "formMATTR": null,
+      "formMTLD": null,
       "distinctLemmaCount": 15,
       "lemmaDiversityRatio": 0.8824,
       "topRoots": [
@@ -8909,6 +9121,8 @@
       "rootDiversityRatio": 0.48,
       "distinctFormCount": 22,
       "formDiversityRatio": 0.88,
+      "formMATTR": 0.88,
+      "formMTLD": 58.33,
       "distinctLemmaCount": 20,
       "lemmaDiversityRatio": 0.8,
       "topRoots": [
@@ -8993,6 +9207,8 @@
       "rootDiversityRatio": 0.7,
       "distinctFormCount": 10,
       "formDiversityRatio": 1,
+      "formMATTR": null,
+      "formMTLD": null,
       "distinctLemmaCount": 8,
       "lemmaDiversityRatio": 0.8,
       "topRoots": [
@@ -9059,6 +9275,8 @@
       "rootDiversityRatio": 0.1538,
       "distinctFormCount": 19,
       "formDiversityRatio": 0.7308,
+      "formMATTR": 0.72,
+      "formMTLD": 26,
       "distinctLemmaCount": 8,
       "lemmaDiversityRatio": 0.3077,
       "topRoots": [
@@ -9107,6 +9325,8 @@
       "rootDiversityRatio": 0.7895,
       "distinctFormCount": 18,
       "formDiversityRatio": 0.9474,
+      "formMATTR": null,
+      "formMTLD": 101.08,
       "distinctLemmaCount": 18,
       "lemmaDiversityRatio": 0.9474,
       "topRoots": [
@@ -9191,6 +9411,8 @@
       "rootDiversityRatio": 0.6522,
       "distinctFormCount": 22,
       "formDiversityRatio": 0.9565,
+      "formMATTR": null,
+      "formMTLD": 148.12,
       "distinctLemmaCount": 20,
       "lemmaDiversityRatio": 0.8696,
       "topRoots": [
@@ -9275,6 +9497,8 @@
       "rootDiversityRatio": 0.4667,
       "distinctFormCount": 13,
       "formDiversityRatio": 0.8667,
+      "formMATTR": null,
+      "formMTLD": 31.5,
       "distinctLemmaCount": 8,
       "lemmaDiversityRatio": 0.5333,
       "topRoots": [
@@ -9341,6 +9565,8 @@
       "rootDiversityRatio": 0.4783,
       "distinctFormCount": 17,
       "formDiversityRatio": 0.7391,
+      "formMATTR": null,
+      "formMTLD": 23.84,
       "distinctLemmaCount": 16,
       "lemmaDiversityRatio": 0.6957,
       "topRoots": [
@@ -9425,6 +9651,8 @@
       "rootDiversityRatio": 0.55,
       "distinctFormCount": 17,
       "formDiversityRatio": 0.85,
+      "formMATTR": null,
+      "formMTLD": 37.33,
       "distinctLemmaCount": 15,
       "lemmaDiversityRatio": 0.75,
       "topRoots": [
