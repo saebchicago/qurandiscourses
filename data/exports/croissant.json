@@ -625,7 +625,7 @@
      "@type": "cr:Field",
      "@id": "dispersion/dp",
      "name": "dp",
-     "description": "Gries's Deviation of Proportions. Range [0, 1 - min part share).",
+     "description": "Gries's Deviation of Proportions. Range [0, 1 - min part share]. Attains 1 - min part share exactly when all occurrences fall in the corpus's smallest part.",
      "dataType": "sc:Float",
      "source": {
       "fileObject": {
@@ -640,7 +640,7 @@
      "@type": "cr:Field",
      "@id": "dispersion/dpNorm",
      "name": "dpNorm",
-     "description": "DP rescaled to [0, 1] via the Lijffijt & Gries (2012) correction.",
+     "description": "DP rescaled to [0, 1] via the Lijffijt & Gries (2012) correction. Attains 1 at the same extreme as dp's own maximum.",
      "dataType": "sc:Float",
      "source": {
       "fileObject": {

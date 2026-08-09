@@ -231,12 +231,12 @@
      {
       "name": "dp",
       "type": "number",
-      "description": "Gries's Deviation of Proportions. Range [0, 1 - min part share)."
+      "description": "Gries's Deviation of Proportions. Range [0, 1 - min part share]. Attains 1 - min part share exactly when all occurrences fall in the corpus's smallest part."
      },
      {
       "name": "dpNorm",
       "type": "number",
-      "description": "DP rescaled to [0, 1] via the Lijffijt & Gries (2012) correction."
+      "description": "DP rescaled to [0, 1] via the Lijffijt & Gries (2012) correction. Attains 1 at the same extreme as dp's own maximum."
      },
      {
       "name": "juillandD",

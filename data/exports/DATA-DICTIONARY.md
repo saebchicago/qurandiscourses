@@ -262,6 +262,26 @@ Per-surah mean share of words covered by a recurring 3-5-word phrase (Bannister'
 | `pValueSurface` | number | n/a | One-sided permutation p-value, surface stream. |
 | `survivorSurface` | boolean | n/a | Survives the pooled BH-FDR correction at q<0.05, surface stream. |
 
+## dispersion
+
+How evenly each of the 1,642 roots is spread across the 114 surahs, weighted by surah token count. (1642 rows.)
+
+**Counting rule:** dp/dpNorm: Gries's Deviation of Proportions (Gries 2008) and its corrected normalization (Lijffijt & Gries 2012). juillandD: Juilland & Chang-Rodriguez (1964), over each surah's per-1,000-token rate; classically assumes comparably-sized parts, which this corpus's 114 surahs are not. adjustedFrequency = totalCount * (1 - dp). Method detail in data/dispersion/methods.json.
+
+**Verification:** Nuanced: dp/dpNorm and juillandD are independent formulas that can and do disagree; this site reports both rather than picking one as authoritative.
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `root` | string | n/a | Buckwalter-transliterated root. |
+| `safeKey` | string | n/a | URL/filename-safe encoding of root. |
+| `rootLatin` | string | n/a | Root in Latin transliteration with diacritics. |
+| `totalCount` | integer | occurrences | Corpus-wide occurrence count. |
+| `surahsOccurringIn` | integer | n/a | Count of the 114 surahs the root occurs in at least once. |
+| `dp` | number | n/a | Gries's Deviation of Proportions. Range [0, 1 - min part share]. Attains 1 - min part share exactly when all occurrences fall in the corpus's smallest part. |
+| `dpNorm` | number | n/a | DP rescaled to [0, 1] via the Lijffijt & Gries (2012) correction. Attains 1 at the same extreme as dp's own maximum. |
+| `juillandD` | number | n/a | Juilland's D; 1 = perfectly even. Not clamped, can be negative. |
+| `adjustedFrequency` | number | n/a | totalCount * (1 - dp): raw frequency discounted for clumping. |
+
 ## Files
 
 Each table above ships as both `{name}.csv` and `{name}.json` (a flat JSON array of the same rows) under `data/exports/`. CSV values are comma-separated, UTF-8, header row first; fields containing a comma, quote, or newline are quoted per RFC 4180.
