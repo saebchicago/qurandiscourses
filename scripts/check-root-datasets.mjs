@@ -1,14 +1,14 @@
 // check-root-datasets.mjs — the 1642 roots must be the same 1642 roots
 // everywhere, and the Buckwalter/Latin correspondence must be exact.
 //
-// Six datasets describe the same root set in three different key spaces:
+// Seven datasets describe the same root set in three different key spaces:
 //
 //   data/roots-summary.json   keyed by Buckwalter          ("smw", "rHm")
 //   data/roots-list.json      keyed by Buckwalter
 //   data/roots-index.json     keyed by canonical Latin     ("s-m-w", "r-ḥ-m")
 //   data/root-analytics/      one file per root, safeKey(bw).json
 //   data/cooccurrence/        ditto
-//   data/association/  network/  centrality/   ditto (+ methods sidecars)
+//   data/association/  network/  centrality/  dispersion/   ditto (+ methods sidecars)
 //
 // Nothing checked that they agree, and something silently didn't. read.html
 // bridged Buckwalter to the Latin keys by substring matching, which collapses
@@ -117,13 +117,15 @@ fail(
 // Sidecars are listed explicitly rather than pattern-matched, so a stray
 // file cannot hide behind a loose rule. Keep in sync with the generators:
 // compute-association-stats (methods, keyness-top), compute-network-layout
-// (methods, heatmap), compute-centrality (methods).
+// (methods, heatmap), compute-centrality (methods), compute-dispersion
+// (methods).
 const PER_ROOT_DIRS = {
   "data/root-analytics": [],
   "data/cooccurrence": [],
   "data/association": ["methods.json", "keyness-top.json"],
   "data/network": ["methods.json", "heatmap.json"],
   "data/centrality": ["methods.json"],
+  "data/dispersion": ["methods.json"],
 };
 for (const [dir, sidecars] of Object.entries(PER_ROOT_DIRS)) {
   const present = new Set(
@@ -213,5 +215,5 @@ if (failures.length) {
   process.exit(1);
 }
 console.log(
-  `check-root-datasets: OK (${EXPECTED} roots consistent across roots-summary, roots-list, roots-index and 5 per-root directories).`,
+  `check-root-datasets: OK (${EXPECTED} roots consistent across roots-summary, roots-list, roots-index and ${Object.keys(PER_ROOT_DIRS).length} per-root directories).`,
 );

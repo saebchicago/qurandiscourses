@@ -1,0 +1,29 @@
+{
+ "_script": "scripts/compute-dispersion.mjs",
+ "_source": "data/surah-profiles.json (surah token counts, i.e. part sizes) and data/root-analytics/*.json (per-surah occurrence counts), both themselves derived from Leeds Quranic Arabic Corpus v0.4.",
+ "_parts": {
+  "count": 114,
+  "unit": "surah",
+  "sizeMeasure": "token count (data/surah-profiles.json's tokenCount)",
+  "totalTokens": 77429,
+  "minPartShare": 0.000129,
+  "minPartSurah": 108,
+  "note": "Parts are the 114 surahs, weighted by token count, not treated as equal-sized -- they range from 3 to 286 verses. dp/dpNorm handle this by construction; juillandD does not (see its own note below) and is reported anyway, with that caveat, for comparability."
+ },
+ "_formulas": {
+  "dp": "Gries's Deviation of Proportions (Gries 2008, International Journal of Corpus Linguistics 13(4), 403-437): DP = 0.5 * sum_i |v_i - s_i|, s_i = part i's token-count share of the corpus, v_i = the root's occurrence share in part i. Range [0, 1 - min(s_i)).",
+  "dpNorm": "DP rescaled to [0, 1]: dpNorm = DP / (1 - min(s_i)), following the corrected normalization in Lijffijt & Gries (2012, IJCL 17(1), 147-149), not the original 2008 formulation.",
+  "juillandD": "Juilland & Chang-Rodriguez (1964, Frequency Dictionary of Spanish Words, The Hague: Mouton): D = 1 - CV / sqrt(n-1), CV = population-SD / mean of the root's per-1,000-token rate across the 114 surahs (n=114). Classically assumes comparably-sized parts; this corpus's do not. Not clamped -- can be < 0.",
+  "range": "Count of the 114 surahs the root occurs in at least once.",
+  "adjustedFrequency": "totalCount * (1 - DP) -- Gries's (2008) simplest dispersion-adjusted frequency; one of several formulations in the literature, not the only one."
+ },
+ "_dpRange": {
+  "min": 0.18027,
+  "minRoot": "Elm",
+  "minRootLatin": "ʿ-l-m",
+  "max": 0.999871,
+  "maxRoot": "nHr",
+  "maxRootLatin": "n-ḥ-r"
+ },
+ "_computed": "2026-08-09"
+}
