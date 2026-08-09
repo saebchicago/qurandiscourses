@@ -1122,15 +1122,13 @@
 
         // ── Utilities ──────────────────────────────────────────────────────────
 
+        // safeKey lives once, in assets/lang-labels.js
+        // (window.qdSafeKey). scripts/check-safe-key.mjs fails the
+        // build if a page reintroduces a local copy.
+        // Called, not aliased: lang-labels.js is deferred, so the
+        // binding must resolve when safeKey runs, not at parse.
         function safeKey(bw) {
-          let out = "";
-          for (const c of bw) {
-            if (c === "*") out += "dh";
-            else if (c === "$") out += "sh";
-            else if (c >= "A" && c <= "Z") out += "u" + c;
-            else out += c;
-          }
-          return out;
+          return window.qdSafeKey(bw);
         }
 
         // ── Data loading (cached) ──────────────────────────────────────────────
@@ -1789,15 +1787,13 @@
         let meta = null;
         let seq = 0;
 
+        // safeKey lives once, in assets/lang-labels.js
+        // (window.qdSafeKey). scripts/check-safe-key.mjs fails the
+        // build if a page reintroduces a local copy.
+        // Called, not aliased: lang-labels.js is deferred, so the
+        // binding must resolve when safeKeyS runs, not at parse.
         function safeKeyS(bw) {
-          let out = "";
-          for (const c of bw) {
-            if (c === "*") out += "dh";
-            else if (c === "$") out += "sh";
-            else if (c >= "A" && c <= "Z") out += "u" + c;
-            else out += c;
-          }
-          return out;
+          return window.qdSafeKey(bw);
         }
         function esc(s) {
           return (window.qdEsc ? qdEsc(s) : String(s)).toString();

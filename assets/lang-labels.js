@@ -58,8 +58,40 @@
     ko: " cjk",
   };
 
+  // ── safeKey: the client↔data-file contract ────────────────────────
+  // Encodes a Buckwalter root into the filename the site fetches its
+  // per-root data from (data/root-analytics/{safeKey}.json and five
+  // sibling directories). Get it wrong and the reader silently receives
+  // a DIFFERENT root's statistics, or a 404 — the F1 failure class this
+  // site already shipped a fix and a checker for.
+  //
+  // It used to exist in seven independent browser copies: roots.html,
+  // themes.html, dossier.html, words.html, compare.html (twice, the
+  // second renamed safeKeyS only to dodge a collision between two inline
+  // blocks in the same file), and assets/embed.js. The header of
+  // scripts/lib/safe-key.mjs listed all seven and justified them "by
+  // necessity, no modules in browser inline JS" — which stopped being
+  // true when this very file shipped, a plain non-module IIFE loaded on
+  // every page. scripts/check-safe-key.mjs now asserts this
+  // implementation and the generators' one agree on a fixed vector, so
+  // the next drift fails CI instead of waiting for an audit.
+  //
+  // Uppercase Buckwalter letters → 'u'+letter; * (ذ) → 'dh'; $ (ش) → 'sh'.
+  function safeKey(bw) {
+    var out = "";
+    for (var i = 0; i < bw.length; i++) {
+      var c = bw[i];
+      if (c === "*") out += "dh";
+      else if (c === "$") out += "sh";
+      else if (c >= "A" && c <= "Z") out += "u" + c;
+      else out += c;
+    }
+    return out;
+  }
+
   window.QD_LANG_LABELS = QD_LANG_LABELS;
   window.qdScriptClass = function (lang) {
     return SCRIPT_CLASS[lang] || "";
   };
+  window.qdSafeKey = safeKey;
 })();
