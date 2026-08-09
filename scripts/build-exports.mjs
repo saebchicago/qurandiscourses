@@ -265,6 +265,178 @@ if (scannedTokens !== TOTAL_TOKENS) {
 }
 writeTable("verse-lengths", verseRows, ["surah", "verse", "tokens", "period"]);
 
+// ── Table 5: formulas (data/formulas-root.json + data/formulas-surface.json) ──
+
+console.log("\nBuilding formulas…");
+const formulasRoot = JSON.parse(readFileSync(join(DATA, "formulas-root.json"), "utf8"));
+const formulasSurface = JSON.parse(readFileSync(join(DATA, "formulas-surface.json"), "utf8"));
+const formulaRows = [];
+for (const g of formulasRoot.ngrams) {
+  formulaRows.push({
+    stream: "root",
+    n: g.n,
+    display: g.display,
+    arabic: g.arabic,
+    count: g.count,
+    firstSurah: g.refs[0][0],
+    firstVerse: g.refs[0][1],
+  });
+}
+for (const g of formulasSurface.ngrams) {
+  formulaRows.push({
+    stream: "surface",
+    n: g.n,
+    display: g.display,
+    arabic: g.display,
+    count: g.count,
+    firstSurah: g.refs[0][0],
+    firstVerse: g.refs[0][1],
+  });
+}
+formulaRows.sort((a, b) => b.count - a.count || a.stream.localeCompare(b.stream));
+const formulaColumns = ["stream", "n", "display", "arabic", "count", "firstSurah", "firstVerse"];
+writeTable("formulas", formulaRows, formulaColumns);
+
+// ── Table 6: centrality (data/centrality/*.json) ────────────────────────
+
+console.log("\nBuilding centrality…");
+const centralityRows = [];
+for (const bw of Object.keys(rootsSummary)) {
+  const c = JSON.parse(readFileSync(join(DATA, "centrality", `${safeKey(bw)}.json`), "utf8"));
+  centralityRows.push({
+    root: bw,
+    safeKey: c.safeKey,
+    rootLatin: c.rootLatin,
+    degree: c.degree,
+    degreeRank: c.degreeRank,
+    weightedDegree: c.weightedDegree,
+    weightedDegreeRank: c.weightedDegreeRank,
+    betweenness: c.betweenness,
+    betweennessRank: c.betweennessRank,
+    eigenvector: c.eigenvector,
+    eigenvectorRank: c.eigenvectorRank,
+  });
+}
+if (centralityRows.length !== TOTAL_ROOTS)
+  throw new Error(`Expected ${TOTAL_ROOTS} centrality rows, found ${centralityRows.length}. STOPPING.`);
+centralityRows.sort((a, b) => a.degreeRank - b.degreeRank);
+const centralityColumns = [
+  "root", "safeKey", "rootLatin", "degree", "degreeRank",
+  "weightedDegree", "weightedDegreeRank", "betweenness", "betweennessRank",
+  "eigenvector", "eigenvectorRank",
+];
+writeTable("centrality", centralityRows, centralityColumns);
+
+// ── Table 7: rhyme-summary (data/rhyme-summary.json) ────────────────────
+
+console.log("\nBuilding rhyme-summary…");
+const rhymeSummary = JSON.parse(readFileSync(join(DATA, "rhyme-summary.json"), "utf8"));
+const rhymeRows = [];
+for (let s = 1; s <= 114; s++) {
+  const r = rhymeSummary.surahs[String(s)];
+  if (!r) throw new Error(`Missing rhyme summary for surah ${s}. STOPPING.`);
+  rhymeRows.push({
+    surah: s,
+    verseCount: r.verseCount,
+    familyCount: r.familyCount,
+    dominantKey: r.dominantKey,
+    dominantShare: r.dominantShare,
+    shiftCount: r.shiftCount,
+    topRefrainPausal: r.topRefrain ? r.topRefrain.pausal : null,
+    topRefrainCount: r.topRefrain ? r.topRefrain.count : null,
+    meanRunLength: r.meanRunLength,
+  });
+}
+writeTable("rhyme-summary", rhymeRows, [
+  "surah", "verseCount", "familyCount", "dominantKey", "dominantShare",
+  "shiftCount", "topRefrainPausal", "topRefrainCount", "meanRunLength",
+]);
+
+// ── Table 8: fawatih (data/rhetorical-features.json .fawatih) ───────────
+
+console.log("\nBuilding fawatih…");
+const rhetFeatures = JSON.parse(readFileSync(join(DATA, "rhetorical-features.json"), "utf8"));
+const fawatihRows = rhetFeatures.fawatih.entries.map((e) => ({
+  surah: e.s,
+  verse: e.verses[0],
+  letters: e.letters,
+}));
+if (fawatihRows.length !== rhetFeatures.fawatih.surahCount)
+  throw new Error(`fawatih row count ${fawatihRows.length} does not match surahCount ${rhetFeatures.fawatih.surahCount}. STOPPING.`);
+writeTable("fawatih", fawatihRows, ["surah", "verse", "letters"]);
+
+// ── Table 9: discursive-pivots (data/discursive-pivots.json) ────────────
+
+console.log("\nBuilding discursive-pivots…");
+const pivots = JSON.parse(readFileSync(join(DATA, "discursive-pivots.json"), "utf8"));
+const pivotRows = pivots.occurrences.map((o) => ({
+  surah: o.s,
+  verse: o.a,
+  marker: o.marker,
+  previousVerse: o.prevA,
+  sharedRoots: o.sharedRoots.map((r) => r.rootLatin).join("; "),
+}));
+writeTable("discursive-pivots", pivotRows, ["surah", "verse", "marker", "previousVerse", "sharedRoots"]);
+
+// ── Table 10: structure (data/structure/{s}.json .sections) ─────────────
+
+console.log("\nBuilding structure…");
+const structureRows = [];
+for (let s = 1; s <= 114; s++) {
+  const st = JSON.parse(readFileSync(join(DATA, "structure", `${s}.json`), "utf8"));
+  for (const sec of st.sections) {
+    structureRows.push({
+      surah: s,
+      sectionIndex: sec.index,
+      fromVerse: sec.fromVerse,
+      toVerse: sec.toVerse,
+      verseCount: sec.verseCount,
+    });
+  }
+}
+writeTable("structure", structureRows, ["surah", "sectionIndex", "fromVerse", "toVerse", "verseCount"]);
+
+// ── Table 11: structure-tests (data/structure-tests.json .perSurah) ─────
+
+console.log("\nBuilding structure-tests…");
+const structureTestsData = JSON.parse(readFileSync(join(DATA, "structure-tests.json"), "utf8"));
+const survivorIds = new Set(
+  (structureTestsData.survivors || []).map((v) => `${v.surah}:${v.test}`),
+);
+const TEST_KEYS = ["concentricParallelism", "inclusio", "formulaBookending", "lengthSymmetry"];
+const structureTestRows = structureTestsData.perSurah.map((row) => {
+  const out = { surah: row.surah, verseCount: row.verseCount, sections: row.sections };
+  for (const key of TEST_KEYS) {
+    const t = row[key];
+    out[`${key}_observed`] = t ? t.observed : null;
+    out[`${key}_pValue`] = t ? t.pValue : null;
+    out[`${key}_survivor`] = t ? survivorIds.has(`${row.surah}:${key}`) : null;
+  }
+  return out;
+});
+writeTable(
+  "structure-tests",
+  structureTestRows,
+  ["surah", "verseCount", "sections", ...TEST_KEYS.flatMap((k) => [`${k}_observed`, `${k}_pValue`, `${k}_survivor`])],
+);
+
+// ── Table 12: theme-surah-density (data/theme-surah-index.json) ─────────
+
+console.log("\nBuilding theme-surah-density…");
+const themeSurahIndex = JSON.parse(readFileSync(join(DATA, "theme-surah-index.json"), "utf8"));
+const themeDensityRows = [];
+for (let s = 1; s <= 114; s++) {
+  for (const t of themeSurahIndex.surahs[String(s)] || []) {
+    themeDensityRows.push({
+      surah: s,
+      themeSlug: t.slug,
+      themeTitle: t.title,
+      perThousand: t.perThousand,
+    });
+  }
+}
+writeTable("theme-surah-density", themeDensityRows, ["surah", "themeSlug", "themeTitle", "perThousand"]);
+
 // ── schema.json ──────────────────────────────────────────────────────
 
 console.log("\nWriting schema.json and DATA-DICTIONARY.md…");
@@ -351,6 +523,129 @@ const schema = {
         { name: "verse", type: "integer", unit: null, description: "Verse (ayah) number within the surah, Cairo numbering." },
         { name: "tokens", type: "integer", unit: "tokens", description: "Number of Leeds morphological tokens in this verse." },
         { name: "period", type: "string", unit: null, description: "One of meccan-early, meccan-middle, meccan-late, medinan; null if the surah has no chronology entry." },
+      ],
+    },
+    formulas: {
+      description: "Every recurring 3-5 word sequence in the Qur'an (18,408 rows: 6,403 root-view + 12,005 surface-view), with its first occurrence.",
+      rowCount: formulaRows.length,
+      countingRule: "A sequence recurs if it appears 2+ times, counted two independent ways: root stream (words reduced to their consonantal root; unrooted particles skipped, so matched words need not be consecutive) and surface stream (diacritic-stripped written form, all words included, always consecutive). Only the first occurrence's location is included here; full occurrence lists are in data/formulas-root.json and data/formulas-surface.json.",
+      verification: "Verified (direct computation from Leeds morphology).",
+      fields: [
+        { name: "stream", type: "string", unit: null, description: "root or surface." },
+        { name: "n", type: "integer", unit: "words", description: "Sequence length, 3-5." },
+        { name: "display", type: "string", unit: null, description: "Root stream: dot-separated Latin transliteration. Surface stream: the Arabic phrase itself." },
+        { name: "arabic", type: "string", unit: null, description: "Arabic script for the sequence (root stream: root letters; surface stream: same as display)." },
+        { name: "count", type: "integer", unit: "occurrences", description: "Total occurrences of this sequence across the corpus." },
+        { name: "firstSurah", type: "integer", unit: null, description: "Surah of the sequence's first occurrence." },
+        { name: "firstVerse", type: "integer", unit: null, description: "Verse of the sequence's first occurrence." },
+      ],
+    },
+    centrality: {
+      description: "Network centrality for all 1,642 roots over the root co-occurrence graph (5,211 edges, built from each root's top-25-by-LLR partners).",
+      rowCount: centralityRows.length,
+      countingRule: "Degree, weighted degree (sum of incident LLR weights), betweenness (Brandes' algorithm, unweighted shortest paths), and eigenvector centrality (power iteration on the LLR-weighted adjacency matrix), each with its rank among all 1,642 roots. Method detail in data/centrality/methods.json.",
+      verification: "Nuanced: the four measures rank roots differently by design, and the graph itself is a subset (each root's top-25 partners, not every pair meeting the underlying 5-shared-verse threshold).",
+      fields: [
+        { name: "root", type: "string", unit: null, description: "Buckwalter-transliterated root." },
+        { name: "safeKey", type: "string", unit: null, description: "URL/filename-safe encoding of root." },
+        { name: "rootLatin", type: "string", unit: null, description: "Root in Latin transliteration with diacritics." },
+        { name: "degree", type: "integer", unit: "neighbors", description: "Count of distinct partner roots." },
+        { name: "degreeRank", type: "integer", unit: null, description: "Rank by degree, 1 = highest, among 1,642 roots." },
+        { name: "weightedDegree", type: "number", unit: null, description: "Sum of incident edge weights (LLR)." },
+        { name: "weightedDegreeRank", type: "integer", unit: null, description: "Rank by weighted degree." },
+        { name: "betweenness", type: "number", unit: null, description: "Betweenness centrality (unweighted shortest paths)." },
+        { name: "betweennessRank", type: "integer", unit: null, description: "Rank by betweenness." },
+        { name: "eigenvector", type: "number", unit: null, description: "Eigenvector centrality (LLR-weighted, power iteration, L2-normalized)." },
+        { name: "eigenvectorRank", type: "integer", unit: null, description: "Rank by eigenvector centrality." },
+      ],
+    },
+    "rhyme-summary": {
+      description: "Per-surah roll-up of verse-ending (rhyme) patterns for all 114 surahs.",
+      rowCount: rhymeRows.length,
+      countingRule: "Verse-final word per verse, diacritics/tatweel stripped (an orthographic proxy for pausal form, not a phonological transcription). familyCount/dominantKey/dominantShare/shiftCount are over the fine rhyme key (last two letters after collapsing hamza seats). meanRunLength = verseCount / (shiftCount + 1). Full method note and per-verse detail in data/rhyme/{surah}.json.",
+      verification: "Verified (direct computation from Leeds morphology and the Tanzil Uthmani text).",
+      fields: [
+        { name: "surah", type: "integer", unit: null, description: "Surah number, 1-114." },
+        { name: "verseCount", type: "integer", unit: "verses", description: "Number of verses in the surah." },
+        { name: "familyCount", type: "integer", unit: null, description: "Count of distinct fine-key rhyme families in the surah." },
+        { name: "dominantKey", type: "string", unit: null, description: "The most frequent fine rhyme key in the surah." },
+        { name: "dominantShare", type: "number", unit: null, description: "Share of verses ending on the dominant key, 0-1." },
+        { name: "shiftCount", type: "integer", unit: null, description: "Number of verse-to-verse changes in the fine rhyme key." },
+        { name: "topRefrainPausal", type: "string", unit: null, description: "Pausal form of the most-repeated verse ending recurring 3+ times, if any; null otherwise." },
+        { name: "topRefrainCount", type: "integer", unit: null, description: "Occurrences of topRefrainPausal; null if there is no refrain." },
+        { name: "meanRunLength", type: "number", unit: "verses", description: "verseCount / (shiftCount + 1): average consecutive-verse run on one ending before it changes." },
+      ],
+    },
+    fawatih: {
+      description: "The 29 surahs opening with a sequence of isolated letters (fawatih / al-muqatta'at), and which combination.",
+      rowCount: fawatihRows.length,
+      countingRule: "Detected from the Leeds morphology: a surah's opening verse consisting solely of isolated-letter tokens. 14 distinct letter combinations recur across the 29 surahs.",
+      verification: "Verified (direct detection from Leeds morphology). The letters' meaning is not asserted; the classical tradition has never settled it.",
+      fields: [
+        { name: "surah", type: "integer", unit: null, description: "Surah number." },
+        { name: "verse", type: "integer", unit: null, description: "Verse carrying the isolated letters (always 1)." },
+        { name: "letters", type: "string", unit: null, description: "The isolated letters in Arabic script, as written." },
+      ],
+    },
+    "discursive-pivots": {
+      description: "137 verses mechanically flagged for opening with a temporal particle (idh or idha) while sharing a content root with the immediately preceding verse.",
+      rowCount: pivotRows.length,
+      countingRule: "A verse qualifies if its first content word is idh or idha (Leeds lemma) and it shares at least one non-stoplisted root with the previous verse. A candidate marker of a discursive turn, not a scholar's identification of one; method note in data/discursive-pivots.json.",
+      verification: "Nuanced: depends on the fixed marker list and content-root stoplist; a different choice of either would change the count.",
+      fields: [
+        { name: "surah", type: "integer", unit: null, description: "Surah number." },
+        { name: "verse", type: "integer", unit: null, description: "The flagged verse." },
+        { name: "marker", type: "string", unit: null, description: "The temporal particle opening the verse: idh or idha." },
+        { name: "previousVerse", type: "integer", unit: null, description: "The preceding verse the flagged verse shares a root with." },
+        { name: "sharedRoots", type: "string", unit: null, description: "Semicolon-separated list of the shared root(s) in Latin transliteration." },
+      ],
+    },
+    structure: {
+      description: "Mechanically segmented sections for all 114 surahs (TextTiling-derived changepoint detection over lexical cohesion), not a transcribed scholarly outline.",
+      rowCount: structureRows.length,
+      countingRule: "Per-verse boundary scores from five weighted signals (rhyme-family change, verse-length discontinuity, lexical-cohesion drop, formula onset, discursive-pivot markers); section count set by a per-surah significance threshold, not a fixed target. 34 of 114 surahs get exactly one section (no boundary cleared the threshold). Full method and per-boundary evidence in data/structure/{surah}.json.",
+      verification: "Nuanced: a computed segmentation, not a scholar's reading; never attributed to any named scholar. See docs/maintainer-guide.md on the named-scholar outline policy.",
+      fields: [
+        { name: "surah", type: "integer", unit: null, description: "Surah number." },
+        { name: "sectionIndex", type: "integer", unit: null, description: "1-based section number within the surah." },
+        { name: "fromVerse", type: "integer", unit: null, description: "First verse of the section." },
+        { name: "toVerse", type: "integer", unit: null, description: "Last verse of the section." },
+        { name: "verseCount", type: "integer", unit: "verses", description: "Number of verses in the section." },
+      ],
+    },
+    "structure-tests": {
+      description: "Four block-level mirror-symmetry tests (concentric pairing, inclusio, formula bookending, verse-length symmetry) over the computed sections in the structure table, one row per surah.",
+      rowCount: structureTestRows.length,
+      countingRule: "Each test's p-value comes from a block-order permutation null (blocks kept intact, 10,000 seeded shuffles, or exact enumeration when feasible), corrected jointly across all 345 candidates from all four tests via Benjamini-Hochberg (q<0.05). Null for surahs with too few sections for a given test. 0 of 345 candidates reached significance after correction. Full method in data/structure-tests.json.",
+      verification: "Nuanced: a null result describes this specific mechanical test over a computed segmentation, not the scholarly literature on ring composition, which this site never asserts an outline from.",
+      fields: [
+        { name: "surah", type: "integer", unit: null, description: "Surah number." },
+        { name: "verseCount", type: "integer", unit: "verses", description: "Verses in the surah." },
+        { name: "sections", type: "integer", unit: null, description: "Number of computed sections (from the structure table)." },
+        { name: "concentricParallelism_observed", type: "number", unit: null, description: "Observed mean Jaccard similarity of mirrored section pairs; null if the surah has too few sections for this test." },
+        { name: "concentricParallelism_pValue", type: "number", unit: null, description: "Permutation p-value for concentricParallelism; null if not applicable." },
+        { name: "concentricParallelism_survivor", type: "boolean", unit: null, description: "Whether this candidate survived the pooled Benjamini-Hochberg correction; null if not applicable." },
+        { name: "inclusio_observed", type: "number", unit: null, description: "Observed vocabulary overlap between the first and last section; null if not applicable." },
+        { name: "inclusio_pValue", type: "number", unit: null, description: "Permutation p-value for inclusio; null if not applicable." },
+        { name: "inclusio_survivor", type: "boolean", unit: null, description: "Whether this candidate survived correction; null if not applicable." },
+        { name: "formulaBookending_observed", type: "number", unit: null, description: "Observed formula-bracketing statistic; null if not applicable." },
+        { name: "formulaBookending_pValue", type: "number", unit: null, description: "Permutation p-value for formulaBookending; null if not applicable." },
+        { name: "formulaBookending_survivor", type: "boolean", unit: null, description: "Whether this candidate survived correction; null if not applicable." },
+        { name: "lengthSymmetry_observed", type: "number", unit: null, description: "Observed correlation of the verse-length profile with its reverse; null if not applicable." },
+        { name: "lengthSymmetry_pValue", type: "number", unit: null, description: "Permutation p-value for lengthSymmetry; null if not applicable." },
+        { name: "lengthSymmetry_survivor", type: "boolean", unit: null, description: "Whether this candidate survived correction; null if not applicable." },
+      ],
+    },
+    "theme-surah-density": {
+      description: "Sparse theme-by-surah matrix: for each surah, the themes whose root-family vocabulary clusters most densely in it.",
+      rowCount: themeDensityRows.length,
+      countingRule: "perThousand = theme-root tokens per 1,000 surah tokens (Leeds counts, minimum 2 tokens). Each theme lists at most its top 8 surahs by density, so a surah's absence from this table for a given theme means it is not among that theme's densest, not that the vocabulary is absent entirely. Root-to-theme grouping is editorial (see themes.html); the counting is mechanical.",
+      verification: "Nuanced: perThousand is a direct computation, but which roots belong to which theme is an editorial classification, not a computed fact.",
+      fields: [
+        { name: "surah", type: "integer", unit: null, description: "Surah number." },
+        { name: "themeSlug", type: "string", unit: null, description: "Theme identifier, matches themes.html's slug." },
+        { name: "themeTitle", type: "string", unit: null, description: "Theme display title." },
+        { name: "perThousand", type: "number", unit: "theme-root tokens per 1,000 surah tokens", description: "Density of this theme's root family in this surah." },
       ],
     },
   },

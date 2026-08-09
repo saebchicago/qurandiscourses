@@ -50,7 +50,7 @@ Ground rules for using this site as a source:
 - [How each claim is validated](https://divinediscourses.org/validation): Inspect source checks, reproduction methods, dependencies, and known limits behind published research claims.
 - [Datasets, documented for reuse](https://divinediscourses.org/datasets): Every dataset this site is built on, documented for reuse: schema, generator script, license, and direct download. Recompute any number yourself.
 - [Data coverage, measured](https://divinediscourses.org/coverage): Measured data coverage: morphology fields, root glosses, QurSim cross-references, counting-rule sensitivity, and the dataset source registry.
-- [Download the data](https://divinediscourses.org/export): Download precomputed root frequencies, association statistics, per-surah stats, and verse lengths as CSV or JSON, with a machine-readable schema and data dictionary.
+- [Download the data](https://divinediscourses.org/export): Download precomputed root frequencies, association statistics, per-surah stats, verse lengths, formulas, centrality, rhyme, and structure data as CSV or JSON, with a machine-readable schema and data dictionary.
 - [Changelog: every correction logged](https://divinediscourses.org/changelog): Every correction and material change to Divine Discourses since launch. A public record of accountability.
 - [About this site and its method](https://divinediscourses.org/about): About Divine Discourses: the coherence-based method behind the site, its evidence-labeling standards, and how it's maintained.
 - [Credits and scholarly lineage](https://divinediscourses.org/credits): A one-screen summary of the datasets, scholarly lineage, and build infrastructure behind Divine Discourses.
