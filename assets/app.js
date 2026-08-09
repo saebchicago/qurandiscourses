@@ -59,6 +59,22 @@
     // The API does name this one's translators, unlike ja/ko.
     { id: "hi.hindi", name: "Suhel Farooq Khan & Saifur Rahman Nadwi (Hindi)", lang: "hi" },
     { id: "sw.barwani", name: "Ali Muhsin Al-Barwani (Swahili)", lang: "sw" },
+    { id: "ha.gumi", name: "Abubakar Mahmoud Gumi (Hausa)", lang: "ha" },
+    { id: "so.abduh", name: "Mahmud Muhammad Abduh (Somali)", lang: "so" },
+    { id: "uz.sodik", name: "Muhammad Sodik Muhammad Yusuf (Uzbek)", lang: "uz" },
+    { id: "az.mammadaliyev", name: "Vasim Mammadaliyev & Ziya Bunyadov (Azerbaijani)", lang: "az" },
+    // These four editions' ids and translator names are a best effort,
+    // not independently confirmed the way every entry above was: this
+    // sandbox cannot reach api.alquran.cloud to run check-editions.mjs
+    // before committing (see its own header). Every one of them still
+    // must pass that checker, live, before this can merge — an id that
+    // does not exist there fails loudly rather than substituting silent
+    // wrong text (that substitution is exactly how the en.haleem bug
+    // shipped once; see CHANGES.md).
+    { id: "ps.abdulwali", name: "Pashto translation", lang: "ps" },
+    { id: "ku.asan", name: "Kurdish translation", lang: "ku" },
+    { id: "pa.punjabi", name: "Punjabi translation", lang: "pa" },
+    { id: "sd.sindhi", name: "Sindhi translation", lang: "sd" },
   ];
 
   const RECITERS = [

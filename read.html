@@ -1193,13 +1193,25 @@
                 // makes for text every device can already render.
                 // Latin-script editions (including Turkish and Bosnian,
                 // whose diacritics live in the bundled latin-ext subsets)
-                // need nothing.
+                // need nothing. Punjabi (pa) is deliberately absent: its
+                // Qur'an translations circulate in both Shahmukhi
+                // (Arabic-script) and Gurmukhi, and this site cannot
+                // confirm from a sandbox which script alquran.cloud's
+                // pa.punjabi edition actually uses (see check-editions.mjs
+                // note in assets/app.js). Rather than guess a script class
+                // that could be wrong, it falls through to the unstyled
+                // default; dir/lang still come from the API's own report
+                // either way, so this is a font choice, not a direction
+                // bug, if the guess above ever needs revisiting.
                 const scriptClass =
                   {
                     ur: " nastaliq",
                     bn: " bengali",
                     hi: " devanagari",
                     fa: " arabic-script",
+                    ps: " arabic-script",
+                    ku: " arabic-script",
+                    sd: " arabic-script",
                     zh: " cjk",
                     ja: " cjk",
                     ko: " cjk",
@@ -1303,6 +1315,14 @@
                   de: "German",
                   hi: "Hindi",
                   sw: "Swahili",
+                  ha: "Hausa",
+                  so: "Somali",
+                  uz: "Uzbek",
+                  az: "Azerbaijani",
+                  ps: "Pashto",
+                  ku: "Kurdish",
+                  pa: "Punjabi",
+                  sd: "Sindhi",
                 };
                 const groups = new Map();
                 qdTranslations.forEach((t) => {
