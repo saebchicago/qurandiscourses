@@ -485,15 +485,13 @@
         // ── Filename-safe key (mirrors build-root-analytics.mjs; also
         //    inlined in roots.html and themes.html — keep all in sync
         //    with scripts/lib/safe-key.mjs) ─────────────────────────────
+        // safeKey lives once, in assets/lang-labels.js
+        // (window.qdSafeKey). scripts/check-safe-key.mjs fails the
+        // build if a page reintroduces a local copy.
+        // Called, not aliased: lang-labels.js is deferred, so the
+        // binding must resolve when safeKey runs, not at parse.
         function safeKey(bw) {
-          let out = "";
-          for (const c of bw) {
-            if (c === "*") out += "dh";
-            else if (c === "$") out += "sh";
-            else if (c >= "A" && c <= "Z") out += "u" + c;
-            else out += c;
-          }
-          return out;
+          return window.qdSafeKey(bw);
         }
 
         const PERIOD_LABELS = {

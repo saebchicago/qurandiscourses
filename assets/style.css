@@ -958,11 +958,6 @@ label {
   line-height: 1.45;
   color: var(--muted);
 }
-.t-body {
-  font-family: var(--sans);
-  font-size: 1rem;
-  line-height: 1.7;
-}
 .t-annotation {
   font-size: 0.85rem;
   line-height: 1.5;
@@ -1172,14 +1167,6 @@ label {
   .tour-fab {
     display: none !important;
   }
-}
-.begin-group-title {
-  margin: 1.1rem 0 0.4rem;
-  font-size: 1.02rem;
-  color: var(--accent);
-}
-.begin-group {
-  margin-bottom: 0.4rem;
 }
 /* ── Embeddable cards (embed.html, iframe context) ─────────────── */
 .embed-body {
@@ -2957,36 +2944,6 @@ html[data-focus] .ar.xl {
   font-size: 3.4rem;
   line-height: 2.15;
 }
-
-/* ── Research-led home experience ────────────────────────────────── */
-.research-hero {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
-  gap: clamp(2rem, 5vw, 4.5rem);
-  align-items: center;
-  margin: 1.25rem 0 2rem;
-  padding: clamp(2rem, 5vw, 4.5rem);
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  background:
-    radial-gradient(circle at 88% 10%, color-mix(in srgb, var(--accent-soft) 16%, transparent) 0, transparent 34%),
-    linear-gradient(145deg, var(--card), color-mix(in srgb, var(--bg) 82%, var(--card)));
-}
-.research-hero::before {
-  content: "";
-  position: absolute;
-  inset: 1rem;
-  border: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
-  border-radius: 13px;
-  pointer-events: none;
-}
-.hero-copy,
-.research-hero .ask-section {
-  position: relative;
-  z-index: 1;
-}
 .eyebrow {
   margin: 0 0 0.65rem;
   color: var(--accent);
@@ -2994,15 +2951,6 @@ html[data-focus] .ar.xl {
   font-weight: 700;
   letter-spacing: 0.11em;
   text-transform: uppercase;
-}
-.research-hero h2 {
-  max-width: 15ch;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: clamp(2.25rem, 5vw, 4.2rem);
-  line-height: 0.98;
-  letter-spacing: -0.025em;
 }
 .hero-lede {
   max-width: 55ch;
@@ -3032,26 +2980,6 @@ html[data-focus] .ar.xl {
 }
 .text-action:hover {
   text-decoration: underline;
-}
-.research-hero .ask-section {
-  max-width: none;
-  width: 100%;
-  margin: 0;
-  padding: 1.25rem;
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  background: color-mix(in srgb, var(--card) 88%, transparent);
-}
-.research-hero .ask-label {
-  font-size: 1.25rem;
-}
-.research-hero .ask-input {
-  min-width: 0;
-  font-size: 1rem;
-  border-width: 1px;
-}
-.research-hero .ask-go {
-  min-width: 92px;
 }
 /* Guided landing hero: the same frame as .research-hero, one column,
    and nothing in it but the headline, the lede, two actions, and one
@@ -3105,34 +3033,6 @@ html[data-focus] .ar.xl {
   .landing-hero h2 {
     font-size: clamp(2rem, 11vw, 3rem);
   }
-}
-.trust-bar {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin: 0 0 3.5rem;
-  border-block: 1px solid var(--line);
-}
-.trust-bar > div {
-  padding: 1rem 1.15rem;
-  border-inline-start: 1px solid var(--line);
-}
-.trust-bar > div:first-child {
-  border-inline-start: 0;
-}
-.trust-bar strong,
-.trust-bar span {
-  display: block;
-}
-.trust-bar strong {
-  color: var(--ink);
-  font-family: var(--serif);
-  font-size: 1rem;
-}
-.trust-bar span {
-  margin-top: 0.18rem;
-  color: var(--muted);
-  font-size: 0.78rem;
-  line-height: 1.45;
 }
 .workflow-section {
   margin-block: 4rem;
@@ -3199,17 +3099,6 @@ html[data-focus] .ar.xl {
 .workflow-card:focus-visible {
   outline-width: 3px;
 }
-.workflow-featured {
-  background: linear-gradient(135deg, var(--ink), color-mix(in srgb, var(--ink) 82%, var(--accent)));
-  color: var(--bg);
-}
-.workflow-number {
-  grid-row: 1 / span 3;
-  color: var(--accent-soft);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
 .workflow-title {
   font-family: var(--serif);
   font-size: 1.35rem;
@@ -3221,17 +3110,11 @@ html[data-focus] .ar.xl {
   font-size: 0.9rem;
   line-height: 1.55;
 }
-.workflow-featured .workflow-desc {
-  color: color-mix(in srgb, var(--bg) 78%, transparent);
-}
 .workflow-link {
   margin-top: 0.65rem;
   color: var(--link);
   font-size: 0.82rem;
   font-weight: 700;
-}
-.workflow-featured .workflow-link {
-  color: var(--bg);
 }
 
 /* A claim's confidence is multidimensional; these labels deliberately sit
@@ -3254,19 +3137,6 @@ html[data-focus] .ar.xl {
   font-size: 0.7rem;
   font-weight: 650;
   line-height: 1.2;
-}
-.evidence-source-checked,
-.evidence-reproduced,
-.evidence-independently-reproduced,
-.evidence-corroborated {
-  border-color: color-mix(in srgb, var(--ok) 46%, var(--line));
-  color: var(--ok);
-}
-.evidence-method-dependent,
-.evidence-classification-dependent,
-.evidence-source-dependent,
-.evidence-contested {
-  border-style: dashed;
 }
 .claim-record {
   margin-top: 0.75rem;
@@ -3320,58 +3190,14 @@ html[data-focus] .ar.xl {
 }
 
 @media (max-width: 860px) {
-  .research-hero {
-    grid-template-columns: 1fr;
-  }
-  .research-hero h2 {
-    max-width: 18ch;
-  }
-  .trust-bar {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
   .validation-principles {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .trust-bar > div:nth-child(3) {
-    border-inline-start: 0;
-    border-top: 1px solid var(--line);
-  }
-  .trust-bar > div:nth-child(4) {
-    border-top: 1px solid var(--line);
   }
 }
 @media (max-width: 600px) {
-  .research-hero {
-    margin-top: 0.5rem;
-    padding: 1.5rem;
-    border-radius: 14px;
-  }
-  .research-hero::before {
-    display: none;
-  }
-  .research-hero h2 {
-    font-size: clamp(2rem, 11vw, 3rem);
-  }
-  .research-hero .ask-section {
-    padding: 1rem;
-  }
-  .research-hero .ask-row {
-    flex-direction: column;
-  }
-  .research-hero .ask-go {
-    width: 100%;
-  }
-  .trust-bar,
   .workflow-grid,
   .validation-principles {
     grid-template-columns: 1fr;
-  }
-  .trust-bar > div {
-    border-inline-start: 0;
-    border-top: 1px solid var(--line);
-  }
-  .trust-bar > div:first-child {
-    border-top: 0;
   }
   .validation-principles > div {
     border-inline-start: 0;
