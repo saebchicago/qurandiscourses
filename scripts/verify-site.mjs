@@ -16,6 +16,10 @@
 //             offline degradation path is what's tested by default
 //   links     §6.3 every internal href/src answers 200 from the local
 //             server; unknown #fragments are warnings
+//   navcurrent exactly one primary-nav link (or zero, on a page the
+//             nav doesn't list) carries aria-current="page", and it is
+//             the page actually open — checked against cleanPath, not
+//             against nav.js's own logic
 //   badges    §6.4 every data-source-ids value exists in
 //             data/sources.json (hard fail), and the first badge on
 //             each page opens by mouse AND Enter/Space, closes on
@@ -457,6 +461,51 @@ for (const pageFile of testPages) {
     for (const frag of fragments) {
       const exists = await page.evaluate((f) => !!document.getElementById(f), frag);
       if (!exists) report("fragments", pageFile, false, `#${frag} has no element`, true);
+    }
+  }
+
+  // assets/nav.js's aria-current="page" marking: exactly one nav link
+  // (or zero, on a page absent from the nav) should carry it, and it
+  // must be the page actually open. Deliberately does not reimplement
+  // nav.js's own path-normalizing logic — it uses cleanPath (the same
+  // helper the sitemap/canonical checks trust) as independent ground
+  // truth, so a shared bug in both places can't pass silently.
+  if (runCheck("navcurrent")) {
+    const hasNav = await page.evaluate(() => !!document.querySelector("nav.primary"));
+    if (hasNav) {
+      const expected = cleanPath(pageFile);
+      const marked = await page.evaluate(() =>
+        [...document.querySelectorAll("nav.primary .nav-menu a[aria-current='page']")].map((a) =>
+          (a.getAttribute("href") || "").split("#")[0].toLowerCase(),
+        ),
+      );
+      if (marked.length > 1) {
+        report("navcurrent", pageFile, false, `${marked.length} links carry aria-current="page": ${marked.join(", ")}`);
+      } else if (marked.length === 1) {
+        report(
+          "navcurrent",
+          pageFile,
+          marked[0] === expected,
+          marked[0] === expected
+            ? `aria-current correctly marks ${expected}`
+            : `aria-current marks ${marked[0]}, expected ${expected}`,
+        );
+      } else {
+        const navHrefs = await page.evaluate(() =>
+          [...document.querySelectorAll("nav.primary .nav-menu a")].map((a) =>
+            (a.getAttribute("href") || "").split("#")[0].toLowerCase(),
+          ),
+        );
+        const shouldMatch = navHrefs.includes(expected);
+        report(
+          "navcurrent",
+          pageFile,
+          !shouldMatch,
+          shouldMatch
+            ? `no link marked aria-current="page" but ${expected} exists in nav`
+            : `no nav entry for ${expected}; correctly unmarked`,
+        );
+      }
     }
   }
 
