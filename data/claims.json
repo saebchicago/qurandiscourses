@@ -447,6 +447,31 @@
     "A surviving result means the coverage is higher than a length-matched null predicts, not that the surah is formulaic in the technical oral-formulaic sense argued in Bannister (2014); this measure does not adjudicate that scholarly question.",
     "The null resamples verses uniformly from the whole corpus, not from surahs matched on genre or period; a surah's high density may reflect its genre (e.g. concentrated legal or liturgical phrasing) as much as its length."
    ]
+  },
+  {
+   "id": "claim.dispersion.jhm.v1",
+   "claimType": "method-comparison",
+   "sourceIds": [
+    "leeds-corpus-v0.4",
+    "gries-dispersion-2008",
+    "lijffijt-gries-dispersion-correction-2012",
+    "juilland-chang-rodriguez-1964"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/compute-dispersion.mjs",
+    "output": "data/dispersion/juHm.json",
+    "method": "Compute Gries's Deviation of Proportions (DP, DPnorm) and Juilland's D for the root j-h-m over the 114 surahs as corpus parts, weighted by token count."
+   },
+   "limitations": [
+    "j-h-m occurs in 18 of 114 surahs by plain range -- moderate by that measure alone -- but its normalized DP is 0.7989, close to the highest value among roots with at least 20 occurrences (0.8770), because those 18 surahs are disproportionately short: raw range does not weight by surah size, and DP does. This is the reason the site reports both rather than only the simpler one.",
+    "Juilland's D for the same root is 0.6128, on a 0=clumped/1=even scale (the reverse of DP's direction) -- broadly consistent with DP/DPnorm here, but Juilland's D classically assumes comparably-sized corpus parts, which this corpus's 114 surahs (3 to 286 verses) are not.",
+    "Dispersion measures where a root's occurrences fall, not what they mean; j-h-m's concentration in shorter surahs is a distributional fact, not a claim about its theological or thematic significance."
+   ]
   }
  ]
 }

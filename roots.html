@@ -1103,6 +1103,78 @@
             </p>
           </div>
 
+          <!-- Dispersion: how evenly spread across the 114 surahs, from data/dispersion/ -->
+          <div
+            class="stat-block encyclopedic-only"
+            id="detailDispersionBlock"
+            hidden
+          >
+            <h4>
+              Dispersion across the Qur'an
+              <span
+                class="badge ok"
+                data-source-ids="leeds-corpus-v0.4 gries-dispersion-2008 lijffijt-gries-dispersion-correction-2012 juilland-chang-rodriguez-1964"
+                aria-label="Verified"
+                tabindex="0"
+                title="Verified · computed from the cited corpus"
+                >●</span
+              >
+            </h4>
+            <details class="method-note">
+              <summary>ℹ How this is computed</summary>
+              <p>
+                Computed by <code>scripts/compute-dispersion.mjs</code> over
+                the 114 surahs as corpus parts, weighted by each surah's
+                token count. Four measures reported side by side, since the
+                dispersion literature disagrees which is best: Gries's
+                Deviation of Proportions (DP) and its normalized form
+                (DPnorm), Juilland's D, and plain range. DPnorm 0 means the
+                root's occurrences track surah size exactly; DPnorm 1 means
+                total concentration in the smallest surah. Juilland's D runs
+                the other way (1 = perfectly even) and classically assumes
+                comparably-sized parts, which this corpus's 114 surahs (3 to
+                286 verses) are not — reported anyway for comparability with
+                the wider literature, not as the preferred measure.
+                Adjusted frequency discounts the raw count toward zero the
+                more clumped the root is.
+              </p>
+            </details>
+            <div class="table-scroll">
+              <table class="data" id="dispersionTable" style="min-width: 360px">
+                <tbody>
+                  <tr>
+                    <td>Surahs occurring in</td>
+                    <td class="count" id="dispersionRange" colspan="2"></td>
+                  </tr>
+                  <tr>
+                    <td>Deviation of Proportions (DP)</td>
+                    <td class="count" id="dispersionDp" colspan="2"></td>
+                  </tr>
+                  <tr>
+                    <td>Normalized DP (0 = evenly spread, 1 = maximally clumped)</td>
+                    <td class="count" id="dispersionDpNorm" colspan="2"></td>
+                  </tr>
+                  <tr>
+                    <td>Juilland's D (1 = perfectly even)</td>
+                    <td class="count" id="dispersionJuillandD" colspan="2"></td>
+                  </tr>
+                  <tr>
+                    <td>Dispersion-adjusted frequency</td>
+                    <td class="count" id="dispersionAdjustedFrequency" colspan="2"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="font-size: 0.82rem; color: var(--muted); margin: 0.4rem 0 0">
+              Dispersion describes where a root's occurrences fall, not what
+              they mean. It does not indicate thematic, exegetical, or
+              theological importance.
+            </p>
+            <p style="font-size: 0.82rem; margin: 0.3rem 0 0">
+              <a href="/numbers#dispersion">Most/least evenly spread roots corpus-wide →</a>
+            </p>
+          </div>
+
           <p class="prov study-only" style="margin-top: 0.5rem">
             <a
               id="detailCorpusLink"
@@ -1535,6 +1607,7 @@
           renderNetworkAssoc(bw);
           renderTrendChart(bw);
           renderCentrality(bw);
+          renderDispersion(bw);
         }
 
         function renderFullDetail(d) {
@@ -2239,6 +2312,33 @@
               document.getElementById("centralityEigenvector").textContent = d.eigenvector.toFixed(6);
               document.getElementById("centralityEigenvectorRank").textContent =
                 `rank ${d.eigenvectorRank.toLocaleString()} of ${total}`;
+            })
+            .catch(() => {
+              block.hidden = true;
+            });
+        }
+
+        // Dispersion: DP, DPnorm, Juilland's D, range and adjusted
+        // frequency from data/dispersion/{safeKey}.json
+        // (scripts/compute-dispersion.mjs).
+        function renderDispersion(bw) {
+          const block = document.getElementById("detailDispersionBlock");
+          if (!block) return;
+          const sk = safeKey(bw);
+          fetch(`data/dispersion/${sk}.json`)
+            .then((r) => {
+              if (!r.ok) throw new Error("HTTP " + r.status);
+              return r.json();
+            })
+            .then((d) => {
+              block.hidden = false;
+              document.getElementById("dispersionRange").textContent =
+                `${d.surahsOccurringIn.toLocaleString()} of ${d.totalSurahs}`;
+              document.getElementById("dispersionDp").textContent = d.dp.toFixed(4);
+              document.getElementById("dispersionDpNorm").textContent = d.dpNorm.toFixed(4);
+              document.getElementById("dispersionJuillandD").textContent = d.juillandD.toFixed(4);
+              document.getElementById("dispersionAdjustedFrequency").textContent =
+                d.adjustedFrequency.toLocaleString();
             })
             .catch(() => {
               block.hidden = true;

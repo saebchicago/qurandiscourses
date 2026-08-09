@@ -501,6 +501,27 @@
    ],
    "def": "The share of a verse's or surah's words that belong to a recurring formula, operationalizing the central quantity in Bannister's (2014) computerized oral-formulaic study. This site tests whether a surah's density is higher than a length-matched resampling of corpus verses would predict, correcting for the fact that short surahs mechanically show noisier density than long ones.",
    "ddHtml": "              The share of a verse's or surah's words that belong to a recurring formula,\n              operationalizing the central quantity in Bannister's (2014) computerized\n              oral-formulaic study. This site tests whether a surah's density is higher\n              than a length-matched resampling of corpus verses would predict, correcting\n              for the fact that short surahs mechanically show noisier density than long\n              ones."
+  },
+  {
+   "id": "dispersion",
+   "labelHtml": "Dispersion",
+   "matchKeys": [
+    "dispersion",
+    "deviation of proportions",
+    "dpnorm"
+   ],
+   "def": "How evenly a root's occurrences are spread across the 114 surahs, as distinct from raw frequency. This site reports Gries's Deviation of Proportions (DP, DPnorm) and Juilland's D side by side, since the two can disagree and the literature has no single preferred measure.",
+   "ddHtml": "              How evenly a root's occurrences are spread across the 114 surahs, as distinct\n              from raw frequency. This site reports Gries's Deviation of Proportions (DP,\n              DPnorm) and Juilland's D side by side, since the two can disagree and the\n              literature has no single preferred measure."
+  },
+  {
+   "id": "juilland-d",
+   "labelHtml": "Juilland's D",
+   "matchKeys": [
+    "juilland's d",
+    "juillands d"
+   ],
+   "def": "An older lexical-dispersion measure (Juilland & Chang-Rodriguez 1964), on a 0-1 scale where 1 is perfectly even. It classically assumes comparably-sized corpus parts; this site's 114 surahs range from 3 to 286 verses, so it is reported for comparability with the literature, not as the preferred measure.",
+   "ddHtml": "              An older lexical-dispersion measure (Juilland &amp; Chang-Rodriguez 1964), on\n              a 0-1 scale where 1 is perfectly even. It classically assumes comparably-sized\n              corpus parts; this site's 114 surahs range from 3 to 286 verses, so it is\n              reported for comparability with the literature, not as the preferred measure."
   }
  ]
 }

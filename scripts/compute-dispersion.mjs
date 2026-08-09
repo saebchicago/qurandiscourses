@@ -239,11 +239,21 @@ const round = (x, dp = 6) => {
   return Math.round(x * f) / f;
 };
 
+// Roots need a minimum corpus-wide frequency to make "how evenly spread"
+// a meaningful question at all -- a root occurring once is trivially
+// maximally concentrated (dpNorm = 1) without that being informative
+// about anything. Same order of magnitude as this codebase's other
+// ranking-eligibility thresholds (e.g. compute-association-stats.mjs's
+// MIN_COOCCURRENCE = 3, scaled up because dispersion needs enough
+// occurrences to possibly spread across many surahs).
+const MIN_FREQUENCY_FOR_RANKING = 20;
+
 let written = 0;
 let dpMin = Infinity,
   dpMax = -Infinity,
   dpMinRoot = null,
   dpMaxRoot = null;
+const rankable = [];
 
 for (const bw of nodeList) {
   const meta = rootsSummary[bw];
@@ -276,6 +286,16 @@ for (const bw of nodeList) {
   if (dp > dpMax) {
     dpMax = dp;
     dpMaxRoot = bw;
+  }
+  if (totalCount >= MIN_FREQUENCY_FOR_RANKING) {
+    rankable.push({
+      root: bw,
+      safeKey: key,
+      rootLatin: meta.rootLatin,
+      arabic: meta.rootArabic,
+      totalCount,
+      dpNorm: round(dpNorm),
+    });
   }
 
   const output = {
@@ -356,6 +376,21 @@ const methodsDoc = {
     maxRoot: dpMaxRoot,
     maxRootLatin: rootsSummary[dpMaxRoot]?.rootLatin,
   },
+  _rankingEligibility: {
+    minFrequency: MIN_FREQUENCY_FOR_RANKING,
+    eligibleRoots: rankable.length,
+    note:
+      "topEvenlySpread/topClumped below are restricted to roots with " +
+      `corpus-wide frequency >= ${MIN_FREQUENCY_FOR_RANKING}: a root ` +
+      "occurring once is trivially maximally concentrated (dpNorm=1) " +
+      "without that being an informative dispersion result.",
+  },
+  topEvenlySpread: [...rankable]
+    .sort((a, b) => a.dpNorm - b.dpNorm || a.root.localeCompare(b.root))
+    .slice(0, 15),
+  topClumped: [...rankable]
+    .sort((a, b) => b.dpNorm - a.dpNorm || a.root.localeCompare(b.root))
+    .slice(0, 15),
   _computed: COMPUTED_DATE,
 };
 writeFileSync(

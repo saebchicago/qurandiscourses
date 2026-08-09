@@ -194,6 +194,64 @@
    }
   },
   {
+   "name": "dispersion",
+   "title": "Divine Discourses: dispersion",
+   "description": "How evenly each of the 1,642 roots is spread across the 114 surahs, weighted by surah token count.",
+   "path": "dispersion.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "root",
+      "type": "string",
+      "description": "Buckwalter-transliterated root."
+     },
+     {
+      "name": "safeKey",
+      "type": "string",
+      "description": "URL/filename-safe encoding of root."
+     },
+     {
+      "name": "rootLatin",
+      "type": "string",
+      "description": "Root in Latin transliteration with diacritics."
+     },
+     {
+      "name": "totalCount",
+      "type": "integer",
+      "description": "Corpus-wide occurrence count. Unit: occurrences."
+     },
+     {
+      "name": "surahsOccurringIn",
+      "type": "integer",
+      "description": "Count of the 114 surahs the root occurs in at least once."
+     },
+     {
+      "name": "dp",
+      "type": "number",
+      "description": "Gries's Deviation of Proportions. Range [0, 1 - min part share)."
+     },
+     {
+      "name": "dpNorm",
+      "type": "number",
+      "description": "DP rescaled to [0, 1] via the Lijffijt & Gries (2012) correction."
+     },
+     {
+      "name": "juillandD",
+      "type": "number",
+      "description": "Juilland's D; 1 = perfectly even. Not clamped, can be negative."
+     },
+     {
+      "name": "adjustedFrequency",
+      "type": "number",
+      "description": "totalCount * (1 - dp): raw frequency discounted for clumping."
+     }
+    ]
+   }
+  },
+  {
    "name": "fawatih",
    "title": "Divine Discourses: fawatih",
    "description": "The 29 surahs opening with a sequence of isolated letters (fawatih / al-muqatta'at), and which combination.",
