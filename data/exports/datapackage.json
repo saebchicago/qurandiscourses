@@ -657,7 +657,17 @@
      {
       "name": "formDiversityRatio",
       "type": "number",
-      "description": "distinctFormCount / tokenCount."
+      "description": "distinctFormCount / tokenCount. Mechanically declines as tokenCount grows (a sample-size artifact); see formMATTR/formMTLD for length-robust alternatives."
+     },
+     {
+      "name": "formMATTR",
+      "type": "number",
+      "description": "Moving-average type-token ratio (Covington & McFall 2010) over the surah's ordered surface-form tokens, 25-token window. Null for the 9 surahs shorter than the window."
+     },
+     {
+      "name": "formMTLD",
+      "type": "number",
+      "description": "Measure of Textual Lexical Diversity (McCarthy & Jarvis 2010): mean tokens-per-factor at a 0.72 TTR threshold, bidirectionally averaged. Null only if the surah's running TTR never reaches the threshold. Unit: tokens."
      },
      {
       "name": "distinctLemmaCount",

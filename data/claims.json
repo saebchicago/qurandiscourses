@@ -383,7 +383,9 @@
    "claimType": "method-comparison",
    "sourceIds": [
     "leeds-corpus-v0.4",
-    "cairo-1924"
+    "cairo-1924",
+    "covington-mcfall-2010",
+    "mccarthy-jarvis-2010"
    ],
    "sourceCheck": "source-checked",
    "reproduction": "reproduced",
@@ -393,11 +395,13 @@
    "derivation": {
     "script": "scripts/build-numbers.mjs",
     "output": "data/numbers.json",
-    "method": "For each of the four Cairo 1924 revelation periods, compute form type-token ratio (distinct surface forms over tokens) and lemma type-token ratio (distinct lemmas over tokens)."
+    "method": "For each of the four Cairo 1924 revelation periods, compute form type-token ratio and lemma type-token ratio (distinct types over tokens), plus two length-robust alternatives over the form stream: MATTR (Covington & McFall 2010, 100-token window) and MTLD (McCarthy & Jarvis 2010, bidirectionally averaged, 0.72 factor threshold), both from scripts/lib/lexical-diversity.mjs."
    },
    "limitations": [
-    "Type-token ratio is sensitive to sample size, and the four periods range from 2,704 tokens (Early Meccan) to 30,572 (Late Meccan), so the ratios are not directly comparable without accounting for this.",
-    "Form TTR and lemma TTR are different units measuring different levels of vocabulary variety."
+    "Raw form TTR falls from 0.6202 (Early Meccan, 2,704 tokens) to 0.3005 (Medinan, 29,990 tokens) -- a pattern that tracks token count almost exactly, not vocabulary variety: this site's own generator confirms it is dominated by sample size.",
+    "Once length is controlled for, the picture changes substantially: formMATTR is nearly flat across all four periods (0.8707, 0.8913, 0.8868, 0.86), showing far less variation than raw TTR implies. formMTLD shows a real but much smaller decline (673.77, 647.64, 609.05, 395.98), with Medinan the clearest outlier rather than a smooth four-period slope.",
+    "MATTR and MTLD do not fully agree with each other (MATTR: near-flat; MTLD: a real Medinan drop) -- this claim stays labeled method-dependent deliberately, because it genuinely is: three measures over the same tokens give three different quantitative pictures of the same question, and none is presented as the single correct answer.",
+    "Form TTR and lemma TTR are different units measuring different levels of vocabulary variety; MATTR/MTLD are reported for the form stream only, matching the level the original flagged claim was about."
    ]
   },
   {

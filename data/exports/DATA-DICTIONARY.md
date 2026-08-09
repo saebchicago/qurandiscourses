@@ -56,9 +56,9 @@ Root-pair association statistics: the union of every pair appearing in any root'
 
 Per-surah corpus fingerprint: all 114 surahs. (114 rows.)
 
-**Counting rule:** verseCount/tokenCount/distinctRootCount and diversity ratios are read from data/surah-profiles.json (Leeds morphology tally per surah). revelationOrder and period are read from data/chronology.json.
+**Counting rule:** verseCount/tokenCount/distinctRootCount and diversity ratios are read from data/surah-profiles.json (Leeds morphology tally per surah). revelationOrder and period are read from data/chronology.json. formMATTR/formMTLD are length-robust alternatives to the raw formDiversityRatio type-token ratio (scripts/lib/lexical-diversity.mjs), included because raw TTR is mechanically confounded by surah length.
 
-**Verification:** verseCount/tokenCount/distinctRootCount/diversity ratios/nounPct/verbPct: Verified (direct computation). revelationOrder/period: Nuanced (Cairo 1924 / Nöldeke-Bell chronology, one scheme among several).
+**Verification:** verseCount/tokenCount/distinctRootCount/diversity ratios/nounPct/verbPct: Verified (direct computation). formMATTR/formMTLD: Verified (direct computation; formulas hand-verified against fixed-point fixtures). revelationOrder/period: Nuanced (Cairo 1924 / Nöldeke-Bell chronology, one scheme among several).
 
 | Field | Type | Unit | Description |
 | --- | --- | --- | --- |
@@ -73,7 +73,9 @@ Per-surah corpus fingerprint: all 114 surahs. (114 rows.)
 | `distinctRootCount` | integer | roots | Count of distinct roots attested in the surah. |
 | `rootDiversityRatio` | number | n/a | distinctRootCount / tokenCount. |
 | `distinctFormCount` | integer | forms | Count of distinct surface (written) forms in the surah. |
-| `formDiversityRatio` | number | n/a | distinctFormCount / tokenCount. |
+| `formDiversityRatio` | number | n/a | distinctFormCount / tokenCount. Mechanically declines as tokenCount grows (a sample-size artifact); see formMATTR/formMTLD for length-robust alternatives. |
+| `formMATTR` | number | n/a | Moving-average type-token ratio (Covington & McFall 2010) over the surah's ordered surface-form tokens, 25-token window. Null for the 9 surahs shorter than the window. |
+| `formMTLD` | number | tokens | Measure of Textual Lexical Diversity (McCarthy & Jarvis 2010): mean tokens-per-factor at a 0.72 TTR threshold, bidirectionally averaged. Null only if the surah's running TTR never reaches the threshold. |
 | `distinctLemmaCount` | integer | lemmas | Count of distinct lemmas in the surah. |
 | `lemmaDiversityRatio` | number | n/a | distinctLemmaCount / tokenCount. |
 | `nounPct` | number | percent | Percentage of the surah's tokens tagged noun (N) by Leeds POS tagging. |

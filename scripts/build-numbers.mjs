@@ -17,8 +17,64 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { mattr, mtld, partialFactor } from "./lib/lexical-diversity.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+
+// MATTR window: 100 tokens. Covington & McFall (2010) leave window size
+// a free parameter; corpus-linguistics practice commonly uses a larger
+// window (around 100) for corpus-scale text than for short clinical
+// samples (commonly 50), favoring a stabler estimate over sensitivity
+// to local variation. All four chronological periods (2,704-30,572
+// tokens) are comfortably larger than this window either way.
+const MATTR_WINDOW_PERIOD = 100;
+
+// ── Step 0: embedded unit tests for mattr/mtld, hand-computed ──────────
+// The only place these two functions are unit-tested; build-surah-
+// profiles.mjs imports the same lib module without repeating this block.
+{
+  const failures = [];
+  const eq = (got, want, label, eps = 1e-9) => {
+    if (got === null || want === null) {
+      if (got !== want) failures.push(`${label}: got ${got}, want ${want}`);
+      return;
+    }
+    if (Math.abs(got - want) > eps) failures.push(`${label}: got ${got}, want ${want}`);
+  };
+  // MTLD: two independent 6-token "factor blocks" (disjoint vocabularies),
+  // each dropping running TTR to exactly 4/6=0.6667 (<=0.72) at its 6th
+  // token -- by hand: block "a b c d a b" hits TTR=4/6 at token 6, one
+  // whole factor, no remainder. Two such blocks back to back -> exactly
+  // 2 factors over 12 tokens -> MTLD (one direction) = 12/2 = 6. The
+  // reverse-order pass on this same 12-token sequence was independently
+  // hand-traced and also gives exactly 2 factors, 0 remainder -> 6, so
+  // the bidirectional average is 6 too.
+  const block1 = ["a", "b", "c", "d", "a", "b"];
+  const block2 = ["e", "f", "g", "h", "e", "f"];
+  eq(mtld([...block1, ...block2]), 6, "mtld: two 6-token factor blocks");
+  eq(mtld(block1), 6, "mtld: single 6-token factor block (forward=backward=6)");
+  // Partial-factor arithmetic in isolation: a remainder segment whose
+  // running TTR reached 0.86 against the 0.72 threshold contributes
+  // (1-0.86)/(1-0.72) = 0.14/0.28 = 0.5 of a factor, by hand.
+  eq(partialFactor(0.86, 0.72), 0.5, "mtld: partial-factor arithmetic");
+  // MATTR: 8 alternating tokens, window 4 -> every window has exactly 2
+  // distinct types -> TTR=0.5 in every window -> MATTR=0.5 exactly.
+  eq(mattr(["a", "b", "a", "b", "a", "b", "a", "b"], 4), 0.5, "mattr: alternating pair, constant TTR");
+  // MATTR: 10 fully-unique tokens, window 5 -> every window TTR=1.0.
+  eq(
+    mattr(["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"], 5),
+    1,
+    "mattr: all-unique tokens, constant TTR=1",
+  );
+  // MATTR: undefined (null) when the text is shorter than the window.
+  eq(mattr(["a", "b", "c"], 10), null, "mattr: null when shorter than window");
+  if (failures.length) {
+    console.error("build-numbers: mattr/mtld unit tests FAILED");
+    for (const f of failures) console.error("  - " + f);
+    process.exit(1);
+  }
+  console.log("Unit tests passed: mattr (alternating/unique/too-short), mtld (factor blocks, partial factor).");
+}
 
 const rootsSummary = JSON.parse(
   readFileSync(join(ROOT, "data", "roots-summary.json"), "utf8"),
@@ -104,6 +160,7 @@ const verseLengths = []; // { tokens, period } per verse, all 6236 verses
 const rootMinOrder = new Map(); // root (Buckwalter) -> earliest revelation order it appears in
 const periodFormSets = {}; // period -> Set<word.ar>, for type-token ratio by period
 const periodLemmaSets = {}; // period -> Set<word.lemma>, same
+const periodFormTokens = {}; // period -> [word.ar, ...] in canonical surah order, for MATTR/MTLD
 
 for (let s = 1; s <= 114; s++) {
   const morph = JSON.parse(
@@ -123,6 +180,10 @@ for (let s = 1; s <= 114; s++) {
       totalTokens++;
       if (!periodFormSets[period]) periodFormSets[period] = new Set();
       if (w.ar) periodFormSets[period].add(w.ar);
+      if (w.ar) {
+        if (!periodFormTokens[period]) periodFormTokens[period] = [];
+        periodFormTokens[period].push(w.ar);
+      }
       if (w.root) {
         rootedTokens++;
         if (revOrder != null) {
@@ -189,6 +250,9 @@ const ttrByPeriod = PERIOD_ORDER.map((p) => {
   const total = periodTokens[p] || 0;
   const forms = periodFormSets[p] ? periodFormSets[p].size : 0;
   const lemmas = periodLemmaSets[p] ? periodLemmaSets[p].size : 0;
+  const formTokens = periodFormTokens[p] || [];
+  const formMattr = mattr(formTokens, MATTR_WINDOW_PERIOD);
+  const formMtld = mtld(formTokens);
   return {
     period: p,
     label: PERIOD_LABELS[p],
@@ -197,6 +261,8 @@ const ttrByPeriod = PERIOD_ORDER.map((p) => {
     distinctLemmas: lemmas,
     formTTR: total ? Math.round((forms / total) * 10000) / 10000 : 0,
     lemmaTTR: total ? Math.round((lemmas / total) * 10000) / 10000 : 0,
+    formMATTR: formMattr === null ? null : Math.round(formMattr * 10000) / 10000,
+    formMTLD: formMtld === null ? null : Math.round(formMtld * 100) / 100,
   };
 });
 

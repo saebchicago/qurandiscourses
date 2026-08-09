@@ -280,6 +280,24 @@
    "name": "Ṣanʿāʾ 1 and the Origins of the Qurʾān",
    "publisher": "Der Islam 87, no. 1–2, pp. 1–129",
    "year": "2012"
+  },
+  {
+   "id": "covington-mcfall-2010",
+   "type": "paper",
+   "author": "Covington, Michael A., and Joe D. McFall",
+   "name": "Cutting the Gordian Knot: The Moving-Average Type–Token Ratio (MATTR)",
+   "publisher": "Journal of Quantitative Linguistics 17, no. 2, pp. 94–100",
+   "year": "2010",
+   "note": "Source of MATTR, a length-robust alternative to raw type-token ratio used in data/numbers.json and data/surah-profiles.json alongside plain TTR, which this site's own data shows is confounded by sample size."
+  },
+  {
+   "id": "mccarthy-jarvis-2010",
+   "type": "paper",
+   "author": "McCarthy, Philip M., and Scott Jarvis",
+   "name": "MTLD, vocd-D, and HD-D: A validation study of sophisticated approaches to lexical diversity assessment",
+   "publisher": "Behavior Research Methods 42, no. 2, pp. 381–392",
+   "year": "2010",
+   "note": "Source of MTLD (factor threshold 0.72, bidirectional averaging), the second length-robust lexical-diversity measure this site reports alongside MATTR and plain TTR."
   }
  ]
 }
