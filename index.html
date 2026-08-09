@@ -652,21 +652,25 @@
           var lensLink = document.getElementById("dailyLensLink");
           var provEl = document.getElementById("dailyProv");
 
+          // Only the dataset this lens needs. Both were fetched
+          // unconditionally, but lens 0 and 1 read profiles and lens 2
+          // reads rhyme -- so one of the two was always downloaded and
+          // parsed for nothing, and on lens-2 days that was
+          // surah-profiles.json at 226KB, larger than the entire gzipped
+          // JS payload of the page, to render one sentence.
+          function grab(url) {
+            return fetch(url)
+              .then(function (r) {
+                return r.ok ? r.json() : null;
+              })
+              .catch(function () {
+                return null;
+              });
+          }
+          var needsRhyme = lensIndex === 2;
           Promise.all([
-            fetch("data/surah-profiles.json")
-              .then(function (r) {
-                return r.ok ? r.json() : null;
-              })
-              .catch(function () {
-                return null;
-              }),
-            fetch("data/rhyme-summary.json")
-              .then(function (r) {
-                return r.ok ? r.json() : null;
-              })
-              .catch(function () {
-                return null;
-              }),
+            needsRhyme ? Promise.resolve(null) : grab("data/surah-profiles.json"),
+            needsRhyme ? grab("data/rhyme-summary.json") : Promise.resolve(null),
           ]).then(function (results) {
             var profiles = results[0] && results[0].surahs;
             var rhyme = results[1] && results[1].surahs;

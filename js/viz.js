@@ -290,14 +290,22 @@
   // fetch/parse failure, or if buildSvg returns nothing (e.g. no data
   // for this entity), renders ONLY the table fallback plus disclaimer -
   // the chart degrades, the underlying numbers stay visible.
+  // Either `url` (fetch it) or `data` (a value or promise the caller
+  // already has). The second form exists so a chart whose numbers are
+  // derivable from data the page has ALREADY loaded does not have to
+  // download a second copy of them: roots.html was pulling the 581KB
+  // root-frequencies export to read four numbers for one root.
   function renderChart(opts) {
     var container = opts.container;
     container.innerHTML = "";
-    return fetch(opts.url)
-      .then(function (r) {
-        if (!r.ok) throw new Error("HTTP " + r.status);
-        return r.json();
-      })
+    var source =
+      opts.url != null
+        ? fetch(opts.url).then(function (r) {
+            if (!r.ok) throw new Error("HTTP " + r.status);
+            return r.json();
+          })
+        : Promise.resolve(opts.data);
+    return source
       .then(function (data) {
         var svg = opts.buildSvg(data);
         if (svg) container.appendChild(svg);

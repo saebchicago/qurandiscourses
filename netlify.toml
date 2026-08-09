@@ -91,6 +91,29 @@
   [headers.values]
     Content-Type = "application/manifest+json"
 
+# Static assets and bundled data. Netlify's default is
+# "public, max-age=0, must-revalidate", and no asset URL here is
+# fingerprinted, so every navigation issued a conditional request per
+# file - up to 26 of them on /read, including the 129KB root-refs.js.
+# sw.js's stale-while-revalidate hides that from repeat visitors, but not
+# from the first few navigations of a session and not at all from a
+# browser where the service worker fails to register.
+#
+# Deliberately a short TTL, not "immutable": without content hashes in
+# the filenames, a long max-age would serve stale JS against fresh HTML
+# after a deploy. Five minutes covers a reading session while keeping
+# deploy propagation effectively immediate. must-revalidate on top so a
+# stale entry is never served once it expires.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=300, must-revalidate"
+
+[[headers]]
+  for = "/data/*"
+  [headers.values]
+    Cache-Control = "public, max-age=300, must-revalidate"
+
 # Always-safe security headers for every response.
 [[headers]]
   for = "/*"
@@ -130,7 +153,7 @@
 [[headers]]
   for = "/"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-+UFhXny3gk/ReouifZ/sNyUKXZmIiGYjAiBqNpQpBDg=' 'sha256-dLtHTFinYQtg7aZv1UeO5cKH6gdpG0qOOTceMH1iXSs=' 'sha256-mMIJN3ArEOKc/EZjG2ceRmV8prSAeMWeJuzlKfnWGb8='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-+UFhXny3gk/ReouifZ/sNyUKXZmIiGYjAiBqNpQpBDg=' 'sha256-dLtHTFinYQtg7aZv1UeO5cKH6gdpG0qOOTceMH1iXSs=' 'sha256-9CmLv5sw4AjN+FQ4+wiGH9J/U2WpRiPgI3CqFzmGNyM='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/about.html"
@@ -330,7 +353,7 @@
 [[headers]]
   for = "/index.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-+UFhXny3gk/ReouifZ/sNyUKXZmIiGYjAiBqNpQpBDg=' 'sha256-dLtHTFinYQtg7aZv1UeO5cKH6gdpG0qOOTceMH1iXSs=' 'sha256-mMIJN3ArEOKc/EZjG2ceRmV8prSAeMWeJuzlKfnWGb8='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-+UFhXny3gk/ReouifZ/sNyUKXZmIiGYjAiBqNpQpBDg=' 'sha256-dLtHTFinYQtg7aZv1UeO5cKH6gdpG0qOOTceMH1iXSs=' 'sha256-9CmLv5sw4AjN+FQ4+wiGH9J/U2WpRiPgI3CqFzmGNyM='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/navigate.html"
@@ -385,12 +408,12 @@
 [[headers]]
   for = "/roots.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-KAE6Aqy5175fbIJGSSMtZrpV9VKA4RibGDVodLmj33c='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-5wbfP53GFWSxZWwL3asnhg62OKhI0Edq2aFP2AmukLs='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-pMzoTn7Wr1H63pVTuw+1JGJscI/uqPDGf2hs8DbALfQ='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-5wbfP53GFWSxZWwL3asnhg62OKhI0Edq2aFP2AmukLs='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/roots"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-KAE6Aqy5175fbIJGSSMtZrpV9VKA4RibGDVodLmj33c='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-5wbfP53GFWSxZWwL3asnhg62OKhI0Edq2aFP2AmukLs='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-pMzoTn7Wr1H63pVTuw+1JGJscI/uqPDGf2hs8DbALfQ='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-5wbfP53GFWSxZWwL3asnhg62OKhI0Edq2aFP2AmukLs='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/sources.html"

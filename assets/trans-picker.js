@@ -58,8 +58,53 @@
     });
   }
 
+  // assets/picker.js is 28KB and holds two dialogs: the surah picker and
+  // the generic list picker this file uses. Six pages host the surah
+  // picker and load it eagerly; on the other 25 the ONLY way into
+  // picker.js is the gear panel's Translations row, so it is loaded on
+  // that first click instead of on every page load. Same lazy pattern as
+  // compare.html's ensureRootsList().
+  var pickerP = null;
+  function ensurePicker() {
+    if (window.qdPicker) return Promise.resolve(window.qdPicker);
+    if (!pickerP) {
+      pickerP = new Promise(function (resolve, reject) {
+        var existing = document.querySelector('script[data-qd-picker]');
+        if (existing) {
+          existing.addEventListener("load", function () {
+            resolve(window.qdPicker);
+          });
+          existing.addEventListener("error", reject);
+          return;
+        }
+        var el = document.createElement("script");
+        el.src = "assets/picker.js";
+        el.setAttribute("data-qd-picker", "");
+        el.onload = function () {
+          resolve(window.qdPicker);
+        };
+        el.onerror = function () {
+          pickerP = null;
+          reject(new Error("picker.js failed to load"));
+        };
+        document.head.appendChild(el);
+      });
+    }
+    return pickerP;
+  }
+
   function open(trigger) {
-    if (!window.qdPicker || !window.qdState) return;
+    if (!window.qdState) return;
+    if (!window.qdPicker) {
+      ensurePicker()
+        .then(function () {
+          open(trigger);
+        })
+        .catch(function () {
+          if (window.qdToast) window.qdToast("Could not open the translation picker.");
+        });
+      return;
+    }
     window.qdPicker.openList({
       title: "Choose translations",
       searchPlaceholder: "Search by translator, language, or edition",
