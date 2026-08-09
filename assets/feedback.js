@@ -54,8 +54,10 @@
         })
         .catch(function () {
           // Fall back to the native submission, which reaches the same
-          // endpoint through a full navigation.
-          form.removeEventListener("submit", arguments.callee);
+          // endpoint through a full navigation. arguments.callee is
+          // illegal in strict mode (this whole file is "use strict"),
+          // so the handler is named and referenced directly instead.
+          form.removeEventListener("submit", onSubmit);
           form.submit();
         })
         .then(function () {
