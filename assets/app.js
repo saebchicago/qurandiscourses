@@ -479,9 +479,22 @@
       } catch (e2) {}
     }
   }
+  // In-flight requests, keyed by URL. The persistent cache below only
+  // records a RESULT, so two callers for the same URL that overlap in
+  // time both missed and both hit the network -- which is exactly what
+  // read.html's two independent initial-load paths did to each other.
+  const apiInFlight = new Map();
+
   async function apiCachedFetch(url) {
     const c = apiCacheLoad();
     if (c.entries[url]) return c.entries[url];
+    if (apiInFlight.has(url)) return apiInFlight.get(url);
+    const p = apiFetchUncached(url).finally(() => apiInFlight.delete(url));
+    apiInFlight.set(url, p);
+    return p;
+  }
+
+  async function apiFetchUncached(url) {
     const res = await fetch(url);
     if (!res.ok) {
       // Carry the status so callers can tell a 404 (bad reference) from
@@ -791,11 +804,33 @@
   // data-num="dot.path" so they can never drift from the generated
   // data. The static text is the fallback; this overwrites it with the
   // authoritative value. Fetches only on pages that use it.
+  // data/numbers.json is 60KB and more than one thing on a page wants
+  // it: this [data-num] filler, and numbers.html's own charts and hapax
+  // list. Exposed as one memoized promise so the page fetches and parses
+  // it once rather than each consumer doing its own. Clearing the memo on
+  // failure keeps a later caller able to retry, matching cite-badge.js
+  // and refs.js.
+  let numbersPromise = null;
+  window.qdNumbers = function () {
+    if (!numbersPromise) {
+      numbersPromise = fetch("data/numbers.json")
+        .then((r) => {
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return r.json();
+        })
+        .catch((err) => {
+          numbersPromise = null;
+          throw err;
+        });
+    }
+    return numbersPromise;
+  };
+
   function initDataNums() {
     const els = document.querySelectorAll("[data-num]");
     if (!els.length) return;
-    fetch("data/numbers.json")
-      .then((r) => (r.ok ? r.json() : null))
+    window
+      .qdNumbers()
       .then((data) => {
         if (!data) return;
         els.forEach(function (el) {

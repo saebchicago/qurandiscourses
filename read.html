@@ -24,12 +24,22 @@
     />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
+    <!-- Only depth-boot.js blocks by necessity: it sets the depth/theme
+         attribute on <html> before first paint, so deferring it would
+         flash the wrong palette. read.html was blocking the parser on
+         50,895 B of head JS, twelve times every other page in the site,
+         for four files with no first-paint dependency at all - nav.js and
+         ask.js both wait for DOMContentLoaded themselves, and the other
+         two are data read at render time. index.html and roots.html
+         already load their equivalents this way.
+         surahs.js stays blocking: the inline script below reads
+         window.SURAHS during parse to build SURAH_DISPLAY_NAMES. -->
     <script src="assets/depth-boot.js"></script>
-    <script src="assets/nav.js"></script>
     <script src="assets/surahs.js"></script>
-    <script src="assets/root-meanings.js"></script>
-    <script src="assets/ask-routes.js"></script>
-    <script src="assets/ask.js"></script>
+    <script src="assets/nav.js" defer></script>
+    <script src="assets/root-meanings.js" defer></script>
+    <script src="assets/ask-routes.js" defer></script>
+    <script src="assets/ask.js" defer></script>
     <link
       rel="icon"
       type="image/svg+xml"
@@ -666,23 +676,54 @@
         rootTip.style.top = top + "px";
       }
 
+      // Five listeners per recurring word was the single heaviest thing
+      // this page did. On al-Baqarah (/read?s=2&a=1-286, and nothing caps
+      // the range) surah 2 has 3,697 .recurring-word spans, so this
+      // function alone attached 18,485 listeners, rebuilt on every
+      // re-render. Delegation makes it four, for any passage length.
+      //
+      // mouseover/mouseout rather than mouseenter/mouseleave, and focusin/
+      // focusout rather than focus/blur: only the bubbling pairs reach a
+      // delegated listener. The relatedTarget guard reproduces
+      // mouseenter/mouseleave semantics, so moving between two spans still
+      // swaps the tooltip rather than flickering it closed and open.
+      let tipCtx = { surahNum: null, roots: {} };
       function attachRootTooltips(surahNum, recurringRoots) {
-        document.querySelectorAll(".recurring-word").forEach((el) => {
-          const root = el.dataset.root;
-          const data = recurringRoots[root];
-          if (!data) return;
-          el.addEventListener("mouseenter", () =>
-            showTip(el, surahNum, root, data),
-          );
-          el.addEventListener("mouseleave", hideTip);
-          el.addEventListener("focus", () => showTip(el, surahNum, root, data));
-          el.addEventListener("blur", hideTip);
-          el.addEventListener("click", (e) => {
-            if (rootTip.hasAttribute("hidden")) {
-              showTip(el, surahNum, root, data);
-              e.stopPropagation();
-            }
-          });
+        tipCtx = { surahNum: surahNum, roots: recurringRoots };
+        const host = document.getElementById("verseContainer");
+        if (!host || host.__rootTipsDelegated) return;
+        host.__rootTipsDelegated = true;
+
+        const wordAt = (target) =>
+          target && target.closest ? target.closest(".recurring-word") : null;
+        const dataFor = (el) => (el ? tipCtx.roots[el.dataset.root] : null);
+
+        host.addEventListener("mouseover", (e) => {
+          const el = wordAt(e.target);
+          if (!el || (e.relatedTarget && el.contains(e.relatedTarget))) return;
+          const data = dataFor(el);
+          if (data) showTip(el, tipCtx.surahNum, el.dataset.root, data);
+        });
+        host.addEventListener("mouseout", (e) => {
+          const el = wordAt(e.target);
+          if (!el || (e.relatedTarget && el.contains(e.relatedTarget))) return;
+          hideTip();
+        });
+        host.addEventListener("focusin", (e) => {
+          const el = wordAt(e.target);
+          const data = dataFor(el);
+          if (data) showTip(el, tipCtx.surahNum, el.dataset.root, data);
+        });
+        host.addEventListener("focusout", (e) => {
+          if (wordAt(e.target)) hideTip();
+        });
+        host.addEventListener("click", (e) => {
+          const el = wordAt(e.target);
+          const data = dataFor(el);
+          if (data && rootTip.hasAttribute("hidden")) {
+            showTip(el, tipCtx.surahNum, el.dataset.root, data);
+            e.stopPropagation();
+          }
         });
       }
 
@@ -1176,7 +1217,7 @@
                 const reciterName =
                   qdReciters.find((r) => r.id === qdState.reciter)?.name ||
                   "Reciter";
-                html += `<div style="display:flex;gap:0.5rem;align-items:center;margin:.5rem 0"><audio controls style="flex:1"><source src="https://cdn.islamic.network/quran/audio/128/${qdState.reciter}/${arNumber}.mp3" type="audio/mpeg"></audio><button id="reciterBtn-${ayahNum}" style="min-width:44px;min-height:44px;padding:0.5rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem" title="Change reciter">\uD83C\uDFA4</button></div><div id="reciterName-${ayahNum}" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.5rem">${reciterName}</div>`;
+                html += `<div style="display:flex;gap:0.5rem;align-items:center;margin:.5rem 0"><audio controls style="flex:1"><source src="https://cdn.islamic.network/quran/audio/128/${qdState.reciter}/${arNumber}.mp3" type="audio/mpeg"></audio><button type="button" class="reciter-open-btn" style="min-width:44px;min-height:44px;padding:0.5rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem" title="Change reciter">\uD83C\uDFA4</button></div><div id="reciterName-${ayahNum}" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.5rem">${reciterName}</div>`;
               }
               translations.forEach((t) => {
                 if (t._mismatchOf) {
@@ -1291,35 +1332,47 @@
             });
           }
 
-          verses.forEach(({ ayahNum }) => {
-            const reciterBtn = document.getElementById(`reciterBtn-${ayahNum}`);
-            if (reciterBtn) {
-              reciterBtn.addEventListener("click", () => {
-                const reciterList = qdReciters
-                  .map(
-                    (r) =>
-                      `<button type="button" class="reciter-option" data-reciter="${r.id}" style="display:block;width:100%;text-align:left;font-family:inherit;font-size:inherit;color:inherit;background:none;border:none;border-bottom:1px solid var(--line);padding:0.75rem;cursor:pointer">${r.name}</button>`,
-                  )
-                  .join("");
-                const { modal, close } = qdOpenModal(
-                  "Choose Reciter",
-                  reciterList,
-                );
-                modal.querySelectorAll(".reciter-option").forEach((opt) => {
-                  opt.addEventListener("click", () => {
-                    qdState.reciter = opt.getAttribute("data-reciter");
-                    qdSaveState();
-                    close();
-                    load();
-                  });
-                });
+          // Also delegated, and for the same reason as the translations
+          // button immediately above: every verse's reciter button opens
+          // the identical dialog, so there is nothing verse-specific to
+          // close over. One listener instead of one per verse, and the
+          // reciter list is built once per open rather than being
+          // rebuilt inside each of 286 separate closures.
+          if (!container.__reciterDelegated) {
+            container.__reciterDelegated = true;
+            container.addEventListener("click", (e) => {
+              const btn =
+                e.target.closest && e.target.closest(".reciter-open-btn");
+              if (!btn) return;
+              const reciterList = qdReciters
+                .map(
+                  (r) =>
+                    `<button type="button" class="reciter-option" data-reciter="${r.id}" style="display:block;width:100%;text-align:left;font-family:inherit;font-size:inherit;color:inherit;background:none;border:none;border-bottom:1px solid var(--line);padding:0.75rem;cursor:pointer">${r.name}</button>`,
+                )
+                .join("");
+              const { modal, close } = qdOpenModal("Choose Reciter", reciterList);
+              modal.addEventListener("click", (ev) => {
+                const opt =
+                  ev.target.closest && ev.target.closest(".reciter-option");
+                if (!opt) return;
+                qdState.reciter = opt.getAttribute("data-reciter");
+                qdSaveState();
+                close();
+                load();
               });
-            }
-          });
+            });
+          }
 
-          // Root detail handlers
-          document.querySelectorAll(".root-detail-btn").forEach((btn) => {
-            btn.addEventListener("click", async () => {
+          // Root detail handlers — delegated. This was one async closure
+          // per Arabic word carrying a root: 3,884 of them on al-Baqarah,
+          // rebuilt on every re-render, each captured by an UNSCOPED
+          // document.querySelectorAll that re-scanned the whole page.
+          if (!container.__rootDetailDelegated) {
+            container.__rootDetailDelegated = true;
+            container.addEventListener("click", async (ev) => {
+              const btn =
+                ev.target.closest && ev.target.closest(".root-detail-btn");
+              if (!btn) return;
               const rootBuck = btn.getAttribute("data-root");
               try {
                 const rootsIndex = await loadRootsIndex();
@@ -1372,7 +1425,7 @@
                 alert("Failed to load root details");
               }
             });
-          });
+          }
 
           if (!juzMode) {
             attachXrefs(
@@ -1433,9 +1486,17 @@
           // (Leeds corpus); render them so the reader is not left empty.
           let fallback = "";
           try {
-            const resp = await fetch(`data/morphology/${s}.json`);
-            if (resp.ok) {
-              const morph = await resp.json();
+            // Reuse morphCache when the successful path already loaded
+            // this surah. Re-fetching here meant asking for up to 864KB
+            // (al-Baqarah) a second time on the one code path that only
+            // runs when the network is already failing.
+            const morph =
+              morphCache[s] ||
+              (await fetch(`data/morphology/${s}.json`).then((r) =>
+                r.ok ? r.json() : null,
+              ));
+            if (morph) {
+              morphCache[s] = morph;
               const cards = [];
               for (let a = ayahStart; a <= ayahEnd; a++) {
                 const words = morph[String(a)];
@@ -1690,7 +1751,26 @@
         // argument and keep whatever is being read.
         const rerender = () => load();
         document.addEventListener("qd:translations-changed", rerender);
-        document.addEventListener("qd:depth-changed", rerender);
+        // qd:depth-changed is dispatched for two different reasons, and
+        // only one of them is a re-render request. assets/app.js calls
+        // applyDepth() unconditionally from its DOMContentLoaded handler
+        // to sync the depth selector's UI, and applyDepth() always
+        // dispatches -- so this listener fired once during bootstrap on
+        // every deep-linked load, ran a full load(), and then the
+        // window-load fallback below ran a second one. Two renders, two
+        // data/morphology fetches (864KB for al-Baqarah), one wasted, on
+        // every visit. The first dispatch is synchronous with page
+        // bootstrap and always precedes any real user gesture, so
+        // ignoring exactly one firing is safe and keeps a genuine depth
+        // change working.
+        let depthBootstrapSeen = false;
+        document.addEventListener("qd:depth-changed", () => {
+          if (!depthBootstrapSeen) {
+            depthBootstrapSeen = true;
+            return;
+          }
+          rerender();
+        });
         document.addEventListener("qd:features-changed", rerender);
         window.addEventListener("load", () =>
           setTimeout(() => {
