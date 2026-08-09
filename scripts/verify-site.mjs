@@ -31,6 +31,11 @@
 //             carry the step's real query params, checked against
 //             data/paths.json independently of path-ribbon.js's own
 //             concatenation logic
+//   feedback  the footer correction form's fetch-failure fallback
+//             surfaces zero page errors (index.html)
+//   refretry  a data/roots-list.json fetch failing on the first root
+//             popover open recovers a real count on the next open,
+//             rather than staying blank forever (numbers.html)
 //   keyboard  §6.5 nav groups at 375px (no hamburger: the details
 //             groups stay visible), dropdown menus at 1280px,
 //             settings gear, Escape behavior (nav is identical on all
@@ -1116,6 +1121,95 @@ if (runCheck("pathribbon") && !PAGE_FILTER) {
     }
   }
   await rctx2.close();
+}
+
+// ── assets/feedback.js: a fetch failure must not crash the handler ──
+// Regression test for a strict-mode arguments.callee crash inside the
+// .catch() fallback: the throw made the WHOLE fallback (native form
+// submission, re-enabling the button) unreachable, and — since nothing
+// downstream catches it — surfaces as an unhandled promise rejection,
+// which Playwright reports as a pageerror. Forcing the first POST to
+// fail and asserting zero pageerrors is a direct test of the fix,
+// independent of whatever the native-submission navigation does next.
+if (runCheck("feedback") && (!PAGE_FILTER || PAGE_FILTER === "index.html")) {
+  const fctx = await newContext();
+  const page = await fctx.newPage();
+  // pageerror only, not the generic console collector: forcing a 500
+  // deliberately logs a browser-level "resource failed to load" console
+  // message that is expected noise here, not a bug. An uncaught
+  // exception or unhandled promise rejection (what the real defect
+  // produced) surfaces as pageerror regardless.
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  let postCount = 0;
+  await page.route("**/", (route) => {
+    if (route.request().method() === "POST") {
+      postCount++;
+      if (postCount === 1) return route.fulfill({ status: 500, body: "error" });
+    }
+    return route.continue();
+  });
+  await page.goto(`${BASE}/index.html`, { waitUntil: "load" });
+  await page.locator("details.footer-feedback summary").click();
+  await page.locator('form.feedback-form textarea[name="message"]').fill("test correction");
+  await page
+    .locator('form.feedback-form button[type="submit"]')
+    .click()
+    .catch(() => {}); // the native-submission fallback navigates away; a resulting navigation error is not what this check tests
+  await page.waitForTimeout(500);
+  report(
+    "feedback", "index.html", errors.length === 0,
+    errors.length === 0 ? "fetch failure handled without a page error" : `page error(s): ${errors.join(" | ")}`,
+  );
+  await fctx.close();
+}
+
+// ── assets/refs.js: a failed roots-list fetch must not stay broken ──
+// Regression test for the permanent-null-cache bug: the first
+// data/roots-list.json request fails, so the popover's occurrence
+// count should show nothing rather than crash; the SECOND popover
+// open, with the network now fine, must show a real count — proving
+// the failure wasn't cached forever.
+if (runCheck("refretry") && (!PAGE_FILTER || PAGE_FILTER === "numbers.html")) {
+  const rrctx = await newContext();
+  const page = await rrctx.newPage();
+  let failedOnce = false;
+  await page.route("**/data/roots-list.json", (route) => {
+    if (!failedOnce) {
+      failedOnce = true;
+      return route.fulfill({ status: 500, body: "error" });
+    }
+    return route.continue();
+  });
+  await page.goto(`${BASE}/numbers.html`, { waitUntil: "load" });
+  const ref = page.locator(".qd-ref[data-kind='root']").first();
+  if ((await ref.count()) > 0) {
+    await ref.click();
+    await page.waitForTimeout(400);
+    const countAfterFailure = await page
+      .locator(".qd-ref-count")
+      .first()
+      .textContent()
+      .catch(() => "");
+    await ref.click(); // close
+    await ref.click(); // reopen — retry
+    await page.waitForTimeout(400);
+    const countAfterRetry = await page
+      .locator(".qd-ref-count")
+      .first()
+      .textContent()
+      .catch(() => "");
+    const ok = /×/.test(countAfterRetry || "");
+    report(
+      "refretry", "numbers.html", ok,
+      ok
+        ? `after failure="${(countAfterFailure || "").trim()}", after retry="${(countAfterRetry || "").trim()}"`
+        : `retry never recovered a count: after failure="${(countAfterFailure || "").trim()}", after retry="${(countAfterRetry || "").trim()}"`,
+    );
+  } else {
+    report("refretry", "numbers.html", false, "no .qd-ref[data-kind='root'] found on numbers.html to test");
+  }
+  await rrctx.close();
 }
 
 // ── Claim permalinks ────────────────────────────────────────────────
