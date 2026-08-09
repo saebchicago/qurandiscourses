@@ -537,14 +537,13 @@
         const from2011 = (k.transcribedFrom2011 || []).length;
         const bookNote =
           from2011 > 0
-            ? `<p style="color:var(--muted);font-size:0.9rem">Of those ${k.transcribed.length}, only ` +
-              `<strong>${from2013}</strong> ${from2013 === 1 ? "is" : "are"} actually from the 2013 volume ` +
-              `itself; the other <strong>${from2011}</strong> are illustrative examples from Khan's unrelated ` +
-              `2011 book that happen to fall in surahs 85-114 too. So <strong>${k.publishedCount - from2013} of ` +
-              `${k.publishedCount}</strong> outlines from the 2013 volume specifically remain untranscribed.</p>`
+            ? `<p style="color:var(--muted);font-size:0.9rem"><strong>${from2011}</strong> of these ` +
+              `${k.wanted.length} already have an outline too — but from Khan's unrelated 2011 book, not ` +
+              `this 2013 volume, which is what this queue tracks. See each one's outline exercise for that ` +
+              `earlier, differently-sourced reading.</p>`
             : "";
         el.innerHTML =
-          `<p>${k.transcribed.length} of ${k.publishedCount} transcribed; ` +
+          `<p>${from2013} of ${k.publishedCount} transcribed from the 2013 volume; ` +
           `<strong>${k.wanted.length} wanted</strong>:</p>` +
           bookNote +
           `<ul class="wanted-list">${rows}</ul>`;

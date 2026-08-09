@@ -428,17 +428,29 @@ console.log(`  Khan 2005 Reflections: 0/2 transcribed (surahs 1, 2 both wanted).
 // be invisible to a reader if no badge anywhere actually points at it
 // (found by hand for khan-introduction-2011/bannister-2014 during an
 // audit; both are now fixed, but nothing before this caught it
-// mechanically). Every data-source-ids badge, static or built from a
-// JS template literal, carries the source id as a literal string
-// somewhere in the page's HTML/JS source — so a plain substring scan
-// across every page finds them all, static or dynamic alike.
+// mechanically). A bare substring scan over every page's raw text is
+// too loose, though: an id like "qursim" also occurs inside unrelated
+// identifiers (qursimCovered, qursimConnectivity) and prose (the old
+// qursim.jsp endpoint mentioned on Sources), so it registers hits that
+// are not badges at all. Instead, pull ids only from the two places a
+// real badge's id list actually appears in source: the static
+// data-source-ids="..." attribute, and dossier.html's OK("...", title)
+// helper, the one place a badge is built from a JS template literal
+// (dossier.html:565) — its ids argument is always a literal string too.
 console.log("\nMeasuring source-id usage across the site...");
 
 const allHtmlFiles = readdirSync(ROOT).filter((f) => f.endsWith(".html"));
-const htmlText = allHtmlFiles.map((f) => readFileSync(join(ROOT, f), "utf8")).join("\n");
+const BADGE_IDS_RE = /(?:data-source-ids="([^"]+)"|\bOK\(\s*"([^"]+)")/g;
+const usedSourceIds = new Set();
+for (const f of allHtmlFiles) {
+  const text = readFileSync(join(ROOT, f), "utf8");
+  for (const m of text.matchAll(BADGE_IDS_RE)) {
+    for (const id of (m[1] || m[2]).split(/\s+/).filter(Boolean)) usedSourceIds.add(id);
+  }
+}
 const sourceUsage = sourcesJson.sources.map((s) => ({
   id: s.id,
-  used: htmlText.includes(s.id),
+  used: usedSourceIds.has(s.id),
 })).sort((a, b) => (a.id < b.id ? -1 : 1));
 const unusedSourceIds = sourceUsage.filter((s) => !s.used).map((s) => s.id);
 const sourceUsageSummary = {
@@ -446,9 +458,11 @@ const sourceUsageSummary = {
   used: sourceUsage.length - unusedSourceIds.length,
   unusedIds: unusedSourceIds,
   _method:
-    "For each id in data/sources.json, checked whether that exact string appears anywhere in any .html " +
-    "file's source (static data-source-ids attributes and the JS string literals that build them alike). " +
-    "A source with zero hits is cited in the bibliography but reachable from no badge anywhere on the site.",
+    "For each id in data/sources.json, checked whether it appears as a space-separated token inside a " +
+    "static data-source-ids=\"...\" attribute, or inside the ids argument of dossier.html's OK(\"...\", " +
+    "title) badge-building helper (the one place a badge's id list is a JS string literal rather than a " +
+    "literal HTML attribute). A source with zero hits is cited in the bibliography but reachable from no " +
+    "badge anywhere on the site.",
 };
 console.log(
   `  ${sourceUsageSummary.used}/${sourceUsageSummary.totalSources} sources reachable from at least one badge. ` +
@@ -461,10 +475,17 @@ const COMPUTED_DATE = computedDate();
 
 // ── Khan outline coverage (the contribution work queue) ─────────────
 // Khan's 2013 volume publishes sectional outlines for surahs 85-114
-// (data/sources.json khan-exercise-2013). The transcribed set is read
-// from data/exercises.json; wanted = published minus transcribed, the
-// exact queue the structural-hypothesis pipeline exists to drain. The
-// invariant below fails the build rather than shipping a wrong queue.
+// (data/sources.json khan-exercise-2013). This queue is specifically
+// about that book (its own copy on coverage.html and CONTRIBUTING.md
+// both frame it that way), so wanted must be scoped to outlines actually
+// sourced from the 2013 book, not the transcribed set as a whole — that
+// set conflates two different Khan books that happen to share this
+// numeric range: the 2013 volume's own 30-surah project, and 5 surahs
+// that are illustrative examples in the unrelated 2011 volume and only
+// fall in 85-114 by coincidence. Crediting those 5 toward the 2013
+// project would silently drop them from the queue even though none has
+// a 2013-book outline. The invariant below fails the build rather than
+// shipping a wrong queue.
 const KHAN_PUBLISHED_START = 85;
 const KHAN_PUBLISHED_END = 114;
 const exercisesReg = JSON.parse(
@@ -474,18 +495,10 @@ const outlineExercises = exercisesReg.exercises.filter((e) => e.type === "outlin
 const transcribed = outlineExercises.map((e) => e.surah).sort((a, b) => a - b);
 const published = [];
 for (let s = KHAN_PUBLISHED_START; s <= KHAN_PUBLISHED_END; s++) published.push(s);
-const wanted = published.filter((s) => !transcribed.includes(s));
 for (const s of transcribed) {
   if (s < KHAN_PUBLISHED_START || s > KHAN_PUBLISHED_END)
     throw new Error(`transcribed outline for surah ${s} is outside Khan's published 85-114 range`);
 }
-if (wanted.length + transcribed.length !== published.length)
-  throw new Error("khan outline sets do not partition the published range");
-// transcribed conflates two different Khan books that happen to share this
-// numeric range: the 2013 volume's own 30-surah project, and 5 surahs that
-// are illustrative examples in the unrelated 2011 volume and only fall in
-// 85-114 by coincidence. A reader crediting "6 of 30" toward the 2013
-// project would be wrong by 5 — this breaks the two out explicitly.
 const transcribedFrom2013 = outlineExercises
   .filter((e) => e.sourceIds === "khan-exercise-2013")
   .map((e) => e.surah)
@@ -496,9 +509,12 @@ const transcribedFrom2011 = outlineExercises
   .sort((a, b) => a - b);
 if (transcribedFrom2013.length + transcribedFrom2011.length !== transcribed.length)
   throw new Error("every transcribed outline must carry sourceIds khan-exercise-2013 or khan-introduction-2011");
+const wanted = published.filter((s) => !transcribedFrom2013.includes(s));
+if (wanted.length + transcribedFrom2013.length !== published.length)
+  throw new Error("khan 2013-book outline sets do not partition the published range");
 const khanOutlines = {
   _method:
-    "published = surahs 85-114, the range of Khan's 2013 outline volume (source khan-exercise-2013); transcribed is read from data/exercises.json type=outline entries; wanted is the difference. transcribedFrom2013/transcribedFrom2011 split the same transcribed set by which book's outline it actually is (data/exercises.json sourceIds), since 5 of the 6 transcribed surahs are illustrative examples from the unrelated 2011 volume that happen to fall in this numeric range, not part of the 2013 project. Transcription requires the book and the review checklist in CONTRIBUTING.md.",
+    "published = surahs 85-114, the range of Khan's 2013 outline volume (source khan-exercise-2013); transcribed is read from data/exercises.json type=outline entries. transcribedFrom2013/transcribedFrom2011 split that set by which book's outline it actually is (data/exercises.json sourceIds), since 5 of the 6 transcribed surahs are illustrative examples from the unrelated 2011 volume that happen to fall in this numeric range, not part of the 2013 project. wanted is published minus transcribedFrom2013 specifically — an outline from the 2011 volume does not count toward this project's queue even when it happens to cover a surah in this range. Transcription requires the book and the review checklist in CONTRIBUTING.md.",
   publishedRange: [KHAN_PUBLISHED_START, KHAN_PUBLISHED_END],
   transcribedFrom2013,
   transcribedFrom2011,

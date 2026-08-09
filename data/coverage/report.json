@@ -1,7 +1,7 @@
 {
  "_script": "scripts/compute-coverage.mjs",
  "_method": "Every number in this report is measured directly from repository data files at generation time, except the 'popular'/alternate values in countingRuleSensitivity, which are quoted verbatim from numbers.html's own prose (already-published editorial text, not independently measurable from a data file) and are marked verified:false accordingly. Source registry fields are read verbatim from data/sources.json; any field absent there is recorded as \"not stated in repository\", never inferred.",
- "_computed": "2026-08-08",
+ "_computed": "2026-08-09",
  "morphology": {
   "totalTokens": 77429,
   "fields": {
@@ -335,7 +335,7 @@
   }
  ],
  "khanOutlines": {
-  "_method": "published = surahs 85-114, the range of Khan's 2013 outline volume (source khan-exercise-2013); transcribed is read from data/exercises.json type=outline entries; wanted is the difference. transcribedFrom2013/transcribedFrom2011 split the same transcribed set by which book's outline it actually is (data/exercises.json sourceIds), since 5 of the 6 transcribed surahs are illustrative examples from the unrelated 2011 volume that happen to fall in this numeric range, not part of the 2013 project. Transcription requires the book and the review checklist in CONTRIBUTING.md.",
+  "_method": "published = surahs 85-114, the range of Khan's 2013 outline volume (source khan-exercise-2013); transcribed is read from data/exercises.json type=outline entries. transcribedFrom2013/transcribedFrom2011 split that set by which book's outline it actually is (data/exercises.json sourceIds), since 5 of the 6 transcribed surahs are illustrative examples from the unrelated 2011 volume that happen to fall in this numeric range, not part of the 2013 project. wanted is published minus transcribedFrom2013 specifically — an outline from the 2011 volume does not count toward this project's queue even when it happens to cover a surah in this range. Transcription requires the book and the review checklist in CONTRIBUTING.md.",
   "publishedRange": [
    85,
    114
@@ -371,6 +371,7 @@
    93,
    94,
    95,
+   96,
    97,
    98,
    99,
@@ -380,8 +381,12 @@
    104,
    105,
    106,
+   107,
+   108,
+   109,
    110,
    111,
+   112,
    113,
    114
   ]
@@ -621,6 +626,6 @@
    "sadeghi-goudarzi-2012",
    "watt-bell-1970"
   ],
-  "_method": "For each id in data/sources.json, checked whether that exact string appears anywhere in any .html file's source (static data-source-ids attributes and the JS string literals that build them alike). A source with zero hits is cited in the bibliography but reachable from no badge anywhere on the site."
+  "_method": "For each id in data/sources.json, checked whether it appears as a space-separated token inside a static data-source-ids=\"...\" attribute, or inside the ids argument of dossier.html's OK(\"...\", title) badge-building helper (the one place a badge's id list is a JS string literal rather than a literal HTML attribute). A source with zero hits is cited in the bibliography but reachable from no badge anywhere on the site."
  }
 }
