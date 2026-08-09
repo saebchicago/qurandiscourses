@@ -85,7 +85,12 @@ function collect(streamFn, allPositions) {
         for (let i = 0; i + n <= toks.length; i++) {
           const window = toks.slice(i, i + n);
           const seq = window.map((t) => t.key);
-          const id = n + "|" + seq.join("");
+          // Join with NUL, not "": an empty-string join can collide when
+          // adjacent tokens concatenate to the same string two different
+          // ways -- e.g. ["قالوا","إنا","لله"] and ["قالوا","إن","الله"]
+          // both stringify to the same 11 characters. Same convention as
+          // compute-association-stats.mjs's pairKey.
+          const id = n + "|" + seq.join("\u0000");
           let g = grams.get(id);
           if (!g) {
             g = { n, seq, count: 0, refs: [] };
