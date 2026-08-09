@@ -9,6 +9,44 @@
   <updated>2026-08-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>Six sources got an id, and eleven numbers got a claim record</title>
+    <id>https://divinediscourses.org/changelog#2026-08-closing-the-apparatus-gaps</id>
+    <link href="https://divinediscourses.org/changelog#2026-08-closing-the-apparatus-gaps"/>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Six sources got an id, and eleven numbers got a claim record.&lt;/strong&gt;
+              Islahi, Farrin, Nöldeke and Schwally, Watt, Mustansir Mir's
+              1983 dissertation, and Sadeghi and Goudarzi were all
+              already cited in prose on &lt;a href="/sources"&gt;Sources&lt;/a&gt;,
+              but carried no machine-readable id, so no badge could ever
+              resolve to them; Farrin in particular had no citation
+              anywhere at all despite being named twice as a starting
+              point for ring-composition scholarship. All six now have a
+              full entry in &lt;code&gt;data/sources.json&lt;/code&gt;. Separately,
+              eleven numbers this site had been showing for months
+              without a provenance record, the 89 direct-address verses,
+              the 29/14 fawatih count, both structural null results
+              (3,067 and 345 candidates, zero survivors either way), a
+              monorhyme surah, one root's association scores and network
+              centrality, the discursive-pivot count, an export's row
+              count, vocabulary variety by period, and the 18,408
+              recurring phrases, now each have a
+              &lt;a href="/validation"&gt;claim record&lt;/a&gt; with its sources,
+              its reproduction method, and its limitations spelled out.
+              A new coverage measurement found that six sources,
+              including two load-bearing ones, khan-introduction-2011
+              and bannister-2014, were reachable from no badge anywhere
+              on the site; bannister-2014 is now cited on
+              &lt;a href="/formulas"&gt;Formulas&lt;/a&gt;. The Khan outline queue's
+              headline number turned out to conflate two different
+              books: of the six "transcribed" outlines in surahs 85-114,
+              only one is actually from the 2013 volume the queue is
+              named after, so 29 of 30 remain wanted from that book
+              specifically, not 24. Also fixed: a malformed prefilled
+              issue-link title on Coverage, and a hardcoded source count
+              in &lt;code&gt;check-citation.mjs&lt;/code&gt; that would have quietly
+              stopped matching reality the next time a source was added.</content>
+  </entry>
+  <entry>
     <title>Eight more download tables, and Compare stopped front-loading 368KB nobody asked for</title>
     <id>https://divinediscourses.org/changelog#2026-08-twelve-tables-and-a-lighter-compare</id>
     <link href="https://divinediscourses.org/changelog#2026-08-twelve-tables-and-a-lighter-compare"/>

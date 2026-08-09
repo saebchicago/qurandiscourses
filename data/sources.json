@@ -225,6 +225,61 @@
    "edition": "translated by Jerry Ryan",
    "publisher": "London: Bloomsbury Academic",
    "year": "2015"
+  },
+  {
+   "id": "islahi-tadabbur",
+   "type": "book",
+   "author": "Islahi, Amin Ahsan",
+   "name": "Tadabbur-i Qur'ān",
+   "edition": "9 vols.",
+   "publisher": "Lahore: Faran Foundation",
+   "url": "https://www.tadabbur-i-quran.org/",
+   "note": "Published in installments; no single edition year applies across the set."
+  },
+  {
+   "id": "farrin-symmetry-2014",
+   "type": "book",
+   "author": "Farrin, Raymond",
+   "name": "Structure and Qur'anic Interpretation: A Study of Symmetry and Coherence in Islam's Holy Text",
+   "edition": "Islamic Encounter Series",
+   "publisher": "Ashland, OR: White Cloud Press",
+   "year": "2014",
+   "isbn": "9781935952985",
+   "note": "163 pp. Analyzes Qur'anic structure through parallelism, chiasm and concentric (ring) composition. Cited alongside Cuypers as the coherence-analysis literature this site's mechanical block-structure tests (data/structure-tests.json) are context for, never a source of any transcribed outline."
+  },
+  {
+   "id": "noldeke-schwally-1909",
+   "type": "book",
+   "author": "Nöldeke, Theodor, and Friedrich Schwally",
+   "name": "Geschichte des Qorāns",
+   "edition": "2nd ed., 3 vols.",
+   "publisher": "Leipzig: Dieterichsche Verlagsbuchhandlung",
+   "year": "1909–1938"
+  },
+  {
+   "id": "watt-bell-1970",
+   "type": "book",
+   "author": "Watt, W. Montgomery",
+   "name": "Bell's Introduction to the Qur'ān",
+   "publisher": "Edinburgh: Edinburgh University Press",
+   "year": "1970",
+   "note": "Source for the site's Nöldeke-Bell four-period chronological classification (data/chronology.json); see NOTICE.md."
+  },
+  {
+   "id": "mir-diss-1983",
+   "type": "paper",
+   "author": "Mir, Mustansir",
+   "name": "Thematic and Structural Coherence in the Qur'ān",
+   "publisher": "PhD diss., University of Michigan",
+   "year": "1983"
+  },
+  {
+   "id": "sadeghi-goudarzi-2012",
+   "type": "paper",
+   "author": "Sadeghi, Behnam, and Mohsen Goudarzi",
+   "name": "Ṣanʿāʾ 1 and the Origins of the Qurʾān",
+   "publisher": "Der Islam 87, no. 1–2, pp. 1–129",
+   "year": "2012"
   }
  ]
 }

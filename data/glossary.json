@@ -331,6 +331,167 @@
    ],
    "def": "This site's plain-language name for a corpus token — the smallest counted piece of the text. Used in place of \"word\" wherever a count could otherwise be mistaken for written words.",
    "ddHtml": "              This site's plain-language name for a corpus\n              <a href=\"/glossary#token\">token</a> — the smallest counted\n              piece of the text. Used in place of \"word\" wherever a count could\n              otherwise be mistaken for written words."
+  },
+  {
+   "id": "fasila",
+   "labelHtml": "Fāṣila",
+   "matchKeys": [
+    "fāṣila",
+    "fawāṣil"
+   ],
+   "def": "The word or syllable a verse ends on. When the same ending recurs across consecutive verses it produces the rhyme or assonance pattern (fawāṣil, plural) scholars read structure from.",
+   "ddHtml": "              The word or syllable a verse ends on. When the same ending recurs across\n              consecutive verses it produces the rhyme or assonance pattern (fawāṣil,\n              plural) scholars read structure from."
+  },
+  {
+   "id": "qasam",
+   "labelHtml": "Qasam",
+   "matchKeys": [
+    "qasam"
+   ],
+   "def": "An oath opening: a surah or passage that begins by swearing on something (time, the sun, the fig tree) before making its claim. Surahs al-'Asr, al-Shams, and al-Tin open this way.",
+   "ddHtml": "              An oath opening: a surah or passage that begins by swearing on something\n              (time, the sun, the fig tree) before making its claim. Surahs al-'Asr,\n              al-Shams, and al-Tin open this way."
+  },
+  {
+   "id": "parallelism",
+   "labelHtml": "Parallelism",
+   "matchKeys": [
+    "parallelism"
+   ],
+   "def": "Balanced clause or phrase structures, where successive units echo each other's grammar or meaning. Concentric parallelism, where the echo runs from a text's edges toward its centre, is one specific case; see Ring composition.",
+   "ddHtml": "              Balanced clause or phrase structures, where successive units\n              echo each other's grammar or meaning. Concentric parallelism,\n              where the echo runs from a text's edges toward its centre, is\n              one specific case. See <a href=\"/patterns#ring-composition\">Ring composition</a>."
+  },
+  {
+   "id": "fawatih",
+   "labelHtml": "Fawātiḥ",
+   "matchKeys": [
+    "fawātiḥ",
+    "fawatih",
+    "muqaṭṭaʿāt",
+    "al-muqaṭṭaʿāt"
+   ],
+   "def": "The \"opening letters\" (also called al-muqatta'at, \"the disjointed letters\"): one to five Arabic letters that open 29 surahs, in 14 distinct combinations, before the surah's first sentence. Their meaning has never been settled in the classical tradition.",
+   "ddHtml": "              The \"opening letters\" (also called al-muqatta'at, \"the disjointed letters\"):\n              one to five Arabic letters that open 29 surahs, in 14 distinct combinations,\n              before the surah's first sentence. Their meaning has never been settled in\n              the classical tradition."
+  },
+  {
+   "id": "oral-formulaic",
+   "labelHtml": "Oral-formulaic",
+   "matchKeys": [
+    "oral-formulaic"
+   ],
+   "def": "A framework from the study of oral literature, applied to the Qur'an by Bannister (2014), that reads recurring phrases as evidence of formulaic composition. This site counts recurrence mechanically; whether that recurrence is oral-formulaic in this technical sense is the scholarly argument, not something the count settles.",
+   "ddHtml": "              A framework from the study of oral literature, applied to the Qur'an by\n              Bannister (2014), that reads recurring phrases as evidence of formulaic\n              composition. This site counts recurrence mechanically; whether that\n              recurrence is oral-formulaic in this technical sense is the scholarly\n              argument, not something the count settles."
+  },
+  {
+   "id": "formula",
+   "labelHtml": "Formula",
+   "matchKeys": [
+    "formula"
+   ],
+   "def": "A sequence of three to five consecutive words that recurs somewhere else in the Qur'an, counted by root sequence or by surface form on the Formulas page. What is counted is recurrence; whether a formula is formulaic in the technical oral-formulaic sense is a separate scholarly question.",
+   "ddHtml": "              A sequence of three to five consecutive words that recurs somewhere else in\n              the Qur'an, counted by root sequence or by surface form on the Formulas\n              page. What is counted is recurrence; whether a formula is formulaic in the\n              technical oral-formulaic sense is a separate scholarly question."
+  },
+  {
+   "id": "benjamini-hochberg",
+   "labelHtml": "Benjamini-Hochberg correction",
+   "matchKeys": [
+    "benjamini-hochberg",
+    "fdr",
+    "false discovery rate"
+   ],
+   "def": "A statistical correction applied when many hypotheses are tested at once (every surah, or every root pair), controlling the false discovery rate (FDR): the expected share of \"significant\" results that are actually false positives. Used throughout this site's corpus-wide tests instead of judging each result alone.",
+   "ddHtml": "              A statistical correction applied when many hypotheses are tested at once\n              (every surah, or every root pair), controlling the false discovery rate\n              (FDR): the expected share of \"significant\" results that are actually false\n              positives. Used throughout this site's corpus-wide tests instead of judging\n              each result alone."
+  },
+  {
+   "id": "null-distribution",
+   "labelHtml": "Null distribution",
+   "matchKeys": [
+    "null distribution"
+   ],
+   "def": "The range of results a statistic would produce under a random or shuffled version of the data, used as the yardstick a real result is judged against. A result counts as significant when it falls where the null distribution says chance rarely lands.",
+   "ddHtml": "              The range of results a statistic would produce under a random or shuffled\n              version of the data, used as the yardstick a real result is judged against.\n              A result counts as significant when it falls where the null distribution\n              says chance rarely lands."
+  },
+  {
+   "id": "noldeke-bell",
+   "labelHtml": "Nöldeke-Bell",
+   "matchKeys": [
+    "nöldeke-bell",
+    "noldeke-bell"
+   ],
+   "def": "A four-period chronological classification of the surahs (three Meccan periods plus Medinan), descended from Theodor Nöldeke and Friedrich Schwally's source-critical scholarship as adapted by Richard Bell. This site pairs it with the Cairo 1924 edition's revelation order; see Watt's Bell's Introduction to the Qur'an on Sources.",
+   "ddHtml": "              A four-period chronological classification of the surahs\n              (three Meccan periods plus Medinan), descended from Theodor\n              Nöldeke and Friedrich Schwally's source-critical scholarship as\n              adapted by Richard Bell. This site pairs it with the Cairo 1924\n              edition's revelation order. See Watt's <em>Bell's Introduction to\n              the Qur'an</em> on <a href=\"/sources\">Sources</a>."
+  },
+  {
+   "id": "revelation-order",
+   "labelHtml": "Revelation order",
+   "matchKeys": [
+    "revelation order"
+   ],
+   "def": "The sequence the surahs are traditionally held to have been revealed in, distinct from their fixed position in the mushaf (the standard printed Qur'an). This site follows the Egyptian Standard (Cairo 1924) revelation order, a convention rather than a documented historical record.",
+   "ddHtml": "              The sequence the surahs are traditionally held to have been revealed in,\n              distinct from their fixed position in the mushaf (the standard printed\n              Qur'an). This site follows the Egyptian Standard (Cairo 1924) revelation\n              order, a convention rather than a documented historical record."
+  },
+  {
+   "id": "uthmani",
+   "labelHtml": "Uthmani",
+   "matchKeys": [
+    "uthmani"
+   ],
+   "def": "The standard Arabic script and verse divisions used in nearly all printed and digital copies of the Qur'an today, following the consonantal skeleton fixed under the caliph Uthman. The Arabic text on this site is the Tanzil Uthmani edition.",
+   "ddHtml": "              The standard Arabic script and verse divisions used in nearly all printed\n              and digital copies of the Qur'an today, following the consonantal skeleton\n              fixed under the caliph Uthman. The Arabic text on this site is the Tanzil\n              Uthmani edition."
+  },
+  {
+   "id": "normalized-frequency",
+   "labelHtml": "Normalized frequency",
+   "matchKeys": [
+    "normalized frequency"
+   ],
+   "def": "An occurrence count divided by the size of the text it is drawn from (here, per 1,000 tokens), so counts from different-sized samples, such as the Meccan and Medinan periods, can be compared directly.",
+   "ddHtml": "              An occurrence count divided by the size of the text it is drawn from (here,\n              per 1,000 tokens), so counts from different-sized samples, such as the\n              Meccan and Medinan periods, can be compared directly."
+  },
+  {
+   "id": "tokenization",
+   "labelHtml": "Tokenization",
+   "matchKeys": [
+    "tokenization"
+   ],
+   "def": "Splitting text into the smallest countable units (tokens). The Leeds corpus tokenizes Arabic below the level of the written word: a single written word like bismi splits into two tokens (bi + ism), which is why token counts run higher than word counts on this site.",
+   "ddHtml": "              Splitting text into the smallest countable units (tokens). The Leeds corpus\n              tokenizes Arabic below the level of the written word: a single written word\n              like bismi splits into two tokens (bi + ism), which is why token counts run\n              higher than word counts on this site."
+  },
+  {
+   "id": "discursive-pivot",
+   "labelHtml": "Discursive pivot",
+   "matchKeys": [
+    "discursive pivot",
+    "discursive pivots"
+   ],
+   "def": "A verse mechanically flagged for opening with a temporal particle (like idh or idha) while sharing vocabulary with what precedes it, a candidate marker of where a passage turns. Detected by pattern matching, not by a scholar's reading; see Patterns.",
+   "ddHtml": "              A verse mechanically flagged for opening with a temporal\n              particle (like <em>idh</em> or <em>idha</em>) while sharing\n              vocabulary with what precedes it, a candidate marker of where a\n              passage turns. Detected by pattern matching, not by a scholar's\n              reading. See <a href=\"/patterns\">Patterns</a>."
+  },
+  {
+   "id": "centrality",
+   "labelHtml": "Centrality",
+   "matchKeys": [
+    "centrality"
+   ],
+   "def": "A family of statistical measures of a node's position in a network, such as this site's root co-occurrence graph. This site reports degree, betweenness, and eigenvector centrality; none of them indicate a root's importance, only its structural position.",
+   "ddHtml": "              A family of statistical measures of a node's position in a network, such as\n              this site's root co-occurrence graph. This site reports degree, betweenness,\n              and eigenvector centrality; none of them indicate a root's importance, only\n              its structural position."
+  },
+  {
+   "id": "tadabbur",
+   "labelHtml": "Tadabbur",
+   "matchKeys": [
+    "tadabbur"
+   ],
+   "def": "Reflective, contemplative study of the Qur'an, read as a connected discourse rather than isolated verses. The term names the reading approach behind Islahi's Tadabbur-i Qur'an and this site's discovery-worksheet exercises.",
+   "ddHtml": "              Reflective, contemplative study of the Qur'an, read as a connected discourse\n              rather than isolated verses. The term names the reading approach behind\n              Islahi's Tadabbur-i Qur'an and this site's discovery-worksheet exercises."
+  },
+  {
+   "id": "mishkat",
+   "labelHtml": "Mishkat",
+   "matchKeys": [
+    "mishkat"
+   ],
+   "def": "The Mishkat Mutashabihat corpus, a compilation of verse-to-verse cross-references drawn from 13 classical books of mutashabihat scholarship, powering this site's Related-verses feature. Its rights holder has not published a license; see Sources.",
+   "ddHtml": "              The Mishkat Mutashabihat corpus, a compilation of verse-to-verse\n              cross-references drawn from 13 classical books of mutashabihat scholarship,\n              powering this site's Related-verses feature. Its rights holder has not\n              published a license; see Sources."
   }
  ]
 }
