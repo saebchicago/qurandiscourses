@@ -420,6 +420,29 @@
     "The window (3-5 words) and the frequency-ceiling stoplist are fixed methodological choices; a different window or stoplist changes the total materially.",
     "What is counted is recurrence; whether a recurring phrase is a formula in the technical oral-formulaic sense (Bannister 2014) is a separate scholarly question this count does not settle."
    ]
+  },
+  {
+   "id": "claim.formulaic-density.surah64.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4",
+    "bannister-2014"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/build-formulaic-density.mjs",
+    "output": "data/formulaic-density.json",
+    "method": "Union the word positions covered by any recurring n-gram (data/formulas-root.json / -surface.json) per verse, divide by verse token count, average across surah 64's 18 verses, and test against 10,000 length-matched resamples of the whole corpus."
+   },
+   "limitations": [
+    "55.6% (root stream) / 70.5% (surface stream) of surah 64's words fall inside a recurring phrase, the highest root-stream mean of any surah; both streams survive the pooled Benjamini-Hochberg correction at q<0.05 (p=0.0001 each, the smallest value 10,000 Monte Carlo draws with an add-one correction can report).",
+    "A surviving result means the coverage is higher than a length-matched null predicts, not that the surah is formulaic in the technical oral-formulaic sense argued in Bannister (2014); this measure does not adjudicate that scholarly question.",
+    "The null resamples verses uniformly from the whole corpus, not from surahs matched on genre or period; a surah's high density may reflect its genre (e.g. concentrated legal or liturgical phrasing) as much as its length."
+   ]
   }
  ]
 }

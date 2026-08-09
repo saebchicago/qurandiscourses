@@ -437,6 +437,27 @@ for (let s = 1; s <= 114; s++) {
 }
 writeTable("theme-surah-density", themeDensityRows, ["surah", "themeSlug", "themeTitle", "perThousand"]);
 
+// ── Table 13: formulaic-density (data/formulaic-density.json .perSurah) ──
+
+console.log("\nBuilding formulaic-density…");
+const formulaicDensity = JSON.parse(readFileSync(join(DATA, "formulaic-density.json"), "utf8"));
+const formulaicDensityRows = formulaicDensity.perSurah.map((e) => ({
+  surah: e.surah,
+  verseCount: e.verseCount,
+  meanDensityRoot: e.meanDensityRoot,
+  pValueRoot: e.pValueRoot,
+  survivorRoot: e.survivorRoot,
+  meanDensitySurface: e.meanDensitySurface,
+  pValueSurface: e.pValueSurface,
+  survivorSurface: e.survivorSurface,
+}));
+if (formulaicDensityRows.length !== 114)
+  throw new Error(`Expected 114 formulaic-density rows, found ${formulaicDensityRows.length}. STOPPING.`);
+writeTable("formulaic-density", formulaicDensityRows, [
+  "surah", "verseCount", "meanDensityRoot", "pValueRoot", "survivorRoot",
+  "meanDensitySurface", "pValueSurface", "survivorSurface",
+]);
+
 // ── schema.json ──────────────────────────────────────────────────────
 
 console.log("\nWriting schema.json and DATA-DICTIONARY.md…");
@@ -646,6 +667,22 @@ const schema = {
         { name: "themeSlug", type: "string", unit: null, description: "Theme identifier, matches themes.html's slug." },
         { name: "themeTitle", type: "string", unit: null, description: "Theme display title." },
         { name: "perThousand", type: "number", unit: "theme-root tokens per 1,000 surah tokens", description: "Density of this theme's root family in this surah." },
+      ],
+    },
+    "formulaic-density": {
+      description: "Per-surah mean share of words covered by a recurring 3-5-word phrase (Bannister's oral-formulaic density), tested against a length-matched null, for all 114 surahs.",
+      rowCount: formulaicDensityRows.length,
+      countingRule: "meanDensity{Root,Surface} = unweighted mean of per-verse density (covered word positions / verse token count) across the surah. p-value: one-sided, 10,000 draws resampling verseCount verses with replacement from the pooled corpus per-verse densities. survivor: true if this candidate is among the 228 (114 surahs x 2 streams) jointly Benjamini-Hochberg corrected at q<0.05. Per-verse detail and method in data/formulaic-density.json.",
+      verification: "Nuanced: the significance test's null (uniform resampling across the whole corpus) does not control for genre or period, only length.",
+      fields: [
+        { name: "surah", type: "integer", unit: null, description: "Surah number." },
+        { name: "verseCount", type: "integer", unit: null, description: "Verses in this surah." },
+        { name: "meanDensityRoot", type: "number", unit: null, description: "Mean per-verse root-stream formulaic density, 0-1." },
+        { name: "pValueRoot", type: "number", unit: null, description: "One-sided permutation p-value, root stream." },
+        { name: "survivorRoot", type: "boolean", unit: null, description: "Survives the pooled BH-FDR correction at q<0.05, root stream." },
+        { name: "meanDensitySurface", type: "number", unit: null, description: "Mean per-verse surface-stream formulaic density, 0-1." },
+        { name: "pValueSurface", type: "number", unit: null, description: "One-sided permutation p-value, surface stream." },
+        { name: "survivorSurface", type: "boolean", unit: null, description: "Survives the pooled BH-FDR correction at q<0.05, surface stream." },
       ],
     },
   },

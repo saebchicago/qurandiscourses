@@ -241,6 +241,25 @@ Sparse theme-by-surah matrix: for each surah, the themes whose root-family vocab
 | `themeTitle` | string | n/a | Theme display title. |
 | `perThousand` | number | theme-root tokens per 1,000 surah tokens | Density of this theme's root family in this surah. |
 
+## formulaic-density
+
+Per-surah mean share of words covered by a recurring 3-5-word phrase (Bannister's oral-formulaic density), tested against a length-matched null, for all 114 surahs. (114 rows.)
+
+**Counting rule:** meanDensity{Root,Surface} = unweighted mean of per-verse density (covered word positions / verse token count) across the surah. p-value: one-sided, 10,000 draws resampling verseCount verses with replacement from the pooled corpus per-verse densities. survivor: true if this candidate is among the 228 (114 surahs x 2 streams) jointly Benjamini-Hochberg corrected at q<0.05. Per-verse detail and method in data/formulaic-density.json.
+
+**Verification:** Nuanced: the significance test's null (uniform resampling across the whole corpus) does not control for genre or period, only length.
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `surah` | integer | n/a | Surah number. |
+| `verseCount` | integer | n/a | Verses in this surah. |
+| `meanDensityRoot` | number | n/a | Mean per-verse root-stream formulaic density, 0-1. |
+| `pValueRoot` | number | n/a | One-sided permutation p-value, root stream. |
+| `survivorRoot` | boolean | n/a | Survives the pooled BH-FDR correction at q<0.05, root stream. |
+| `meanDensitySurface` | number | n/a | Mean per-verse surface-stream formulaic density, 0-1. |
+| `pValueSurface` | number | n/a | One-sided permutation p-value, surface stream. |
+| `survivorSurface` | boolean | n/a | Survives the pooled BH-FDR correction at q<0.05, surface stream. |
+
 ## Files
 
 Each table above ships as both `{name}.csv` and `{name}.json` (a flat JSON array of the same rows) under `data/exports/`. CSV values are comma-separated, UTF-8, header row first; fields containing a comma, quote, or newline are quoted per RFC 4180.
