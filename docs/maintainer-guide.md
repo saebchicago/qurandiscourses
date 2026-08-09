@@ -136,6 +136,10 @@ them only when their inputs change; commit their outputs.
 | compute-association-stats.mjs | morphology, roots-summary, chronology, numbers.json | data/association/ | roots.html "Statistical associations" panel, numbers.html keyness card. Rerun after build-numbers.mjs when morphology changes |
 | compute-network-layout.mjs | association/, roots-summary, morphology, chronology | data/network/ | roots.html association-network graph, numbers.html root-density heatmap. Rerun after compute-association-stats.mjs |
 | compute-centrality.mjs | association/, roots-summary | data/centrality/ | roots.html "Network position" panel. Rerun after compute-association-stats.mjs |
+| compute-dispersion.mjs | morphology/, roots-summary, chronology | data/dispersion/ (1,642 + methods.json) | How evenly a root spreads across the 114 surahs: Gries's DP and DP-norm, Juilland's D, range, and a dispersion-adjusted frequency. Surfaces on the roots detail panel and numbers.html. Rerun after any morphology change |
+| build-structure.mjs | rhyme/, morphology/, formulas-*, discursive-pivots | data/structure/{1..114}.json | Computed section boundaries per surah (penalized multi-signal changepoint, MDL/BIC). NOT a scholar's outline — see the attribution policy below |
+| build-structure-tests.mjs | structure/, morphology/ | data/structure-tests.json | Four ring/symmetry tests over those sections, pooled BH-FDR. Rerun after build-structure.mjs |
+| build-formulaic-density.mjs | formulas-root, formulas-surface, morphology/ | data/formulaic-density.json | Per-verse and per-surah formulaic density (Bannister). Rerun after build-formulas.mjs |
 | compute-coverage.mjs | morphology, roots-summary, qursim/ (file counts), sources.json | data/coverage/report.json | coverage.html dashboard — every number there traces to this report |
 | build-exports.mjs | roots-summary, numbers.json, chronology, surah-profiles, surah-names, morphology, association/ | data/exports/ (CSV+JSON tables, schema.json, DATA-DICTIONARY.md) | export.html downloads. Rerun after compute-association-stats.mjs |
 
@@ -166,6 +170,8 @@ dispatch instead of blocking every contribution.
 | check-videos.mjs | the video registry: an entry cannot be 'published' without its mp4, poster, AND a real WEBVTT captions file on disk — the anti-slop covenant, enforced mechanically |
 | check-source-links.mjs | external citation liveness: every sources.json `url` and every external href on every page still answers (404/410 = FAIL, 403/429 = WARN for bot-shielding). Needs real outbound network — run from an unrestricted machine, not a sandboxed session; a good habit before any release and every few months |
 | check-editions.mjs | every translation edition ID in assets/app.js's TRANSLATIONS array still resolves to itself on alquran.cloud — the API silently substitutes a default Arabic edition for an invalid ID instead of erroring (the "en.haleem" bug), so this catches the next one before a reader does. Needs real outbound network — run from an unrestricted machine, not a sandboxed session; run after adding any new edition ID and every few months otherwise |
+| check-root-datasets.mjs | the six parallel root datasets: all carry the same 1,642 keys, `rootBuckwalter`↔`rootLatin` agrees across roots-summary/roots-list, every `rootLatin` is a roots-index key, and every per-root filename is `safeKey(bw)`. Written after a fuzzy root matcher served 205 roots' statistics under the WRONG root's name behind a Verified badge |
+| check-safe-key.mjs | the client↔data-file contract: the browser's `window.qdSafeKey` (assets/lang-labels.js) and the generators' `scripts/lib/safe-key.mjs` must agree on a branch-covering vector, every one of the 1,642 roots must resolve to a file that exists, and no page may reimplement the mapping locally (it lived in seven copies before this) |
 
 Determinism check for any script: run it twice, `git diff` must be empty.
 
