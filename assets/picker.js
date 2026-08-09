@@ -152,7 +152,17 @@
       if (opts.onChange) opts.onChange({ surah: surah, from: c.from, to: c.to });
     }
 
-    container.addEventListener("click", function (e) {
+    // Bound to the .qd-range element this function just created, NOT to
+    // `container`, which it does not own and only ever overwrites the
+    // innerHTML of. Binding to the container stacked one handler per
+    // call: the surah dialog's "Choose a different surah" path clears
+    // rangeHost.innerHTML and calls createRange again, so every
+    // round-trip added another listener closed over the PREVIOUS surah's
+    // inputs, and each stepper click then ran paint() once per stale
+    // handler. Binding to the replaced element makes the old handler
+    // garbage along with the markup it belonged to.
+    var rangeRoot = container.querySelector(".qd-range");
+    rangeRoot.addEventListener("click", function (e) {
       var btn = e.target.closest && e.target.closest(".qd-step");
       if (!btn) return;
       var step = btn.getAttribute("data-step");
@@ -226,6 +236,40 @@
     if (restoreFocus !== false && trigger && trigger.focus) trigger.focus();
   }
 
+  // Focus restore for the confirm path, where the act of confirming can
+  // destroy the very element focus should return to (Read re-renders its
+  // whole verse container on qd:translations-changed). Focus the trigger
+  // if it is still in the document; if a re-render detaches it within a
+  // short window, re-target the equivalent live element instead of
+  // leaving the reader stranded on <body> at the top of the page.
+  function restoreFocusAfterConfirm(trigger) {
+    if (!trigger || !trigger.focus) return;
+    var selector = trigger.id
+      ? "#" + trigger.id
+      : trigger.classList && trigger.classList.length
+        ? "." + trigger.classList[0]
+        : null;
+    if (trigger.isConnected) trigger.focus();
+    if (!selector) return;
+    var settled = false;
+    var obs = new MutationObserver(function () {
+      if (settled) return;
+      if (trigger.isConnected) return;
+      var next = document.querySelector(selector);
+      if (!next) return;
+      settled = true;
+      obs.disconnect();
+      next.focus();
+    });
+    obs.observe(document.body, { childList: true, subtree: true });
+    // Bounded: a confirm that triggers no re-render must not leave an
+    // observer running for the life of the page.
+    setTimeout(function () {
+      settled = true;
+      obs.disconnect();
+    }, 2000);
+  }
+
   // Escape-closes, Tab-wraps within dialog. Shared by open() and
   // openList() so there is exactly one focus-trap implementation, not
   // two dialogs quietly drifting apart.
@@ -241,6 +285,16 @@
       if (!openState) return;
       if (e.key === "Escape") {
         e.preventDefault();
+        // stopPropagation matters as much as preventDefault here. This
+        // handler runs on document in the CAPTURE phase, so without it
+        // every bubble-phase Escape handler on the page still fires:
+        // app.js closes the settings panel and moves focus to the gear
+        // button, notebook.js closes its panel. Opening the picker from
+        // the gear panel and pressing Escape therefore tore down two
+        // layers at once and overrode the picker's own focus restore.
+        // The modal this dialog replaced called stopPropagation for
+        // exactly this reason.
+        e.stopPropagation();
         close();
         return;
       }
@@ -249,6 +303,16 @@
       if (!els.length) return;
       var first = els[0];
       var last = els[els.length - 1];
+      // Clicking a non-focusable part of the dialog (the heading, a group
+      // label, body padding) leaves activeElement on <body>, which is
+      // neither first nor last — so without this branch Tab walked out of
+      // the dialog into the page behind it, with no visible focus ring and
+      // no way back. Pull focus back to the top of the dialog instead.
+      if (!dialog.contains(document.activeElement)) {
+        e.preventDefault();
+        (e.shiftKey ? last : first).focus();
+        return;
+      }
       if (e.shiftKey && document.activeElement === first) {
         e.preventDefault();
         last.focus();
@@ -585,7 +649,7 @@
 
     function paintFoot() {
       var n = selectedCount();
-      countEl.textContent = n + (n === 1 ? " selected" : " selected");
+      countEl.textContent = n + " selected";
       confirmBtn.disabled = n < minSelected;
     }
 
@@ -678,10 +742,19 @@
 
       if (e.target.closest && e.target.closest(".qd-picker-confirm")) {
         if (confirmBtn.disabled) return;
-        close();
         var ids = [];
         for (var k in selected) if (selected[k]) ids.push(k);
+        // close(false) — do NOT restore focus to the trigger here. On
+        // Read the trigger is a per-verse .trans-open-btn living inside
+        // #verseContainer, and onConfirm dispatches the event that
+        // re-renders that container: focus would be restored onto a node
+        // that is detached microseconds later, dropping the reader to
+        // <body> at the top of the document. Re-target afterwards to
+        // whatever survived the render instead.
+        var trigger = opts.trigger;
+        close(false);
         if (opts.onConfirm) opts.onConfirm(ids);
+        restoreFocusAfterConfirm(trigger);
         return;
       }
       if (e.target.closest && e.target.closest(".qd-picker-close")) close();

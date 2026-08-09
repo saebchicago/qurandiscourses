@@ -135,6 +135,28 @@
           <h3>2026</h3>
           <h4>August</h4>
           <ul>
+            <li id="2026-08-shared-translation-links-now-work">
+              <strong>A shared reading link now shows the translations its
+              sender chose.</strong>
+              The <code>?t=</code> parameter added last week only worked for
+              someone who had never set a translation preference of their own:
+              for everyone else the saved preference silently replaced the
+              link's, and the address bar was then rewritten to match, so
+              passing the link on lost the sender's choice a second time.
+              Compare had a matching fault -- opening a saved passage
+              comparison fetched the site's two default translations rather
+              than the reader's, and changing translations afterwards did
+              nothing until a full reload -- and its per-translation credit
+              line was printing the surah's name where the translator's should
+              have been, which also left right-to-left and non-Latin scripts
+              without their correct direction and typeface. A translation
+              retired from the registry can no longer get stuck in a saved
+              selection, uncountable and impossible to untick.
+              <span class="prov">The regression tests for all of this ran in a
+              fresh browser profile, the one state where a saved preference
+              cannot contradict a link, which is why they passed over the bug.
+              They now start from a reader who has already chosen.</span>
+            <a class="claim-anchor" href="#2026-08-shared-translation-links-now-work" aria-label="Link to this entry">&sect;</a></li>
             <li id="2026-08-choosing-translations-got-easier">
               <strong>Choosing translations no longer means scrolling five screens of checkboxes.</strong>
               The old "N selected" button opened a search-less list of

@@ -1148,13 +1148,40 @@
           return morphCache[surah];
         }
 
+        // Keyed by surah AND the edition set, not surah alone: the same
+        // surah fetched with a different translation selection is a
+        // different response. Keying on the surah alone meant that after
+        // a reader changed translations in the gear panel, pressing Load
+        // handed back the pre-change promise and the new selection
+        // appeared to do nothing until a full reload.
         const textCache = {};
-        function loadSurahText(surah) {
-          if (!textCache[surah]) {
-            textCache[surah] = Promise.resolve(window.qdFetchSurah(surah));
-          }
-          return textCache[surah];
+        function textCacheKey(surah) {
+          const eds = (window.qdState && window.qdState.translations) || [];
+          const translit = !!(
+            window.qdState &&
+            window.qdState.features &&
+            window.qdState.features.showTransliteration
+          );
+          return surah + "|" + eds.join(",") + "|" + (translit ? "t" : "");
         }
+        function loadSurahText(surah) {
+          const key = textCacheKey(surah);
+          if (!textCache[key]) {
+            textCache[key] = Promise.resolve(window.qdFetchSurah(surah));
+          }
+          return textCache[key];
+        }
+        // Read has re-rendered on this event since the picker shipped;
+        // Compare never listened for it at all, so the page kept showing
+        // whatever it first fetched.
+        document.addEventListener("qd:translations-changed", function () {
+          for (const k in textCache) delete textCache[k];
+          // Only re-run when results are actually on screen. #passages-result
+          // stays hidden until renderResults() has run at least once, so this
+          // does not fire a fetch for a reader who has not compared anything.
+          const resultEl = document.getElementById("passages-result");
+          if (resultEl && !resultEl.hidden) loadPassages();
+        });
 
         let rootsSummaryP = null;
         function loadRootsSummary() {
@@ -1205,7 +1232,15 @@
               })
               .map(function (ed) {
                 return {
-                  edition: ed,
+                  // ed.edition, not ed. The API's data item carries the
+                  // SURAH's englishName ("Al-Faatiha") and no language;
+                  // the translator name and language live on the nested
+                  // edition object. Passing the item meant every credit
+                  // line read as the surah name instead of the
+                  // translator, and edition.language came back undefined
+                  // so dir/lang/script-class were never applied — the
+                  // exact defects this render was added to fix.
+                  edition: ed.edition || ed,
                   ayahs: (ed.ayahs || []).filter(function (a) {
                     return a.numberInSurah >= start && a.numberInSurah <= end;
                   }),
@@ -1722,7 +1757,20 @@
           for (let i = 0; i < rows.length; i++) {
             applyParam(rows[i], params.get("p" + (i + 1)));
           }
-          if (params.get("p1") && params.get("p2")) loadPassages();
+          // Deferred to DOMContentLoaded rather than called here. This
+          // script runs mid-parse, and qdFetchSurah reads the edition
+          // list SYNCHRONOUSLY (before its first await) from a qdState
+          // that app.js has not hydrated yet — so a deep link fetched
+          // the hard-coded default editions and silently ignored the
+          // reader's saved translations. app.js registers its own
+          // DOMContentLoaded handler from a script tag above this one,
+          // so its load() is guaranteed to have run by the time this
+          // fires.
+          if (params.get("p1") && params.get("p2")) {
+            document.addEventListener("DOMContentLoaded", function () {
+              loadPassages();
+            });
+          }
         }
       })();
     </script>
