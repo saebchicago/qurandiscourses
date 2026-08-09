@@ -88,6 +88,246 @@
    }
   },
   {
+   "name": "centrality",
+   "title": "Divine Discourses: centrality",
+   "description": "Network centrality for all 1,642 roots over the root co-occurrence graph (5,211 edges, built from each root's top-25-by-LLR partners).",
+   "path": "centrality.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "root",
+      "type": "string",
+      "description": "Buckwalter-transliterated root."
+     },
+     {
+      "name": "safeKey",
+      "type": "string",
+      "description": "URL/filename-safe encoding of root."
+     },
+     {
+      "name": "rootLatin",
+      "type": "string",
+      "description": "Root in Latin transliteration with diacritics."
+     },
+     {
+      "name": "degree",
+      "type": "integer",
+      "description": "Count of distinct partner roots. Unit: neighbors."
+     },
+     {
+      "name": "degreeRank",
+      "type": "integer",
+      "description": "Rank by degree, 1 = highest, among 1,642 roots."
+     },
+     {
+      "name": "weightedDegree",
+      "type": "number",
+      "description": "Sum of incident edge weights (LLR)."
+     },
+     {
+      "name": "weightedDegreeRank",
+      "type": "integer",
+      "description": "Rank by weighted degree."
+     },
+     {
+      "name": "betweenness",
+      "type": "number",
+      "description": "Betweenness centrality (unweighted shortest paths)."
+     },
+     {
+      "name": "betweennessRank",
+      "type": "integer",
+      "description": "Rank by betweenness."
+     },
+     {
+      "name": "eigenvector",
+      "type": "number",
+      "description": "Eigenvector centrality (LLR-weighted, power iteration, L2-normalized)."
+     },
+     {
+      "name": "eigenvectorRank",
+      "type": "integer",
+      "description": "Rank by eigenvector centrality."
+     }
+    ]
+   }
+  },
+  {
+   "name": "discursive-pivots",
+   "title": "Divine Discourses: discursive-pivots",
+   "description": "137 verses mechanically flagged for opening with a temporal particle (idh or idha) while sharing a content root with the immediately preceding verse.",
+   "path": "discursive-pivots.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "surah",
+      "type": "integer",
+      "description": "Surah number."
+     },
+     {
+      "name": "verse",
+      "type": "integer",
+      "description": "The flagged verse."
+     },
+     {
+      "name": "marker",
+      "type": "string",
+      "description": "The temporal particle opening the verse: idh or idha."
+     },
+     {
+      "name": "previousVerse",
+      "type": "integer",
+      "description": "The preceding verse the flagged verse shares a root with."
+     },
+     {
+      "name": "sharedRoots",
+      "type": "string",
+      "description": "Semicolon-separated list of the shared root(s) in Latin transliteration."
+     }
+    ]
+   }
+  },
+  {
+   "name": "fawatih",
+   "title": "Divine Discourses: fawatih",
+   "description": "The 29 surahs opening with a sequence of isolated letters (fawatih / al-muqatta'at), and which combination.",
+   "path": "fawatih.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "surah",
+      "type": "integer",
+      "description": "Surah number."
+     },
+     {
+      "name": "verse",
+      "type": "integer",
+      "description": "Verse carrying the isolated letters (always 1)."
+     },
+     {
+      "name": "letters",
+      "type": "string",
+      "description": "The isolated letters in Arabic script, as written."
+     }
+    ]
+   }
+  },
+  {
+   "name": "formulas",
+   "title": "Divine Discourses: formulas",
+   "description": "Every recurring 3-5 word sequence in the Qur'an (18,408 rows: 6,403 root-view + 12,005 surface-view), with its first occurrence.",
+   "path": "formulas.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "stream",
+      "type": "string",
+      "description": "root or surface."
+     },
+     {
+      "name": "n",
+      "type": "integer",
+      "description": "Sequence length, 3-5. Unit: words."
+     },
+     {
+      "name": "display",
+      "type": "string",
+      "description": "Root stream: dot-separated Latin transliteration. Surface stream: the Arabic phrase itself."
+     },
+     {
+      "name": "arabic",
+      "type": "string",
+      "description": "Arabic script for the sequence (root stream: root letters; surface stream: same as display)."
+     },
+     {
+      "name": "count",
+      "type": "integer",
+      "description": "Total occurrences of this sequence across the corpus. Unit: occurrences."
+     },
+     {
+      "name": "firstSurah",
+      "type": "integer",
+      "description": "Surah of the sequence's first occurrence."
+     },
+     {
+      "name": "firstVerse",
+      "type": "integer",
+      "description": "Verse of the sequence's first occurrence."
+     }
+    ]
+   }
+  },
+  {
+   "name": "rhyme-summary",
+   "title": "Divine Discourses: rhyme-summary",
+   "description": "Per-surah roll-up of verse-ending (rhyme) patterns for all 114 surahs.",
+   "path": "rhyme-summary.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "surah",
+      "type": "integer",
+      "description": "Surah number, 1-114."
+     },
+     {
+      "name": "verseCount",
+      "type": "integer",
+      "description": "Number of verses in the surah. Unit: verses."
+     },
+     {
+      "name": "familyCount",
+      "type": "integer",
+      "description": "Count of distinct fine-key rhyme families in the surah."
+     },
+     {
+      "name": "dominantKey",
+      "type": "string",
+      "description": "The most frequent fine rhyme key in the surah."
+     },
+     {
+      "name": "dominantShare",
+      "type": "number",
+      "description": "Share of verses ending on the dominant key, 0-1."
+     },
+     {
+      "name": "shiftCount",
+      "type": "integer",
+      "description": "Number of verse-to-verse changes in the fine rhyme key."
+     },
+     {
+      "name": "topRefrainPausal",
+      "type": "string",
+      "description": "Pausal form of the most-repeated verse ending recurring 3+ times, if any; null otherwise."
+     },
+     {
+      "name": "topRefrainCount",
+      "type": "integer",
+      "description": "Occurrences of topRefrainPausal; null if there is no refrain."
+     },
+     {
+      "name": "meanRunLength",
+      "type": "number",
+      "description": "verseCount / (shiftCount + 1): average consecutive-verse run on one ending before it changes. Unit: verses."
+     }
+    ]
+   }
+  },
+  {
    "name": "root-frequencies",
    "title": "Divine Discourses: root-frequencies",
    "description": "Every one of the 1,642 roots: raw occurrence count, overall normalized frequency, and per-period count and normalized frequency.",
@@ -166,6 +406,132 @@
       "name": "normalizedFrequency_medinan",
       "type": "number",
       "description": "(count_medinan / period token total) * 1000. Unit: occurrences per 1,000 tokens."
+     }
+    ]
+   }
+  },
+  {
+   "name": "structure",
+   "title": "Divine Discourses: structure",
+   "description": "Mechanically segmented sections for all 114 surahs (TextTiling-derived changepoint detection over lexical cohesion), not a transcribed scholarly outline.",
+   "path": "structure.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "surah",
+      "type": "integer",
+      "description": "Surah number."
+     },
+     {
+      "name": "sectionIndex",
+      "type": "integer",
+      "description": "1-based section number within the surah."
+     },
+     {
+      "name": "fromVerse",
+      "type": "integer",
+      "description": "First verse of the section."
+     },
+     {
+      "name": "toVerse",
+      "type": "integer",
+      "description": "Last verse of the section."
+     },
+     {
+      "name": "verseCount",
+      "type": "integer",
+      "description": "Number of verses in the section. Unit: verses."
+     }
+    ]
+   }
+  },
+  {
+   "name": "structure-tests",
+   "title": "Divine Discourses: structure-tests",
+   "description": "Four block-level mirror-symmetry tests (concentric pairing, inclusio, formula bookending, verse-length symmetry) over the computed sections in the structure table, one row per surah.",
+   "path": "structure-tests.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "surah",
+      "type": "integer",
+      "description": "Surah number."
+     },
+     {
+      "name": "verseCount",
+      "type": "integer",
+      "description": "Verses in the surah. Unit: verses."
+     },
+     {
+      "name": "sections",
+      "type": "integer",
+      "description": "Number of computed sections (from the structure table)."
+     },
+     {
+      "name": "concentricParallelism_observed",
+      "type": "number",
+      "description": "Observed mean Jaccard similarity of mirrored section pairs; null if the surah has too few sections for this test."
+     },
+     {
+      "name": "concentricParallelism_pValue",
+      "type": "number",
+      "description": "Permutation p-value for concentricParallelism; null if not applicable."
+     },
+     {
+      "name": "concentricParallelism_survivor",
+      "type": "string",
+      "description": "Whether this candidate survived the pooled Benjamini-Hochberg correction; null if not applicable."
+     },
+     {
+      "name": "inclusio_observed",
+      "type": "number",
+      "description": "Observed vocabulary overlap between the first and last section; null if not applicable."
+     },
+     {
+      "name": "inclusio_pValue",
+      "type": "number",
+      "description": "Permutation p-value for inclusio; null if not applicable."
+     },
+     {
+      "name": "inclusio_survivor",
+      "type": "string",
+      "description": "Whether this candidate survived correction; null if not applicable."
+     },
+     {
+      "name": "formulaBookending_observed",
+      "type": "number",
+      "description": "Observed formula-bracketing statistic; null if not applicable."
+     },
+     {
+      "name": "formulaBookending_pValue",
+      "type": "number",
+      "description": "Permutation p-value for formulaBookending; null if not applicable."
+     },
+     {
+      "name": "formulaBookending_survivor",
+      "type": "string",
+      "description": "Whether this candidate survived correction; null if not applicable."
+     },
+     {
+      "name": "lengthSymmetry_observed",
+      "type": "number",
+      "description": "Observed correlation of the verse-length profile with its reverse; null if not applicable."
+     },
+     {
+      "name": "lengthSymmetry_pValue",
+      "type": "number",
+      "description": "Permutation p-value for lengthSymmetry; null if not applicable."
+     },
+     {
+      "name": "lengthSymmetry_survivor",
+      "type": "string",
+      "description": "Whether this candidate survived correction; null if not applicable."
      }
     ]
    }
@@ -259,6 +625,39 @@
       "name": "verbPct",
       "type": "number",
       "description": "Percentage of the surah's tokens tagged verb (V) by Leeds POS tagging. Unit: percent."
+     }
+    ]
+   }
+  },
+  {
+   "name": "theme-surah-density",
+   "title": "Divine Discourses: theme-surah-density",
+   "description": "Sparse theme-by-surah matrix: for each surah, the themes whose root-family vocabulary clusters most densely in it.",
+   "path": "theme-surah-density.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "surah",
+      "type": "integer",
+      "description": "Surah number."
+     },
+     {
+      "name": "themeSlug",
+      "type": "string",
+      "description": "Theme identifier, matches themes.html's slug."
+     },
+     {
+      "name": "themeTitle",
+      "type": "string",
+      "description": "Theme display title."
+     },
+     {
+      "name": "perThousand",
+      "type": "number",
+      "description": "Density of this theme's root family in this surah. Unit: theme-root tokens per 1,000 surah tokens."
      }
     ]
    }

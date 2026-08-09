@@ -35,6 +35,41 @@
   },
   {
    "@type": "cr:FileObject",
+   "@id": "centrality.csv",
+   "name": "centrality.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/centrality.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
+   "@id": "discursive-pivots.csv",
+   "name": "discursive-pivots.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/discursive-pivots.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
+   "@id": "fawatih.csv",
+   "name": "fawatih.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/fawatih.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
+   "@id": "formulas.csv",
+   "name": "formulas.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/formulas.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
+   "@id": "rhyme-summary.csv",
+   "name": "rhyme-summary.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/rhyme-summary.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
    "@id": "root-frequencies.csv",
    "name": "root-frequencies.csv",
    "contentUrl": "https://divinediscourses.org/data/exports/root-frequencies.csv",
@@ -42,9 +77,30 @@
   },
   {
    "@type": "cr:FileObject",
+   "@id": "structure.csv",
+   "name": "structure.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/structure.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
+   "@id": "structure-tests.csv",
+   "name": "structure-tests.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/structure-tests.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
    "@id": "surah-stats.csv",
    "name": "surah-stats.csv",
    "contentUrl": "https://divinediscourses.org/data/exports/surah-stats.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
+   "@id": "theme-surah-density.csv",
+   "name": "theme-surah-density.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/theme-surah-density.csv",
    "encodingFormat": "text/csv"
   },
   {
@@ -209,6 +265,571 @@
       },
       "extract": {
        "column": "llr"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "centrality",
+   "name": "centrality",
+   "description": "Network centrality for all 1,642 roots over the root co-occurrence graph (5,211 edges, built from each root's top-25-by-LLR partners).",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "centrality/root",
+     "name": "root",
+     "description": "Buckwalter-transliterated root.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "centrality.csv"
+      },
+      "extract": {
+       "column": "root"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "centrality/safeKey",
+     "name": "safeKey",
+     "description": "URL/filename-safe encoding of root.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "centrality.csv"
+      },
+      "extract": {
+       "column": "safeKey"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "centrality/rootLatin",
+     "name": "rootLatin",
+     "description": "Root in Latin transliteration with diacritics.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "centrality.csv"
+      },
+      "extract": {
+       "column": "rootLatin"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "centrality/degree",
+     "name": "degree",
+     "description": "Count of distinct partner roots.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "centrality.csv"
+      },
+      "extract": {
+       "column": "degree"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "centrality/degreeRank",
+     "name": "degreeRank",
+     "description": "Rank by degree, 1 = highest, among 1,642 roots.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "centrality.csv"
+      },
+      "extract": {
+       "column": "degreeRank"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "centrality/weightedDegree",
+     "name": "weightedDegree",
+     "description": "Sum of incident edge weights (LLR).",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "centrality.csv"
+      },
+      "extract": {
+       "column": "weightedDegree"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "centrality/weightedDegreeRank",
+     "name": "weightedDegreeRank",
+     "description": "Rank by weighted degree.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "centrality.csv"
+      },
+      "extract": {
+       "column": "weightedDegreeRank"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "centrality/betweenness",
+     "name": "betweenness",
+     "description": "Betweenness centrality (unweighted shortest paths).",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "centrality.csv"
+      },
+      "extract": {
+       "column": "betweenness"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "centrality/betweennessRank",
+     "name": "betweennessRank",
+     "description": "Rank by betweenness.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "centrality.csv"
+      },
+      "extract": {
+       "column": "betweennessRank"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "centrality/eigenvector",
+     "name": "eigenvector",
+     "description": "Eigenvector centrality (LLR-weighted, power iteration, L2-normalized).",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "centrality.csv"
+      },
+      "extract": {
+       "column": "eigenvector"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "centrality/eigenvectorRank",
+     "name": "eigenvectorRank",
+     "description": "Rank by eigenvector centrality.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "centrality.csv"
+      },
+      "extract": {
+       "column": "eigenvectorRank"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "discursive-pivots",
+   "name": "discursive-pivots",
+   "description": "137 verses mechanically flagged for opening with a temporal particle (idh or idha) while sharing a content root with the immediately preceding verse.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "discursive-pivots/surah",
+     "name": "surah",
+     "description": "Surah number.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "discursive-pivots.csv"
+      },
+      "extract": {
+       "column": "surah"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "discursive-pivots/verse",
+     "name": "verse",
+     "description": "The flagged verse.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "discursive-pivots.csv"
+      },
+      "extract": {
+       "column": "verse"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "discursive-pivots/marker",
+     "name": "marker",
+     "description": "The temporal particle opening the verse: idh or idha.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "discursive-pivots.csv"
+      },
+      "extract": {
+       "column": "marker"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "discursive-pivots/previousVerse",
+     "name": "previousVerse",
+     "description": "The preceding verse the flagged verse shares a root with.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "discursive-pivots.csv"
+      },
+      "extract": {
+       "column": "previousVerse"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "discursive-pivots/sharedRoots",
+     "name": "sharedRoots",
+     "description": "Semicolon-separated list of the shared root(s) in Latin transliteration.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "discursive-pivots.csv"
+      },
+      "extract": {
+       "column": "sharedRoots"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "fawatih",
+   "name": "fawatih",
+   "description": "The 29 surahs opening with a sequence of isolated letters (fawatih / al-muqatta'at), and which combination.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "fawatih/surah",
+     "name": "surah",
+     "description": "Surah number.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "fawatih.csv"
+      },
+      "extract": {
+       "column": "surah"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "fawatih/verse",
+     "name": "verse",
+     "description": "Verse carrying the isolated letters (always 1).",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "fawatih.csv"
+      },
+      "extract": {
+       "column": "verse"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "fawatih/letters",
+     "name": "letters",
+     "description": "The isolated letters in Arabic script, as written.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "fawatih.csv"
+      },
+      "extract": {
+       "column": "letters"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "formulas",
+   "name": "formulas",
+   "description": "Every recurring 3-5 word sequence in the Qur'an (18,408 rows: 6,403 root-view + 12,005 surface-view), with its first occurrence.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "formulas/stream",
+     "name": "stream",
+     "description": "root or surface.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "formulas.csv"
+      },
+      "extract": {
+       "column": "stream"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "formulas/n",
+     "name": "n",
+     "description": "Sequence length, 3-5.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "formulas.csv"
+      },
+      "extract": {
+       "column": "n"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "formulas/display",
+     "name": "display",
+     "description": "Root stream: dot-separated Latin transliteration. Surface stream: the Arabic phrase itself.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "formulas.csv"
+      },
+      "extract": {
+       "column": "display"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "formulas/arabic",
+     "name": "arabic",
+     "description": "Arabic script for the sequence (root stream: root letters; surface stream: same as display).",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "formulas.csv"
+      },
+      "extract": {
+       "column": "arabic"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "formulas/count",
+     "name": "count",
+     "description": "Total occurrences of this sequence across the corpus.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "formulas.csv"
+      },
+      "extract": {
+       "column": "count"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "formulas/firstSurah",
+     "name": "firstSurah",
+     "description": "Surah of the sequence's first occurrence.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "formulas.csv"
+      },
+      "extract": {
+       "column": "firstSurah"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "formulas/firstVerse",
+     "name": "firstVerse",
+     "description": "Verse of the sequence's first occurrence.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "formulas.csv"
+      },
+      "extract": {
+       "column": "firstVerse"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "rhyme-summary",
+   "name": "rhyme-summary",
+   "description": "Per-surah roll-up of verse-ending (rhyme) patterns for all 114 surahs.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "rhyme-summary/surah",
+     "name": "surah",
+     "description": "Surah number, 1-114.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "rhyme-summary.csv"
+      },
+      "extract": {
+       "column": "surah"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "rhyme-summary/verseCount",
+     "name": "verseCount",
+     "description": "Number of verses in the surah.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "rhyme-summary.csv"
+      },
+      "extract": {
+       "column": "verseCount"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "rhyme-summary/familyCount",
+     "name": "familyCount",
+     "description": "Count of distinct fine-key rhyme families in the surah.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "rhyme-summary.csv"
+      },
+      "extract": {
+       "column": "familyCount"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "rhyme-summary/dominantKey",
+     "name": "dominantKey",
+     "description": "The most frequent fine rhyme key in the surah.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "rhyme-summary.csv"
+      },
+      "extract": {
+       "column": "dominantKey"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "rhyme-summary/dominantShare",
+     "name": "dominantShare",
+     "description": "Share of verses ending on the dominant key, 0-1.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "rhyme-summary.csv"
+      },
+      "extract": {
+       "column": "dominantShare"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "rhyme-summary/shiftCount",
+     "name": "shiftCount",
+     "description": "Number of verse-to-verse changes in the fine rhyme key.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "rhyme-summary.csv"
+      },
+      "extract": {
+       "column": "shiftCount"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "rhyme-summary/topRefrainPausal",
+     "name": "topRefrainPausal",
+     "description": "Pausal form of the most-repeated verse ending recurring 3+ times, if any; null otherwise.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "rhyme-summary.csv"
+      },
+      "extract": {
+       "column": "topRefrainPausal"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "rhyme-summary/topRefrainCount",
+     "name": "topRefrainCount",
+     "description": "Occurrences of topRefrainPausal; null if there is no refrain.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "rhyme-summary.csv"
+      },
+      "extract": {
+       "column": "topRefrainCount"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "rhyme-summary/meanRunLength",
+     "name": "meanRunLength",
+     "description": "verseCount / (shiftCount + 1): average consecutive-verse run on one ending before it changes.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "rhyme-summary.csv"
+      },
+      "extract": {
+       "column": "meanRunLength"
       }
      }
     }
@@ -427,6 +1048,322 @@
       },
       "extract": {
        "column": "normalizedFrequency_medinan"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "structure",
+   "name": "structure",
+   "description": "Mechanically segmented sections for all 114 surahs (TextTiling-derived changepoint detection over lexical cohesion), not a transcribed scholarly outline.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "structure/surah",
+     "name": "surah",
+     "description": "Surah number.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "structure.csv"
+      },
+      "extract": {
+       "column": "surah"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "structure/sectionIndex",
+     "name": "sectionIndex",
+     "description": "1-based section number within the surah.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "structure.csv"
+      },
+      "extract": {
+       "column": "sectionIndex"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "structure/fromVerse",
+     "name": "fromVerse",
+     "description": "First verse of the section.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "structure.csv"
+      },
+      "extract": {
+       "column": "fromVerse"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "structure/toVerse",
+     "name": "toVerse",
+     "description": "Last verse of the section.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "structure.csv"
+      },
+      "extract": {
+       "column": "toVerse"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "structure/verseCount",
+     "name": "verseCount",
+     "description": "Number of verses in the section.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "structure.csv"
+      },
+      "extract": {
+       "column": "verseCount"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "structure-tests",
+   "name": "structure-tests",
+   "description": "Four block-level mirror-symmetry tests (concentric pairing, inclusio, formula bookending, verse-length symmetry) over the computed sections in the structure table, one row per surah.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "structure-tests/surah",
+     "name": "surah",
+     "description": "Surah number.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "structure-tests.csv"
+      },
+      "extract": {
+       "column": "surah"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "structure-tests/verseCount",
+     "name": "verseCount",
+     "description": "Verses in the surah.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "structure-tests.csv"
+      },
+      "extract": {
+       "column": "verseCount"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "structure-tests/sections",
+     "name": "sections",
+     "description": "Number of computed sections (from the structure table).",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "structure-tests.csv"
+      },
+      "extract": {
+       "column": "sections"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "structure-tests/concentricParallelism_observed",
+     "name": "concentricParallelism_observed",
+     "description": "Observed mean Jaccard similarity of mirrored section pairs; null if the surah has too few sections for this test.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "structure-tests.csv"
+      },
+      "extract": {
+       "column": "concentricParallelism_observed"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "structure-tests/concentricParallelism_pValue",
+     "name": "concentricParallelism_pValue",
+     "description": "Permutation p-value for concentricParallelism; null if not applicable.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "structure-tests.csv"
+      },
+      "extract": {
+       "column": "concentricParallelism_pValue"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "structure-tests/concentricParallelism_survivor",
+     "name": "concentricParallelism_survivor",
+     "description": "Whether this candidate survived the pooled Benjamini-Hochberg correction; null if not applicable.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "structure-tests.csv"
+      },
+      "extract": {
+       "column": "concentricParallelism_survivor"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "structure-tests/inclusio_observed",
+     "name": "inclusio_observed",
+     "description": "Observed vocabulary overlap between the first and last section; null if not applicable.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "structure-tests.csv"
+      },
+      "extract": {
+       "column": "inclusio_observed"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "structure-tests/inclusio_pValue",
+     "name": "inclusio_pValue",
+     "description": "Permutation p-value for inclusio; null if not applicable.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "structure-tests.csv"
+      },
+      "extract": {
+       "column": "inclusio_pValue"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "structure-tests/inclusio_survivor",
+     "name": "inclusio_survivor",
+     "description": "Whether this candidate survived correction; null if not applicable.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "structure-tests.csv"
+      },
+      "extract": {
+       "column": "inclusio_survivor"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "structure-tests/formulaBookending_observed",
+     "name": "formulaBookending_observed",
+     "description": "Observed formula-bracketing statistic; null if not applicable.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "structure-tests.csv"
+      },
+      "extract": {
+       "column": "formulaBookending_observed"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "structure-tests/formulaBookending_pValue",
+     "name": "formulaBookending_pValue",
+     "description": "Permutation p-value for formulaBookending; null if not applicable.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "structure-tests.csv"
+      },
+      "extract": {
+       "column": "formulaBookending_pValue"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "structure-tests/formulaBookending_survivor",
+     "name": "formulaBookending_survivor",
+     "description": "Whether this candidate survived correction; null if not applicable.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "structure-tests.csv"
+      },
+      "extract": {
+       "column": "formulaBookending_survivor"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "structure-tests/lengthSymmetry_observed",
+     "name": "lengthSymmetry_observed",
+     "description": "Observed correlation of the verse-length profile with its reverse; null if not applicable.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "structure-tests.csv"
+      },
+      "extract": {
+       "column": "lengthSymmetry_observed"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "structure-tests/lengthSymmetry_pValue",
+     "name": "lengthSymmetry_pValue",
+     "description": "Permutation p-value for lengthSymmetry; null if not applicable.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "structure-tests.csv"
+      },
+      "extract": {
+       "column": "lengthSymmetry_pValue"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "structure-tests/lengthSymmetry_survivor",
+     "name": "lengthSymmetry_survivor",
+     "description": "Whether this candidate survived correction; null if not applicable.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "structure-tests.csv"
+      },
+      "extract": {
+       "column": "lengthSymmetry_survivor"
       }
      }
     }
@@ -675,6 +1612,74 @@
       },
       "extract": {
        "column": "verbPct"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "theme-surah-density",
+   "name": "theme-surah-density",
+   "description": "Sparse theme-by-surah matrix: for each surah, the themes whose root-family vocabulary clusters most densely in it.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "theme-surah-density/surah",
+     "name": "surah",
+     "description": "Surah number.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "theme-surah-density.csv"
+      },
+      "extract": {
+       "column": "surah"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "theme-surah-density/themeSlug",
+     "name": "themeSlug",
+     "description": "Theme identifier, matches themes.html's slug.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "theme-surah-density.csv"
+      },
+      "extract": {
+       "column": "themeSlug"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "theme-surah-density/themeTitle",
+     "name": "themeTitle",
+     "description": "Theme display title.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "theme-surah-density.csv"
+      },
+      "extract": {
+       "column": "themeTitle"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "theme-surah-density/perThousand",
+     "name": "perThousand",
+     "description": "Density of this theme's root family in this surah.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "theme-surah-density.csv"
+      },
+      "extract": {
+       "column": "perThousand"
       }
      }
     }

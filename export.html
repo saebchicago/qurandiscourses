@@ -6,13 +6,13 @@
     <title>Download the data · Divine Discourses</title>
     <meta
       name="description"
-      content="Download precomputed root frequencies, association statistics, per-surah stats, and verse lengths as CSV or JSON, with a machine-readable schema and data dictionary."
+      content="Download precomputed root frequencies, association statistics, per-surah stats, verse lengths, formulas, centrality, rhyme, and structure data as CSV or JSON, with a machine-readable schema and data dictionary."
     />
     <link rel="canonical" href="https://divinediscourses.org/export" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Divine Discourses" />
     <meta property="og:title" content="Download the data · Divine Discourses" />
-    <meta property="og:description" content="Download precomputed root frequencies, association statistics, per-surah stats, and verse lengths as CSV or JSON, with a machine-readable schema and data dictionary." />
+    <meta property="og:description" content="Download precomputed root frequencies, association statistics, per-surah stats, verse lengths, formulas, centrality, rhyme, and structure data as CSV or JSON, with a machine-readable schema and data dictionary." />
     <meta property="og:url" content="https://divinediscourses.org/export" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta property="og:image" content="https://divinediscourses.org/assets/og/site-og.png" />
@@ -48,7 +48,7 @@
     <meta name="theme-color" content="#2b1d0e" />
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/export","url":"https://divinediscourses.org/export","name":"Download the data · Divine Discourses","description":"Download precomputed root frequencies, association statistics, per-surah stats, and verse lengths as CSV or JSON, with a machine-readable schema and data dictionary.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.1.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Download the data","item":"https://divinediscourses.org/export"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"},{"@type":"Dataset","@id":"https://divinediscourses.org/export#association-pairs","name":"Divine Discourses: association-pairs","description":"Root-pair association statistics: the union of every pair appearing in any root's top-25-by-LLR partner list, deduplicated by unordered pair.","url":"https://divinediscourses.org/export","version":"1.1.0","creator":{"@type":"Organization","name":"Divine Discourses project","url":"https://divinediscourses.org/about"},"isBasedOn":"https://corpus.quran.com","license":"https://www.gnu.org/licenses/gpl-3.0.html","distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://divinediscourses.org/data/exports/association-pairs.csv"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://divinediscourses.org/data/exports/association-pairs.json"}]},{"@type":"Dataset","@id":"https://divinediscourses.org/export#root-frequencies","name":"Divine Discourses: root-frequencies","description":"Every one of the 1,642 roots: raw occurrence count, overall normalized frequency, and per-period count and normalized frequency.","url":"https://divinediscourses.org/export","version":"1.1.0","creator":{"@type":"Organization","name":"Divine Discourses project","url":"https://divinediscourses.org/about"},"isBasedOn":"https://corpus.quran.com","license":"https://www.gnu.org/licenses/gpl-3.0.html","distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://divinediscourses.org/data/exports/root-frequencies.csv"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://divinediscourses.org/data/exports/root-frequencies.json"}]},{"@type":"Dataset","@id":"https://divinediscourses.org/export#surah-stats","name":"Divine Discourses: surah-stats","description":"Per-surah corpus fingerprint: all 114 surahs.","url":"https://divinediscourses.org/export","version":"1.1.0","creator":{"@type":"Organization","name":"Divine Discourses project","url":"https://divinediscourses.org/about"},"isBasedOn":"https://corpus.quran.com","license":"https://www.gnu.org/licenses/gpl-3.0.html","distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://divinediscourses.org/data/exports/surah-stats.csv"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://divinediscourses.org/data/exports/surah-stats.json"}]},{"@type":"Dataset","@id":"https://divinediscourses.org/export#verse-lengths","name":"Divine Discourses: verse-lengths","description":"Every verse in the corpus (6,236 rows) with its token length and revelation period.","url":"https://divinediscourses.org/export","version":"1.1.0","creator":{"@type":"Organization","name":"Divine Discourses project","url":"https://divinediscourses.org/about"},"isBasedOn":"https://corpus.quran.com","license":"https://www.gnu.org/licenses/gpl-3.0.html","distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://divinediscourses.org/data/exports/verse-lengths.csv"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://divinediscourses.org/data/exports/verse-lengths.json"}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/export","url":"https://divinediscourses.org/export","name":"Download the data · Divine Discourses","description":"Download precomputed root frequencies, association statistics, per-surah stats, verse lengths, formulas, centrality, rhyme, and structure data as CSV or JSON, with a machine-readable schema and data dictionary.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.1.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Download the data","item":"https://divinediscourses.org/export"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"},{"@type":"Dataset","@id":"https://divinediscourses.org/export#association-pairs","name":"Divine Discourses: association-pairs","description":"Root-pair association statistics: the union of every pair appearing in any root's top-25-by-LLR partner list, deduplicated by unordered pair.","url":"https://divinediscourses.org/export","version":"1.1.0","creator":{"@type":"Organization","name":"Divine Discourses project","url":"https://divinediscourses.org/about"},"isBasedOn":"https://corpus.quran.com","license":"https://www.gnu.org/licenses/gpl-3.0.html","distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://divinediscourses.org/data/exports/association-pairs.csv"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://divinediscourses.org/data/exports/association-pairs.json"}]},{"@type":"Dataset","@id":"https://divinediscourses.org/export#centrality","name":"Divine Discourses: centrality","description":"Network centrality for all 1,642 roots over the root co-occurrence graph (5,211 edges, built from each root's top-25-by-LLR partners).","url":"https://divinediscourses.org/export","version":"1.1.0","creator":{"@type":"Organization","name":"Divine Discourses project","url":"https://divinediscourses.org/about"},"isBasedOn":"https://corpus.quran.com","license":"https://www.gnu.org/licenses/gpl-3.0.html","distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://divinediscourses.org/data/exports/centrality.csv"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://divinediscourses.org/data/exports/centrality.json"}]},{"@type":"Dataset","@id":"https://divinediscourses.org/export#discursive-pivots","name":"Divine Discourses: discursive-pivots","description":"137 verses mechanically flagged for opening with a temporal particle (idh or idha) while sharing a content root with the immediately preceding verse.","url":"https://divinediscourses.org/export","version":"1.1.0","creator":{"@type":"Organization","name":"Divine Discourses project","url":"https://divinediscourses.org/about"},"isBasedOn":"https://corpus.quran.com","license":"https://www.gnu.org/licenses/gpl-3.0.html","distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://divinediscourses.org/data/exports/discursive-pivots.csv"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://divinediscourses.org/data/exports/discursive-pivots.json"}]},{"@type":"Dataset","@id":"https://divinediscourses.org/export#fawatih","name":"Divine Discourses: fawatih","description":"The 29 surahs opening with a sequence of isolated letters (fawatih / al-muqatta'at), and which combination.","url":"https://divinediscourses.org/export","version":"1.1.0","creator":{"@type":"Organization","name":"Divine Discourses project","url":"https://divinediscourses.org/about"},"isBasedOn":"https://corpus.quran.com","license":"https://www.gnu.org/licenses/gpl-3.0.html","distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://divinediscourses.org/data/exports/fawatih.csv"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://divinediscourses.org/data/exports/fawatih.json"}]},{"@type":"Dataset","@id":"https://divinediscourses.org/export#formulas","name":"Divine Discourses: formulas","description":"Every recurring 3-5 word sequence in the Qur'an (18,408 rows: 6,403 root-view + 12,005 surface-view), with its first occurrence.","url":"https://divinediscourses.org/export","version":"1.1.0","creator":{"@type":"Organization","name":"Divine Discourses project","url":"https://divinediscourses.org/about"},"isBasedOn":"https://corpus.quran.com","license":"https://www.gnu.org/licenses/gpl-3.0.html","distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://divinediscourses.org/data/exports/formulas.csv"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://divinediscourses.org/data/exports/formulas.json"}]},{"@type":"Dataset","@id":"https://divinediscourses.org/export#rhyme-summary","name":"Divine Discourses: rhyme-summary","description":"Per-surah roll-up of verse-ending (rhyme) patterns for all 114 surahs.","url":"https://divinediscourses.org/export","version":"1.1.0","creator":{"@type":"Organization","name":"Divine Discourses project","url":"https://divinediscourses.org/about"},"isBasedOn":"https://corpus.quran.com","license":"https://www.gnu.org/licenses/gpl-3.0.html","distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://divinediscourses.org/data/exports/rhyme-summary.csv"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://divinediscourses.org/data/exports/rhyme-summary.json"}]},{"@type":"Dataset","@id":"https://divinediscourses.org/export#root-frequencies","name":"Divine Discourses: root-frequencies","description":"Every one of the 1,642 roots: raw occurrence count, overall normalized frequency, and per-period count and normalized frequency.","url":"https://divinediscourses.org/export","version":"1.1.0","creator":{"@type":"Organization","name":"Divine Discourses project","url":"https://divinediscourses.org/about"},"isBasedOn":"https://corpus.quran.com","license":"https://www.gnu.org/licenses/gpl-3.0.html","distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://divinediscourses.org/data/exports/root-frequencies.csv"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://divinediscourses.org/data/exports/root-frequencies.json"}]},{"@type":"Dataset","@id":"https://divinediscourses.org/export#structure","name":"Divine Discourses: structure","description":"Mechanically segmented sections for all 114 surahs (TextTiling-derived changepoint detection over lexical cohesion), not a transcribed scholarly outline.","url":"https://divinediscourses.org/export","version":"1.1.0","creator":{"@type":"Organization","name":"Divine Discourses project","url":"https://divinediscourses.org/about"},"isBasedOn":"https://corpus.quran.com","license":"https://www.gnu.org/licenses/gpl-3.0.html","distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://divinediscourses.org/data/exports/structure.csv"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://divinediscourses.org/data/exports/structure.json"}]},{"@type":"Dataset","@id":"https://divinediscourses.org/export#structure-tests","name":"Divine Discourses: structure-tests","description":"Four block-level mirror-symmetry tests (concentric pairing, inclusio, formula bookending, verse-length symmetry) over the computed sections in the structure table, one row per surah.","url":"https://divinediscourses.org/export","version":"1.1.0","creator":{"@type":"Organization","name":"Divine Discourses project","url":"https://divinediscourses.org/about"},"isBasedOn":"https://corpus.quran.com","license":"https://www.gnu.org/licenses/gpl-3.0.html","distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://divinediscourses.org/data/exports/structure-tests.csv"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://divinediscourses.org/data/exports/structure-tests.json"}]},{"@type":"Dataset","@id":"https://divinediscourses.org/export#surah-stats","name":"Divine Discourses: surah-stats","description":"Per-surah corpus fingerprint: all 114 surahs.","url":"https://divinediscourses.org/export","version":"1.1.0","creator":{"@type":"Organization","name":"Divine Discourses project","url":"https://divinediscourses.org/about"},"isBasedOn":"https://corpus.quran.com","license":"https://www.gnu.org/licenses/gpl-3.0.html","distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://divinediscourses.org/data/exports/surah-stats.csv"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://divinediscourses.org/data/exports/surah-stats.json"}]},{"@type":"Dataset","@id":"https://divinediscourses.org/export#theme-surah-density","name":"Divine Discourses: theme-surah-density","description":"Sparse theme-by-surah matrix: for each surah, the themes whose root-family vocabulary clusters most densely in it.","url":"https://divinediscourses.org/export","version":"1.1.0","creator":{"@type":"Organization","name":"Divine Discourses project","url":"https://divinediscourses.org/about"},"isBasedOn":"https://corpus.quran.com","license":"https://www.gnu.org/licenses/gpl-3.0.html","distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://divinediscourses.org/data/exports/theme-surah-density.csv"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://divinediscourses.org/data/exports/theme-surah-density.json"}]},{"@type":"Dataset","@id":"https://divinediscourses.org/export#verse-lengths","name":"Divine Discourses: verse-lengths","description":"Every verse in the corpus (6,236 rows) with its token length and revelation period.","url":"https://divinediscourses.org/export","version":"1.1.0","creator":{"@type":"Organization","name":"Divine Discourses project","url":"https://divinediscourses.org/about"},"isBasedOn":"https://corpus.quran.com","license":"https://www.gnu.org/licenses/gpl-3.0.html","distribution":[{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://divinediscourses.org/data/exports/verse-lengths.csv"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://divinediscourses.org/data/exports/verse-lengths.json"}]}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -312,6 +312,213 @@
             >
           </p>
         </div>
+        <div class="card">
+          <h4 style="margin: 0 0 0.3rem">
+            Formulas
+            <span
+              class="badge ok"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · direct computation from Leeds morphology"
+              >●</span
+            >
+          </h4>
+          <p style="margin: 0 0 0.4rem">
+            Every recurring 3-5 word sequence in the Qur'an, root-view and
+            surface-view combined, with its first occurrence. Same counts
+            as <a href="/formulas">Formulas</a>; full occurrence lists are
+            in <code>data/formulas-root.json</code> and
+            <code>data/formulas-surface.json</code>.
+          </p>
+          <p class="export-links" style="margin: 0">
+            <a href="data/exports/formulas.csv" download>CSV</a>
+            <a href="data/exports/formulas.json" download>JSON</a>
+            <span style="font-size: 0.82rem; color: var(--muted)"
+              >18,408 rows</span
+            >
+          </p>
+        </div>
+        <div class="card">
+          <h4 style="margin: 0 0 0.3rem">
+            Centrality
+            <span
+              class="badge nuanced"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Nuanced"
+              tabindex="0"
+              title="Nuanced · four measures rank roots differently by design"
+              >~</span
+            >
+          </h4>
+          <p style="margin: 0 0 0.4rem">
+            All 1,642 roots: degree, weighted degree, betweenness, and
+            eigenvector centrality over the root co-occurrence graph, each
+            with its rank. Same figures as the
+            <a href="/roots">root detail</a> centrality panel.
+          </p>
+          <p class="export-links" style="margin: 0">
+            <a href="data/exports/centrality.csv" download>CSV</a>
+            <a href="data/exports/centrality.json" download>JSON</a>
+            <span style="font-size: 0.82rem; color: var(--muted)"
+              >1,642 rows</span
+            >
+          </p>
+        </div>
+        <div class="card">
+          <h4 style="margin: 0 0 0.3rem">
+            Rhyme summary
+            <span
+              class="badge ok"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · direct computation from Leeds morphology"
+              >●</span
+            >
+          </h4>
+          <p style="margin: 0 0 0.4rem">
+            All 114 surahs: verse-ending rhyme family count, dominant key
+            and share, shift count, top refrain, and mean run length. Same
+            figures as the <a href="/patterns#rhyme">Patterns</a> rhyme
+            panel.
+          </p>
+          <p class="export-links" style="margin: 0">
+            <a href="data/exports/rhyme-summary.csv" download>CSV</a>
+            <a href="data/exports/rhyme-summary.json" download>JSON</a>
+            <span style="font-size: 0.82rem; color: var(--muted)"
+              >114 rows</span
+            >
+          </p>
+        </div>
+        <div class="card">
+          <h4 style="margin: 0 0 0.3rem">
+            Fawatih
+            <span
+              class="badge ok"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · direct detection from Leeds morphology"
+              >●</span
+            >
+          </h4>
+          <p style="margin: 0 0 0.4rem">
+            The 29 surahs opening with isolated letters (al-muqatta'at)
+            and which of the 14 distinct combinations each uses. No
+            meaning is asserted for the letters.
+          </p>
+          <p class="export-links" style="margin: 0">
+            <a href="data/exports/fawatih.csv" download>CSV</a>
+            <a href="data/exports/fawatih.json" download>JSON</a>
+            <span style="font-size: 0.82rem; color: var(--muted)"
+              >29 rows</span
+            >
+          </p>
+        </div>
+        <div class="card">
+          <h4 style="margin: 0 0 0.3rem">
+            Discursive pivots
+            <span
+              class="badge nuanced"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Nuanced"
+              tabindex="0"
+              title="Nuanced · depends on the fixed marker list and stoplist"
+              >~</span
+            >
+          </h4>
+          <p style="margin: 0 0 0.4rem">
+            137 verses mechanically flagged for opening with a temporal
+            particle while sharing a root with the previous verse, a
+            candidate marker of where a passage turns, not a scholar's
+            reading.
+          </p>
+          <p class="export-links" style="margin: 0">
+            <a href="data/exports/discursive-pivots.csv" download>CSV</a>
+            <a href="data/exports/discursive-pivots.json" download>JSON</a>
+            <span style="font-size: 0.82rem; color: var(--muted)"
+              >137 rows</span
+            >
+          </p>
+        </div>
+        <div class="card">
+          <h4 style="margin: 0 0 0.3rem">
+            Computed structure
+            <span
+              class="badge nuanced"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Nuanced"
+              tabindex="0"
+              title="Nuanced · a computed segmentation, never a scholar's outline"
+              >~</span
+            >
+          </h4>
+          <p style="margin: 0 0 0.4rem">
+            Mechanically segmented sections for all 114 surahs (417
+            sections total), a changepoint model over lexical cohesion,
+            never attributed to any named scholar. See the
+            <a href="/dossier">Dossier</a> "Computed structure" panel.
+          </p>
+          <p class="export-links" style="margin: 0">
+            <a href="data/exports/structure.csv" download>CSV</a>
+            <a href="data/exports/structure.json" download>JSON</a>
+            <span style="font-size: 0.82rem; color: var(--muted)"
+              >417 rows</span
+            >
+          </p>
+        </div>
+        <div class="card">
+          <h4 style="margin: 0 0 0.3rem">
+            Structure tests
+            <span
+              class="badge nuanced"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Nuanced"
+              tabindex="0"
+              title="Nuanced · a null result over one specific mechanical test"
+              >~</span
+            >
+          </h4>
+          <p style="margin: 0 0 0.4rem">
+            Four block-level mirror-symmetry tests over the computed
+            sections, one row per surah. 0 of 345 candidates reached
+            significance after correction; see
+            <a href="/patterns#ring-composition">Patterns</a>.
+          </p>
+          <p class="export-links" style="margin: 0">
+            <a href="data/exports/structure-tests.csv" download>CSV</a>
+            <a href="data/exports/structure-tests.json" download>JSON</a>
+            <span style="font-size: 0.82rem; color: var(--muted)"
+              >114 rows</span
+            >
+          </p>
+        </div>
+        <div class="card">
+          <h4 style="margin: 0 0 0.3rem">
+            Theme-surah density
+            <span
+              class="badge nuanced"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Nuanced"
+              tabindex="0"
+              title="Nuanced · which roots belong to which theme is editorial"
+              >~</span
+            >
+          </h4>
+          <p style="margin: 0 0 0.4rem">
+            Sparse theme-by-surah matrix: for each surah, the themes whose
+            root-family vocabulary clusters most densely in it (theme-root
+            tokens per 1,000 surah tokens). See <a href="/themes">Themes</a>.
+          </p>
+          <p class="export-links" style="margin: 0">
+            <a href="data/exports/theme-surah-density.csv" download>CSV</a>
+            <a href="data/exports/theme-surah-density.json" download>JSON</a>
+            <span style="font-size: 0.82rem; color: var(--muted)"
+              >252 rows</span
+            >
+          </p>
+        </div>
       </section>
 
       <section>
@@ -334,7 +541,7 @@
       <section>
         <h3 id="datapack">Everything at once, pinned to a version</h3>
         <p>
-          One archive holds all four tables in both formats, the schema,
+          One archive holds all twelve tables in both formats, the schema,
           the data dictionary, and a citation file, so a download never
           travels without its provenance. The archive is named by release
           version and built deterministically: citing
