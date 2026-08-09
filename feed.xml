@@ -9,6 +9,31 @@
   <updated>2026-08-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>18,408 recurring phrases now answer a harder question: how much of a surah are they?</title>
+    <id>https://divinediscourses.org/changelog#2026-08-how-formulaic-is-this-surah</id>
+    <link href="https://divinediscourses.org/changelog#2026-08-how-formulaic-is-this-surah"/>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;18,408 recurring phrases now answer a harder question: how much of a surah are they?&lt;/strong&gt;
+              The &lt;a href="/formulas"&gt;Formulas&lt;/a&gt; index already listed
+              every phrase that recurs somewhere in the Qur'an; it never
+              said what share of a given surah's words those phrases
+              actually cover, which is the central quantity in
+              Bannister's (2014) computerised oral-formulaic study. Every
+              surah now gets that number for both the root and surface
+              streams, tested against 10,000 length-matched resamples of
+              the whole corpus rather than eyeballed: 46 of 228
+              candidates (114 surahs x 2 streams) come back higher than
+              chance predicts after a joint Benjamini-Hochberg
+              correction. Surah 64 (At-Taghabun) tops the root-stream
+              ranking at 55.6% of its words, the worked example on
+              &lt;a href="/validation"&gt;Validation&lt;/a&gt;; the nine shortest,
+              most distinctive Meccan surahs (96, 100-112 and others)
+              sit at exactly 0%. New panel on every
+              &lt;a href="/dossier"&gt;Dossier&lt;/a&gt; page and a corpus-wide
+              ranking on Formulas; a 13th table on
+              &lt;a href="/export"&gt;Export&lt;/a&gt;.</content>
+  </entry>
+  <entry>
     <title>Six sources got an id, and eleven numbers got a claim record</title>
     <id>https://divinediscourses.org/changelog#2026-08-closing-the-apparatus-gaps</id>
     <link href="https://divinediscourses.org/changelog#2026-08-closing-the-apparatus-gaps"/>

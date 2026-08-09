@@ -492,6 +492,15 @@
    ],
    "def": "The Mishkat Mutashabihat corpus, a compilation of verse-to-verse cross-references drawn from 13 classical books of mutashabihat scholarship, powering this site's Related-verses feature. Its rights holder has not published a license; see Sources.",
    "ddHtml": "              The Mishkat Mutashabihat corpus, a compilation of verse-to-verse\n              cross-references drawn from 13 classical books of mutashabihat scholarship,\n              powering this site's Related-verses feature. Its rights holder has not\n              published a license; see Sources."
+  },
+  {
+   "id": "formulaic-density",
+   "labelHtml": "Formulaic density",
+   "matchKeys": [
+    "formulaic density"
+   ],
+   "def": "The share of a verse's or surah's words that belong to a recurring formula, operationalizing the central quantity in Bannister's (2014) computerized oral-formulaic study. This site tests whether a surah's density is higher than a length-matched resampling of corpus verses would predict, correcting for the fact that short surahs mechanically show noisier density than long ones.",
+   "ddHtml": "              The share of a verse's or surah's words that belong to a recurring formula,\n              operationalizing the central quantity in Bannister's (2014) computerized\n              oral-formulaic study. This site tests whether a surah's density is higher\n              than a length-matched resampling of corpus verses would predict, correcting\n              for the fact that short surahs mechanically show noisier density than long\n              ones."
   }
  ]
 }

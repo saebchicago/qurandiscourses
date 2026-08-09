@@ -56,6 +56,13 @@
   },
   {
    "@type": "cr:FileObject",
+   "@id": "formulaic-density.csv",
+   "name": "formulaic-density.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/formulaic-density.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
    "@id": "formulas.csv",
    "name": "formulas.csv",
    "contentUrl": "https://divinediscourses.org/data/exports/formulas.csv",
@@ -574,6 +581,134 @@
       },
       "extract": {
        "column": "letters"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "formulaic-density",
+   "name": "formulaic-density",
+   "description": "Per-surah mean share of words covered by a recurring 3-5-word phrase (Bannister's oral-formulaic density), tested against a length-matched null, for all 114 surahs.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "formulaic-density/surah",
+     "name": "surah",
+     "description": "Surah number.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "formulaic-density.csv"
+      },
+      "extract": {
+       "column": "surah"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "formulaic-density/verseCount",
+     "name": "verseCount",
+     "description": "Verses in this surah.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "formulaic-density.csv"
+      },
+      "extract": {
+       "column": "verseCount"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "formulaic-density/meanDensityRoot",
+     "name": "meanDensityRoot",
+     "description": "Mean per-verse root-stream formulaic density, 0-1.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "formulaic-density.csv"
+      },
+      "extract": {
+       "column": "meanDensityRoot"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "formulaic-density/pValueRoot",
+     "name": "pValueRoot",
+     "description": "One-sided permutation p-value, root stream.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "formulaic-density.csv"
+      },
+      "extract": {
+       "column": "pValueRoot"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "formulaic-density/survivorRoot",
+     "name": "survivorRoot",
+     "description": "Survives the pooled BH-FDR correction at q<0.05, root stream.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "formulaic-density.csv"
+      },
+      "extract": {
+       "column": "survivorRoot"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "formulaic-density/meanDensitySurface",
+     "name": "meanDensitySurface",
+     "description": "Mean per-verse surface-stream formulaic density, 0-1.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "formulaic-density.csv"
+      },
+      "extract": {
+       "column": "meanDensitySurface"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "formulaic-density/pValueSurface",
+     "name": "pValueSurface",
+     "description": "One-sided permutation p-value, surface stream.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "formulaic-density.csv"
+      },
+      "extract": {
+       "column": "pValueSurface"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "formulaic-density/survivorSurface",
+     "name": "survivorSurface",
+     "description": "Survives the pooled BH-FDR correction at q<0.05, surface stream.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "formulaic-density.csv"
+      },
+      "extract": {
+       "column": "survivorSurface"
       }
      }
     }
@@ -1544,7 +1679,7 @@
      "@type": "cr:Field",
      "@id": "surah-stats/formDiversityRatio",
      "name": "formDiversityRatio",
-     "description": "distinctFormCount / tokenCount.",
+     "description": "distinctFormCount / tokenCount. Mechanically declines as tokenCount grows (a sample-size artifact); see formMATTR/formMTLD for length-robust alternatives.",
      "dataType": "sc:Float",
      "source": {
       "fileObject": {
@@ -1552,6 +1687,36 @@
       },
       "extract": {
        "column": "formDiversityRatio"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-stats/formMATTR",
+     "name": "formMATTR",
+     "description": "Moving-average type-token ratio (Covington & McFall 2010) over the surah's ordered surface-form tokens, 25-token window. Null for the 9 surahs shorter than the window.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "surah-stats.csv"
+      },
+      "extract": {
+       "column": "formMATTR"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-stats/formMTLD",
+     "name": "formMTLD",
+     "description": "Measure of Textual Lexical Diversity (McCarthy & Jarvis 2010): mean tokens-per-factor at a 0.72 TTR threshold, bidirectionally averaged. Null only if the surah's running TTR never reaches the threshold.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "surah-stats.csv"
+      },
+      "extract": {
+       "column": "formMTLD"
       }
      }
     },

@@ -205,6 +205,42 @@
             Show more
           </button>
         </p>
+      </section>
+      <section id="density">
+        <div class="card">
+          <h3 style="margin-top: 0">
+            Formulaic density
+            <span
+              class="badge ok"
+              data-source-ids="leeds-corpus-v0.4 bannister-2014"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · computed from the cited corpus"
+              >●</span
+            >
+          </h3>
+          <p style="margin: 0 0 0.6rem">
+            What share of each verse's words belong to a recurring
+            phrase, operationalizing the central quantity in Bannister's
+            computerised oral-formulaic study. Every surah's mean is
+            tested against a length-matched resampling of the whole
+            corpus (10,000 draws, seeded), pooled into one
+            Benjamini-Hochberg correction across all 228 candidates
+            (114 surahs x 2 streams) rather than judged surah by surah.
+          </p>
+          <div id="densitySummary" class="small" style="margin: 0 0 0.8rem"></div>
+          <div id="densityRankings" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.9rem"></div>
+          <p class="caption-note" style="margin-top: 0.6rem">
+            A survivor means this surah's coverage is higher than
+            length-matched chance predicts — not that it is formulaic in
+            the technical oral-formulaic-theory sense, a scholarly
+            judgment argued in Bannister 2014, not settled by this
+            count. Full per-surah, per-verse table:
+            <a href="/export">Export</a>.
+          </p>
+        </div>
+      </section>
+      <section>
         <div class="card related-ribbon" aria-label="Continue exploring">
           <h3>Explore further</h3>
           <ul class="explore-links">
@@ -437,6 +473,71 @@
         if (qParam) document.getElementById("searchBox").value = qParam.slice(0, 80);
 
         setStream("root");
+
+        // Formulaic density: corpus distribution + most/least formulaic
+        // rankings (data/formulaic-density.json,
+        // scripts/build-formulaic-density.mjs). Independent of the
+        // stream tabs above.
+        function pct(x) {
+          return (x * 100).toFixed(1) + "%";
+        }
+        function densityTable(label, key, rows) {
+          var body = rows
+            .map(function (r) {
+              return (
+                '<tr><td><a href="/dossier?s=' +
+                r.surah +
+                '">' +
+                r.surah +
+                "</a></td><td class=\"count\">" +
+                pct(r[key]) +
+                "</td></tr>"
+              );
+            })
+            .join("");
+          return (
+            '<div><h4 style="margin:0 0 0.3rem;font-size:0.8rem;color:var(--muted);font-weight:600">' +
+            label +
+            '</h4><table class="data" style="font-size:0.82rem"><thead><tr><th>Surah</th><th class="count">Density</th></tr></thead><tbody>' +
+            body +
+            "</tbody></table></div>"
+          );
+        }
+        fetch("data/formulaic-density.json")
+          .then(function (r) {
+            if (!r.ok) throw new Error("HTTP " + r.status);
+            return r.json();
+          })
+          .then(function (d) {
+            var summary = document.getElementById("densitySummary");
+            if (summary) {
+              summary.textContent =
+                "Corpus mean: " +
+                pct(d.corpusDistribution.root.mean) +
+                " (root), " +
+                pct(d.corpusDistribution.surface.mean) +
+                " (surface). " +
+                d.fdrSurvivors +
+                " of " +
+                d.totalCandidates +
+                " candidates (surah x stream) survive Benjamini-Hochberg at q<" +
+                d.fdrQThreshold +
+                ".";
+            }
+            var rankings = document.getElementById("densityRankings");
+            if (rankings) {
+              rankings.innerHTML =
+                densityTable("Most formulaic (root)", "meanDensityRoot", d.rankings.root.mostFormulaic) +
+                densityTable("Least formulaic (root)", "meanDensityRoot", d.rankings.root.leastFormulaic) +
+                densityTable("Most formulaic (surface)", "meanDensitySurface", d.rankings.surface.mostFormulaic) +
+                densityTable("Least formulaic (surface)", "meanDensitySurface", d.rankings.surface.leastFormulaic);
+            }
+          })
+          .catch(function () {
+            var summary = document.getElementById("densitySummary");
+            if (summary)
+              summary.textContent = "Formulaic-density data unavailable.";
+          });
       })();
     </script>
     <script src="assets/version.js" defer></script>

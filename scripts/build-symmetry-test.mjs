@@ -42,6 +42,11 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import {
+  FREQUENCY_CEILING,
+  benjaminiHochbergSurvivorCount,
+  bonferroniAlpha as computeBonferroniAlpha,
+} from "./lib/stats.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -49,7 +54,6 @@ const rootsSummary = JSON.parse(
   readFileSync(join(ROOT, "data", "roots-summary.json"), "utf8"),
 );
 
-const FREQUENCY_CEILING = 700;
 const excludedRoots = new Set(
   Object.entries(rootsSummary)
     .filter(([, meta]) => meta.totalCount > FREQUENCY_CEILING)
@@ -130,15 +134,14 @@ for (let s = 1; s <= 114; s++) {
 // p(k) <= (k/m) * FDR_Q; everything at or before that rank survives.
 const m = candidates.length;
 const sorted = [...candidates].sort((x, y) => x.pValue - y.pValue);
-let maxK = 0;
-for (let i = 0; i < m; i++) {
-  const rank = i + 1;
-  if (sorted[i].pValue <= (rank / m) * FDR_Q) maxK = rank;
-}
+const maxK = benjaminiHochbergSurvivorCount(
+  sorted.map((c) => c.pValue),
+  FDR_Q,
+);
 const survivors = sorted.slice(0, maxK);
 
 // Bonferroni, for comparison (stricter, reported alongside BH).
-const bonferroniAlpha = 0.05 / m;
+const bonferroniAlpha = computeBonferroniAlpha(m);
 const bonferroniSurvivors = candidates.filter(
   (c) => c.pValue <= bonferroniAlpha,
 );

@@ -38,6 +38,7 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { safeKey } from "./lib/safe-key.mjs";
 import { computedDate } from "./lib/computed-date.mjs";
+import { pearson, spearman } from "./lib/stats.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
@@ -201,43 +202,7 @@ if (!eigen.converged) {
 }
 
 // ── Spearman rank correlation (tie-corrected via ranks + Pearson) ────
-
-function averageRanks(values) {
-  const n = values.length;
-  const idx = values.map((v, i) => i).sort((a, b) => values[a] - values[b]);
-  const ranks = new Array(n);
-  let i = 0;
-  while (i < n) {
-    let j = i;
-    while (j + 1 < n && values[idx[j + 1]] === values[idx[i]]) j++;
-    const avgRank = (i + j) / 2 + 1; // 1-based
-    for (let k = i; k <= j; k++) ranks[idx[k]] = avgRank;
-    i = j + 1;
-  }
-  return ranks;
-}
-
-function pearson(x, y) {
-  const n = x.length;
-  const meanX = x.reduce((s, v) => s + v, 0) / n;
-  const meanY = y.reduce((s, v) => s + v, 0) / n;
-  let num = 0,
-    denX = 0,
-    denY = 0;
-  for (let i = 0; i < n; i++) {
-    const dx = x[i] - meanX;
-    const dy = y[i] - meanY;
-    num += dx * dy;
-    denX += dx * dx;
-    denY += dy * dy;
-  }
-  const den = Math.sqrt(denX * denY);
-  return den === 0 ? 0 : num / den;
-}
-
-function spearman(x, y) {
-  return pearson(averageRanks(x), averageRanks(y));
-}
+// pearson and spearman now live in scripts/lib/stats.mjs; imported above.
 
 const rawFrequency = nodeList.map((bw) => rootsSummary[bw].totalCount);
 const spearmanDegree = spearman(degree, rawFrequency);
