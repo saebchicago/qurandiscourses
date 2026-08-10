@@ -1,0 +1,445 @@
+{
+  "_generated": "scripts/build-ribbons.mjs",
+  "_method": "Fixed 260x34 canvas, four stops at x = 18 + 68d. A claim is marked at the lowest distance among its sources; a span segment is emitted when its sources occupy more than one distance. All coordinates are literals; nothing is computed in the browser.",
+  "labels": {
+    "0": "Dr. Khan's own words",
+    "1": "Quoted verbatim by a scholar",
+    "2": "A scholar's description",
+    "3": "General-audience restatement"
+  },
+  "ribbons": {
+    "aqu-founding": {
+      "width": 260,
+      "height": 34,
+      "axisY": 12,
+      "stopRadius": 3.5,
+      "markRadius": 6,
+      "stops": [
+        {
+          "d": 0,
+          "x": 18
+        },
+        {
+          "d": 1,
+          "x": 86
+        },
+        {
+          "d": 2,
+          "x": 154
+        },
+        {
+          "d": 3,
+          "x": 222
+        }
+      ],
+      "marked": 2,
+      "span": {
+        "x1": 154,
+        "x2": 222
+      },
+      "ariaLabel": "Provenance distance 2: A scholar's description. Sources span distance 2 to 3.",
+      "rows": [
+        {
+          "id": "suntimes-2018-obituary",
+          "distance": 3
+        },
+        {
+          "id": "azmat-2017-introduction",
+          "distance": 2
+        }
+      ]
+    },
+    "books-three": {
+      "width": 260,
+      "height": 34,
+      "axisY": 12,
+      "stopRadius": 3.5,
+      "markRadius": 6,
+      "stops": [
+        {
+          "d": 0,
+          "x": 18
+        },
+        {
+          "d": 1,
+          "x": 86
+        },
+        {
+          "d": 2,
+          "x": 154
+        },
+        {
+          "d": 3,
+          "x": 222
+        }
+      ],
+      "marked": 0,
+      "span": {
+        "x1": 18,
+        "x2": 222
+      },
+      "ariaLabel": "Provenance distance 0: Dr. Khan's own words. Sources span distance 0 to 3.",
+      "rows": [
+        {
+          "id": "suntimes-2018-obituary",
+          "distance": 3
+        },
+        {
+          "id": "amust-2018-encounters",
+          "distance": 3
+        },
+        {
+          "id": "khan-reflections-2005",
+          "distance": 0
+        },
+        {
+          "id": "khan-introduction-2011",
+          "distance": 0
+        },
+        {
+          "id": "khan-exercise-2013",
+          "distance": 0
+        }
+      ]
+    },
+    "exercise-chapter-34": {
+      "width": 260,
+      "height": 34,
+      "axisY": 12,
+      "stopRadius": 3.5,
+      "markRadius": 6,
+      "stops": [
+        {
+          "d": 0,
+          "x": 18
+        },
+        {
+          "d": 1,
+          "x": 86
+        },
+        {
+          "d": 2,
+          "x": 154
+        },
+        {
+          "d": 3,
+          "x": 222
+        }
+      ],
+      "marked": 0,
+      "span": {
+        "x1": 18,
+        "x2": 154
+      },
+      "ariaLabel": "Provenance distance 0: Dr. Khan's own words. Sources span distance 0 to 2.",
+      "rows": [
+        {
+          "id": "azmat-2020-review",
+          "distance": 2
+        },
+        {
+          "id": "khan-exercise-2013",
+          "distance": 0
+        }
+      ]
+    },
+    "phd-1986": {
+      "width": 260,
+      "height": 34,
+      "axisY": 12,
+      "stopRadius": 3.5,
+      "markRadius": 6,
+      "stops": [
+        {
+          "d": 0,
+          "x": 18
+        },
+        {
+          "d": 1,
+          "x": 86
+        },
+        {
+          "d": 2,
+          "x": 154
+        },
+        {
+          "d": 3,
+          "x": 222
+        }
+      ],
+      "marked": 2,
+      "span": {
+        "x1": 154,
+        "x2": 222
+      },
+      "ariaLabel": "Provenance distance 2: A scholar's description. Sources span distance 2 to 3.",
+      "rows": [
+        {
+          "id": "azmat-2017-introduction",
+          "distance": 2
+        },
+        {
+          "id": "suntimes-2018-obituary",
+          "distance": 3
+        }
+      ]
+    },
+    "rampur-study": {
+      "width": 260,
+      "height": 34,
+      "axisY": 12,
+      "stopRadius": 3.5,
+      "markRadius": 6,
+      "stops": [
+        {
+          "d": 0,
+          "x": 18
+        },
+        {
+          "d": 1,
+          "x": 86
+        },
+        {
+          "d": 2,
+          "x": 154
+        },
+        {
+          "d": 3,
+          "x": 222
+        }
+      ],
+      "marked": 2,
+      "span": null,
+      "ariaLabel": "Provenance distance 2: A scholar's description.",
+      "rows": [
+        {
+          "id": "azmat-2017-introduction",
+          "distance": 2
+        }
+      ]
+    },
+    "us-arrival": {
+      "width": 260,
+      "height": 34,
+      "axisY": 12,
+      "stopRadius": 3.5,
+      "markRadius": 6,
+      "stops": [
+        {
+          "d": 0,
+          "x": 18
+        },
+        {
+          "d": 1,
+          "x": 86
+        },
+        {
+          "d": 2,
+          "x": 154
+        },
+        {
+          "d": 3,
+          "x": 222
+        }
+      ],
+      "marked": 3,
+      "span": null,
+      "ariaLabel": "Provenance distance 3: General-audience restatement.",
+      "rows": [
+        {
+          "id": "suntimes-2018-obituary",
+          "distance": 3
+        }
+      ]
+    },
+    "pwr-role": {
+      "width": 260,
+      "height": 34,
+      "axisY": 12,
+      "stopRadius": 3.5,
+      "markRadius": 6,
+      "stops": [
+        {
+          "d": 0,
+          "x": 18
+        },
+        {
+          "d": 1,
+          "x": 86
+        },
+        {
+          "d": 2,
+          "x": 154
+        },
+        {
+          "d": 3,
+          "x": 222
+        }
+      ],
+      "marked": 3,
+      "span": null,
+      "ariaLabel": "Provenance distance 3: General-audience restatement.",
+      "rows": [
+        {
+          "id": "suntimes-2018-obituary",
+          "distance": 3
+        }
+      ]
+    },
+    "iep21-role": {
+      "width": 260,
+      "height": 34,
+      "axisY": 12,
+      "stopRadius": 3.5,
+      "markRadius": 6,
+      "stops": [
+        {
+          "d": 0,
+          "x": 18
+        },
+        {
+          "d": 1,
+          "x": 86
+        },
+        {
+          "d": 2,
+          "x": 154
+        },
+        {
+          "d": 3,
+          "x": 222
+        }
+      ],
+      "marked": 3,
+      "span": null,
+      "ariaLabel": "Provenance distance 3: General-audience restatement.",
+      "rows": [
+        {
+          "id": "suntimes-2018-obituary",
+          "distance": 3
+        }
+      ]
+    },
+    "wcmir-role": {
+      "width": 260,
+      "height": 34,
+      "axisY": 12,
+      "stopRadius": 3.5,
+      "markRadius": 6,
+      "stops": [
+        {
+          "d": 0,
+          "x": 18
+        },
+        {
+          "d": 1,
+          "x": 86
+        },
+        {
+          "d": 2,
+          "x": 154
+        },
+        {
+          "d": 3,
+          "x": 222
+        }
+      ],
+      "marked": 3,
+      "span": null,
+      "ariaLabel": "Provenance distance 3: General-audience restatement.",
+      "rows": [
+        {
+          "id": "suntimes-2018-obituary",
+          "distance": 3
+        }
+      ]
+    },
+    "yatama-scope": {
+      "width": 260,
+      "height": 34,
+      "axisY": 12,
+      "stopRadius": 3.5,
+      "markRadius": 6,
+      "stops": [
+        {
+          "d": 0,
+          "x": 18
+        },
+        {
+          "d": 1,
+          "x": 86
+        },
+        {
+          "d": 2,
+          "x": 154
+        },
+        {
+          "d": 3,
+          "x": 222
+        }
+      ],
+      "marked": null,
+      "span": null,
+      "ariaLabel": "No source recorded, so no provenance distance is marked.",
+      "rows": []
+    },
+    "covenant-amos": {
+      "width": 260,
+      "height": 34,
+      "axisY": 12,
+      "stopRadius": 3.5,
+      "markRadius": 6,
+      "stops": [
+        {
+          "d": 0,
+          "x": 18
+        },
+        {
+          "d": 1,
+          "x": 86
+        },
+        {
+          "d": 2,
+          "x": 154
+        },
+        {
+          "d": 3,
+          "x": 222
+        }
+      ],
+      "marked": null,
+      "span": null,
+      "ariaLabel": "No source recorded, so no provenance distance is marked.",
+      "rows": []
+    },
+    "ciogc-role": {
+      "width": 260,
+      "height": 34,
+      "axisY": 12,
+      "stopRadius": 3.5,
+      "markRadius": 6,
+      "stops": [
+        {
+          "d": 0,
+          "x": 18
+        },
+        {
+          "d": 1,
+          "x": 86
+        },
+        {
+          "d": 2,
+          "x": 154
+        },
+        {
+          "d": 3,
+          "x": 222
+        }
+      ],
+      "marked": null,
+      "span": null,
+      "ariaLabel": "No source recorded, so no provenance distance is marked.",
+      "rows": []
+    }
+  }
+}

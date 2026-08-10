@@ -3783,3 +3783,130 @@ html[data-focus] .ar.xl {
     display: none !important;
   }
 }
+/* ── Provenance apparatus (scripts/build-provenance.mjs) ──────────────
+   A claim mark binds a rendered statement to a claim id; its source
+   card is the <details> immediately after it.
+
+   Status is carried by underline STYLE, never by colour alone: solid,
+   dashed and dotted stay distinguishable in grayscale and to a reader
+   who cannot perceive the accent hue at all. Each mark also carries a
+   visually hidden status word, so a screen reader hears "Verified
+   claim: ..." rather than inferring anything from a border. The mark
+   colour is deliberately --accent-soft rather than the link colour, so
+   a claim mark is never mistaken for a hyperlink. */
+.claim {
+  text-decoration: none;
+  border-bottom: 2px solid var(--accent-soft);
+  padding-bottom: 0.05em;
+}
+.claim.is-verified {
+  border-bottom-style: solid;
+}
+.claim.is-nuanced {
+  border-bottom-style: dashed;
+}
+.claim.is-pending {
+  border-bottom-style: dotted;
+}
+
+.claim-block {
+  margin: 0 0 1.4rem;
+}
+.claim-card {
+  margin: 0.35rem 0 0;
+  border-left: 3px solid var(--accent-soft);
+  padding: 0 0 0 0.9rem;
+}
+.claim-card > summary {
+  font-size: 0.86rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+.claim-statement {
+  font-weight: 600;
+  margin: 0.6rem 0 0.2rem;
+}
+.claim-status,
+.src-dist {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.src-list {
+  margin: 0.4rem 0;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+}
+.src-list li {
+  margin-bottom: 0.35rem;
+}
+
+/* The ribbon. Every coordinate in the SVG is a literal emitted by
+   scripts/build-ribbons.mjs; nothing here sizes or positions it at
+   runtime. max-width keeps it inside a 375px viewport. */
+.ribbon {
+  margin: 0.6rem 0;
+  max-width: 100%;
+}
+.ribbon svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+.rib-axis {
+  stroke: var(--accent-soft);
+  stroke-width: 1;
+}
+.rib-span {
+  stroke: var(--accent-soft);
+  stroke-width: 5;
+  opacity: 0.35;
+  stroke-linecap: round;
+}
+.rib-stop {
+  fill: var(--accent-soft);
+}
+.rib-mark {
+  fill: var(--accent);
+  stroke: var(--bg);
+  stroke-width: 2;
+}
+.rib-num {
+  font-size: 9px;
+  fill: var(--muted);
+  text-anchor: middle;
+}
+.ribbon-note {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.2rem;
+}
+.ribbon-table {
+  margin-top: 0.4rem;
+}
+
+.conflict {
+  margin: 0.6rem 0;
+  padding: 0.5rem 0.7rem;
+  border: 1px dashed var(--accent-soft);
+}
+.conflict h4 {
+  margin: 0 0 0.3rem;
+  font-size: 0.9rem;
+}
+.conflict-field,
+.conflict-res {
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+.pending-note {
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+.prov-summary {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--accent-soft);
+}
+.prov-counts {
+  font-size: 0.9rem;
+}
