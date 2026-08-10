@@ -116,6 +116,15 @@ window.GLOSSARY = {
     });
     var used = {};
 
+    // Compiled once, not once per (text node x term). The patterns are
+    // constant for the life of the page, but they were being built inside
+    // the node loop below: 74 terms across ~370 text nodes on the denser
+    // pages is roughly 27,000 escapeRe() calls and RegExp compilations on
+    // DOMContentLoaded, on all 31 pages that load this file.
+    var termRe = terms.map(function (t) {
+      return new RegExp("\\b" + escapeRe(t) + "\\b", "i");
+    });
+
     var walker = document.createTreeWalker(
       main,
       NodeFilter.SHOW_TEXT,
@@ -133,8 +142,7 @@ window.GLOSSARY = {
       for (var i = 0; i < terms.length; i++) {
         var term = terms[i];
         if (used[term]) continue;
-        var re = new RegExp("\\b" + escapeRe(term) + "\\b", "i");
-        var m = re.exec(text);
+        var m = termRe[i].exec(text);
         if (m) {
           used[term] = true;
           var before = text.slice(0, m.index);

@@ -1015,30 +1015,33 @@
           }
         }
 
-        // Fill every [data-num] element from data/numbers.json (generated
-        // by scripts/build-numbers.mjs). The static text is the fallback if
-        // the fetch fails; the JSON is bundled, so this also works offline.
-        function fillNumbers() {
-          fetch("data/numbers.json")
-            .then(function (r) {
-              if (!r.ok) throw new Error("HTTP " + r.status);
-              return r.json();
-            })
-            .then(function (data) {
-              document.querySelectorAll("[data-num]").forEach(function (el) {
-                var v = data;
-                var parts = el.getAttribute("data-num").split(".");
-                for (var i = 0; i < parts.length && v != null; i++) {
-                  v = v[parts[i]];
-                }
-                if (typeof v === "number") {
-                  el.textContent = Number.isInteger(v)
-                    ? v.toLocaleString("en-US")
-                    : v.toFixed(1);
-                }
+        // One fetch of data/numbers.json for the whole page, memoized.
+        // There were three: this function, the hapax <details> handler
+        // below, and -- unnoticed -- assets/app.js's initDataNums(), which
+        // runs on every page carrying [data-num] elements and does exactly
+        // the same walk. numbers.html has 58 of them, so the page fetched
+        // and parsed the same 60KB twice on load and a third time on the
+        // hapax toggle, the second walk overwriting the first with
+        // identical values. Rejecting on a non-ok response (rather than
+        // resolving with junk) and clearing the memo lets a later caller
+        // retry -- the shape settled on in cite-badge.js and refs.js.
+        // window.qdNumbers() is assets/app.js's memoized loader, shared so
+        // the page fetches data/numbers.json exactly once for the
+        // [data-num] fill, the charts, and the hapax list combined.
+        function numbersData() {
+          return window.qdNumbers
+            ? window.qdNumbers()
+            : fetch("data/numbers.json").then(function (r) {
+                if (!r.ok) throw new Error("HTTP " + r.status);
+                return r.json();
               });
-              renderExtras(data);
-            })
+        }
+
+        // The [data-num] fill itself is assets/app.js's job and is not
+        // repeated here. This only renders what a scalar fill cannot.
+        function fillNumbers() {
+          numbersData()
+            .then(renderExtras)
             .catch(function () {
               /* static fallback text stays in place */
             });
@@ -1529,8 +1532,7 @@
             loaded = true;
             list.innerHTML = '<p style="color:var(--muted)">Loading…</p>';
             try {
-              var r = await fetch("data/numbers.json");
-              var data = await r.json();
+              var data = await numbersData();
               var roots = (data.hapaxLocalization || {}).roots || [];
               list.innerHTML = roots
                 .map(function (h) {

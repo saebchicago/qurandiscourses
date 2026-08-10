@@ -593,22 +593,34 @@
         // first focus/input of a root field rather than at page load —
         // except when the URL already names roots to compare, where it
         // is needed immediately to resolve them.
-        let rootsListP = null;
+        // The promise lives on window, not in this closure. data/roots-list.json
+        // is 376KB and this page has two independent inline script blocks that both
+        // want it: this one for the root search, and loadRootsSummary() further
+        // down for passage comparison. Neither could see the other's memo, so a
+        // reader who searched a root AND loaded passages fetched and parsed the
+        // whole file twice.
         function ensureRootsList() {
-          if (!rootsListP) {
-            rootsListP = fetch("data/roots-list.json")
+          if (!window.__rootsListP) {
+            window.__rootsListP = fetch("data/roots-list.json")
               .then((r) => {
                 if (!r.ok) throw new Error("HTTP " + r.status);
                 return r.json();
               })
               .then((data) => {
                 window.__rootsMeta = data;
-                allRoots = Object.values(data).sort(
-                  (a, b) => b.totalCount - a.totalCount,
-                );
+                return data;
+              })
+              .catch((err) => {
+                window.__rootsListP = null;
+                throw err;
               });
           }
-          return rootsListP;
+          return window.__rootsListP.then((data) => {
+            allRoots = Object.values(data).sort(
+              (a, b) => b.totalCount - a.totalCount,
+            );
+            return data;
+          });
         }
 
         function rootsSafeKey(bw) {
@@ -1181,14 +1193,25 @@
           if (resultEl && !resultEl.hidden) loadPassages();
         });
 
-        let rootsSummaryP = null;
+        // Shares the single window-scoped promise with ensureRootsList()
+        // above (a different inline script block, same 376KB file).
         function loadRootsSummary() {
-          if (!rootsSummaryP) {
-            rootsSummaryP = fetch("data/roots-list.json").then(function (r) {
-              return r.json();
-            });
+          if (!window.__rootsListP) {
+            window.__rootsListP = fetch("data/roots-list.json")
+              .then(function (r) {
+                if (!r.ok) throw new Error("HTTP " + r.status);
+                return r.json();
+              })
+              .then(function (data) {
+                window.__rootsMeta = data;
+                return data;
+              })
+              .catch(function (err) {
+                window.__rootsListP = null;
+                throw err;
+              });
           }
-          return rootsSummaryP;
+          return window.__rootsListP;
         }
 
         // ── Compute roots for a verse range ────────────────────────────────────

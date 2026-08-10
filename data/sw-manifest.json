@@ -2,7 +2,7 @@
  "_generated": "scripts/build-sw-manifest.mjs — the service worker's precache list and content fingerprint. A hash diff here alongside an unchanged version is the reviewer's cue to consider a SW_VERSION bump (see docs/maintainer-guide.md).",
  "version": "v11",
  "hashes": {
-  "assets/app.js": "6d0d440000a88d1e14b95799c52c8f903a8c3c03ff1a39970c2e079ee4387506",
+  "assets/app.js": "d558b46b342fb163afccc157e2d68d28a95ed15f5c4f3e52bd6a291888fd9f69",
   "assets/ask-routes.js": "9f39c41f87c04180983412d02d6144fadfd2f62e8139c8a0b6e26c434840a186",
   "assets/ask.js": "2d168631b97e0766ba2f464fb2668c130389f76db5b8352cf96b1244b9bfd112",
   "assets/case-studies.js": "4b02eb58852ca74cc747d7fdface11c8a6b921b985b210e776f0ef73a58dcfcc",
@@ -13,7 +13,7 @@
   "assets/discovery-worksheet.js": "f04cdf5d06f2b78355d60582e3834c37a3ab4402a67b173d659edcd843647736",
   "assets/feedback.js": "9e8454b88f88a168758b49b08933079f5d55d369eef7e1bf10830914a865bb0e",
   "assets/fonts.css": "13292a826f5fd02c40de188a9b5343b99bc24c2b5c049b033a6b7ec1d871b825",
-  "assets/glossary.js": "4861eb74c58707840d34638ac0bbed48b0b311192335eb1c1eeb05c3084648b2",
+  "assets/glossary.js": "b4ba0f68fa2ee952789a73f3a21add533b23f782c356d7ea2aafb9b36d914e61",
   "assets/icons/icon-192.png": "66f73d0d0a25fb8ad617de193237f04943e128102dbdd169734ed5e3aac77e9c",
   "assets/icons/icon-512.png": "4fde1f8bb62328918cf90804b2d9584674b4cb04b01aedf389ad23b0fe14642f",
   "assets/issue-url.js": "1129b521cac3776f30c507655d80c20f9f9f701b441a670dea72a4e230f068b6",
@@ -77,7 +77,7 @@
   "index.html": "e18536d7cb15eba41488fbfb43d448474488ec1f7a3a76ba0da823eb48543deb",
   "navigate.html": "951c7fbe98c1c8f3f7f9794c8ba13e6558ca46a38742320f2c633ca7c00064d0",
   "paths.html": "338ce7d555ca51fdc8fd950e978930b2878338dce88c50dfc4f643671b9ad947",
-  "read.html": "548e2965f3ebc899eed844ca4be538216b344732cd395d057111f6cbf4582723",
+  "read.html": "71663e3e54c78c17bf700488199d2549c99f0a31a6b780bed0ce46199a19c115",
   "search.html": "f8eb4b64a6fdeba0cfe8eeb1b8c311adcb263aeaa138d441eb96badaa09285e4"
  }
 }
