@@ -14,6 +14,19 @@
 //   4. X-Frame-Options appears nowhere (it cannot be relaxed per-path
 //      on Netlify and would break embedding site-wide)
 //   5. the /* residual security headers are present
+//   6. every .html address 301s (forced) to its clean path, no chains
+//   7. the hand-authored non-CSP blocks are still there (see below)
+//
+// Assertion 7 exists because netlify.toml is a HYBRID file: build-csp.mjs
+// rewrites the script-src/style-src-elem tokens inside CSP blocks, and
+// everything else in the file is hand-authored. Only the generated half
+// was guarded, and that asymmetry cost us: resolving a netlify.toml merge
+// conflict by taking one side wholesale and re-running build-csp.mjs
+// silently deleted the /assets/* and /data/* Cache-Control blocks (audit
+// item B10) — the generator faithfully restored the CSP directives and
+// had nothing to say about a block it never wrote. Every checker passed.
+// A hand-authored block that no check names can disappear in any future
+// conflict the same way, so the ones that matter are named here.
 //
 // Run: node scripts/check-headers-sync.mjs   (exit 1 on any failure)
 
@@ -147,6 +160,30 @@ for (const p of pages) {
 for (const r of redirects) {
   const next = byFrom.get(r.to);
   if (next) failures.push(`${r.from} -> ${r.to} -> ${next.to}: redirect chain`);
+}
+
+// 7. hand-authored non-CSP blocks that nothing else names. Each entry is
+// a block that exists for a reason recorded in netlify.toml's own
+// comments, and that no generator would ever put back. Matching is on
+// the header NAME, not its value, so tuning a max-age or swapping
+// noindex for nosnippet stays a one-line edit — what this refuses is the
+// block vanishing.
+const REQUIRED_BLOCKS = [
+  ["/assets/*", "Cache-Control"],
+  ["/data/*", "Cache-Control"],
+  ["/docs/*", "X-Robots-Tag"],
+  ["/sw.js", "Cache-Control"],
+];
+for (const [path, header] of REQUIRED_BLOCKS) {
+  const blk = blocks.find((b) => b.path === path);
+  if (!blk) {
+    failures.push(
+      `missing [[headers]] block for "${path}" (want ${header}) — ` +
+        `hand-authored, no generator restores it`,
+    );
+  } else if (!blk.values.includes(header)) {
+    failures.push(`${path}: block exists but has no ${header}`);
+  }
 }
 
 if (failures.length) {

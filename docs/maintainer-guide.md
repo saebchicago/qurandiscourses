@@ -159,7 +159,7 @@ dispatch instead of blocking every contribution.
 
 | Script | Guards |
 |---|---|
-| check-headers-sync.mjs | netlify.toml per-page CSP structure (fail-open for new pages: a page without its own block ships with NO CSP — run after adding any page) |
+| check-headers-sync.mjs | netlify.toml per-page CSP structure (fail-open for new pages: a page without its own block ships with NO CSP — run after adding any page), the clean-URL redirects, and the hand-authored non-CSP `[[headers]]` blocks (`/assets/*`, `/data/*`, `/docs/*`, `/sw.js`) that no generator would restore |
 | check-nav-sync.mjs | the by-design nav duplication: every page's primary nav must match index.html's (allowlist: embed.html, exercise-asr.html) |
 | check-claims.mjs | worked-claim provenance: stable IDs, allowed evidence dimensions, valid source IDs, limitations, derivation paths, and the case-study join |
 | check-data-nums.mjs | every `data-num="dot.path"` binding across every page: the path must resolve to a number in `data/numbers.json`, and the element's static fallback text must match that number under `initDataNums()`'s own formatting — catches a stale prose figure or a typo'd path, both of which `initDataNums()` fails on silently in the browser (it only overwrites when the path resolves to a number) |
@@ -380,6 +380,25 @@ block ships with no CSP. Then run
 `node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs
 && node scripts/build-canonicals.mjs && node scripts/build-jsonld.mjs
 && node scripts/build-csp.mjs`.
+
+**`netlify.toml` is a hybrid file, and that makes its merge conflicts
+dangerous.** `build-csp.mjs` owns only the `script-src` and
+`style-src-elem` tokens *inside* CSP blocks; every other line — the
+redirects, the `/*` security headers, the `Cache-Control` and
+`X-Robots-Tag` blocks — is hand-authored and no generator will ever put
+it back. So resolving a conflict here by taking one side wholesale and
+re-running `build-csp.mjs` is **not** a safe resolution: the generator
+will faithfully rebuild the CSP hashes and say nothing about a
+hand-authored block that existed only on the other side. That is not
+hypothetical — it silently deleted the `/assets/*` and `/data/*`
+`Cache-Control` blocks between the commit that added them and the merge
+that shipped, with every checker green. Resolve by **merging both sides'
+hand-authored blocks first**, then regenerating, then diffing the
+non-CSP lines (`git diff <before> -- netlify.toml | grep -v
+Content-Security-Policy`) to confirm nothing but hashes moved.
+`check-headers-sync.mjs` now names the blocks that must exist, so this
+particular loss fails CI — but it can only guard blocks it knows about,
+so add new ones to its `REQUIRED_BLOCKS` table when they matter.
 
 That ordering is a contract, not a habit: build-canonicals fixes the
 URLs that build-jsonld embeds, and build-jsonld rewrites head regions on
