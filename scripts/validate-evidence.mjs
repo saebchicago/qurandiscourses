@@ -63,6 +63,9 @@ const SOURCE_KEYS = [
   "accessed", "status", "notes",
 ];
 const CLAIM_KEYS = ["id", "statement", "kind", "status", "sources", "conflict", "quote"];
+// Present on some claims, absent on others, governed by rule 11 below
+// rather than by the blanket "every key must be present" of rule 2.
+const OPTIONAL_CLAIM_KEYS = ["resolution_note"];
 
 const CLASSES = [
   "khan-text", "khan-correspondence", "khan-recording", "azmat-scholarship",
@@ -128,7 +131,26 @@ for (const c of claims) {
     if (!(k in c)) fail(CLAIMS_PATH, id, `rule 2: missing key "${k}"`);
   }
   for (const k of Object.keys(c)) {
-    if (!CLAIM_KEYS.includes(k)) fail(CLAIMS_PATH, id, `rule 2: key "${k}" is not in the schema`);
+    if (!CLAIM_KEYS.includes(k) && !OPTIONAL_CLAIM_KEYS.includes(k)) {
+      fail(CLAIMS_PATH, id, `rule 2: key "${k}" is not in the schema`);
+    }
+  }
+
+  // rule 11: a pending claim must say what evidence would settle it, and
+  // a claim that is NOT pending must not carry such a note. The second
+  // half matters as much as the first: a resolution note on a verified
+  // claim would imply the question is still open when it is not.
+  const hasNote =
+    typeof c.resolution_note === "string" && c.resolution_note.trim().length > 0;
+  if (c.status === "pending" && !hasNote) {
+    fail(CLAIMS_PATH, id, "rule 11: status \"pending\" with no resolution_note");
+  }
+  if (c.status !== "pending" && "resolution_note" in c) {
+    fail(
+      CLAIMS_PATH,
+      id,
+      `rule 11: status "${c.status}" carries a resolution_note, which belongs only on pending claims`,
+    );
   }
 
   if (!KINDS.includes(c.kind)) {
