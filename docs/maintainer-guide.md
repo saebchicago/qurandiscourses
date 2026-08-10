@@ -561,6 +561,19 @@ old cached copy would render incorrectly against fresh page code:
   format changed — e.g. this repo's root-formula refs going from
   first-position-only to all-positions)
 - any change to what `assets/*.js`/`.css` expects from the HTML shell
+- **and the reverse: any change to what the HTML shell expects from a
+  deferred asset.** This direction is easy to miss and shipped a real
+  regression once. HTML is served network-first while assets are
+  stale-while-revalidate, so a returning visitor gets the NEW page with
+  the OLD script out of the previous asset cache. When `read.html`
+  gained `?t=` support it began setting `window.__qdUrlOverride` for
+  `assets/app.js` to consume — a global that the cached v10 `app.js`
+  knew nothing about, so the shared-link fix silently did not apply on
+  that visitor's first navigation, and the page then rewrote the address
+  bar and destroyed the sender's ids before the background asset
+  refresh could land. If a page and a deferred asset start sharing a
+  global, an event name, a `data-` attribute, or any other handshake
+  that did not exist before, that is a contract change: bump.
 
 Bumping it prunes every old-version cache on the next `activate` (see
 `sw.js`'s `OWN_CACHES` filter) — a returning visitor's stale offline

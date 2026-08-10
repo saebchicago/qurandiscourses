@@ -102,6 +102,34 @@
     },
   };
 
+  // The defaults, kept so a saved value that survived JSON.parse but is
+  // the wrong shape (or names only editions that no longer exist) can be
+  // replaced rather than crashing every consumer downstream.
+  const DEFAULT_TRANSLATIONS = TRANSLATIONS.filter((t) => t.default).map(
+    (t) => t.id,
+  );
+
+  // Saved translations are the one preference that names things which can
+  // stop existing: an edition retired from TRANSLATIONS stays in a
+  // visitor's localStorage forever, and nothing else validates it. An
+  // unknown id counts toward the picker's "N selected" with no row to
+  // untick, is re-committed on every Apply, and renders as a raw machine
+  // id ("en.haleem") wherever the selection is summarised. ?t= has always
+  // been filtered against this same registry (read.html); this closes the
+  // matching hole on the storage side.
+  function sanitizeTranslations(value) {
+    if (!Array.isArray(value)) return DEFAULT_TRANSLATIONS.slice();
+    const known = new Set(TRANSLATIONS.map((t) => t.id));
+    const seenId = {};
+    const out = [];
+    for (const id of value) {
+      if (typeof id !== "string" || !known.has(id) || seenId[id]) continue;
+      seenId[id] = true;
+      out.push(id);
+    }
+    return out.length ? out : DEFAULT_TRANSLATIONS.slice();
+  }
+
   function load() {
     try {
       const raw = localStorage.getItem("qd_state");
@@ -119,8 +147,26 @@
           state.depth = "study";
           save();
         }
+        state.translations = sanitizeTranslations(state.translations);
       }
     } catch (e) {}
+    // A URL parameter must beat saved state, and it cannot simply assign
+    // to qdState at parse time to do so: load() runs from
+    // DOMContentLoaded, strictly AFTER every inline page script, so the
+    // Object.assign above would silently undo it. read.html's ?t=
+    // handler therefore records its intent here and load() re-applies it
+    // as the last word. Registering a second DOMContentLoaded listener
+    // in the page would not work either — the handler below dispatches
+    // qd:depth-changed, which starts the first fetch before any later
+    // listener runs, so the request would already have gone out with the
+    // wrong editions.
+    const override = window.__qdUrlOverride;
+    if (override) {
+      if (Array.isArray(override.translations)) {
+        const ids = sanitizeTranslations(override.translations);
+        if (ids.length) state.translations = ids;
+      }
+    }
   }
   // Set by the "Clear preferences" handler: the clear itself triggers a
   // depth re-render, whose load/fetch cascade would immediately re-persist

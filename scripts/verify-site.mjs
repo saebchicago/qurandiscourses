@@ -280,7 +280,18 @@ const { server, base: BASE } = await startStaticServer(ROOT);
 
 // ── Fixtures (alquran.cloud v1 shapes) with a hostile payload ───────
 const XSS = '<img src=x onerror="window.__xss=1">hostile';
-const mkEdition = (id, en) => ({ identifier: id, englishName: en, name: en, language: id.startsWith("en") ? "en" : "ar" });
+// The edition id is echoed into the display name on purpose: with every
+// translation fixture called "Fixture Translation", a page that rendered
+// the WRONG edition looked identical to one that rendered the right one,
+// so no check could tell them apart. Naming each block after the edition
+// it came from is what lets the transurl/comparetrans checks assert which
+// translation actually reached the DOM.
+const mkEdition = (id, en) => ({
+  identifier: id,
+  englishName: id === "quran-uthmani" ? en : `${en} ${id}`,
+  name: id === "quran-uthmani" ? en : `${en} ${id}`,
+  language: id.startsWith("en") ? "en" : "ar",
+});
 function fixtureFor(url) {
   const single = url.match(/\/v1\/ayah\/(\d+):(\d+)\/editions\/(.+)$/);
   const surah = url.match(/\/v1\/surah\/(\d+)\/editions\/(.+)$/);
@@ -345,7 +356,17 @@ function fixtureFor(url) {
 const browser = await chromium.launch(launchOptions());
 const BLOCKED_HOSTS = /api\.alquran\.cloud|cdn\.islamic\.network|api\.quran\.com/;
 
-async function newContext({ apiMode = "abort", seenState = true } = {}) {
+// savedTranslations: seed qd_state with a translation selection BEFORE
+// the first navigation, i.e. make the context behave like a returning
+// visitor rather than a first-ever one. This is not a convenience. Both
+// translation checks originally ran in a default (empty-storage)
+// context, which is the single state in which a saved selection cannot
+// contradict anything — so they passed green over two real bugs: ?t=
+// being overwritten by saved state on read.html, and compare.html
+// fetching hard-coded default editions on a deep link. Any check about
+// which translation a reader sees must start from a reader who has
+// already chosen one.
+async function newContext({ apiMode = "abort", seenState = true, savedTranslations = null } = {}) {
   // Blocked, not just ignored: sw.js (introduced alongside this option)
   // would otherwise intercept fetches in every check below, silently
   // bypassing the apiMode abort/stub routing and the offline-regression
@@ -361,13 +382,15 @@ async function newContext({ apiMode = "abort", seenState = true } = {}) {
     });
   }
   if (seenState) {
-    await ctx.addInitScript(() => {
+    await ctx.addInitScript((translations) => {
       try {
         if (!localStorage.getItem("qd_state")) {
-          localStorage.setItem("qd_state", JSON.stringify({ seen: true }));
+          const seed = { seen: true };
+          if (translations) seed.translations = translations;
+          localStorage.setItem("qd_state", JSON.stringify(seed));
         }
       } catch (e) {}
-    });
+    }, savedTranslations);
   }
   return ctx;
 }
@@ -1057,7 +1080,15 @@ if (runCheck("transpicker") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && 
 
 // ── read.html: ?t= URL parameter selects translations on load ───────
 if (runCheck("transurl") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) {
-  const uctx = await newContext({ apiMode: "stub" });
+  // Seeded as a RETURNING visitor whose own saved selection differs from
+  // the link's. That is the whole point of the check: with empty storage
+  // there is nothing for ?t= to win against, and this check passed for a
+  // release while ?t= was in fact being discarded for every visitor who
+  // had ever used the site.
+  const uctx = await newContext({
+    apiMode: "stub",
+    savedTranslations: ["en.sahih", "en.yusufali"],
+  });
   const page = await uctx.newPage();
   const errors = [];
   attachConsoleCollector(page, errors);
@@ -1071,23 +1102,94 @@ if (runCheck("transurl") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LI
     perVerseCounts: [...document.querySelectorAll(".verse")].map(
       (v) => v.querySelectorAll(".translation").length,
     ),
+    // The credit line names the edition the API actually returned (the
+    // fixture echoes the id), so this catches "rendered the saved
+    // edition instead of the requested one" -- which a bare count
+    // cannot.
+    credits: [...document.querySelectorAll(".verse .translation .label")].map((el) =>
+      el.textContent.trim(),
+    ),
+    effective: (window.qdState && window.qdState.translations) || [],
     label: (document.querySelector(".trans-open-btn") || {}).textContent || "",
     saved: JSON.parse(localStorage.getItem("qd_state") || "{}").translations || [],
+    url: location.search,
   }));
   const ok =
     state.verses > 0 &&
     state.perVerseCounts.every((n) => n === 1) &&
+    state.credits.length > 0 &&
+    state.credits.every((c) => /en\.pickthall/.test(c)) &&
+    state.effective.join(",") === "en.pickthall" &&
     /Pickthall/.test(state.label) &&
-    state.saved.length === 1 &&
-    state.saved[0] === "en.pickthall";
+    state.saved.join(",") === "en.pickthall" &&
+    // The write-back must preserve the sender's ids, not replace them
+    // with the visitor's own.
+    /t=en\.pickthall(&|$)/.test(state.url);
   report(
     "read-transurl",
     "read.html",
     ok,
-    `?t=en.pickthall -> per-verse translation counts ${JSON.stringify(state.perVerseCounts)} (want all 1), button="${state.label.trim()}", saved=${JSON.stringify(state.saved)}`,
+    `saved=[en.sahih,en.yusufali] + ?t=en.pickthall -> effective=${JSON.stringify(state.effective)}, per-verse ${JSON.stringify(state.perVerseCounts)} (want all 1), credits=${JSON.stringify(state.credits.slice(0, 1))}, button="${state.label.trim()}", url="${state.url}"`,
   );
   report("read-transurl-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
   await uctx.close();
+}
+
+// ── read.html: no ?t= means the reader's saved selection is honoured ──
+// The other half of the contract above. A fix that made the URL always
+// win would break this, and a fix that made saved state always win would
+// break the check above; both must hold at once.
+if (runCheck("transurl") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) {
+  const sctx = await newContext({
+    apiMode: "stub",
+    savedTranslations: ["en.asad", "en.maududi"],
+  });
+  const page = await sctx.newPage();
+  await page.goto(`${BASE}/read.html?s=103&a=1-3`, { waitUntil: "load" });
+  await page.waitForSelector(".verse .translation .text", { timeout: 15000 }).catch(() => {});
+  const st = await page.evaluate(() => ({
+    effective: (window.qdState && window.qdState.translations) || [],
+    perVerseCounts: [...document.querySelectorAll(".verse")].map(
+      (v) => v.querySelectorAll(".translation").length,
+    ),
+  }));
+  report(
+    "read-saved-translations",
+    "read.html",
+    st.effective.join(",") === "en.asad,en.maududi" &&
+      st.perVerseCounts.length > 0 &&
+      st.perVerseCounts.every((n) => n === 2),
+    `no ?t= -> effective=${JSON.stringify(st.effective)} (want en.asad,en.maududi), per-verse ${JSON.stringify(st.perVerseCounts)} (want all 2)`,
+  );
+  await sctx.close();
+}
+
+// ── read.html: an edition that left the registry cannot get stuck ─────
+// A retired id sitting in a visitor's localStorage used to be
+// unremovable: it counted toward the picker's "N selected" with no row
+// to untick, was re-committed on every Apply, and rendered as a raw
+// machine id in every summary.
+if (runCheck("transurl") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) {
+  const gctx = await newContext({
+    apiMode: "stub",
+    savedTranslations: ["en.sahih", "en.thiseditionwasretired"],
+  });
+  const page = await gctx.newPage();
+  await page.goto(`${BASE}/read.html?s=103&a=1-3`, { waitUntil: "load" });
+  await page.waitForSelector(".verse .translation .text", { timeout: 15000 }).catch(() => {});
+  const st = await page.evaluate(() => ({
+    effective: (window.qdState && window.qdState.translations) || [],
+    label: (document.querySelector(".trans-open-btn") || {}).textContent || "",
+  }));
+  report(
+    "read-stale-edition-dropped",
+    "read.html",
+    !st.effective.includes("en.thiseditionwasretired") &&
+      st.effective.includes("en.sahih") &&
+      !/thiseditionwasretired/.test(st.label),
+    `saved contained a retired id -> effective=${JSON.stringify(st.effective)}, button="${st.label.trim()}"`,
+  );
+  await gctx.close();
 }
 
 // ── compare.html: renders every selected translation, not just one ──
@@ -1099,7 +1201,16 @@ if (runCheck("transurl") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LI
 // viewport (the narrow one also catching a reintroduced overflow).
 if (runCheck("comparetrans") && (!PAGE_FILTER || PAGE_FILTER === "compare.html") && !LIVE) {
   for (const width of [375, 1280]) {
-    const cctx = await newContext({ apiMode: "stub" });
+    // Seeded with two NON-default editions. Previously this ran with
+    // empty storage, so the page fell back to the hard-coded defaults
+    // (en.sahih + en.yusufali) and the check asserted exactly those --
+    // it could not distinguish "honoured the reader's choice" from
+    // "ignored it and used the defaults", which is what compare.html
+    // was actually doing on every deep link.
+    const cctx = await newContext({
+      apiMode: "stub",
+      savedTranslations: ["en.asad", "en.maududi"],
+    });
     const page = await cctx.newPage();
     const errors = [];
     attachConsoleCollector(page, errors);
@@ -1113,14 +1224,23 @@ if (runCheck("comparetrans") && (!PAGE_FILTER || PAGE_FILTER === "compare.html")
       credited: [...document.querySelectorAll(".cmp-trans p")].every((p) =>
         p.textContent.trim().length > 0,
       ),
+      // Which editions actually rendered, read off the credit lines the
+      // fixture stamps with the edition id.
+      creditText: [...document.querySelectorAll(".cmp-trans")]
+        .map((el) => el.textContent)
+        .join(" "),
       overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
     }));
-    const ok = state.blocks === 4 && state.credited && !state.overflow;
+    const honouredSaved =
+      /en\.asad/.test(state.creditText) &&
+      /en\.maududi/.test(state.creditText) &&
+      !/en\.yusufali/.test(state.creditText);
+    const ok = state.blocks === 4 && state.credited && honouredSaved && !state.overflow;
     report(
       "compare-translations",
       `compare.html@${width}`,
       ok,
-      `${state.blocks} .cmp-trans blocks (want 4), credited=${state.credited}, overflow=${state.overflow}`,
+      `saved=[en.asad,en.maududi] -> ${state.blocks} .cmp-trans blocks (want 4), credited=${state.credited}, honouredSaved=${honouredSaved}, overflow=${state.overflow}`,
     );
     report(
       `compare-translations-console`,

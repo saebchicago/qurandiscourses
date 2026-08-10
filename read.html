@@ -1117,7 +1117,10 @@
             const transEds = surahData.filter(
               (d) => d.edition.identifier !== "quran-uthmani",
             );
-            const surahName = SURAH_DISPLAY_NAMES[s] || arEd.englishName;
+            // qdEsc on the API-supplied fallback, matching the
+            // single-verse path above and the juz path below. This branch
+            // was the one that interpolated it raw.
+            const surahName = SURAH_DISPLAY_NAMES[s] || qdEsc(arEd.englishName);
             const surahNameTranslation = qdEsc(arEd.englishNameTranslation);
 
             verses = [];
@@ -1664,6 +1667,16 @@
       // visitor happened to have chosen before. Silently ignores an
       // empty result (a stale or hand-edited param naming zero known
       // editions) rather than leaving the reader with nothing selected.
+      //
+      // Recorded on window rather than assigned straight to qdState: this
+      // script runs mid-parse, and app.js's load() runs later from
+      // DOMContentLoaded, where Object.assign(state, saved) would put the
+      // visitor's own saved selection back over the top of the URL's.
+      // That is precisely what happened before this indirection existed —
+      // ?t= worked only for a visitor with empty localStorage, i.e. only
+      // on a first-ever visit, and the write-back below then overwrote
+      // the sender's ids in the address bar too. app.js re-applies
+      // __qdUrlOverride as the last thing load() does.
       if (params.get("t")) {
         const known = new Set((window.qdTranslations || []).map((t) => t.id));
         const requested = params
@@ -1671,7 +1684,14 @@
           .split(",")
           .map((id) => id.trim())
           .filter((id) => known.has(id));
-        if (requested.length) qdState.translations = requested;
+        if (requested.length) {
+          window.__qdUrlOverride = window.__qdUrlOverride || {};
+          window.__qdUrlOverride.translations = requested;
+          // Also apply immediately: on a page where app.js's load() has
+          // already run (it has not here, but this file is edited often),
+          // the override object alone would never be consumed.
+          qdState.translations = requested;
+        }
       }
       // Deep-linked arrivals: swap the tall "Start reading" welcome card
       // for a compact loading card NOW — this script runs mid-parse

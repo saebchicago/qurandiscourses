@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-08-shared-translation-links-now-work",
+   "year": "2026",
+   "month": "August",
+   "html": "\n              <strong>A shared reading link now shows the translations its\n              sender chose.</strong>\n              The <code>?t=</code> parameter added last week only worked for\n              someone who had never set a translation preference of their own:\n              for everyone else the saved preference silently replaced the\n              link's, and the address bar was then rewritten to match, so\n              passing the link on lost the sender's choice a second time.\n              Compare had a matching fault -- opening a saved passage\n              comparison fetched the site's two default translations rather\n              than the reader's, and changing translations afterwards did\n              nothing until a full reload -- and its per-translation credit\n              line was printing the surah's name where the translator's should\n              have been, which also left right-to-left and non-Latin scripts\n              without their correct direction and typeface. A translation\n              retired from the registry can no longer get stuck in a saved\n              selection, uncountable and impossible to untick.\n              <span class=\"prov\">The regression tests for all of this ran in a\n              fresh browser profile, the one state where a saved preference\n              cannot contradict a link, which is why they passed over the bug.\n              They now start from a reader who has already chosen.</span>\n            "
+  },
+  {
    "id": "2026-08-v120-archives-are-immutable",
    "year": "2026",
    "month": "August",
