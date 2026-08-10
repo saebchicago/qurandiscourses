@@ -804,12 +804,12 @@
   // data-num="dot.path" so they can never drift from the generated
   // data. The static text is the fallback; this overwrites it with the
   // authoritative value. Fetches only on pages that use it.
-  // data/numbers.json is 60KB and more than one thing on a page wants
-  // it: this [data-num] filler, and numbers.html's own charts and hapax
-  // list. Exposed as one memoized promise so the page fetches and parses
-  // it once rather than each consumer doing its own. Clearing the memo on
-  // failure keeps a later caller able to retry, matching cite-badge.js
-  // and refs.js.
+  // data/numbers.json is 60KB and more than one thing on a page wants it:
+  // this [data-num] filler, numbers.html's charts and hapax list, and
+  // roots.html's per-period token totals. Exposed as one memoized promise
+  // so a page fetches and parses it once instead of once per consumer.
+  // Clearing the memo on failure keeps a later caller able to retry,
+  // matching cite-badge.js and refs.js.
   let numbersPromise = null;
   window.qdNumbers = function () {
     if (!numbersPromise) {
