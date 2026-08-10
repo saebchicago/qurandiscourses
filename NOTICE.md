@@ -92,6 +92,27 @@ Interpretation" essays in the same 2011 volume, one per worked surah.
 Quoted, not site-authored; see the citation above for the source and
 license context.
 
+## Provenance registry (`data/provenance/`)
+
+`data/provenance/sources.json` and `data/provenance/claims.json` are
+site-authored bibliographic and biographical records about Dr. Irfan
+Ahmad Khan's published work and public roles, compiled from the
+publications, catalog records and press reports each entry names. The
+records themselves — the compilation, the status assignments and the
+provenance-distance field — are site-authored and MIT-licensed with the
+rest of the repository.
+
+Two categories inside them are not site-authored and are marked as
+such. A claim's `quote.text` is a byte-frozen quotation from the source
+its `quote.source` names, reproduced under fair use for citation with
+the locator recorded so a reader can check it. A source's `title`,
+`author` and `container` are bibliographic facts reproduced from the
+work or catalog record described.
+
+Where an entry describes the same object as `data/sources.json`, the two
+files share the id; see `docs/EVIDENCE-SCHEMA.md` for why the registries
+are kept separate.
+
 ## Bundled webfonts (`assets/fonts/`)
 
 The site self-hosts its typefaces rather than calling a font CDN, so the

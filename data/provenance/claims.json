@@ -1,0 +1,199 @@
+[
+  {
+    "id": "aqu-founding",
+    "statement": "Dr. Irfan Ahmad Khan founded and directed the Association of Quranic Understanding.",
+    "kind": "institutional",
+    "status": "verified",
+    "sources": [
+      "suntimes-2018-obituary",
+      "azmat-2017-introduction"
+    ],
+    "conflict": {
+      "field": "organization name",
+      "positions": [
+        {
+          "value": "Association of Qur'anic Understanding",
+          "sources": [
+            "azmat-2017-introduction",
+            "azmat-2019-asbab"
+          ]
+        },
+        {
+          "value": "Association for Qur'anic Understanding",
+          "sources": [
+            "suntimes-2018-obituary",
+            "khan-introduction-2011"
+          ]
+        }
+      ],
+      "resolution": "Site style uses 'of', following Dr. Khan's own signatures and AQU newsletters. The 'for' variant appears in press, retail catalogs, and on at least one printed title page."
+    },
+    "quote": null
+  },
+  {
+    "id": "books-three",
+    "statement": "Dr. Khan published three books in English.",
+    "kind": "bibliographic",
+    "status": "verified",
+    "sources": [
+      "suntimes-2018-obituary",
+      "amust-2018-encounters",
+      "khan-reflections-2005",
+      "khan-introduction-2011",
+      "khan-exercise-2013"
+    ],
+    "conflict": null,
+    "quote": null
+  },
+  {
+    "id": "exercise-chapter-34",
+    "statement": "Chapter 34 of An Exercise in Understanding the Qur'an is titled 'An Overall Look' and addresses the structural and thematic organization of surahs 85 through 114.",
+    "kind": "structural",
+    "status": "verified",
+    "sources": [
+      "azmat-2020-review",
+      "khan-exercise-2013"
+    ],
+    "conflict": null,
+    "quote": null
+  },
+  {
+    "id": "phd-1986",
+    "statement": "Dr. Khan completed a doctorate at the University of Illinois at Chicago in 1986 with a dissertation titled The Thing-Event Distinction.",
+    "kind": "biographical",
+    "status": "verified",
+    "sources": [
+      "azmat-2017-introduction",
+      "suntimes-2018-obituary"
+    ],
+    "conflict": null,
+    "quote": null
+  },
+  {
+    "id": "rampur-study",
+    "statement": "Dr. Khan undertook advanced study in the Islamic sciences at a residential institution in Rampur, India, established following a proposal by Abul A'la Maududi for science graduates.",
+    "kind": "biographical",
+    "status": "nuanced",
+    "sources": [
+      "azmat-2017-introduction"
+    ],
+    "conflict": {
+      "field": "dates of attendance",
+      "positions": [
+        {
+          "value": "1954-1958",
+          "sources": [
+            "azmat-2017-introduction"
+          ]
+        },
+        {
+          "value": "1956-1958",
+          "sources": []
+        }
+      ],
+      "resolution": "unresolved"
+    },
+    "quote": null
+  },
+  {
+    "id": "us-arrival",
+    "statement": "Dr. Khan relocated to the United States and settled in Chicago.",
+    "kind": "biographical",
+    "status": "nuanced",
+    "sources": [
+      "suntimes-2018-obituary"
+    ],
+    "conflict": {
+      "field": "year of arrival",
+      "positions": [
+        {
+          "value": "1974",
+          "sources": [
+            "suntimes-2018-obituary"
+          ]
+        },
+        {
+          "value": "1973",
+          "sources": []
+        }
+      ],
+      "resolution": "unresolved"
+    },
+    "quote": null
+  },
+  {
+    "id": "pwr-role",
+    "statement": "Dr. Khan held trustee roles with the Parliament of the World's Religions.",
+    "kind": "institutional",
+    "status": "nuanced",
+    "sources": [
+      "suntimes-2018-obituary"
+    ],
+    "conflict": {
+      "field": "role title",
+      "positions": [
+        {
+          "value": "emeritus board member",
+          "sources": [
+            "suntimes-2018-obituary"
+          ]
+        },
+        {
+          "value": "founding trustee",
+          "sources": []
+        }
+      ],
+      "resolution": "Both may be accurate at different periods. Dates not established."
+    },
+    "quote": null
+  },
+  {
+    "id": "iep21-role",
+    "statement": "Dr. Khan was founding president of the Interreligious Engagement Project for the 21st Century.",
+    "kind": "institutional",
+    "status": "verified",
+    "sources": [
+      "suntimes-2018-obituary"
+    ],
+    "conflict": null,
+    "quote": null
+  },
+  {
+    "id": "wcmir-role",
+    "statement": "Dr. Khan was founder and president of the World Council of Muslims for Interfaith Relations.",
+    "kind": "institutional",
+    "status": "verified",
+    "sources": [
+      "suntimes-2018-obituary"
+    ],
+    "conflict": null,
+    "quote": null
+  },
+  {
+    "id": "yatama-scope",
+    "statement": "Dr. Khan is reported to have read the Qur'anic imperative concerning orphans as extending beyond fatherless children to disenfranchised populations generally.",
+    "kind": "methodological",
+    "status": "pending",
+    "sources": [],
+    "conflict": null,
+    "quote": null
+  },
+  {
+    "id": "covenant-amos",
+    "statement": "Dr. Khan is reported to have compared Qur'anic critiques of earlier scriptural communities to the admonitions of the prophet Amos, arguing they address factions rather than whole communities.",
+    "kind": "methodological",
+    "status": "pending",
+    "sources": [],
+    "conflict": null,
+    "quote": null
+  },
+  {
+    "id": "ciogc-role",
+    "statement": "Dr. Khan is reported to have chaired the Interfaith Committee of the Council of Islamic Organizations of Greater Chicago.",
+    "kind": "institutional",
+    "status": "pending",
+    "sources": [],
+    "conflict": null,
+    "quote": null
+  }
+]
