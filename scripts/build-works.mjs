@@ -71,7 +71,7 @@ const entries = books
       : "";
     return `
         <li class="work" id="work-${esc(b.id)}">
-          <h2 class="work-title">${esc(b.title)}</h2>
+          <h3 class="work-title">${esc(b.title)}</h3>
           <p class="work-imprint">${esc(b.author)}${imprint ? " · " + imprint : ""}</p>
           <dl class="work-fields">
             <dt>Pages</dt><dd>${pages}</dd>
