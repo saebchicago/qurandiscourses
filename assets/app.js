@@ -479,9 +479,22 @@
       } catch (e2) {}
     }
   }
+  // In-flight requests, keyed by URL. The persistent cache below only
+  // records a RESULT, so two callers for the same URL that overlap in
+  // time both missed and both hit the network -- which is exactly what
+  // read.html's two independent initial-load paths did to each other.
+  const apiInFlight = new Map();
+
   async function apiCachedFetch(url) {
     const c = apiCacheLoad();
     if (c.entries[url]) return c.entries[url];
+    if (apiInFlight.has(url)) return apiInFlight.get(url);
+    const p = apiFetchUncached(url).finally(() => apiInFlight.delete(url));
+    apiInFlight.set(url, p);
+    return p;
+  }
+
+  async function apiFetchUncached(url) {
     const res = await fetch(url);
     if (!res.ok) {
       // Carry the status so callers can tell a 404 (bad reference) from
@@ -792,11 +805,11 @@
   // data. The static text is the fallback; this overwrites it with the
   // authoritative value. Fetches only on pages that use it.
   // data/numbers.json is 60KB and more than one thing on a page wants it:
-  // this [data-num] filler, plus numbers.html's charts and roots.html's
-  // per-period token totals. Exposed as one memoized promise so a page
-  // fetches and parses it once instead of once per consumer. Clearing the
-  // memo on failure keeps a later caller able to retry, matching
-  // cite-badge.js and refs.js.
+  // this [data-num] filler, numbers.html's charts and hapax list, and
+  // roots.html's per-period token totals. Exposed as one memoized promise
+  // so a page fetches and parses it once instead of once per consumer.
+  // Clearing the memo on failure keeps a later caller able to retry,
+  // matching cite-badge.js and refs.js.
   let numbersPromise = null;
   window.qdNumbers = function () {
     if (!numbersPromise) {
