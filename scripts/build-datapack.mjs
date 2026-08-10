@@ -34,6 +34,7 @@ import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { gzipSync } from "node:zlib";
+import { createHash } from "node:crypto";
 import { SITE } from "./lib/site.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -221,10 +222,94 @@ const inArchive = [
 const archiveName = `divinediscourses-data-v${version}.tar.gz`;
 const archive = buildArchive(inArchive, mtime);
 const archiveAbs = join(OUT, archiveName);
+const digest = createHash("sha256").update(archive).digest("hex");
+
+// ── the published-archive ledger ─────────────────────────────────────
+// Without this, "a new release adds a new archive rather than replacing
+// this one" was prose with nothing behind it, and the --check above was
+// actively working against it: it compared the archive named by the
+// CURRENT version against the CURRENT tables, so every table added
+// without a version bump made CI demand that the released bytes be
+// overwritten. v1.1.0 was rewritten five times that way, ending up with
+// ten tables it never published. The ledger makes a published digest a
+// fact the build has to respect.
+const ledgerAbs = join(OUT, "RELEASES.json");
+const ledger = JSON.parse(readFileSync(ledgerAbs, "utf8"));
+const published = ledger.releases.find((r) => r.version === version);
+
+// Every published archive, not just the current version's. Checking only
+// the current one would leave the older archives — the ones most likely
+// to already be cited — completely unguarded, which is the gap that let
+// v1.1.0 drift in the first place. A digest mismatch here is a damaged
+// or edited release, so it is a hard failure in both modes: rewriting
+// the file would defeat the point of recording it.
+const tampered = [];
+for (const r of ledger.releases) {
+  const abs = join(OUT, `divinediscourses-data-v${r.version}.tar.gz`);
+  if (!existsSync(abs)) {
+    tampered.push(`v${r.version}: missing`);
+    continue;
+  }
+  const onDisk = createHash("sha256").update(readFileSync(abs)).digest("hex");
+  if (onDisk !== r.sha256) {
+    tampered.push(`v${r.version}: ${onDisk.slice(0, 12)}… != recorded ${r.sha256.slice(0, 12)}…`);
+  }
+}
+if (tampered.length) {
+  console.error(
+    `build-datapack: FAIL — published archive(s) no longer match ` +
+      `data/exports/RELEASES.json:\n  ${tampered.join("\n  ")}\n` +
+      `  These bytes are what a citation to that version names. Restore them ` +
+      `from git history rather than re-recording the digest.`,
+  );
+  process.exit(1);
+}
+
+if (published && published.sha256 !== digest) {
+  // Not "stale" — the opposite. The tables have moved on from what this
+  // version published, which is a release event, not a regeneration.
+  console.error(
+    `build-datapack: FAIL — data/exports/${archiveName} was published with ` +
+      `${published.tables} tables (sha256 ${published.sha256.slice(0, 12)}…, ${published.bytes} bytes) ` +
+      `and the current tables (${tables.length}) would produce ${digest.slice(0, 12)}…\n` +
+      `  A published archive is immutable: export.html tells readers that citing ` +
+      `v${version} names those exact bytes.\n` +
+      `  Bump "version" in data/version.json and re-run; a new archive will be ` +
+      `written alongside this one and recorded in data/exports/RELEASES.json.`,
+  );
+  process.exit(1);
+}
+
 const archiveCurrent = existsSync(archiveAbs) ? readFileSync(archiveAbs) : null;
-if (!archiveCurrent || !archiveCurrent.equals(archive))
-  stale.push(`data/exports/${archiveName}`);
-if (!CHECK) writeFileSync(archiveAbs, archive);
+if (published) {
+  // Already published and matching: the only legitimate action is to
+  // restore the file if it has gone missing or been damaged. Its bytes
+  // are pinned by the ledger, so this can never introduce a change.
+  const onDiskOk =
+    archiveCurrent &&
+    createHash("sha256").update(archiveCurrent).digest("hex") === published.sha256;
+  if (!onDiskOk) {
+    if (CHECK) stale.push(`data/exports/${archiveName} (does not match RELEASES.json)`);
+    else writeFileSync(archiveAbs, archive);
+  }
+} else {
+  // A version nobody has published yet: this run defines it.
+  if (!archiveCurrent || !archiveCurrent.equals(archive))
+    stale.push(`data/exports/${archiveName}`);
+  if (!CHECK) {
+    writeFileSync(archiveAbs, archive);
+    ledger.releases.unshift({
+      version,
+      released,
+      tables: tables.length,
+      bytes: archive.length,
+      sha256: digest,
+    });
+    writeFileSync(ledgerAbs, JSON.stringify(ledger, null, 1) + "\n");
+  } else {
+    stale.push("data/exports/RELEASES.json (no entry for v" + version + ")");
+  }
+}
 
 if (CHECK) {
   if (stale.length) {
@@ -234,7 +319,8 @@ if (CHECK) {
     process.exit(1);
   }
   console.log(
-    `build-datapack --check: OK (datapackage + croissant + citation + ${archiveName} current).`,
+    `build-datapack --check: OK (datapackage + croissant + citation + ${archiveName} current; ` +
+      `${ledger.releases.length} published archive(s) intact).`,
   );
 } else {
   const kb = Math.round(archive.length / 1024);

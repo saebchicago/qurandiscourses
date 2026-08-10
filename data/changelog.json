@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-08-v120-archives-are-immutable",
+   "year": "2026",
+   "month": "August",
+   "html": "\n              <strong>Version 1.2.0, and the data archive a citation names\n              can no longer change under it.</strong>\n              The download page told readers that citing\n              <code>v1.1.0</code> named those exact bytes and that a new\n              release would add a new archive rather than replace the old\n              one. Neither was true. The version stayed at 1.1.0 while the\n              table set grew from four to fourteen, and the staleness check\n              compared the archive against the <em>current</em> tables — so\n              it kept demanding that the released bytes be overwritten. The\n              archive published as v1.1.0 was rewritten five times and ended\n              up holding ten tables it never published.\n              The genuinely released v1.1.0 bytes are restored from the\n              release commit, today's fourteen tables are published as\n              v1.2.0 alongside it, and every archive's SHA-256 is now\n              recorded in <code>data/exports/RELEASES.json</code>. The build\n              refuses to rewrite a published archive and tells you to bump\n              the version instead.\n              <span class=\"prov\">Also corrected: the download pages said\n              \"four\" and \"twelve\" tables where there are fourteen, and the\n              enumeration omitted dispersion and formulaic density.</span>\n            "
+  },
+  {
    "id": "2026-08-choosing-translations-got-easier",
    "year": "2026",
    "month": "August",
