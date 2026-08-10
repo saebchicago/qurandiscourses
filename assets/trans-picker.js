@@ -69,14 +69,15 @@
     if (window.qdPicker) return Promise.resolve(window.qdPicker);
     if (!pickerP) {
       pickerP = new Promise(function (resolve, reject) {
-        var existing = document.querySelector('script[data-qd-picker]');
-        if (existing) {
-          existing.addEventListener("load", function () {
-            resolve(window.qdPicker);
-          });
-          existing.addEventListener("error", reject);
-          return;
-        }
+        // A failed <script> element is inert: it will never fire load or
+        // error again. Removing it as part of clearing the memo is what
+        // makes the retry a real retry -- leaving it behind meant the
+        // next click appended nothing, waited on a dead element, and the
+        // picker stayed unavailable until a full page reload. There is
+        // deliberately no "adopt an existing tag" branch for the same
+        // reason: pickerP is the only thing that tracks an in-flight
+        // load, and any tag still in the document without it is a
+        // failed one.
         var el = document.createElement("script");
         el.src = "assets/picker.js";
         el.setAttribute("data-qd-picker", "");
@@ -84,9 +85,12 @@
           resolve(window.qdPicker);
         };
         el.onerror = function () {
+          el.remove();
           pickerP = null;
           reject(new Error("picker.js failed to load"));
         };
+        var stale = document.querySelector("script[data-qd-picker]");
+        if (stale) stale.remove();
         document.head.appendChild(el);
       });
     }

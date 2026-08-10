@@ -185,16 +185,13 @@
   }
 
   // Mirrors scripts/lib/safe-key.mjs (kept in sync by hand — no modules).
+  // safeKey lives once, in assets/lang-labels.js
+  // (window.qdSafeKey). scripts/check-safe-key.mjs fails the
+  // build if a page reintroduces a local copy.
+  // Called, not aliased: lang-labels.js is deferred, so the
+  // binding must resolve when safeKey runs, not at parse.
   function safeKey(bw) {
-    var out = "";
-    for (var i = 0; i < bw.length; i++) {
-      var c = bw[i];
-      if (c === "*") out += "dh";
-      else if (c === "$") out += "sh";
-      else if (c >= "A" && c <= "Z") out += "u" + c;
-      else out += c;
-    }
-    return out;
+    return window.qdSafeKey(bw);
   }
 
   var params = new URLSearchParams(location.search);
