@@ -35,6 +35,32 @@
               They now start from a reader who has already chosen.&lt;/span&gt;</content>
   </entry>
   <entry>
+    <title>Version 1.2.0, and the data archive a citation names can no longer change under it</title>
+    <id>https://divinediscourses.org/changelog#2026-08-v120-archives-are-immutable</id>
+    <link href="https://divinediscourses.org/changelog#2026-08-v120-archives-are-immutable"/>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Version 1.2.0, and the data archive a citation names
+              can no longer change under it.&lt;/strong&gt;
+              The download page told readers that citing
+              &lt;code&gt;v1.1.0&lt;/code&gt; named those exact bytes and that a new
+              release would add a new archive rather than replace the old
+              one. Neither was true. The version stayed at 1.1.0 while the
+              table set grew from four to fourteen, and the staleness check
+              compared the archive against the &lt;em&gt;current&lt;/em&gt; tables — so
+              it kept demanding that the released bytes be overwritten. The
+              archive published as v1.1.0 was rewritten five times and ended
+              up holding ten tables it never published.
+              The genuinely released v1.1.0 bytes are restored from the
+              release commit, today's fourteen tables are published as
+              v1.2.0 alongside it, and every archive's SHA-256 is now
+              recorded in &lt;code&gt;data/exports/RELEASES.json&lt;/code&gt;. The build
+              refuses to rewrite a published archive and tells you to bump
+              the version instead.
+              &lt;span class="prov"&gt;Also corrected: the download pages said
+              "four" and "twelve" tables where there are fourteen, and the
+              enumeration omitted dispersion and formulaic density.&lt;/span&gt;</content>
+  </entry>
+  <entry>
     <title>Choosing translations no longer means scrolling five screens of checkboxes</title>
     <id>https://divinediscourses.org/changelog#2026-08-choosing-translations-got-easier</id>
     <link href="https://divinediscourses.org/changelog#2026-08-choosing-translations-got-easier"/>

@@ -1,0 +1,29 @@
+{
+ "_comment": "The published-archive ledger. export.html tells readers that citing a version names EXACT BYTES and that a new release adds a new archive rather than replacing the old one. Nothing enforced that: data/version.json stayed at 1.1.0 while the table set grew from 4 to 14, and because build-datapack.mjs --check compared the archive against the CURRENT tables, CI stayed red until the released bytes were overwritten. The v1.1.0 archive was rewritten five times that way. This file is what makes the promise checkable: one entry per published archive, recorded when that version is first built, and never edited afterwards. build-datapack.mjs refuses to rewrite an archive whose digest is recorded here and tells you to bump data/version.json instead. If you are here because a build failed: that is the guard working, and the fix is a version bump, not an edit to this file.",
+ "algorithm": "sha256",
+ "releases": [
+  {
+   "version": "1.2.0",
+   "released": "2026-08-09",
+   "tables": 14,
+   "bytes": 1093542,
+   "sha256": "bbaa1a8003ca18efb498809036d84ce15f9ab4136df6fd2d35e7a8248c2b63ae"
+  },
+  {
+   "version": "1.1.0",
+   "released": "2026-08-05",
+   "tables": 4,
+   "bytes": 292978,
+   "sha256": "e62f8ad77d70bcd508cb786667e38c62d402efc6f596a6f0aa0c165af43c6c05",
+   "note": "Restored from commit 991e9dcb, the release commit. The copy on main had been rebuilt four times against later table sets and no longer matched what v1.1.0 published."
+  },
+  {
+   "version": "1.0.0",
+   "released": "2026-08-04",
+   "tables": 4,
+   "bytes": 292977,
+   "sha256": "ef4748dda205060e0aa26f0330ace7d62b46496c0652c1ef2a173eea68f7745b",
+   "note": "Never rewritten (a single blob in history). Recorded so it stays that way."
+  }
+ ]
+}

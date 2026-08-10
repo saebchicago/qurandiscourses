@@ -3,8 +3,8 @@
 > A Qur'an study platform in the coherence-reading tradition of
 > Dr. Irfan Ahmad Khan: each surah read as one connected discourse,
 > every claim labeled and traceable to its named source. Static site,
-> open source, no accounts, no tracking. Version 1.1.0
-> (2026-08-05).
+> open source, no accounts, no tracking. Version 1.2.0
+> (2026-08-09).
 
 Ground rules for using this site as a source:
 
@@ -3892,12 +3892,12 @@ full directory
 
 #### data/exports/ · data/coverage/report.json
 
-The public download tables (root frequencies, association
-pairs, per-surah stats, verse lengths, formulas, centrality,
-rhyme summary, fawatih, discursive pivots, computed structure,
-structure tests, and theme-surah density — 12 tables, each as
-CSV and JSON, with schema.json and a prose data
-dictionary) — browsable on Export — and the
+The public download tables (root frequencies, root dispersion,
+association pairs, per-surah stats, verse lengths, formulas,
+formulaic density, centrality, rhyme summary, fawatih,
+discursive pivots, computed structure, structure tests, and
+theme-surah density — 14 tables, each as CSV and JSON, with
+schema.json and a prose data dictionary) — browsable on Export — and the
 measured data-coverage report behind the
 Coverage dashboard.
 ●
@@ -4164,10 +4164,12 @@ script, see Datasets .
 
 ## Export: download the numbers
 
-Four precomputed tables, each as CSV and JSON: root frequencies,
-root-pair association statistics, per-surah stats, and verse
-lengths. Every field is documented in the schema and data
-dictionary below. For the complete raw pipeline (morphology,
+Fourteen precomputed tables, each as CSV and JSON: root
+frequencies and dispersion, root-pair association statistics,
+per-surah stats, verse lengths, formulas and formulaic density,
+centrality, rhyme summary, fawātiḥ, discursive pivots, computed
+structure and its tests, and theme-surah density. Every field is
+documented in the schema and data dictionary below. For the complete raw pipeline (morphology,
 per-root files, and every other dataset this site ships), see
 Datasets .
 
@@ -4353,11 +4355,11 @@ DATA-DICTIONARY.md (prose)
 
 ### Everything at once, pinned to a version
 
-One archive holds all twelve tables in both formats, the schema,
+One archive holds all fourteen tables in both formats, the schema,
 the data dictionary, and a citation file, so a download never
 travels without its provenance. The archive is named by release
 version and built deterministically: citing
-v1.1.0 names these exact bytes, and
+v1.2.0 names these exact bytes, and
 a new release adds a new archive rather than replacing this
 one. For toolchains that read standard packaging, the same
 tables are described as a
@@ -4365,7 +4367,7 @@ Frictionless Data package
 and as
 Croissant JSON-LD .
 
-divinediscourses-data-v1.1.0.tar.gz (all tables + schema + citation)
+divinediscourses-data-v1.2.0.tar.gz (all tables + schema + citation)
 
 Earlier releases stay downloadable, because a published citation
 points at the bytes it was written against:
@@ -4423,6 +4425,28 @@ The regression tests for all of this ran in a
 fresh browser profile, the one state where a saved preference
 cannot contradict a link, which is why they passed over the bug.
 They now start from a reader who has already chosen.
+§
+
+Version 1.2.0, and the data archive a citation names
+can no longer change under it.
+The download page told readers that citing
+v1.1.0 named those exact bytes and that a new
+release would add a new archive rather than replace the old
+one. Neither was true. The version stayed at 1.1.0 while the
+table set grew from four to fourteen, and the staleness check
+compared the archive against the current tables — so
+it kept demanding that the released bytes be overwritten. The
+archive published as v1.1.0 was rewritten five times and ended
+up holding ten tables it never published.
+The genuinely released v1.1.0 bytes are restored from the
+release commit, today's fourteen tables are published as
+v1.2.0 alongside it, and every archive's SHA-256 is now
+recorded in data/exports/RELEASES.json . The build
+refuses to rewrite a published archive and tells you to bump
+the version instead.
+Also corrected: the download pages said
+"four" and "twelve" tables where there are fourteen, and the
+enumeration omitted dispersion and formulaic density.
 §
 
 Choosing translations no longer means scrolling five screens of checkboxes.
@@ -5764,7 +5788,7 @@ Every page footer has a Cite link that produces a ready-made
 reference for that page in Chicago, APA, and BibTeX form,
 including the release version. To cite the site as a whole:
 
-Divine Discourses, version 1.1.0. 2026.
+Divine Discourses, version 1.2.0. 2026.
 https://divinediscourses.org.
 
 Machine-readable citation metadata lives in

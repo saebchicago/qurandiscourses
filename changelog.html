@@ -41,7 +41,7 @@
     <meta name="theme-color" content="#2b1d0e" />
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/changelog","url":"https://divinediscourses.org/changelog","name":"Changelog: every correction logged · Divine Discourses","description":"Every correction and material change to Divine Discourses since launch. A public record of accountability.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.1.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Changelog: every correction logged","item":"https://divinediscourses.org/changelog"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/changelog","url":"https://divinediscourses.org/changelog","name":"Changelog: every correction logged · Divine Discourses","description":"Every correction and material change to Divine Discourses since launch. A public record of accountability.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.2.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Changelog: every correction logged","item":"https://divinediscourses.org/changelog"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -157,6 +157,28 @@
               cannot contradict a link, which is why they passed over the bug.
               They now start from a reader who has already chosen.</span>
             <a class="claim-anchor" href="#2026-08-shared-translation-links-now-work" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-08-v120-archives-are-immutable">
+              <strong>Version 1.2.0, and the data archive a citation names
+              can no longer change under it.</strong>
+              The download page told readers that citing
+              <code>v1.1.0</code> named those exact bytes and that a new
+              release would add a new archive rather than replace the old
+              one. Neither was true. The version stayed at 1.1.0 while the
+              table set grew from four to fourteen, and the staleness check
+              compared the archive against the <em>current</em> tables — so
+              it kept demanding that the released bytes be overwritten. The
+              archive published as v1.1.0 was rewritten five times and ended
+              up holding ten tables it never published.
+              The genuinely released v1.1.0 bytes are restored from the
+              release commit, today's fourteen tables are published as
+              v1.2.0 alongside it, and every archive's SHA-256 is now
+              recorded in <code>data/exports/RELEASES.json</code>. The build
+              refuses to rewrite a published archive and tells you to bump
+              the version instead.
+              <span class="prov">Also corrected: the download pages said
+              "four" and "twelve" tables where there are fourteen, and the
+              enumeration omitted dispersion and formulaic density.</span>
+            <a class="claim-anchor" href="#2026-08-v120-archives-are-immutable" aria-label="Link to this entry">&sect;</a></li>
             <li id="2026-08-choosing-translations-got-easier">
               <strong>Choosing translations no longer means scrolling five screens of checkboxes.</strong>
               The old "N selected" button opened a search-less list of
