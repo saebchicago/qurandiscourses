@@ -32,6 +32,9 @@
     <script src="assets/surahs.js"></script>
     <script src="assets/app.js"></script>
     <script src="assets/root-meanings.js"></script>
+    <!-- embed.js uses window.qdSafeKey to build per-root data URLs;
+         it is the one page outside the main shell that needs it. -->
+    <script src="assets/lang-labels.js" defer></script>
     <script src="assets/embed.js" defer></script>
   </body>
 </html>

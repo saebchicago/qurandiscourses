@@ -1,3 +1,18 @@
+# Changes
+
+**This file is a historical snapshot and is no longer maintained.** It
+covers one release pass and stopped being updated roughly two dozen
+merges later; its figures (including a "180 checks" verify-site count)
+describe a state the site left behind long ago.
+
+The living changelog is `data/changelog.json`, rendered to
+[changelog.html](changelog.html) and `feed.xml` by
+`scripts/build-changelog.mjs`, and guarded in CI. Add entries there.
+
+The original text follows, unchanged, for the record.
+
+---
+
 # Changes — a citation you can check, a card per surah, an app that installs
 
 ## Why this pass exists
