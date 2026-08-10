@@ -58,8 +58,57 @@
     });
   }
 
+  // assets/picker.js is 28KB and holds two dialogs: the surah picker and
+  // the generic list picker this file uses. Six pages host the surah
+  // picker and load it eagerly; on the other 25 the ONLY way into
+  // picker.js is the gear panel's Translations row, so it is loaded on
+  // that first click instead of on every page load. Same lazy pattern as
+  // compare.html's ensureRootsList().
+  var pickerP = null;
+  function ensurePicker() {
+    if (window.qdPicker) return Promise.resolve(window.qdPicker);
+    if (!pickerP) {
+      pickerP = new Promise(function (resolve, reject) {
+        // A failed <script> element is inert: it will never fire load or
+        // error again. Removing it as part of clearing the memo is what
+        // makes the retry a real retry -- leaving it behind meant the
+        // next click appended nothing, waited on a dead element, and the
+        // picker stayed unavailable until a full page reload. There is
+        // deliberately no "adopt an existing tag" branch for the same
+        // reason: pickerP is the only thing that tracks an in-flight
+        // load, and any tag still in the document without it is a
+        // failed one.
+        var el = document.createElement("script");
+        el.src = "assets/picker.js";
+        el.setAttribute("data-qd-picker", "");
+        el.onload = function () {
+          resolve(window.qdPicker);
+        };
+        el.onerror = function () {
+          el.remove();
+          pickerP = null;
+          reject(new Error("picker.js failed to load"));
+        };
+        var stale = document.querySelector("script[data-qd-picker]");
+        if (stale) stale.remove();
+        document.head.appendChild(el);
+      });
+    }
+    return pickerP;
+  }
+
   function open(trigger) {
-    if (!window.qdPicker || !window.qdState) return;
+    if (!window.qdState) return;
+    if (!window.qdPicker) {
+      ensurePicker()
+        .then(function () {
+          open(trigger);
+        })
+        .catch(function () {
+          if (window.qdToast) window.qdToast("Could not open the translation picker.");
+        });
+      return;
+    }
     window.qdPicker.openList({
       title: "Choose translations",
       searchPlaceholder: "Search by translator, language, or edition",
