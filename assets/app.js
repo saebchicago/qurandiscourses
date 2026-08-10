@@ -837,11 +837,33 @@
   // data-num="dot.path" so they can never drift from the generated
   // data. The static text is the fallback; this overwrites it with the
   // authoritative value. Fetches only on pages that use it.
+  // data/numbers.json is 60KB and more than one thing on a page wants it:
+  // this [data-num] filler, plus numbers.html's charts and roots.html's
+  // per-period token totals. Exposed as one memoized promise so a page
+  // fetches and parses it once instead of once per consumer. Clearing the
+  // memo on failure keeps a later caller able to retry, matching
+  // cite-badge.js and refs.js.
+  let numbersPromise = null;
+  window.qdNumbers = function () {
+    if (!numbersPromise) {
+      numbersPromise = fetch("data/numbers.json")
+        .then((r) => {
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return r.json();
+        })
+        .catch((err) => {
+          numbersPromise = null;
+          throw err;
+        });
+    }
+    return numbersPromise;
+  };
+
   function initDataNums() {
     const els = document.querySelectorAll("[data-num]");
     if (!els.length) return;
-    fetch("data/numbers.json")
-      .then((r) => (r.ok ? r.json() : null))
+    window
+      .qdNumbers()
       .then((data) => {
         if (!data) return;
         els.forEach(function (el) {

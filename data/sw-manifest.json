@@ -2,7 +2,7 @@
  "_generated": "scripts/build-sw-manifest.mjs — the service worker's precache list and content fingerprint. A hash diff here alongside an unchanged version is the reviewer's cue to consider a SW_VERSION bump (see docs/maintainer-guide.md).",
  "version": "v11",
  "hashes": {
-  "assets/app.js": "c6e3b4e8d6c5ee6f38b083c0e5d1429c7c0e5e8eb3a4ab51d24f20c44f5f514d",
+  "assets/app.js": "6d0d440000a88d1e14b95799c52c8f903a8c3c03ff1a39970c2e079ee4387506",
   "assets/ask-routes.js": "9f39c41f87c04180983412d02d6144fadfd2f62e8139c8a0b6e26c434840a186",
   "assets/ask.js": "2d168631b97e0766ba2f464fb2668c130389f76db5b8352cf96b1244b9bfd112",
   "assets/case-studies.js": "4b02eb58852ca74cc747d7fdface11c8a6b921b985b210e776f0ef73a58dcfcc",
@@ -36,7 +36,7 @@
   "assets/style.css": "39a5581f415c656737edf7f0ec35026315db9e816a8719ef164ae38387eaff93",
   "assets/surahs.js": "de8a6221aa3da3cc7dc4f359f613b429732e0fe19e81aa2589fafeb17a2da9ec",
   "assets/tour.js": "d3f923a8af6ae16ad0fc729d9e25222737876dd159a265e1d363bf2fcbc61aa4",
-  "assets/trans-picker.js": "825c217d1f1e79e4fd3252011dcc2068f228c5f16ed2b6f0fb3131b514df7b2f",
+  "assets/trans-picker.js": "b62973d373dfc7d5289e3b781bc122aed82bd919c0ecbf2fc375bfd2a8eebbc5",
   "assets/version.js": "9633f8663f06009c70ea71808f1fc3d9f25ea7419aba6fa84fdbdb2cde32ea55",
   "assets/wordbw.js": "5b4f6170ff716e2b1b984eca4bdc2725833d250c063ab17c0785cedb97cb910f",
   "data/ask-routes.json": "2acf4e3c0b6a986ae3db4906786d14d5540ce67ac16b3c00e6ff5cde554e8401",
@@ -74,9 +74,9 @@
   "data/version.json": "623efc184596f959520192da5230bb30d5a8207383c7214ac76c7785ce0ea636",
   "data/videos.json": "9017e1153b2020d3623c5a3863f09533a8c85a755d19976764ecd0151d85c186",
   "data/word-index.json": "42e17793956d2db3e5ce4126953b9a4289a8173d876ab601b07239aa0c240901",
-  "index.html": "f1e052ae3e9ccc5ad2f975d38fe140932803a9c72d11460c4310e3d48e296bcd",
+  "index.html": "e18536d7cb15eba41488fbfb43d448474488ec1f7a3a76ba0da823eb48543deb",
   "navigate.html": "951c7fbe98c1c8f3f7f9794c8ba13e6558ca46a38742320f2c633ca7c00064d0",
-  "paths.html": "ad1c190e87916ae1c602ee546772b22b44edb50332f572dfa1f3801ebf0676b4",
+  "paths.html": "338ce7d555ca51fdc8fd950e978930b2878338dce88c50dfc4f643671b9ad947",
   "read.html": "548e2965f3ebc899eed844ca4be538216b344732cd395d057111f6cbf4582723",
   "search.html": "f8eb4b64a6fdeba0cfe8eeb1b8c311adcb263aeaa138d441eb96badaa09285e4"
  }

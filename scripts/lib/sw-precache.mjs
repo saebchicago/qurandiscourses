@@ -28,11 +28,18 @@ import { join } from "node:path";
 import { createHash } from "node:crypto";
 
 export const PRECACHE_PAGES = ["/", "/read", "/navigate", "/paths", "/search"];
+// Precaching a PAGE without the data it fetches gives an offline visitor
+// a shell that loads and then reports it cannot work. /paths and /search
+// were both in that state. surah-names.json, meanwhile, is a build input
+// (build-exports, build-og-images, build-search-index) that no runtime
+// code has ever fetched -- 18KB of dead precache. Net: -18KB of waste,
+// +191KB that two already-precached pages actually need.
 export const PRECACHE_DATA = [
-  "/data/surah-names.json",
   "/data/juz.json",
   "/data/version.json",
   "/data/sources.json",
+  "/data/paths.json",
+  "/data/search-index.json",
 ];
 const EXTRA_ASSETS = [
   "/assets/icons/icon-192.png",
