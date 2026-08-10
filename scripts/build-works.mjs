@@ -64,7 +64,7 @@ const entries = books
     const isbn = b.isbn === null ? "unresolved" : esc(b.isbn);
     const notes = b.notes
       ? `
-          <details class="method-detail">
+          <details class="method-note">
             <summary>Record notes</summary>
             <p>${esc(b.notes)}</p>
           </details>`
