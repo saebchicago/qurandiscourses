@@ -48,6 +48,7 @@ jobs:
       - name: Validate navigation and deployment headers
         run: |
           node scripts/check-nav-sync.mjs
+          node scripts/check-docs-sync.mjs
           node scripts/check-headers-sync.mjs
           node scripts/build-csp.mjs --check
           node scripts/build-sw-manifest.mjs --check

@@ -184,3 +184,62 @@ exists in two places to copy from: `scripts/compute-coverage.mjs` and
 `scripts/check-generated-freshness.mjs`. Doing it well means touching 25
 generators with the bar "output stays byte-identical", which is its own
 reviewable change.
+
+---
+
+## The guide's pipeline table and lib inventory
+
+**From:** the inventory-drift audit of 2026-08-16.
+`scripts/check-docs-sync.mjs` now enforces that every page appears in
+§2's site map and every checker is documented. Two inventories are
+deliberately **outside** what it enforces, because completing them is
+writing rather than polish and each entry has to be verified against
+what the script actually does.
+
+**10 of 45 generators appear nowhere in `docs/maintainer-guide.md`:**
+
+```
+build-ask-routes      build-changelog        build-glossary
+build-llms            build-path-data        build-provenance
+build-related         build-ribbons          build-search-index
+build-static-fallbacks
+```
+
+**7 of 11 `scripts/lib/` modules appear nowhere:**
+
+```
+extract-text   lexical-diversity   ordinal   permute
+playwright     static-server       sw-precache
+```
+
+Listed by name so the follow-up needs no re-derivation. When they are
+written, extend `check-docs-sync.mjs` with the matching assertions —
+the page and checker rules there are the pattern to copy, and the
+checker is the reason the two lists cannot quietly grow again.
+
+---
+
+## A caution for any future "delete dead CSS" pass
+
+**From:** the same audit, recorded because the obvious method is wrong.
+
+A naive scan — "class defined in `assets/style.css`, mentioned in no
+HTML or JS" — reported three dead classes on `main`. **All three were
+false positives**, and one would have caused a real regression:
+
+- **`is-verified`** is built by template.
+  `scripts/build-provenance.mjs` emits
+  `class="claim is-${esc(c.status)}"`, so the literal string never
+  appears in any source file. Deleting the rule would have silently
+  broken the provenance apparatus the first time a claim with status
+  `verified` was marked on a page.
+- **`chart-disclaimer`** is set at `js/viz.js:218`. The scan searched
+  `assets/*.js` and missed the `js/` directory entirely — the repo has
+  browser JavaScript in **two** directories.
+- **`research-hero`** had no rule at all, only a stale comment left
+  behind when #101 deleted it. (That comment is gone as of this audit.)
+
+Template-constructed class names are invisible to grep by construction.
+Any such pass must at minimum search `js/` as well as `assets/`, and
+must treat every `is-*` status class as live because
+`data/provenance/claims.json`'s status enum can produce all of them.
