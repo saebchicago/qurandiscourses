@@ -13,11 +13,26 @@
 // Writes only new files under data/coverage/.
 //
 // To reproduce: node scripts/compute-coverage.mjs
+//   --check   exit non-zero if the committed report is out of date
+//
+// WHY --check EXISTS. Without it this script's output could drift
+// silently, and it did: data/sources.json grew from 31 sources to 36
+// while data/coverage/report.json still said 31, and coverage.html
+// renders that number to readers. The whole point of that page is
+// honest accounting, so a stale figure there is worse than no figure.
+//
+// The comparison IGNORES the _computed date stamp. Every other
+// generator in this repo that stamps a date is guarded the same way or
+// not at all, because a naive byte comparison fails on any day but the
+// one the artifact was written -- which is exactly why this script had
+// no --check for so long. See docs/maintainer-guide.md on determinism.
 
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { computedDate } from "./lib/computed-date.mjs";
+
+const CHECK = process.argv.includes("--check");
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
@@ -612,5 +627,43 @@ const report = {
   sourceUsage: sourceUsageSummary,
 };
 
-writeFileSync(join(OUT, "report.json"), JSON.stringify(report, null, 1) + "\n");
-console.log(`\nDone. Wrote data/coverage/report.json.`);
+const payload = JSON.stringify(report, null, 1) + "\n";
+const REPORT_PATH = join(OUT, "report.json");
+
+// Compare on content, not on the day it was written. Dropping
+// _computed from both sides is the whole reason this check can exist
+// at all -- see the header.
+const withoutStamp = (text) => {
+  try {
+    const { _computed, ...rest } = JSON.parse(text);
+    return JSON.stringify(rest);
+  } catch {
+    return null;
+  }
+};
+
+if (CHECK) {
+  let current = "";
+  try {
+    current = readFileSync(REPORT_PATH, "utf8");
+  } catch {
+    /* missing counts as stale */
+  }
+  const a = withoutStamp(current);
+  const b = withoutStamp(payload);
+  if (a === null || a !== b) {
+    console.error(
+      "\ncompute-coverage --check: FAIL — data/coverage/report.json is stale.\n" +
+        "  Run: node scripts/compute-coverage.mjs\n" +
+        "  (the _computed date stamp is ignored; this is a real content difference)",
+    );
+    process.exit(1);
+  }
+  console.log(
+    `\ncompute-coverage --check: OK (report current; ` +
+      `${sourceUsageSummary.used}/${sourceUsageSummary.totalSources} sources reachable from a badge).`,
+  );
+} else {
+  writeFileSync(REPORT_PATH, payload);
+  console.log(`\nDone. Wrote data/coverage/report.json.`);
+}

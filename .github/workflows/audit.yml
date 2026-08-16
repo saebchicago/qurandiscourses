@@ -80,6 +80,7 @@ jobs:
           node scripts/build-path-data.mjs --check
           node scripts/build-ribbons.mjs --check
           node scripts/build-provenance.mjs --check
+          node scripts/compute-coverage.mjs --check
 
       - name: Run end-to-end browser audit
         run: |

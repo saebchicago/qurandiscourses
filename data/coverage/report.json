@@ -1,7 +1,7 @@
 {
  "_script": "scripts/compute-coverage.mjs",
  "_method": "Every number in this report is measured directly from repository data files at generation time, except the 'popular'/alternate values in countingRuleSensitivity, which are quoted verbatim from numbers.html's own prose (already-published editorial text, not independently measurable from a data file) and are marked verified:false accordingly. Source registry fields are read verbatim from data/sources.json; any field absent there is recorded as \"not stated in repository\", never inferred.",
- "_computed": "2026-08-09",
+ "_computed": "2026-08-16",
  "morphology": {
   "totalTokens": 77429,
   "fields": {
@@ -616,8 +616,8 @@
   }
  ],
  "sourceUsage": {
-  "totalSources": 31,
-  "used": 29,
+  "totalSources": 36,
+  "used": 34,
   "unusedIds": [
    "mir-diss-1983",
    "sadeghi-goudarzi-2012"

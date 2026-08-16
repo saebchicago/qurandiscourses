@@ -9,7 +9,17 @@
 // pins the stamp, so a reviewer can rerun any generator on any day and
 // diff only real changes:
 //
-//   SOURCE_DATE_EPOCH=$(git log -1 --format=%ct) node scripts/<script>.mjs
+//   SOURCE_DATE_EPOCH=$(date -u -d 2026-08-01 +%s) node scripts/<script>.mjs
+//
+// Use the date already stamped in the artifact you are diffing against,
+// NOT the last commit's date. The committed tree carries stamps from
+// several different days at once (data/root-analytics/ 2026-07-20,
+// data/association/ 2026-08-01, and so on), so no single epoch
+// reproduces all of it, and $(git log -1 --format=%ct) -- which an
+// earlier version of this comment recommended -- reproduces none of it.
+// Read the target's own stamp first:
+//
+//   grep -o '"_computed":"[^"]*"' data/association/brk.json
 //
 // Without the variable, behavior is unchanged: today's UTC date.
 export function computedDate() {

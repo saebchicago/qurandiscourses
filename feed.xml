@@ -9,6 +9,25 @@
   <updated>2026-08-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>The coverage dashboard was under-reporting how many sources are reachable from a badge</title>
+    <id>https://divinediscourses.org/changelog#2026-08-coverage-source-count-corrected</id>
+    <link href="https://divinediscourses.org/changelog#2026-08-coverage-source-count-corrected"/>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;The coverage dashboard was under-reporting how many
+              sources are reachable from a badge.&lt;/strong&gt;
+              It said 29 of 31, and with JavaScript off it said 25 of 31.
+              The registry had grown to 36 sources, 34 of them reachable,
+              and the measurement behind those figures had not been re-run
+              since. The two that remain unreachable are cited as further
+              reading only and are named on the page.
+              &lt;span class="prov"&gt;The generator that produces this report had
+              no staleness check, which is how a figure on the page whose
+              subject is honest accounting went two releases out of date. It
+              has one now, and it compares the measured content while
+              ignoring the date stamp, so it cannot pass merely because the
+              file was written today.&lt;/span&gt;</content>
+  </entry>
+  <entry>
     <title>A shared reading link now shows the translations its sender chose</title>
     <id>https://divinediscourses.org/changelog#2026-08-shared-translation-links-now-work</id>
     <link href="https://divinediscourses.org/changelog#2026-08-shared-translation-links-now-work"/>
