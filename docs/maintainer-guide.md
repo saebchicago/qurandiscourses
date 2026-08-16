@@ -810,22 +810,63 @@ Verified/Nuanced/Pending framework). Recorded here so a future contributor
 with the right input doesn't have to re-derive why these are missing.
 
 **Per-word grammatical person (for iltifat / pronoun-shift tracking).**
-`data/morphology/*.json` carries `root`, `lemma`, and `pos` only. Words
-tagged `pos: "PRON"` almost never carry a usable `lemma`: a 20-surah sample
-found 280 blank vs. 4 filled. Detecting a real 3rd→2nd person (or any
-person) shift needs the Leeds corpus's full per-segment feature string
-(e.g. `PRON:2MS`), which `scripts/build-leeds.js` never parsed out (it only
-reads `ROOT:`/`LEM:`/`POS:` from `STEM|`-prefixed segments — see its
-"Parse Leeds raw file" section). The raw source file
-(`scripts/leeds-raw.txt`) is gitignored and was not present in the
-environment this was scoped in, and fetching it requires network access
-this project's CI/session sandbox does not have. To unblock: obtain
-`quranic-corpus-morphology-0.4.txt` (or a newer Leeds/QAC release with
-person/number/gender features), extend `build-leeds.js` to parse and emit
-those features per word, then a pronoun/verb person-shift detector becomes
-a straightforward mechanical pass like `build-rhetorical-features.mjs`.
+`data/morphology/*.json` carries `root`, `lemma`, and `pos` only, one
+entry per orthographic *word*.
+
+*The blocker is scope, not ambiguity.* An earlier version of this section
+attributed the gap to blank lemmas on `PRON` words. That is the wrong
+reason: person is carried by the surface form, not the lemma, and all
+**147** distinct `PRON` surface forms in the corpus are
+person-unambiguous — measured across all 3,301 `PRON` words, **zero**
+forms carry more than one grammatical person. What actually blocks a
+person-shift detector is granularity:
+
+- One entry per word means a pronoun attached to a verb or noun is
+  invisible. Only pronouns that head their own word survive — 3,301 of
+  77,429 tokens (**4.26%**), reaching 2,359 of 6,236 verses (37.8%).
+- **Verb agreement is absent entirely.** Person carried by verb
+  inflection — the dominant signal in iltifat — has no representation
+  in the bundled data at all, and cannot be recovered from `ar` + `lemma`
+  without inventing a morphological analyser. Do not attempt that: a
+  perfect-tense verb ending in نا is genuinely ambiguous between a
+  1st-person-plural subject and a 3rd-person verb with a 1st-person-plural
+  object suffix, and guessing is exactly what this site's rules forbid.
+
+*The unblocker is a person, not a faster network.* The raw source file
+`scripts/leeds-raw.txt` is gitignored and absent. The official download
+at `corpus.quran.com/download/` requires submitting a contact e-mail
+**and accepting the GNU licence terms** — a human, licence-bearing step.
+An unrestricted machine is not sufficient on its own.
+
+To unblock, in this order:
+
+1. Obtain `quranic-corpus-morphology-0.4.txt` from the official download
+   and place it at `scripts/leeds-raw.txt`.
+2. **Run the reproduction gate before trusting it.** Run
+   `node scripts/build-leeds.js` into a scratch tree and require
+   *byte-identical* `data/morphology/{1..114}.json` and every root
+   dataset it writes, against what is committed. Any diff means the file
+   is not the one this site's published figures were derived from — stop
+   there rather than re-keying the corpus. This gate is not optional: a
+   substituted or edited file would silently change every root frequency,
+   association, centrality and dispersion figure the site publishes.
+3. Only then extend the parser. `scripts/build-leeds.js` (see its "Parse
+   Leeds raw file" section) reads `ROOT:`/`LEM:`/`POS:` from
+   `STEM|`-prefixed segments and discards the rest of the feature string;
+   it also builds a `segs[]` array per word and then never emits it.
+   Retain the full feature string and emit the segments. A pronoun/verb
+   person-shift detector then becomes a straightforward mechanical pass
+   like `build-rhetorical-features.mjs`.
+
+The payoff is measured, not estimated: the same corpus holds **130,030**
+segments against our 77,429 words, and **24,681** pronoun segments
+against our 3,301 pronoun words — a 7.5× increase in visible pronominal
+reference, plus person/number/gender, verb form I–X, voice and mood.
+
 Until then, do not fabricate per-verse pronoun-shift claims — there is no
-bundled data backing them.
+bundled data backing them. Reformatted third-party forks of the corpus
+are **not** a substitute; see `docs/DEFERRED.md` for one that was
+evaluated in detail and rejected.
 
 **Named-scholar structural outlines (ring composition / surah symmetry
 comparison).** patterns.html already names ring composition as a
