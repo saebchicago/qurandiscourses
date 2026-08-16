@@ -66,9 +66,9 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { mulberry32 } from "./lib/permute.mjs";
 import { benjaminiHochbergSurvivorCount, bonferroniAlpha } from "./lib/stats.mjs";
+import { TOTAL_SURAHS } from "./lib/corpus.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const TOTAL_SURAHS = 114;
 const MONTE_CARLO_B = 10000;
 const FDR_Q = 0.05;
 const SEED_ROOT = 20260812;

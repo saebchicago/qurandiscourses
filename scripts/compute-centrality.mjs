@@ -39,6 +39,7 @@ import { fileURLToPath } from "url";
 import { safeKey } from "./lib/safe-key.mjs";
 import { computedDate } from "./lib/computed-date.mjs";
 import { pearson, spearman } from "./lib/stats.mjs";
+import { TOTAL_ROOTS } from "./lib/corpus.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
@@ -46,7 +47,6 @@ const DATA = join(ROOT, "data");
 const ASSOC = join(DATA, "association");
 const OUT = join(DATA, "centrality");
 
-const TOTAL_ROOTS = 1642;
 const EDGE_THRESHOLD_SHARED_VERSES = 5;
 const EIGEN_TOLERANCE = 1e-9;
 const EIGEN_MAX_ITER = 1000;

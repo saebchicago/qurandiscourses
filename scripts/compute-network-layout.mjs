@@ -49,6 +49,7 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { safeKey } from "./lib/safe-key.mjs";
 import { computedDate } from "./lib/computed-date.mjs";
+import { TOTAL_ROOTS } from "./lib/corpus.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
@@ -56,7 +57,6 @@ const DATA = join(ROOT, "data");
 const ASSOC = join(DATA, "association");
 const OUT = join(DATA, "network");
 
-const TOTAL_ROOTS = 1642;
 const MAX_PARTNERS = 25;
 const SIZE_BUDGET_BYTES = 4 * 1024 * 1024;
 

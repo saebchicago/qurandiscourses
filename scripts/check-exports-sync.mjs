@@ -34,6 +34,7 @@
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { TOTAL_VERSES, TOTAL_TOKENS, TOTAL_ROOTS } from "./lib/corpus.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const EXPORTS = join(ROOT, "data", "exports");
@@ -193,18 +194,25 @@ const rootBw = Object.keys(rootsSummary);
     fail("sources", `verse-lengths: ${n(vl.length)} rows for ${n(verses)} verses in data/morphology/`);
   if (wrong)
     fail("sources", `verse-lengths: ${wrong} verse(s) disagree with data/morphology/, first ${firstWrong}`);
-  // The corpus totals the generators hardcode, measured rather than trusted.
+  // The corpus totals the generators run on, measured rather than
+  // trusted. These come from scripts/lib/corpus.mjs — the ONE place they
+  // are declared — so this is a real cross-check between the constants
+  // the pipeline uses and the data on disk, not a literal compared with
+  // a copy of itself.
   for (const [label, actual, expected] of [
-    ["TOTAL_VERSES", verses, 6236],
-    ["TOTAL_TOKENS", tokens, 77429],
-    ["TOTAL_ROOTS", rootBw.length, 1642],
+    ["TOTAL_VERSES", verses, TOTAL_VERSES],
+    ["TOTAL_TOKENS", tokens, TOTAL_TOKENS],
+    ["TOTAL_ROOTS", rootBw.length, TOTAL_ROOTS],
   ]) {
     if (actual !== expected)
       fail(
         "corpus",
-        `${label} is hardcoded as ${n(expected)} in build-exports.mjs and its siblings, ` +
-          `but data/ now holds ${n(actual)}. Normalized frequencies are computed from that ` +
-          "constant, so every published rate would be silently wrong.",
+        `scripts/lib/corpus.mjs declares ${label} = ${n(expected)}, but data/ now holds ` +
+          `${n(actual)}. These are the denominators under the published rates. Most ` +
+          "consumers assert their own counts and would error, but build-cooccurrence.mjs " +
+          "would silently rewrite all 1,642 co-occurrence files with different PMI values. " +
+          "This is a deliberate hard stop: change the constant only alongside the figures " +
+          "keyed to it.",
       );
   }
 }

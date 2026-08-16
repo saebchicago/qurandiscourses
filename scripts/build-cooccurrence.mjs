@@ -65,6 +65,7 @@ import { fileURLToPath } from "url";
 import { safeKey } from "./lib/safe-key.mjs";
 import { computedDate } from "./lib/computed-date.mjs";
 import { FREQUENCY_CEILING } from "./lib/stats.mjs";
+import { TOTAL_VERSES } from "./lib/corpus.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
@@ -75,7 +76,6 @@ const TOP_N = 12;
 const TOP_N_CHRON = 6;
 const TOP_N_PMI = 10;
 const MIN_COOCCURRENCE = 3;
-const TOTAL_VERSES = 6236;
 const PERIODS = ["meccan-early", "meccan-middle", "meccan-late", "medinan"];
 
 mkdirSync(OUT, { recursive: true });

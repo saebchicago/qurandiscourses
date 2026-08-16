@@ -31,6 +31,7 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from 
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { computedDate } from "./lib/computed-date.mjs";
+import { TOTAL_TOKENS, TOTAL_ROOTS, TOTAL_SURAHS } from "./lib/corpus.mjs";
 
 const CHECK = process.argv.includes("--check");
 
@@ -39,9 +40,6 @@ const ROOT = join(__dir, "..");
 const DATA = join(ROOT, "data");
 const OUT = join(DATA, "coverage");
 
-const TOTAL_TOKENS = 77429;
-const TOTAL_ROOTS = 1642;
-const TOTAL_SURAHS = 114;
 
 mkdirSync(OUT, { recursive: true });
 
