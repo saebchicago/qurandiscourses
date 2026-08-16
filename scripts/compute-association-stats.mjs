@@ -61,15 +61,13 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { safeKey } from "./lib/safe-key.mjs";
 import { computedDate } from "./lib/computed-date.mjs";
+import { TOTAL_VERSES, TOTAL_TOKENS, TOTAL_ROOTS } from "./lib/corpus.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
 const DATA = join(ROOT, "data");
 const OUT = join(DATA, "association");
 
-const TOTAL_VERSES = 6236;
-const TOTAL_TOKENS = 77429;
-const TOTAL_ROOTS = 1642;
 const ANCHOR_PAIR = { a: "rHm", b: "gfr", expectedK11: 91 };
 const MIN_SHARED_VERSES = 5;
 const TOP_N_PARTNERS = 25;

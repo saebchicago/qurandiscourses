@@ -98,14 +98,13 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { safeKey } from "./lib/safe-key.mjs";
 import { computedDate } from "./lib/computed-date.mjs";
+import { TOTAL_ROOTS, TOTAL_SURAHS } from "./lib/corpus.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
 const DATA = join(ROOT, "data");
 const OUT = join(DATA, "dispersion");
 
-const TOTAL_ROOTS = 1642;
-const TOTAL_SURAHS = 114;
 
 mkdirSync(OUT, { recursive: true });
 

@@ -143,6 +143,15 @@ them only when their inputs change; commit their outputs.
 | compute-coverage.mjs | morphology, roots-summary, qursim/ (file counts), sources.json | data/coverage/report.json | coverage.html dashboard — every number there traces to this report |
 | build-exports.mjs | roots-summary, numbers.json, chronology, surah-profiles, surah-names, morphology, association/ | data/exports/ (CSV+JSON tables, schema.json, DATA-DICTIONARY.md) | export.html downloads. Rerun after compute-association-stats.mjs |
 
+`scripts/lib/corpus.mjs` holds the corpus totals — `TOTAL_VERSES`,
+`TOTAL_TOKENS`, `TOTAL_ROOTS`, `TOTAL_SURAHS` — that eight of these
+generators run on. They were a redeclared literal in each; import them,
+never redeclare. They are frozen literals on purpose: a corpus change
+must fail loudly rather than silently re-normalize every published rate,
+and `check-exports-sync.mjs` measures the corpus against them to make it
+do so. Bare loop bounds (`s <= 114`) deliberately stay inline — a wrong
+one fails immediately on a missing file.
+
 Dependency order for the analytics chain: `build-numbers.mjs` →
 `compute-association-stats.mjs` → (`compute-network-layout.mjs`,
 `compute-centrality.mjs`, `build-exports.mjs` in any order) →
