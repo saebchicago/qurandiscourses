@@ -36,6 +36,15 @@
 //   refretry  a data/roots-list.json fetch failing on the first root
 //             popover open recovers a real count on the next open,
 //             rather than staying blank forever (numbers.html)
+//   provenance
+//             open-questions.html's claim marks become real controls,
+//             one card opens at a time, and Escape closes and returns
+//             focus to the mark that opened it; plus the same page with
+//             JavaScript DISABLED, where every card, source citation
+//             and ribbon table fallback must still be present and
+//             operable, because scripts/build-provenance.mjs renders
+//             them at build time. Expected counts come from
+//             data/provenance/claims.json, never typed.
 //   keyboard  §6.5 nav groups at 375px (no hamburger: the details
 //             groups stay visible), dropdown menus at 1280px,
 //             settings gear, Escape behavior (nav is identical on all
@@ -366,12 +375,24 @@ const BLOCKED_HOSTS = /api\.alquran\.cloud|cdn\.islamic\.network|api\.quran\.com
 // fetching hard-coded default editions on a deep link. Any check about
 // which translation a reader sees must start from a reader who has
 // already chosen one.
-async function newContext({ apiMode = "abort", seenState = true, savedTranslations = null } = {}) {
+async function newContext({
+  apiMode = "abort",
+  seenState = true,
+  savedTranslations = null,
+  javaScript = true,
+} = {}) {
   // Blocked, not just ignored: sw.js (introduced alongside this option)
   // would otherwise intercept fetches in every check below, silently
   // bypassing the apiMode abort/stub routing and the offline-regression
   // test's assumptions about what a fresh page load actually does.
-  const ctx = await browser.newContext({ serviceWorkers: "block" });
+  //
+  // javaScript:false is for checks that must prove a page works without
+  // it. addInitScript never runs in such a context, so seenState is
+  // moot there -- pass seenState:false to keep that explicit.
+  const ctx = await browser.newContext({
+    serviceWorkers: "block",
+    javaScriptEnabled: javaScript,
+  });
   if (!LIVE) {
     await ctx.route(BLOCKED_HOSTS, (route) => {
       if (apiMode === "stub") {
@@ -2106,6 +2127,249 @@ if (runCheck("firstvisit") && (!PAGE_FILTER || PAGE_FILTER === "index.html")) {
   );
   report("firstvisit", "index.html", overflowOk, "no overflow with first-visit UI at 375px");
   await fctx.close();
+}
+
+// ── open-questions.html: the provenance apparatus ───────────────────
+// Two checks, because the apparatus makes two separate promises.
+//
+// `provenance` covers the progressive enhancement in
+// assets/provenance.js: marks become real controls, one card is open at
+// a time, and Escape closes and returns focus to the mark that opened
+// the card. That last one is a regression this apparatus has already
+// had once -- focus landed on an unrelated glossary term -- and it was
+// caught by hand rather than by a check.
+//
+// `provenance-nojs` covers the harder promise: the cards are rendered
+// at build time by scripts/build-provenance.mjs, so with JavaScript off
+// every statement, source, ribbon and table fallback is still on the
+// page and still operable. That is the acceptance test for the whole
+// build-time-rendering design, and it is what would fail loudly if
+// anyone later moved the rendering into the browser.
+//
+// Expected counts are computed from data/provenance/claims.json, never
+// typed: adding a pending claim must not break the check, but failing
+// to render one must.
+if (runCheck("provenance") && (!PAGE_FILTER || PAGE_FILTER === "open-questions.html") && !LIVE) {
+  const provClaims = JSON.parse(
+    readFileSync(join(ROOT, "data/provenance/claims.json"), "utf8"),
+  );
+  const onPage = provClaims.filter(
+    (c) =>
+      c.status === "pending" ||
+      (c.conflict &&
+        (c.conflict.resolution === null || c.conflict.resolution === "unresolved")),
+  );
+  const expected = onPage.length;
+
+  // ---- JS on ----
+  {
+    const ctx = await newContext();
+    const page = await ctx.newPage();
+    const errors = [];
+    attachConsoleCollector(page, errors);
+    await page.goto(`${BASE}/open-questions.html`, { waitUntil: "load" });
+    await page.waitForSelector("details.claim-card", { timeout: 10000 }).catch(() => {});
+
+    const marks = page.locator("span.claim[data-claim]");
+    const markCount = await marks.count();
+    report(
+      "provenance-marks",
+      "open-questions.html",
+      markCount === expected,
+      `${markCount} claim marks rendered, ${expected} claims qualify in claims.json`,
+    );
+
+    if (markCount >= 2) {
+      // Marks are upgraded to controls by assets/provenance.js, never in
+      // the generated HTML -- see the no-JS half below, which asserts the
+      // opposite.
+      const wired = await page.evaluate(() => {
+        const m = document.querySelector("span.claim[data-claim]");
+        return {
+          role: m.getAttribute("role"),
+          tabindex: m.getAttribute("tabindex"),
+          expanded: m.getAttribute("aria-expanded"),
+          controls: m.getAttribute("aria-controls"),
+        };
+      });
+      report(
+        "provenance-controls",
+        "open-questions.html",
+        wired.role === "button" &&
+          wired.tabindex === "0" &&
+          wired.expanded === "false" &&
+          !!wired.controls,
+        `role=${wired.role} tabindex=${wired.tabindex} aria-expanded=${wired.expanded} aria-controls=${wired.controls}`,
+      );
+
+      // The <details> "toggle" event is queued as an element task, not
+      // dispatched synchronously, so assets/provenance.js's handler --
+      // which sets aria-expanded and closes the other cards -- has not
+      // necessarily run when click() resolves. Wait for the condition
+      // rather than sleeping: if the handler is genuinely broken the
+      // wait times out and the assertion below still reads the wrong
+      // state and fails, which is the behaviour we want.
+      await marks.nth(0).click();
+      await page
+        .waitForFunction(
+          () =>
+            document.querySelectorAll("span.claim[data-claim]")[0].getAttribute("aria-expanded") ===
+            "true",
+          { timeout: 3000 },
+        )
+        .catch(() => {});
+      const firstOpen = await page.evaluate(() => {
+        const m = document.querySelectorAll("span.claim[data-claim]")[0];
+        return {
+          open: document.getElementById(m.getAttribute("aria-controls")).open,
+          expanded: m.getAttribute("aria-expanded"),
+        };
+      });
+      report(
+        "provenance-open",
+        "open-questions.html",
+        firstOpen.open === true && firstOpen.expanded === "true",
+        `card open=${firstOpen.open}, mark aria-expanded=${firstOpen.expanded}`,
+      );
+
+      await marks.nth(1).click();
+      await page
+        .waitForFunction(
+          () => {
+            const ms = document.querySelectorAll("span.claim[data-claim]");
+            return !document.getElementById(ms[0].getAttribute("aria-controls")).open;
+          },
+          { timeout: 3000 },
+        )
+        .catch(() => {});
+      const both = await page.evaluate(() => {
+        const ms = document.querySelectorAll("span.claim[data-claim]");
+        const card = (i) => document.getElementById(ms[i].getAttribute("aria-controls"));
+        return {
+          first: card(0).open,
+          second: card(1).open,
+          firstExpanded: ms[0].getAttribute("aria-expanded"),
+        };
+      });
+      report(
+        "provenance-single-open",
+        "open-questions.html",
+        both.second === true && both.first === false && both.firstExpanded === "false",
+        `after opening the second card: first open=${both.first} (aria-expanded=${both.firstExpanded}), second open=${both.second}`,
+      );
+
+      // Move focus off the mark before pressing Escape. Without this the
+      // assertion is vacuous: clicking a tabindex="0" mark focuses it, so
+      // focus would sit on the right element whether or not
+      // assets/provenance.js restores it. Mutation-testing caught exactly
+      // that -- deleting the mark.focus() call still passed. The <summary>
+      // inside the open card is where a reader tabbing into the card
+      // actually lands, and it is the element focus was observed to be
+      // stranded near when this regression was first found by hand.
+      await page.evaluate(() => {
+        const ms = document.querySelectorAll("span.claim[data-claim]");
+        document.getElementById(ms[1].getAttribute("aria-controls")).querySelector("summary").focus();
+      });
+      await page.keyboard.press("Escape");
+      await page
+        .waitForFunction(
+          () => ![...document.querySelectorAll("details.claim-card")].some((d) => d.open),
+          { timeout: 3000 },
+        )
+        .catch(() => {});
+      const afterEscape = await page.evaluate(() => {
+        const ms = [...document.querySelectorAll("span.claim[data-claim]")];
+        return {
+          anyOpen: [...document.querySelectorAll("details.claim-card")].some((d) => d.open),
+          focusedIndex: ms.indexOf(document.activeElement),
+          focusedTag: document.activeElement ? document.activeElement.tagName : "(none)",
+        };
+      });
+      report(
+        "provenance-escape",
+        "open-questions.html",
+        afterEscape.anyOpen === false && afterEscape.focusedIndex === 1,
+        `cards open after Escape=${afterEscape.anyOpen}, focus on mark index ${afterEscape.focusedIndex} (${afterEscape.focusedTag}), want index 1`,
+      );
+    }
+
+    report(
+      "provenance-console",
+      "open-questions.html",
+      errors.length === 0,
+      errors.slice(0, 3).join(" | ") || "clean",
+    );
+    await ctx.close();
+  }
+
+  // ---- JS off: the acceptance test ----
+  {
+    const ctx = await newContext({ javaScript: false, seenState: false });
+    const page = await ctx.newPage();
+    await page.goto(`${BASE}/open-questions.html`, { waitUntil: "load" });
+
+    const shape = await page.evaluate(() => {
+      const cards = [...document.querySelectorAll("details.claim-card")];
+      const ribbons = [...document.querySelectorAll("figure.ribbon")];
+      return {
+        marks: document.querySelectorAll("span.claim[data-claim]").length,
+        cards: cards.length,
+        // Every ribbon must carry a text equivalent, not only an SVG.
+        ribbons: ribbons.length,
+        ribbonsWithTable: ribbons.filter((f) => {
+          const t = f.querySelector("table.data tbody tr");
+          return !!t && t.textContent.trim().length > 0;
+        }).length,
+        // Citations are rendered, not fetched: either a real source list
+        // or the verbatim pending line.
+        sourceRows: document.querySelectorAll("ul.src-list li").length,
+        pendingLines: document.querySelectorAll("p.pending-note").length,
+        // The generated HTML must NOT pretend the marks are controls --
+        // without the script they cannot do anything.
+        wiredMarks: document.querySelectorAll("span.claim[role='button']").length,
+      };
+    });
+
+    report(
+      "provenance-nojs-render",
+      "open-questions.html",
+      shape.marks === expected && shape.cards === expected,
+      `${shape.marks} marks / ${shape.cards} cards with JS disabled, want ${expected} each`,
+    );
+    report(
+      "provenance-nojs-ribbon-table",
+      "open-questions.html",
+      shape.ribbons === expected && shape.ribbonsWithTable === shape.ribbons,
+      `${shape.ribbonsWithTable}/${shape.ribbons} ribbons carry a populated table fallback`,
+    );
+    report(
+      "provenance-nojs-sources",
+      "open-questions.html",
+      shape.sourceRows + shape.pendingLines > 0,
+      `${shape.sourceRows} cited source rows, ${shape.pendingLines} "No source recorded" lines`,
+    );
+    report(
+      "provenance-nojs-no-dead-controls",
+      "open-questions.html",
+      shape.wiredMarks === 0,
+      `${shape.wiredMarks} marks carry role="button" without the script that makes them work (want 0)`,
+    );
+
+    // Native <details> is the affordance with JS off. Click the summary
+    // rather than setting .open, so this fails if the markup ever stops
+    // being a real disclosure.
+    await page.locator("details.claim-card > summary").first().click();
+    const opened = await page.evaluate(
+      () => document.querySelector("details.claim-card").open,
+    );
+    report(
+      "provenance-nojs-open",
+      "open-questions.html",
+      opened === true,
+      `clicking the summary with JS disabled opened the card: ${opened}`,
+    );
+    await ctx.close();
+  }
 }
 
 // ── Summary ─────────────────────────────────────────────────────────
