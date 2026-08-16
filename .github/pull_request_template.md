@@ -26,7 +26,10 @@
       `docs/maintainer-guide.md` section 6), or I am fine with CI
       telling me.
 - [ ] Any generator I touched was run twice and `git diff` was empty
-      the second time.
+      the second time. (If it stamps a `_computed` date and you are not
+      on the same UTC day the artifact was written, pin
+      `SOURCE_DATE_EPOCH` to that artifact's own stamp first — otherwise
+      the diff is all date churn. See `docs/maintainer-guide.md` §6.)
 
 ## For structural-hypothesis submissions
 

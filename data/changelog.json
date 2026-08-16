@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-08-coverage-source-count-corrected",
+   "year": "2026",
+   "month": "August",
+   "html": "\n              <strong>The coverage dashboard was under-reporting how many\n              sources are reachable from a badge.</strong>\n              It said 29 of 31, and with JavaScript off it said 25 of 31.\n              The registry had grown to 36 sources, 34 of them reachable,\n              and the measurement behind those figures had not been re-run\n              since. The two that remain unreachable are cited as further\n              reading only and are named on the page.\n              <span class=\"prov\">The generator that produces this report had\n              no staleness check, which is how a figure on the page whose\n              subject is honest accounting went two releases out of date. It\n              has one now, and it compares the measured content while\n              ignoring the date stamp, so it cannot pass merely because the\n              file was written today.</span>\n            "
+  },
+  {
    "id": "2026-08-shared-translation-links-now-work",
    "year": "2026",
    "month": "August",

@@ -173,7 +173,40 @@ dispatch instead of blocking every contribution.
 | check-root-datasets.mjs | the six parallel root datasets: all carry the same 1,642 keys, `rootBuckwalter`↔`rootLatin` agrees across roots-summary/roots-list, every `rootLatin` is a roots-index key, and every per-root filename is `safeKey(bw)`. Written after a fuzzy root matcher served 205 roots' statistics under the WRONG root's name behind a Verified badge |
 | check-safe-key.mjs | the client↔data-file contract: the browser's `window.qdSafeKey` (assets/lang-labels.js) and the generators' `scripts/lib/safe-key.mjs` must agree on a branch-covering vector, every one of the 1,642 roots must resolve to a file that exists, and no page may reimplement the mapping locally (it lived in seven copies before this) |
 
-Determinism check for any script: run it twice, `git diff` must be empty.
+Determinism check for any script: run it twice, `git diff` must be
+empty.
+
+**That rule holds only within a single UTC day, and knowing why matters.**
+Twelve generators stamp a `_computed` date into their output via
+`scripts/lib/computed-date.mjs`. Rerun one tomorrow and you get a diff of
+nothing but date stamps — 9,862 files, measured — in which a real content
+change is invisible. Set `SOURCE_DATE_EPOCH` (the reproducible-builds.org
+convention, a Unix timestamp in seconds) to pin the stamp:
+
+```sh
+SOURCE_DATE_EPOCH=$(date -u -d 2026-08-01 +%s) node scripts/compute-association-stats.mjs
+```
+
+**Use the date already in the artifact you are diffing against, not the
+last commit's date.** The committed tree carries stamps from several
+different days at once — `data/root-analytics/` says 2026-07-20,
+`data/association/` says 2026-08-01, `data/coverage/report.json` says
+whenever it was last regenerated — so no single epoch reproduces the
+whole tree, and `$(git log -1 --format=%ct)` reproduces none of it.
+Read the target's own `_computed` field first:
+
+```sh
+grep -o '"_computed":"[^"]*"' data/association/brk.json
+```
+
+Verified: with the epoch set to that artifact's own stamp, rerunning
+`compute-association-stats.mjs` reproduces all 1,642 files
+byte-identically; with the last commit's epoch, all 1,642 differ.
+
+A generator whose `--check` must survive this should compare content with
+the stamp removed rather than comparing bytes — see
+`compute-coverage.mjs`, which does exactly that, and whose absence of a
+`--check` is how a wrong source count reached the coverage dashboard.
 
 **BW_MAP note.** `build-leeds.js`'s Buckwalter→Arabic table (`BW_MAP`) was
 missing 14 characters used by the Leeds corpus v0.4's extended
@@ -709,7 +742,11 @@ What it covers (the old manual list, for reference) and what's left:
    The last one fails if any page's inline-script or inline-style hashes
    are stale (rerun `node scripts/build-csp.mjs` to fix).
 9. Re-run every generator you touched twice; `git diff` must be empty
-   after the second run.
+   after the second run. If the generator stamps a `_computed` date and
+   you are not on the same UTC day the artifact was written, pin
+   `SOURCE_DATE_EPOCH` to that artifact's own stamp first — otherwise the
+   diff is all date churn and a real change hides in it. See the
+   determinism note in §6.
 10. If you touched netlify.toml: on the PR's deploy preview, `curl -sI`
     the preview URL for `/`, `/index.html`, `/read`, `/read.html`,
     `/embed`, and one `s/` page, then assert exactly one

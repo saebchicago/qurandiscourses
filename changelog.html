@@ -136,6 +136,21 @@
           <h3>2026</h3>
           <h4>August</h4>
           <ul>
+            <li id="2026-08-coverage-source-count-corrected">
+              <strong>The coverage dashboard was under-reporting how many
+              sources are reachable from a badge.</strong>
+              It said 29 of 31, and with JavaScript off it said 25 of 31.
+              The registry had grown to 36 sources, 34 of them reachable,
+              and the measurement behind those figures had not been re-run
+              since. The two that remain unreachable are cited as further
+              reading only and are named on the page.
+              <span class="prov">The generator that produces this report had
+              no staleness check, which is how a figure on the page whose
+              subject is honest accounting went two releases out of date. It
+              has one now, and it compares the measured content while
+              ignoring the date stamp, so it cannot pass merely because the
+              file was written today.</span>
+            <a class="claim-anchor" href="#2026-08-coverage-source-count-corrected" aria-label="Link to this entry">&sect;</a></li>
             <li id="2026-08-shared-translation-links-now-work">
               <strong>A shared reading link now shows the translations its
               sender chose.</strong>
