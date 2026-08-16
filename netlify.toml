@@ -94,7 +94,7 @@
 # Static assets and bundled data. Netlify's default is
 # "public, max-age=0, must-revalidate", and no asset URL here is
 # fingerprinted, so every navigation issued a conditional request per
-# file - up to 26 of them on /read, including the 129KB root-refs.js.
+# file - up to 26 of them on /read.
 # sw.js's stale-while-revalidate hides that from repeat visitors, but not
 # from the first few navigations of a session and not at all from a
 # browser where the service worker fails to register.

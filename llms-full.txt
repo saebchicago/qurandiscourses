@@ -4405,6 +4405,21 @@ before it was renamed "Study".
 
 #### August
 
+Ten pages stopped downloading a 126 KB lookup table
+they barely used.
+The table tells the page which words in its prose are Qur'anic
+roots, so they can be tapped for a definition. It listed all
+1,944 roots on every page that carried it; between them those
+pages mention 25. Each page now receives only the entries its
+own text can match — 5,560 bytes across all of them, against
+128,998 before — and the three pages that mention no root at
+all no longer load the feature.
+Nothing a reader sees changed: every root
+and verse reference wraps exactly as it did, verified by
+comparing the rendered markup of all 30 references on the
+affected pages before and after, byte for byte.
+§
+
 The coverage dashboard was under-reporting how many
 sources are reachable from a badge.
 It said 29 of 31, and with JavaScript off it said 25 of 31.

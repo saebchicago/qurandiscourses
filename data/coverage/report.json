@@ -207,11 +207,9 @@
   "reason": "no verified gloss source present in repository",
   "editorialGlossCount": 84,
   "editorialGlossRenderPaths": [
-   "about.html",
    "compare.html",
    "embed.html",
    "exercise-roots.html",
-   "exercises.html",
    "glossary.html",
    "how-it-works.html",
    "how-to-use.html",
@@ -220,7 +218,6 @@
    "patterns.html",
    "read.html",
    "roots.html",
-   "sources.html",
    "validation.html",
    "words.html"
   ],
