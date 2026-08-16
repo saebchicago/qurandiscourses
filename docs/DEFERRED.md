@@ -146,49 +146,41 @@ one. Then the reproduction gate and the parser extension in §9 of
 
 ---
 
-## `--check` for the remaining 25 unguarded generators
+## Per-generator `--check` for the 25 guarded only in aggregate
 
-**From:** the audit of 2026-08-16, which found the reason they have no
-`--check` and fixed the one that had actually drifted.
+**From:** the audit of 2026-08-16. **Narrowed** after
+`scripts/check-generated-freshness.mjs` shipped: the CI gap this entry
+originally described is closed. What remains deferred is smaller and
+different.
 
-45 generators exist; 17 now support `--check`. The other 28 include two
-that cannot run here at all (`build-og-images.mjs` needs a browser,
-`build-surah-meta.mjs` needs the network) and one manual utility
-(`build-gloss.mjs` takes a raw dump argument), leaving **25**.
+**What is now covered.** `check-generated-freshness.mjs` runs all 25
+generators that have no `--check` of their own into a temp copy of the
+repo and compares their output against what is committed, ignoring the
+`_computed` date stamp. ~20s, wired into CI. Staleness in any of them
+now fails the build, which is what the original entry was about.
 
-**They are not stale.** All 26 committed-input generators were run into
-a scratch copy of `main` and the result diffed against the repo: 9,863
-files differed, and **9,862 of those differences were the `_computed`
-date stamp alone**. Exactly one — `data/coverage/report.json` — carried a
-real content difference, and that one is fixed and guarded now.
+**What is still missing, and who wants it.** A maintainer who touches
+one generator cannot check just that one cheaply — they either re-run it
+and read `git diff`, or run the whole 20-second sweep. `--only=` narrows
+the sweep, but it still copies the repo. A real per-generator `--check`
+would be instant and would follow the house convention that the other 17
+generators already use.
 
-**The date stamp is why they have no `--check`.** A byte-comparing
-`--check` on any of these fails on every day but the one the artifact
-was written. That is a property of the artifacts, not an oversight.
+**What makes it more than a copy-paste job**, unchanged from the
+original assessment:
 
-**What would unblock the rest**, and it is a small pattern rather than a
-research problem: compare content with the stamp removed, the way
-`compute-coverage.mjs` now does —
-
-```js
-const withoutStamp = (text) => {
-  const { _computed, ...rest } = JSON.parse(text);
-  return JSON.stringify(rest);
-};
-```
-
-Two things make this more than a copy-paste job, which is why it is
-deferred rather than done here:
-
-- Several of these generators write **thousands of files**
-  (`compute-association-stats` 1,642, `build-root-analytics` 1,642,
-  `build-share-pages` 1,789), so a `--check` has to compare a directory,
-  not a file, and decide what to report when many differ at once.
-- Some write non-JSON (`build-surahs-js` writes `assets/surahs.js`), so
-  the stamp cannot be stripped by parsing.
+- Several write **thousands of files** (`compute-association-stats`
+  1,642, `build-root-analytics` 1,642, `build-share-pages` 1,789), so
+  `--check` must compare a directory and decide what to report when many
+  differ at once.
+- `build-surahs-js` and `build-root-refs-index` write JavaScript, and
+  `build-exports` writes `.csv` and `.md`, so the stamp cannot always be
+  stripped by parsing JSON.
 
 A shared `emitOrCheck()` in `scripts/lib/` handling both shapes is the
-right form — the same extraction Part 9 §D5 already recommended for the
-14-copy `--check` epilogue, now with a second reason to exist. Doing it
-well means touching 25 generators with the bar "output stays
-byte-identical", which is its own reviewable change.
+right form — the same extraction Part 9 §D5 recommended for the 14-copy
+`--check` epilogue. The stamp-insensitive comparison it needs already
+exists in two places to copy from: `scripts/compute-coverage.mjs` and
+`scripts/check-generated-freshness.mjs`. Doing it well means touching 25
+generators with the bar "output stays byte-identical", which is its own
+reviewable change.

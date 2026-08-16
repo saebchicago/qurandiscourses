@@ -81,6 +81,7 @@ jobs:
           node scripts/build-ribbons.mjs --check
           node scripts/build-provenance.mjs --check
           node scripts/compute-coverage.mjs --check
+          node scripts/check-generated-freshness.mjs
 
       - name: Run end-to-end browser audit
         run: |
