@@ -11,21 +11,21 @@
 // statistics itself, and it does not modify any of those inputs. It only
 // writes new files under data/exports/.
 //
-// Output (both a CSV and a JSON array of the same rows, for every table):
-//   data/exports/root-frequencies.{csv,json}: every root, raw count,
-//     overall normalized frequency, and per-period count + normalized
-//     frequency (4 revelation periods).
-//   data/exports/association-pairs.{csv,json}: every root-pair
-//     association entry that appears in any root's top-25-by-LLR list
-//     (data/association/*.json), deduplicated by unordered pair.
-//   data/exports/surah-stats.{csv,json}: per-surah corpus fingerprint,
-//     verse/token/root counts, diversity ratios, POS mix, revelation
-//     order and period.
-//   data/exports/verse-lengths.{csv,json}: every verse's token length
-//     and revelation period (6,236 rows).
+// Output: 14 tables, each as both a CSV and a JSON array of the same
+// rows — root-frequencies, association-pairs, surah-stats,
+// verse-lengths, formulas, centrality, rhyme-summary, fawatih,
+// discursive-pivots, structure, structure-tests, theme-surah-density,
+// formulaic-density, dispersion — plus
 //   data/exports/schema.json: machine-readable field-level schema for
-//     all four tables above.
+//     every table, and the ONE declaration the rest of the data hub is
+//     checked against (see check-exports-sync.mjs).
 //   data/exports/DATA-DICTIONARY.md: the same schema in prose.
+//
+// The table list above is prose and can go stale; schema.json cannot,
+// and is what every other surface is validated against. Adding a table
+// means following the "Add an export table" recipe in
+// docs/maintainer-guide.md §4 — in particular the download card on
+// export.html, which is the one surface NOT generated from here.
 //
 // To reproduce: node scripts/build-exports.mjs (run
 // scripts/compute-association-stats.mjs first if data/association/ is
