@@ -143,6 +143,49 @@ them only when their inputs change; commit their outputs.
 | compute-coverage.mjs | morphology, roots-summary, qursim/ (file counts), sources.json | data/coverage/report.json | coverage.html dashboard — every number there traces to this report |
 | build-exports.mjs | roots-summary, numbers.json, chronology, surah-profiles, surah-names, morphology, association/ | data/exports/ (CSV+JSON tables, schema.json, DATA-DICTIONARY.md) | export.html downloads. Rerun after compute-association-stats.mjs |
 
+### Site artifacts
+
+The generators above build the corpus datasets. These nine build the
+*site* from those datasets and from the hand-maintained registries —
+pages, indexes, feeds and the small synchronous `assets/*.js` files that
+must be there before a fetch could resolve. They run on a different
+trigger from the corpus chain (a registry edit or a prose edit, not a
+morphology change), which is why they are their own table. Every one
+supports `--check`.
+
+| Script | Reads | Writes | Feeds |
+|---|---|---|---|
+| build-glossary.mjs | data/glossary.json | assets/glossary.js (GENERATED region), glossary.html (static:glossary region) | one registry, two surfaces: the tooltip map every page loads and the definition list on glossary.html, each term carrying its anchor id |
+| build-ask-routes.mjs | data/glossary.json (matchKeys), data/juz.json | data/ask-routes.json, assets/ask-routes.js | the Ask box's routing tables. The `glossary` table is regenerated so a term rename cannot leave the box routing to a dead anchor; `themes` and `pages` are hand-curated in the same file and pass through untouched |
+| build-search-index.mjs | every prose page's `<main>`, glossary, sources, themes, surah-names/meta, juz, roots-list, root-meanings | data/search-index.json | /search. Pages are split into sections at h2/h3, so a result lands on the section rather than the page top |
+| build-llms.mjs | every prose page's `<main>` (via lib/extract-text.mjs), data/glossary.json, data/version.json | llms.txt, llms-full.txt | the llmstxt.org convention: what the site is, how to cite it, where the data and licenses are, then an annotated page index and the full prose |
+| build-changelog.mjs | data/changelog.json | changelog.html (static:changelog region), feed.xml | the release log and its Atom feed. Each entry carries `id="<entry id>"`, so a specific change is citable as /changelog#&lt;id&gt; |
+| build-path-data.mjs | data/paths.json | assets/path-data.js (window.QD_PATHS) | assets/path-ribbon.js, synchronously so `?path=&step=` validates with no fetch race. Only what the ribbon needs travels — title, per-step label, page, query, minutes; the step HTML stays on paths.html where it renders |
+| build-related.mjs | data/theme-surah-index.json, data/themes.json | data/related.json | the "See also" panels. A join over data the site already publishes — no new mathematics and no new counts |
+| build-ribbons.mjs | data/provenance/claims.json, data/provenance/sources.json | data/provenance/ribbons.json | the provenance distance ribbons, every coordinate precomputed as a literal because no browser script may compute layout (§5) |
+| build-static-fallbacks.mjs | data/juz.json, surah-names, surah-meta, surah-profiles, contributors | navigate.html, dossier.html, index.html, credits.html (marker regions) | the regions that used to say "Loading…". With scripts off they never arrived at all; now the markup ships filled in from the same data the page's JS reads at runtime |
+
+### Shared library (`scripts/lib/`)
+
+The single-source-of-truth layer. A module nobody can find gets
+reimplemented, which is the failure each of these was extracted to end —
+so every one is listed here, not only the ones with a recent story.
+
+| Module | Holds |
+|---|---|
+| safe-key.mjs | `safeKey(bw)`, the root→filename encoding that is the client↔data contract. `check-safe-key.mjs` holds the browser's copy to it |
+| corpus.mjs | `TOTAL_VERSES`, `TOTAL_TOKENS`, `TOTAL_ROOTS`, `TOTAL_SURAHS` — see the note below |
+| stats.mjs | Benjamini-Hochberg, Bonferroni, Pearson, tie-corrected Spearman, and `FREQUENCY_CEILING`. Extracted from three generators that had reimplemented the same math |
+| lexical-diversity.mjs | MATTR and MTLD, the length-robust alternatives to raw type-token ratio |
+| permute.mjs | seeded `mulberry32` + Fisher-Yates. A fixed seed is what makes every permutation test reproducible, so the determinism contract holds |
+| computed-date.mjs | the `_computed` date stamp, honoring `SOURCE_DATE_EPOCH`. Pin it to an artifact's OWN stamp to reproduce it — see the determinism rule below |
+| site.mjs | the origin and the clean-path rule; the one place a URL's shape is decided |
+| extract-text.mjs | a page's `<main>` as readable plain text. Shared by build-llms and build-search-index so the two cannot disagree about what a page says |
+| sw-precache.mjs | the ONE computation behind the service worker's precache list and hash manifest, shared by build-sw-manifest.mjs (the writer) and check-sw-version.mjs (the guard) |
+| static-server.mjs | the ONE local static server the browser-driving scripts point Chromium at. Serving over http:// rather than file:// matters — fetch, the SW and CSP all behave differently |
+| playwright.mjs | the ONE way this repo resolves Playwright, degrading with a clear message rather than a module-not-found stack. Playwright is a dev-machine tool; nothing it needs ever ships |
+| ordinal.mjs | English ordinal suffix ("13th") |
+
 `scripts/lib/corpus.mjs` holds the corpus totals — `TOTAL_VERSES`,
 `TOTAL_TOKENS`, `TOTAL_ROOTS`, `TOTAL_SURAHS` — that eight of these
 generators run on. They were a redeclared literal in each; import them,
@@ -185,7 +228,7 @@ dispatch instead of blocking every contribution.
 | check-contrib.mjs | the contribution pipeline's joints: every issue template is linked from contribute.html, and the correction form is present and wired |
 | check-juz-endpoint.mjs | the third-party contract whole-juz reading rests on — alquran.cloud must still serve a juz cross-surah in the shape read.html expects. Needs real outbound network |
 | validate-evidence.mjs | structural gate for the provenance registry (data/provenance/): 11 rules over sources.json and claims.json — unique ids, exact key sets, resolvable source references, byte-frozen quotes, and a resolution_note on every pending claim and no other |
-| check-docs-sync.mjs | this guide's own inventories: every page appears in §2's table, §2's heading count matches, and every checker is documented somewhere here. Written after the table silently lost two pages and four checkers |
+| check-docs-sync.mjs | this guide's own inventories: every page appears in §2's table, §2's heading count matches, and every script — generators, checkers, dev tools, `scripts/lib/` modules — is documented somewhere here, or is named in the checker's printed exclusion list with a reason. The no-extension form of a name counts only when it is hyphenated: mutation-testing showed a bare `nothing.mjs` passing because "nothing" appears in this file's prose. Written after the table silently lost two pages and four checkers, and extended after nine site-artifact generators and seven lib modules turned out to have no row anywhere |
 | check-exports-sync.mjs | the published data hub: `data/exports/schema.json` declares what is published, and the files, export.html's download cards and their row counts, the table-count prose on export.html and datasets.html, the counts inside the schema's own descriptions (which propagate into datapackage.json, croissant.json and both pages' JSON-LD), and the tables themselves against the sources they derive from must all match it. The source cross-validation is recomputed here rather than by re-running build-exports.mjs — `check-generated-freshness` proves the tables are what the generator produces, this proves the generator did not drop or invent rows. Written after `dispersion` reached every generated surface, including the citable archive and the JSON-LD, but never reached the hand-written card grid |
 | check-safe-key.mjs | the client↔data-file contract: the browser's `window.qdSafeKey` (assets/lang-labels.js) and the generators' `scripts/lib/safe-key.mjs` must agree on a branch-covering vector, every one of the 1,642 roots must resolve to a file that exists, and no page may reimplement the mapping locally (it lived in seven copies before this) |
 
@@ -739,6 +782,14 @@ committing. Register the palette in the `setPalette` select in
   stay in sync with reality.
 
 ## 6. Verify before shipping (the checklist that caught real bugs)
+
+To look at the site by hand first, use `node scripts/serve.mjs` (port
+8000 by default, or pass one). Not `python3 -m http.server`: the site
+links to clean paths (`/read`, not `/read.html`), which Netlify resolves
+to the matching file and a plain static server does not — on one, every
+internal link 404s, so what you would be checking is not the site that
+ships. It shares its handler with `verify-site.mjs`
+(`scripts/lib/static-server.mjs`), so the two agree by construction.
 
 Most of this checklist is now one command:
 

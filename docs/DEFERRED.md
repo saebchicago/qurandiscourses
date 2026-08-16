@@ -187,38 +187,6 @@ reviewable change.
 
 ---
 
-## The guide's pipeline table and lib inventory
-
-**From:** the inventory-drift audit of 2026-08-16.
-`scripts/check-docs-sync.mjs` now enforces that every page appears in
-§2's site map and every checker is documented. Two inventories are
-deliberately **outside** what it enforces, because completing them is
-writing rather than polish and each entry has to be verified against
-what the script actually does.
-
-**10 of 45 generators appear nowhere in `docs/maintainer-guide.md`:**
-
-```
-build-ask-routes      build-changelog        build-glossary
-build-llms            build-path-data        build-provenance
-build-related         build-ribbons          build-search-index
-build-static-fallbacks
-```
-
-**7 of 11 `scripts/lib/` modules appear nowhere:**
-
-```
-extract-text   lexical-diversity   ordinal   permute
-playwright     static-server       sw-precache
-```
-
-Listed by name so the follow-up needs no re-derivation. When they are
-written, extend `check-docs-sync.mjs` with the matching assertions —
-the page and checker rules there are the pattern to copy, and the
-checker is the reason the two lists cannot quietly grow again.
-
----
-
 ## A caution for any future "delete dead CSS" pass
 
 **From:** the same audit, recorded because the obvious method is wrong.

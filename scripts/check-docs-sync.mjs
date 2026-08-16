@@ -70,17 +70,57 @@ if (!headingCount) {
   );
 }
 
-// ── §3: every checker must be documented somewhere in the guide ──────
-// Matched against the whole guide, not one table: a checker explained in
-// prose is documented, which is what matters to a reader.
-const checkers = readdirSync(join(ROOT, "scripts"))
-  .filter((f) => /^(check|validate)-.*\.mjs$/.test(f))
+// ── §3: every script must be documented somewhere in the guide ───────
+// Matched against the whole guide, not one table: a script explained in
+// prose is documented, which is what matters to a reader. The
+// no-extension form counts too — `check-citation` is written that way.
+// The no-extension form counts ONLY for hyphenated names — `check-citation`
+// and `verify-site` are written that way in the guide and are distinctive
+// enough to match on. A bare name like `serve` or `ordinal` is an ordinary
+// English word, so requiring the extension is the difference between a real
+// assertion and one that passes on prose. Mutation-testing caught this: a
+// scratch `scripts/lib/nothing.mjs` passed, because "nothing" appears in the
+// guide's prose.
+const documented = (f) => {
+  if (guide.includes(f)) return true;
+  const bare = f.replace(/\.(mjs|js)$/, "");
+  return bare.includes("-") && guide.includes(bare);
+};
+
+// A script may go undocumented only by being named here, with a reason,
+// and the reason is printed on every run. Same shape as
+// check-generated-freshness's EXCLUDED and build-root-refs-index's
+// OPTED_OUT: a checker that cannot be silenced quietly.
+const EXCLUDED = {};
+
+const scripts = readdirSync(join(ROOT, "scripts"))
+  .filter((f) => /\.(mjs|js)$/.test(f))
+  .sort();
+const checkers = scripts.filter((f) => /^(check|validate)-/.test(f));
+
+for (const f of scripts) {
+  if (Object.prototype.hasOwnProperty.call(EXCLUDED, f)) {
+    if (documented(f))
+      fail("exclusions", `scripts/${f} is documented AND listed as excluded — drop the exclusion`);
+    continue;
+  }
+  if (!documented(f)) {
+    const kind = /^(check|validate)-/.test(f) ? "checkers" : "scripts";
+    fail(kind, `scripts/${f} appears nowhere in the guide`);
+  }
+}
+
+// ── §3: the shared library ───────────────────────────────────────────
+// The lib modules are the repo's single-source-of-truth layer — safe-key,
+// corpus totals, stats, the SW precache computation. A module nobody can
+// find in the guide gets reimplemented, which is the exact failure each
+// of them was extracted to end.
+const libs = readdirSync(join(ROOT, "scripts", "lib"))
+  .filter((f) => f.endsWith(".mjs"))
   .sort();
 
-for (const c of checkers) {
-  if (!guide.includes(c) && !guide.includes(c.replace(/\.mjs$/, ""))) {
-    fail("checkers", `scripts/${c} appears nowhere in the guide`);
-  }
+for (const f of libs) {
+  if (!documented(f)) fail("lib", `scripts/lib/${f} appears nowhere in the guide`);
 }
 
 // ── Report ───────────────────────────────────────────────────────────
@@ -95,7 +135,14 @@ if (failures.length) {
   process.exit(1);
 }
 
+const excluded = Object.entries(EXCLUDED);
+if (excluded.length) {
+  console.log(`check-docs-sync: ${excluded.length} script(s) deliberately undocumented:`);
+  for (const [f, why] of excluded) console.log(`  - ${f} (${why})`);
+}
+
 console.log(
   `check-docs-sync: OK (${pages.length} pages listed in §2, ` +
-    `${checkers.length} checkers documented).`,
+    `${scripts.length - excluded.length} scripts documented, of which ` +
+    `${checkers.length} checkers, plus ${libs.length} lib modules).`,
 );
