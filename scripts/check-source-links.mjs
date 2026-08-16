@@ -18,6 +18,14 @@
 // checker: ghamidi.org timed out in 2 of 6 observed runs while the same
 // URL passed minutes either side. --strict still fails on SLOW.
 //
+// --timeout does NOT govern the connect phase. undici applies its own
+// 10s connect deadline, so `--timeout 20000` still produces
+// "Connect Timeout Error (... timeout: 10000ms)" after 10s, and the
+// retry's doubled budget cannot raise that ceiling either. There is no
+// way to change it from the standard library, so the ceiling is
+// declared below and used when judging whether a failure really ran out
+// of time.
+//
 // Exit 0 = no FAILs · 1 = FAILs (or WARN/SLOW with --strict) · 2 = harness.
 //
 // Run:  node scripts/check-source-links.mjs [--strict] [--curl] [--timeout ms]
@@ -40,6 +48,10 @@ const TIMEOUT = args.includes("--timeout")
   : 15000;
 const UA =
   "Mozilla/5.0 (compatible; qurandiscourses-linkcheck; +https://divinediscourses.org)";
+// undici's built-in connect deadline. Not configurable without adding a
+// dependency, so --timeout can only ever shorten the total request, never
+// lengthen the connect attempt past this.
+const CONNECT_CEILING_MS = 10000;
 
 // Node's fetch ignores HTTPS_PROXY unless NODE_USE_ENV_PROXY=1 (the
 // bundled EnvHttpProxyAgent). Re-exec once with it set so proxied
@@ -146,6 +158,14 @@ const probe = USE_CURL ? probeCurl : probeFetch;
 // undici wraps it, so walk the cause chain. Depth-capped because a cause
 // chain is not guaranteed acyclic.
 //
+// Two distinct timeouts reach here. AbortSignal.timeout fires a
+// TimeoutError for the request as a whole; undici fires a
+// ConnectTimeoutError (UND_ERR_CONNECT_TIMEOUT) when the connect phase
+// alone exceeds CONNECT_CEILING_MS. The second is the one that actually
+// produced the ghamidi.org reds, so missing it would leave this fix not
+// covering the case it was written for -- which is exactly what the
+// first version of it did.
+//
 // Deliberately NOT matching AbortError: undici reuses that name for a
 // refused proxy tunnel ("Proxy response (403) !== 200 when HTTP
 // Tunneling"), which arrives in a few hundred milliseconds and is a real
@@ -153,7 +173,9 @@ const probe = USE_CURL ? probeCurl : probeFetch;
 // SLOW in testing — the opposite of the honesty this change is for.
 function isTimeout(e) {
   for (let x = e, depth = 0; x && depth < 8; x = x.cause, depth++) {
-    if (x.qdTimeout || x.name === "TimeoutError") return true;
+    if (x.qdTimeout) return true;
+    if (x.name === "TimeoutError" || x.name === "ConnectTimeoutError") return true;
+    if (x.code === "UND_ERR_CONNECT_TIMEOUT") return true;
   }
   return false;
 }
@@ -177,13 +199,18 @@ async function check(url) {
       // Only the final attempt decides the verdict: a first-try timeout
       // followed by a genuine connection refusal is a refusal.
       // Second gate, on the clock rather than the error name: a failure
-      // that arrives well inside the budget did not run out of time,
-      // whatever it calls itself. Without this the reported message
-      // ("no response within 30000 ms (gave up after 329 ms)") would
-      // contradict itself, which is how the AbortError mismatch above
-      // was caught.
+      // that arrives well inside every applicable deadline did not run
+      // out of time, whatever it calls itself. Without this the reported
+      // message ("no response within 30000 ms (gave up after 329 ms)")
+      // would contradict itself, which is how the AbortError mismatch
+      // above was caught.
+      //
+      // The deadline that matters is whichever fires first, so a connect
+      // timeout at 10s under a 20s budget still counts.
       const elapsed = Date.now() - started;
-      timedOut = isTimeout(e) && elapsed >= budget * 0.9 ? { budget, elapsed } : null;
+      const deadline = Math.min(budget, CONNECT_CEILING_MS);
+      timedOut =
+        isTimeout(e) && elapsed >= deadline * 0.9 ? { budget: deadline, elapsed } : null;
       if (attempt === 0) {
         await new Promise((r) => setTimeout(r, 2000));
         continue;
