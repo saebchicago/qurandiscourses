@@ -2981,7 +2981,7 @@ html[data-focus] .ar.xl {
 .text-action:hover {
   text-decoration: underline;
 }
-/* Guided landing hero: the same frame as .research-hero, one column,
+/* Guided landing hero: one column,
    and nothing in it but the headline, the lede, two actions, and one
    text link. The search box that used to sit beside it now follows the
    three study modes further down the page. */

@@ -45,7 +45,7 @@ Citations follow the **Chicago Manual of Style, bibliography form**:
 When a detail can't be confirmed against the work itself, omit it — never
 guess. sources.html is the reference implementation.
 
-## 2. Site map (33 pages)
+## 2. Site map (34 pages)
 
 | Group | Pages | Notes |
 |---|---|---|
@@ -53,7 +53,7 @@ guess. sources.html is the reference implementation.
 | Analyze | words, roots, patterns, numbers, formulas | fully local data |
 | Learn | how-to-use, how-it-works, exercises (hub), exercise, exercise-roots, paths, glossary, watch | exercises are data-driven or book-cited; exercise-asr.html is a redirect stub |
 | About | index, about, sources, datasets, validation, credits, changelog | credibility pages |
-| Off-nav, in sitemap | export (CSV/JSON downloads + schema), coverage (measured data-coverage dashboard) | reachable via contextual links (roots.html, numbers.html, datasets.html), not the primary nav — adding them to nav means editing EVERY page's nav block (check-nav-sync.mjs enforces byte-identical navs) |
+| Off-nav, in sitemap | export (CSV/JSON downloads + schema), coverage (measured data-coverage dashboard), contribute (what the project wants and how to send it), open-questions (statements about Dr. Khan that no registered source settles, and records that conflict — generated from data/provenance/claims.json by build-provenance.mjs) | reachable via contextual links (roots.html, numbers.html, datasets.html), not the primary nav — adding them to nav means editing EVERY page's nav block (check-nav-sync.mjs enforces byte-identical navs) |
 | Unlisted | embed (iframe card, the one frameable page), exercise-asr (redirect stub), 404 (Netlify's not-found page: search box, wayfinding cards, correction form) | outside nav and sitemap by design; 404.html carries no canonical and no JSON-LD because Netlify serves it at whatever address failed |
 
 Site-wide, not pages: `manifest.webmanifest` + `sw.js` (repo root) make
@@ -172,6 +172,11 @@ dispatch instead of blocking every contribution.
 | check-editions.mjs | every translation edition ID in assets/app.js's TRANSLATIONS array still resolves to itself on alquran.cloud — the API silently substitutes a default Arabic edition for an invalid ID instead of erroring (the "en.haleem" bug), so this catches the next one before a reader does. Needs real outbound network — run from an unrestricted machine, not a sandboxed session; run after adding any new edition ID and every few months otherwise |
 | check-root-datasets.mjs | the six parallel root datasets: all carry the same 1,642 keys, `rootBuckwalter`↔`rootLatin` agrees across roots-summary/roots-list, every `rootLatin` is a roots-index key, and every per-root filename is `safeKey(bw)`. Written after a fuzzy root matcher served 205 roots' statistics under the WRONG root's name behind a Verified badge |
 | check-generated-freshness.mjs | the 25 generators that have no `--check` of their own: copies the repo to a temp directory, runs them there in dependency order, and compares their output against what is committed, ignoring the `_computed` date stamp. ~20s. Written after `data/coverage/report.json` published a wrong source count for two releases because nothing re-ran its generator. Never writes to the working tree — that property is the reason it copies, and must be preserved |
+| check-ask.mjs | every Ask-box route must point at something real: theme words, page words and glossary keys all resolve to a destination that exists, so no query can dead-end |
+| check-contrib.mjs | the contribution pipeline's joints: every issue template is linked from contribute.html, and the correction form is present and wired |
+| check-juz-endpoint.mjs | the third-party contract whole-juz reading rests on — alquran.cloud must still serve a juz cross-surah in the shape read.html expects. Needs real outbound network |
+| validate-evidence.mjs | structural gate for the provenance registry (data/provenance/): 11 rules over sources.json and claims.json — unique ids, exact key sets, resolvable source references, byte-frozen quotes, and a resolution_note on every pending claim and no other |
+| check-docs-sync.mjs | this guide's own inventories: every page appears in §2's table, §2's heading count matches, and every checker is documented somewhere here. Written after the table silently lost two pages and four checkers |
 | check-safe-key.mjs | the client↔data-file contract: the browser's `window.qdSafeKey` (assets/lang-labels.js) and the generators' `scripts/lib/safe-key.mjs` must agree on a branch-covering vector, every one of the 1,642 roots must resolve to a file that exists, and no page may reimplement the mapping locally (it lived in seven copies before this) |
 
 Determinism check for any script: run it twice, `git diff` must be
