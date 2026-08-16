@@ -9,6 +9,28 @@
   <updated>2026-08-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>The root-dispersion table is downloadable from the Export page</title>
+    <id>https://divinediscourses.org/changelog#2026-08-dispersion-downloadable</id>
+    <link href="https://divinediscourses.org/changelog#2026-08-dispersion-downloadable"/>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;The root-dispersion table is downloadable from the
+              Export page.&lt;/strong&gt;
+              It has been published since the measure shipped — in the
+              schema, the data dictionary, the citable archive and the
+              machine-readable dataset descriptions — but the Export page
+              offered thirteen download cards under a line promising
+              fourteen, and dispersion was the missing one. Its card is
+              now there, with the same 1,642 rows the archive carries.
+              &lt;span class="prov"&gt;Everything about a published table is
+              generated from one schema except its download card, which is
+              written by hand; that is how a table could be complete
+              everywhere a machine looks and absent where a reader looks.
+              A new check now holds the page, its stated row counts, its
+              table-count prose and the tables themselves against that
+              schema, and cross-checks every table against the data it is
+              derived from.&lt;/span&gt;</content>
+  </entry>
+  <entry>
     <title>Ten pages stopped downloading a 126 KB lookup table they barely used</title>
     <id>https://divinediscourses.org/changelog#2026-08-prose-pages-lighter</id>
     <link href="https://divinediscourses.org/changelog#2026-08-prose-pages-lighter"/>

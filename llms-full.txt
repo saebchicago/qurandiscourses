@@ -4215,6 +4215,21 @@ CSV
 JSON
 1,642 rows
 
+#### Root dispersion ●
+
+All 1,642 roots: how evenly each is spread across the 114
+surahs, weighted by surah size — Gries's DP, its Lijffijt &
+Gries normalization, Juilland's D, the count of surahs the root
+occurs in, and a dispersion-adjusted frequency. Four measures
+side by side rather than one, because the literature disagrees
+about which is best. Same figures as the
+Numbers table and the
+Roots root-detail panel.
+
+CSV
+JSON
+1,642 rows
+
 #### Association pairs ●
 
 Root-pair association statistics (shared verses, LLR, PMI,
@@ -4404,6 +4419,24 @@ before it was renamed "Study".
 ### 2026
 
 #### August
+
+The root-dispersion table is downloadable from the
+Export page.
+It has been published since the measure shipped — in the
+schema, the data dictionary, the citable archive and the
+machine-readable dataset descriptions — but the Export page
+offered thirteen download cards under a line promising
+fourteen, and dispersion was the missing one. Its card is
+now there, with the same 1,642 rows the archive carries.
+Everything about a published table is
+generated from one schema except its download card, which is
+written by hand; that is how a table could be complete
+everywhere a machine looks and absent where a reader looks.
+A new check now holds the page, its stated row counts, its
+table-count prose and the tables themselves against that
+schema, and cross-checks every table against the data it is
+derived from.
+§
 
 Ten pages stopped downloading a 126 KB lookup table
 they barely used.

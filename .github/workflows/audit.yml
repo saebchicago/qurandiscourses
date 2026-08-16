@@ -42,6 +42,7 @@ jobs:
           node scripts/check-contrib.mjs
           node scripts/check-ask.mjs
           node scripts/check-root-datasets.mjs
+          node scripts/check-exports-sync.mjs
           node scripts/check-safe-key.mjs
           node scripts/validate-evidence.mjs
 

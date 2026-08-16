@@ -177,6 +177,7 @@ dispatch instead of blocking every contribution.
 | check-juz-endpoint.mjs | the third-party contract whole-juz reading rests on — alquran.cloud must still serve a juz cross-surah in the shape read.html expects. Needs real outbound network |
 | validate-evidence.mjs | structural gate for the provenance registry (data/provenance/): 11 rules over sources.json and claims.json — unique ids, exact key sets, resolvable source references, byte-frozen quotes, and a resolution_note on every pending claim and no other |
 | check-docs-sync.mjs | this guide's own inventories: every page appears in §2's table, §2's heading count matches, and every checker is documented somewhere here. Written after the table silently lost two pages and four checkers |
+| check-exports-sync.mjs | the published data hub: `data/exports/schema.json` declares what is published, and the files, export.html's download cards and their row counts, the table-count prose on export.html and datasets.html, the counts inside the schema's own descriptions (which propagate into datapackage.json, croissant.json and both pages' JSON-LD), and the tables themselves against the sources they derive from must all match it. The source cross-validation is recomputed here rather than by re-running build-exports.mjs — `check-generated-freshness` proves the tables are what the generator produces, this proves the generator did not drop or invent rows. Written after `dispersion` reached every generated surface, including the citable archive and the JSON-LD, but never reached the hand-written card grid |
 | check-safe-key.mjs | the client↔data-file contract: the browser's `window.qdSafeKey` (assets/lang-labels.js) and the generators' `scripts/lib/safe-key.mjs` must agree on a branch-covering vector, every one of the 1,642 roots must resolve to a file that exists, and no page may reimplement the mapping locally (it lived in seven copies before this) |
 
 Determinism check for any script: run it twice, `git diff` must be
@@ -404,6 +405,42 @@ excerpt".
    against your expectation, commit `data/themes.json`.
 3. If the theme should be reachable from the Ask box, add its keywords to
    `THEME_WORDS` in `assets/ask.js`.
+
+### Add an export table
+
+The published tables are the site's most citable output, and everything
+about one is generated EXCEPT its download card. That asymmetry is how
+`dispersion` came to exist in `schema.json`, `datapackage.json`,
+`croissant.json`, the JSON-LD `Dataset` graph and the citable archive
+while `export.html` still offered thirteen cards under a lede promising
+fourteen. This recipe exists so that cannot happen quietly again;
+`check-exports-sync.mjs` enforces every step of it.
+
+1. Add the table to `scripts/build-exports.mjs`: the row builder, and an
+   entry in the schema block giving its `description` and every field's
+   name, type, unit and counting rule. Keep the field order identical in
+   the rows and in the schema — the CSV header is generated from the
+   schema and checked against the JSON keys.
+2. Any count you put in the `description` ("1,642 roots", "6,236 rows")
+   is checked against the table itself, because that string propagates
+   into `datapackage.json`, `croissant.json` and both pages' JSON-LD.
+   Write no figure you do not want checked.
+3. `node scripts/build-exports.mjs`, then `node scripts/build-datapack.mjs`.
+   The second refuses to rewrite a published archive: if the table set
+   changed, bump `data/version.json` and let a NEW archive be written
+   (see "Cutting a release"), never edit `data/exports/RELEASES.json`.
+4. **Add the download card to `export.html`** by hand, next to the others:
+   CSV link, JSON link, a `>N rows</span>` matching the real row count,
+   and a badge whose `data-source-ids` name the method's sources.
+5. Update the table-count prose in `export.html`'s lede (number word) and
+   `datasets.html` (numeral). Both are checked.
+6. If the table's row count can be derived independently of
+   `build-exports.mjs` — from a committed source file, a per-root file
+   family, or the corpus — add that derivation to
+   `check-exports-sync.mjs`'s source-correspondence section. Re-running
+   the generator only proves it is deterministic; this is what proves it
+   did not drop or invent rows.
+7. `node scripts/check-exports-sync.mjs`, then the regeneration chain.
 
 ### Add a new page
 Copy an existing page's `<head>` (canonical + OG incl. og:image + favicon
