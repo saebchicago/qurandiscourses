@@ -166,11 +166,6 @@ const SHOULD_BIND_SKIP = {
   "patterns.html|7,679":
     "QurSim's published pair count (Sharaf & Atwell 2012), which happens to " +
     "equal posProfile.byTag.P — a coincidence, not this corpus's figure",
-  "export.html|1,642":
-    "download-card row counts, held against the actual tables by " +
-    "check-exports-sync.mjs — the table is the right authority for a row count",
-  "export.html|6,236":
-    "download-card row count, guarded by check-exports-sync.mjs",
 };
 
 // Every numbers.json integer >= 1,000, in the rendering initDataNums uses.
@@ -221,6 +216,16 @@ for (const page of pages) {
   if (page === COVERAGE_PAGE)
     for (const id of Object.keys(COVERAGE_BINDINGS))
       text = text.replace(new RegExp(`<(\\w+)[^>]*\\sid="${id}"[^>]*>[\\s\\S]*?<\\/\\1>`), " ");
+
+  // export.html's download-card row counts live in .export-links and are
+  // held against the actual tables by check-exports-sync.mjs — the table
+  // is the right authority for a row count, and a second binding to
+  // totals.roots would fight it the first time a table legitimately
+  // diverged. Stripped by ELEMENT, not by value: a page-and-value skip
+  // would also exempt the page's "All 1,642 roots" prose claims, which
+  // are ordinary corpus figures and must stay guarded. (Codex caught
+  // exactly that on the first version of this rule.)
+  text = text.replace(/<p[^>]*class="export-links"[^>]*>[\s\S]*?<\/p>/g, " ");
   text = text.replace(/<[^>]+>/g, " ");
 
   for (const [formatted, path] of bindable) {
