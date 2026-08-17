@@ -2222,26 +2222,6 @@ study paths step by step.
 
 ## How It Works
 
-On this page:
-
-The method
-
-Three depth levels
-
-Evidence status
-
-Sources
-
-The text behind the numbers
-
-Where the numbers come from
-
-How themes are built
-
-How this compares to other tools
-
-A suggested first visit
-
 Divine Discourses follows a coherence-based method for reading the Qur'an,
 drawing on the work of Hamiduddin Farahi (1863–1930), Amin Ahsan
 Islahi (1904–1997), and Dr. Irfan Ahmad Khan (1931–2018).
@@ -4419,6 +4399,22 @@ before it was renamed "Study".
 ### 2026
 
 #### August
+
+Six long pages now open with a list of their own
+sections.
+validation.html runs about eighteen screens on a phone and
+offered no map of itself; sources, numbers, about, coverage
+and patterns are all long enough to want one. How It Works
+has had such a list since it was written, and this is that
+same list applied to the pages that needed it.
+The list is generated from the headings
+already in each page, so it cannot drift from them, and it
+is in the markup rather than built in the browser, so it
+works with scripts off. A heading that already had an
+address keeps it — nine on How It Works are linked from
+other pages and none of them moved. Entries for sections
+your depth level hides are hidden with them.
+§
 
 The root-dispersion table is downloadable from the
 Export page.

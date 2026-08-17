@@ -164,6 +164,7 @@ supports `--check`.
 | build-related.mjs | data/theme-surah-index.json, data/themes.json | data/related.json | the "See also" panels. A join over data the site already publishes — no new mathematics and no new counts |
 | build-ribbons.mjs | data/provenance/claims.json, data/provenance/sources.json | data/provenance/ribbons.json | the provenance distance ribbons, every coordinate precomputed as a literal because no browser script may compute layout (§5) |
 | build-static-fallbacks.mjs | data/juz.json, surah-names, surah-meta, surah-profiles, contributors | navigate.html, dossier.html, index.html, credits.html (marker regions) | the regions that used to say "Loading…". With scripts off they never arrived at all; now the markup ships filled in from the same data the page's JS reads at runtime |
+| build-page-toc.mjs | every root `*.html`'s `<main>` headings (via lib/page-headings.mjs) | about, coverage, how-it-works, numbers, patterns, sources, validation (static:page-toc regions) + minted heading ids | the "On this page" lists. A page with 7 or more headings under its title must carry the region or be named in NO_TOC with a reason. An existing heading id is reused, never rewritten — how-it-works.html's are linked from other pages |
 
 ### Shared library (`scripts/lib/`)
 
@@ -173,6 +174,7 @@ so every one is listed here, not only the ones with a recent story.
 
 | Module | Holds |
 |---|---|
+| page-headings.mjs | locating an authored page's `h2`/`h3` by offset, with script/style bodies and runtime-replaced containers excluded, plus the label and slug rules. Offsets rather than regex tag-splitting: inline JS contains bare `>`, and a non-greedy close-tag match stops at the first one rather than the matching one |
 | arabic.mjs | `stripDiacritics()` and `pausalForm()`. The two callers decide what counts as the same word — build-formulas for n-gram identity, build-rhyme-map for the verse-final pausal form — and pausalForm is stripDiacritics plus one rule. The duplication survived earlier passes because the second copy lived under a different function name, invisible to a grep for the first |
 | io.mjs | `readText(rel)` and `readJson(rel)`, repo-relative. Named apart because `read()` used to mean "parse the JSON" in nine scripts and "give me the raw string" in five — a line copied between two generators silently changed meaning, and no checker could see it |
 | safe-key.mjs | `safeKey(bw)`, the root→filename encoding that is the client↔data contract. `check-safe-key.mjs` holds the browser's copy to it |
