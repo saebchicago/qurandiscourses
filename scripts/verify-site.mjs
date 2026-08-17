@@ -1592,6 +1592,123 @@ if (runCheck("refretry") && (!PAGE_FILTER || PAGE_FILTER === "numbers.html")) {
   await rrctx.close();
 }
 
+// ── Root-density heatmap ────────────────────────────────────────────
+// The 4,560 cells carry no per-cell markup: their values are shown by
+// one delegated tooltip (qdViz.attachDelegatedTooltip), reading two
+// index attributes off the hovered cell. Before that, each cell owned a
+// <title> child, and those 4,560 elements were 9,719 of the page's
+// 11,225 DOM nodes.
+//
+// The assertion is against data/network/heatmap.json, not against a
+// previous rendering: the tooltip names a root, a surah and a value, and
+// all three must be the ones the data file holds for that cell's own
+// row and column indices. Nothing here re-derives the page's column
+// sort — the surah is read out of the sentence and looked up — so the
+// check cannot pass by repeating the renderer's own mistake.
+if (runCheck("heatmap") && (!PAGE_FILTER || PAGE_FILTER === "numbers.html")) {
+  const heat = JSON.parse(readFileSync(join(ROOT, "data/network/heatmap.json"), "utf8"));
+  const hctx = await newContext();
+  const page = await hctx.newPage();
+  await page.addInitScript(() => {
+    try {
+      localStorage.setItem("qd_state", JSON.stringify({ seen: true, depth: "encyclopedic" }));
+    } catch (e) {}
+  });
+  await page.goto(`${BASE}/numbers.html`, { waitUntil: "load" });
+  const cellCount = heat.roots.length * heat.surahs.length;
+  try {
+    await page.waitForFunction(
+      (n) => document.querySelectorAll("#heatmapChart rect.heatmap-cell").length === n,
+      cellCount,
+      { timeout: 30000 },
+    );
+  } catch (e) {
+    report("heatmap", "numbers.html", false, `chart never rendered ${cellCount} cells`);
+  }
+
+  const weight = await page.evaluate(() => ({
+    titles: document.querySelectorAll("#heatmapChart title").length,
+    chart: document.querySelectorAll("#heatmapChart *").length,
+  }));
+  // A regrown <title> per cell is the specific regression this guards.
+  report(
+    "heatmap-weight", "numbers.html", weight.titles === 0 && weight.chart < 6000,
+    `${weight.chart} nodes in #heatmapChart, ${weight.titles} per-cell <title> (want 0)`,
+  );
+
+  for (const order of ["canonical", "revelation"]) {
+    if (order === "revelation") {
+      await page.click("#heatmapOrderRevelation");
+      await page.waitForTimeout(400);
+    }
+    const probes = [0, 1, Math.floor(cellCount / 2), cellCount - 1];
+    const seen = await page.evaluate((idxs) => {
+      const cells = [...document.querySelectorAll("#heatmapChart rect.heatmap-cell")];
+      return idxs.map((i) => {
+        const c = cells[i];
+        const r = c.getBoundingClientRect();
+        c.dispatchEvent(
+          new MouseEvent("mousemove", {
+            bubbles: true,
+            clientX: r.left + r.width / 2,
+            clientY: r.top + r.height / 2,
+          }),
+        );
+        const tip = document.querySelector(".qd-chart-tip");
+        return {
+          ri: Number(c.getAttribute("data-ri")),
+          text: tip && !tip.hidden ? tip.textContent : null,
+        };
+      });
+    }, probes);
+
+    const bad = [];
+    for (const { ri, text } of seen) {
+      const m = /^(.+?) in surah (\d+)(?: \(([^)]*)\))?: ([\d.]+) per 1,000 tokens$/.exec(text || "");
+      if (!m) {
+        bad.push(`unreadable tooltip: ${JSON.stringify(text)}`);
+        continue;
+      }
+      const root = heat.roots[ri];
+      const col = heat.surahs.findIndex((x) => x.surah === Number(m[2]));
+      if (!root || col === -1) {
+        bad.push(`row ${ri} / surah ${m[2]} not in the data file`);
+        continue;
+      }
+      const want = heat.matrix[ri][col].toFixed(2);
+      if (m[1] !== root.rootLatin) bad.push(`root "${m[1]}" want "${root.rootLatin}"`);
+      if (m[4] !== want) bad.push(`${root.rootLatin} surah ${m[2]}: "${m[4]}" want "${want}"`);
+    }
+    report(
+      "heatmap-tooltip", "numbers.html", bad.length === 0,
+      bad.length === 0
+        ? `${order}: ${seen.length} cells, root/surah/value all match data/network/heatmap.json`
+        : `${order}: ${bad.join("; ")}`,
+    );
+  }
+
+  // The keyboard-reachable alternative, which is where these values were
+  // reachable before the titles went too: the cells have never been
+  // focusable.
+  const table = await page.evaluate(() => {
+    const d = document.querySelector("#heatmapChart details.chart-fallback");
+    if (!d) return null;
+    return {
+      options: d.querySelectorAll("select option").length,
+      rows: d.querySelectorAll("table.data tbody tr").length,
+    };
+  });
+  const tok =
+    table && table.options === heat.roots.length && table.rows === heat.surahs.length;
+  report(
+    "heatmap-table", "numbers.html", !!tok,
+    table
+      ? `${table.options} roots x ${table.rows} surahs in the table fallback`
+      : "no table fallback under the chart",
+  );
+  await hctx.close();
+}
+
 // ── "On this page" lists ────────────────────────────────────────────
 // scripts/build-page-toc.mjs generates these from the authored headings.
 // The assertion that matters is that every entry resolves IN THE

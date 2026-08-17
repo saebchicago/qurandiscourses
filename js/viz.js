@@ -194,6 +194,47 @@
     });
   }
 
+  // attachDelegatedTooltip(container, match, textFn) - one set of
+  // listeners for a whole chart, instead of one per element.
+  //
+  // WHY THIS EXISTS. numbers.html's root-density heatmap gave each of
+  // its 4,560 cells a <title> child so a mouse hover would show the
+  // value. That is 4,560 elements and their text nodes, and it made
+  // #heatmapChart 9,719 of the page's 11,225 DOM nodes - the next
+  // heaviest page on the site is under 2,800 in total. The same argument
+  // had already been made four lines away in that renderer, for clicks:
+  // "One delegated click listener for all 4,560 cells, instead of one
+  // listener per cell." This is that argument applied to the tooltip.
+  //
+  // match(el) decides whether an element under the pointer is a target;
+  // textFn(el) returns its text. Keyboard reachability is deliberately
+  // NOT implied here - a delegated listener cannot make anything
+  // focusable, and adding tabindex to thousands of cells would be a
+  // worse answer than the table fallback the chart already carries.
+  // Use attachTooltip for anything a reader must be able to Tab to.
+  function attachDelegatedTooltip(container, match, textFn) {
+    var current = null;
+    container.addEventListener("mousemove", function (e) {
+      var el = e.target;
+      if (!el || !match(el)) {
+        if (current) {
+          current = null;
+          hideTip();
+        }
+        return;
+      }
+      current = el;
+      showTip(textFn(el), e.clientX, e.clientY);
+    });
+    container.addEventListener("mouseleave", function () {
+      current = null;
+      hideTip();
+    });
+    container.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") hideTip();
+    });
+  }
+
   // ── CSS custom property reader ───────────────────────────────────────
   // cssVar('--accent') -> the current computed value (e.g. "#7a5a2b"),
   // read fresh on every call so it always reflects the active
@@ -343,6 +384,7 @@
     scaleLinear: scaleLinear,
     renderAxis: renderAxis,
     attachTooltip: attachTooltip,
+    attachDelegatedTooltip: attachDelegatedTooltip,
     hideTooltip: hideTip,
     cssVar: cssVar,
     renderDisclaimer: renderDisclaimer,
