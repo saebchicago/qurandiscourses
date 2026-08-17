@@ -1419,13 +1419,20 @@ details.chart-fallback table.data {
   max-width: 66ch;
 }
 /* RTL translations: the cap would otherwise leave the box hugging the
-   left edge while its text is right-aligned. */
+   left edge while its text is right-aligned, so the spare width goes on
+   the left and the box sits against the right edge of the column.
+
+   PHYSICAL, not margin-inline-end, and deliberately so. This rule first
+   shipped as margin-inline-start: auto, which is backwards: on an
+   element whose own direction is rtl, inline-start IS the right edge,
+   so it resolved to margin-right and pushed the box left — measured at
+   1280px, the RTL box landed in exactly the same place as an LTR one,
+   which is the thing this rule exists to prevent. A logical property
+   inside a selector that already hard-codes the direction reads as
+   correct and inverts silently, so this stays physical. */
 .verse .translation .text[dir="rtl"],
 .cmp-trans .text[dir="rtl"] {
-  margin-inline-start: auto;
-}
-.verse .translation .text[dir="rtl"],
-.cmp-trans .text[dir="rtl"] {
+  margin-left: auto;
   text-align: right;
 }
 /* Script-specific font classes, shared by Read (.verse .translation) and

@@ -295,11 +295,21 @@ const XSS = '<img src=x onerror="window.__xss=1">hostile';
 // so no check could tell them apart. Naming each block after the edition
 // it came from is what lets the transurl/comparetrans checks assert which
 // translation actually reached the DOM.
+// Right-to-left languages in assets/app.js's registry. The fixture needs
+// these because read.html decides an edition's direction from
+// edition.direction in the API response (read.html:1237, deliberately
+// "not a hard-coded list, so any future RTL edition renders") — and this
+// fixture never supplied the field, so no check had ever rendered a
+// right-to-left translation. That is why a backwards RTL margin rule
+// shipped in #116.
+const RTL_LANGS = new Set(["ar", "ur", "fa", "ps", "ku"]);
+const langOf = (id) => (id === "quran-uthmani" ? "ar" : id.split(".")[0]);
 const mkEdition = (id, en) => ({
   identifier: id,
   englishName: id === "quran-uthmani" ? en : `${en} ${id}`,
   name: id === "quran-uthmani" ? en : `${en} ${id}`,
-  language: id.startsWith("en") ? "en" : "ar",
+  language: langOf(id),
+  direction: RTL_LANGS.has(langOf(id)) ? "rtl" : "ltr",
 });
 function fixtureFor(url) {
   const single = url.match(/\/v1\/ayah\/(\d+):(\d+)\/editions\/(.+)$/);
@@ -926,6 +936,47 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
       );
     }
     await page.evaluate(() => document.documentElement.style.removeProperty("--read-scale"));
+    await rctx.close();
+  }
+  {
+    // Where a capped RTL translation SITS, which the measure checks above
+    // cannot see: they assert characters per line and pass with the box
+    // anywhere on the page.
+    //
+    // The cap shipped in #116 with `margin-inline-start: auto`, which is
+    // backwards — on an element whose own direction is rtl, inline-start
+    // is the right edge, so it resolved to margin-right and left the box
+    // flush LEFT, in exactly the position an uncapped LTR box takes,
+    // with its right-aligned Urdu text stranded mid-column. Nothing
+    // caught it because the fixture never marked an edition rtl, so no
+    // check had ever rendered one.
+    const rctx = await newContext({ apiMode: "stub", savedTranslations: ["ur.jalandhry"] });
+    const page = await rctx.newPage();
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto(`${BASE}/read.html?s=103&a=1-3`, { waitUntil: "load" });
+    await page.waitForSelector('.verse .translation .text[dir="rtl"]', { timeout: 15000 }).catch(() => {});
+    const m = await page.evaluate(() => {
+      const el = document.querySelector('.verse .translation .text[dir="rtl"]');
+      if (!el) return null;
+      const box = el.getBoundingClientRect();
+      const parent = el.parentElement.getBoundingClientRect();
+      const ps = getComputedStyle(el.parentElement);
+      return {
+        gapLeft: Math.round(box.left - (parent.left + parseFloat(ps.paddingLeft || 0))),
+        gapRight: Math.round(parent.right - parseFloat(ps.paddingRight || 0) - box.right),
+        capped: box.width < parent.width - 1,
+      };
+    });
+    // Flush right: the spare width is all on the left. Capped: the box is
+    // narrower than its container, or there is no spare width to place
+    // and the assertion would be vacuous.
+    const ok = m !== null && m.capped && m.gapRight <= 1 && m.gapLeft > 1;
+    report(
+      "read-measure-rtl", "read.html", ok,
+      m === null
+        ? "no RTL translation rendered"
+        : `capped=${m.capped} spare width left=${m.gapLeft}px right=${m.gapRight}px (want all on the left)`,
+    );
     await rctx.close();
   }
   {
