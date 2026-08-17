@@ -9,6 +9,25 @@
   <updated>2026-08-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>The root-density heatmap is 41% lighter, and shows the same numbers</title>
+    <id>https://divinediscourses.org/changelog#2026-08-heatmap-lighter</id>
+    <link href="https://divinediscourses.org/changelog#2026-08-heatmap-lighter"/>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;The root-density heatmap is 41% lighter, and shows
+              the same numbers.&lt;/strong&gt;
+              Each of its 4,560 cells carried its own hidden label so a
+              mouse hover could show the value. Those labels were 4,560
+              of the page&amp;#39;s 11,225 elements — the next heaviest page on
+              the site is under 2,800 in total. One label now serves the
+              whole chart, built from the cell you are pointing at.
+              &lt;span class="prov"&gt;The hover text is unchanged, checked
+              cell by cell in both column orders against the data file
+              the chart is drawn from. Nothing moved for keyboard
+              readers: the cells have never been focusable, and the
+              values have always also been in the &amp;#8220;View as table (by
+              root)&amp;#8221; panel below the chart, which is unchanged.&lt;/span&gt;</content>
+  </entry>
+  <entry>
     <title>Six long pages now open with a list of their own sections</title>
     <id>https://divinediscourses.org/changelog#2026-08-on-this-page-lists</id>
     <link href="https://divinediscourses.org/changelog#2026-08-on-this-page-lists"/>

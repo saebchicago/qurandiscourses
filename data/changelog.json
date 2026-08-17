@@ -2,6 +2,12 @@
   "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
   "entries": [
     {
+      "id": "2026-08-heatmap-lighter",
+      "year": "2026",
+      "month": "August",
+      "html": "\n              <strong>The root-density heatmap is 41% lighter, and shows\n              the same numbers.</strong>\n              Each of its 4,560 cells carried its own hidden label so a\n              mouse hover could show the value. Those labels were 4,560\n              of the page&#39;s 11,225 elements — the next heaviest page on\n              the site is under 2,800 in total. One label now serves the\n              whole chart, built from the cell you are pointing at.\n              <span class=\"prov\">The hover text is unchanged, checked\n              cell by cell in both column orders against the data file\n              the chart is drawn from. Nothing moved for keyboard\n              readers: the cells have never been focusable, and the\n              values have always also been in the &#8220;View as table (by\n              root)&#8221; panel below the chart, which is unchanged.</span>\n            "
+    },
+    {
       "id": "2026-08-on-this-page-lists",
       "year": "2026",
       "month": "August",

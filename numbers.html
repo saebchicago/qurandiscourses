@@ -1464,14 +1464,15 @@
                 stroke: v <= 0 ? "var(--line)" : "none",
                 "stroke-width": v <= 0 ? 0.25 : 0,
                 "data-safe-key": root.safeKey,
+                // Two small integers instead of a <title> child: the
+                // delegated tooltip below rebuilds the same sentence
+                // from them, and they survive the order toggle because
+                // the column index is resolved against the current sort
+                // at hover time rather than baked in here.
+                "data-ri": ri,
+                "data-ci": ci,
                 class: "heatmap-cell",
               });
-              var title = qdViz.svgEl("title", {});
-              title.textContent =
-                root.rootLatin + " in surah " + entry.s.surah +
-                (entry.s.name ? " (" + entry.s.name + ")" : "") +
-                ": " + v.toFixed(2) + " per 1,000 tokens";
-              rect.appendChild(title);
               svg.appendChild(rect);
             });
           });
@@ -1483,6 +1484,34 @@
             var key = e.target.getAttribute && e.target.getAttribute("data-safe-key");
             if (key) location.href = "/roots?root=" + key;
           });
+
+          // And one delegated tooltip, for the same reason. Each cell
+          // used to own a <title> child so a hover would show its value;
+          // 4,560 of those made this chart 9,719 of the page's 11,225
+          // DOM nodes, where the next heaviest page on the site is under
+          // 2,800 in total. The sentence is identical to the one the
+          // titles carried. Keyboard readers reach these values through
+          // the "View as table (by root)" panel below, which has always
+          // carried the same numbers and is where they were reachable
+          // before this change too: the cells were never focusable.
+          qdViz.attachDelegatedTooltip(
+            svg,
+            function (el) {
+              return el.getAttribute && el.getAttribute("data-ri") !== null;
+            },
+            function (el) {
+              var ri = Number(el.getAttribute("data-ri"));
+              var ci = Number(el.getAttribute("data-ci"));
+              var root = roots[ri];
+              var s = surahIdx[ci].s;
+              var v = heatmapData.matrix[ri][surahIdx[ci].i];
+              return (
+                root.rootLatin + " in surah " + s.surah +
+                (s.name ? " (" + s.name + ")" : "") +
+                ": " + v.toFixed(2) + " per 1,000 tokens"
+              );
+            },
+          );
 
           container.appendChild(svg);
 
