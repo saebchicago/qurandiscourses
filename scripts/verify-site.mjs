@@ -898,6 +898,34 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
     const inert = state.xss === undefined && !state.injectedImg && state.hostileVisible === true;
     report("read-xss", "read.html", inert, `__xss=${state.xss} injectedImg=${state.injectedImg} payloadShownAsText=${state.hostileVisible}`);
     report("read-stubbed-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+
+    // The measure. This site caps prose at 62ch elsewhere (.lede,
+    // .section-heading) and the reading surface was the one place it
+    // was never applied — it ran at 96 characters per line at 1280px.
+    // Asserted in ch rather than px so it stays true when the reader
+    // changes text size, which is the reason the CSS uses ch too.
+    for (const scale of ["1", "1.25"]) {
+      await page.evaluate((v) => document.documentElement.style.setProperty("--read-scale", v), scale);
+      const m = await page.evaluate(() => {
+        const el = document.querySelector(".verse .translation .text");
+        if (!el) return null;
+        const cs = getComputedStyle(el);
+        const probe = document.createElement("span");
+        probe.textContent = "0".repeat(100);
+        probe.style.cssText = "position:absolute;visibility:hidden;white-space:pre;font:" + cs.font;
+        document.body.appendChild(probe);
+        const ch = Math.round(el.clientWidth / (probe.getBoundingClientRect().width / 100));
+        probe.remove();
+        return ch;
+      });
+      report(
+        `read-measure-${scale}`,
+        "read.html",
+        m !== null && m >= 45 && m <= 75,
+        `translation line length ${m} characters at --read-scale ${scale} (want 45-75)`,
+      );
+    }
+    await page.evaluate(() => document.documentElement.style.removeProperty("--read-scale"));
     await rctx.close();
   }
   {
