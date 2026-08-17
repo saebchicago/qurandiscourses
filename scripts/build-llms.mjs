@@ -18,16 +18,15 @@
 // meta description — one source of truth, no second summary to rot.
 // Zero dependencies.
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { SITE, cleanPath } from "./lib/site.mjs";
 import { extractText, mainOf } from "./lib/extract-text.mjs";
+import { readText, readJson } from "./lib/io.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CHECK = process.argv.includes("--check");
-const read = (rel) => readFileSync(join(ROOT, rel), "utf8");
-const readJson = (rel) => JSON.parse(read(rel));
 
 const { version, released } = readJson("data/version.json");
 const glossary = readJson("data/glossary.json").terms;
@@ -47,7 +46,7 @@ const PAGES = [
 ];
 
 const meta = (file) => {
-  const html = read(file);
+  const html = readText(file);
   const title = (html.match(/<title>([\s\S]*?)<\/title>/) || [, file])[1]
     .replace(/\s*·\s*Divine Discourses\s*$/, "")
     .trim();
@@ -119,7 +118,7 @@ function fullBody() {
       glossary.map((t) => `${t.id}: ${t.def}`).join("\n"),
   );
   parts.push(
-    `\n\n===== Export data dictionary =====\n\n` + read("data/exports/DATA-DICTIONARY.md").trim(),
+    `\n\n===== Export data dictionary =====\n\n` + readText("data/exports/DATA-DICTIONARY.md").trim(),
   );
   return parts.join("");
 }
@@ -133,7 +132,7 @@ const stale = [];
 for (const [rel, text] of outputs) {
   let current = null;
   try {
-    current = read(rel);
+    current = readText(rel);
   } catch {}
   if (current !== text) stale.push(rel);
   if (!CHECK) writeFileSync(join(ROOT, rel), text);

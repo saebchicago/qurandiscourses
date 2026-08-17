@@ -24,9 +24,9 @@
 import { readFileSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { readJson } from "./lib/io.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const readJson = (path) => JSON.parse(readFileSync(join(ROOT, path), "utf8"));
 
 const registry = readJson("data/exercises.json");
 const exercises = registry.exercises || [];

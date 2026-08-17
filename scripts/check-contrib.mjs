@@ -23,12 +23,12 @@
 //
 // Run: node scripts/check-contrib.mjs   (exit 1 on any failure)
 
-import { readFileSync, readdirSync, existsSync } from "node:fs";
+import { readdirSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { readText } from "./lib/io.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const read = (rel) => readFileSync(join(ROOT, rel), "utf8");
 const failures = [];
 
 // 1. Health files + template front matter.
@@ -44,7 +44,7 @@ const templateDir = ".github/ISSUE_TEMPLATE";
 const templates = readdirSync(join(ROOT, templateDir)).filter((f) => f.endsWith(".md"));
 if (!templates.length) failures.push("no issue templates");
 for (const t of templates) {
-  const src = read(join(templateDir, t));
+  const src = readText(join(templateDir, t));
   if (!/^---\n(?:[\s\S]*?\n)?name:\s*\S/.test(src) || !/\nlabels:\s*\S/.test(src))
     failures.push(`${templateDir}/${t}: front matter needs name and labels`);
 }
@@ -56,7 +56,7 @@ const referencing = [
   ...readdirSync(join(ROOT, "assets")).filter((f) => f.endsWith(".js")).map((f) => `assets/${f}`),
 ];
 for (const file of referencing) {
-  const src = read(file);
+  const src = readText(file);
   for (const m of src.matchAll(/template[=:]\s*"?([a-z0-9-]+\.md)/g)) {
     if (!templates.includes(m[1]))
       failures.push(`${file}: references missing issue template ${m[1]}`);
@@ -66,7 +66,7 @@ for (const file of referencing) {
 // 3. The footer form, on every footer page, whole.
 const pages = readdirSync(ROOT).filter((f) => f.endsWith(".html"));
 for (const p of pages) {
-  const html = read(p);
+  const html = readText(p);
   const hasFooter = html.includes('<footer class="site">');
   const forms = (html.match(/name="correction"/g) || []).length;
   if (!hasFooter) {
@@ -94,8 +94,8 @@ for (const p of pages) {
 
 // 4. One repo slug. issue-url.js is the runtime authority; CITATION.cff
 // is what the world reads. They must agree.
-const jsRepo = (read("assets/issue-url.js").match(/REPO = "([^"]+)"/) || [])[1];
-const cffRepo = (read("CITATION.cff").match(/repository-code:\s*"([^"]+)"/) || [])[1];
+const jsRepo = (readText("assets/issue-url.js").match(/REPO = "([^"]+)"/) || [])[1];
+const cffRepo = (readText("CITATION.cff").match(/repository-code:\s*"([^"]+)"/) || [])[1];
 if (!jsRepo || jsRepo !== cffRepo)
   failures.push(`repo slug drift: issue-url.js says "${jsRepo}", CITATION.cff says "${cffRepo}"`);
 
@@ -104,7 +104,7 @@ if (!jsRepo || jsRepo !== cffRepo)
 if (!existsSync(join(ROOT, "contribute.html"))) {
   failures.push("missing contribute.html");
 } else {
-  const contribute = read("contribute.html");
+  const contribute = readText("contribute.html");
   for (const t of templates) {
     if (!contribute.includes(`template=${t}`))
       failures.push(`contribute.html: does not link issue template ${t}`);

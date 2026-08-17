@@ -34,6 +34,7 @@ import { dirname, join } from "node:path";
 import { safeKey } from "./lib/safe-key.mjs";
 import { SITE as SITE_ORIGIN } from "./lib/site.mjs";
 import { ordinal } from "./lib/ordinal.mjs";
+import { readJson } from "./lib/io.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 // Origin and URL shape come from the one place that defines them, so a
@@ -57,12 +58,11 @@ function ogFor(relPath, alt) {
   return { url: OG_IMG, alt: OG_ALT };
 }
 
-const read = (p) => JSON.parse(readFileSync(join(ROOT, p), "utf8"));
-const rootsSummary = read("data/roots-summary.json");
-const themes = read("data/themes.json").themes;
-const chronology = read("data/chronology.json");
-const names = read("data/surah-names.json");
-const profiles = read("data/surah-profiles.json").surahs;
+const rootsSummary = readJson("data/roots-summary.json");
+const themes = readJson("data/themes.json").themes;
+const chronology = readJson("data/chronology.json");
+const names = readJson("data/surah-names.json");
+const profiles = readJson("data/surah-profiles.json").surahs;
 
 const esc = (v) =>
   String(v)

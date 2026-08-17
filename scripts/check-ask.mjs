@@ -12,14 +12,14 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { readJson } from "./lib/io.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const read = (rel) => JSON.parse(readFileSync(join(ROOT, rel), "utf8"));
 const failures = [];
 
-const routes = read("data/ask-routes.json");
-const themeSlugs = new Set(read("data/themes.json").themes.map((t) => t.slug));
-const glossaryIds = new Set(read("data/glossary.json").terms.map((t) => t.id));
+const routes = readJson("data/ask-routes.json");
+const themeSlugs = new Set(readJson("data/themes.json").themes.map((t) => t.slug));
+const glossaryIds = new Set(readJson("data/glossary.json").terms.map((t) => t.id));
 const pages = new Set(
   readdirSync(ROOT)
     .filter((f) => f.endsWith(".html"))
@@ -56,8 +56,8 @@ for (const [key, target] of Object.entries(routes.glossary)) {
 // The juz table is what "juz 5" and "para 3" route on. A wrong start
 // verse is invisible in the browser — the page loads, at the wrong
 // place — so it is checked against the same source it is derived from.
-const juzSource = read("data/juz.json").juz;
-const surahMeta = read("data/surah-meta.json").surahs;
+const juzSource = readJson("data/juz.json").juz;
+const surahMeta = readJson("data/surah-meta.json").surahs;
 if (!Array.isArray(routes.juz) || routes.juz.length !== 30) {
   failures.push(
     `juz: expected 30 entries, found ${Array.isArray(routes.juz) ? routes.juz.length : "none"} — rerun build-ask-routes`,
@@ -114,7 +114,7 @@ if (!/"juz":\s*\[/.test(generated))
 // A juz link must address the juz. Pointing at ?s=&a= reads one verse of
 // a span that usually crosses surahs, which is what every juz surface on
 // the site used to do.
-const index = read("data/search-index.json");
+const index = readJson("data/search-index.json");
 for (const d of index.docs.filter((d) => d.k === "juz")) {
   if (!/^\/read\?j=\d{1,2}$/.test(d.u))
     failures.push(`search index: juz doc "${d.t}" points at ${d.u}, want /read?j=N`);

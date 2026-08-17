@@ -31,13 +31,13 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { safeKey } from "./lib/safe-key.mjs";
+import { readJson } from "./lib/io.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CHECK = process.argv.includes("--check");
-const read = (rel) => JSON.parse(readFileSync(join(ROOT, rel), "utf8"));
 
-const themes = read("data/themes.json").themes;
-const themeIndex = read("data/theme-surah-index.json").surahs;
+const themes = readJson("data/themes.json").themes;
+const themeIndex = readJson("data/theme-surah-index.json").surahs;
 
 // ── surah siblings ────────────────────────────────────────────────────
 const SIBLING_LIMIT = 4;
@@ -88,7 +88,7 @@ for (const t of themes) {
   // slug -> { score, best: {a, b, count} }
   const acc = new Map();
   for (const r of t.roots) {
-    const co = read(`data/cooccurrence/${safeKey(r.bw)}.json`);
+    const co = readJson(`data/cooccurrence/${safeKey(r.bw)}.json`);
     for (const c of co.coRoots) {
       const other = ownerOf.get(c.root);
       if (!other || other === t.slug) continue;
