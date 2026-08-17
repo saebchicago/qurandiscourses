@@ -213,6 +213,35 @@
     <main id="main">
       <section>
         <h2>Numbers</h2>
+        <!-- static:page-toc -->
+        <nav class="page-toc" aria-label="On this page">
+          <p class="t-annotation">On this page:</p>
+          <ul>
+            <li><a href="#how-the-quran-is-counted">How the Qur'an is counted</a></li>
+            <li><a href="#num-scale">Scale</a></li>
+            <li><a href="#surah-length">Surah length</a></li>
+            <li><a href="#verse-length-distribution">Verse-length distribution</a></li>
+            <li><a href="#num-vocabulary">Vocabulary</a></li>
+            <li><a href="#top-5-most-frequent-roots">Top 5 most frequent roots</a></li>
+            <li><a href="#concept-frequency">Concept frequency</a></li>
+            <li><a href="#earth-and-sea">Earth and sea</a></li>
+            <li><a href="#day-month-year">Day, month, year</a></li>
+            <li class="study-only"><a href="#words-that-occur-only-once-hapax-legomena">Words that occur only once (hapax legomena)</a></li>
+            <li class="study-only"><a href="#vocabulary-variety-by-period-ttr-mattr-mtld">Vocabulary variety by period (TTR, MATTR, MTLD)</a></li>
+            <li><a href="#num-structure">Structure</a></li>
+            <li class="study-only"><a href="#grammatical-texture">Grammatical texture</a></li>
+            <li class="study-only"><a href="#root-density-across-surahs">Root density across surahs</a></li>
+            <li class="encyclopedic-only"><a href="#fawatih-opening-particles">Fawatih (opening particles)</a></li>
+            <li><a href="#num-periods">Across revelation</a></li>
+            <li><a href="#verse-length-by-band">Verse length by band</a></li>
+            <li class="study-only"><a href="#vocabulary-growth-across-revelation">Vocabulary growth across revelation</a></li>
+            <li class="study-only"><a href="#roots-unique-to-one-period">Roots unique to one period</a></li>
+            <li class="encyclopedic-only"><a href="#distinctive-vocabulary-by-period-keyness-g2">Distinctive vocabulary by period (keyness, G2)</a></li>
+            <li class="encyclopedic-only"><a href="#how-evenly-roots-are-spread-across-the-quran">How evenly roots are spread across the Qur'an</a></li>
+            <li><a href="#explore-further">Explore further</a></li>
+          </ul>
+        </nav>
+        <!-- /static:page-toc -->
         <p class="lede">
           Frequency and distribution insights from the corpus. Each card ends
           with its verification status.
@@ -233,7 +262,7 @@
           >
         </div>
         <div class="card" id="countingLadder">
-          <h3>
+          <h3 id="how-the-quran-is-counted">
             How the Qur'an is counted
             <span
               class="badge ok"
@@ -347,7 +376,7 @@
         <p class="caption-note" style="margin-top: 0">How long surahs and verses run.</p>
         <div class="grid">
           <div class="card">
-            <h3>Surah length</h3>
+            <h3 id="surah-length">Surah length</h3>
             <p>
               Mean: <strong data-num="surahLength.meanVerses">54.7</strong> verses. Median: <strong data-num="surahLength.medianVerses">39</strong>.
               Longest: al-Baqarah (286). Shortest: al-Kawthar, al-'Asr, al-Nasr
@@ -359,7 +388,7 @@
             </p>
           </div>
           <div class="card">
-            <h3>Verse-length distribution</h3>
+            <h3 id="verse-length-distribution">Verse-length distribution</h3>
             <p>
               Most verses are short. Of
               <span data-num="verseLengthHistogram.totalVerses">6,236</span>
@@ -379,7 +408,7 @@
         <p class="caption-note" style="margin-top: 0">What the text is made of: the most frequent roots, everyday concepts, and the rare words.</p>
         <div class="grid">
           <div class="card">
-            <h3>Top 5 most frequent roots</h3>
+            <h3 id="top-5-most-frequent-roots">Top 5 most frequent roots</h3>
             <table class="data">
               <thead>
                 <tr>
@@ -438,7 +467,7 @@
             </details>
           </div>
           <div class="card">
-            <h3>Concept frequency</h3>
+            <h3 id="concept-frequency">Concept frequency</h3>
             <table class="data">
               <thead>
                 <tr>
@@ -481,7 +510,7 @@
             </p>
           </div>
           <div class="card">
-            <h3>Earth and sea</h3>
+            <h3 id="earth-and-sea">Earth and sea</h3>
             <p>
               Root <em>a-r-ḍ</em> (earth, land):
               <strong class="count" data-num="namedRoots.ArD.count">461</strong>. Root <em>b-ḥ-r</em> (sea):
@@ -513,7 +542,7 @@
             </details>
           </div>
           <div class="card">
-            <h3>Day, month, year</h3>
+            <h3 id="day-month-year">Day, month, year</h3>
             <p>
               <strong>Day (y-w-m, root):</strong> <span data-num="namedRoots.ywm.count">405</span> occurrences (Leeds
               corpus). Widely circulated totals of 365 or 475 select particular
@@ -534,7 +563,7 @@
             </details>
           </div>
           <div class="card study-only">
-            <h3>Words that occur only once (hapax legomena)</h3>
+            <h3 id="words-that-occur-only-once-hapax-legomena">Words that occur only once (hapax legomena)</h3>
             <p>
               <strong data-num="hapax.surfaceFormsOccurringOnce">12,004</strong>
               surface forms (out of <span data-num="hapax.uniqueSurfaceForms">18,993</span> unique forms) occur exactly once, alongside
@@ -557,7 +586,7 @@
             </details>
           </div>
           <div class="card study-only">
-            <h3>Vocabulary variety by period (TTR, MATTR, MTLD)</h3>
+            <h3 id="vocabulary-variety-by-period-ttr-mattr-mtld">Vocabulary variety by period (TTR, MATTR, MTLD)</h3>
             <p>
               Type-token ratio (distinct surface forms, or distinct lemmas,
               divided by all word-tokens) measures vocabulary variety versus
@@ -639,7 +668,7 @@
         <p class="caption-note" style="margin-top: 0">Grammatical texture and structural features of the text.</p>
         <div class="grid">
           <div class="card study-only">
-            <h3>Grammatical texture</h3>
+            <h3 id="grammatical-texture">Grammatical texture</h3>
             <p>
               Of <span data-num="posProfile.totalTokens">77,429</span> word-tokens,
               <strong data-num="posProfile.byTag.N">25,135</strong> are nouns and
@@ -688,7 +717,7 @@
             </details>
           </div>
           <div class="card study-only">
-            <h3>
+            <h3 id="root-density-across-surahs">
               Root density across surahs
               <span
                 class="badge ok"
@@ -734,7 +763,7 @@
             <div id="heatmapChart" style="margin-top: 0.5rem"></div>
           </div>
           <div class="card encyclopedic-only">
-            <h3>Fawatih (opening particles)</h3>
+            <h3 id="fawatih-opening-particles">Fawatih (opening particles)</h3>
             <p>
               29 surahs open with disconnected letters (<em>al-muqatta'at</em>).
               14 unique letter combinations across these 29 surahs.
@@ -757,7 +786,7 @@
         <p class="caption-note" style="margin-top: 0">How these measures shift across the four traditional revelation periods.</p>
         <div class="grid">
           <div class="card">
-            <h3>Verse length by band</h3>
+            <h3 id="verse-length-by-band">Verse length by band</h3>
             <table class="data">
               <thead>
                 <tr>
@@ -793,7 +822,7 @@
             </details>
           </div>
           <div class="card study-only">
-            <h3>Vocabulary growth across revelation</h3>
+            <h3 id="vocabulary-growth-across-revelation">Vocabulary growth across revelation</h3>
             <p>
               Following Cairo 1924 order, the first revealed surah already
               introduces <strong data-num="rootIntroduction.0.newRoots">32</strong>
@@ -813,7 +842,7 @@
             </details>
           </div>
           <div class="card study-only">
-            <h3>Roots unique to one period</h3>
+            <h3 id="roots-unique-to-one-period">Roots unique to one period</h3>
             <p>
               <strong data-num="periodUniqueRoots.meccanOnly">547</strong> roots appear only in Meccan surahs (zero
               Medinan occurrences). <strong data-num="periodUniqueRoots.medinanOnly">198</strong> roots appear only in
@@ -830,7 +859,7 @@
             </details>
           </div>
           <div class="card encyclopedic-only">
-            <h3>
+            <h3 id="distinctive-vocabulary-by-period-keyness-g2">
               Distinctive vocabulary by period (keyness, G2)
               <span
                 class="badge nuanced"
@@ -867,7 +896,7 @@
           </div>
         </div>
         <div class="card encyclopedic-only" id="dispersion">
-          <h3>
+          <h3 id="how-evenly-roots-are-spread-across-the-quran">
             How evenly roots are spread across the Qur'an
             <span
               class="badge ok"
@@ -917,7 +946,7 @@
           </details>
         </div>
         <div class="card related-ribbon" aria-label="Continue exploring">
-          <h3>Explore further</h3>
+          <h3 id="explore-further">Explore further</h3>
           <ul class="explore-links">
             <li><a href="/roots">See any of these roots in context on the Roots page →</a></li>
             <li><a href="/export">Download the tables behind this page (CSV/JSON): Export →</a></li>

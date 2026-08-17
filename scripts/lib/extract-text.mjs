@@ -40,6 +40,13 @@ export function extractText(html) {
   s = s.replace(/<style[\s\S]*?<\/style>/gi, " ");
   s = s.replace(/<template[\s\S]*?<\/template>/gi, " ");
   s = s.replace(/<!--[\s\S]*?-->/g, " ");
+  // The "On this page" list (scripts/build-page-toc.mjs) is chrome: it
+  // restates, verbatim, headings that appear again a few lines later in
+  // this same extraction. Left in, every page carrying one would open
+  // llms-full.txt and its own search-index sections with a duplicate of
+  // its own table of contents. Only this one nav is dropped — the site's
+  // other <nav> elements are outside <main> and never reach here.
+  s = s.replace(/<nav[^>]*\sclass="[^"]*\bpage-toc\b[^"]*"[^>]*>[\s\S]*?<\/nav\s*>/gi, " ");
   // Headings keep a structural marker.
   s = s.replace(/<h([1-6])[^>]*>([\s\S]*?)<\/h\1>/gi, (_, n, inner) => {
     const text = inner.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();

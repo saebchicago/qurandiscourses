@@ -72,6 +72,7 @@ jobs:
         run: |
           node scripts/build-canonicals.mjs --check
           node scripts/build-static-fallbacks.mjs --check
+          node scripts/build-page-toc.mjs --check
           node scripts/build-jsonld.mjs --check
           node scripts/build-llms.mjs --check
           node scripts/build-changelog.mjs --check

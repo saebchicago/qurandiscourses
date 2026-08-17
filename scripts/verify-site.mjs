@@ -1592,6 +1592,100 @@ if (runCheck("refretry") && (!PAGE_FILTER || PAGE_FILTER === "numbers.html")) {
   await rrctx.close();
 }
 
+// ── "On this page" lists ────────────────────────────────────────────
+// scripts/build-page-toc.mjs generates these from the authored headings.
+// The assertion that matters is that every entry resolves IN THE
+// RENDERED DOM, not in the file: validation.html authors seven worked
+// examples that assets/case-studies.js deletes and rebuilds from
+// data/case-studies.json, so a generator reading the markup could
+// happily list headings no reader will ever have. Nothing but a browser
+// can catch that.
+//
+// The second context has JavaScript disabled. The list is generated
+// markup, so that is the real implementation rather than a fallback, and
+// it must be present and complete with scripts off.
+if (runCheck("pagetoc")) {
+  const tocPages = pages.filter((f) =>
+    readFileSync(join(ROOT, f), "utf8").includes("<!-- static:page-toc -->"),
+  );
+  if (!tocPages.length) {
+    report("pagetoc", "site", false, "no page carries a static:page-toc region");
+  }
+  const tctx = await newContext();
+  const tpage = await tctx.newPage();
+  for (const file of tocPages) {
+    if (PAGE_FILTER && PAGE_FILTER !== file) continue;
+    await tpage.goto(`${BASE}/${file}`, { waitUntil: "load" });
+    const res = await tpage.evaluate(() => {
+      const nav = document.querySelector("nav.page-toc");
+      if (!nav) return { n: 0, missing: ["no nav.page-toc"] };
+      const links = [...nav.querySelectorAll('a[href^="#"]')];
+      const missing = links
+        .map((a) => decodeURIComponent(a.getAttribute("href").slice(1)))
+        .filter((id) => !document.getElementById(id));
+      return { n: links.length, missing };
+    });
+    const ok = res.n > 0 && res.missing.length === 0;
+    report(
+      "pagetoc", file, ok,
+      ok
+        ? `${res.n} entries, all resolve`
+        : `${res.n} entries, unresolved: ${res.missing.join(", ")}`,
+    );
+  }
+  await tctx.close();
+
+  // Visibility parity at every depth level. numbers.html and
+  // patterns.html hide sections behind the reader's depth, so a visible
+  // entry pointing at a hidden section is a link that scrolls nowhere.
+  // Measured before the fix: at the default "simple" depth, 9 of
+  // numbers.html's 22 entries and 5 of patterns.html's 8 were dead.
+  const dctx = await newContext();
+  const dpage = await dctx.newPage();
+  for (const file of tocPages) {
+    if (PAGE_FILTER && PAGE_FILTER !== file) continue;
+    const dead = [];
+    let shown = 0;
+    for (const depth of ["simple", "study", "encyclopedic"]) {
+      await dpage.goto(`${BASE}/${file}`, { waitUntil: "load" });
+      const r = await dpage.evaluate((d) => {
+        document.documentElement.setAttribute("data-depth", d);
+        const nav = document.querySelector("nav.page-toc");
+        const out = { shown: 0, dead: [] };
+        for (const a of nav.querySelectorAll('a[href^="#"]')) {
+          const li = a.closest("li");
+          if (!li.getClientRects().length) continue;
+          out.shown++;
+          const el = document.getElementById(decodeURIComponent(a.getAttribute("href").slice(1)));
+          if (!el || !el.getClientRects().length) out.dead.push(d + ": " + a.textContent.trim());
+        }
+        return out;
+      }, depth);
+      shown += r.shown;
+      dead.push(...r.dead);
+    }
+    const ok = dead.length === 0;
+    report(
+      "pagetoc-depth", file, ok,
+      ok
+        ? `${shown} visible entries across simple/study/encyclopedic, all point at visible sections`
+        : `${dead.length} visible entries point at hidden sections — ${dead.slice(0, 3).join(" | ")}`,
+    );
+  }
+  await dctx.close();
+
+  const nojs = await newContext({ seenState: false, javaScript: false });
+  const npage = await nojs.newPage();
+  for (const file of tocPages) {
+    if (PAGE_FILTER && PAGE_FILTER !== file) continue;
+    await npage.goto(`${BASE}/${file}`, { waitUntil: "load" });
+    const n = await npage.locator('nav.page-toc a[href^="#"]').count();
+    const ok = n > 0;
+    report("pagetoc-nojs", file, ok, ok ? `${n} entries without JavaScript` : "no list without JavaScript");
+  }
+  await nojs.close();
+}
+
 // ── Claim permalinks ────────────────────────────────────────────────
 // Every claim in data/claims.json must be addressable as
 // /validation#<claim-id>: the articles are JS-rendered, so only a

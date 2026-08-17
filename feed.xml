@@ -9,6 +9,26 @@
   <updated>2026-08-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>Six long pages now open with a list of their own sections</title>
+    <id>https://divinediscourses.org/changelog#2026-08-on-this-page-lists</id>
+    <link href="https://divinediscourses.org/changelog#2026-08-on-this-page-lists"/>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Six long pages now open with a list of their own
+              sections.&lt;/strong&gt;
+              validation.html runs about eighteen screens on a phone and
+              offered no map of itself; sources, numbers, about, coverage
+              and patterns are all long enough to want one. How It Works
+              has had such a list since it was written, and this is that
+              same list applied to the pages that needed it.
+              &lt;span class="prov"&gt;The list is generated from the headings
+              already in each page, so it cannot drift from them, and it
+              is in the markup rather than built in the browser, so it
+              works with scripts off. A heading that already had an
+              address keeps it — nine on How It Works are linked from
+              other pages and none of them moved. Entries for sections
+              your depth level hides are hidden with them.&lt;/span&gt;</content>
+  </entry>
+  <entry>
     <title>The root-dispersion table is downloadable from the Export page</title>
     <id>https://divinediscourses.org/changelog#2026-08-dispersion-downloadable</id>
     <link href="https://divinediscourses.org/changelog#2026-08-dispersion-downloadable"/>
