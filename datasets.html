@@ -147,7 +147,7 @@
         <div class="card">
           <h4 style="margin: 0 0 0.3rem"><code>data/morphology/{1..114}.json</code></h4>
           <p style="margin: 0 0 0.4rem">
-            Word-by-word morphology for all 77,429 tokens: per verse, an
+            Word-by-word morphology for all <span data-num="totals.tokens">77,429</span> tokens: per verse, an
             array of words, each
             <code>{w, ar, root, lemma, pos, gloss}</code> (word index,
             Uthmani surface form, Buckwalter root, Buckwalter lemma,
@@ -173,7 +173,7 @@
         <div class="card">
           <h4 style="margin: 0 0 0.3rem"><code>data/roots-summary.json</code> · <code>data/roots-index.json</code> · <code>data/roots-list.json</code></h4>
           <p style="margin: 0 0 0.4rem">
-            The 1,642 roots: per root, Arabic and Latin display forms, total
+            The <span data-num="totals.roots">1,642</span> roots: per root, Arabic and Latin display forms, total
             counts, per-chronology-period counts, first/last occurrence, and
             surface-form inventories.
             <span
@@ -217,7 +217,7 @@
       <section>
         <h3>Per-root analytics</h3>
         <div class="card">
-          <h4 style="margin: 0 0 0.3rem"><code>data/root-analytics/{root}.json</code> × 1,642</h4>
+          <h4 style="margin: 0 0 0.3rem"><code>data/root-analytics/{root}.json</code> × <span data-num="totals.roots">1,642</span></h4>
           <p style="margin: 0 0 0.4rem">
             Per root: total and Makki/Madani occurrence counts, per-surah
             distribution, surface-form inventory (<code>derivedForms</code>),
@@ -239,7 +239,7 @@
           </p>
         </div>
         <div class="card">
-          <h4 style="margin: 0 0 0.3rem"><code>data/cooccurrence/{root}.json</code> × 1,642</h4>
+          <h4 style="margin: 0 0 0.3rem"><code>data/cooccurrence/{root}.json</code> × <span data-num="totals.roots">1,642</span></h4>
           <p style="margin: 0 0 0.4rem">
             Verse-level co-occurrence per root: top partner roots overall and
             broken out by the four traditional revelation periods
@@ -260,7 +260,7 @@
           </p>
         </div>
         <div class="card">
-          <h4 style="margin: 0 0 0.3rem"><code>data/association/{root}.json</code> × 1,642</h4>
+          <h4 style="margin: 0 0 0.3rem"><code>data/association/{root}.json</code> × <span data-num="totals.roots">1,642</span></h4>
           <p style="margin: 0 0 0.4rem">
             Root-pair association statistics per root: the top 25 partners
             by log-likelihood ratio, each with shared-verse count (k11),
@@ -284,7 +284,7 @@
           </p>
         </div>
         <div class="card">
-          <h4 style="margin: 0 0 0.3rem"><code>data/network/{root}.json</code> × 1,642 · <code>heatmap.json</code></h4>
+          <h4 style="margin: 0 0 0.3rem"><code>data/network/{root}.json</code> × <span data-num="totals.roots">1,642</span> · <code>heatmap.json</code></h4>
           <p style="margin: 0 0 0.4rem">
             Precomputed, deterministic radial layouts for each root's
             association ego network (static x/y coordinates, no browser
@@ -307,12 +307,12 @@
           </p>
         </div>
         <div class="card">
-          <h4 style="margin: 0 0 0.3rem"><code>data/centrality/{root}.json</code> × 1,642</h4>
+          <h4 style="margin: 0 0 0.3rem"><code>data/centrality/{root}.json</code> × <span data-num="totals.roots">1,642</span></h4>
           <p style="margin: 0 0 0.4rem">
             Network centrality per root over the association graph: degree
             (raw and normalized), weighted degree, betweenness (Brandes),
             and eigenvector centrality (power iteration), each with its
-            rank out of all 1,642 nodes. Algorithms and the graph
+            rank out of all <span data-num="totals.roots">1,642</span> nodes. Algorithms and the graph
             definition live in <code>centrality/methods.json</code>.
             <span
               class="badge ok"
