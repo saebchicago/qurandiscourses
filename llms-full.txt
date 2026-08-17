@@ -4400,6 +4400,19 @@ before it was renamed "Study".
 
 #### August
 
+The citation-link checker stopped mistaking GitHub for a dead
+link.
+Six links this site makes to its own files on GitHub — the
+licence, the contribution guide, the notice file among
+them — began reporting broken. Every one was present; an
+unauthenticated automated request had simply been declined.
+A link to a file in this repository is
+now checked by reading the file, not by asking GitHub for
+it — which also means a pull request that deletes one of
+these files is now caught on that pull request, rather
+than only after the deletion reaches the published site.
+§
+
 The root-density heatmap is 41% lighter, and shows
 the same numbers.
 Each of its 4,560 cells carried its own hidden label so a

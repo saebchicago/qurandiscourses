@@ -9,6 +9,23 @@
   <updated>2026-08-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>The citation-link checker stopped mistaking GitHub for a dead link</title>
+    <id>https://divinediscourses.org/changelog#2026-08-source-links-local-resolution</id>
+    <link href="https://divinediscourses.org/changelog#2026-08-source-links-local-resolution"/>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;The citation-link checker stopped mistaking GitHub for a dead
+              link.&lt;/strong&gt;
+              Six links this site makes to its own files on GitHub — the
+              licence, the contribution guide, the notice file among
+              them — began reporting broken. Every one was present; an
+              unauthenticated automated request had simply been declined.
+              &lt;span class="prov"&gt;A link to a file in this repository is
+              now checked by reading the file, not by asking GitHub for
+              it — which also means a pull request that deletes one of
+              these files is now caught on that pull request, rather
+              than only after the deletion reaches the published site.&lt;/span&gt;</content>
+  </entry>
+  <entry>
     <title>The root-density heatmap is 41% lighter, and shows the same numbers</title>
     <id>https://divinediscourses.org/changelog#2026-08-heatmap-lighter</id>
     <link href="https://divinediscourses.org/changelog#2026-08-heatmap-lighter"/>

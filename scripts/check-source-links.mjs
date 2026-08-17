@@ -9,6 +9,15 @@
 // an allowlisting proxy will see spurious failures; run it from an
 // unrestricted machine.
 //
+// A `github.com/<this repo>/blob/<ref>/<path>` link is the one
+// exception: it names a file in this working tree, so it is resolved
+// with `existsSync`, never probed over the network. #117 and #118 both
+// went red on six such links with GitHub answering 404 — bot-shielding
+// an unauthenticated CI runner, not link rot, since every file was
+// present on `main` in the same run. A filesystem check also fails on
+// the PR that deletes the file, where an HTTP probe would only notice
+// once the deletion reached `main`.
+//
 // Verdicts: 2xx/3xx OK · 401/403/405/429 WARN (usually bot-shielding,
 // check by hand) · no response before the deadline SLOW · 404/410,
 // persistent 5xx, DNS/connection failure FAIL.
@@ -114,6 +123,50 @@ const bibliographyGaps = sources
   .filter((s) => s && s.url && !sourcesHtml.includes(s.url))
   .map((s) => `${s.id} (${s.url})`);
 
+// ── Repo-internal links: resolve against the working tree ───────────
+// A `github.com/<this repo>/blob/<ref>/<path>` URL names a file that
+// lives right here, so probing it over HTTP is strictly worse than
+// reading it:
+//
+//   1. an HTTP probe cannot distinguish "the file was deleted" from
+//      "GitHub declined to answer this request" — which is exactly
+//      what happened on #117 and #118, where six such links came back
+//      404 while every one of the files was present on `main`;
+//   2. it only notices a deletion AFTER it reaches `main`, whereas a
+//      filesystem check fails on the PR that deletes the file, which
+//      is the whole reason this checker exists;
+//   3. it costs a network round trip and a slot in the per-host queue
+//      for an answer already sitting on disk.
+//
+// `/issues` and `/issues/new?template=…` are repo FEATURES, not files
+// — there is nothing on disk to resolve them against, so they stay on
+// the network path unchanged. A same-UA, same-sandbox probe of both
+// during this fix returned 200 for each, which only confirms this
+// sandbox's egress differs from a GitHub Actions runner and settles
+// nothing about the bot-shielding seen in CI — recorded rather than
+// guessed into a UA workaround with no evidence behind it.
+const GITHUB_REPO = "saebchicago/qurandiscourses";
+const GITHUB_BLOB_RE = new RegExp(`^https://github\\.com/${GITHUB_REPO}/blob/[^/]+/(.+)$`);
+function resolveLocalBlob(url) {
+  const m = GITHUB_BLOB_RE.exec(url);
+  if (!m) return null;
+  const relPath = decodeURIComponent(m[1]);
+  const exists = existsSync(join(ROOT, relPath));
+  return {
+    url,
+    status: "local",
+    finalUrl: url,
+    verdict: exists ? "OK" : "FAIL",
+    error: exists ? undefined : `not found in the working tree at ${relPath}`,
+  };
+}
+const localCount = urls.filter((u) => GITHUB_BLOB_RE.test(u)).length;
+if (localCount) {
+  console.log(
+    `check-source-links: ${localCount} of ${urls.length} URLs point at files in this repository; resolved against the working tree, not the network.`,
+  );
+}
+
 // ── Probe ───────────────────────────────────────────────────────────
 function verdictOf(status) {
   if (status >= 200 && status < 400) return "OK";
@@ -181,6 +234,8 @@ function isTimeout(e) {
 }
 
 async function check(url) {
+  const local = resolveLocalBlob(url);
+  if (local) return local;
   let timedOut = null;
   for (let attempt = 0; ; attempt++) {
     // The retry gets double the budget rather than a second identical
