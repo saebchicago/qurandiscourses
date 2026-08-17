@@ -99,6 +99,7 @@ import { fileURLToPath } from "node:url";
 import { safeKey } from "./lib/safe-key.mjs";
 import { computedDate } from "./lib/computed-date.mjs";
 import { TOTAL_ROOTS, TOTAL_SURAHS } from "./lib/corpus.mjs";
+import { makeEq } from "./lib/stats.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
@@ -139,10 +140,7 @@ function juillandD(ratesByPart) {
 // = 0.25) so every formula below can be checked by hand.
 {
   const failures = [];
-  const eq = (got, want, label, eps = 1e-9) => {
-    if (Math.abs(got - want) > eps)
-      failures.push(`${label}: got ${got}, want ${want}`);
-  };
+  const eq = makeEq(failures);
 
   const sizes4 = [0.25, 0.25, 0.25, 0.25];
 

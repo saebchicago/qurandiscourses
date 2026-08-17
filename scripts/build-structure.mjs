@@ -66,7 +66,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import { FREQUENCY_CEILING } from "./lib/stats.mjs";
+import { FREQUENCY_CEILING, jaccard, makeEq } from "./lib/stats.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_DIR = join(ROOT, "data", "structure");
@@ -93,13 +93,6 @@ const THRESHOLD_SCALE = 0.5; // half the Donoho-Johnstone universal-threshold co
 // These validate the two load-bearing functions on hand-computable
 // inputs, independent of any real surah, so a change to the corpus data
 // can never mask a break in the method itself.
-
-function jaccard(a, b) {
-  let intersection = 0;
-  for (const x of a) if (b.has(x)) intersection++;
-  const union = a.size + b.size - intersection;
-  return union === 0 ? 1 : intersection / union;
-}
 
 // Optimal partitioning by exact DP: choose the subset of candidate
 // boundaries i in [2, n] (each at least minLen verses from the next)
@@ -139,9 +132,7 @@ function optimalPartition(n, bonus, minLen) {
 
 {
   const failures = [];
-  const eq = (got, want, label) => {
-    if (Math.abs(got - want) > 1e-9) failures.push(`${label}: got ${got}, want ${want}`);
-  };
+  const eq = makeEq(failures);
   eq(jaccard(new Set(["A", "B", "C"]), new Set(["A", "B", "C"])), 1, "jaccard identical sets");
   eq(jaccard(new Set(["A", "B", "C"]), new Set(["X", "Y", "Z"])), 0, "jaccard disjoint sets");
   eq(jaccard(new Set(["A", "B"]), new Set(["B", "C"])), 1 / 3, "jaccard partial overlap");
