@@ -34,16 +34,9 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { pausalForm } from "./lib/arabic.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-
-function pausalForm(ar) {
-  let s = ar
-    .replace(/[ً-ٰٟۖ-ۭـ]/g, "") // diacritics incl. tanwin/i'rab + tatweel
-    .replace(/ٱ/g, "ا"); // alif wasla
-  s = s.replace(/ة$/, "ه"); // pausal ta marbuta -> -ah
-  return s;
-}
 
 function keyNormalize(pausal) {
   return pausal
