@@ -1405,6 +1405,24 @@ details.chart-fallback table.data {
 .cmp-trans .text {
   font-size: 1.02rem;
   line-height: 1.6;
+  /* The measure. This site already caps prose at 62ch (.lede,
+     .section-heading) and this — the surface whose whole job is
+     sustained reading — was the one place it was never applied:
+     measured at 96 characters per line at 1280px, roughly a third
+     beyond the comfortable maximum.
+
+     In ch, not px, so it tracks --read-scale: a reader who enlarges
+     the text keeps the same number of characters per line rather than
+     a progressively narrower column. The Arabic is deliberately NOT
+     capped here — it sits at 45ch already and Amiri at 41.6px wants
+     the room. */
+  max-width: 66ch;
+}
+/* RTL translations: the cap would otherwise leave the box hugging the
+   left edge while its text is right-aligned. */
+.verse .translation .text[dir="rtl"],
+.cmp-trans .text[dir="rtl"] {
+  margin-inline-start: auto;
 }
 .verse .translation .text[dir="rtl"],
 .cmp-trans .text[dir="rtl"] {
@@ -2329,6 +2347,19 @@ dd {
 .verify-example:target {
   border-color: var(--accent);
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+/* Permalink anchors (the "§" that makes a claim or a changelog entry
+   citable) were 6x22 on validation.html and 9x20 on changelog.html —
+   104 of them site-wide, all under the 24x24 WCAG 2.2 AA target size.
+   The padding buys the hit area; the negative margin means nothing
+   moves, so this is a target-size fix and not a layout change. */
+.claim-anchor {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  margin: -0.15rem -0.5rem;
+  min-width: 24px;
+  min-height: 24px;
+  text-align: center;
 }
 .verify-example .claim-anchor {
   margin-left: auto;
