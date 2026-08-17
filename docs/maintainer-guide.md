@@ -173,6 +173,8 @@ so every one is listed here, not only the ones with a recent story.
 
 | Module | Holds |
 |---|---|
+| arabic.mjs | `stripDiacritics()` and `pausalForm()`. The two callers decide what counts as the same word — build-formulas for n-gram identity, build-rhyme-map for the verse-final pausal form — and pausalForm is stripDiacritics plus one rule. The duplication survived earlier passes because the second copy lived under a different function name, invisible to a grep for the first |
+| io.mjs | `readText(rel)` and `readJson(rel)`, repo-relative. Named apart because `read()` used to mean "parse the JSON" in nine scripts and "give me the raw string" in five — a line copied between two generators silently changed meaning, and no checker could see it |
 | safe-key.mjs | `safeKey(bw)`, the root→filename encoding that is the client↔data contract. `check-safe-key.mjs` holds the browser's copy to it |
 | corpus.mjs | `TOTAL_VERSES`, `TOTAL_TOKENS`, `TOTAL_ROOTS`, `TOTAL_SURAHS` — see the note below |
 | stats.mjs | Benjamini-Hochberg, Bonferroni, Pearson, tie-corrected Spearman, and `FREQUENCY_CEILING`. Extracted from three generators that had reimplemented the same math |

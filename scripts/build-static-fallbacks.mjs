@@ -27,15 +27,15 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { readJson } from "./lib/io.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CHECK = process.argv.includes("--check");
-const read = (rel) => JSON.parse(readFileSync(join(ROOT, rel), "utf8"));
 
-const juz = read("data/juz.json").juz;
-const names = read("data/surah-names.json");
-const meta = read("data/surah-meta.json").surahs;
-const profiles = read("data/surah-profiles.json").surahs;
+const juz = readJson("data/juz.json").juz;
+const names = readJson("data/surah-names.json");
+const meta = readJson("data/surah-meta.json").surahs;
+const profiles = readJson("data/surah-profiles.json").surahs;
 
 const esc = (v) =>
   String(v)
@@ -119,7 +119,7 @@ const dailyLinks =
 // ── apply ─────────────────────────────────────────────────────────────
 
 // credits.html contributor roster, from the registry.
-const contributors = read("data/contributors.json").contributors;
+const contributors = readJson("data/contributors.json").contributors;
 const roster = contributors
   .map((c) => {
     const name = c.url

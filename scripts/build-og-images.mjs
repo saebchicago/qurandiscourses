@@ -43,6 +43,7 @@ import { dirname, join } from "node:path";
 import { resolveChromium, launchOptions } from "./lib/playwright.mjs";
 import { startStaticServer } from "./lib/static-server.mjs";
 import { ordinal } from "./lib/ordinal.mjs";
+import { readJson } from "./lib/io.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
@@ -60,11 +61,10 @@ if (ONLY && !["surah", "theme", "screenshots"].includes(ONLY)) {
   process.exit(2);
 }
 
-const read = (p) => JSON.parse(readFileSync(join(ROOT, p), "utf8"));
-const names = read("data/surah-names.json");
-const profiles = read("data/surah-profiles.json").surahs;
-const chronology = read("data/chronology.json");
-const themes = read("data/themes.json").themes;
+const names = readJson("data/surah-names.json");
+const profiles = readJson("data/surah-profiles.json").surahs;
+const chronology = readJson("data/chronology.json");
+const themes = readJson("data/themes.json").themes;
 
 // ── Card copy ───────────────────────────────────────────────────────
 const cards = [];

@@ -65,7 +65,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { mulberry32 } from "./lib/permute.mjs";
-import { benjaminiHochbergSurvivorCount, bonferroniAlpha } from "./lib/stats.mjs";
+import { benjaminiHochbergSurvivorCount, bonferroniAlpha, makeEq } from "./lib/stats.mjs";
 import { TOTAL_SURAHS } from "./lib/corpus.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -109,9 +109,7 @@ function mean(arr) {
 
 {
   const failures = [];
-  const eq = (got, want, label, eps = 1e-9) => {
-    if (Math.abs(got - want) > eps) failures.push(`${label}: got ${got}, want ${want}`);
-  };
+  const eq = makeEq(failures);
 
   // Hand-computed coverage fixture: two ngrams.
   //   root ngram, n=3, ref [1, 5, 2, 4, 7] -> covers positions {2,4,7} in surah 1 verse 5.

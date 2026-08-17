@@ -26,14 +26,14 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { SITE } from "./lib/site.mjs";
+import { readJson } from "./lib/io.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CHECK = process.argv.includes("--check");
-const read = (rel) => JSON.parse(readFileSync(join(ROOT, rel), "utf8"));
 
-const { version, released } = read("data/version.json");
-const sources = read("data/sources.json").sources;
-const schema = read("data/exports/schema.json");
+const { version, released } = readJson("data/version.json");
+const sources = readJson("data/sources.json").sources;
+const schema = readJson("data/exports/schema.json");
 
 const TYPES = new Set(["book", "paper", "dataset", "api"]);
 for (const s of sources) {

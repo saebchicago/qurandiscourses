@@ -36,11 +36,10 @@ import { dirname, join } from "node:path";
 import { cleanPath } from "./lib/site.mjs";
 import { extractText, mainOf } from "./lib/extract-text.mjs";
 import { safeKey } from "./lib/safe-key.mjs";
+import { readText, readJson } from "./lib/io.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CHECK = process.argv.includes("--check");
-const read = (rel) => readFileSync(join(ROOT, rel), "utf8");
-const readJson = (rel) => JSON.parse(read(rel));
 
 const SIZE_BUDGET = 220 * 1024;
 const SECTION_TOKEN_CAP = 90; // tokens kept per section for scoring
@@ -111,7 +110,7 @@ const PAGES = [
 ];
 
 for (const file of PAGES) {
-  const html = read(file);
+  const html = readText(file);
   const title = pageTitle(html, file);
   const url = cleanPath(file);
   const main = mainOf(html);
@@ -243,7 +242,7 @@ for (const j of readJson("data/juz.json").juz) {
 const rootsList = readJson("data/roots-list.json");
 const meanings = (() => {
   const w = {};
-  new Function("window", read("assets/root-meanings.js"))(w);
+  new Function("window", readText("assets/root-meanings.js"))(w);
   return w.ROOT_MEANINGS || {};
 })();
 

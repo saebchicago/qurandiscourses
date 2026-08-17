@@ -3,12 +3,12 @@
 // example declares what kind of claim it is, which sources support it, what
 // was reproduced, its limitations, and whether AI originated the content.
 
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { readJson } from "./lib/io.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const readJson = (path) => JSON.parse(readFileSync(join(ROOT, path), "utf8"));
 const ledger = readJson("data/claims.json");
 const caseStudies = readJson("data/case-studies.json").caseStudies || [];
 const sourceIds = new Set((readJson("data/sources.json").sources || []).map((s) => s.id));

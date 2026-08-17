@@ -63,12 +63,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { mulberry32, shuffle } from "./lib/permute.mjs";
-import {
-  FREQUENCY_CEILING,
-  pearson,
-  benjaminiHochbergSurvivorCount,
-  bonferroniAlpha as computeBonferroniAlpha,
-} from "./lib/stats.mjs";
+import { FREQUENCY_CEILING, benjaminiHochbergSurvivorCount, bonferroniAlpha as computeBonferroniAlpha, jaccard, makeEq, pearson } from "./lib/stats.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -85,13 +80,6 @@ const SEED_BASE_LENGTHS = 20260810;
 const round = (x) => Math.round(x * 1e4) / 1e4;
 
 // ── Step 1: embedded unit tests ────────────────────────────────────────
-
-function jaccard(a, b) {
-  let intersection = 0;
-  for (const x of a) if (b.has(x)) intersection++;
-  const union = a.size + b.size - intersection;
-  return union === 0 ? 1 : intersection / union;
-}
 
 function factorial(n) {
   let f = 1;
@@ -143,9 +131,7 @@ function bracketCount(order, refrainSectionSets) {
 
 {
   const failures = [];
-  const eq = (got, want, label, eps = 1e-9) => {
-    if (Math.abs(got - want) > eps) failures.push(`${label}: got ${got}, want ${want}`);
-  };
+  const eq = makeEq(failures);
   eq(jaccard(new Set(["A", "B"]), new Set(["A", "B"])), 1, "jaccard identical");
   eq(jaccard(new Set(["A"]), new Set(["B"])), 0, "jaccard disjoint");
   eq(pearson([1, 2, 3, 4, 5], [1, 2, 3, 4, 5]), 1, "pearson identical");

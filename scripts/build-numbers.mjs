@@ -18,6 +18,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { mattr, mtld, partialFactor } from "./lib/lexical-diversity.mjs";
+import { makeEq } from "./lib/stats.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -34,13 +35,7 @@ const MATTR_WINDOW_PERIOD = 100;
 // profiles.mjs imports the same lib module without repeating this block.
 {
   const failures = [];
-  const eq = (got, want, label, eps = 1e-9) => {
-    if (got === null || want === null) {
-      if (got !== want) failures.push(`${label}: got ${got}, want ${want}`);
-      return;
-    }
-    if (Math.abs(got - want) > eps) failures.push(`${label}: got ${got}, want ${want}`);
-  };
+  const eq = makeEq(failures);
   // MTLD: two independent 6-token "factor blocks" (disjoint vocabularies),
   // each dropping running TTR to exactly 4/6=0.6667 (<=0.72) at its 6th
   // token -- by hand: block "a b c d a b" hits TTR=4/6 at token 6, one

@@ -33,6 +33,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { stripDiacritics } from "./lib/arabic.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -42,15 +43,6 @@ const MIN_FREQ = 2;
 const rootsSummary = JSON.parse(
   readFileSync(join(ROOT, "data", "roots-summary.json"), "utf8"),
 );
-
-// Strip Arabic diacritics/tatweel so surface identity ignores vocalization
-// (which also drops tanwin/i'rab, the case endings that vary across
-// otherwise-identical phrases).
-function stripDiacritics(s) {
-  return s
-    .replace(/[ً-ٰٟۖ-ۭـ]/g, "")
-    .replace(/ٱ/g, "ا"); // alif wasla -> plain alif
-}
 
 // token streams per verse: [{key, w}] where w = the Leeds word index of
 // the token (for locating the phrase inside the verse).

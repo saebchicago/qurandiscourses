@@ -31,22 +31,21 @@
 //
 // A checker, not a generator: writes nothing.
 
-import { readFileSync, readdirSync, existsSync } from "node:fs";
+import { readdirSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { TOTAL_VERSES, TOTAL_TOKENS, TOTAL_ROOTS } from "./lib/corpus.mjs";
+import { readText, readJson } from "./lib/io.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const EXPORTS = join(ROOT, "data", "exports");
-const read = (rel) => readFileSync(join(ROOT, rel), "utf8");
-const json = (rel) => JSON.parse(read(rel));
 
 const failures = [];
 const unchecked = [];
 const fail = (rule, detail) => failures.push({ rule, detail });
 const n = (x) => x.toLocaleString("en-US");
 
-const schema = json("data/exports/schema.json");
+const schema = readJson("data/exports/schema.json");
 const tableNames = Object.keys(schema.tables);
 const rows = {};
 const csvHeader = {};
@@ -72,11 +71,11 @@ for (const name of tableNames) {
     continue;
   }
   // ── 2. Shape: header, keys and row counts agree with the schema ────
-  const lines = read(csvRel).trimEnd().split("\n");
+  const lines = readText(csvRel).trimEnd().split("\n");
   csvHeader[name] = lines[0];
   if (lines[0] !== fields.join(","))
     fail("shape", `${name}.csv header is "${lines[0]}", schema declares "${fields.join(",")}"`);
-  const data = json(jsonRel);
+  const data = readJson(jsonRel);
   rows[name] = data.length;
   if (lines.length - 1 !== data.length)
     fail("shape", `${name}: ${lines.length - 1} CSV rows vs ${data.length} JSON rows`);
@@ -90,7 +89,7 @@ for (const name of tableNames) {
 // ── 3. export.html offers exactly the declared tables ────────────────
 // The card grid is hand-written where everything else about a table is
 // generated, so this is the join that has actually drifted.
-const exportPage = read("export.html");
+const exportPage = readText("export.html");
 const carded = [...exportPage.matchAll(/data\/exports\/([a-z-]+)\.csv" download/g)].map((m) => m[1]);
 for (const name of tableNames)
   if (!carded.includes(name))
@@ -118,7 +117,7 @@ for (const name of tableNames) {
 const WORDS = ["zero","one","two","three","four","five","six","seven","eight","nine","ten",
   "eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen","twenty"];
 const word = WORDS[tableNames.length] || null;
-for (const [rel, text] of [["export.html", exportPage], ["datasets.html", read("datasets.html")]]) {
+for (const [rel, text] of [["export.html", exportPage], ["datasets.html", readText("datasets.html")]]) {
   for (const m of text.matchAll(/(\w+) (?:precomputed )?tables\b/gi)) {
     const said = m[1].toLowerCase();
     const asNum = /^\d+$/.test(said) ? Number(said) : WORDS.indexOf(said);
@@ -135,7 +134,7 @@ if (!word) unchecked.push(`no number-word for ${tableNames.length}; prose checke
 // stale figure reaches five machine-readable surfaces at once.
 for (const name of tableNames) {
   const desc = schema.tables[name].description || "";
-  const data = json(`data/exports/${name}.json`);
+  const data = readJson(`data/exports/${name}.json`);
   const distinct = (col) =>
     data.length && col in data[0] ? new Set(data.map((r) => r[col])).size : null;
   for (const m of desc.matchAll(/([\d,]+) (rows|roots|surahs)\b/g)) {
@@ -157,11 +156,11 @@ for (const name of tableNames) {
 // Deliberately NOT by calling build-exports.mjs: re-running the
 // generator can only prove it is deterministic. These recompute the
 // same quantities independently, so a generator that lost rows fails.
-const rootsSummary = json("data/roots-summary.json");
+const rootsSummary = readJson("data/roots-summary.json");
 const rootBw = Object.keys(rootsSummary);
 
 {
-  const rf = json("data/exports/root-frequencies.json");
+  const rf = readJson("data/exports/root-frequencies.json");
   const bad = [];
   for (const r of rf) {
     const s = rootsSummary[r.root];
@@ -178,11 +177,11 @@ const rootBw = Object.keys(rootsSummary);
 }
 
 {
-  const vl = json("data/exports/verse-lengths.json");
+  const vl = readJson("data/exports/verse-lengths.json");
   const byRef = new Map(vl.map((r) => [`${r.surah}:${r.verse}`, r.tokens]));
   let verses = 0, tokens = 0, wrong = 0, firstWrong = null;
   for (let s = 1; s <= 114; s++) {
-    const m = json(`data/morphology/${s}.json`);
+    const m = readJson(`data/morphology/${s}.json`);
     for (const [v, words] of Object.entries(m)) {
       verses++; tokens += words.length;
       if (byRef.get(`${s}:${v}`) !== words.length) {
@@ -219,7 +218,7 @@ const rootBw = Object.keys(rootsSummary);
 
 // Per-root file families must cover exactly the published root set.
 {
-  const keys = new Set(json("data/exports/root-frequencies.json").map((r) => r.safeKey));
+  const keys = new Set(readJson("data/exports/root-frequencies.json").map((r) => r.safeKey));
   for (const dir of ["association", "centrality", "dispersion"]) {
     const files = readdirSync(join(ROOT, "data", dir))
       .filter((f) => f.endsWith(".json"))
@@ -242,20 +241,20 @@ const SINGLE_SOURCE = [
 ];
 for (const [table, src, count] of SINGLE_SOURCE) {
   let actual;
-  try { actual = count(json(src)); }
+  try { actual = count(readJson(src)); }
   catch { fail("sources", `${table}: could not read its source ${src} in the expected shape`); continue; }
   if (rows[table] !== actual)
     fail("sources", `${table}: ${n(rows[table])} rows vs ${n(actual)} in ${src}`);
 }
 {
   let sections = 0;
-  for (let s = 1; s <= 114; s++) sections += (json(`data/structure/${s}.json`).sections || []).length;
+  for (let s = 1; s <= 114; s++) sections += (readJson(`data/structure/${s}.json`).sections || []).length;
   if (rows.structure !== sections)
     fail("sources", `structure: ${n(rows.structure)} rows vs ${n(sections)} sections in data/structure/`);
 }
 {
   const streams = ["data/formulas-root.json", "data/formulas-surface.json"]
-    .map((p) => { const d = json(p); return (d.formulas || d.ngrams || []).length; });
+    .map((p) => { const d = readJson(p); return (d.formulas || d.ngrams || []).length; });
   const total = streams[0] + streams[1];
   if (rows.formulas !== total)
     fail("sources", `formulas: ${n(rows.formulas)} rows vs ${n(streams[0])} root + ${n(streams[1])} surface = ${n(total)}`);

@@ -113,8 +113,14 @@ const verseRoots = {};
 for (let s = 1; s <= 114; s++) {
   const path = join(DATA, "morphology", `${s}.json`);
   if (!existsSync(path)) {
-    console.warn(`  MISSING: morphology/${s}.json`);
-    continue;
+    // Fail rather than skip. Twenty of the twenty-two morphology loaders
+    // throw here; these two warned and continued, which produces a
+    // complete-looking dataset computed over less than the corpus — every
+    // per-root figure quietly low, with an exit code of 0.
+    throw new Error(
+      `data/morphology/${s}.json is missing. Refusing to write a partial ` +
+        "dataset: every figure here is computed over the whole corpus.",
+    );
   }
   const morph = JSON.parse(readFileSync(path, "utf8"));
   for (const [v, words] of Object.entries(morph)) {

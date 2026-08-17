@@ -29,17 +29,17 @@ import { readFileSync, writeFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { SITE, cleanPath, canonicalUrl, NO_CANONICAL } from "./lib/site.mjs";
+import { readJson } from "./lib/io.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CHECK = process.argv.includes("--check");
-const read = (rel) => JSON.parse(readFileSync(join(ROOT, rel), "utf8"));
 
-const { version } = read("data/version.json");
-const sources = read("data/sources.json").sources;
-const glossary = read("data/glossary.json").terms;
-const paths = read("data/paths.json").paths;
-const claims = read("data/claims.json").claims;
-const schema = read("data/exports/schema.json");
+const { version } = readJson("data/version.json");
+const sources = readJson("data/sources.json").sources;
+const glossary = readJson("data/glossary.json").terms;
+const paths = readJson("data/paths.json").paths;
+const claims = readJson("data/claims.json").claims;
+const schema = readJson("data/exports/schema.json");
 
 const OPEN = "<!-- JSONLD (build-jsonld.mjs) -->";
 const CLOSE = "<!-- /JSONLD -->";

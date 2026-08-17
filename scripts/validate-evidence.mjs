@@ -35,7 +35,11 @@ const CLAIMS_PATH = "data/provenance/claims.json";
 const failures = [];
 const fail = (file, id, rule) => failures.push({ file, id, rule });
 
-function readJson(rel) {
+// Deliberately NOT scripts/lib/io.mjs's readJson: this one turns a parse
+// error into this checker's own one-line failure rather than a stack
+// trace, which is the whole point of a structural gate. Named apart so
+// the difference is visible at the call site.
+function readJsonOrExit(rel) {
   try {
     return JSON.parse(readFileSync(join(ROOT, rel), "utf8"));
   } catch (e) {
@@ -44,8 +48,8 @@ function readJson(rel) {
   }
 }
 
-const sources = readJson(SOURCES_PATH);
-const claims = readJson(CLAIMS_PATH);
+const sources = readJsonOrExit(SOURCES_PATH);
+const claims = readJsonOrExit(CLAIMS_PATH);
 
 if (!Array.isArray(sources)) {
   console.error(`validate-evidence: FAIL — ${SOURCES_PATH} must be an array.`);

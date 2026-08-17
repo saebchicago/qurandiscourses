@@ -19,17 +19,17 @@
 // Run: node scripts/build-surahs-js.mjs
 // Determinism check: run twice, `git diff` must be empty.
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { readJson } from "./lib/io.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const read = (p) => JSON.parse(readFileSync(join(ROOT, p), "utf8"));
 
-const names = read("data/surah-names.json");
-const chronology = read("data/chronology.json");
-const meta = read("data/surah-meta.json").surahs;
-const profiles = read("data/surah-profiles.json").surahs;
+const names = readJson("data/surah-names.json");
+const chronology = readJson("data/chronology.json");
+const meta = readJson("data/surah-meta.json").surahs;
+const profiles = readJson("data/surah-profiles.json").surahs;
 
 const entries = [];
 for (let id = 1; id <= 114; id++) {

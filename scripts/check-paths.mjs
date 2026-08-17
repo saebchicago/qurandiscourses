@@ -40,9 +40,9 @@
 import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { readJson } from "./lib/io.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const readJson = (path) => JSON.parse(readFileSync(join(ROOT, path), "utf8"));
 
 const paths = readJson("data/paths.json").paths || [];
 const exerciseIds = new Set((readJson("data/exercises.json").exercises || []).map((e) => e.id));

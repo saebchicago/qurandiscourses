@@ -28,9 +28,9 @@ import { readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { safeKey } from "./lib/safe-key.mjs";
+import { readJson } from "./lib/io.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const read = (rel) => JSON.parse(readFileSync(join(ROOT, rel), "utf8"));
 const failures = [];
 // Cap the noise: a wholesale regeneration mistake would otherwise print
 // thousands of identical lines and bury the first useful one.
@@ -43,7 +43,7 @@ function fail(rule, msgs) {
 }
 
 // roots-summary.json is the authority for the Buckwalter <-> Latin pairing.
-const summary = read("data/roots-summary.json");
+const summary = readJson("data/roots-summary.json");
 const bwKeys = Object.keys(summary);
 const EXPECTED = bwKeys.length;
 
@@ -71,7 +71,7 @@ for (const [bw, latin] of latinOf) {
 fail("rootLatin uniqueness", dupes);
 
 // roots-list.json: same Buckwalter keys, same Latin for each.
-const list = read("data/roots-list.json");
+const list = readJson("data/roots-list.json");
 const listKeys = Object.keys(list);
 if (listKeys.length !== EXPECTED)
   failures.push(
@@ -93,7 +93,7 @@ fail("roots-list vs roots-summary", listBad);
 
 // roots-index.json: keyed by canonical Latin. This is the pairing read.html
 // depends on, and the one that was broken.
-const index = read("data/roots-index.json");
+const index = readJson("data/roots-index.json");
 const indexKeys = Object.keys(index);
 if (indexKeys.length !== EXPECTED)
   failures.push(

@@ -95,3 +95,35 @@ export function benjaminiHochbergSurvivorCount(sortedPValues, q) {
 export function bonferroniAlpha(m, familyAlpha = 0.05) {
   return familyAlpha / m;
 }
+
+// Jaccard similarity of two Sets: |A ∩ B| / |A ∪ B|. Two empty sets are
+// treated as identical (1) rather than undefined, which is what both
+// callers relied on. Was byte-identical in build-structure.mjs and
+// build-structure-tests.mjs — the second file computes its concentric
+// statistic over sections the first produced, so a divergence between
+// the two copies would have compared sections by one rule and tested
+// them by another.
+export function jaccard(a, b) {
+  let intersection = 0;
+  for (const x of a) if (b.has(x)) intersection++;
+  const union = a.size + b.size - intersection;
+  return union === 0 ? 1 : intersection / union;
+}
+
+// The assertion helper the generators' embedded self-tests use. Takes
+// the caller's own `failures` array so a failed expectation is reported
+// through that generator's existing reporting, unchanged.
+//
+// Existed in five copies with three behaviours: four defaulted eps to
+// 1e-9, build-structure.mjs hardcoded it, and only build-numbers.mjs
+// handled nulls. This is build-numbers' version, which is a superset —
+// identical for the non-null numbers every current call site passes.
+export function makeEq(failures) {
+  return (got, want, label, eps = 1e-9) => {
+    if (got === null || want === null) {
+      if (got !== want) failures.push(`${label}: got ${got}, want ${want}`);
+      return;
+    }
+    if (Math.abs(got - want) > eps) failures.push(`${label}: got ${got}, want ${want}`);
+  };
+}
