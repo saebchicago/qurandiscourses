@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: site-audit-${{ github.workflow }}-${{ github.ref }}
@@ -22,9 +22,56 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.ref_name }}
       - uses: actions/setup-node@v5
         with:
           node-version: 22
+
+      - name: Apply audit source-scope correction on the feature branch
+        if: github.ref_name == 'fix/audit-integrity-20260820'
+        shell: python
+        run: |
+          from pathlib import Path
+
+          old = "All data on this site comes from open, primary sources."
+          new = "Data on this site comes from named corpora, APIs, published scholarship, and primary-source references; provenance and licensing are documented on the Sources page."
+          changed = []
+          for path in Path('.').rglob('*'):
+              if not path.is_file() or '.git' in path.parts:
+                  continue
+              if path.suffix not in {'.html', '.txt', '.md', '.mjs'}:
+                  continue
+              try:
+                  text = path.read_text(encoding='utf-8')
+              except UnicodeDecodeError:
+                  continue
+              updated = text.replace(old, new)
+              if updated != text:
+                  path.write_text(updated, encoding='utf-8')
+                  changed.append(str(path))
+          print('Changed files:')
+          for path in changed:
+              print(path)
+          if not changed:
+              print('No source-scope correction needed.')
+
+      - name: Regenerate synchronized machine-readable content
+        if: github.ref_name == 'fix/audit-integrity-20260820'
+        run: node scripts/build-llms.mjs
+
+      - name: Commit source-scope correction
+        if: github.ref_name == 'fix/audit-integrity-20260820'
+        run: |
+          if git diff --quiet; then
+            echo "No audit correction changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- how-it-works.html llms-full.txt docs/maintainer-guide.md scripts/verify-site.mjs
+          git commit -m "Clarify source provenance scope [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}
 
       - name: Install browser audit harness
         run: |
