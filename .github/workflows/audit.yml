@@ -2,7 +2,9 @@ name: Site audit
 
 on:
   push:
+    branches: [main]
   pull_request:
+    branches: [main]
   schedule:
     # Citation and translation endpoints can drift without a code change.
     - cron: "17 9 * * 1"
@@ -97,10 +99,8 @@ jobs:
     # Also runs on pull_request, but NEVER blocks one: these checks call
     # third-party endpoints, so a merge must not wait on someone else's
     # downtime. continue-on-error keeps the job advisory while still
-    # surfacing rot on the PR that introduces it — a dead Discussions
-    # link shipped for a whole phase because this job was
-    # schedule-only, and nobody reads a weekly cron until it is too
-    # late. The scheduled run is unchanged and stays the hard signal.
+    # surfacing rot on the PR that introduces it. The scheduled run stays
+    # the hard signal.
     if: >-
       github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
       || github.event_name == 'pull_request'
@@ -117,24 +117,13 @@ jobs:
         run: node scripts/check-source-links.mjs --timeout 20000
 
       - name: Check the juz endpoint whole-juz reading depends on
-        # Independent of the checks around it: a juz endpoint that stops
-        # returning cross-surah ayahs would shorten every juz read
-        # without erroring anywhere a reader could see.
         if: ${{ !cancelled() }}
         run: node scripts/check-juz-endpoint.mjs
 
       - name: Check translation edition identities
-        # Runs even when citation links have rotted: the two checks are
-        # independent, and a dead external link must not mask a silently
-        # substituted translation edition (the failure mode that once
-        # shipped Arabic mislabeled as English).
         if: ${{ !cancelled() }}
         run: node scripts/check-editions.mjs
 
       - name: Check the word-by-word translator credit
-        # Independent of both checks above, for the same reason. Fails
-        # only when the endpoint serves a credit that CONTRADICTS
-        # data/sources.json; an inconclusive run reports REVIEW and
-        # exits 0, so this step stays quiet unless something changed.
         if: ${{ !cancelled() }}
         run: node scripts/check-wbw-credit.mjs
