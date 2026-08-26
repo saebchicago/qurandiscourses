@@ -28,11 +28,6 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install browser audit harness
-        run: |
-          npm install --global playwright@1.54.1
-          playwright install --with-deps chromium
-
       - name: Validate claims and site registries
         run: |
           node scripts/check-claims.mjs
@@ -66,11 +61,9 @@ jobs:
           node scripts/build-glossary.mjs --check
 
       - name: Validate generated URLs and static fallbacks
-        # Both are generated from data, so an edit elsewhere can leave
-        # them stale while every other check stays green. --check is the
-        # only thing that notices: canonical/og:url drift, an internal
-        # link that regrew its .html, a sitemap out of step with the page
-        # set, or a static fallback no longer matching the data behind it.
+        # Run every deterministic check before paying the browser setup cost.
+        # This catches stale generated artifacts in seconds without downloading
+        # Playwright/Chromium first.
         run: |
           node scripts/build-canonicals.mjs --check
           node scripts/build-static-fallbacks.mjs --check
@@ -88,7 +81,17 @@ jobs:
           node scripts/compute-coverage.mjs --check
           node scripts/check-generated-freshness.mjs
 
+      - name: Install browser audit harness
+        # PRs get the full browser gate. Scheduled/manual runs recheck the
+        # deployed experience. A post-merge push repeats deterministic checks
+        # only, avoiding a second Chromium download for the same reviewed code.
+        if: github.event_name != 'push'
+        run: |
+          npm install --global playwright@1.54.1
+          playwright install --with-deps chromium
+
       - name: Run end-to-end browser audit
+        if: github.event_name != 'push'
         run: |
           # setup-node's exact install path can vary across runner images.
           export QD_PLAYWRIGHT="$(npm root --global)/playwright/index.mjs"
