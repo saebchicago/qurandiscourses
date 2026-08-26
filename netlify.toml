@@ -1,3 +1,6 @@
+[build]
+  ignore = "node scripts/netlify-ignore-build.mjs"
+
 # Netlify configuration: headers and clean-URL redirects (no build step;
 # deploy = push).
 #
