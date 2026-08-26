@@ -84,7 +84,7 @@ jobs:
       - name: Install browser audit harness
         # PRs get the full browser gate. Scheduled/manual runs recheck the
         # deployed experience. A post-merge push repeats deterministic checks
-        # only, avoiding a second Chromium download for the same reviewed code.
+        # only, avoiding a second Chromium download for the same reviewed change.
         if: github.event_name != 'push'
         run: |
           npm install --global playwright@1.54.1
