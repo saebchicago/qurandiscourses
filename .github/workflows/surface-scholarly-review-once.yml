@@ -18,50 +18,10 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - name: Link the review pathway and refresh deterministic artifacts
+      - name: Update page and deterministic derivatives
+        run: node scripts/surface-scholarly-review-once.mjs
+      - name: Commit generated product changes
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          p = Path('contribute.html')
-          text = p.read_text()
-          old = '''          confirmation or a discrepancy are equally valuable, filed as a
-          correction issue with your working shown.
-'''
-          new = '''          confirmation or a discrepancy are equally valuable. For a focused
-          review of a claim, method, source, or framing, open a
-          <a
-            href="https://github.com/saebchicago/qurandiscourses/issues/new?template=scholarly-review.md"
-            rel="noopener"
-            >scholarly-review issue</a
-          >
-          and show your evidence and working. Use a correction issue when
-          you already know a specific published claim is wrong.
-'''
-          if old not in text:
-              raise SystemExit('Expected Review and verify text not found; refusing broad replacement')
-          p.write_text(text.replace(old, new, 1))
-          PY
-
-          node scripts/build-csp.mjs
-          node scripts/build-sw-manifest.mjs
-          node scripts/build-citations.mjs
-          node scripts/build-glossary.mjs
-          node scripts/build-canonicals.mjs
-          node scripts/build-static-fallbacks.mjs
-          node scripts/build-page-toc.mjs
-          node scripts/build-jsonld.mjs
-          node scripts/build-llms.mjs
-          node scripts/build-changelog.mjs
-          node scripts/build-datapack.mjs
-          node scripts/build-search-index.mjs
-          node scripts/build-ask-routes.mjs
-          node scripts/build-related.mjs
-          node scripts/build-path-data.mjs
-          node scripts/build-ribbons.mjs
-          node scripts/build-provenance.mjs
-          node scripts/compute-coverage.mjs
-
-          rm .github/workflows/surface-scholarly-review-once.yml
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
