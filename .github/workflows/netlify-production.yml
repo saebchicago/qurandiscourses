@@ -1,8 +1,9 @@
 name: Netlify production deploy
 
+# Netlify's native Git integration is the primary production path.
+# Keep this workflow as a manual, build-free fallback only so every
+# merge does not spend GitHub Actions minutes and trigger a second deploy.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 concurrency:
@@ -15,14 +16,14 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-      - run: npm ci
-      - name: Deploy production to Netlify
+      - uses: actions/checkout@v5
+      - name: Deploy checked-in static site to Netlify
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: d6653a12-56ff-4c32-b511-46efe0cfea7b
-        run: npx netlify-cli@latest deploy --build --prod --site "$NETLIFY_SITE_ID" --auth "$NETLIFY_AUTH_TOKEN"
+        run: >-
+          npx --yes netlify-cli@latest deploy
+          --prod
+          --dir .
+          --site "$NETLIFY_SITE_ID"
+          --auth "$NETLIFY_AUTH_TOKEN"
