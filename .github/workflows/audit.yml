@@ -63,7 +63,7 @@ jobs:
       - name: Validate generated URLs and static fallbacks
         # Run every deterministic check before paying the browser setup cost.
         # This catches stale generated artifacts in seconds without downloading
-        # Playwright/Chromium first.
+        # or installing Playwright/Chromium first.
         run: |
           node scripts/build-canonicals.mjs --check
           node scripts/build-static-fallbacks.mjs --check
