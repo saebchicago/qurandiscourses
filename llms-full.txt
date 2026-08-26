@@ -45,6 +45,7 @@ Ground rules for using this site as a source:
 - [How the method works](https://divinediscourses.org/how-it-works): The method behind Divine Discourses: coherence-based reading, depth levels, verification labels, and sources.
 - [Guided study paths](https://divinediscourses.org/paths): Guided walkthroughs chaining the site's tools: follow a root through the corpus, profile a surah before reading, trace a claim to its source.
 - [Glossary of terms used here](https://divinediscourses.org/glossary): Definitions of specialist terms used across the Divine Discourses site: nazm, iltifat, basmala, hapax, lemma, Buckwalter, and the claim labels Verified, Nuanced, and Pending.
+- [Search this site](https://divinediscourses.org/search): Search every page, glossary term, source, and theme on Divine Discourses.
 - [Watch short walkthroughs](https://divinediscourses.org/watch): Short walkthroughs of Divine Discourses: real screen recordings with human narration, always captioned.
 - [Sources, cited in full](https://divinediscourses.org/sources): Every dataset, translation, scholarly work, and API that Divine Discourses draws on, cited in Chicago style.
 - [How each claim is validated](https://divinediscourses.org/validation): Inspect source checks, reproduction methods, dependencies, and known limits behind published research claims.
@@ -52,6 +53,8 @@ Ground rules for using this site as a source:
 - [Data coverage, measured](https://divinediscourses.org/coverage): Measured data coverage: morphology fields, root glosses, QurSim cross-references, counting-rule sensitivity, and the dataset source registry.
 - [Download the data](https://divinediscourses.org/export): Download precomputed root frequencies, association statistics, per-surah stats, verse lengths, formulas, centrality, rhyme, and structure data as CSV or JSON, with a machine-readable schema and data dictionary.
 - [Changelog: every correction logged](https://divinediscourses.org/changelog): Every correction and material change to Divine Discourses since launch. A public record of accountability.
+- [Contribute to this project](https://divinediscourses.org/contribute): How to contribute to Divine Discourses: corrections, structural hypotheses, outline transcription, translation, and review.
+- [Open questions](https://divinediscourses.org/open-questions): Statements about Dr. Irfan Ahmad Khan that this site has not been able to trace to a stated source, published unresolved rather than repeated as fact.
 - [About this site and its method](https://divinediscourses.org/about): About Divine Discourses: the coherence-based method behind the site, its evidence-labeling standards, and how it's maintained.
 - [Credits and scholarly lineage](https://divinediscourses.org/credits): A one-screen summary of the datasets, scholarly lineage, and build infrastructure behind Divine Discourses.
 
@@ -2979,6 +2982,32 @@ mutashabihat, iltifat, triangulate). Structure (surah, ayah, basmala).
 Data (root, morphology, lemma, hapax, Buckwalter, period
 distribution). Claim labels (Verified, Nuanced, Pending).
 
+===== Search this site (https://divinediscourses.org/search) =====
+
+## Search this site
+
+Every page section, glossary term, cited source, and theme, in
+one index. For a verse, a surah name, or a root, the
+Ask box is faster; everything else lands here.
+
+Search needs JavaScript : the index is
+matched in your browser, nothing is sent anywhere. Without
+scripts, the same ground is covered by the
+Glossary , the
+Themes index, the
+Sources list, and the site map in
+the footer of every page.
+
+Search terms
+
+Search
+
+Try:
+iltifat ·
+hapax ·
+chronology ·
+verse length
+
 ===== Watch short walkthroughs (https://divinediscourses.org/watch) =====
 
 ## Watch
@@ -5654,6 +5683,270 @@ Site launch. Initial deployment of 13 pages.
 
 Corrections welcome. Open a GitHub issue at
 github.com/saebchicago/qurandiscourses .
+
+===== Contribute to this project (https://divinediscourses.org/contribute) =====
+
+## Contribute
+
+This project needs careful work, not money. Every path below
+ends in a public record: an issue anyone can read, a change
+anyone can audit, a name in the credits.
+
+### Report a correction
+
+The fastest contribution there is. Every page footer has a
+Report a correction form that sends straight to the
+maintainer, or open a
+correction issue
+on GitHub. Something that blocks you from using the site at
+all has its own
+accessibility-barrier issue . Corrections are logged publicly on the
+Changelog , which you can follow by
+feed .
+
+### Propose a structural reading
+
+The heart of the project. Pick a surah, propose where its
+discourse pivots, and back each division with evidence from
+the site's own open data. The
+Read page's discovery worksheet (Study
+depth) walks you through it and its Submit button opens the
+structural-hypothesis issue
+with your worksheet filled in. Your reading must be your own,
+never a reproduction of a copyrighted outline; the full rules,
+a worked example, and the review checklist are in
+CONTRIBUTING.md .
+
+Twenty-nine of the thirty surahs Dr. Khan published outlines
+for still need transcription: the open queue lives on
+Coverage , one claimable
+surah at a time.
+
+### Translate
+
+The interface is English-only today, and the plan for an
+Arabic-first orientation page is written and waiting on one
+thing: a translator. If you write clear Arabic, Urdu, Bengali,
+French, Spanish, Malay, or Indonesian, open an issue saying
+which language you can carry and the maintainer will share the
+worklist. Scholarly terms stay as they are; this is interface
+and orientation text.
+
+### Review and verify
+
+The site's whole method is checkable claims, and checking them
+is a contribution. The
+Validation page's triangulation
+prompts are self-contained verification exercises; a
+confirmation or a discrepancy are equally valuable, filed as a
+correction issue with your working shown.
+
+### Ground rules
+
+Conduct:
+CODE_OF_CONDUCT.md
+(argue from evidence; respect the text, its readers, and the
+scholarship). Security reports:
+SECURITY.md . Code and data changes travel as pull requests against
+the repository ; questions and ideas that are not yet a correction fit an
+open issue . Contributors are credited on
+Credits .
+
+===== Open questions (https://divinediscourses.org/open-questions) =====
+
+## Open questions
+
+Statements about Dr. Khan's life and work that appear in circulation
+but that this site has not been able to trace to a stated source. They
+are published unresolved rather than repeated as fact. If you hold a
+source that settles one of them, please write.
+
+### Untraced statements
+
+3 statements that could not be traced to a
+stated source. Untraced is not disproven; each is listed with the evidence
+that would settle it.
+
+Pending claim: Dr. Khan is reported to have chaired the Interfaith Committee of the Council of Islamic Organizations of Greater Chicago.
+
+No source recorded.
+
+What would settle it: An organizational record, newsletter, or published biography naming the role and its dates.
+
+Where this comes from
+
+Dr. Khan is reported to have chaired the Interfaith Committee of the Council of Islamic Organizations of Greater Chicago.
+
+Status: Pending
+
+0 1 2 3
+
+Distance describes how many steps separate this statement from Dr. Khan's own words. It is a record of documentation, not an assessment of accuracy.
+
+This ribbon as a table
+
+No source recorded, so no provenance distance is marked.
+
+Source Distance Meaning
+
+No source recorded.
+
+No source recorded. This statement is listed as an open question.
+
+Pending claim: Dr. Khan is reported to have compared Qur'anic critiques of earlier scriptural communities to the admonitions of the prophet Amos, arguing they address factions rather than whole communities.
+
+No source recorded.
+
+What would settle it: A passage in Dr. Khan's published work or in peer-reviewed scholarship on his work making this comparison.
+
+Where this comes from
+
+Dr. Khan is reported to have compared Qur'anic critiques of earlier scriptural communities to the admonitions of the prophet Amos, arguing they address factions rather than whole communities.
+
+Status: Pending
+
+0 1 2 3
+
+Distance describes how many steps separate this statement from Dr. Khan's own words. It is a record of documentation, not an assessment of accuracy.
+
+This ribbon as a table
+
+No source recorded, so no provenance distance is marked.
+
+Source Distance Meaning
+
+No source recorded.
+
+No source recorded. This statement is listed as an open question.
+
+Pending claim: Dr. Khan is reported to have read the Qur'anic imperative concerning orphans as extending beyond fatherless children to disenfranchised populations generally.
+
+No source recorded.
+
+What would settle it: A passage in Dr. Khan's published work or in peer-reviewed scholarship on his work addressing the scope of this imperative.
+
+Where this comes from
+
+Dr. Khan is reported to have read the Qur'anic imperative concerning orphans as extending beyond fatherless children to disenfranchised populations generally.
+
+Status: Pending
+
+0 1 2 3
+
+Distance describes how many steps separate this statement from Dr. Khan's own words. It is a record of documentation, not an assessment of accuracy.
+
+This ribbon as a table
+
+No source recorded, so no provenance distance is marked.
+
+Source Distance Meaning
+
+No source recorded.
+
+No source recorded. This statement is listed as an open question.
+
+### Conflicting records
+
+2 statements where the sources disagree
+and the disagreement is not resolved.
+
+Nuanced claim: Dr. Khan undertook advanced study in the Islamic sciences at a residential institution in Rampur, India, established following a proposal by Abul A'la Maududi for science graduates.
+
+Where this comes from
+
+Dr. Khan undertook advanced study in the Islamic sciences at a residential institution in Rampur, India, established following a proposal by Abul A'la Maududi for science graduates.
+
+Status: Nuanced
+
+0 1 2 3
+
+Distance describes how many steps separate this statement from Dr. Khan's own words. It is a record of documentation, not an assessment of accuracy.
+
+This ribbon as a table
+
+Provenance distance 2: A scholar's description.
+
+Source Distance Meaning
+
+Tanveer Azmat, Islamic Studies, 2017 2 A scholar's description
+
+Tanveer Azmat, Islamic Studies, vol. 56, no. 1-2, 2017, pp. 77-95 distance 2
+
+#### Sources differ
+
+Field: dates of attendance
+
+1954-1958 — Tanveer Azmat, Islamic Studies, 2017
+
+1956-1958 — no registered source
+
+Unresolved.
+
+Nuanced claim: Dr. Khan relocated to the United States and settled in Chicago.
+
+Where this comes from
+
+Dr. Khan relocated to the United States and settled in Chicago.
+
+Status: Nuanced
+
+0 1 2 3
+
+Distance describes how many steps separate this statement from Dr. Khan's own words. It is a record of documentation, not an assessment of accuracy.
+
+This ribbon as a table
+
+Provenance distance 3: General-audience restatement.
+
+Source Distance Meaning
+
+Irfan Ahmad Khan, Islamic scholar who promoted interfaith ties, dead at 86 3 General-audience restatement
+
+Irfan Ahmad Khan, Islamic scholar who promoted interfaith ties, dead at 86 , Chicago Sun-Times, 2018 — https://chicago.suntimes.com/2018/4/13/18367719/irfan-ahmad-khan-islamic-scholar-who-promoted-interfaith-ties-dead-at-86 distance 3
+
+#### Sources differ
+
+Field: year of arrival
+
+1974 — Irfan Ahmad Khan, Islamic scholar who promoted interfaith ties, dead at 86
+
+1973 — no registered source
+
+Unresolved.
+
+### Provenance on this page
+
+This page makes 5 statements drawn from the source registry.
+Counts are computed from the registry at build time.
+
+By status: Nuanced 2, Pending 3
+
+By lowest provenance distance: 2 — 1, 3 — 1, none 3
+
+Carrying an unresolved conflict: 2
+
+How distance is assigned
+
+0 — Dr. Khan's own words
+
+1 — Quoted verbatim by a scholar
+
+2 — A scholar's description
+
+3 — General-audience restatement
+
+Distance describes how many steps separate this statement from Dr. Khan's own words. It is a record of documentation, not an assessment of accuracy.
+
+### Contact
+
+If you hold correspondence, a recording, a publication, or a personal
+record that bears on any question above, it would be welcome. Please
+include the source itself or a precise citation rather than a
+recollection.
+
+Use the Report a correction form at the foot of this
+page, or open an issue on
+GitHub .
 
 ===== About this site and its method (https://divinediscourses.org/about) =====
 
