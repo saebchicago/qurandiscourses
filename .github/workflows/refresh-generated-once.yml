@@ -1,0 +1,40 @@
+name: Refresh generated artifacts once
+
+on:
+  push:
+    branches: [infra/build-usage-optimization-20260825]
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: infra/build-usage-optimization-20260825
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Add Netlify build guard and refresh search index
+        run: |
+          if ! grep -q '^\[build\]' netlify.toml; then
+            {
+              printf '%s\n' '[build]' '  ignore = "node scripts/netlify-ignore-build.mjs"' ''
+              cat netlify.toml
+            } > netlify.toml.next
+            mv netlify.toml.next netlify.toml
+          fi
+          node scripts/build-search-index.mjs
+      - name: Commit generated corrections
+        run: |
+          git add netlify.toml data/search-index.json
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'build: wire Netlify guard and refresh search index'
+          git push origin HEAD:infra/build-usage-optimization-20260825
