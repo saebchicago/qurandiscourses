@@ -31,6 +31,8 @@ Site version or release date, if shown:
 
 Source link or full citation:
 
+Source type, if known: primary / secondary / dataset / other
+
 Steps taken to verify or reproduce the claim, if applicable:
 
 ## Finding
