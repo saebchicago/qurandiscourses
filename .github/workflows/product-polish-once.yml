@@ -1,0 +1,45 @@
+name: Product polish once
+
+on:
+  push:
+    branches:
+      - polish/product-excellence-20260826
+
+permissions:
+  contents: write
+
+jobs:
+  polish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Apply product polish
+        run: node scripts/product-polish-once.mjs
+      - name: Regenerate deterministic artifacts
+        run: |
+          node scripts/build-canonicals.mjs
+          node scripts/build-jsonld.mjs
+          node scripts/build-search-index.mjs
+          node scripts/build-llms.mjs
+          node scripts/build-sw-manifest.mjs
+      - name: Cheap validation before committing
+        run: |
+          node scripts/check-nav-sync.mjs
+          node scripts/check-performance-budgets.mjs
+          node scripts/build-jsonld.mjs --check
+          node scripts/build-search-index.mjs --check
+          node scripts/build-llms.mjs --check
+          node scripts/build-sw-manifest.mjs --check
+      - name: Remove one-shot machinery and commit
+        run: |
+          rm .github/workflows/product-polish-once.yml scripts/product-polish-once.mjs
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Polish core product experience"
+          git push
