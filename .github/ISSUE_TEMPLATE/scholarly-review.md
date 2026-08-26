@@ -20,6 +20,8 @@ URL or permalink:
 
 Claim ID / dataset / section, if applicable:
 
+Site version or release date, if shown:
+
 ## What I checked
 
 <!-- Describe the source, calculation, transcription, structural claim, or method you reviewed. -->
