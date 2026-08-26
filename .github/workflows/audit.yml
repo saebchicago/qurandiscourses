@@ -1,12 +1,10 @@
 name: Site audit
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
   schedule:
-    # Citation and translation endpoints can drift without a code change.
+    # External citation and translation endpoints can drift without a code change.
     - cron: "17 9 * * 1"
   workflow_dispatch:
 
@@ -20,6 +18,9 @@ concurrency:
 jobs:
   integrity:
     name: Content, security, and browser integrity
+    # PRs get the full deterministic suite once. The weekly schedule is reserved
+    # for external drift checks so it does not download Chromium every Monday.
+    if: ${{ github.event_name != 'schedule' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -96,15 +97,11 @@ jobs:
 
   external-evidence:
     name: External citation and edition health
-    # Also runs on pull_request, but NEVER blocks one: these checks call
-    # third-party endpoints, so a merge must not wait on someone else's
-    # downtime. continue-on-error keeps the job advisory while still
-    # surfacing rot on the PR that introduces it. The scheduled run stays
-    # the hard signal.
+    # External services are intentionally checked on a bounded schedule instead
+    # of every PR. This keeps third-party latency and Actions usage out of the
+    # merge path while preserving a recurring hard signal for source drift.
     if: >-
       github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-      || github.event_name == 'pull_request'
-    continue-on-error: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
