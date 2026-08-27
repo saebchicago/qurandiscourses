@@ -599,7 +599,10 @@
                 ? `<div class="stat-block"><h4>Revealed ${OK("quran-foundation-api-v4", "Quran Foundation Content API v4")}</h4><p class="stat-value" style="font-size:1rem">${qdEsc(m.revelationPlace === "makkah" ? "Makkah" : m.revelationPlace === "madinah" ? "Madinah" : m.revelationPlace)} · ${m.revelationOrder}th in revelation order</p></div>`
                 : "") +
               (period
-                ? `<div class="stat-block"><h4>Chronology period ${NUANCED("Cairo 1924 convention")}</h4><p class="stat-value" style="font-size:1rem">${qdEsc(period)}</p></div>`
+                ? // Literal data-source-ids (not a NUANCED(ids) parameter):
+                  // compute-coverage's source-usage audit only recognizes
+                  // literal attribute text and OK("...") call sites.
+                  `<div class="stat-block"><h4>Chronology period <span class="badge nuanced" data-source-ids="cairo-1924 noldeke-schwally-1909 watt-bell-1970" aria-label="Nuanced" tabindex="0" title="Nuanced · Cairo 1924 convention; Nöldeke–Bell periods">~</span></h4><p class="stat-value" style="font-size:1rem">${qdEsc(period)}</p></div>`
                 : "") +
               `<div class="stat-block"><h4>Location in the mushaf ${OK("tanzil", "Tanzil standard division")}</h4><p class="stat-value" style="font-size:1rem">${juzLabel}</p></div>` +
               `</div>`,

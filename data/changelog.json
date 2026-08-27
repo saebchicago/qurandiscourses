@@ -2,6 +2,12 @@
   "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
   "entries": [
     {
+      "id": "2026-08-history-lens",
+      "year": "2026",
+      "month": "August",
+      "html": "\n              <strong>A history lens: when a surah sits in the conventional\n              chronology, and who it names.</strong>\n              The reading lenses card gained a fourth lens. It shows the\n              Egyptian Standard revelation order and Nöldeke–Bell period the\n              site already carried for all 114 surahs — labeled as the\n              convention it is, with the manuscript-evidence caveat cited —\n              and, for the first time on this site, the proper names each\n              surah uses, computed from the corpus&#39;s proper-noun tags.\n              Names carry no Arabic root, so every root-keyed dataset has\n              always been blind to them; a new generated index makes them\n              countable.\n              <span class=\"prov\">The sirah questions beneath those panels are\n              blank scaffolding: no sirah or occasions-of-revelation source\n              is registered here, and the site asserts nothing about any\n              surah&#39;s historical moment — the reader&#39;s answers stay in\n              the reader&#39;s browser. Romanized name labels are editorial\n              working labels, checked against the computed index in both\n              directions; counts measure distribution, not meaning, and a\n              name&#39;s absence is never a story&#39;s absence.</span>\n            "
+    },
+    {
       "id": "2026-08-reading-lenses",
       "year": "2026",
       "month": "August",

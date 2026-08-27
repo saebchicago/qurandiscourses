@@ -461,6 +461,14 @@ for (const f of allHtmlFiles) {
     for (const id of (m[1] || m[2]).split(/\s+/).filter(Boolean)) usedSourceIds.add(id);
   }
 }
+// Reading-lens sourceIds become real rendered badges at runtime:
+// assets/lenses.js emits each lens's methodHtml with a ~ badge whose
+// data-source-ids is exactly the registry's sourceIds string (and the
+// history lens builds further literal badges), so these ids are
+// reader-reachable even though no static HTML carries them.
+for (const lens of JSON.parse(readFileSync(join(ROOT, "data/lenses.json"), "utf8")).lenses || []) {
+  for (const id of String(lens.sourceIds || "").split(/\s+/).filter(Boolean)) usedSourceIds.add(id);
+}
 const sourceUsage = sourcesJson.sources.map((s) => ({
   id: s.id,
   used: usedSourceIds.has(s.id),
@@ -472,10 +480,11 @@ const sourceUsageSummary = {
   unusedIds: unusedSourceIds,
   _method:
     "For each id in data/sources.json, checked whether it appears as a space-separated token inside a " +
-    "static data-source-ids=\"...\" attribute, or inside the ids argument of dossier.html's OK(\"...\", " +
+    "static data-source-ids=\"...\" attribute, inside the ids argument of dossier.html's OK(\"...\", " +
     "title) badge-building helper (the one place a badge's id list is a JS string literal rather than a " +
-    "literal HTML attribute). A source with zero hits is cited in the bibliography but reachable from no " +
-    "badge anywhere on the site.",
+    "literal HTML attribute), or in a data/lenses.json sourceIds string (assets/lenses.js renders each " +
+    "lens's method badge with exactly that id list). A source with zero hits is cited in the bibliography " +
+    "but reachable from no badge anywhere on the site.",
 };
 console.log(
   `  ${sourceUsageSummary.used}/${sourceUsageSummary.totalSources} sources reachable from at least one badge. ` +

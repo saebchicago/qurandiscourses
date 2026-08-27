@@ -3061,6 +3061,22 @@ Islahi's nazm method. This site transcribes no ʿamūd statement for any
 surah; its ʿamūd reading lens offers method questions only, for the
 reader's own answer.
 
+Sirah سيرة
+
+The biographical literature on the Prophet's life, against which a surah's
+conventional revelation placement is often read. This site registers no sirah
+source and asserts nothing from that literature: the history reading lens
+shows only the conventional chronology and hands the sirah questions to the
+reader.
+
+Asbāb al-nuzūl أسباب النزول
+
+The classical genre recording the occasions on which particular verses are
+reported to have been revealed. This site registers no asbab al-nuzul source
+and reproduces none of its reports; where the history lens asks about a
+surah's moment, the answer is the reader's own, built from sources they
+consult themselves.
+
 Reading lens
 
 A published coherence method rendered as UI scaffolding on the Read, Dossier
@@ -4256,7 +4272,7 @@ URL
 A source can be fully cited in data/sources.json
 and still be reachable from no badge anywhere: nothing checked
 for that until this measurement.
-34 of
+35 of
 36 sources appear in at
 least one data-source-ids attribute on the site,
 static or built at render time. The rest are cited in the
@@ -4528,6 +4544,27 @@ before it was renamed "Study".
 ### 2026
 
 #### August
+
+A history lens: when a surah sits in the conventional
+chronology, and who it names.
+The reading lenses card gained a fourth lens. It shows the
+Egyptian Standard revelation order and Nöldeke–Bell period the
+site already carried for all 114 surahs — labeled as the
+convention it is, with the manuscript-evidence caveat cited —
+and, for the first time on this site, the proper names each
+surah uses, computed from the corpus's proper-noun tags.
+Names carry no Arabic root, so every root-keyed dataset has
+always been blind to them; a new generated index makes them
+countable.
+The sirah questions beneath those panels are
+blank scaffolding: no sirah or occasions-of-revelation source
+is registered here, and the site asserts nothing about any
+surah's historical moment — the reader's answers stay in
+the reader's browser. Romanized name labels are editorial
+working labels, checked against the computed index in both
+directions; counts measure distribution, not meaning, and a
+name's absence is never a story's absence.
+§
 
 Reading lenses: three published coherence methods as
 scaffolding.
@@ -6519,6 +6556,8 @@ formulaic-density: The share of a verse's or surah's words that belong to a recu
 dispersion: How evenly a root's occurrences are spread across the 114 surahs, as distinct from raw frequency. This site reports Gries's Deviation of Proportions (DP, DPnorm) and Juilland's D side by side, since the two can disagree and the literature has no single preferred measure.
 juilland-d: An older lexical-dispersion measure (Juilland & Chang-Rodriguez 1964), on a 0-1 scale where 1 is perfectly even. It classically assumes comparably-sized corpus parts; this site's 114 surahs range from 3 to 286 verses, so it is reported for comparability with the literature, not as the preferred measure.
 amud: In the Farahi–Islahi coherence school, the central theme — literally 'pillar' — around which a whole surah is organized, with each part of the surah read in relation to it. Described in Mustansir Mir's 1986 study of Islahi's nazm method. This site transcribes no ʿamūd statement for any surah; its ʿamūd reading lens offers method questions only, for the reader's own answer.
+sirah: The biographical literature on the Prophet's life, against which a surah's conventional revelation placement is often read. This site registers no sirah source and asserts nothing from that literature: the history reading lens shows only the conventional chronology and hands the sirah questions to the reader.
+asbab-al-nuzul: The classical genre recording the occasions on which particular verses are reported to have been revealed. This site registers no asbab al-nuzul source and reproduces none of its reports; where the history lens asks about a surah's moment, the answer is the reader's own, built from sources they consult themselves.
 reading-lens: A published coherence method rendered as UI scaffolding on the Read, Dossier and Replay pages: Khan's transcribed outlines, the Farahi–Islahi ʿamūd worksheet, or a ring-structure overlay. A lens frames the reader's own study; it never asserts what a verse means, and the reader's answers never carry a verification badge. Distinct from the homepage daily card's rotating data 'lens', which is a corpus statistic.
 
 ===== Export data dictionary =====
