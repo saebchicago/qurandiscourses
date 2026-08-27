@@ -176,6 +176,41 @@
      "html": "Return to <a href=\"read.html?s=96&a=1-19\">Read</a> at Study depth and write in the discovery worksheet where Khan's outline and the site's computed signals agree, diverge, or simply don't overlap."
     }
    ]
+  },
+  {
+   "id": "three-lenses",
+   "title": "Read one surah through three lenses",
+   "intro": "Take al-'Asr — three verses — through three published coherence methods: Khan's transcribed outline, the Farahi–Islahi ʿamūd questions, and a ring-structure overlay you mark yourself. Unlike Paths 1–5, which each drive one tool, this path holds one text still and varies the method (nazm reading in three forms).",
+   "minutes": 23,
+   "steps": [
+    {
+     "label": "Propose and compare an outline",
+     "page": "/exercise",
+     "query": "id=asr-outline",
+     "minutes": 6,
+     "html": "Work the <a href=\"exercise.html?id=asr-outline\">al-'Asr outline exercise</a>: propose your own verse-by-verse structure, then reveal Khan's transcribed outline and compare."
+    },
+    {
+     "label": "Answer the ʿamūd questions",
+     "page": "/read",
+     "query": "s=103&a=1-3",
+     "minutes": 8,
+     "html": "Read <a href=\"read.html?s=103&a=1-3\">al-'Asr on Read</a> at Study depth and open the ʿAmūd worksheet in the Reading lenses card: answer the method questions in your own words — the site transcribes no ʿamūd statement for any surah."
+    },
+    {
+     "label": "Mark a candidate ring",
+     "page": "/dossier",
+     "query": "s=103",
+     "minutes": 6,
+     "html": "Open the same surah's <a href=\"dossier.html?s=103\">Dossier</a>, read its computed Structure signals, then switch the Reading lenses card to the Ring overlay and mark your own candidate members and centre — the site asserts no ring for any surah."
+    },
+    {
+     "label": "Compare what each lens showed",
+     "page": null,
+     "minutes": 3,
+     "html": "Still on the Dossier, ask where the three readings agree and diverge: does your ring centre coincide with your ʿamūd? With the pivot in Khan's outline? A method that finds nothing in a surah is also a result."
+    }
+   ]
   }
  ]
 }

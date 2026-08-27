@@ -121,6 +121,21 @@
           and where a transcribed outline exists, its sections appear at
           their pivots.
         </p>
+        <div class="depth-row">
+          <span>Depth:</span>
+          <div
+            class="depth-toggle inline"
+            role="group"
+            aria-label="Depth level"
+          >
+            <button data-depth="simple">Simple</button>
+            <button data-depth="study">Study</button>
+            <button data-depth="encyclopedic">Encyclopedic</button>
+          </div>
+          <span class="depth-hint"
+            >Keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></span
+          >
+        </div>
         <div style="margin: 0.6rem 0 1rem; display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center">
           <label
             >Surah:
@@ -208,6 +223,7 @@
           <span id="outlineProvText"></span>
         </span></p>
       </details>
+      <div id="lensSection"></div>
     </main>
     <footer class="site">
       <p class="footer-links">
@@ -279,6 +295,7 @@
     <script src="assets/share.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/replay.js" defer></script>
+    <script src="assets/lenses.js" defer></script>
     <script src="assets/glossary.js" defer></script>
     <script src="assets/version.js" defer></script>
     <script src="assets/cite-page.js" defer></script>

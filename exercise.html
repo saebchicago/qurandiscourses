@@ -445,6 +445,15 @@
             exercise.surah +
             '">▶ Now watch it unfold — replay this surah with the outline overlaid.</a>';
           section.appendChild(replayP);
+          var nextP = document.createElement("p");
+          nextP.className = "caption-note";
+          nextP.innerHTML =
+            exercise.id === "asr-outline"
+              ? 'Next: continue the three-lenses path — <a href="/read?s=103&a=1-3&path=three-lenses&step=2">answer the ʿamūd questions on Read</a> (Study depth).'
+              : 'Next: open <a href="/read?s=' +
+                exercise.surah +
+                '">this surah on Read</a> at Study depth and try the reading lenses card.';
+          section.appendChild(nextP);
           section.removeAttribute("hidden");
           section.scrollIntoView({ behavior: "smooth", block: "start" });
 

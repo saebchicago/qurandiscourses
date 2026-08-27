@@ -75,6 +75,10 @@ window.GLOSSARY = {
   "dpnorm": "How evenly a root's occurrences are spread across the 114 surahs, as distinct from raw frequency. This site reports Gries's Deviation of Proportions (DP, DPnorm) and Juilland's D side by side, since the two can disagree and the literature has no single preferred measure.",
   "juilland's d": "An older lexical-dispersion measure (Juilland & Chang-Rodriguez 1964), on a 0-1 scale where 1 is perfectly even. It classically assumes comparably-sized corpus parts; this site's 114 surahs range from 3 to 286 verses, so it is reported for comparability with the literature, not as the preferred measure.",
   "juillands d": "An older lexical-dispersion measure (Juilland & Chang-Rodriguez 1964), on a 0-1 scale where 1 is perfectly even. It classically assumes comparably-sized corpus parts; this site's 114 surahs range from 3 to 286 verses, so it is reported for comparability with the literature, not as the preferred measure.",
+  "amud": "In the Farahi–Islahi coherence school, the central theme — literally 'pillar' — around which a whole surah is organized, with each part of the surah read in relation to it. Described in Mustansir Mir's 1986 study of Islahi's nazm method. This site transcribes no ʿamūd statement for any surah; its ʿamūd reading lens offers method questions only, for the reader's own answer.",
+  "ʿamūd": "In the Farahi–Islahi coherence school, the central theme — literally 'pillar' — around which a whole surah is organized, with each part of the surah read in relation to it. Described in Mustansir Mir's 1986 study of Islahi's nazm method. This site transcribes no ʿamūd statement for any surah; its ʿamūd reading lens offers method questions only, for the reader's own answer.",
+  "reading lens": "A published coherence method rendered as UI scaffolding on the Read, Dossier and Replay pages: Khan's transcribed outlines, the Farahi–Islahi ʿamūd worksheet, or a ring-structure overlay. A lens frames the reader's own study; it never asserts what a verse means, and the reader's answers never carry a verification badge. Distinct from the homepage daily card's rotating data 'lens', which is a corpus statistic.",
+  "reading lenses": "A published coherence method rendered as UI scaffolding on the Read, Dossier and Replay pages: Khan's transcribed outlines, the Farahi–Islahi ʿamūd worksheet, or a ring-structure overlay. A lens frames the reader's own study; it never asserts what a verse means, and the reader's answers never carry a verification badge. Distinct from the homepage daily card's rotating data 'lens', which is a corpus statistic.",
 };
 /* /GENERATED:glossary */
 
@@ -121,8 +125,17 @@ window.GLOSSARY = {
     // the node loop below: 74 terms across ~370 text nodes on the denser
     // pages is roughly 27,000 escapeRe() calls and RegExp compilations on
     // DOMContentLoaded, on all 31 pages that load this file.
+    // Word boundaries are asserted explicitly rather than with \b: \b is
+    // ASCII-word-based, so a key that STARTS with a non-word character
+    // (ʿamūd, U+02BF) could never match — space→ʿ is non-word→non-word
+    // and \b never fires there. The left anchor is a captured group (not
+    // lookbehind, which Safari only gained in 16.4); the right side can
+    // be a lookahead, supported everywhere \p{} is (ES2018).
     var termRe = terms.map(function (t) {
-      return new RegExp("\\b" + escapeRe(t) + "\\b", "i");
+      return new RegExp(
+        "(^|[^\\p{L}\\p{N}_])(" + escapeRe(t) + ")(?![\\p{L}\\p{N}_])",
+        "iu",
+      );
     });
 
     var walker = document.createTreeWalker(
@@ -145,9 +158,11 @@ window.GLOSSARY = {
         var m = termRe[i].exec(text);
         if (m) {
           used[term] = true;
-          var before = text.slice(0, m.index);
-          var matched = m[0];
-          var after = text.slice(m.index + matched.length);
+          // m[1] is the left-anchor character (or ""), m[2] the term.
+          var start = m.index + m[1].length;
+          var matched = m[2];
+          var before = text.slice(0, start);
+          var after = text.slice(start + matched.length);
           var frag = document.createDocumentFragment();
           if (before) frag.appendChild(document.createTextNode(before));
           var span = document.createElement("span");

@@ -1,0 +1,44 @@
+{
+ "_comment": "Reading-lens registry rendered by assets/lenses.js on read.html, dossier.html and replay.html. A reading lens is a PUBLISHED coherence method rendered as UI scaffolding: the site describes the method (site-authored prose, labeled ~ Nuanced with its sources) and gives the reader a place to apply it — it never asserts what a verse means and never fills in a reader's answer. kind=data-backed: transcribed source material exists (Khan outlines in data/exercises.json; coverage.surahs here MUST equal the set of transcribed outline surahs — scripts/check-lenses.mjs enforces it, and it grows only by transcribing an outline through the maintainer guide's Transcription Gate). kind=blank-worksheet: method questions only — site-authored prompts informed by the cited published descriptions of the method, never the scholars' own text; answers are the reader's own and never carry a verification badge. kind=empty-overlay: the reader marks their own candidate structure; the site asserts none. methodHtml and coverage.statementHtml are trusted site-authored HTML, never API or user text. These reading lenses are distinct from index.html's daily-card 'lens', which is a rotating corpus statistic. Human TODO (not yet added, per the no-guessed-citations rule): bibliographic entries for Hashmi's Exordium and the English oaths study await confirmed publisher/year details before any lens may cite them.",
+ "lenses": [
+  {
+   "id": "khan-outline",
+   "name": "Sectional outline (Khan)",
+   "kind": "data-backed",
+   "sourceIds": "khan-exercise-2013 khan-introduction-2011",
+   "methodHtml": "Irfan Ahmad Khan reads each surah as one continuous address and outlines it section by section, so the reader can follow the discourse as a whole rather than verse by verse in isolation. On this site his transcribed outlines are worked as exercises: propose your own structure first, then compare it against his published outline.",
+   "coverage": {
+    "surahs": [96, 103, 107, 108, 109, 112],
+    "statementHtml": "Six surahs have transcribed outlines so far — five from Khan's 2011 volume and one (al-'Asr) from his 2013 volume, whose thirty outlines cover surahs 85–114. The rest of that range is listed under <a href=\"coverage.html#wanted-outlines\">wanted transcriptions</a>; for surahs 1–84 no Khan outline exists at all, and the site asserts no structure it cannot cite."
+   }
+  },
+  {
+   "id": "amud",
+   "name": "ʿAmūd worksheet (Farahi–Islahi)",
+   "kind": "blank-worksheet",
+   "sourceIds": "farahi-primary islahi-tadabbur mir-coherence-1986",
+   "methodHtml": "In the Farahi–Islahi school of nazm (coherence) reading, every surah has an ʿamūd — a central theme, literally a 'pillar', around which the whole surah turns — and each part of the surah is read in relation to it. The prompts below are site-authored study questions informed by that published method as described in Mustansir Mir's 1986 study; they are not Farahi's or Islahi's own text, and no ʿamūd statement is transcribed for any surah. The answers are yours.",
+   "questions": [
+    { "id": "candidate", "prompt": "State, in one sentence, a candidate ʿamūd for this surah — what is the whole address about?" },
+    { "id": "opening", "prompt": "How does the opening introduce it? Which words, images, or oaths set the frame?" },
+    { "id": "sections", "prompt": "Walk the surah's sections: how does each relate to your candidate ʿamūd? Note any verse that resists it." },
+    { "id": "closing", "prompt": "Does the closing return to, or resolve, the theme the opening raised?" },
+    { "id": "pair", "prompt": "Islahi reads most surahs as one of a pair. Does an adjacent surah treat the same theme from another side?" },
+    { "id": "revise", "prompt": "Restate your ʿamūd now. What changed since your first attempt, and which verses forced the change?" }
+   ],
+   "coverage": {
+    "statementHtml": "Blank worksheet only: the site transcribes no ʿamūd statement for any of the 114 surahs, and your answers are saved in this browser, never auto-filled, and never carry a verification badge."
+   }
+  },
+  {
+   "id": "ring",
+   "name": "Ring overlay (Cuypers / Farrin)",
+   "kind": "empty-overlay",
+   "sourceIds": "cuypers-2015 farrin-symmetry-2014",
+   "methodHtml": "Michel Cuypers and Raymond Farrin document concentric composition in the Qur'an — members arranged A B C B′ A′ around a centre, following Semitic-rhetoric analysis. The overlay below is a blank frame for that method: pair up candidate members yourself and propose a centre.",
+   "coverage": {
+    "statementHtml": "Empty overlay only: no ring analysis exists anywhere on this site for any surah — adding one would mean transcribing a page-cited published analysis, not running a computation. The site's own mechanical symmetry proxies returned no surviving result in any surah; see <a href=\"patterns.html#ring-composition\">the test on Patterns</a>."
+   }
+  }
+ ]
+}

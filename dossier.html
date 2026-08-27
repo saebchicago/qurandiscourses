@@ -409,6 +409,10 @@
            (and invisible) on the picker state. Outside #dossierRoot so
            the dossier's own single-pass swap never touches it. -->
       <div id="relatedHost"></div>
+      <!-- Reading lenses (assets/lenses.js): outside #dossierRoot for the
+           same reason as #relatedHost — the dossier's single-pass swap
+           never touches it. Renders nothing on the picker state. -->
+      <div id="lensSection"></div>
     </main>
     <footer class="site">
       <p class="footer-links">
@@ -1096,6 +1100,7 @@
     <script src="assets/cite-page.js" defer></script>
     <script src="assets/feedback.js" defer></script>
     <script src="assets/related.js" defer></script>
+    <script src="assets/lenses.js" defer></script>
     <script src="assets/path-data.js" defer></script>
     <script src="assets/path-ribbon.js" defer></script>
   </body>

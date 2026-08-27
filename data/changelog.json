@@ -2,6 +2,12 @@
   "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
   "entries": [
     {
+      "id": "2026-08-reading-lenses",
+      "year": "2026",
+      "month": "August",
+      "html": "\n              <strong>Reading lenses: three published coherence methods as\n              scaffolding.</strong>\n              The Read, Dossier and Replay pages gained a reading lenses card\n              at Study depth: Khan&#39;s transcribed sectional outlines where\n              they exist (six surahs), the Farahi–Islahi ʿamūd method as\n              site-authored questions for the reader&#39;s own answers, and a\n              blank ring overlay in the Cuypers/Farrin tradition. A guided\n              path, Read one surah through three lenses, walks al-&#39;Asr\n              through all three, and the homepage now leads with that first\n              exercise.\n              <span class=\"prov\">The card asserts no structure and fills in\n              no answer: what is and isn&#39;t transcribed is stated on the\n              card itself, a build-time check holds the advertised coverage\n              to the transcription registry in both directions, and the\n              reader&#39;s answers stay in the reader&#39;s browser, exportable\n              and clearable from the card, never carrying a verification\n              badge.</span>\n            "
+    },
+    {
       "id": "2026-08-source-links-local-resolution",
       "year": "2026",
       "month": "August",

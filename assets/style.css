@@ -2960,6 +2960,75 @@ main h3:target {
   }
 }
 
+/* ── Reading lenses (assets/lenses.js) ────────────────────────────── */
+.reading-lenses {
+  margin-top: 1.5rem;
+}
+.lens-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.4rem 0 0.8rem;
+}
+.lens-method {
+  font-size: 0.9rem;
+  margin: 0 0 0.8rem;
+}
+.lens-availability {
+  font-size: 0.85rem;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  margin: 0.4rem 0 0.4rem;
+}
+.lens-coverage {
+  margin-top: 0.8rem;
+}
+.reading-lenses .lens-q {
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: block;
+  margin: 0.7rem 0 0.25rem;
+}
+.reading-lenses textarea,
+.reading-lenses input[type="text"],
+.reading-lenses input[type="number"] {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--ink);
+}
+.reading-lenses textarea {
+  resize: vertical;
+}
+.lens-ring-row {
+  display: grid;
+  grid-template-columns: 1fr 4.5rem 4.5rem 4.5rem 4.5rem auto;
+  gap: 0.4rem;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+.lens-ring-row input {
+  width: 100%;
+  box-sizing: border-box;
+}
+#lensRingAdd {
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.8rem;
+}
+@media (max-width: 620px) {
+  .lens-ring-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 /* ── Focus mode (read.html, html[data-focus]) ─────────────────────── */
 html[data-focus] header.site,
 html[data-focus] nav.primary,
@@ -2969,6 +3038,7 @@ html[data-focus] .banner,
 html[data-focus] .xref-panel,
 html[data-focus] #notesSection,
 html[data-focus] #discoveryWorksheetSection,
+html[data-focus] #lensSection,
 html[data-focus] #vocabPanel,
 html[data-focus] .back-to-top {
   display: none !important;
@@ -3093,11 +3163,11 @@ html[data-focus] .ar.xl {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
 }
-/* The home page's three study modes: three across, and no leading
-   number column, so the card is a single stack of title, sentence,
-   and link. */
+/* The home page's study modes: two-by-two, and no leading number
+   column, so the card is a single stack of title, sentence, and
+   link. */
 .modes-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .modes-grid .workflow-card {
   grid-template-columns: 1fr;

@@ -157,6 +157,9 @@ sources), `changelog.json` (the changelog entry registry behind changelog.html
 and feed.xml), `claims.json`, `contributors.json` (the contributor
 roster behind credits.html), `exercises.json`, `glossary.json` (the term
 registry behind assets/glossary.js and glossary.html), `juz.json`,
+`lenses.json` (the reading-lens registry behind assets/lenses.js:
+site-authored descriptions of published coherence methods; no source
+text is reproduced),
 `paths.json`, `related.json` (the see-also join behind dossier and
 themes panels), `search-index.json` (the folded-token index behind
 /search), `sw-manifest.json` (the service worker's precache list and
