@@ -21,9 +21,11 @@
   //
   // Storage: localStorage key "qd_lenses_v1" —
   //   { active, amud: { [surah]: { answers: { [questionId]: text }, updated } },
+  //     history: { [surah]: { answers: { [questionId]: text }, updated } },
   //     ring: { [surah]: { pairs: [{aFrom,aTo,bFrom,bTo,label}], center, notes, updated } } }
-  // Answers are keyed by question id so a reordered registry never loses
-  // or misassigns a saved answer.
+  // Any question-bearing lens persists under its own id with the same
+  // answers shape. Answers are keyed by question id so a reordered
+  // registry never loses or misassigns a saved answer.
 
   var KEY = "qd_lenses_v1";
   var KHAN_FIRST_SURAH = 85;
@@ -108,18 +110,12 @@
     );
   }
 
-  function amudBodyHtml(lens, entry) {
+  // The label + textarea loop every question-bearing lens shares (the
+  // ʿamūd and history worksheets). Answers are the reader's own and are
+  // never rendered with a ●/○/~ badge.
+  function questionsHtml(lens, entry) {
     var answers = (entry && entry.answers) || {};
-    // Cross-link to the free-form sibling: the discovery worksheet is on
-    // read.html only, so link the in-page section there and the Read page
-    // from dossier/replay.
-    var wsHref = document.getElementById("discoveryWorksheetSection")
-      ? "#discoveryWorksheetSection"
-      : "/read?s=" + encodeURIComponent(currentSurah || "") + "#discoveryWorksheetSection";
-    var html =
-      '<p class="lens-availability">Prefer free-form? The <a href="' +
-      wsHref +
-      '">discovery worksheet</a> collects your own sectioning with evidence; this lens asks the ʿamūd method’s questions specifically.</p>';
+    var html = "";
     (lens.questions || []).forEach(function (q) {
       html +=
         '<label class="lens-q" for="lensQ-' +
@@ -135,6 +131,192 @@
         esc(answers[q.id] || "") +
         "</textarea>";
     });
+    return html;
+  }
+
+  function amudBodyHtml(lens, entry) {
+    // Cross-link to the free-form sibling: the discovery worksheet is on
+    // read.html only, so link the in-page section there and the Read page
+    // from dossier/replay.
+    var wsHref = document.getElementById("discoveryWorksheetSection")
+      ? "#discoveryWorksheetSection"
+      : "/read?s=" + encodeURIComponent(currentSurah || "") + "#discoveryWorksheetSection";
+    return (
+      '<p class="lens-availability">Prefer free-form? The <a href="' +
+      wsHref +
+      '">discovery worksheet</a> collects your own sectioning with evidence; this lens asks the ʿamūd method’s questions specifically.</p>' +
+      questionsHtml(lens, entry)
+    );
+  }
+
+  // ── history lens (kind: context-panel) ──────────────────────────────
+
+  // Lazily fetched on first activation: the conventional chronology and
+  // the computed proper-noun index plus its editorial display labels.
+  // null = not requested yet; "loading"; "failed"; or {chron, mentions,
+  // names} once resolved.
+  var historyData = null;
+
+  var PERIOD_LABELS = {
+    "meccan-early": "Meccan (early period)",
+    "meccan-middle": "Meccan (middle period)",
+    "meccan-late": "Meccan (late period)",
+    medinan: "Medinan",
+  };
+
+  function ordinal(n) {
+    var rem10 = n % 10;
+    var rem100 = n % 100;
+    if (rem10 === 1 && rem100 !== 11) return n + "st";
+    if (rem10 === 2 && rem100 !== 12) return n + "nd";
+    if (rem10 === 3 && rem100 !== 13) return n + "rd";
+    return n + "th";
+  }
+
+  function nuancedBadge(ids, title) {
+    return (
+      '<span class="badge nuanced" data-source-ids="' +
+      esc(ids) +
+      '" aria-label="Nuanced" tabindex="0" title="' +
+      esc(title) +
+      '">~</span> '
+    );
+  }
+
+  function okBadge(ids, title) {
+    return (
+      '<span class="badge ok" data-source-ids="' +
+      esc(ids) +
+      '" aria-label="Verified" tabindex="0" title="' +
+      esc(title) +
+      '">●</span> '
+    );
+  }
+
+  function loadHistoryData() {
+    if (historyData) return;
+    historyData = "loading";
+    Promise.all([
+      fetch("data/chronology.json").then(function (r) {
+        return r.ok ? r.json() : Promise.reject();
+      }),
+      fetch("data/name-mentions.json").then(function (r) {
+        return r.ok ? r.json() : Promise.reject();
+      }),
+      fetch("data/names.json").then(function (r) {
+        return r.ok ? r.json() : Promise.reject();
+      }),
+    ])
+      .then(function (results) {
+        historyData = {
+          chron: results[0] || {},
+          mentions: (results[1] && results[1].lemmas) || {},
+          names: (results[2] && results[2].names) || {},
+        };
+        var lens = activeLens();
+        if (lens && lens.id === "history" && currentSurah != null) render();
+      })
+      .catch(function () {
+        // Offline with the data uncached: the worksheet still works;
+        // the computed panels quietly say they could not load.
+        historyData = "failed";
+        var lens = activeLens();
+        if (lens && lens.id === "history" && currentSurah != null) render();
+      });
+  }
+
+  function historyWhenHtml(surah) {
+    var c = historyData.chron[String(surah)];
+    if (!c) return "";
+    return (
+      '<p class="lens-availability">' +
+      nuancedBadge(
+        "cairo-1924 noldeke-schwally-1909 watt-bell-1970",
+        "Nuanced · Cairo 1924 revelation order; Nöldeke–Bell periods",
+      ) +
+      "Conventionally the <strong>" +
+      ordinal(Number(c.revelationOrder)) +
+      "</strong> of 114 in the Egyptian Standard revelation order — <strong>" +
+      esc(PERIOD_LABELS[c.period] || c.period) +
+      "</strong> in the Nöldeke–Bell classification. " +
+      nuancedBadge(
+        "sadeghi-goudarzi-2012",
+        "Nuanced · manuscript evidence complicates precise sequencing",
+      ) +
+      "Order and period are a reading convention, not a documented record; " +
+      "early-manuscript evidence complicates any precise sequencing.</p>"
+    );
+  }
+
+  function historyWhoHtml(surah) {
+    var rows = [];
+    Object.keys(historyData.mentions).forEach(function (lemma) {
+      var e = historyData.mentions[lemma];
+      var count = e.bySurah[String(surah)];
+      if (count) rows.push({ lemma: lemma, ar: e.ar, count: count });
+    });
+    rows.sort(function (a, b) {
+      return b.count - a.count || (a.lemma < b.lemma ? -1 : 1);
+    });
+
+    var html = '<h4 class="lens-q">Proper names in this surah</h4>';
+    if (!rows.length) {
+      return (
+        html +
+        '<p class="lens-availability">' +
+        okBadge("leeds-corpus-v0.4", "Verified · computed from the corpus's proper-noun tags") +
+        "No proper names occur in this surah. Absence of a name is never " +
+        "absence of a story — Surah 105 tells the Elephant narrative " +
+        "without naming anyone.</p>"
+      );
+    }
+    html += '<ul class="lens-name-list">';
+    rows.forEach(function (row) {
+      var label = historyData.names[row.lemma];
+      var display;
+      if (label) {
+        display =
+          esc(label.latin) + (label.en ? " (" + esc(label.en) + ")" : "");
+      } else {
+        // Unmapped lemma: the Arabic surface form, never bare Buckwalter
+        // (which stays in the title attribute for the curious).
+        display =
+          '<span class="ar notranslate" translate="no" lang="ar" dir="rtl" title="' +
+          esc(row.lemma) +
+          '">' +
+          esc(row.ar) +
+          "</span>";
+      }
+      html +=
+        "<li>" + display + " <span class=\"lens-name-count\">×" + row.count + "</span></li>";
+    });
+    html += "</ul>";
+    html +=
+      '<p class="caption-note">' +
+      okBadge("leeds-corpus-v0.4", "Verified · computed from the corpus's proper-noun tags") +
+      "Counts computed from the corpus's proper-noun tags — persons, places, " +
+      "the divine name and eschatological names alike, so the divine name " +
+      "dominates most lists, which is itself a distribution fact. " +
+      nuancedBadge("leeds-corpus-v0.4", "Nuanced · editorial working labels, not dictionary quotations") +
+      "Romanized labels are editorial working labels. Distribution does not " +
+      "establish meaning, and a name's absence is never a story's absence.</p>";
+    return html;
+  }
+
+  function historyBodyHtml(lens, entry) {
+    var html = "";
+    if (historyData === null) loadHistoryData();
+    if (historyData === "loading" || historyData === null) {
+      html += '<p class="lens-availability">Loading historical context…</p>';
+    } else if (historyData === "failed") {
+      html +=
+        '<p class="lens-availability">The chronology and name data could not ' +
+        "be loaded (offline?). The worksheet below still works.</p>";
+    } else {
+      html += historyWhenHtml(currentSurah) + historyWhoHtml(currentSurah);
+    }
+    html += '<h4 class="lens-q">Sirah worksheet — your own reading</h4>';
+    html += questionsHtml(lens, entry);
     return html;
   }
 
@@ -215,7 +397,7 @@
     if (!lens || forSurah == null) return;
     var all = loadAll();
 
-    if (lens.kind === "blank-worksheet") {
+    if (Array.isArray(lens.questions)) {
       var answers = {};
       var any = false;
       document.querySelectorAll("#lensBody textarea[data-qid]").forEach(function (t) {
@@ -304,10 +486,16 @@
       })
       .join("");
 
+    // Body dispatch is by lens id — each lens owns its body function (a
+    // new registry entry needs one added here). Kind is the validation
+    // contract (check-lenses.mjs), not the render key: two lenses of the
+    // same kind can render very differently.
     var body = "";
-    if (lens.kind === "data-backed") body = khanBodyHtml(currentSurah);
-    else if (lens.kind === "blank-worksheet") body = amudBodyHtml(lens, entry);
-    else if (lens.kind === "empty-overlay") body = ringBodyHtml();
+    if (lens.id === "khan-outline") body = khanBodyHtml(currentSurah);
+    else if (lens.id === "amud") body = amudBodyHtml(lens, entry);
+    else if (lens.id === "ring") body = ringBodyHtml();
+    else if (lens.id === "history") body = historyBodyHtml(lens, entry);
+    else if (Array.isArray(lens.questions)) body = questionsHtml(lens, entry);
 
     var html =
       // study-only: like the discovery worksheet, method scaffolding is
@@ -381,7 +569,7 @@
       });
     }
 
-    if (lens.kind === "blank-worksheet") {
+    if (Array.isArray(lens.questions)) {
       mount.querySelectorAll("#lensBody textarea[data-qid]").forEach(function (t) {
         t.addEventListener("input", debouncedPersist);
       });

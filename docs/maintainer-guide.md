@@ -99,7 +99,13 @@ rendered as scaffolding — the site-authored method description is labeled
 the discovery-worksheet rule and never carry a badge. The khan-outline
 lens's advertised surah list is generated truth from `data/exercises.json`
 — extend it only by transcribing an outline through the Transcription
-Gate, never by editing the list alone. These reading lenses are distinct
+Gate, never by editing the list alone. The history lens additionally
+reads `data/chronology.json` (the Cairo 1924 / Nöldeke-Bell convention,
+labeled ~ Nuanced with its sources), the computed
+`data/name-mentions.json` and the editorial `data/names.json`
+(check-names.mjs guards the pair); its sirah questions are a blank
+worksheet because no sirah or asbab al-nuzul source is registered.
+These reading lenses are distinct
 from index.html's daily-card "lens", which is a rotating corpus statistic
 (see §3's daily-discourse determinism note). Content registries rendered by pages:
 `data/exercises.json`, `data/paths.json`, `data/lenses.json`,
@@ -174,6 +180,7 @@ supports `--check`.
 | build-llms.mjs | every prose page's `<main>` (via lib/extract-text.mjs), data/glossary.json, data/version.json | llms.txt, llms-full.txt | the llmstxt.org convention: what the site is, how to cite it, where the data and licenses are, then an annotated page index and the full prose |
 | build-changelog.mjs | data/changelog.json | changelog.html (static:changelog region), feed.xml | the release log and its Atom feed. Each entry carries `id="<entry id>"`, so a specific change is citable as /changelog#&lt;id&gt; |
 | build-path-data.mjs | data/paths.json | assets/path-data.js (window.QD_PATHS) | assets/path-ribbon.js, synchronously so `?path=&step=` validates with no fetch race. Only what the ribbon needs travels — title, per-step label, page, query, minutes; the step HTML stays on paths.html where it renders |
+| build-name-mentions.mjs | data/morphology/{1..114}.json | data/name-mentions.json | the history reading lens's "who is named" panel. Every pos=PN token grouped by Buckwalter lemma with per-surah counts — the only route to proper names, whose lemmas mostly carry empty roots and so are invisible to every root-keyed dataset. Deterministic, no date stamp |
 | build-related.mjs | data/theme-surah-index.json, data/themes.json | data/related.json | the "See also" panels. A join over data the site already publishes — no new mathematics and no new counts |
 | build-ribbons.mjs | data/provenance/claims.json, data/provenance/sources.json | data/provenance/ribbons.json | the provenance distance ribbons, every coordinate precomputed as a literal because no browser script may compute layout (§5) |
 | build-static-fallbacks.mjs | data/juz.json, surah-names, surah-meta, surah-profiles, contributors | navigate.html, dossier.html, index.html, credits.html (marker regions) | the regions that used to say "Loading…". With scripts off they never arrived at all; now the markup ships filled in from the same data the page's JS reads at runtime |
@@ -236,7 +243,8 @@ dispatch instead of blocking every contribution.
 | build-canonicals.mjs --check | one canonical address per page and no internal link left on a `.html` address; also that the sitemap holds every indexable page and no noindex one |
 | check-notice.mjs | the licensing inventory: every top-level `data/` entry must be mentioned by name in NOTICE.md, so a new dataset cannot ship without its license standing declared (this drifted three releases running before the checker existed) |
 | check-paths.mjs | the Study Paths registry (`data/paths.json`): every step's hand-authored `html` linking into another tool — an `exercise.html?id=` resolves in `data/exercises.json`, a `themes.html#slug` resolves in `data/themes.json`, and every embedded surah/verse (`s=`/`a=`, and `compare.html`'s `p1=`/`p2=` passage pairs) is in range — none of which verify-site.mjs's HTTP-level link crawl catches, since every one of those pages returns 200 regardless of whether the id/slug/verse embedded in it is real |
-| check-lenses.mjs | the Reading Lenses registry (`data/lenses.json`): unique ids, known kinds, resolvable sourceIds, resolvable internal hrefs/fragments in its trusted HTML, a coverage statement on every lens — and the honesty invariant: the khan-outline lens's `coverage.surahs` must set-equal the transcribed outline surahs in `data/exercises.json`, so the lens can never advertise coverage that isn't transcribed or hide coverage that is |
+| check-lenses.mjs | the Reading Lenses registry (`data/lenses.json`): unique ids, known kinds, resolvable sourceIds, resolvable internal hrefs/fragments in its trusted HTML, a coverage statement on every lens — and the honesty invariant: the khan-outline lens's `coverage.surahs` must set-equal the transcribed outline surahs in `data/exercises.json`, so the lens can never advertise coverage that isn't transcribed or hide coverage that is, with the spelled-out prose counts (lens statement + index.html's lenses section) tied to the same array length |
+| check-names.mjs | the proper-noun name registry pair: `data/name-mentions.json`'s internal consistency (per-lemma bySurah sums equal totals, surah keys in range, `_source` resolves) and the join invariant that every editorial label in `data/names.json` names a lemma the corpus actually has — an orphan label would silently render nothing behind the history lens |
 | check-videos.mjs | the video registry: an entry cannot be 'published' without its mp4, poster, AND a real WEBVTT captions file on disk — the anti-slop covenant, enforced mechanically |
 | check-source-links.mjs | external citation liveness: every sources.json `url` and every external href on every page still answers (404/410 = FAIL, 403/429 = WARN for bot-shielding). A `github.com/saebchicago/qurandiscourses/blob/…` link resolves against the working tree instead — see the file header. Needs real outbound network for everything else — run from an unrestricted machine, not a sandboxed session; a good habit before any release and every few months |
 | check-editions.mjs | every translation edition ID in assets/app.js's TRANSLATIONS array still resolves to itself on alquran.cloud — the API silently substitutes a default Arabic edition for an invalid ID instead of erroring (the "en.haleem" bug), so this catches the next one before a reader does. Needs real outbound network — run from an unrestricted machine, not a sandboxed session; run after adding any new edition ID and every few months otherwise |
@@ -382,16 +390,27 @@ A lens is a published coherence method rendered as UI scaffolding
 dossier.html and replay.html) — the site describes the method and gives
 the reader a place to apply it; it never asserts what a verse means and
 never fills in a reader's answer.
-1. Edit `data/lenses.json`. `kind` decides the UI: `data-backed`
-   (transcribed material exists — today only the khan-outline lens),
-   `blank-worksheet` (method questions only, ≥3, each with a stable `id`
-   — answers are stored keyed by question id, so never reuse or rename an
-   id that shipped), or `empty-overlay` (the reader marks their own
-   candidate structure). `methodHtml` is site-authored prose ABOUT the
-   published method, labeled ~ Nuanced at render time with the lens's
-   `sourceIds` — never the scholar's own text, and never a claim about a
-   specific surah. Every lens carries a `coverage.statementHtml` that
-   states plainly what is and isn't transcribed.
+1. Edit `data/lenses.json`. `kind` decides the validation contract:
+   `data-backed` (transcribed material exists — today only the
+   khan-outline lens), `blank-worksheet` (method questions only, ≥3,
+   each with a stable `id` — answers are stored keyed by question id, so
+   never reuse or rename an id that shipped), `empty-overlay` (the
+   reader marks their own candidate structure), or `context-panel`
+   (bundled reference data rendered read-only above the same kind of
+   reader-answered questions — today only the history lens, which shows
+   the conventional chronology and the computed proper-noun counts and
+   asserts nothing about the historical moment). Body RENDERING
+   dispatches by lens id in `assets/lenses.js` — a new lens entry needs
+   a body function added there. `methodHtml` is site-authored prose
+   ABOUT the published method, labeled ~ Nuanced at render time with
+   the lens's `sourceIds` — never the scholar's own text, and never a
+   claim about a specific surah. Every lens carries a
+   `coverage.statementHtml` that states plainly what is and isn't
+   transcribed. The history lens's editorial name labels live in
+   `data/names.json` (root-meanings.js labeling standard: working
+   labels, ~ Nuanced wherever rendered, never Verified); every key must
+   exist in the computed `data/name-mentions.json` — `check-names.mjs`
+   enforces the join.
 2. The khan-outline lens's `coverage.surahs` is generated truth from
    `data/exercises.json`: extend it only by transcribing an outline
    through the Transcription Gate (below), then adding the surah number
@@ -401,7 +420,8 @@ never fills in a reader's answer.
 4. A new question or lens changes what `assets/lenses.js` renders from
    precached data — no SW bump needed for registry content edits, but a
    schema change (new `kind`, renamed field) is a contract change: bump
-   `SW_VERSION` per §4.
+   `SW_VERSION` per §4 (the `context-panel` kind shipped as the v13→v14
+   bump).
 
 ### Regenerate the juz (para) divisions
 `data/juz.json` holds the 30 traditional juz boundaries, browsable on

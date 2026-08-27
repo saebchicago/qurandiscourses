@@ -3023,6 +3023,25 @@ main h3:target {
   font-size: 0.85rem;
   padding: 0.35rem 0.8rem;
 }
+.lens-name-list {
+  list-style: none;
+  margin: 0.3rem 0 0.6rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.9rem;
+}
+.lens-name-list li {
+  font-size: 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.15rem 0.7rem;
+  background: var(--card);
+}
+.lens-name-count {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
 @media (max-width: 620px) {
   .lens-ring-row {
     grid-template-columns: 1fr 1fr;

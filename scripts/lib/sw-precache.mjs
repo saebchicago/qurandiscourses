@@ -42,6 +42,9 @@ export const PRECACHE_DATA = [
   "/data/search-index.json",
   "/data/lenses.json",
   "/data/exercises.json",
+  "/data/chronology.json",
+  "/data/name-mentions.json",
+  "/data/names.json",
 ];
 const EXTRA_ASSETS = [
   "/assets/icons/icon-192.png",
