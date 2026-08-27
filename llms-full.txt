@@ -72,11 +72,12 @@ Full page text for grounding: https://divinediscourses.org/llms-full.txt
 
 ## Read the Qur'an one discourse at a time.
 
-Choose a surah, follow its structure, examine its roots and
-recurring patterns, and verify every claim against a named source.
+Read one surah as one address — follow its structure, test your
+reading against published coherence methods, and verify every
+claim against a named source.
 
+Outline your first surah — al-'Asr, 3 verses
 Start with today's surah
-Read al-'Asr
 
 New to the Qur'an?
 
@@ -154,6 +155,25 @@ Farahi's Mufradat al-Qur'an and Niẓām al-Qur'an are foundational to the coher
 Independently corroborated by Mustansir Mir's 1986 monograph on Islahi's nazm method. Full citations on Sources .
 
 See the worked example
+
+## Study through published reading lenses
+
+On the Read, Dossier and Replay pages a reading-lenses card turns
+three published coherence methods into scaffolding for your own
+study: compare your structure against Irfan Ahmad Khan's
+transcribed sectional outlines, answer the Farahi–Islahi
+ʿamūd (central-theme) method questions in your own words, or
+mark your own candidate ring on a Cuypers/Farrin-style overlay.
+Follow the guided path or
+open al-'Asr and try a lens .
+
+Coverage, honestly: six of Khan's published outlines are
+transcribed so far — only al-'Asr from the 2013 volume itself,
+with the rest listed as
+wanted transcriptions .
+No ʿamūd statements and no ring analyses exist anywhere on the
+site: those lenses are blank scaffolding for your own reading,
+never generated commentary.
 
 No tracking. No generated tafsir. Public data and scripts. Every
 claim labeled.
@@ -2594,6 +2614,32 @@ depth and write in the discovery worksheet where Khan's outline
 and the site's computed signals agree, diverge, or simply
 don't overlap.
 
+### Path 6 · Read one surah through three lenses
+
+Take al-'Asr — three verses — through three published coherence
+methods: Khan's transcribed outline, the Farahi–Islahi ʿamūd
+questions, and a ring-structure overlay you mark yourself.
+
+Work the
+al-'Asr outline exercise :
+propose your own verse-by-verse structure, then reveal Khan's
+transcribed outline and compare.
+
+Read al-'Asr on Read at
+Study depth and open the ʿAmūd worksheet in the Reading lenses
+card: answer the method questions in your own words — the site
+transcribes no ʿamūd statement for any surah.
+
+Open the same surah's Dossier ,
+read its computed Structure signals, then switch the Reading
+lenses card to the Ring overlay and mark your own candidate
+members and centre — the site asserts no ring for any surah.
+
+Still on the Dossier, ask where the three readings agree and
+diverge: does your ring centre coincide with your ʿamūd? With
+the pivot in Khan's outline? A method that finds nothing in a
+surah is also a result.
+
 Step checkmarks are saved in this browser only and are cleared by
 the settings panel's "Clear preferences".
 
@@ -2974,6 +3020,24 @@ An older lexical-dispersion measure (Juilland & Chang-Rodriguez 1964), on
 a 0-1 scale where 1 is perfectly even. It classically assumes comparably-sized
 corpus parts; this site's 114 surahs range from 3 to 286 verses, so it is
 reported for comparability with the literature, not as the preferred measure.
+
+ʿAmūd عمود
+
+In the Farahi–Islahi coherence school, the central theme — literally
+'pillar' — around which a whole surah is organized, with each part of the
+surah read in relation to it. Described in Mustansir Mir's 1986 study of
+Islahi's nazm method. This site transcribes no ʿamūd statement for any
+surah; its ʿamūd reading lens offers method questions only, for the
+reader's own answer.
+
+Reading lens
+
+A published coherence method rendered as UI scaffolding on the Read, Dossier
+and Replay pages: Khan's transcribed outlines, the Farahi–Islahi ʿamūd
+worksheet, or a ring-structure overlay. A lens frames the reader's own study;
+it never asserts what a verse means, and the reader's answers never carry a
+verification badge. Distinct from the homepage daily card's rotating data
+'lens', which is a corpus statistic.
 
 This glossary is also available inline throughout the site. Technical
 terms are marked with a dotted underline and reveal their definition
@@ -6393,6 +6457,8 @@ mishkat: The Mishkat Mutashabihat corpus, a compilation of verse-to-verse cross-
 formulaic-density: The share of a verse's or surah's words that belong to a recurring formula, operationalizing the central quantity in Bannister's (2014) computerized oral-formulaic study. This site tests whether a surah's density is higher than a length-matched resampling of corpus verses would predict, correcting for the fact that short surahs mechanically show noisier density than long ones.
 dispersion: How evenly a root's occurrences are spread across the 114 surahs, as distinct from raw frequency. This site reports Gries's Deviation of Proportions (DP, DPnorm) and Juilland's D side by side, since the two can disagree and the literature has no single preferred measure.
 juilland-d: An older lexical-dispersion measure (Juilland & Chang-Rodriguez 1964), on a 0-1 scale where 1 is perfectly even. It classically assumes comparably-sized corpus parts; this site's 114 surahs range from 3 to 286 verses, so it is reported for comparability with the literature, not as the preferred measure.
+amud: In the Farahi–Islahi coherence school, the central theme — literally 'pillar' — around which a whole surah is organized, with each part of the surah read in relation to it. Described in Mustansir Mir's 1986 study of Islahi's nazm method. This site transcribes no ʿamūd statement for any surah; its ʿamūd reading lens offers method questions only, for the reader's own answer.
+reading-lens: A published coherence method rendered as UI scaffolding on the Read, Dossier and Replay pages: Khan's transcribed outlines, the Farahi–Islahi ʿamūd worksheet, or a ring-structure overlay. A lens frames the reader's own study; it never asserts what a verse means, and the reader's answers never carry a verification badge. Distinct from the homepage daily card's rotating data 'lens', which is a corpus statistic.
 
 ===== Export data dictionary =====
 

@@ -10,7 +10,7 @@
 // After a bump, run: node scripts/build-sw-manifest.mjs — it rewrites
 // the precache block below and data/sw-manifest.json; check-sw-version
 // in CI fails when either is stale or the two versions disagree.
-const SW_VERSION = "v12";
+const SW_VERSION = "v13";
 const HTML_CACHE = "dd-html-" + SW_VERSION;
 const ASSET_CACHE = "dd-assets-" + SW_VERSION;
 const DATA_CACHE = "dd-data-" + SW_VERSION;
@@ -19,8 +19,8 @@ const OWN_CACHES = [HTML_CACHE, ASSET_CACHE, DATA_CACHE];
 // GENERATED:sw-precache (scripts/build-sw-manifest.mjs) — do not edit;
 // regenerate with: node scripts/build-sw-manifest.mjs
 const PRECACHE_PAGES = ["/","/read","/navigate","/paths","/search"];
-const PRECACHE_ASSETS = ["/assets/app.js","/assets/ask-routes.js","/assets/ask.js","/assets/case-studies.js","/assets/chart.js","/assets/cite-badge.js","/assets/cite-page.js","/assets/depth-boot.js","/assets/discovery-worksheet.js","/assets/feedback.js","/assets/fonts.css","/assets/glossary.js","/assets/icons/icon-192.png","/assets/icons/icon-512.png","/assets/issue-url.js","/assets/lang-labels.js","/assets/nav.js","/assets/navigate-picker.js","/assets/notebook.js","/assets/notes.js","/assets/passage.js","/assets/path-data.js","/assets/path-ribbon.js","/assets/picker.js","/assets/read-picker.js","/assets/read-polish.js","/assets/refs.js","/assets/root-meanings.js","/assets/root-refs/paths.js","/assets/search.js","/assets/share.js","/assets/style.css","/assets/surahs.js","/assets/tour.js","/assets/trans-picker.js","/assets/version.js","/assets/wordbw.js"];
-const PRECACHE_DATA = ["/data/juz.json","/data/version.json","/data/sources.json","/data/paths.json","/data/search-index.json"];
+const PRECACHE_ASSETS = ["/assets/app.js","/assets/ask-routes.js","/assets/ask.js","/assets/case-studies.js","/assets/chart.js","/assets/cite-badge.js","/assets/cite-page.js","/assets/depth-boot.js","/assets/discovery-worksheet.js","/assets/feedback.js","/assets/fonts.css","/assets/glossary.js","/assets/icons/icon-192.png","/assets/icons/icon-512.png","/assets/issue-url.js","/assets/lang-labels.js","/assets/lenses.js","/assets/nav.js","/assets/navigate-picker.js","/assets/notebook.js","/assets/notes.js","/assets/passage.js","/assets/path-data.js","/assets/path-ribbon.js","/assets/picker.js","/assets/read-picker.js","/assets/read-polish.js","/assets/refs.js","/assets/root-meanings.js","/assets/root-refs/paths.js","/assets/search.js","/assets/share.js","/assets/style.css","/assets/surahs.js","/assets/tour.js","/assets/trans-picker.js","/assets/version.js","/assets/wordbw.js"];
+const PRECACHE_DATA = ["/data/juz.json","/data/version.json","/data/sources.json","/data/paths.json","/data/search-index.json","/data/lenses.json"];
 // /GENERATED:sw-precache
 
 // Install-time precache of the app shell, so the first offline visit

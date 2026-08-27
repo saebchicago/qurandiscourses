@@ -89,8 +89,21 @@ Its content is deliberately never rendered with a ●/○/~ badge: it is the
 reader's own hypothesis, not a site claim. It reads `data/exercises.json`
 client-side to tell surahs 85–114 whether Khan's outline for that surah is
 already transcribed (link to the exercise), awaiting transcription, or (for
-surahs 1–84) that no Khan outline exists at all for that surah. Content registries rendered by pages:
-`data/exercises.json`, `data/paths.json`, `data/case-studies.json`, and
+surahs 1–84) that no Khan outline exists at all for that surah.
+`assets/lenses.js` renders the "Reading lenses" card on read.html,
+dossier.html and replay.html from the `data/lenses.json` registry
+(checked by check-lenses.mjs): each lens is a published coherence method
+rendered as scaffolding — the site-authored method description is labeled
+~ Nuanced with its `data-source-ids`, while the reader's own answers
+(storage key `qd_lenses_v1`, keyed by lens id then surah number) follow
+the discovery-worksheet rule and never carry a badge. The khan-outline
+lens's advertised surah list is generated truth from `data/exercises.json`
+— extend it only by transcribing an outline through the Transcription
+Gate, never by editing the list alone. These reading lenses are distinct
+from index.html's daily-card "lens", which is a rotating corpus statistic
+(see §3's daily-discourse determinism note). Content registries rendered by pages:
+`data/exercises.json`, `data/paths.json`, `data/lenses.json`,
+`data/case-studies.json`, and
 `data/claims.json` — edit
 the JSON, not the pages' static fallback markup.
 
@@ -223,6 +236,7 @@ dispatch instead of blocking every contribution.
 | build-canonicals.mjs --check | one canonical address per page and no internal link left on a `.html` address; also that the sitemap holds every indexable page and no noindex one |
 | check-notice.mjs | the licensing inventory: every top-level `data/` entry must be mentioned by name in NOTICE.md, so a new dataset cannot ship without its license standing declared (this drifted three releases running before the checker existed) |
 | check-paths.mjs | the Study Paths registry (`data/paths.json`): every step's hand-authored `html` linking into another tool — an `exercise.html?id=` resolves in `data/exercises.json`, a `themes.html#slug` resolves in `data/themes.json`, and every embedded surah/verse (`s=`/`a=`, and `compare.html`'s `p1=`/`p2=` passage pairs) is in range — none of which verify-site.mjs's HTTP-level link crawl catches, since every one of those pages returns 200 regardless of whether the id/slug/verse embedded in it is real |
+| check-lenses.mjs | the Reading Lenses registry (`data/lenses.json`): unique ids, known kinds, resolvable sourceIds, resolvable internal hrefs/fragments in its trusted HTML, a coverage statement on every lens — and the honesty invariant: the khan-outline lens's `coverage.surahs` must set-equal the transcribed outline surahs in `data/exercises.json`, so the lens can never advertise coverage that isn't transcribed or hide coverage that is |
 | check-videos.mjs | the video registry: an entry cannot be 'published' without its mp4, poster, AND a real WEBVTT captions file on disk — the anti-slop covenant, enforced mechanically |
 | check-source-links.mjs | external citation liveness: every sources.json `url` and every external href on every page still answers (404/410 = FAIL, 403/429 = WARN for bot-shielding). A `github.com/saebchicago/qurandiscourses/blob/…` link resolves against the working tree instead — see the file header. Needs real outbound network for everything else — run from an unrestricted machine, not a sandboxed session; a good habit before any release and every few months |
 | check-editions.mjs | every translation edition ID in assets/app.js's TRANSLATIONS array still resolves to itself on alquran.cloud — the API silently substitutes a default Arabic edition for an invalid ID instead of erroring (the "en.haleem" bug), so this catches the next one before a reader does. Needs real outbound network — run from an unrestricted machine, not a sandboxed session; run after adding any new edition ID and every few months otherwise |
@@ -361,6 +375,33 @@ must never introduce a new claim (`data/paths.json`, rendered by
    (including `compare.html`'s `p1=`/`p2=` passage pairs) actually
    resolves; these silently 200 even when broken, so this is the only
    thing that catches a stale reference.
+
+### Add or edit a reading lens
+A lens is a published coherence method rendered as UI scaffolding
+(`data/lenses.json`, rendered by `assets/lenses.js` on read.html,
+dossier.html and replay.html) — the site describes the method and gives
+the reader a place to apply it; it never asserts what a verse means and
+never fills in a reader's answer.
+1. Edit `data/lenses.json`. `kind` decides the UI: `data-backed`
+   (transcribed material exists — today only the khan-outline lens),
+   `blank-worksheet` (method questions only, ≥3, each with a stable `id`
+   — answers are stored keyed by question id, so never reuse or rename an
+   id that shipped), or `empty-overlay` (the reader marks their own
+   candidate structure). `methodHtml` is site-authored prose ABOUT the
+   published method, labeled ~ Nuanced at render time with the lens's
+   `sourceIds` — never the scholar's own text, and never a claim about a
+   specific surah. Every lens carries a `coverage.statementHtml` that
+   states plainly what is and isn't transcribed.
+2. The khan-outline lens's `coverage.surahs` is generated truth from
+   `data/exercises.json`: extend it only by transcribing an outline
+   through the Transcription Gate (below), then adding the surah number
+   here. check-lenses.mjs fails on any mismatch in either direction.
+3. `node scripts/check-lenses.mjs` — validates ids, kinds, sourceIds,
+   internal hrefs/fragments, and the coverage invariant.
+4. A new question or lens changes what `assets/lenses.js` renders from
+   precached data — no SW bump needed for registry content edits, but a
+   schema change (new `kind`, renamed field) is a contract change: bump
+   `SW_VERSION` per §4.
 
 ### Regenerate the juz (para) divisions
 `data/juz.json` holds the 30 traditional juz boundaries, browsable on

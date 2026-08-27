@@ -522,6 +522,26 @@
    ],
    "def": "An older lexical-dispersion measure (Juilland & Chang-Rodriguez 1964), on a 0-1 scale where 1 is perfectly even. It classically assumes comparably-sized corpus parts; this site's 114 surahs range from 3 to 286 verses, so it is reported for comparability with the literature, not as the preferred measure.",
    "ddHtml": "              An older lexical-dispersion measure (Juilland &amp; Chang-Rodriguez 1964), on\n              a 0-1 scale where 1 is perfectly even. It classically assumes comparably-sized\n              corpus parts; this site's 114 surahs range from 3 to 286 verses, so it is\n              reported for comparability with the literature, not as the preferred measure."
+  },
+  {
+   "id": "amud",
+   "labelHtml": "ʿAmūd <span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\">عمود</span>",
+   "matchKeys": [
+    "amud",
+    "ʿamūd"
+   ],
+   "def": "In the Farahi–Islahi coherence school, the central theme — literally 'pillar' — around which a whole surah is organized, with each part of the surah read in relation to it. Described in Mustansir Mir's 1986 study of Islahi's nazm method. This site transcribes no ʿamūd statement for any surah; its ʿamūd reading lens offers method questions only, for the reader's own answer.",
+   "ddHtml": "              In the Farahi–Islahi coherence school, the central theme — literally\n              'pillar' — around which a whole surah is organized, with each part of the\n              surah read in relation to it. Described in Mustansir Mir's 1986 study of\n              Islahi's nazm method. This site transcribes no ʿamūd statement for any\n              surah; its ʿamūd reading lens offers method questions only, for the\n              reader's own answer."
+  },
+  {
+   "id": "reading-lens",
+   "labelHtml": "Reading lens",
+   "matchKeys": [
+    "reading lens",
+    "reading lenses"
+   ],
+   "def": "A published coherence method rendered as UI scaffolding on the Read, Dossier and Replay pages: Khan's transcribed outlines, the Farahi–Islahi ʿamūd worksheet, or a ring-structure overlay. A lens frames the reader's own study; it never asserts what a verse means, and the reader's answers never carry a verification badge. Distinct from the homepage daily card's rotating data 'lens', which is a corpus statistic.",
+   "ddHtml": "              A published coherence method rendered as UI scaffolding on the Read, Dossier\n              and Replay pages: Khan's transcribed outlines, the Farahi–Islahi ʿamūd\n              worksheet, or a ring-structure overlay. A lens frames the reader's own study;\n              it never asserts what a verse means, and the reader's answers never carry a\n              verification badge. Distinct from the homepage daily card's rotating data\n              'lens', which is a corpus statistic."
   }
  ]
 }

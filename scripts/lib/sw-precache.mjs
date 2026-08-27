@@ -40,6 +40,7 @@ export const PRECACHE_DATA = [
   "/data/sources.json",
   "/data/paths.json",
   "/data/search-index.json",
+  "/data/lenses.json",
 ];
 const EXTRA_ASSETS = [
   "/assets/icons/icon-192.png",

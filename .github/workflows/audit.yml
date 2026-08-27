@@ -35,6 +35,7 @@ jobs:
           node scripts/check-exercises.mjs
           node scripts/check-data-nums.mjs
           node scripts/check-paths.mjs
+          node scripts/check-lenses.mjs
           node scripts/check-notice.mjs
           node scripts/check-contrib.mjs
           node scripts/check-ask.mjs
