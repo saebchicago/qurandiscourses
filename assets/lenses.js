@@ -33,6 +33,7 @@
   var lensesCache = null;
   var exercisesCache = null;
   var saveTimer = null;
+  var statusTimer = null;
 
   function esc(v) {
     return window.qdEsc ? window.qdEsc(v) : String(v == null ? "" : v);
@@ -109,7 +110,16 @@
 
   function amudBodyHtml(lens, entry) {
     var answers = (entry && entry.answers) || {};
-    var html = "";
+    // Cross-link to the free-form sibling: the discovery worksheet is on
+    // read.html only, so link the in-page section there and the Read page
+    // from dossier/replay.
+    var wsHref = document.getElementById("discoveryWorksheetSection")
+      ? "#discoveryWorksheetSection"
+      : "/read?s=" + encodeURIComponent(currentSurah || "") + "#discoveryWorksheetSection";
+    var html =
+      '<p class="lens-availability">Prefer free-form? The <a href="' +
+      wsHref +
+      '">discovery worksheet</a> collects your own sectioning with evidence; this lens asks the ʿamūd method’s questions specifically.</p>';
     (lens.questions || []).forEach(function (q) {
       html +=
         '<label class="lens-q" for="lensQ-' +
@@ -242,7 +252,15 @@
 
     saveAll(all);
     var status = document.getElementById("lensStatus");
-    if (status) status.textContent = "Saved.";
+    if (status) {
+      status.textContent = "Saved.";
+      if (statusTimer) clearTimeout(statusTimer);
+      statusTimer = setTimeout(function () {
+        // Only clear our own message — never a different one that a
+        // future code path may have put here in the meantime.
+        if (status.textContent === "Saved.") status.textContent = "";
+      }, 3000);
+    }
   }
 
   function debouncedPersist() {
@@ -309,6 +327,10 @@
       body +
       "</div>" +
       '<p id="lensStatus" style="font-size:0.78rem;color:var(--muted);margin:0.5rem 0 0" aria-live="polite"></p>' +
+      '<div class="share-row" style="margin-bottom:0">' +
+      '<button type="button" class="button secondary share-btn" id="lensExport">Export all lens work as Markdown</button>' +
+      '<button type="button" class="button secondary share-btn" id="lensClear">Clear this surah’s entries for this lens</button>' +
+      "</div>" +
       '<p class="lens-coverage caption-note">' +
       ((lens.coverage && lens.coverage.statementHtml) || "") +
       "</p>" +
@@ -337,8 +359,27 @@
         all.active = btn.dataset.lensId;
         saveAll(all);
         render();
+        // render() replaced the focused chip — put keyboard focus back on
+        // the newly selected one instead of dropping to document start.
+        var again = mount.querySelector('[data-lens-id="' + btn.dataset.lensId + '"]');
+        if (again) again.focus();
       });
     });
+
+    var exportBtn = document.getElementById("lensExport");
+    if (exportBtn) exportBtn.addEventListener("click", exportMarkdown);
+    var clearBtn = document.getElementById("lensClear");
+    if (clearBtn) {
+      clearBtn.addEventListener("click", function () {
+        if (!window.confirm("Clear this surah's entries for this lens? This cannot be undone.")) return;
+        flushPending();
+        var all = loadAll();
+        if (all[lens.id]) delete all[lens.id][currentSurah];
+        saveAll(all);
+        render();
+        if (window.qdToast) window.qdToast("Lens entries cleared");
+      });
+    }
 
     if (lens.kind === "blank-worksheet") {
       mount.querySelectorAll("#lensBody textarea[data-qid]").forEach(function (t) {
@@ -380,6 +421,92 @@
         persist();
       });
     });
+  }
+
+  // ── export ───────────────────────────────────────────────────────────
+
+  // All reader lens work, every lens and every surah, in one Markdown
+  // document — same posture as the discovery worksheet's export: this is
+  // the reader's own reading, never a site claim.
+  function buildLensMarkdown() {
+    var all = loadAll();
+    var lines = [
+      "# My reading-lens notes",
+      "",
+      "Exported from Divine Discourses. These are my own readings through " +
+        "published methods — not site-verified claims and not any scholar's " +
+        "published analysis.",
+      "",
+    ];
+    (lensesCache || []).forEach(function (lens) {
+      var perSurah = all[lens.id];
+      if (!perSurah) return;
+      var surahs = Object.keys(perSurah).sort(function (a, b) {
+        return Number(a) - Number(b);
+      });
+      if (!surahs.length) return;
+      lines.push("## " + lens.name);
+      lines.push("");
+      surahs.forEach(function (s) {
+        var e = perSurah[s];
+        lines.push("### Surah " + s);
+        lines.push("");
+        if (e.answers) {
+          (lens.questions || []).forEach(function (q) {
+            if (e.answers[q.id]) {
+              lines.push("**" + q.prompt + "**");
+              lines.push("");
+              lines.push(e.answers[q.id]);
+              lines.push("");
+            }
+          });
+        }
+        if (e.pairs && e.pairs.length) {
+          lines.push("**Candidate ring members:**");
+          e.pairs.forEach(function (p) {
+            lines.push(
+              "- " +
+                (p.label || "(unlabeled)") +
+                ": " +
+                (p.aFrom || "?") +
+                "–" +
+                (p.aTo || "?") +
+                " ↔ " +
+                (p.bFrom || "?") +
+                "–" +
+                (p.bTo || "?"),
+            );
+          });
+          lines.push("");
+        }
+        if (e.center) {
+          lines.push("**Proposed centre:** " + e.center);
+          lines.push("");
+        }
+        if (e.notes) {
+          lines.push("**Notes:** " + e.notes);
+          lines.push("");
+        }
+        if (e.updated) {
+          lines.push("_Last saved: " + e.updated + "_");
+          lines.push("");
+        }
+      });
+    });
+    return lines.join("\n");
+  }
+
+  function exportMarkdown() {
+    var blob = new Blob([buildLensMarkdown()], { type: "text/markdown;charset=utf-8" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "quran-reading-lenses.md";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () {
+      URL.revokeObjectURL(a.href);
+    }, 1000);
   }
 
   // ── boot ─────────────────────────────────────────────────────────────

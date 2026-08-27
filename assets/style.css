@@ -2993,7 +2993,8 @@ main h3:target {
   margin: 0.7rem 0 0.25rem;
 }
 .reading-lenses textarea,
-.reading-lenses input[type="text"] {
+.reading-lenses input[type="text"],
+.reading-lenses input[type="number"] {
   width: 100%;
   box-sizing: border-box;
   font: inherit;
@@ -3162,11 +3163,11 @@ html[data-focus] .ar.xl {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
 }
-/* The home page's three study modes: three across, and no leading
-   number column, so the card is a single stack of title, sentence,
-   and link. */
+/* The home page's study modes: two-by-two, and no leading number
+   column, so the card is a single stack of title, sentence, and
+   link. */
 .modes-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .modes-grid .workflow-card {
   grid-template-columns: 1fr;

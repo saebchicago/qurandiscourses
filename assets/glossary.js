@@ -125,8 +125,17 @@ window.GLOSSARY = {
     // the node loop below: 74 terms across ~370 text nodes on the denser
     // pages is roughly 27,000 escapeRe() calls and RegExp compilations on
     // DOMContentLoaded, on all 31 pages that load this file.
+    // Word boundaries are asserted explicitly rather than with \b: \b is
+    // ASCII-word-based, so a key that STARTS with a non-word character
+    // (ʿamūd, U+02BF) could never match — space→ʿ is non-word→non-word
+    // and \b never fires there. The left anchor is a captured group (not
+    // lookbehind, which Safari only gained in 16.4); the right side can
+    // be a lookahead, supported everywhere \p{} is (ES2018).
     var termRe = terms.map(function (t) {
-      return new RegExp("\\b" + escapeRe(t) + "\\b", "i");
+      return new RegExp(
+        "(^|[^\\p{L}\\p{N}_])(" + escapeRe(t) + ")(?![\\p{L}\\p{N}_])",
+        "iu",
+      );
     });
 
     var walker = document.createTreeWalker(
@@ -149,9 +158,11 @@ window.GLOSSARY = {
         var m = termRe[i].exec(text);
         if (m) {
           used[term] = true;
-          var before = text.slice(0, m.index);
-          var matched = m[0];
-          var after = text.slice(m.index + matched.length);
+          // m[1] is the left-anchor character (or ""), m[2] the term.
+          var start = m.index + m[1].length;
+          var matched = m[2];
+          var before = text.slice(0, start);
+          var after = text.slice(start + matched.length);
           var frag = document.createDocumentFragment();
           if (before) frag.appendChild(document.createTextNode(before));
           var span = document.createElement("span");

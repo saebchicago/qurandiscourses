@@ -22,6 +22,9 @@
 //     duplicate id would silently merge two answers)
 //   - every internal href in methodHtml / statementHtml resolves: the
 //     page exists on disk and a #fragment names a real id in that page
+//   - the spelled-out outline counts in the khan lens's statementHtml and
+//     in index.html's #lensesSection match coverage.surahs.length — the
+//     prose stays as honest as the machine-readable list
 //
 // Run: node scripts/check-lenses.mjs   (exit 1 on any failure)
 
@@ -130,6 +133,58 @@ if (!khan) {
     if (!advertised.has(s)) {
       failures.push(`khan-outline: surah ${s} has a transcribed outline but is missing from coverage.surahs`);
     }
+  }
+}
+
+// Prose-count invariant: the khan lens's coverage statement and the
+// homepage's lenses section both spell out how many outlines are
+// transcribed. The set-equality above keeps the machine-readable list
+// honest; these two checks keep the words honest. They are deliberately
+// brittle: rewording either sentence must move the checker in the same
+// commit — that is the sync bell, not an accident.
+const WORDS = {
+  one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8,
+  nine: 9, ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14,
+  fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19,
+  twenty: 20, twentyone: 21, twentytwo: 22, twentythree: 23,
+  twentyfour: 24, twentyfive: 25, twentysix: 26, twentyseven: 27,
+  twentyeight: 28, twentynine: 29, thirty: 30,
+};
+function numberOf(token) {
+  if (/^\d+$/.test(token)) return Number(token);
+  return WORDS[token.toLowerCase().replace(/-/g, "")] ?? null;
+}
+
+if (khan && khan.coverage && khan.coverage.surahs) {
+  const transcribed = khan.coverage.surahs.length;
+
+  const stmt = String(khan.coverage.statementHtml || "");
+  const mStmt = stmt.match(/^(\S+)\s+surahs?\s+ha(?:ve|s)\s+transcribed/i);
+  if (!mStmt) {
+    failures.push(
+      "khan-outline: statementHtml no longer opens with \"<count> surahs have transcribed…\" — reword this checker in the same commit so the prose count stays guarded",
+    );
+  } else if (numberOf(mStmt[1]) !== transcribed) {
+    failures.push(
+      `khan-outline: statementHtml says "${mStmt[1]}" but coverage.surahs has ${transcribed} — update the prose`,
+    );
+  }
+
+  const indexHtml = readFileSync(join(ROOT, "index.html"), "utf8");
+  const sectionStart = indexHtml.indexOf('id="lensesSection"');
+  const section =
+    sectionStart === -1
+      ? ""
+      : indexHtml.slice(sectionStart, indexHtml.indexOf("</section>", sectionStart));
+  const mIndex = section.match(/(\S+)\s+of Khan(?:'|’)s published outlines/i);
+  if (!mIndex) {
+    failures.push(
+      "index.html #lensesSection: the \"<count> of Khan's published outlines\" sentence is gone — reword this checker in the same commit so the prose count stays guarded",
+    );
+  } else if (numberOf(mIndex[1]) !== transcribed) {
+    failures.push(
+      `index.html #lensesSection says "${mIndex[1]}" of Khan's published outlines but coverage.surahs has ${transcribed} — update the prose`,
+    );
   }
 }
 

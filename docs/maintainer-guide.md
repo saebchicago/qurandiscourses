@@ -466,6 +466,15 @@ excerpt".
    appears on `exercises.html` automatically.
    Bump `EXERCISE_COUNT` in index.html's continue-card script — it is a
    hand-kept count of the registry entries.
+   Then update the reading-lens registry and its prose counts:
+   `data/lenses.json` khan-outline `coverage.surahs` gains the surah
+   (check-lenses fails otherwise) and its `coverage.statementHtml`
+   spelled-out count moves with it; index.html's `#lensesSection`
+   ("six of Khan's published outlines") moves too — check-lenses guards
+   both sentences against the array length. Re-check contribute.html's
+   "Twenty-nine of the thirty": that number counts 2013-volume
+   transcriptions only (see compute-coverage.mjs's `_method`), so it
+   moves only when the new outline came from the 2013 book.
 3. Open the exercise locally and check the reveal flow, the break
    scoring, and that the provenance badge opens its citation.
 4. `node scripts/check-exercises.mjs` — validates the new entry's surah
