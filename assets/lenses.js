@@ -29,6 +29,7 @@
   var KHAN_FIRST_SURAH = 85;
   var mount = null;
   var currentSurah = null;
+  var renderedSurah = null; // the surah the current DOM belongs to
   var lensesCache = null;
   var exercisesCache = null;
   var saveTimer = null;
@@ -195,10 +196,13 @@
   // ── persistence ──────────────────────────────────────────────────────
 
   // Always reads the live DOM for every field, so a debounced save for one
-  // field can never clobber another field's not-yet-flushed edit.
+  // field can never clobber another field's not-yet-flushed edit. Saves
+  // under renderedSurah — the surah the DOM was rendered for — so a flush
+  // that runs just after currentSurah moved on can never misfile answers.
   function persist() {
     var lens = activeLens();
-    if (!lens || currentSurah == null) return;
+    var forSurah = renderedSurah != null ? renderedSurah : currentSurah;
+    if (!lens || forSurah == null) return;
     var all = loadAll();
 
     if (lens.kind === "blank-worksheet") {
@@ -212,9 +216,9 @@
       });
       if (!all[lens.id]) all[lens.id] = {};
       if (any) {
-        all[lens.id][currentSurah] = { answers: answers, updated: new Date().toISOString() };
+        all[lens.id][forSurah] = { answers: answers, updated: new Date().toISOString() };
       } else {
-        delete all[lens.id][currentSurah];
+        delete all[lens.id][forSurah];
       }
     } else if (lens.kind === "empty-overlay") {
       var centerEl = document.getElementById("lensRingCenter");
@@ -230,9 +234,9 @@
       if (!all[lens.id]) all[lens.id] = {};
       if (entry.pairs.length || entry.center || entry.notes) {
         entry.updated = new Date().toISOString();
-        all[lens.id][currentSurah] = entry;
+        all[lens.id][forSurah] = entry;
       } else {
-        delete all[lens.id][currentSurah];
+        delete all[lens.id][forSurah];
       }
     }
 
@@ -244,6 +248,17 @@
   function debouncedPersist() {
     if (saveTimer) clearTimeout(saveTimer);
     saveTimer = setTimeout(persist, 400);
+  }
+
+  // A re-render replaces the form wholesale, so any debounced edit still
+  // waiting on its timer must be written out first or it is silently
+  // lost (read.html re-fires qd:verse-loaded whenever translations or
+  // verses finish loading).
+  function flushPending() {
+    if (!saveTimer) return;
+    clearTimeout(saveTimer);
+    saveTimer = null;
+    persist();
   }
 
   // ── rendering ────────────────────────────────────────────────────────
@@ -311,11 +326,13 @@
 
     wireEvents(lens);
     if (window.qdCiteEnhance) window.qdCiteEnhance(mount);
+    renderedSurah = currentSurah;
   }
 
   function wireEvents(lens) {
     mount.querySelectorAll("[data-lens-id]").forEach(function (btn) {
       btn.addEventListener("click", function () {
+        flushPending();
         var all = loadAll();
         all.active = btn.dataset.lensId;
         saveAll(all);
@@ -398,7 +415,12 @@
 
     // read.html: app.js dispatches qd:verse-loaded with the loaded surah.
     document.addEventListener("qd:verse-loaded", function (e) {
-      currentSurah = e.detail.s;
+      var s = e.detail.s;
+      // Same surah and the card is already up: leave the DOM alone — a
+      // re-render here would drop focus and any not-yet-flushed typing.
+      if (s === currentSurah && mount && mount.firstChild) return;
+      flushPending();
+      currentSurah = s;
       render();
     });
 
@@ -411,7 +433,8 @@
       if (currentSurah == null) currentSurah = 103; // replay.js's default
       select.addEventListener("change", function () {
         var s = Number(select.value);
-        if (Number.isInteger(s) && s >= 1 && s <= 114) {
+        if (Number.isInteger(s) && s >= 1 && s <= 114 && s !== currentSurah) {
+          flushPending();
           currentSurah = s;
           render();
         }
