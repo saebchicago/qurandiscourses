@@ -188,12 +188,12 @@
 [[headers]]
   for = "/dossier.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-Xu+UadcPIt6riy4jNhI65HjKlhX/y4iWOQZ9wFHjums='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-VQnVEt1Uuctc9x9Y79ywnloIKxw6JiRmk+0vpib0jqs='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-+DKRFVjvYGe+AASiJ02kVSPQiMwoJcKlRLSHTpJkPy4='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-VQnVEt1Uuctc9x9Y79ywnloIKxw6JiRmk+0vpib0jqs='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/dossier"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-Xu+UadcPIt6riy4jNhI65HjKlhX/y4iWOQZ9wFHjums='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-VQnVEt1Uuctc9x9Y79ywnloIKxw6JiRmk+0vpib0jqs='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-+DKRFVjvYGe+AASiJ02kVSPQiMwoJcKlRLSHTpJkPy4='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-VQnVEt1Uuctc9x9Y79ywnloIKxw6JiRmk+0vpib0jqs='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/open-questions.html"
@@ -378,12 +378,12 @@
 [[headers]]
   for = "/navigate.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-uLuDzat0WZXwC2FirRbT5rDrgcpdOdNRLTMATwKUD68='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-wi+2j/41kE6BcMGeafSd27QxTjfEhPZZ4UIu0lNqvsY='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-Kof0HfLwkPadjs/GnUF1cPj0/w4RexCA+poXvwKvl40='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-wi+2j/41kE6BcMGeafSd27QxTjfEhPZZ4UIu0lNqvsY='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/navigate"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-uLuDzat0WZXwC2FirRbT5rDrgcpdOdNRLTMATwKUD68='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-wi+2j/41kE6BcMGeafSd27QxTjfEhPZZ4UIu0lNqvsY='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-Kof0HfLwkPadjs/GnUF1cPj0/w4RexCA+poXvwKvl40='; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-wi+2j/41kE6BcMGeafSd27QxTjfEhPZZ4UIu0lNqvsY='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/numbers.html"

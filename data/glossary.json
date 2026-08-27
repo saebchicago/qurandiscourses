@@ -534,6 +534,26 @@
    "ddHtml": "              In the Farahi–Islahi coherence school, the central theme — literally\n              'pillar' — around which a whole surah is organized, with each part of the\n              surah read in relation to it. Described in Mustansir Mir's 1986 study of\n              Islahi's nazm method. This site transcribes no ʿamūd statement for any\n              surah; its ʿamūd reading lens offers method questions only, for the\n              reader's own answer."
   },
   {
+   "id": "sirah",
+   "labelHtml": "Sirah <span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\">سيرة</span>",
+   "matchKeys": [
+    "sirah",
+    "sīrah"
+   ],
+   "def": "The biographical literature on the Prophet's life, against which a surah's conventional revelation placement is often read. This site registers no sirah source and asserts nothing from that literature: the history reading lens shows only the conventional chronology and hands the sirah questions to the reader.",
+   "ddHtml": "              The biographical literature on the Prophet's life, against which a surah's\n              conventional revelation placement is often read. This site registers no sirah\n              source and asserts nothing from that literature: the history reading lens\n              shows only the conventional chronology and hands the sirah questions to the\n              reader."
+  },
+  {
+   "id": "asbab-al-nuzul",
+   "labelHtml": "Asbāb al-nuzūl <span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\">أسباب النزول</span>",
+   "matchKeys": [
+    "asbab al-nuzul",
+    "occasions of revelation"
+   ],
+   "def": "The classical genre recording the occasions on which particular verses are reported to have been revealed. This site registers no asbab al-nuzul source and reproduces none of its reports; where the history lens asks about a surah's moment, the answer is the reader's own, built from sources they consult themselves.",
+   "ddHtml": "              The classical genre recording the occasions on which particular verses are\n              reported to have been revealed. This site registers no asbab al-nuzul source\n              and reproduces none of its reports; where the history lens asks about a\n              surah's moment, the answer is the reader's own, built from sources they\n              consult themselves."
+  },
+  {
    "id": "reading-lens",
    "labelHtml": "Reading lens",
    "matchKeys": [

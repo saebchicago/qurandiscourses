@@ -160,6 +160,8 @@ registry behind assets/glossary.js and glossary.html), `juz.json`,
 `lenses.json` (the reading-lens registry behind assets/lenses.js:
 site-authored descriptions of published coherence methods; no source
 text is reproduced),
+`names.json` (editorial romanized labels for corpus proper-noun
+lemmas — working labels for navigation, not dictionary quotations),
 `paths.json`, `related.json` (the see-also join behind dossier and
 themes panels), `search-index.json` (the folded-token index behind
 /search), `sw-manifest.json` (the service worker's precache list and
@@ -172,7 +174,9 @@ Files computed from the GPL Leeds morphology inherit the GPL for their
 data content: `association/`, `centrality/`, `cooccurrence/`,
 `coverage/`, `dispersion/`, `exports/`, `network/`, `rhyme/`, `root-analytics/`,
 `structure/`, `discursive-pivots.json`, `formula-summary.json`,
-`formulaic-density.json`, `formulas-root.json`, `formulas-surface.json`, `numbers.json`,
+`formulaic-density.json`, `formulas-root.json`, `formulas-surface.json`,
+`name-mentions.json` (the proper-noun mention index behind the history
+reading lens), `numbers.json`,
 `rhetorical-features.json`, `rhyme-summary.json`, `roots-index.json`,
 `roots-list.json`, `surah-profiles.json`, `structure-tests.json`,
 `symmetry-test.json`, `theme-surah-index.json`, `themes.json`,

@@ -1,7 +1,7 @@
 {
  "_script": "scripts/compute-coverage.mjs",
  "_method": "Every number in this report is measured directly from repository data files at generation time, except the 'popular'/alternate values in countingRuleSensitivity, which are quoted verbatim from numbers.html's own prose (already-published editorial text, not independently measurable from a data file) and are marked verified:false accordingly. Source registry fields are read verbatim from data/sources.json; any field absent there is recorded as \"not stated in repository\", never inferred.",
- "_computed": "2026-08-16",
+ "_computed": "2026-08-27",
  "morphology": {
   "totalTokens": 77429,
   "fields": {
@@ -614,11 +614,10 @@
  ],
  "sourceUsage": {
   "totalSources": 36,
-  "used": 34,
+  "used": 35,
   "unusedIds": [
-   "mir-diss-1983",
-   "sadeghi-goudarzi-2012"
+   "mir-diss-1983"
   ],
-  "_method": "For each id in data/sources.json, checked whether it appears as a space-separated token inside a static data-source-ids=\"...\" attribute, or inside the ids argument of dossier.html's OK(\"...\", title) badge-building helper (the one place a badge's id list is a JS string literal rather than a literal HTML attribute). A source with zero hits is cited in the bibliography but reachable from no badge anywhere on the site."
+  "_method": "For each id in data/sources.json, checked whether it appears as a space-separated token inside a static data-source-ids=\"...\" attribute, inside the ids argument of dossier.html's OK(\"...\", title) badge-building helper (the one place a badge's id list is a JS string literal rather than a literal HTML attribute), or in a data/lenses.json sourceIds string (assets/lenses.js renders each lens's method badge with exactly that id list). A source with zero hits is cited in the bibliography but reachable from no badge anywhere on the site."
  }
 }

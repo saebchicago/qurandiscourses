@@ -36,6 +36,7 @@ jobs:
           node scripts/check-data-nums.mjs
           node scripts/check-paths.mjs
           node scripts/check-lenses.mjs
+          node scripts/check-names.mjs
           node scripts/check-notice.mjs
           node scripts/check-contrib.mjs
           node scripts/check-ask.mjs
@@ -77,6 +78,7 @@ jobs:
           node scripts/build-ask-routes.mjs --check
           node scripts/build-related.mjs --check
           node scripts/build-path-data.mjs --check
+          node scripts/build-name-mentions.mjs --check
           node scripts/build-ribbons.mjs --check
           node scripts/build-provenance.mjs --check
           node scripts/compute-coverage.mjs --check

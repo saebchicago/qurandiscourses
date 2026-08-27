@@ -43,7 +43,11 @@ const outlineSurahs = new Set(
     .map((e) => Number(e.surah)),
 );
 
-const KINDS = new Set(["data-backed", "blank-worksheet", "empty-overlay"]);
+const KINDS = new Set(["data-backed", "blank-worksheet", "empty-overlay", "context-panel"]);
+// Kinds whose lens carries reader-answered questions. blank-worksheet is
+// nothing but its questions; context-panel renders read-only bundled
+// reference data above the same kind of worksheet. Both require >= 3.
+const QUESTION_KINDS = new Set(["blank-worksheet", "context-panel"]);
 const HREF_RE = /href="([^"]+)"/g;
 
 const failures = [];
@@ -99,9 +103,9 @@ for (const lens of lenses) {
     failures.push(`${label}: ${lens.kind} lens must not carry coverage.surahs — it has no per-surah data`);
   }
 
-  if (lens.kind === "blank-worksheet") {
+  if (QUESTION_KINDS.has(lens.kind)) {
     const qs = lens.questions || [];
-    if (qs.length < 3) failures.push(`${label}: blank-worksheet lens needs at least 3 questions`);
+    if (qs.length < 3) failures.push(`${label}: ${lens.kind} lens needs at least 3 questions`);
     const qIds = new Set();
     for (const [i, q] of qs.entries()) {
       if (!q.id) failures.push(`${label} question ${i + 1}: missing id`);
@@ -110,7 +114,7 @@ for (const lens of lenses) {
       if (!q.prompt) failures.push(`${label} question ${i + 1}: missing prompt`);
     }
   } else if ("questions" in lens) {
-    failures.push(`${label}: questions is set but kind is ${lens.kind} — only blank-worksheet lenses carry questions`);
+    failures.push(`${label}: questions is set but kind is ${lens.kind} — only ${[...QUESTION_KINDS].join("/")} lenses carry questions`);
   }
 
   checkHtmlHrefs(`${label} methodHtml`, lens.methodHtml);
