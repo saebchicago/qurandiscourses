@@ -1227,7 +1227,7 @@
               }
               translations.forEach((t) => {
                 if (t._mismatchOf) {
-                  html += `<div class="translation"><div class="label">Translation unavailable</div><div class="text" style="color:var(--muted)">The edition "${qdEsc(t._mismatchOf)}" could not be loaded — it no longer exists on the source API. See <a href="/sources">Sources</a> for what's actually available.</div></div>`;
+                  html += `<div class="translation"><div class="label">Translation unavailable</div><div class="text" style="color:var(--muted)">The edition "${qdEsc(t._mismatchOf)}" could not be loaded — the text service (api.alquran.cloud) no longer carries it. See <a href="/sources">Sources</a> for what's actually available.</div></div>`;
                   return;
                 }
                 // Direction/language come from the API's own edition object,
@@ -1260,6 +1260,43 @@
                 const verseGlosses =
                   glossCache[s] && glossCache[s][String(ayahNum)];
                 if (words && words.length) {
+                  // Duplicated from roots.html's POS_LABELS — a shared
+                  // asset would be an SW contract change for a 30-line
+                  // constant; keep the two in sync by hand.
+                  const POS_LABELS = {
+                    N: "Noun",
+                    V: "Verb",
+                    ADJ: "Adjective",
+                    P: "Particle",
+                    CONJ: "Conjunction",
+                    REL: "Relative",
+                    DET: "Determiner",
+                    LOC: "Location",
+                    T: "Time",
+                    PN: "Proper noun",
+                    IMPN: "Imperative particle",
+                    INTG: "Interrogative",
+                    NEG: "Negative",
+                    PREV: "Preventive",
+                    COND: "Conditional",
+                    FUT: "Future",
+                    CERT: "Certainty",
+                    RSLT: "Result",
+                    SUP: "Supplemental",
+                    EMPH: "Emphatic",
+                    EXL: "Exhortation",
+                    AMD: "Amendment",
+                    AVR: "Aversion",
+                    EXP: "Explanation",
+                    REM: "Resumption",
+                    SUR: "Surprise",
+                    COMMA: "Comma",
+                    ANS: "Answer",
+                    INC: "Inceptive",
+                    VOC: "Vocative",
+                    PRON: "Pronoun",
+                    PREP: "Preposition",
+                  };
                   let rows = "";
                   words.forEach((w, wi) => {
                     const rootLink = w.root
@@ -1283,13 +1320,13 @@
                       : rootGloss
                         ? `<td style="color:var(--muted)" title="Editorial orientation gloss for the root, not a dictionary quotation">~ ${qdEsc(rootGloss)}</td>`
                         : `<td style="color:var(--muted)">—</td>`;
-                    rows += `<tr><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${w.ar}</span></td><td>${rootLink}</td><td>${w.pos || "—"}</td>${glossCell}</tr>`;
+                    rows += `<tr><td><span class="ar notranslate" translate="no" lang="ar" dir="rtl">${w.ar}</span></td><td>${rootLink}</td><td>${POS_LABELS[w.pos] || w.pos || "—"}</td>${glossCell}</tr>`;
                   });
                   const glossProv =
                     glossCache[s] && glossCache[s]._source
                       ? `<span class="badge nuanced" data-source-ids="${qdEsc(glossCache[s]._source)}" aria-label="Nuanced" tabindex="0" title="Nuanced · a gloss is a translator's choice">~</span> A gloss is one translator's choice of one English word for one Arabic word, an interpretation rather than the meaning.`
                       : `<span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · editorial orientation glosses, not corpus data">~</span> Meanings marked ~ are editorial orientation glosses for the root, not dictionary definitions.`;
-                  html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><details class="xref-panel"${depth === "encyclopedic" ? " open" : ""}><summary>Word breakdown (${words.length} word${words.length === 1 ? "" : "s"})</summary><div class="table-scroll"><table class="data"><thead><tr><th>Word</th><th>Root</th><th>POS</th><th>Meaning</th></tr></thead><tbody>${rows}</tbody></table></div><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Leeds corpus v0.4. ${glossProv} Dictionary entries for any root: <a href="https://corpus.quran.com/qurandictionary.jsp" target="_blank" rel="noopener">corpus.quran.com</a>.</p></details></div>`;
+                  html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><details class="xref-panel"${depth === "encyclopedic" ? " open" : ""}><summary>Word breakdown (${words.length} word${words.length === 1 ? "" : "s"})</summary><div class="table-scroll"><table class="data"><thead><tr><th>Word</th><th>Root</th><th>Part of speech</th><th>Meaning</th></tr></thead><tbody>${rows}</tbody></table></div><p class="prov"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Leeds corpus v0.4. ${glossProv} Dictionary entries for any root: <a href="https://corpus.quran.com/qurandictionary.jsp" target="_blank" rel="noopener">corpus.quran.com</a>.</p></details></div>`;
                 } else {
                   html += `<div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Word breakdown</h4><p style="font-size:.9rem;color:var(--muted)">Word-level data unavailable for this verse — see the <a href="/words">Words page</a> for the methodology.</p></div>`;
                 }
@@ -1522,7 +1559,7 @@
               if (cards.length) {
                 fallback =
                   cards.join("") +
-                  '<p class="caption-note">Offline view: Arabic text reassembled from the locally bundled Leeds Quranic Arabic Corpus word tokens. Translations, audio, and cross-references need a connection.</p>';
+                  '<p class="caption-note">Offline view: Arabic text reassembled from the word-units bundled with this site (Leeds Quranic Arabic Corpus). Translations, audio, and cross-references need a connection.</p>';
               }
             }
           } catch (e2) {}

@@ -1,12 +1,12 @@
 {
  "_script": "scripts/compute-coverage.mjs",
  "_method": "Every number in this report is measured directly from repository data files at generation time, except the 'popular'/alternate values in countingRuleSensitivity, which are quoted verbatim from numbers.html's own prose (already-published editorial text, not independently measurable from a data file) and are marked verified:false accordingly. Source registry fields are read verbatim from data/sources.json; any field absent there is recorded as \"not stated in repository\", never inferred.",
- "_computed": "2026-08-27",
+ "_computed": "2026-08-29",
  "morphology": {
   "totalTokens": 77429,
   "fields": {
    "root": {
-    "label": "Tokens carrying a triliteral root",
+    "label": "Word-units carrying a triliteral root",
     "withField": 49967,
     "withoutField": 27462,
     "percentWith": 64.53,
@@ -174,7 +174,7 @@
     ]
    },
    "lemma": {
-    "label": "Tokens with a lemma",
+    "label": "Word-units with a lemma",
     "withField": 74122,
     "withoutField": 3307,
     "percentWith": 95.73,
@@ -192,7 +192,7 @@
     ]
    },
    "pos": {
-    "label": "Tokens with a part-of-speech tag",
+    "label": "Word-units with a part-of-speech tag",
     "withField": 77429,
     "withoutField": 0,
     "percentWith": 100

@@ -516,7 +516,7 @@
       "</div>" +
       '<p id="lensStatus" style="font-size:0.78rem;color:var(--muted);margin:0.5rem 0 0" aria-live="polite"></p>' +
       '<div class="share-row" style="margin-bottom:0">' +
-      '<button type="button" class="button secondary share-btn" id="lensExport">Export all lens work as Markdown</button>' +
+      '<button type="button" class="button secondary share-btn" id="lensExport">Export all lens work as a text file (Markdown)</button>' +
       '<button type="button" class="button secondary share-btn" id="lensClear">Clear this surah’s entries for this lens</button>' +
       "</div>" +
       '<p class="lens-coverage caption-note">' +

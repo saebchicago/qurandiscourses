@@ -148,7 +148,7 @@
             '<p class="ar embed-ar notranslate" translate="no" lang="ar" dir="rtl">' +
             qdEsc(ar) +
             "</p>" +
-            '<p class="embed-prov">Arabic from the bundled Leeds corpus tokens; translation needs a connection.</p>' +
+            '<p class="embed-prov">Arabic from the word-units bundled with this site (Leeds corpus); translation needs a connection.</p>' +
             link;
         })
         .catch(fail);

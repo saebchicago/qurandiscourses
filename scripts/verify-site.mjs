@@ -1664,7 +1664,7 @@ if (runCheck("heatmap") && (!PAGE_FILTER || PAGE_FILTER === "numbers.html")) {
 
     const bad = [];
     for (const { ri, text } of seen) {
-      const m = /^(.+?) in surah (\d+)(?: \(([^)]*)\))?: ([\d.]+) per 1,000 tokens$/.exec(text || "");
+      const m = /^(.+?) in surah (\d+)(?: \(([^)]*)\))?: ([\d.]+) per 1,000 word-units$/.exec(text || "");
       if (!m) {
         bad.push(`unreadable tooltip: ${JSON.stringify(text)}`);
         continue;

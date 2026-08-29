@@ -45,6 +45,14 @@ Citations follow the **Chicago Manual of Style, bibliography form**:
 When a detail can't be confirmed against the work itself, omit it — never
 guess. sources.html is the reference implementation.
 
+Voice rule: reader-facing counts say **word-unit(s)** — the glossary's
+plain-language name for a corpus token — with the counting rule still
+stated wherever it matters. **Token** appears only in method notes,
+generator code, the glossary's own definitions, and the changelog's
+historical record. Statistical results lead with plain phrasing (what
+held up, what chance predicts) and keep the exact figures in
+parentheses; nothing is hidden, but the jargon never leads.
+
 ## 2. Site map (34 pages)
 
 | Group | Pages | Notes |

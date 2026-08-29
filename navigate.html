@@ -323,12 +323,12 @@
         </div>
         <div class="card study-only" id="surahScatterCard">
           <div class="banner note">
-            <strong>Method: surah profile figures.</strong> Word-token and root
+            <strong>Method: surah profile figures.</strong> Word-unit and root
             counts are drawn from the Leeds Quranic Arabic Corpus v0.4
             morphology files, one token per morphology entry (Leeds' Uthmani
             tokenization). Chronology period follows the Egyptian Standard
             (Cairo 1924) Meccan/Medinan and four-period classification. Root
-            diversity ratio divides distinct roots by all word-tokens in the
+            diversity ratio divides distinct roots by all word-units in the
             surah, including function words with no tagged root. Cross-reference
             connectivity (Mishkat Mutashābihāt corpus) counts distinct other surahs
             cross-referenced (same-surah references excluded) and covers 110
@@ -348,8 +348,8 @@
             >
           </h3>
           <p style="font-size: 0.9rem; color: var(--muted); margin: 0.2rem 0 0.6rem">
-            Each dot is a surah: length (word tokens, log scale) against
-            lexical variety (distinct roots ÷ tokens), colored by
+            Each dot is a surah: length (word-units, log scale) against
+            lexical variety (distinct roots ÷ word-units), colored by
             chronological period. Hover a dot for the surah; click to read
             it. Notice for yourself how the periods separate — and where the
             exceptions sit.
@@ -662,7 +662,7 @@
             period: p.chronologyPeriod,
             surah: s,
             label: `Surah ${s}${meta ? " (" + meta.en + ")" : ""}`,
-            sublabel: `${p.tokenCount.toLocaleString()} tokens · ${p.distinctRootCount} distinct roots (ratio ${p.rootDiversityRatio})`,
+            sublabel: `${p.tokenCount.toLocaleString()} word-units · ${p.distinctRootCount} distinct roots (ratio ${p.rootDiversityRatio})`,
           });
         }
         qdChart.scatter(container, {
@@ -671,10 +671,10 @@
           xTicks: [30, 100, 300, 1000, 3000],
           yTicks: [0.2, 0.4, 0.6, 0.8],
           xFormat: (v) => v.toLocaleString(),
-          xLabel: "Word tokens (log scale)",
-          yLabel: "Distinct roots ÷ tokens",
+          xLabel: "Word-units (log scale)",
+          yLabel: "Distinct roots ÷ word-units",
           ariaLabel:
-            "Scatter of all 114 surahs: length in word tokens against root diversity ratio, colored by chronological period",
+            "Scatter of all 114 surahs: length in word-units against root diversity ratio, colored by chronological period",
           filename: "surahs-length-vs-diversity.svg",
           onPointClick: (p) => {
             location.href = `/read?s=${p.surah}&a=1-${p.verseCount || 1}`;
@@ -684,7 +684,7 @@
 
       function topRootsChart(topRoots) {
         if (!topRoots || !topRoots.length) {
-          return '<p style="color:var(--muted);font-size:0.85rem">No rooted tokens.</p>';
+          return '<p style="color:var(--muted);font-size:0.85rem">No root-tagged word-units.</p>';
         }
         const max = Math.max(...topRoots.map((r) => r.count));
         const W_BAR = 100;
@@ -720,7 +720,7 @@
             <p class="stat-value">${p.verseCount}</p>
           </div>
           <div class="stat-block">
-            <h4>Word tokens <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · Leeds Corpus v0.4">●</span></h4>
+            <h4>Word-units <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · Leeds Corpus v0.4">●</span></h4>
             <p class="stat-value">${p.tokenCount}</p>
           </div>
           <div class="stat-block">
@@ -728,7 +728,7 @@
             <p class="stat-value">${p.distinctRootCount}</p>
           </div>
           <div class="stat-block">
-            <h4>Root diversity ratio <span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · roots over all tokens">~</span></h4>
+            <h4>Root diversity ratio <span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · roots over all word-units">~</span></h4>
             <p class="stat-value">${p.rootDiversityRatio}</p>
           </div>
           ${

@@ -38,6 +38,15 @@
    "ddHtml": "              A one-to-one Latin-character transliteration system for Arabic,\n              used by the Leeds Quranic Arabic Corpus to encode the consonantal\n              and vowel structure of every word in machine-readable form."
   },
   {
+   "id": "corpus",
+   "labelHtml": "Corpus",
+   "matchKeys": [
+    "the corpus"
+   ],
+   "def": "The machine-readable text this site computes from — here, the Leeds Quranic Arabic Corpus, a word-by-word analysis of the Qur'an. A corpus is something you count over, not an interpretation: every figure on this site is a count made against it.",
+   "ddHtml": "              The machine-readable text this site computes from — here, the Leeds\n              Quranic Arabic Corpus, a word-by-word analysis of the Qur'an. A corpus\n              is something you count over, not an interpretation: every figure on\n              this site is a count made against it."
+  },
+  {
    "id": "deterministic",
    "labelHtml": "Deterministic",
    "matchKeys": [
@@ -131,7 +140,8 @@
    "id": "lemma",
    "labelHtml": "Lemma",
    "matchKeys": [
-    "lemma"
+    "lemma",
+    "lemmas"
    ],
    "def": "The dictionary or canonical form of a word. In Arabic morphology, lemmas are derived from triliteral roots according to fixed patterns.",
    "ddHtml": "              The dictionary or canonical form of a word. In Arabic morphology,\n              lemmas are derived from triliteral roots according to fixed\n              patterns."
@@ -291,7 +301,8 @@
    "id": "token",
    "labelHtml": "Token (word-unit)",
    "matchKeys": [
-    "token"
+    "token",
+    "tokens"
    ],
    "def": "The smallest piece the corpus counts — this site calls it a word-unit in plain language. Arabic often writes several tokens as a single word: bismi (\"in the name of\") is one written word but two tokens (bi + ism). That is why the Qur'an has 77,429 word-units but far fewer written words. Counts of nouns, verbs, and verse length on Numbers are measured in word-units, not written words.",
    "ddHtml": "              The smallest piece the corpus counts — this site calls it a\n              <strong>word-unit</strong> in plain language. Arabic often writes\n              several tokens as a single word: <em>bismi</em> (\"in the name\n              of\") is one written word but two tokens (<em>bi</em> +\n              <em>ism</em>). That is why the Qur'an has 77,429 word-units but\n              far fewer written words. Counts of nouns, verbs, and verse length\n              on <a href=\"/numbers\">Numbers</a> are measured in word-units,\n              not written words."
@@ -327,7 +338,8 @@
    "id": "word-unit",
    "labelHtml": "Word-unit",
    "matchKeys": [
-    "word-unit"
+    "word-unit",
+    "word-units"
    ],
    "def": "This site's plain-language name for a corpus token — the smallest counted piece of the text. Used in place of \"word\" wherever a count could otherwise be mistaken for written words.",
    "ddHtml": "              This site's plain-language name for a corpus\n              <a href=\"/glossary#token\">token</a> — the smallest counted\n              piece of the text. Used in place of \"word\" wherever a count could\n              otherwise be mistaken for written words."

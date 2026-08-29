@@ -92,21 +92,21 @@ const morphology = {
   totalTokens: scannedTokens,
   fields: {
     root: {
-      label: "Tokens carrying a triliteral root",
+      label: "Word-units carrying a triliteral root",
       withField: withRoot,
       withoutField: withoutRoot,
       percentWith: pct(withRoot, scannedTokens),
       posDistributionWithoutField: sortedDistribution(posDistributionNoRoot, withoutRoot),
     },
     lemma: {
-      label: "Tokens with a lemma",
+      label: "Word-units with a lemma",
       withField: withLemma,
       withoutField: withoutLemma,
       percentWith: pct(withLemma, scannedTokens),
       posDistributionWithoutField: sortedDistribution(posDistributionNoLemma, withoutLemma),
     },
     pos: {
-      label: "Tokens with a part-of-speech tag",
+      label: "Word-units with a part-of-speech tag",
       withField: withPos,
       withoutField: scannedTokens - withPos,
       percentWith: pct(withPos, scannedTokens),
