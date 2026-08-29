@@ -40,7 +40,7 @@ Ground rules for using this site as a source:
 - [Search Qur'anic Arabic word forms](https://divinediscourses.org/words): Search all 4,832 dictionary forms of Qur'anic Arabic by Arabic, transliteration, or root — with frequency, part of speech, and first occurrences from the Leeds Corpus.
 - [Structural and rhetorical patterns](https://divinediscourses.org/patterns): Structural and rhetorical patterns in the Qur'an: iltifat, mutashabihat, cross-references.
 - [Recurring phrases in the Qur'an](https://divinediscourses.org/formulas): Every recurring 3-5 word sequence in the Qur'an, counted mechanically two ways: by root sequence and by surface form. Browse each phrase and every place it occurs.
-- [Corpus numbers and how each was counted](https://divinediscourses.org/numbers): Counted figures from the Qur'anic corpus: root frequency, verse length, lexical diversity by period, and the method behind each number.
+- [The numbers behind the text, and how each was counted](https://divinediscourses.org/numbers): Counted figures from the Qur'anic corpus: root frequency, verse length, lexical diversity by period, and the method behind each number.
 - [How to use this site](https://divinediscourses.org/how-to-use): How to use Divine Discourses: four ways to start, depth levels, the method Dr. Khan taught, and what the labels mean.
 - [How the method works](https://divinediscourses.org/how-it-works): The method behind Divine Discourses: coherence-based reading, depth levels, verification labels, and sources.
 - [Guided study paths](https://divinediscourses.org/paths): Guided walkthroughs chaining the site's tools: follow a root through the corpus, profile a surah before reading, trace a claim to its source.
@@ -309,12 +309,12 @@ Short (under 30)
 ● verse counts from Tanzil
 Uthmani text. Meccan/Medinan classification per Cairo 1924 edition.
 
-Method: surah profile figures. Word-token and root
+Method: surah profile figures. Word-unit and root
 counts are drawn from the Leeds Quranic Arabic Corpus v0.4
 morphology files, one token per morphology entry (Leeds' Uthmani
 tokenization). Chronology period follows the Egyptian Standard
 (Cairo 1924) Meccan/Medinan and four-period classification. Root
-diversity ratio divides distinct roots by all word-tokens in the
+diversity ratio divides distinct roots by all word-units in the
 surah, including function words with no tagged root. Cross-reference
 connectivity (Mishkat Mutashābihāt corpus) counts distinct other surahs
 cross-referenced (same-surah references excluded) and covers 110
@@ -324,8 +324,8 @@ descriptive corpus counts, not claims about meaning or emphasis.
 
 ### The 114 surahs at a glance ●
 
-Each dot is a surah: length (word tokens, log scale) against
-lexical variety (distinct roots ÷ tokens), colored by
+Each dot is a surah: length (word-units, log scale) against
+lexical variety (distinct roots ÷ word-units), colored by
 chronological period. Hover a dot for the surah; click to read
 it. Notice for yourself how the periods separate — and where the
 exceptions sit.
@@ -821,14 +821,15 @@ Recitation served from the Islamic Network audio CDN.
 
 Practice reading the Qur'an structurally. Each exercise asks you to
 commit to a reading first, then checks it against a verifiable
-source: Khan's published outlines or the corpus data itself.
+source: Khan's published outlines, or the text data the site
+computes from.
 
 Outline a discourse: al-'Asr Propose the structure of Surah 103 verse by verse, then compare
 your reading against the outline in Irfan Ahmad Khan's
 An Exercise in Understanding the Qur'an (2013).
 Spot the roots Short surahs, one at a time. Tap the words you think share a
 triliteral root, then reveal the recurring root families computed
-from the Leeds corpus morphology.
+from the Leeds corpus's word-by-word analysis.
 
 ### Companion tool
 
@@ -886,17 +887,17 @@ Reveal recurring roots
 
 ### Recurring root families
 
-Recurring here means: the root is attested on two or more word tokens
-within this surah, per the Leeds corpus morphological annotation.
-Repetition describes distribution in the text; it does not by itself
-establish meaning or emphasis.
+Recurring here means: the root appears on two or more word-units
+within this surah, as recorded in the Leeds corpus's word-by-word
+analysis. Repetition describes distribution in the text; it does
+not by itself establish meaning or emphasis.
 
 ● Leeds corpus v0.4.
 
 ℹ How this is computed
 
 ●
-Arabic word tokens, root assignments, and counts from the Leeds Quranic
+Arabic word-units, root assignments, and counts from the Leeds Quranic
 Arabic Corpus v0.4 (Kais Dukes, 2009–2017), bundled locally in
 data/morphology/ . Explore any highlighted root further on
 the Roots page.
@@ -950,8 +951,8 @@ the most frequent roots only.
 ℹ How this is computed
 
 Computed from Leeds Quranic Arabic Corpus v0.4: total count of
-all token entries with this root across 114 morphology files
-( 77,429 tokens in the corpus; 49,967 carry a root, the rest
+all word-unit entries with this root across 114 morphology files
+( 77,429 word-units in the corpus; 49,967 carry a root, the rest
 are particles, pronouns, and other unrooted forms).
 
 #### Makki / Madani distribution ●
@@ -979,7 +980,7 @@ number.
 
 ℹ How this is computed
 
-Computed from Leeds Quranic Arabic Corpus v0.4: summed token
+Computed from Leeds Quranic Arabic Corpus v0.4: summed word-unit
 count for this root in each of the 114 surah morphology files.
 
 #### Across the revelation timeline ●
@@ -999,7 +1000,7 @@ over time does not by itself establish meaning or emphasis.
 
 ℹ How this is computed
 
-Normalized frequency (occurrences per 1,000 tokens) in
+Normalized frequency (occurrences per 1,000 word-units) in
 each of the four traditional revelation periods, by
 Cairo 1924 revelation order (Nöldeke-Bell four-period
 classification). Periodization varies across scholarly
@@ -1019,17 +1020,17 @@ Count
 Group by lemma
 
 Between the root and its inflected surface forms sits the
-lemma — the dictionary headword. Grouping this root's tokens
+lemma — the dictionary headword. Grouping this root's word-units
 by lemma and part of speech shows its actual derivational
 family: which nouns, adjectives, and verbs the root produces,
-and how often each is used. Every root-bearing token in the
+and how often each is used. Every root-bearing word-unit in the
 corpus carries a lemma, so nothing is omitted.
 ●
 
 ℹ How this is computed
 
 Computed from Leeds Quranic Arabic Corpus v0.4: grouped all
-token entries for this root by Arabic surface form and POS tag;
+word-unit entries for this root by Arabic surface form and part-of-speech tag;
 sorted by frequency descending.
 
 #### Roots that appear alongside ●
@@ -1050,7 +1051,7 @@ Show all verses
 ℹ How this is computed
 
 Computed from Leeds Quranic Arabic Corpus v0.4: unique verse
-references (surah:ayah) where at least one token carries this
+references (surah:ayah) where at least one word-unit carries this
 root; sorted numerically.
 
 #### Alongside, filtered
@@ -1193,7 +1194,7 @@ How complete is the underlying data? →
 
 Computed by scripts/compute-dispersion.mjs over
 the 114 surahs as corpus parts, weighted by each surah's
-token count. Four measures reported side by side, since the
+word-unit count. Four measures reported side by side, since the
 dispersion literature disagrees which is best: Gries's
 Deviation of Proportions (DP) and its normalized form
 (DPnorm), Juilland's D, and plain range. DPnorm 0 means the
@@ -1266,7 +1267,7 @@ sabr
 
 Word
 Root
-POS
+Part of speech
 Meaning
 Count
 First verses
@@ -1312,7 +1313,7 @@ Quranic Arabic Corpus v0.4, GPL.
 Word
 Root
 Lemma
-POS
+Part of speech
 Meaning
 
 بِسْمِ
@@ -1651,7 +1652,7 @@ Look up any word of a formula: Words →
 
 Read a formula's verses in context on the Read page →
 
-===== Corpus numbers and how each was counted (https://divinediscourses.org/numbers) =====
+===== The numbers behind the text, and how each was counted (https://divinediscourses.org/numbers) =====
 
 ## Numbers
 
@@ -1753,7 +1754,7 @@ Most verses are short. Of
 6,236
 verses, the longest runs to
 128
-word-tokens (al-Baqarah 2:282).
+word-units (al-Baqarah 2:282).
 
 ●
 token-length of every verse (Leeds tokenization), grouped into
@@ -1767,7 +1768,7 @@ What the text is made of: the most frequent roots, everyday concepts, and the ra
 
 Root
 Count
-Per 1,000 tokens
+Per 1,000 word-units
 
 a-l-h (God)
 2,851
@@ -1797,7 +1798,7 @@ Verified
 all five from the Quranic Arabic Corpus at
 corpus.quran.com
 (Leeds, Dukes 2009–2017). Full top-10 table with verification
-status on Roots . "Per 1,000 tokens"
+status on Roots . "Per 1,000 word-units"
 is (count / 77,429 ) × 1,000, direct
 computation.
 
@@ -1805,7 +1806,7 @@ computation.
 
 Concept
 Count
-Per 1,000 tokens
+Per 1,000 word-units
 
 Justice (ʿ-d-l)
 28
@@ -1894,9 +1895,9 @@ roots listed with the verse of their single occurrence.
 ### Vocabulary variety by period (TTR, MATTR, MTLD)
 
 Type-token ratio (distinct surface forms, or distinct lemmas,
-divided by all word-tokens) measures vocabulary variety versus
+divided by all word-units) measures vocabulary variety versus
 repetition — but it falls mechanically as sample size grows,
-and these four periods differ greatly in token count (2,704 to
+and these four periods differ greatly in word-unit count (2,704 to
 30,572). Two length-robust alternatives are shown alongside
 it: MATTR (a moving-average TTR over a fixed window,
 Covington & McFall 2010) and MTLD (a factor-count measure,
@@ -1946,15 +1947,15 @@ Medinan
 ℹ How this is computed
 
 ●
-distinct surface forms / lemmas ÷ word-tokens, by Cairo 1924
-period. Form MATTR: mean TTR over a 100-token sliding window
+distinct surface forms / lemmas ÷ word-units, by Cairo 1924
+period. Form MATTR: mean TTR over a 100-word-unit sliding window
 (Covington & McFall 2010). Form MTLD: bidirectionally
 averaged factor count at a 0.72 TTR threshold (McCarthy &
 Jarvis 2010). Both computed by
 scripts/lib/lexical-diversity.mjs .
 ~
 type-token ratio is sensitive to sample size; these periods
-range from 2,704 to 30,572 tokens, so the falling ratio partly
+range from 2,704 to 30,572 word-units, so the falling ratio partly
 reflects length, not style alone.
 
 ### Structure
@@ -1963,7 +1964,7 @@ Grammatical texture and structural features of the text.
 
 ### Grammatical texture
 
-Of 77,429 word-tokens,
+Of 77,429 word-units,
 25,135 are nouns and
 19,356 are verbs. The
 noun and verb share shifts across the revelation:
@@ -1994,13 +1995,13 @@ Medinan
 
 ●
 exact counts of the Leeds N (noun) and V (verb) tags as a share
-of all tokens, by Cairo 1924 period. Noun and verb are the two
-unambiguous single tags; the remaining tokens are particles and
+of all word-units, by Cairo 1924 period. Noun and verb are the two
+unambiguous single tags; the remaining word-units are particles and
 other function words, so no family taxonomy is asserted.
 
 ### Root density across surahs ●
 
-Normalized frequency (per 1,000 tokens) of the 40 most
+Normalized frequency (per 1,000 word-units) of the 40 most
 frequent roots across all 114 surahs. Darker cells mean the
 root is more locally concentrated in that surah, not more
 important.
@@ -2099,7 +2100,7 @@ roots may shift by a few in other schemes.
 ### Distinctive vocabulary by period (keyness, G2) ~
 
 Keyness (Dunning's G2) measures how distinctively a root's
-token frequency in one revelation period differs from the
+word-unit frequency in one revelation period differs from the
 rest of the corpus. The top 15 roots by G2 are listed for
 each of the four periods, by Cairo 1924 revelation order
 (Nöldeke-Bell four-period classification). Periodization
@@ -2111,8 +2112,8 @@ Nuanced, not as a settled chronology.
 ℹ How this is computed
 
 ●
-G2 computed from root token counts per period
-( data/roots-summary.json ) against period token
+G2 computed from per-period root counts in word-units
+( data/roots-summary.json ) against period word-unit
 totals ( data/numbers.json ), by
 scripts/compute-association-stats.mjs .
 ~
@@ -2137,7 +2138,7 @@ frequency): open any root on the Roots page .
 
 ●
 Computed by scripts/compute-dispersion.mjs over
-the 114 surahs, weighted by token count (not treated as
+the 114 surahs, weighted by word-unit count (not treated as
 equal-sized). DP = 0.5·Σ|v_i − s_i|; DPnorm = DP / (1 −
 min(s_i)), the corrected normalization from Lijffijt &
 Gries (2012). Roots below 20 corpus-wide occurrences are
@@ -2202,7 +2203,7 @@ the Qur'an balances the two.
 Simple shows verse text, word-by-word meanings, and
 translations. Use this to read.
 
-Study adds word-by-word morphology and root links —
+Study adds word-by-word grammar (morphology) and root links —
 and, on the Read, Dossier and Replay pages, the reading lenses card
 and the discovery worksheet for your own structural reading. Use
 this for close analysis.
@@ -2626,13 +2627,13 @@ Open the same surah's Dossier .
 Its Structure section shows the site's own computed discursive
 pivots and rhetorical features for this exact surah; its Rhyme
 and Formulas sections show the verse-ending pattern and
-recurring-phrase data. The ring-composition proxy is a
-corpus-wide test with no surviving result in any surah, so the
-Dossier reports it as no result rather than showing one; read
-the test itself on
+recurring-phrase data. The mirror-structure (ring-composition)
+test ran across the whole corpus and nothing held up in any
+surah — so the Dossier says "no result" rather than showing
+one; read the test itself on
 Patterns . Not every
 mechanical detector finds something in every surah, and an
-empty section is itself a datum, not a gap.
+empty section is a finding in its own right, not a gap.
 
 Follow whichever signal caught your eye to its full method and
 corpus-wide result on Patterns .
@@ -2702,6 +2703,13 @@ Buckwalter
 A one-to-one Latin-character transliteration system for Arabic,
 used by the Leeds Quranic Arabic Corpus to encode the consonantal
 and vowel structure of every word in machine-readable form.
+
+Corpus
+
+The machine-readable text this site computes from — here, the Leeds
+Quranic Arabic Corpus, a word-by-word analysis of the Qur'an. A corpus
+is something you count over, not an interpretation: every figure on
+this site is a count made against it.
 
 Deterministic
 
@@ -3090,8 +3098,9 @@ This glossary is also available inline throughout the site. Technical
 terms are marked with a dotted underline and reveal their definition
 on hover or tap. Categories: Method (nazm, khitab, tafsir,
 mutashabihat, iltifat, triangulate). Structure (surah, ayah, basmala).
-Data (root, morphology, lemma, hapax, Buckwalter, period
-distribution). Claim labels (Verified, Nuanced, Pending).
+Data (root, morphology, lemma, token / word-unit, corpus, hapax,
+Buckwalter, period distribution). Claim labels (Verified, Nuanced,
+Pending).
 
 ===== Search this site (https://divinediscourses.org/search) =====
 
@@ -3177,7 +3186,7 @@ Mushaf al-Madinah . Madinah: King Fahd Complex.
 
 Dukes, Kais. The Quranic Arabic Corpus , version 0.4. Leeds:
 Language Research Group, University of Leeds, 2009–2017.
-https://corpus.quran.com/ . GNU GPL. Morphological annotation of all 77,429 word-tokens of
+https://corpus.quran.com/ . GNU GPL. Morphological annotation of all 77,429 word-units of
 the Qur'an; bundled in this site as per-surah JSON in
 data/morphology/ and aggregated in
 data/roots-summary.json . Version 0.4 is the corpus's
@@ -3908,11 +3917,11 @@ NOTICE.md .
 
 #### data/morphology/{1..114}.json
 
-Word-by-word morphology for all 77,429 tokens: per verse, an
+Word-by-word morphology for all 77,429 word-units: per verse, an
 array of words, each
 {w, ar, root, lemma, pos, gloss} (word index,
 Uthmani surface form, Buckwalter root, Buckwalter lemma,
-part-of-speech tag; the per-token gloss field is empty — the
+part-of-speech tag; the per-word-unit gloss field is empty — the
 word glosses that ship live separately in
 data/gloss/ , six surahs from Khan 2011).
 ●
@@ -4033,7 +4042,7 @@ coverage report
 
 #### data/formulas-root.json · data/formulas-surface.json
 
-Every 3/4/5-token sequence recurring 2+ times corpus-wide, with
+Every 3-, 4-, or 5-word-unit sequence recurring 2+ times corpus-wide, with
 all verse locations — root-sequence and surface-form streams
 (each catches phrases the other cannot). Browsable on
 Formulas .
@@ -4162,7 +4171,7 @@ for the script.
 
 ### Morphology fields ●
 
-Of 77,429 word-tokens in the
+Of 77,429 word-units in the
 Leeds Quranic Arabic Corpus v0.4, how many carry each
 morphological field.
 
@@ -4333,7 +4342,7 @@ code itself is MIT licensed, like the rest of the site.
 #### Root frequencies ● ~
 
 All 1,642 roots: raw count, overall normalized frequency (per
-1,000 tokens), and per-period count and normalized frequency
+1,000 word-units), and per-period count and normalized frequency
 across the four revelation periods (Cairo 1924 / Nöldeke-Bell).
 
 CSV
@@ -4369,7 +4378,7 @@ JSON
 
 #### Per-surah stats ● ~
 
-All 114 surahs: verse/token/root counts, vocabulary-diversity
+All 114 surahs: verse/word-unit/root counts, vocabulary-diversity
 ratios, noun/verb percentage, and Cairo 1924 revelation order
 and period.
 
@@ -4379,7 +4388,7 @@ JSON
 
 #### Verse lengths ●
 
-Every verse in the corpus with its token length and revelation
+Every verse in the corpus with its length in word-units and revelation
 period.
 
 CSV
@@ -4467,7 +4476,7 @@ JSON
 
 Sparse theme-by-surah matrix: for each surah, the themes whose
 root-family vocabulary clusters most densely in it (theme-root
-tokens per 1,000 surah tokens). See Themes .
+word-units per 1,000 surah word-units). See Themes .
 
 CSV
 JSON
@@ -4517,7 +4526,7 @@ v1.0.0 .
 
 Root
 Count
-Per 1,000 tokens
+Per 1,000 word-units
 
 Loading…
 
@@ -4544,6 +4553,27 @@ before it was renamed "Study".
 ### 2026
 
 #### August
+
+Plain language everywhere a reader meets a count.
+A site-wide copy pass replaced the corpus term token
+with the site's own plain name,
+word-unit , in all reader-facing
+copy — homepage daily card, Read, Navigate, Dossier, and the deep
+analytics pages — with every figure unchanged. Statistical
+results now lead with plain phrasing (what held up, what chance
+predicts) and keep the exact statistics in parentheses.
+Part-of-speech tags on the Read page render as full names (Noun,
+Proper noun) instead of raw codes. The inline glossary learned
+plural forms (tokens, word-units, lemmas) — its word-boundary
+rule had silently never matched a plural — and gained an entry
+for corpus .
+No number, counting rule, or method statement
+changed; method notes and this changelog's own history keep
+token where precision requires it. One sentence also
+became more accurate: the daily card's vocabulary-variety line
+had presented the distinct-root count as a count of word-units;
+it now states the ratio as what it is, distinct roots over
+word-units. §
 
 A history lens: when a surah sits in the conventional
 chronology, and who it names.
@@ -6382,7 +6412,7 @@ list, see Sources .
 ### Data
 
 Quranic Arabic Corpus v0.4 (Leeds). Kais Dukes,
-2009–2017. Morphological annotation of all 77,429 word-tokens. GPL
+2009–2017. Morphological annotation of all 77,429 word-units. GPL
 licensed.
 corpus.quran.com
 
@@ -6503,6 +6533,7 @@ ayah: A verse of the Qur'an. The plural is ayat. The same word also means 'sign'
 basmala: The opening formula bismillah al-rahman al-rahim ('In the name of God, the Most Merciful, the Especially Merciful'). It heads 113 of the 114 surahs and appears mid-surah once, at 27:30.
 betweenness: How often a node lies on the shortest paths between other nodes in a co-occurrence network. A statistical position measure, strongly influenced by raw frequency; it does not indicate importance.
 buckwalter: A one-to-one Latin-character transliteration system for Arabic, used by the Leeds Quranic Arabic Corpus to encode the consonantal and vowel structure of every word in machine-readable form.
+corpus: The machine-readable text this site computes from — here, the Leeds Quranic Arabic Corpus, a word-by-word analysis of the Qur'an. A corpus is something you count over, not an interpretation: every figure on this site is a count made against it.
 deterministic: Producing the same output for the same input, every time, by following fixed rules. The Ask box is deterministic: pattern-matching routes your question to a tool, and nothing composes an answer on the site's behalf.
 dice: The Dice coefficient: the overlap between two words' sets of verses, from 0 (never together) to 1 (always together).
 discourse: As used on this site: a surah read as one connected address (khitab) from speaker to hearer — a single speech with a beginning, development, and close — rather than a loose collection of verses.

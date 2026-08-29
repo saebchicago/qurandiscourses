@@ -106,7 +106,7 @@
     var btn = document.createElement("button");
     btn.type = "button";
     btn.className = "button secondary share-btn";
-    btn.textContent = "Download chart (SVG)";
+    btn.textContent = "Download chart image (SVG)";
     btn.addEventListener("click", function () {
       if (window.qdDownloadSvg) window.qdDownloadSvg(svg, filename);
     });

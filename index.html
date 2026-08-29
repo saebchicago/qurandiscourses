@@ -734,16 +734,17 @@
             } else if (lensIndex === 1 && p) {
               var pct = Math.round(p.rootDiversityRatio * 100);
               lensEl.textContent =
-                pct +
-                "% of its word tokens carry a distinct root (" +
-                p.distinctRootCount +
-                " of " +
+                "Its " +
                 p.tokenCount +
-                " tokens) — " +
+                " word-units draw on " +
+                p.distinctRootCount +
+                " distinct roots — " +
                 (p.rootDiversityRatio >= 0.5
                   ? "wide vocabulary variety"
                   : "concentrated, repetitive vocabulary") +
-                " for its length.";
+                " for its length (variety ratio " +
+                pct +
+                "%, distinct roots ÷ word-units).";
               lensLink.textContent = "Compare across all 114 surahs";
               lensLink.href = "/navigate";
               provEl.innerHTML =
@@ -764,7 +765,7 @@
               lensLink.textContent = "See the rhyme method";
               lensLink.href = "/patterns";
               provEl.innerHTML =
-                '<span class="badge nuanced" data-source-ids="leeds-corpus-v0.4 neuwirth-1981" aria-label="Nuanced" tabindex="0" title="Nuanced · orthographic proxy for pausal pronunciation">~</span> Verse-ending pattern, an orthographic proxy for pausal pronunciation — see the method on the Patterns page.';
+                '<span class="badge nuanced" data-source-ids="leeds-corpus-v0.4 neuwirth-1981" aria-label="Nuanced" tabindex="0" title="Nuanced · endings read from spelling, standing in for the pausal sound">~</span> Verse-ending pattern, read from how each verse is spelled — a stand-in for how the ending sounds when recitation pauses there. See the method on the Patterns page.';
             } else {
               lensEl.textContent = "";
               lensLink.hidden = true;

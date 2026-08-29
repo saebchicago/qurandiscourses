@@ -124,7 +124,7 @@
       "</select>" +
       '<p id="wsStatus" style="font-size:0.78rem;color:var(--muted);margin:0.5rem 0 0" aria-live="polite"></p>' +
       '<div class="share-row" style="margin-bottom:0">' +
-      '<button type="button" class="button secondary share-btn" id="wsExport">Export all worksheets as Markdown</button>' +
+      '<button type="button" class="button secondary share-btn" id="wsExport">Export all worksheets as a text file (Markdown)</button>' +
       '<button type="button" class="button secondary share-btn" id="wsSubmit">Submit as a structural hypothesis</button>' +
       '<button type="button" class="button secondary share-btn" id="wsClear">Clear this surah’s worksheet</button>' +
       "</div>" +

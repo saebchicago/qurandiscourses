@@ -2,6 +2,12 @@
   "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
   "entries": [
     {
+      "id": "2026-08-plain-language-pass",
+      "year": "2026",
+      "month": "August",
+      "html": "\n              <strong>Plain language everywhere a reader meets a count.</strong>\n              A site-wide copy pass replaced the corpus term <em>token</em>\n              with the site&#39;s own plain name,\n              <a href=\"/glossary#word-unit\">word-unit</a>, in all reader-facing\n              copy — homepage daily card, Read, Navigate, Dossier, and the deep\n              analytics pages — with every figure unchanged. Statistical\n              results now lead with plain phrasing (what held up, what chance\n              predicts) and keep the exact statistics in parentheses.\n              Part-of-speech tags on the Read page render as full names (Noun,\n              Proper noun) instead of raw codes. The inline glossary learned\n              plural forms (tokens, word-units, lemmas) — its word-boundary\n              rule had silently never matched a plural — and gained an entry\n              for <em>corpus</em>.\n              <span class=\"prov\">No number, counting rule, or method statement\n              changed; method notes and this changelog&#39;s own history keep\n              <em>token</em> where precision requires it. One sentence also\n              became more accurate: the daily card&#39;s vocabulary-variety line\n              had presented the distinct-root count as a count of word-units;\n              it now states the ratio as what it is, distinct roots over\n              word-units.</span>"
+    },
+    {
       "id": "2026-08-history-lens",
       "year": "2026",
       "month": "August",

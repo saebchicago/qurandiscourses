@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Corpus numbers and how each was counted · Divine Discourses</title>
+    <title>The numbers behind the text, and how each was counted · Divine Discourses</title>
     <meta
       name="description"
       content="Counted figures from the Qur'anic corpus: root frequency, verse length, lexical diversity by period, and the method behind each number."
@@ -133,7 +133,7 @@
     <meta name="theme-color" content="#2b1d0e" />
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/numbers","url":"https://divinediscourses.org/numbers","name":"Corpus numbers and how each was counted · Divine Discourses","description":"Counted figures from the Qur'anic corpus: root frequency, verse length, lexical diversity by period, and the method behind each number.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.2.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Corpus numbers and how each was counted","item":"https://divinediscourses.org/numbers"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/numbers","url":"https://divinediscourses.org/numbers","name":"The numbers behind the text, and how each was counted · Divine Discourses","description":"Counted figures from the Qur'anic corpus: root frequency, verse length, lexical diversity by period, and the method behind each number.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.2.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"The numbers behind the text, and how each was counted","item":"https://divinediscourses.org/numbers"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -394,7 +394,7 @@
               <span data-num="verseLengthHistogram.totalVerses">6,236</span>
               verses, the longest runs to
               <strong data-num="verseLengthHistogram.maxVerseTokens">128</strong>
-              word-tokens (al-Baqarah 2:282).
+              word-units (al-Baqarah 2:282).
             </p>
             <div id="lenHistoSvg"></div>
             <p class="prov">
@@ -414,7 +414,7 @@
                 <tr>
                   <th>Root</th>
                   <th class="count">Count</th>
-                  <th class="count">Per 1,000 tokens</th>
+                  <th class="count">Per 1,000 word-units</th>
                 </tr>
               </thead>
               <tbody>
@@ -461,7 +461,7 @@
                 >corpus.quran.com</a
               >
               (Leeds, Dukes 2009–2017). Full top-10 table with verification
-              status on <a href="/roots">Roots</a>. "Per 1,000 tokens"
+              status on <a href="/roots">Roots</a>. "Per 1,000 word-units"
               is (count / <span data-num="totals.tokens">77,429</span>) × 1,000, direct
               computation.</p>
             </details>
@@ -473,7 +473,7 @@
                 <tr>
                   <th>Concept</th>
                   <th class="count">Count</th>
-                  <th class="count">Per 1,000 tokens</th>
+                  <th class="count">Per 1,000 word-units</th>
                 </tr>
               </thead>
               <tbody>
@@ -589,9 +589,9 @@
             <h3 id="vocabulary-variety-by-period-ttr-mattr-mtld">Vocabulary variety by period (TTR, MATTR, MTLD)</h3>
             <p>
               Type-token ratio (distinct surface forms, or distinct lemmas,
-              divided by all word-tokens) measures vocabulary variety versus
+              divided by all word-units) measures vocabulary variety versus
               repetition — but it falls mechanically as sample size grows,
-              and these four periods differ greatly in token count (2,704 to
+              and these four periods differ greatly in word-unit count (2,704 to
               30,572). Two length-robust alternatives are shown alongside
               it: MATTR (a moving-average TTR over a fixed window,
               Covington &amp; McFall 2010) and MTLD (a factor-count measure,
@@ -651,15 +651,15 @@
             <details class="method-note">
               <summary>ℹ How this is computed</summary>
               <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924 covington-mcfall-2010 mccarthy-jarvis-2010" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
-              distinct surface forms / lemmas ÷ word-tokens, by Cairo 1924
-              period. Form MATTR: mean TTR over a 100-token sliding window
+              distinct surface forms / lemmas ÷ word-units, by Cairo 1924
+              period. Form MATTR: mean TTR over a 100-word-unit sliding window
               (Covington &amp; McFall 2010). Form MTLD: bidirectionally
               averaged factor count at a 0.72 TTR threshold (McCarthy &amp;
               Jarvis 2010). Both computed by
               <code>scripts/lib/lexical-diversity.mjs</code>.
               <span class="badge nuanced" data-source-ids="leeds-corpus-v0.4" aria-label="Nuanced" tabindex="0" title="Nuanced · counting method varies by source">~</span>
               type-token ratio is sensitive to sample size; these periods
-              range from 2,704 to 30,572 tokens, so the falling ratio partly
+              range from 2,704 to 30,572 word-units, so the falling ratio partly
               reflects length, not style alone.</p>
             </details>
           </div>
@@ -670,7 +670,7 @@
           <div class="card study-only">
             <h3 id="grammatical-texture">Grammatical texture</h3>
             <p>
-              Of <span data-num="posProfile.totalTokens">77,429</span> word-tokens,
+              Of <span data-num="posProfile.totalTokens">77,429</span> word-units,
               <strong data-num="posProfile.byTag.N">25,135</strong> are nouns and
               <strong data-num="posProfile.byTag.V">19,356</strong> are verbs. The
               noun and verb share shifts across the revelation:
@@ -711,8 +711,8 @@
               <summary>ℹ How this is computed</summary>
               <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
               exact counts of the Leeds N (noun) and V (verb) tags as a share
-              of all tokens, by Cairo 1924 period. Noun and verb are the two
-              unambiguous single tags; the remaining tokens are particles and
+              of all word-units, by Cairo 1924 period. Noun and verb are the two
+              unambiguous single tags; the remaining word-units are particles and
               other function words, so no family taxonomy is asserted.</p>
             </details>
           </div>
@@ -729,7 +729,7 @@
               >
             </h3>
             <p>
-              Normalized frequency (per 1,000 tokens) of the 40 most
+              Normalized frequency (per 1,000 word-units) of the 40 most
               frequent roots across all 114 surahs. Darker cells mean the
               root is more locally concentrated in that surah, not more
               important.
@@ -872,7 +872,7 @@
             </h3>
             <p>
               Keyness (Dunning's G2) measures how distinctively a root's
-              token frequency in one revelation period differs from the
+              word-unit frequency in one revelation period differs from the
               rest of the corpus. The top 15 roots by G2 are listed for
               each of the four periods, by Cairo 1924 revelation order
               (Nöldeke-Bell four-period classification). Periodization
@@ -884,8 +884,8 @@
             <details class="method-note">
               <summary>ℹ How this is computed</summary>
               <p><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
-              G2 computed from root token counts per period
-              (<code>data/roots-summary.json</code>) against period token
+              G2 computed from per-period root counts in word-units
+              (<code>data/roots-summary.json</code>) against period word-unit
               totals (<code>data/numbers.json</code>), by
               <code>scripts/compute-association-stats.mjs</code>.
               <span class="badge nuanced" data-source-ids="cairo-1924 noldeke-schwally-1909 watt-bell-1970" aria-label="Nuanced" tabindex="0" title="Nuanced · periodization varies across scholarly chronologies">~</span>
@@ -933,7 +933,7 @@
                 >●</span
               >
               Computed by <code>scripts/compute-dispersion.mjs</code> over
-              the 114 surahs, weighted by token count (not treated as
+              the 114 surahs, weighted by word-unit count (not treated as
               equal-sized). DP = 0.5·Σ|v_i − s_i|; DPnorm = DP / (1 −
               min(s_i)), the corrected normalization from Lijffijt &amp;
               Gries (2012). Roots below 20 corpus-wide occurrences are
@@ -1275,7 +1275,7 @@
             viewBox: "0 0 " + W + " " + H,
             maxWidth: "560px",
             ariaLabel:
-              "Verse-length distribution: " + bins.length + " token-count bands across " +
+              "Verse-length distribution: " + bins.length + " length bands (in word-units) across " +
               hist.totalVerses + " verses, tallest band " + maxCount.toLocaleString("en-US") + " verses",
           });
           var xScale = qdViz.scaleLinear([0, bins.length], [padL, W - padR]);
@@ -1508,7 +1508,7 @@
               return (
                 root.rootLatin + " in surah " + s.surah +
                 (s.name ? " (" + s.name + ")" : "") +
-                ": " + v.toFixed(2) + " per 1,000 tokens"
+                ": " + v.toFixed(2) + " per 1,000 word-units"
               );
             },
           );
@@ -1527,7 +1527,7 @@
           });
           legend.appendChild(document.createTextNode("0"));
           legend.appendChild(ramp);
-          legend.appendChild(document.createTextNode(maxValue.toFixed(1) + " per 1,000 tokens"));
+          legend.appendChild(document.createTextNode(maxValue.toFixed(1) + " per 1,000 word-units"));
           container.appendChild(legend);
 
           qdViz.renderDisclaimer(container);
@@ -1569,7 +1569,7 @@
               columns: [
                 { key: "surah", label: "Surah", numeric: true },
                 { key: "name", label: "Name" },
-                { key: "value", label: "Per 1,000 tokens", numeric: true },
+                { key: "value", label: "Per 1,000 word-units", numeric: true },
               ],
               rows: rows,
             });

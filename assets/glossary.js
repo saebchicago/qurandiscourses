@@ -5,6 +5,7 @@ window.GLOSSARY = {
   "basmala": "The opening formula bismillah al-rahman al-rahim ('In the name of God, the Most Merciful, the Especially Merciful'). It heads 113 of the 114 surahs and appears mid-surah once, at 27:30.",
   "betweenness": "How often a node lies on the shortest paths between other nodes in a co-occurrence network. A statistical position measure, strongly influenced by raw frequency; it does not indicate importance.",
   "buckwalter": "A one-to-one Latin-character transliteration system for Arabic, used by the Leeds Quranic Arabic Corpus to encode the consonantal and vowel structure of every word in machine-readable form.",
+  "the corpus": "The machine-readable text this site computes from — here, the Leeds Quranic Arabic Corpus, a word-by-word analysis of the Qur'an. A corpus is something you count over, not an interpretation: every figure on this site is a count made against it.",
   "deterministic": "Producing the same output for the same input, every time, by following fixed rules. The Ask box is deterministic: pattern-matching routes your question to a tool, and nothing composes an answer on the site's behalf.",
   "dice": "The Dice coefficient: the overlap between two words' sets of verses, from 0 (never together) to 1 (always together).",
   "discourse": "As used on this site: a surah read as one connected address (khitab) from speaker to hearer — a single speech with a beginning, development, and close — rather than a loose collection of verses.",
@@ -16,6 +17,7 @@ window.GLOSSARY = {
   "keyness": "A score (Dunning's G2) for how distinctively a word belongs to one section of the text compared with the rest. High keyness means the word's frequency there is statistically unusual, not that the word is important.",
   "khitab": "Direct address from speaker to hearer. Khan treated this as the proper unit of Qur'anic reading; the site's name, 'Divine Discourses,' renders God's khitab to the hearer.",
   "lemma": "The dictionary or canonical form of a word. In Arabic morphology, lemmas are derived from triliteral roots according to fixed patterns.",
+  "lemmas": "The dictionary or canonical form of a word. In Arabic morphology, lemmas are derived from triliteral roots according to fixed patterns.",
   "llr": "Log-likelihood ratio (Dunning's G2): a score for how surprising it is that two words share verses as often as they do, given how often each occurs overall. Higher means stronger evidence the pairing is not chance. It measures distribution, not meaning.",
   "morphology": "The word-form analysis of Arabic: root, stem pattern, prefixes, suffixes, tense, mood, person, number, and inflection. The Leeds Quranic Arabic Corpus provides this analysis for every word in the Qur'an.",
   "mutashabihat": "Phrases or formulations that recur across the Qur'an with small variations. The classical science of tracking these parallels is a subfield of 'ulum al-Qur'an.",
@@ -40,10 +42,12 @@ window.GLOSSARY = {
   "tafaseer": "Plural of tafsir.",
   "tafsir": "Qur'anic exegesis or commentary. A scholarly genre going back to the earliest generations of Islam.",
   "token": "The smallest piece the corpus counts — this site calls it a word-unit in plain language. Arabic often writes several tokens as a single word: bismi (\"in the name of\") is one written word but two tokens (bi + ism). That is why the Qur'an has 77,429 word-units but far fewer written words. Counts of nouns, verbs, and verse length on Numbers are measured in word-units, not written words.",
+  "tokens": "The smallest piece the corpus counts — this site calls it a word-unit in plain language. Arabic often writes several tokens as a single word: bismi (\"in the name of\") is one written word but two tokens (bi + ism). That is why the Qur'an has 77,429 word-units but far fewer written words. Counts of nouns, verbs, and verse length on Numbers are measured in word-units, not written words.",
   "triangulate": "To cross-check a claim against two or more independent sources. Agreement moves a claim from Pending to Verified; disagreement keeps it Nuanced with the disagreement recorded.",
   "ttr": "Type-token ratio: distinct word forms divided by total words, a measure of vocabulary variety. Smaller samples score higher mechanically, so the trend matters more than the absolute values.",
   "verified": "A claim on this site backed by direct corpus data, primary text, or peer-reviewed scholarship. The strongest confidence label.",
   "word-unit": "This site's plain-language name for a corpus token — the smallest counted piece of the text. Used in place of \"word\" wherever a count could otherwise be mistaken for written words.",
+  "word-units": "This site's plain-language name for a corpus token — the smallest counted piece of the text. Used in place of \"word\" wherever a count could otherwise be mistaken for written words.",
   "fāṣila": "The word or syllable a verse ends on. When the same ending recurs across consecutive verses it produces the rhyme or assonance pattern (fawāṣil, plural) scholars read structure from.",
   "fawāṣil": "The word or syllable a verse ends on. When the same ending recurs across consecutive verses it produces the rhyme or assonance pattern (fawāṣil, plural) scholars read structure from.",
   "qasam": "An oath opening: a surah or passage that begins by swearing on something (time, the sun, the fig tree) before making its claim. Surahs al-'Asr, al-Shams, and al-Tin open this way.",
@@ -214,7 +218,16 @@ window.GLOSSARY = {
       // headings; a couple of GLOSSARY keys differ from their entry
       // (the "coherence" definition lives under nazm), so map those
       // explicitly and slugify the rest.
-      var ANCHORS = { coherence: "nazm" };
+      // Alias and plural matchKeys must map back to the entry id they
+      // define, or the popover's "Glossary →" link would point at a
+      // slugified anchor that does not exist (e.g. /glossary#tokens).
+      var ANCHORS = {
+        coherence: "nazm",
+        tokens: "token",
+        "word-units": "word-unit",
+        lemmas: "lemma",
+        "the corpus": "corpus",
+      };
       var anchor =
         ANCHORS[term] || term.toLowerCase().replace(/\s+/g, "-");
       pop.innerHTML =

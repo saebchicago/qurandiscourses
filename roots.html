@@ -489,8 +489,8 @@
               <summary>ℹ How this is computed</summary>
               <p>
                 Computed from Leeds Quranic Arabic Corpus v0.4: total count of
-                all token entries with this root across 114 morphology files
-                (<span data-num="totals.tokens">77,429</span> tokens in the corpus; <span data-num="totals.rootedTokens">49,967</span> carry a root, the rest
+                all word-unit entries with this root across 114 morphology files
+                (<span data-num="totals.tokens">77,429</span> word-units in the corpus; <span data-num="totals.rootedTokens">49,967</span> carry a root, the rest
                 are particles, pronouns, and other unrooted forms).
               </p>
             </details>
@@ -589,7 +589,7 @@
             <details class="method-note">
               <summary>ℹ How this is computed</summary>
               <p>
-                Computed from Leeds Quranic Arabic Corpus v0.4: summed token
+                Computed from Leeds Quranic Arabic Corpus v0.4: summed word-unit
                 count for this root in each of the 114 surah morphology files.
               </p>
             </details>
@@ -650,7 +650,7 @@
             <details class="method-note">
               <summary>ℹ How this is computed</summary>
               <p>
-                Normalized frequency (occurrences per 1,000 tokens) in
+                Normalized frequency (occurrences per 1,000 word-units) in
                 each of the four traditional revelation periods, by
                 Cairo 1924 revelation order (Nöldeke-Bell four-period
                 classification). Periodization varies across scholarly
@@ -702,7 +702,7 @@
                 <tbody id="detailFormsTbody"></tbody>
               </table>
             </div>
-            <!-- Lemma grouping: the same tokens as the table above,
+            <!-- Lemma grouping: the same word-units as the table above,
                  grouped by dictionary headword instead of surface form.
                  Folded into this block as a disclosure because the two
                  groupings answer one question at two granularities. -->
@@ -717,10 +717,10 @@
                   "
                 >
                   Between the root and its inflected surface forms sits the
-                  lemma — the dictionary headword. Grouping this root's tokens
+                  lemma — the dictionary headword. Grouping this root's word-units
                   by lemma and part of speech shows its actual derivational
                   family: which nouns, adjectives, and verbs the root produces,
-                  and how often each is used. Every root-bearing token in the
+                  and how often each is used. Every root-bearing word-unit in the
                   corpus carries a lemma, so nothing is omitted.
                   <span
                     class="badge ok"
@@ -738,7 +738,7 @@
               <summary>ℹ How this is computed</summary>
               <p>
                 Computed from Leeds Quranic Arabic Corpus v0.4: grouped all
-                token entries for this root by Arabic surface form and POS tag;
+                word-unit entries for this root by Arabic surface form and part-of-speech tag;
                 sorted by frequency descending.
               </p>
             </details>
@@ -807,7 +807,7 @@
               <summary>ℹ How this is computed</summary>
               <p>
                 Computed from Leeds Quranic Arabic Corpus v0.4: unique verse
-                references (surah:ayah) where at least one token carries this
+                references (surah:ayah) where at least one word-unit carries this
                 root; sorted numerically.
               </p>
             </details>
@@ -1126,7 +1126,7 @@
               <p>
                 Computed by <code>scripts/compute-dispersion.mjs</code> over
                 the 114 surahs as corpus parts, weighted by each surah's
-                token count. Four measures reported side by side, since the
+                word-unit count. Four measures reported side by side, since the
                 dispersion literature disagrees which is best: Gries's
                 Deviation of Proportions (DP) and its normalized form
                 (DPnorm), Juilland's D, and plain range. DPnorm 0 means the
@@ -2251,7 +2251,7 @@
                 const svg = qdViz.createSVG({
                   viewBox: `0 0 ${W} ${H}`,
                   maxWidth: "480px",
-                  ariaLabel: `Normalized frequency of ${rootLatin} per 1,000 tokens across four revelation periods`,
+                  ariaLabel: `Normalized frequency of ${rootLatin} per 1,000 word-units across four revelation periods`,
                 });
                 const values = periods.map((p) => p.normalizedFrequency);
                 const maxV = Math.max(0.1, Math.max(...values) * 1.15);
@@ -2305,7 +2305,7 @@
                     stroke: "var(--card)",
                     "stroke-width": 1.5,
                   });
-                  const text = `${p.label}: ${p.normalizedFrequency.toFixed(2)} per 1,000 tokens (${p.count.toLocaleString()} occurrence${p.count === 1 ? "" : "s"})`;
+                  const text = `${p.label}: ${p.normalizedFrequency.toFixed(2)} per 1,000 word-units (${p.count.toLocaleString()} occurrence${p.count === 1 ? "" : "s"})`;
                   qdViz.attachTooltip(c, () => text);
                   svg.appendChild(c);
                 });
@@ -2320,7 +2320,7 @@
                   columns: [
                     { key: "label", label: "Period" },
                     { key: "count", label: "Occurrences", numeric: true },
-                    { key: "normalizedFrequency", label: "Per 1,000 tokens", numeric: true },
+                    { key: "normalizedFrequency", label: "Per 1,000 word-units", numeric: true },
                   ],
                   rows: (periods || []).map((p) => ({
                     label: p.label,

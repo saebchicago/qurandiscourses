@@ -377,7 +377,7 @@
           var note = document.createElement("p");
           note.className = "caption-note";
           note.textContent =
-            "Offline view: Arabic text reassembled from the locally bundled Leeds Quranic Arabic Corpus word tokens.";
+            "Offline view: Arabic text reassembled from the word-units bundled with this site (Leeds Quranic Arabic Corpus).";
           $("verseStack").prepend(note);
         }
       })

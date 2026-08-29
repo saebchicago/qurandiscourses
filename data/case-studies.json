@@ -94,7 +94,7 @@
    "title": "corpus size",
    "sourceIds": "leeds-corpus-v0.4",
    "onHome": false,
-   "claim": "The bundled corpus holds 77,429 word tokens across 6,236 verses, carrying 1,642 distinct triliteral roots.",
+   "claim": "The bundled corpus holds 77,429 word-units across 6,236 verses, carrying 1,642 distinct triliteral roots.",
    "traceFull": "<strong>Source trace.</strong> Counted by <code>scripts/build-numbers.mjs</code> directly from the Leeds Quranic Arabic Corpus v0.4 morphology bundled in <code>data/morphology/</code>, so anyone can recount from the data this site ships. These three totals are the denominators behind every frequency and density figure on <a href=\"/numbers\">Numbers</a>; the counting rule and its alternatives are documented on <a href=\"/coverage\">Coverage</a>."
   },
   {
@@ -105,8 +105,8 @@
    "title": "root coverage",
    "sourceIds": "leeds-corpus-v0.4",
    "onHome": false,
-   "claim": "49,967 of 77,429 tokens (64.53%) carry a triliteral root; the rest are mostly particles, pronouns, and other function words that have no root by definition.",
-   "traceFull": "<strong>Source trace.</strong> Measured by <code>scripts/compute-coverage.mjs</code> over every bundled morphology token; the full field-by-field report, including the part-of-speech breakdown of the rootless remainder, is published on <a href=\"/coverage\">Coverage</a>. Marked Nuanced because the share depends on the corpus's annotation choices: it bounds what any root-based statistic here can describe, which is why it is worth citing at all."
+   "claim": "49,967 of 77,429 word-units (64.53%) carry a triliteral root; the rest are mostly particles, pronouns, and other function words that have no root by definition.",
+   "traceFull": "<strong>Source trace.</strong> Measured by <code>scripts/compute-coverage.mjs</code> over every bundled morphology word-unit; the full field-by-field report, including the part-of-speech breakdown of the rootless remainder, is published on <a href=\"/coverage\">Coverage</a>. Marked Nuanced because the share depends on the corpus's annotation choices: it bounds what any root-based statistic here can describe, which is why it is worth citing at all."
   },
   {
    "id": "direct-address-89",
@@ -215,7 +215,7 @@
    "title": "vocabulary variety by period (TTR, MATTR, MTLD)",
    "sourceIds": "leeds-corpus-v0.4 cairo-1924 covington-mcfall-2010 mccarthy-jarvis-2010",
    "onHome": false,
-   "claim": "Raw form TTR falls from 0.6202 (Early Meccan) to 0.3005 (Medinan) across the four Cairo 1924 revelation periods, tracking token count almost exactly; length-robust MATTR is nearly flat instead (0.8707-0.8913), and MTLD shows a smaller, less regular decline (673.77 down to 395.98, Medinan the outlier).",
+   "claim": "Raw form TTR falls from 0.6202 (Early Meccan) to 0.3005 (Medinan) across the four Cairo 1924 revelation periods, tracking word-unit count almost exactly; length-robust MATTR is nearly flat instead (0.8707-0.8913), and MTLD shows a smaller, less regular decline (673.77 down to 395.98, Medinan the outlier).",
    "traceFull": "<strong>Source trace.</strong> Computed by <code>scripts/build-numbers.mjs</code> using <code>scripts/lib/lexical-diversity.mjs</code>, written to <code>data/numbers.json</code>. Full table on <a href=\"numbers.html\">Numbers</a>."
   },
   {

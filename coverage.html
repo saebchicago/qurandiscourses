@@ -193,7 +193,7 @@
           >
         </h3>
         <p>
-          Of <span id="covTotalTokens">77,429</span> word-tokens in the
+          Of <span id="covTotalTokens">77,429</span> word-units in the
           Leeds Quranic Arabic Corpus v0.4, how many carry each
           morphological field.
         </p>
@@ -623,14 +623,14 @@
           ? `<p style="color:var(--muted);font-size:0.9rem">A third, separate test asks whether each surah's ` +
             `mechanically segmented sections (shown on its Dossier page) mirror each other in content, ` +
             `<a href="/patterns#ring-composition">method on Patterns</a>. ${structureTests.totalCandidates} ` +
-            `candidates across four tests, pooled corpus-wide: ${structureTests.fdrSurvivors} reached significance.</p>`
+            `candidates across four tests, pooled corpus-wide: ${structureTests.fdrSurvivors} held up statistically (reached significance).</p>`
           : "";
         el.innerHTML =
           `<p><strong>${r.transcribed.length} of ${r.totalSurahs}</strong> surahs have a transcribed, page-cited ` +
           `structural analysis. <strong>${r.wanted.length} wanted</strong>, which is all of them.${cta}</p>` +
           `<p style="color:var(--muted);font-size:0.9rem">Separately, the mechanical positional proxy tested ` +
           `${(r.proxyTest ? r.proxyTest.candidatePairs : 0).toLocaleString("en-US")} candidate root pairs across all 114 surahs and ` +
-          `${r.proxyTest ? r.proxyTest.fdrSurvivors : 0} reached significance. Its closest non-significant cases sit in ` +
+          `${r.proxyTest ? r.proxyTest.fdrSurvivors : 0} held up statistically (reached significance). The closest cases that did not sit in ` +
           `surah${near.length === 1 ? "" : "s"} ${near.join(", ") || "none"}.</p>` +
           structureLine;
         if (window.qdCiteEnhance) window.qdCiteEnhance(el);
@@ -688,7 +688,7 @@
               fill: "var(--accent)",
             });
             const title = qdViz.svgEl("title", {});
-            title.textContent = `${f.label}: ${f.withField.toLocaleString("en-US")} of ${morphology.totalTokens.toLocaleString("en-US")} tokens (${f.percentWith}%)`;
+            title.textContent = `${f.label}: ${f.withField.toLocaleString("en-US")} of ${morphology.totalTokens.toLocaleString("en-US")} word-units (${f.percentWith}%)`;
             bar.appendChild(title);
             svg.appendChild(bar);
             const pctLabel = qdViz.svgEl("text", {
@@ -707,8 +707,8 @@
             caption: "Morphology field measurements",
             columns: [
               { key: "label", label: "Field" },
-              { key: "withField", label: "Tokens with field", numeric: true },
-              { key: "withoutField", label: "Tokens without field", numeric: true },
+              { key: "withField", label: "Word-units with field", numeric: true },
+              { key: "withoutField", label: "Word-units without field", numeric: true },
               { key: "percentWith", label: "Percent", numeric: true },
             ],
             rows: fields.map((f) => ({
@@ -723,12 +723,12 @@
         renderResidual(
           "rootResidual",
           morphology.fields.root,
-          "Roots are assigned only to words derived from a triliteral root. The distribution below shows the parts of speech of tokens without one, as measured from the corpus.",
+          "Roots are assigned only to words derived from a triliteral root. The distribution below shows the parts of speech of word-units without one, as measured from the corpus.",
         );
         renderResidual(
           "lemmaResidual",
           morphology.fields.lemma,
-          "The distribution below shows the parts of speech of tokens without a lemma, as measured from the corpus.",
+          "The distribution below shows the parts of speech of word-units without a lemma, as measured from the corpus.",
         );
       }
 
@@ -743,7 +743,7 @@
         const details = document.createElement("details");
         details.className = "residual-details";
         const summary = document.createElement("summary");
-        summary.textContent = `POS distribution of the ${field.withoutField.toLocaleString("en-US")} tokens without ${containerId === "rootResidual" ? "a root" : "a lemma"}`;
+        summary.textContent = `POS distribution of the ${field.withoutField.toLocaleString("en-US")} word-units without ${containerId === "rootResidual" ? "a root" : "a lemma"}`;
         details.appendChild(summary);
         const table = document.createElement("table");
         table.className = "data residual-table";

@@ -147,11 +147,11 @@
         <div class="card">
           <h4 style="margin: 0 0 0.3rem"><code>data/morphology/{1..114}.json</code></h4>
           <p style="margin: 0 0 0.4rem">
-            Word-by-word morphology for all <span data-num="totals.tokens">77,429</span> tokens: per verse, an
+            Word-by-word morphology for all <span data-num="totals.tokens">77,429</span> word-units: per verse, an
             array of words, each
             <code>{w, ar, root, lemma, pos, gloss}</code> (word index,
             Uthmani surface form, Buckwalter root, Buckwalter lemma,
-            part-of-speech tag; the per-token gloss field is empty — the
+            part-of-speech tag; the per-word-unit gloss field is empty — the
             word glosses that ship live separately in
             <code>data/gloss/</code>, six surahs from Khan 2011).
             <span
@@ -366,7 +366,7 @@
         <div class="card">
           <h4 style="margin: 0 0 0.3rem"><code>data/formulas-root.json</code> · <code>data/formulas-surface.json</code></h4>
           <p style="margin: 0 0 0.4rem">
-            Every 3/4/5-token sequence recurring 2+ times corpus-wide, with
+            Every 3-, 4-, or 5-word-unit sequence recurring 2+ times corpus-wide, with
             all verse locations — root-sequence and surface-form streams
             (each catches phrases the other cannot). Browsable on
             <a href="/formulas">Formulas</a>.
