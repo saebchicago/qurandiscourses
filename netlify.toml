@@ -1,3 +1,15 @@
+[build]
+  # Skip documentation, repository metadata, and workflow-only commits.
+  # Content, scripts, styles, data, and this configuration still deploy.
+  ignore = "git diff --quiet \"$CACHED_COMMIT_REF\" \"$COMMIT_REF\" -- . ':(exclude)**/*.md' ':(exclude)docs/**' ':(exclude).github/**'"
+
+# Static-site previews are opt-in. Production remains Git-driven.
+[context.deploy-preview]
+  ignore = "exit 0"
+
+[context.branch-deploy]
+  ignore = "exit 0"
+
 # Netlify configuration: headers and clean-URL redirects (no build step;
 # deploy = push).
 #
