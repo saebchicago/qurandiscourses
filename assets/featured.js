@@ -70,7 +70,6 @@
 
   var sessionVisit = visitOffset();
   window.qdFeatured = {
-    daysSinceEpoch: daysSinceEpoch,
     dailySurahNum: dailySurahNum,
     hoursSinceEpoch: hoursSinceEpoch,
     sessionVisit: sessionVisit,
@@ -125,20 +124,27 @@
     var askLabel = document.getElementById("ask-label");
     if (askLabel) askLabel.textContent = "Open a passage";
     document.querySelectorAll(".workflow-desc").forEach(hide);
-    var welcome = document.querySelector("#welcomeBanner p");
-    if (welcome && welcome.textContent.indexOf("First time") !== -1) {
-      welcome.innerHTML = "<strong>Start below.</strong> A verse is waiting.";
+    var banner = document.getElementById("welcomeBanner");
+    if (banner) {
+      var ps = banner.querySelectorAll("p");
+      if (ps[0]) ps[0].innerHTML = "<strong>Start below.</strong>";
+      if (ps[1]) hide(ps[1]);
+      var start = document.getElementById("welcomeNewHere");
+      if (start) {
+        start.href = "/exercise?id=asr-outline";
+        start.textContent = "Outline al-'Asr";
+      }
     }
     var lenses = document.getElementById("lensesSection");
     if (lenses) {
       var heading = lenses.querySelector("h2");
       if (heading) heading.textContent = "Try a lens";
-      var ps = lenses.querySelectorAll("p");
-      if (ps[0]) {
-        ps[0].innerHTML =
+      var lps = lenses.querySelectorAll("p");
+      if (lps[0]) {
+        lps[0].innerHTML =
           '<a href="/read?s=103&a=1-3">Open al-\'Asr</a> and mark its turns. <a href="/how-to-use">How to use</a> holds the method.';
       }
-      if (ps[1]) hide(ps[1]);
+      if (lps[1]) hide(lps[1]);
     }
     var beginH = document.querySelector("#beginSection h2");
     if (beginH) beginH.textContent = "Begin";
@@ -164,12 +170,11 @@
     var nextSurahBtn = ensureButton("dailyNextSurah", "Another surah", nextVerseBtn);
     var reflect = document.getElementById("reflectBox");
     if (!meta || !wrap || !verseAr || !verseLabel) return;
-    var communalNum = dailySurahNum();
     var surahShift = 0;
     var verseShift = sessionVisit;
     var morph = null;
     var morphSurah = 0;
-    var su = surahById(communalNum);
+    var su = surahById(dailySurahNum());
     if (!su) return;
     function currentSurahNum() {
       return 1 + ((daysSinceEpoch() + surahShift) % 114);
