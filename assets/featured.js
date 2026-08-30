@@ -93,6 +93,19 @@
     if (h <= 0) return m + "m";
     return h + "h " + pad(m) + "m";
   }
+  function ensureButton(id, label, after) {
+    var el = document.getElementById(id);
+    if (el) return el;
+    if (!after || !after.parentNode) return null;
+    el = document.createElement("button");
+    el.type = "button";
+    el.id = id;
+    el.className = "button secondary";
+    el.textContent = label;
+    el.style.marginInlineStart = "0.4rem";
+    after.parentNode.insertBefore(el, after.nextSibling);
+    return el;
+  }
 
   var sessionVisit = visitOffset();
 
@@ -171,7 +184,11 @@
     var verseAr = document.getElementById("dailyVerseAr");
     var verseLabel = document.getElementById("dailyVerseLabel");
     var nextVerseBtn = document.getElementById("dailyNextVerse");
-    var nextSurahBtn = document.getElementById("dailyNextSurah");
+    var nextSurahBtn = ensureButton(
+      "dailyNextSurah",
+      "Show another surah",
+      nextVerseBtn,
+    );
     var reflect = document.getElementById("reflectBox");
     if (!meta || !wrap || !verseAr || !verseLabel) return;
 
