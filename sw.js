@@ -10,7 +10,7 @@
 // After a bump, run: node scripts/build-sw-manifest.mjs — it rewrites
 // the precache block below and data/sw-manifest.json; check-sw-version
 // in CI fails when either is stale or the two versions disagree.
-const SW_VERSION = "v14";
+const SW_VERSION = "v15";
 const HTML_CACHE = "dd-html-" + SW_VERSION;
 const ASSET_CACHE = "dd-assets-" + SW_VERSION;
 const DATA_CACHE = "dd-data-" + SW_VERSION;
