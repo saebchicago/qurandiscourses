@@ -32,6 +32,12 @@
       property="og:image:alt"
       content="Divine Discourses — toward direct engagement with the Qur'an. Every claim labeled and traceable to its source."
     />
+    <!-- The daily discourse card renders Arabic text above the fold on
+         first paint (assets/surahs.js's .ar surah name) — preload the
+         Amiri subset that covers it (basic Arabic, U+0600-06FF) so the
+         font-display:swap fallback-to-Amiri reflow (assets/fonts.css)
+         resolves before paint instead of after, which otherwise shows up
+         as a real, measured layout shift on this page specifically. -->
     <link
       rel="preload"
       href="assets/fonts/J7aRnpd8CGxBHpUrtLMA7w.woff2"
@@ -62,9 +68,11 @@
     />
     <link rel="manifest" href="manifest.webmanifest" />
     <meta name="theme-color" content="#2b1d0e" />
+    <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/","url":"https://divinediscourses.org/","name":"Divine Discourses: Read the Qur'an One Surah at a Time","description":"Study the Qur'an surah by surah in a coherence-reading tradition: structure first, every claim sourced and citable, no intermediary interpretation. Roots, words, patterns, and verification on every claim.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.2.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://divinediscourses.org/read?s={search_term_string}"},"query-input":"required name=search_term_string"}}]}
     </script>
+    <!-- /JSONLD -->
   </head>
   <body>
     <a href="#main" class="skip">Skip to main content</a>
@@ -162,29 +170,73 @@
 
       <section id="welcomeBanner" hidden>
         <div class="banner soft">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.75rem 1.25rem;flex-wrap:wrap">
+          <div
+            style="
+              display: flex;
+              align-items: flex-start;
+              justify-content: space-between;
+              gap: 0.75rem 1.25rem;
+              flex-wrap: wrap;
+            "
+          >
             <div>
-              <p style="margin:0 0 0.6rem">
+              <p style="margin: 0 0 0.6rem">
                 <strong>First time here?</strong> This site is for studying
                 the Qur'an directly — one surah at a time, read as one
                 connected discourse — with every claim traceable to its
                 source.
               </p>
-              <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0 0 0.6rem">
-                <a class="button" id="welcomeNewHere" href="/about#new-here" style="min-height:44px;display:inline-flex;align-items:center">New to the Qur'an? Start here</a>
-                <button type="button" id="welcomeTourBtn" class="button secondary" style="min-height:44px">Take the 60-second tour</button>
+              <div
+                style="
+                  display: flex;
+                  gap: 0.5rem;
+                  flex-wrap: wrap;
+                  margin: 0 0 0.6rem;
+                "
+              >
+                <a
+                  class="button"
+                  id="welcomeNewHere"
+                  href="/about#new-here"
+                  style="min-height: 44px; display: inline-flex; align-items: center"
+                  >New to the Qur'an? Start here</a
+                >
+                <button
+                  type="button"
+                  id="welcomeTourBtn"
+                  class="button secondary"
+                  style="min-height: 44px"
+                >
+                  Take the 60-second tour
+                </button>
               </div>
-              <p style="margin:0;font-size:0.88rem;color:var(--muted)">
+              <p style="margin: 0; font-size: 0.88rem; color: var(--muted)">
                 You'll start in <strong>Simple</strong> — just reading. Go
                 deeper anytime with the gear ⚙ or keys
                 <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd>.
               </p>
             </div>
-            <button type="button" id="welcomeDismiss" class="button secondary" aria-label="Dismiss welcome" title="Dismiss" style="flex-shrink:0">×</button>
+            <button
+              type="button"
+              id="welcomeDismiss"
+              class="button secondary"
+              aria-label="Dismiss welcome"
+              title="Dismiss"
+              style="flex-shrink: 0"
+            >
+              ×
+            </button>
           </div>
         </div>
       </section>
       <script>
+        // Decide whether to show the welcome banner synchronously, right
+        // here, rather than leaving it to tour.js (loaded `defer`, so it
+        // only runs after the whole page has parsed) — a hidden section
+        // that a later script unhides is a real, measured layout shift
+        // (the whole page below it jumps down once it appears), not just
+        // a theoretical one. Reading localStorage directly here avoids
+        // waiting on assets/app.js's qdState to be built.
         (function () {
           try {
             var raw = localStorage.getItem("qd_state");
@@ -195,48 +247,113 @@
       </script>
 
       <section id="continueSection" hidden aria-live="polite">
-        <div class="banner soft" style="display:flex;align-items:center;justify-content:space-between;gap:0.75rem 1.25rem;flex-wrap:wrap">
-          <p id="continueText" style="margin:0"></p>
-          <div style="display:flex;gap:0.5rem;align-items:center;flex-shrink:0">
+        <div
+          class="banner soft"
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem 1.25rem;
+            flex-wrap: wrap;
+          "
+        >
+          <p id="continueText" style="margin: 0"></p>
+          <div style="display: flex; gap: 0.5rem; align-items: center; flex-shrink: 0">
             <a id="continueLink" class="button" href="#">Continue</a>
-            <button type="button" id="continueDismiss" class="button secondary" aria-label="Dismiss" title="Dismiss">×</button>
+            <button
+              type="button"
+              id="continueDismiss"
+              class="button secondary"
+              aria-label="Dismiss"
+              title="Dismiss"
+            >
+              ×
+            </button>
           </div>
         </div>
       </section>
 
       <section id="dailySection" aria-live="polite">
         <div class="card">
-          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:0.75rem;flex-wrap:wrap">
-            <h2 style="margin:0">Today's discourse</h2>
-            <span id="dailyWhen" style="font-size:0.82rem;color:var(--muted)">Same surah for everyone · changes at midnight UTC</span>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: baseline;
+              gap: 0.75rem;
+              flex-wrap: wrap;
+            "
+          >
+            <h2 style="margin: 0">Today's discourse</h2>
+            <span id="dailyWhen" style="font-size: 0.82rem; color: var(--muted)"
+              >Same surah for everyone · changes at midnight UTC</span
+            >
           </div>
-          <p id="dailyIntro" style="margin:0.6rem 0;min-height:4.9em">
+          <p id="dailyIntro" style="margin: 0.6rem 0; min-height: 4.9em">
+            <!-- static:daily-intro -->
             <strong>Surah 1 · al-Fatihah</strong> (<span class="ar notranslate" translate="no" lang="ar" dir="rtl">الفاتحة</span>), “The Opening”, 7 verses, Meccan. A different passage is chosen each day in the browser; with JavaScript off, this is where to start.
+            <!-- /static:daily-intro -->
           </p>
-          <p id="dailyLens" style="margin:0.6rem 0;min-height:4.9em;color:var(--muted)">
+          <p
+            id="dailyLens"
+            style="margin: 0.6rem 0; min-height: 4.9em; color: var(--muted)"
+          >
+            <!-- static:daily-lens -->
             Its most repeated root: <span class="ar notranslate" translate="no" lang="ar" dir="rtl">ر ح م</span> (r-ḥ-m), appearing 4×.
+            <!-- /static:daily-lens -->
           </p>
-          <div style="display:flex;flex-direction:column;align-items:flex-start;gap:0.6rem;margin-top:0.4rem">
-            <a id="dailyReadLink" class="button" href="/read?s=1&a=1">Read this surah</a>
-            <a id="dailyDossierLink" class="button secondary" href="/dossier?s=1">Its full dossier</a>
-            <a id="dailyLensLink" class="button secondary" href="/roots?root=rHm">Explore this root</a>
-            <a id="dailyReplayLink" class="button secondary" href="/replay?s=1">Replay this surah</a>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 0.6rem;
+              margin-top: 0.4rem;
+            "
+          >
+            <!-- static:daily-links -->
+            <a id="dailyReadLink" class="button" href="/read?s=1&a=1"
+              >Read this surah</a
+            >
+            <a id="dailyDossierLink" class="button secondary" href="/dossier?s=1"
+              >Its full dossier</a
+            >
+            <a id="dailyLensLink" class="button secondary" href="/roots?root=rHm"
+              >Explore this root</a
+            >
+            <a id="dailyReplayLink" class="button secondary" href="/replay?s=1"
+              >Replay this surah</a
+            >
+            <!-- /static:daily-links -->
           </div>
-          <p id="dailyMeta" class="caption-note" style="min-height:1.4em"></p>
+          <p id="dailyMeta" class="caption-note" style="min-height: 1.4em"></p>
           <div id="dailyVerseWrap" hidden>
-            <p id="dailyVerseLabel" class="caption-note" style="margin:0.2rem 0"></p>
-            <p id="dailyVerseAr" class="ar xl notranslate" translate="no" lang="ar" dir="rtl" style="margin:0.2rem 0 0.6rem;font-size:1.55rem;line-height:1.9"></p>
-            <button type="button" id="dailyNextVerse" class="button secondary">Show another verse</button>
+            <p id="dailyVerseLabel" class="caption-note" style="margin: 0.2rem 0"></p>
+            <p
+              id="dailyVerseAr"
+              class="ar xl notranslate"
+              translate="no"
+              lang="ar"
+              dir="rtl"
+              style="margin: 0.2rem 0 0.6rem; font-size: 1.55rem; line-height: 1.9"
+            ></p>
+            <button type="button" id="dailyNextVerse" class="button secondary">
+              Show another verse
+            </button>
           </div>
           <div id="reflectBox" data-reflect-src="daily"></div>
-          <p id="dailyProv" class="caption-note" style="min-height:4.9em">
+          <p id="dailyProv" class="caption-note" style="min-height: 4.9em">
+            <!-- static:daily-prov -->
             <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Root frequency from the Leeds Quranic Arabic Corpus v0.4.
+            <!-- /static:daily-prov -->
           </p>
         </div>
       </section>
 
       <section id="beginSection" class="workflow-section">
-        <div class="section-heading"><h2>Ways to study</h2></div>
+        <div class="section-heading">
+          <h2>Ways to study</h2>
+        </div>
         <div class="workflow-grid modes-grid">
           <a class="workflow-card" href="/read">
             <span class="workflow-title">Read a surah</span>
@@ -274,7 +391,15 @@
           <button type="button" class="qd-chip" data-mode="passage">Go to a passage</button>
         </div>
         <div class="ask-row" id="askRow">
-          <input type="text" id="ask-input" class="ask-input" autocomplete="off" spellcheck="false" placeholder="Try Al-Fatihah, 2:255, or r-h-m" aria-label="Find a surah, verse, root, or keyword" />
+          <input
+            type="text"
+            id="ask-input"
+            class="ask-input"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Try Al-Fatihah, 2:255, or r-h-m"
+            aria-label="Find a surah, verse, root, or keyword"
+          />
           <button type="button" id="ask-go" class="ask-go">Explore</button>
         </div>
         <div class="ask-chips" aria-label="Example searches">
@@ -289,20 +414,37 @@
       </section>
 
       <section id="workedExample" class="workflow-section">
-        <div class="section-heading"><h2>One claim, traced</h2></div>
+        <div class="section-heading">
+          <h2>One claim, traced</h2>
+        </div>
         <div class="card verify-example">
           <h3>
-            <span class="badge ok" data-source-ids="farahi-primary mir-coherence-1986" aria-label="Verified" tabindex="0" title="Verified · corroborated by an independent secondary source">●</span>
+            <span
+              class="badge ok"
+              data-source-ids="farahi-primary mir-coherence-1986"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · corroborated by an independent secondary source"
+              >●</span
+            >
             Verified · Farahi's Mufradat and Niẓām
           </h3>
-          <p class="claim">Farahi's <em>Mufradat al-Qur'an</em> and <em>Niẓām al-Qur'an</em> are foundational to the coherence-based reading school.</p>
-          <p class="trace t-citation">Independently corroborated by Mustansir Mir's 1986 monograph on Islahi's nazm method. Full citations on <a href="/sources">Sources</a>.</p>
-          <p style="margin:0.9rem 0 0"><a class="button secondary btn-secondary" href="/validation">See the worked example</a></p>
+          <p class="claim">
+            Farahi's <em>Mufradat al-Qur'an</em> and <em>Niẓām al-Qur'an</em> are foundational to the coherence-based reading school.
+          </p>
+          <p class="trace t-citation">
+            Independently corroborated by Mustansir Mir's 1986 monograph on Islahi's nazm method. Full citations on <a href="/sources">Sources</a>.
+          </p>
+          <p style="margin: 0.9rem 0 0">
+            <a class="button secondary btn-secondary" href="/validation">See the worked example</a>
+          </p>
         </div>
       </section>
 
       <section id="lensesSection" class="workflow-section">
-        <div class="section-heading"><h2>Study through published reading lenses</h2></div>
+        <div class="section-heading">
+          <h2>Study through published reading lenses</h2>
+        </div>
         <p>
           On the Read, Dossier and Replay pages a reading lenses card
           (shown at <strong>Study</strong> depth — press <kbd>2</kbd> or
@@ -328,8 +470,13 @@
       </section>
 
       <section class="home-trust ruled">
-        <p class="trust-strip">No tracking. No generated tafsir. Public data and scripts. Every claim labeled.</p>
-        <p class="caption-note t-annotation"><a href="/changelog">Recent corrections are logged publicly.</a></p>
+        <p class="trust-strip">
+          No tracking. No generated tafsir. Public data and scripts. Every
+          claim labeled.
+        </p>
+        <p class="caption-note t-annotation">
+          <a href="/changelog">Recent corrections are logged publicly.</a>
+        </p>
       </section>
     </main>
     <footer class="site">
@@ -347,20 +494,53 @@
       </p>
       <details class="footer-feedback">
         <summary>Report a correction</summary>
-        <form name="correction" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="feedback-form">
+        <form
+          name="correction"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          class="feedback-form"
+        >
           <input type="hidden" name="form-name" value="correction" />
           <input type="hidden" name="page" value="" />
-          <p class="feedback-hp"><label>Leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
-          <label>What is wrong, and where on the page?<textarea name="message" required rows="3"></textarea></label>
-          <label>How can we reach you? (optional)<input type="text" name="contact" autocomplete="email" /></label>
+          <p class="feedback-hp">
+            <label>Leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+          </p>
+          <label>
+            What is wrong, and where on the page?
+            <textarea name="message" required rows="3"></textarea>
+          </label>
+          <label>
+            How can we reach you? (optional)
+            <input type="text" name="contact" autocomplete="email" />
+          </label>
           <button type="submit" class="button secondary">Send</button>
-          <p class="feedback-note t-annotation">Goes to the maintainer via the hosting provider's form service. Nothing else you do on this site leaves your browser. Prefer GitHub? <a href="https://github.com/saebchicago/qurandiscourses/issues/new?template=correction.md" rel="noopener">Open a correction issue</a>.</p>
+          <p class="feedback-note t-annotation">
+            Goes to the maintainer via the hosting provider's form service.
+            Nothing else you do on this site leaves your browser. Prefer
+            GitHub? <a href="https://github.com/saebchicago/qurandiscourses/issues/new?template=correction.md" rel="noopener">Open a correction issue</a>.
+          </p>
         </form>
       </details>
     </footer>
     <div class="settings">
-      <button class="gear" id="gearBtn" aria-controls="settingsPanel" aria-expanded="false" title="Open settings" aria-label="Open settings">⚙</button>
-      <div class="panel" id="settingsPanel" role="dialog" aria-label="Settings" hidden></div>
+      <button
+        class="gear"
+        id="gearBtn"
+        aria-controls="settingsPanel"
+        aria-expanded="false"
+        title="Open settings"
+        aria-label="Open settings"
+      >
+        ⚙
+      </button>
+      <div
+        class="panel"
+        id="settingsPanel"
+        role="dialog"
+        aria-label="Settings"
+        hidden
+      ></div>
     </div>
     <script src="assets/surahs.js"></script>
     <script src="assets/ask-routes.js"></script>
@@ -375,46 +555,96 @@
     <script src="assets/tour.js" defer></script>
     <script>
       (function () {
+        // Keep ids in sync with data/exercises.json ("exercise-asr" is the
+        // pre-engine id kept so older saved progress still counts).
         var EXERCISE_COUNT = 7;
         var LEGACY_IDS = { "exercise-asr": "asr-outline" };
+
         function surahLabel(n) {
-          var s = window.SURAHS && window.SURAHS.find(function (x) { return x.id === n; });
+          var s =
+            window.SURAHS &&
+            window.SURAHS.find(function (x) {
+              return x.id === n;
+            });
           return s ? "Surah " + n + " (" + s.en + ")" : "Surah " + n;
         }
+
         function ready(fn) {
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn);
-          else fn();
+          if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", fn);
+          } else {
+            fn();
+          }
         }
+
         ready(function () {
           var progress = window.qdState && window.qdState.progress;
           if (!progress) return;
+
           var lastRead = progress.lastRead;
           var doneIds = {};
-          Object.keys(progress.exercises || {}).forEach(function (id) { doneIds[LEGACY_IDS[id] || id] = true; });
-          var doneCount = Math.min(Object.keys(doneIds).length, EXERCISE_COUNT);
+          Object.keys(progress.exercises || {}).forEach(function (id) {
+            doneIds[LEGACY_IDS[id] || id] = true;
+          });
+          var doneCount = Math.min(
+            Object.keys(doneIds).length,
+            EXERCISE_COUNT,
+          );
           var pathsInProgress = Object.keys(progress.paths || {}).length;
           if (!lastRead && !doneCount && !pathsInProgress) return;
+
           var section = document.getElementById("continueSection");
           var text = document.getElementById("continueText");
           var link = document.getElementById("continueLink");
           if (!section || !text || !link) return;
-          var pathNote = pathsInProgress ? " A study path is in progress." : "";
+
+          var pathNote = pathsInProgress
+            ? " A study path is in progress."
+            : "";
           if (lastRead) {
-            text.textContent = "Continue " + surahLabel(Number(lastRead.s)) + ", verse " + lastRead.a + (doneCount ? ". You've tried " + doneCount + " of " + EXERCISE_COUNT + " exercises." : ".") + pathNote;
+            text.textContent =
+              "Continue " +
+              surahLabel(Number(lastRead.s)) +
+              ", verse " +
+              lastRead.a +
+              (doneCount
+                ? ". You've tried " +
+                  doneCount +
+                  " of " +
+                  EXERCISE_COUNT +
+                  " exercises."
+                : ".") +
+              pathNote;
             link.textContent = "Resume reading";
             link.href = "/read?s=" + lastRead.s + "&a=" + lastRead.a;
           } else if (pathsInProgress) {
-            text.textContent = "You're partway through " + (pathsInProgress === 1 ? "a study path" : pathsInProgress + " study paths") + ". Pick up where you left off.";
+            text.textContent =
+              "You're partway through " +
+              (pathsInProgress === 1
+                ? "a study path"
+                : pathsInProgress + " study paths") +
+              ". Pick up where you left off.";
             link.textContent = "Resume path";
             link.href = "/paths";
           } else {
-            text.textContent = "You've tried " + doneCount + " of " + EXERCISE_COUNT + " exercises. Pick up where you left off.";
+            text.textContent =
+              "You've tried " +
+              doneCount +
+              " of " +
+              EXERCISE_COUNT +
+              " exercises. Pick up where you left off.";
             link.textContent = "See exercises";
             link.href = "/exercises";
           }
+
           section.hidden = false;
+
           var dismiss = document.getElementById("continueDismiss");
-          if (dismiss) dismiss.addEventListener("click", function () { section.hidden = true; });
+          if (dismiss) {
+            dismiss.addEventListener("click", function () {
+              section.hidden = true;
+            });
+          }
         });
       })();
     </script>
@@ -422,26 +652,57 @@
       (function () {
         "use strict";
         function ready(fn) {
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn);
-          else fn();
+          if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", fn);
+          } else {
+            fn();
+          }
         }
+
         ready(function () {
           var section = document.getElementById("dailySection");
           if (!section || !window.SURAHS || !window.SURAHS.length) return;
+
           var daysSinceEpoch = Math.floor(Date.now() / 86400000);
           var surahNum = 1 + (daysSinceEpoch % 114);
-          var su = window.SURAHS.find(function (x) { return x.id === surahNum; });
+          var su = window.SURAHS.find(function (x) {
+            return x.id === surahNum;
+          });
           if (!su) return;
+
           var lensIndex = new Date().getUTCDay() % 3;
+
           document.getElementById("dailyIntro").innerHTML =
-            "<strong>Surah " + surahNum + " · " + qdEsc(su.translit) + "</strong> (<span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\">" + qdEsc(su.ar) + "</span>) — “" + qdEsc(su.en) + "”, " + su.verseCount + " verses, " + (su.cls === "m" ? "Meccan" : "Medinan") + ".";
-          document.getElementById("dailyReadLink").href = "/read?s=" + surahNum + "&a=1-" + su.verseCount;
-          document.getElementById("dailyDossierLink").href = "/dossier?s=" + surahNum;
+            "<strong>Surah " +
+            surahNum +
+            " · " +
+            qdEsc(su.translit) +
+            "</strong> (<span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\">" +
+            qdEsc(su.ar) +
+            "</span>) — “" +
+            qdEsc(su.en) +
+            "”, " +
+            su.verseCount +
+            " verses, " +
+            (su.cls === "m" ? "Meccan" : "Medinan") +
+            ".";
+          document.getElementById("dailyReadLink").href =
+            "/read?s=" + surahNum + "&a=1-" + su.verseCount;
+          document.getElementById("dailyDossierLink").href =
+            "/dossier?s=" + surahNum;
+
           var lensEl = document.getElementById("dailyLens");
           var lensLink = document.getElementById("dailyLensLink");
           var provEl = document.getElementById("dailyProv");
+
           function grab(url) {
-            return fetch(url).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+            return fetch(url)
+              .then(function (r) {
+                return r.ok ? r.json() : null;
+              })
+              .catch(function () {
+                return null;
+              });
           }
           var needsRhyme = lensIndex === 2;
           Promise.all([
@@ -453,24 +714,56 @@
             var p = profiles ? profiles[String(surahNum)] : null;
             var r = rhyme ? rhyme[String(surahNum)] : null;
             lensEl.style.color = "";
+
             if (lensIndex === 0 && p && p.topRoots && p.topRoots[0]) {
               var top = p.topRoots[0];
-              lensEl.innerHTML = "Its most repeated root: <span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\">" + qdEsc(top.rootArabic) + "</span> (" + qdEsc(top.rootLatin) + "), appearing " + top.count + "×.";
+              lensEl.innerHTML =
+                "Its most repeated root: <span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\">" +
+                qdEsc(top.rootArabic) +
+                "</span> (" +
+                qdEsc(top.rootLatin) +
+                "), appearing " +
+                top.count +
+                "×.";
               lensLink.textContent = "Explore this root";
               lensLink.href = "/roots?root=" + encodeURIComponent(top.root);
-              provEl.innerHTML = '<span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Root frequency from the Leeds Quranic Arabic Corpus v0.4.';
+              provEl.innerHTML =
+                '<span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Root frequency from the Leeds Quranic Arabic Corpus v0.4.';
             } else if (lensIndex === 1 && p) {
               var pct = Math.round(p.rootDiversityRatio * 100);
-              lensEl.textContent = "Its " + p.tokenCount + " word-units draw on " + p.distinctRootCount + " distinct roots — " + (p.rootDiversityRatio >= 0.5 ? "wide vocabulary variety" : "concentrated, repetitive vocabulary") + " for its length (variety ratio " + pct + "%, distinct roots ÷ word-units).";
+              lensEl.textContent =
+                "Its " +
+                p.tokenCount +
+                " word-units draw on " +
+                p.distinctRootCount +
+                " distinct roots — " +
+                (p.rootDiversityRatio >= 0.5
+                  ? "wide vocabulary variety"
+                  : "concentrated, repetitive vocabulary") +
+                " for its length (variety ratio " +
+                pct +
+                "%, distinct roots ÷ word-units).";
               lensLink.textContent = "Compare across all 114 surahs";
               lensLink.href = "/navigate";
-              provEl.innerHTML = '<span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Root-diversity ratio from the Leeds Quranic Arabic Corpus v0.4.';
+              provEl.innerHTML =
+                '<span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Root-diversity ratio from the Leeds Quranic Arabic Corpus v0.4.';
             } else if (lensIndex === 2 && r) {
               var share = Math.round(r.dominantShare * 100);
-              lensEl.innerHTML = share + "% of its verses end in the same sound family (‑" + qdEsc(r.dominantKey) + "), with " + r.shiftCount + " shift" + (r.shiftCount === 1 ? "" : "s") + " across " + r.verseCount + " verses.";
+              lensEl.innerHTML =
+                share +
+                "% of its verses end in the same sound family (‑" +
+                qdEsc(r.dominantKey) +
+                "), with " +
+                r.shiftCount +
+                " shift" +
+                (r.shiftCount === 1 ? "" : "s") +
+                " across " +
+                r.verseCount +
+                " verses.";
               lensLink.textContent = "See the rhyme method";
               lensLink.href = "/patterns";
-              provEl.innerHTML = '<span class="badge nuanced" data-source-ids="leeds-corpus-v0.4 neuwirth-1981" aria-label="Nuanced" tabindex="0" title="Nuanced · endings read from spelling, standing in for the pausal sound">~</span> Verse-ending pattern, read from how each verse is spelled — a stand-in for how the ending sounds when recitation pauses there. See the method on the Patterns page.';
+              provEl.innerHTML =
+                '<span class="badge nuanced" data-source-ids="leeds-corpus-v0.4 neuwirth-1981" aria-label="Nuanced" tabindex="0" title="Nuanced · endings read from spelling, standing in for the pausal sound">~</span> Verse-ending pattern, read from how each verse is spelled — a stand-in for how the ending sounds when recitation pauses there. See the method on the Patterns page.';
             } else {
               lensEl.textContent = "";
               lensLink.hidden = true;
