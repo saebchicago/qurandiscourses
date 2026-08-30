@@ -122,19 +122,19 @@
     var options = [
       {
         href: "/exercise?id=asr-outline",
-        text: "Outline your first surah — al-'Asr, 3 verses",
+        text: "Outline al-'Asr",
       },
       {
         href: "/exercise-roots?s=112",
-        text: "Spot the roots in al-Ikhlas — 4 verses",
+        text: "Spot the roots in al-Ikhlas",
       },
       {
         href: "/replay?s=" + dailySurahNum(),
-        text: "Replay today's surah",
+        text: "Replay today",
       },
       {
         href: "/exercise?id=ikhlas-outline",
-        text: "Outline al-Ikhlas — 4 verses",
+        text: "Outline al-Ikhlas",
       },
       {
         href: "/exercise-roots?s=109",
@@ -142,11 +142,11 @@
       },
       {
         href: "/exercise-roots?s=" + dailySurahNum(),
-        text: "Spot today's recurring roots",
+        text: "Spot today's roots",
       },
       {
         href: "/read?s=" + dailySurahNum() + "&a=1",
-        text: "Read today's discourse from verse 1",
+        text: "Read today from verse 1",
       },
     ];
     var pick = options[(hoursSinceEpoch() + sessionVisit) % options.length];
@@ -186,7 +186,7 @@
     var nextVerseBtn = document.getElementById("dailyNextVerse");
     var nextSurahBtn = ensureButton(
       "dailyNextSurah",
-      "Show another surah",
+      "Another surah",
       nextVerseBtn,
     );
     var reflect = document.getElementById("reflectBox");
@@ -222,54 +222,26 @@
     function paintIntro() {
       if (!intro) return;
       intro.innerHTML =
-        "<strong>Surah " +
+        "<strong>" +
         su.id +
         " · " +
         esc(su.translit) +
-        "</strong> (<span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\">" +
+        "</strong> <span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\">" +
         esc(su.ar) +
-        "</span>) — “" +
-        esc(su.en) +
-        "”, " +
-        su.verseCount +
-        " verses, " +
-        (su.cls === "m" ? "Meccan" : "Medinan") +
-        "." +
-        (surahShift
-          ? " Preview in this tab — the shared daily pick is surah " +
-            communalNum +
-            "."
-          : "");
+        "</span>";
     }
 
     function paintWhen() {
-      var now = new Date();
       if (when) {
-        when.textContent =
-          "Live · " +
-          utcStamp(now) +
-          (isPreview() ? " · preview in this tab" : "");
+        when.textContent = su.id + ":" + currentVerse();
       }
-      meta.textContent =
-        (isPreview() ? "Preview in this tab. " : "Shared pick. ") +
-        "Surah " +
-        su.id +
-        " of 114 · verse " +
-        currentVerse() +
-        " of " +
-        su.verseCount +
-        " · next shared surah in " +
-        hoursMinutes(msUntilNextMidnight()) +
-        " · next shared verse in " +
-        hoursMinutes(msUntilNextHour()) +
-        ". Refresh or use the buttons to see another passage immediately.";
+      meta.textContent = "";
     }
 
     function paintVerse() {
       var v = currentVerse();
       verseLabel.innerHTML =
-        (isPreview() ? "Preview verse" : "This hour’s verse") +
-        " · <a href=\"/read?s=" +
+        "<a href=\"/read?s=" +
         su.id +
         "&a=" +
         v +
@@ -291,13 +263,10 @@
       if (reflect) reflect.setAttribute("data-reflect-ref", su.id + ":" + v);
       if (window.qdMountReflect) window.qdMountReflect(reflect);
       if (nextVerseBtn) {
-        nextVerseBtn.textContent =
-          "Show another verse (" + v + " of " + su.verseCount + ")";
+        nextVerseBtn.textContent = "Another verse";
       }
       if (nextSurahBtn) {
-        nextSurahBtn.textContent = surahShift
-          ? "Show another surah (preview " + su.id + ")"
-          : "Show another surah";
+        nextSurahBtn.textContent = "Another surah";
       }
     }
 
@@ -367,26 +336,17 @@
     var notes = loadNotes();
     var existing = notes[ref] ? notes[ref].text : "";
     box.innerHTML =
-      '<div class="card" style="margin-top:0.9rem;padding:0.85rem 1rem">' +
-      '<p style="margin:0 0 0.45rem;font-size:0.92rem;font-weight:600">Notice something on ' +
-      esc(ref) +
-      "?</p>" +
-      '<p class="caption-note" style="margin:0 0 0.45rem">One line as you skim. Kept on this device — not a commentary the site is making.</p>' +
+      '<div style="margin-top:0.75rem">' +
       '<div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin:0 0 0.45rem" id="reflectPrompts"></div>' +
-      '<label class="visually-hidden" for="reflectArea">Quick reflection on ' +
+      '<label class="visually-hidden" for="reflectArea">Note on ' +
       esc(ref) +
       "</label>" +
-      '<textarea id="reflectArea" rows="2" style="width:100%;padding:0.55rem 0.65rem;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit;font-size:0.92rem;resize:vertical" placeholder="A turn in the discourse, a word that keeps returning, who is being addressed…">' +
+      '<textarea id="reflectArea" rows="2" style="width:100%;padding:0.55rem 0.65rem;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit;font-size:0.92rem;resize:vertical" placeholder="What just turned?">' +
       esc(existing) +
       "</textarea>" +
       '<p id="reflectStatus" style="font-size:0.78rem;color:var(--muted);margin:0.3rem 0 0" aria-live="polite">' +
-      (existing ? "Saved on this device." : "Type a line — it saves as you write.") +
+      (existing ? "Saved." : "") +
       "</p>" +
-      '<p class="caption-note" style="margin:0.45rem 0 0"><a href="/read?s=' +
-      esc(ref.split(":")[0]) +
-      "&a=" +
-      esc(ref.split(":")[1] || "1") +
-      '#notesSection">Open the full notes panel</a></p>' +
       "</div>";
 
     var area = box.querySelector("#reflectArea");
@@ -422,9 +382,7 @@
           }
           saveNotes(all);
           if (status)
-            status.textContent = text.trim()
-              ? "Saved on this device."
-              : "Type a line — it saves as you write.";
+            status.textContent = text.trim() ? "Saved." : "";
         }, 350);
       });
     }
