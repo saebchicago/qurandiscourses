@@ -1,6 +1,6 @@
 {
  "_generated": "scripts/build-sw-manifest.mjs — the service worker's precache list and content fingerprint. A hash diff here alongside an unchanged version is the reviewer's cue to consider a SW_VERSION bump (see docs/maintainer-guide.md).",
- "version": "v14",
+ "version": "v15",
  "hashes": {
   "assets/app.js": "d558b46b342fb163afccc157e2d68d28a95ed15f5c4f3e52bd6a291888fd9f69",
   "assets/ask-routes.js": "875d117c3c687c53f4a5d8f0323363440519079f7154452f31e76d062b3139da",
