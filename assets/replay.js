@@ -35,7 +35,7 @@
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   } catch (e) {}
 
-  // ── helpers ─────────────────────────────────────────────────────
+  // ── helpers ─────────────────────────────────
   function $(id) {
     return document.getElementById(id);
   }
@@ -95,7 +95,64 @@
       .join(" ");
   }
 
-  // ── rendering ───────────────────────────────────────────────────
+
+  function familyRows() {
+    return Object.keys(recurring)
+      .sort(function (a, b) {
+        return recurring[b].count - recurring[a].count;
+      })
+      .slice(0, 8)
+      .map(function (root) {
+        var verses = [];
+        var seen = {};
+        recurring[root].positions.forEach(function (pos) {
+          if (!seen[pos.a]) {
+            seen[pos.a] = true;
+            verses.push(pos.a);
+          }
+        });
+        return {
+          root: root,
+          label: root,
+          count: recurring[root].count,
+          verses: verses,
+        };
+      });
+  }
+
+  function renderStrip() {
+    var host = $("rootStrip");
+    var note = $("rootStripNote");
+    if (!host) return;
+    if (!window.qdViz || !window.qdViz.renderPositionStrip) {
+      host.hidden = true;
+      if (note) note.hidden = true;
+      return;
+    }
+    var rows = familyRows();
+    if (!rows.length) {
+      host.hidden = true;
+      if (note) note.hidden = true;
+      return;
+    }
+    if (note) note.hidden = false;
+    window.qdViz.renderPositionStrip(host, {
+      verseCount: surah.verseCount,
+      currentVerse: idx,
+      families: rows,
+      ariaLabel:
+        "Positions of recurring roots across " +
+        surah.verseCount +
+        " verses",
+      onVerseClick: function (v) {
+        idx = v;
+        activate();
+        if (playing) playCurrent();
+      },
+    });
+  }
+
+  // ── rendering ───────────────────────────────
   function renderStack() {
     var stack = $("verseStack");
     var html = "";
@@ -154,6 +211,7 @@
       banner.hidden = true;
     }
 
+    renderStrip();
     $("posLabel").textContent = "Verse " + idx + " of " + surah.verseCount;
     $("replayLive").textContent =
       "Verse " +
@@ -163,7 +221,7 @@
       (item ? ". Section: " + item.heading.replace(/<[^>]+>/g, "") : "");
   }
 
-  // ── audio ───────────────────────────────────────────────────────
+  // ── audio ─────────────────────────────────
   function srcFor(a) {
     return (
       "https://cdn.islamic.network/quran/audio/128/" +
@@ -270,7 +328,7 @@
     });
   }
 
-  // ── boot ────────────────────────────────────────────────────────
+  // ── boot ────────────────────────────────
   function loadSurah(s) {
     surah = window.SURAHS.find(function (e) {
       return e.id === s;
@@ -366,6 +424,7 @@
           });
 
         renderStack();
+        renderStrip();
         $("transport").hidden = false;
         var startV = parseInt(
           new URLSearchParams(location.search).get("v") || "1",
