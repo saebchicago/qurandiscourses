@@ -5,6 +5,8 @@
   // The communal surah still changes once at midnight UTC for everyone.
   // A verse inside that surah rotates each UTC hour, and "Show another
   // verse" lets a spot-check prove the picker is alive without waiting.
+  // The hero CTA also ticks hourly so the first screen is not frozen
+  // on a day whose daily pick happens to be the static fallback.
   // Reflections write to the same localStorage key as assets/notes.js
   // (qd_notes) and never leave the browser.
 
@@ -108,7 +110,7 @@
         text: "Spot the roots in al-Kafirun",
       },
     ];
-    var pick = options[daysSinceEpoch() % options.length];
+    var pick = options[hoursSinceEpoch() % options.length];
     btn.href = pick.href;
     btn.textContent = pick.text;
   }
@@ -140,6 +142,10 @@
 
     var replayLink = document.getElementById("dailyReplayLink");
     if (replayLink) replayLink.href = "/replay?s=" + su.id;
+    var readLink = document.getElementById("dailyReadLink");
+    if (readLink) readLink.href = "/read?s=" + su.id + "&a=1-" + su.verseCount;
+    var dossierLink = document.getElementById("dailyDossierLink");
+    if (dossierLink) dossierLink.href = "/dossier?s=" + su.id;
 
     var intro = document.getElementById("dailyIntro");
     var meta = document.getElementById("dailyMeta");
@@ -149,6 +155,23 @@
     var nextBtn = document.getElementById("dailyNextVerse");
     var reflect = document.getElementById("reflectBox");
     if (!meta || !wrap || !verseAr || !verseLabel) return;
+
+    if (intro) {
+      intro.innerHTML =
+        "<strong>Surah " +
+        su.id +
+        " · " +
+        esc(su.translit) +
+        "</strong> (<span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\">" +
+        esc(su.ar) +
+        "</span>) — “" +
+        esc(su.en) +
+        "”, " +
+        su.verseCount +
+        " verses, " +
+        (su.cls === "m" ? "Meccan" : "Medinan") +
+        ".";
+    }
 
     var verseShift = 0;
     var morph = null;
@@ -174,7 +197,7 @@
       verseLabel.innerHTML =
         "This hour’s verse · <a href=\"/read?s=" +
         su.id +
-        "&amp;a=" +
+        "&a=" +
         v +
         "\">" +
         su.id +
@@ -220,12 +243,6 @@
       .catch(function () {
         paintVerse();
       });
-
-    if (intro && intro.textContent.indexOf("JavaScript off") !== -1) {
-      meta.textContent =
-        (meta.textContent || "") +
-        " If this card still names al-Fatihah, scripts did not run.";
-    }
   }
 
   function mountReflect(box) {
@@ -253,7 +270,7 @@
       "</p>" +
       '<p class="caption-note" style="margin:0.45rem 0 0"><a href="/read?s=' +
       esc(ref.split(":")[0]) +
-      "&amp;a=" +
+      "&a=" +
       esc(ref.split(":")[1] || "1") +
       '#notesSection">Open the full notes panel</a></p>' +
       "</div>";
@@ -290,9 +307,7 @@
           }
           saveNotes(all);
           if (status)
-            status.textContent = text.trim()
-              ? "Saved on this device."
-              : "";
+            status.textContent = text.trim() ? "Saved on this device." : "";
         }, 350);
       });
     }
