@@ -243,6 +243,12 @@
       <section id="rsAnswer" hidden>
         <h3>Recurring root families</h3>
         <ul class="rs-legend" id="rsLegend"></ul>
+        <div id="rsMap" hidden></div>
+        <p id="rsMapNote" class="caption-note" hidden>
+          After you reveal: each row is a recurring root, each mark a verse
+          it occupies. Computed from the same Leeds morphology you just
+          checked against.
+        </p>
         <p class="caption-note">
           Recurring here means: the root appears on two or more word-units
           within this surah, as recorded in the Leeds corpus's word-by-word
@@ -330,6 +336,8 @@
         hidden
       ></div>
     </div>
+    <script src="js/viz.js"></script>
+    <script src="assets/root-map.js"></script>
     <script src="assets/root-meanings.js"></script>
     <script src="assets/surahs.js"></script>
     <script>

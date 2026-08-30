@@ -1,21 +1,7 @@
 (function () {
   "use strict";
 
-  // Shared low-level SVG helpers (window.qdViz). Zero dependencies:
-  // hand-rolled via document.createElementNS, no D3, no charting library,
-  // no vendored assets. Complements assets/chart.js (window.qdChart, the
-  // site's existing higher-level chart renderers for co-occurrence
-  // networks, revelation timelines, heat strips, and scatter plots) with
-  // the lower-level primitives the association-statistics visualizations
-  // need: a scale function, axis rendering, a keyboard-accessible
-  // tooltip, an HTML table fallback, and a fetch-with-degrade wrapper.
-  //
-  // Colors are never hardcoded: every fill/stroke either embeds a
-  // var(--custom-property) string directly (so a theme switch repaints
-  // with no re-render, exactly like assets/chart.js) or, where an actual
-  // computed value is needed (building a gradient legend), reads it at
-  // call time via getComputedStyle so it always reflects the active
-  // theme/palette.
+  // Shared low-level SVG helpers (window.qdViz). Zero dependencies.
 
   var NS = "http://www.w3.org/2000/svg";
 
@@ -27,10 +13,6 @@
     return el;
   }
 
-  // ── SVG root ────────────────────────────────────────────────────────
-  // createSVG({viewBox, width, height, ariaLabel, className}) -> <svg>
-  // Every chart's root element: responsive (width 100%, intrinsic aspect
-  // ratio from viewBox), role="img" with a descriptive aria-label.
   function createSVG(opts) {
     opts = opts || {};
     var svg = svgEl("svg", {
@@ -45,9 +27,6 @@
     return svg;
   }
 
-  // ── Scale ───────────────────────────────────────────────────────────
-  // scaleLinear([d0, d1], [r0, r1]) -> fn(value) mapping domain to range,
-  // clamped to the range. fn.invert(v) maps range back to domain.
   function scaleLinear(domain, range) {
     var d0 = domain[0],
       d1 = domain[1],
@@ -62,18 +41,13 @@
     }
     fn.invert = function (v) {
       var t = (v - r0) / (rSpan || 1);
-      return d0 + t * dSpan;
+      return d0 + t * rSpan;
     };
     fn.domain = domain;
     fn.range = range;
     return fn;
   }
 
-  // ── Axis ────────────────────────────────────────────────────────────
-  // renderAxis(svg, {orientation: 'x'|'y', scale, pos, ticks, format,
-  //   label}) -> appends a recessive axis line + tick labels to svg.
-  // pos: the pixel coordinate of the axis line along the cross-axis
-  // (y position for an x-axis, x position for a y-axis).
   function renderAxis(svg, opts) {
     var scale = opts.scale;
     var ticks = opts.ticks || scale.domain;
@@ -142,15 +116,9 @@
     }
   }
 
-  // ── Tooltip: shared floating element, hover AND keyboard focus ──────
-  // The element is shared with assets/chart.js (both modules look up an
-  // existing .qd-chart-tip before creating one), so only one tooltip
-  // ever exists and either layer's dismissal clears it.
   var tipEl = null;
   function tip() {
-    if (!tipEl) {
-      tipEl = document.querySelector(".qd-chart-tip");
-    }
+    if (!tipEl) tipEl = document.querySelector(".qd-chart-tip");
     if (!tipEl) {
       tipEl = document.createElement("div");
       tipEl.className = "qd-chart-tip";
@@ -171,11 +139,6 @@
   function hideTip() {
     if (tipEl) tipEl.hidden = true;
   }
-
-  // attachTooltip(el, textFn, opts) - el must be keyboard-reachable
-  // (tabindex="0" is set here unless the element already declares one)
-  // so Tab, not just mouse hover, exposes the same content. Escape
-  // dismisses; blur/mouseleave dismiss too.
   function attachTooltip(el, textFn, opts) {
     opts = opts || {};
     if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "0");
@@ -193,25 +156,6 @@
       if (e.key === "Escape") hideTip();
     });
   }
-
-  // attachDelegatedTooltip(container, match, textFn) - one set of
-  // listeners for a whole chart, instead of one per element.
-  //
-  // WHY THIS EXISTS. numbers.html's root-density heatmap gave each of
-  // its 4,560 cells a <title> child so a mouse hover would show the
-  // value. That is 4,560 elements and their text nodes, and it made
-  // #heatmapChart 9,719 of the page's 11,225 DOM nodes - the next
-  // heaviest page on the site is under 2,800 in total. The same argument
-  // had already been made four lines away in that renderer, for clicks:
-  // "One delegated click listener for all 4,560 cells, instead of one
-  // listener per cell." This is that argument applied to the tooltip.
-  //
-  // match(el) decides whether an element under the pointer is a target;
-  // textFn(el) returns its text. Keyboard reachability is deliberately
-  // NOT implied here - a delegated listener cannot make anything
-  // focusable, and adding tabindex to thousands of cells would be a
-  // worse answer than the table fallback the chart already carries.
-  // Use attachTooltip for anything a reader must be able to Tab to.
   function attachDelegatedTooltip(container, match, textFn) {
     var current = null;
     container.addEventListener("mousemove", function (e) {
@@ -234,21 +178,11 @@
       if (e.key === "Escape") hideTip();
     });
   }
-
-  // ── CSS custom property reader ───────────────────────────────────────
-  // cssVar('--accent') -> the current computed value (e.g. "#7a5a2b"),
-  // read fresh on every call so it always reflects the active
-  // theme/palette. Use for cases that need an actual value (a gradient
-  // stop, a color computed in JS); plain SVG attributes should instead
-  // embed the var(--x) string directly so the browser repaints on theme
-  // change with no re-render.
   function cssVar(name, el) {
     return getComputedStyle(el || document.documentElement)
       .getPropertyValue(name)
       .trim();
   }
-
-  // ── Disclaimer (verbatim, required beneath every chart) ─────────────
   var DISCLAIMER =
     "This chart visualizes the distribution of words in the text. " +
     "Position, distance, and color indicate statistical measures only. " +
@@ -261,12 +195,6 @@
     container.appendChild(p);
     return p;
   }
-
-  // ── Table fallback ───────────────────────────────────────────────────
-  // renderTableFallback(container, {caption, columns: [{key,label}],
-  // rows: [{...}]}) -> a <table class="data"> with the same data the
-  // chart renders, for the <details> element every chart carries and
-  // for the no-JS / fetch-failed degrade path.
   function renderTableFallback(container, opts) {
     container.innerHTML = "";
     var table = document.createElement("table");
@@ -306,10 +234,6 @@
     container.appendChild(table);
     return table;
   }
-
-  // renderDetailsFallback(parent, {summary, caption, columns, rows}) ->
-  // a <details class="xref-panel"> wrapping renderTableFallback, the
-  // standard collapsible-table shape every chart on this site uses.
   function renderDetailsFallback(parent, opts) {
     var details = document.createElement("details");
     details.className = "chart-fallback";
@@ -322,20 +246,6 @@
     parent.appendChild(details);
     return details;
   }
-
-  // ── Fetch-and-render with graceful degrade ───────────────────────────
-  // renderChart({container, url, ariaLabel, buildSvg(data), tableOf(data)
-  //   -> {caption, columns, rows}, fallbackSummary}) fetches url; on
-  // success calls buildSvg(data) to get an <svg>, appends it, the
-  // disclaimer, and the <details> table fallback (same data). On any
-  // fetch/parse failure, or if buildSvg returns nothing (e.g. no data
-  // for this entity), renders ONLY the table fallback plus disclaimer -
-  // the chart degrades, the underlying numbers stay visible.
-  // Either `url` (fetch it) or `data` (a value or promise the caller
-  // already has). The second form exists so a chart whose numbers are
-  // derivable from data the page has ALREADY loaded does not have to
-  // download a second copy of them: roots.html was pulling the 581KB
-  // root-frequencies export to read four numbers for one root.
   function renderChart(opts) {
     var container = opts.container;
     container.innerHTML = "";
@@ -379,6 +289,104 @@
       });
   }
 
+  function renderPositionStrip(container, opts) {
+    opts = opts || {};
+    if (!container) return;
+    container.innerHTML = "";
+    var families = (opts.families || []).slice(0, 8);
+    var verseCount = opts.verseCount || 0;
+    if (!families.length || verseCount < 1) {
+      container.hidden = true;
+      return;
+    }
+    container.hidden = false;
+    var rowH = 18;
+    var labelW = 72;
+    var padL = labelW + 8;
+    var padR = 8;
+    var padT = 6;
+    var padB = 18;
+    var width = Math.max(280, Math.min(720, 24 + verseCount * 10));
+    var innerW = width - padL - padR;
+    var height = padT + families.length * rowH + padB;
+    var x = scaleLinear([1, verseCount + 1], [padL, padL + innerW]);
+    var colW = Math.max(2, innerW / verseCount - 1);
+    var svg = createSVG({
+      viewBox: "0 0 " + width + " " + height,
+      ariaLabel: opts.ariaLabel || "Recurring root positions by verse",
+    });
+    var cur = opts.currentVerse;
+    if (cur >= 1 && cur <= verseCount) {
+      svg.appendChild(
+        svgEl("rect", {
+          x: x(cur),
+          y: padT - 2,
+          width: Math.max(colW, 3),
+          height: families.length * rowH + 4,
+          fill: "var(--accent)",
+          opacity: "0.18",
+        })
+      );
+    }
+    families.forEach(function (fam, i) {
+      var y = padT + i * rowH;
+      var label = svgEl("text", {
+        x: labelW - 6,
+        y: y + 12,
+        "text-anchor": "end",
+        "font-size": 9,
+        fill: "var(--muted)",
+      });
+      label.textContent = (fam.label || fam.root || "").slice(0, 12);
+      svg.appendChild(label);
+      var present = {};
+      (fam.verses || []).forEach(function (v) {
+        present[v] = true;
+      });
+      for (var v = 1; v <= verseCount; v++) {
+        if (!present[v]) continue;
+        var mark = svgEl("rect", {
+          x: x(v),
+          y: y + 4,
+          width: Math.max(colW, 3),
+          height: 10,
+          rx: 1,
+          fill: "var(--accent)",
+          opacity: cur && v > cur ? "0.28" : "0.85",
+        });
+        mark.setAttribute("tabindex", "0");
+        mark.setAttribute("aria-label", (fam.label || fam.root) + " in verse " + v);
+        (function (verse) {
+          attachTooltip(mark, function () {
+            return (fam.label || fam.root) + " · verse " + verse;
+          });
+          if (typeof opts.onVerseClick === "function") {
+            mark.style.cursor = "pointer";
+            mark.addEventListener("click", function () {
+              opts.onVerseClick(verse);
+            });
+            mark.addEventListener("keydown", function (e) {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                opts.onVerseClick(verse);
+              }
+            });
+          }
+        })(v);
+        svg.appendChild(mark);
+      }
+    });
+    var axisLabel = svgEl("text", {
+      x: padL,
+      y: height - 4,
+      "font-size": 9,
+      fill: "var(--muted)",
+    });
+    axisLabel.textContent = "verse 1 → " + verseCount;
+    svg.appendChild(axisLabel);
+    container.appendChild(svg);
+  }
+
   window.qdViz = {
     createSVG: createSVG,
     scaleLinear: scaleLinear,
@@ -393,5 +401,6 @@
     renderDetailsFallback: renderDetailsFallback,
     renderChart: renderChart,
     svgEl: svgEl,
+    renderPositionStrip: renderPositionStrip,
   };
 })();
