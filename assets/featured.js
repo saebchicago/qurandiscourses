@@ -2,15 +2,16 @@
   "use strict";
 
   // Shared featured-rotation + skim reflection.
-  // The communal surah still changes once at midnight UTC for everyone.
-  // A verse inside that surah rotates each UTC hour, and "Show another
-  // verse" lets a spot-check prove the picker is alive without waiting.
-  // The hero CTA also ticks hourly so the first screen is not frozen
-  // on a day whose daily pick happens to be the static fallback.
+  // Communal default: one surah per UTC day, one verse per UTC hour.
+  // Spot-checks were reading as frozen because those windows are long
+  // and the static fallback is always al-Fatihah. Each visit in this
+  // tab advances a local preview offset so a refresh is visibly live,
+  // without changing what a first-time reader in another browser sees.
   // Reflections write to the same localStorage key as assets/notes.js
   // (qd_notes) and never leave the browser.
 
   var NOTES_KEY = "qd_notes";
+  var VISIT_KEY = "qd_feat_visit";
   var PROMPTS = [
     { id: "pivot", label: "Where does it turn?", seed: "The discourse seems to turn when " },
     { id: "address", label: "Who is addressed?", seed: "The hearer being addressed here is " },
@@ -25,6 +26,17 @@
   }
   function hoursSinceEpoch() {
     return Math.floor(Date.now() / 3600000);
+  }
+  function visitOffset() {
+    var n = 0;
+    try {
+      n = parseInt(sessionStorage.getItem(VISIT_KEY) || "0", 10) || 0;
+      n += 1;
+      sessionStorage.setItem(VISIT_KEY, String(n));
+    } catch (e) {
+      n = 1;
+    }
+    return Math.max(0, n - 1);
   }
   function esc(v) {
     return window.qdEsc ? window.qdEsc(String(v)) : String(v);
@@ -72,6 +84,9 @@
       d.getTime()
     );
   }
+  function msUntilNextHour() {
+    return 3600000 - (Date.now() % 3600000);
+  }
   function hoursMinutes(ms) {
     var h = Math.floor(ms / 3600000);
     var m = Math.floor((ms % 3600000) / 60000);
@@ -79,10 +94,13 @@
     return h + "h " + pad(m) + "m";
   }
 
+  var sessionVisit = visitOffset();
+
   window.qdFeatured = {
     daysSinceEpoch: daysSinceEpoch,
     dailySurahNum: dailySurahNum,
     hoursSinceEpoch: hoursSinceEpoch,
+    sessionVisit: sessionVisit,
   };
 
   function rotateHero() {
@@ -109,8 +127,16 @@
         href: "/exercise-roots?s=109",
         text: "Spot the roots in al-Kafirun",
       },
+      {
+        href: "/exercise-roots?s=" + dailySurahNum(),
+        text: "Spot today's recurring roots",
+      },
+      {
+        href: "/read?s=" + dailySurahNum() + "&a=1",
+        text: "Read today's discourse from verse 1",
+      },
     ];
-    var pick = options[hoursSinceEpoch() % options.length];
+    var pick = options[(hoursSinceEpoch() + sessionVisit) % options.length];
     btn.href = pick.href;
     btn.textContent = pick.text;
   }
@@ -137,26 +163,47 @@
   function enhanceDailyCard() {
     var section = document.getElementById("dailySection");
     if (!section || !window.SURAHS || !window.SURAHS.length) return;
-    var su = surahById(dailySurahNum());
-    if (!su) return;
 
-    var replayLink = document.getElementById("dailyReplayLink");
-    if (replayLink) replayLink.href = "/replay?s=" + su.id;
-    var readLink = document.getElementById("dailyReadLink");
-    if (readLink) readLink.href = "/read?s=" + su.id + "&a=1-" + su.verseCount;
-    var dossierLink = document.getElementById("dailyDossierLink");
-    if (dossierLink) dossierLink.href = "/dossier?s=" + su.id;
-
+    var when = document.getElementById("dailyWhen");
     var intro = document.getElementById("dailyIntro");
     var meta = document.getElementById("dailyMeta");
     var wrap = document.getElementById("dailyVerseWrap");
     var verseAr = document.getElementById("dailyVerseAr");
     var verseLabel = document.getElementById("dailyVerseLabel");
-    var nextBtn = document.getElementById("dailyNextVerse");
+    var nextVerseBtn = document.getElementById("dailyNextVerse");
+    var nextSurahBtn = document.getElementById("dailyNextSurah");
     var reflect = document.getElementById("reflectBox");
     if (!meta || !wrap || !verseAr || !verseLabel) return;
 
-    if (intro) {
+    var communalNum = dailySurahNum();
+    var surahShift = 0;
+    var verseShift = sessionVisit;
+    var morph = null;
+    var morphSurah = 0;
+    var su = surahById(communalNum);
+    if (!su) return;
+
+    function currentSurahNum() {
+      return 1 + ((daysSinceEpoch() + surahShift) % 114);
+    }
+    function currentVerse() {
+      return 1 + ((hoursSinceEpoch() + verseShift) % su.verseCount);
+    }
+    function isPreview() {
+      return surahShift !== 0 || verseShift !== 0;
+    }
+
+    function applyLinks() {
+      var replayLink = document.getElementById("dailyReplayLink");
+      if (replayLink) replayLink.href = "/replay?s=" + su.id;
+      var readLink = document.getElementById("dailyReadLink");
+      if (readLink) readLink.href = "/read?s=" + su.id + "&a=1-" + su.verseCount;
+      var dossierLink = document.getElementById("dailyDossierLink");
+      if (dossierLink) dossierLink.href = "/dossier?s=" + su.id;
+    }
+
+    function paintIntro() {
+      if (!intro) return;
       intro.innerHTML =
         "<strong>Surah " +
         su.id +
@@ -170,32 +217,42 @@
         su.verseCount +
         " verses, " +
         (su.cls === "m" ? "Meccan" : "Medinan") +
-        ".";
+        "." +
+        (surahShift
+          ? " Preview in this tab — the shared daily pick is surah " +
+            communalNum +
+            "."
+          : "");
     }
 
-    var verseShift = 0;
-    var morph = null;
-
-    function currentVerse() {
-      return 1 + ((hoursSinceEpoch() + verseShift) % su.verseCount);
-    }
-
-    function paintMeta() {
+    function paintWhen() {
       var now = new Date();
+      if (when) {
+        when.textContent =
+          "Live · " +
+          utcStamp(now) +
+          (isPreview() ? " · preview in this tab" : "");
+      }
       meta.textContent =
-        "Live pick · " +
-        utcStamp(now) +
-        " · surah " +
+        (isPreview() ? "Preview in this tab. " : "Shared pick. ") +
+        "Surah " +
         su.id +
-        " of 114 · next surah in " +
+        " of 114 · verse " +
+        currentVerse() +
+        " of " +
+        su.verseCount +
+        " · next shared surah in " +
         hoursMinutes(msUntilNextMidnight()) +
-        ". Same surah for every reader; the verse below changes each hour.";
+        " · next shared verse in " +
+        hoursMinutes(msUntilNextHour()) +
+        ". Refresh or use the buttons to see another passage immediately.";
     }
 
     function paintVerse() {
       var v = currentVerse();
       verseLabel.innerHTML =
-        "This hour’s verse · <a href=\"/read?s=" +
+        (isPreview() ? "Preview verse" : "This hour’s verse") +
+        " · <a href=\"/read?s=" +
         su.id +
         "&a=" +
         v +
@@ -205,7 +262,7 @@
         v +
         "</a>";
       wrap.hidden = false;
-      if (morph && morph[String(v)]) {
+      if (morph && morphSurah === su.id && morph[String(v)]) {
         verseAr.textContent = morph[String(v)]
           .map(function (w) {
             return w.ar;
@@ -216,33 +273,67 @@
       }
       if (reflect) reflect.setAttribute("data-reflect-ref", su.id + ":" + v);
       if (window.qdMountReflect) window.qdMountReflect(reflect);
+      if (nextVerseBtn) {
+        nextVerseBtn.textContent =
+          "Show another verse (" + v + " of " + su.verseCount + ")";
+      }
+      if (nextSurahBtn) {
+        nextSurahBtn.textContent = surahShift
+          ? "Show another surah (preview " + su.id + ")"
+          : "Show another surah";
+      }
     }
 
-    paintMeta();
-    setInterval(paintMeta, 30000);
+    function loadMorph() {
+      var id = su.id;
+      fetch("data/morphology/" + id + ".json")
+        .then(function (r) {
+          return r.ok ? r.json() : null;
+        })
+        .then(function (data) {
+          if (su.id !== id) return;
+          morph = data;
+          morphSurah = id;
+          paintVerse();
+        })
+        .catch(function () {
+          paintVerse();
+        });
+    }
 
-    if (nextBtn) {
-      nextBtn.addEventListener("click", function () {
+    function adoptSurah() {
+      su = surahById(currentSurahNum());
+      if (!su) return;
+      morph = null;
+      morphSurah = 0;
+      applyLinks();
+      paintIntro();
+      paintWhen();
+      paintVerse();
+      loadMorph();
+    }
+
+    if (nextVerseBtn) {
+      nextVerseBtn.addEventListener("click", function () {
         verseShift += 1;
+        paintWhen();
         paintVerse();
-        nextBtn.textContent =
-          verseShift % su.verseCount === 0
-            ? "Show another verse"
-            : "Show another verse (" + currentVerse() + " of " + su.verseCount + ")";
+      });
+    }
+    if (nextSurahBtn) {
+      nextSurahBtn.addEventListener("click", function () {
+        surahShift += 1;
+        verseShift = 0;
+        adoptSurah();
       });
     }
 
-    fetch("data/morphology/" + su.id + ".json")
-      .then(function (r) {
-        return r.ok ? r.json() : null;
-      })
-      .then(function (data) {
-        morph = data;
-        paintVerse();
-      })
-      .catch(function () {
-        paintVerse();
-      });
+    applyLinks();
+    paintIntro();
+    paintWhen();
+    paintVerse();
+    loadMorph();
+    setInterval(paintWhen, 30000);
   }
 
   function mountReflect(box) {
@@ -252,12 +343,18 @@
       box.innerHTML = "";
       return;
     }
+    if (box.getAttribute("data-reflect-mounted") === ref) {
+      return;
+    }
+    box.setAttribute("data-reflect-mounted", ref);
     var notes = loadNotes();
     var existing = notes[ref] ? notes[ref].text : "";
     box.innerHTML =
       '<div class="card" style="margin-top:0.9rem;padding:0.85rem 1rem">' +
-      '<p style="margin:0 0 0.45rem;font-size:0.92rem;font-weight:600">Notice something?</p>' +
-      '<p class="caption-note" style="margin:0 0 0.45rem">One line, kept on this device. Not a commentary the site is making.</p>' +
+      '<p style="margin:0 0 0.45rem;font-size:0.92rem;font-weight:600">Notice something on ' +
+      esc(ref) +
+      "?</p>" +
+      '<p class="caption-note" style="margin:0 0 0.45rem">One line as you skim. Kept on this device — not a commentary the site is making.</p>' +
       '<div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin:0 0 0.45rem" id="reflectPrompts"></div>' +
       '<label class="visually-hidden" for="reflectArea">Quick reflection on ' +
       esc(ref) +
@@ -266,7 +363,7 @@
       esc(existing) +
       "</textarea>" +
       '<p id="reflectStatus" style="font-size:0.78rem;color:var(--muted);margin:0.3rem 0 0" aria-live="polite">' +
-      (existing ? "Saved on this device." : "") +
+      (existing ? "Saved on this device." : "Type a line — it saves as you write.") +
       "</p>" +
       '<p class="caption-note" style="margin:0.45rem 0 0"><a href="/read?s=' +
       esc(ref.split(":")[0]) +
@@ -300,14 +397,17 @@
         timer = setTimeout(function () {
           var all = loadNotes();
           var text = area.value;
+          var liveRef = box.getAttribute("data-reflect-ref") || ref;
           if (text.trim()) {
-            all[ref] = { text: text, updated: new Date().toISOString() };
+            all[liveRef] = { text: text, updated: new Date().toISOString() };
           } else {
-            delete all[ref];
+            delete all[liveRef];
           }
           saveNotes(all);
           if (status)
-            status.textContent = text.trim() ? "Saved on this device." : "";
+            status.textContent = text.trim()
+              ? "Saved on this device."
+              : "Type a line — it saves as you write.";
         }, 350);
       });
     }
