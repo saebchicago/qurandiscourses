@@ -1,15 +1,6 @@
 (function () {
   "use strict";
 
-  // Shared featured-rotation + skim reflection.
-  // Communal default: one surah per UTC day, one verse per UTC hour.
-  // Spot-checks were reading as frozen because those windows are long
-  // and the static fallback is always al-Fatihah. Each visit in this
-  // tab advances a local preview offset so a refresh is visibly live,
-  // without changing what a first-time reader in another browser sees.
-  // Reflections write to the same localStorage key as assets/notes.js
-  // (qd_notes) and never leave the browser.
-
   var NOTES_KEY = "qd_notes";
   var VISIT_KEY = "qd_feat_visit";
   var PROMPTS = [
@@ -60,39 +51,6 @@
       localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
     } catch (e) {}
   }
-  function pad(n) {
-    return n < 10 ? "0" + n : String(n);
-  }
-  function utcStamp(d) {
-    return (
-      d.getUTCFullYear() +
-      "-" +
-      pad(d.getUTCMonth() + 1) +
-      "-" +
-      pad(d.getUTCDate()) +
-      " " +
-      pad(d.getUTCHours()) +
-      ":" +
-      pad(d.getUTCMinutes()) +
-      " UTC"
-    );
-  }
-  function msUntilNextMidnight() {
-    var d = new Date();
-    return (
-      Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + 1) -
-      d.getTime()
-    );
-  }
-  function msUntilNextHour() {
-    return 3600000 - (Date.now() % 3600000);
-  }
-  function hoursMinutes(ms) {
-    var h = Math.floor(ms / 3600000);
-    var m = Math.floor((ms % 3600000) / 60000);
-    if (h <= 0) return m + "m";
-    return h + "h " + pad(m) + "m";
-  }
   function ensureButton(id, label, after) {
     var el = document.getElementById(id);
     if (el) return el;
@@ -106,9 +64,11 @@
     after.parentNode.insertBefore(el, after.nextSibling);
     return el;
   }
+  function hide(el) {
+    if (el) el.hidden = true;
+  }
 
   var sessionVisit = visitOffset();
-
   window.qdFeatured = {
     daysSinceEpoch: daysSinceEpoch,
     dailySurahNum: dailySurahNum,
@@ -120,34 +80,13 @@
     var btn = document.querySelector(".hero-primary");
     if (!btn) return;
     var options = [
-      {
-        href: "/exercise?id=asr-outline",
-        text: "Outline al-'Asr",
-      },
-      {
-        href: "/exercise-roots?s=112",
-        text: "Spot the roots in al-Ikhlas",
-      },
-      {
-        href: "/replay?s=" + dailySurahNum(),
-        text: "Replay today",
-      },
-      {
-        href: "/exercise?id=ikhlas-outline",
-        text: "Outline al-Ikhlas",
-      },
-      {
-        href: "/exercise-roots?s=109",
-        text: "Spot the roots in al-Kafirun",
-      },
-      {
-        href: "/exercise-roots?s=" + dailySurahNum(),
-        text: "Spot today's roots",
-      },
-      {
-        href: "/read?s=" + dailySurahNum() + "&a=1",
-        text: "Read today from verse 1",
-      },
+      { href: "/exercise?id=asr-outline", text: "Outline al-'Asr" },
+      { href: "/exercise-roots?s=112", text: "Spot the roots in al-Ikhlas" },
+      { href: "/replay?s=" + dailySurahNum(), text: "Replay today" },
+      { href: "/exercise?id=ikhlas-outline", text: "Outline al-Ikhlas" },
+      { href: "/exercise-roots?s=109", text: "Spot the roots in al-Kafirun" },
+      { href: "/exercise-roots?s=" + dailySurahNum(), text: "Spot today's roots" },
+      { href: "/read?s=" + dailySurahNum() + "&a=1", text: "Read today from verse 1" },
     ];
     var pick = options[(hoursSinceEpoch() + sessionVisit) % options.length];
     btn.href = pick.href;
@@ -173,10 +112,48 @@
     });
   }
 
+  function quietHome() {
+    var tag = document.querySelector("header.site .tag");
+    if (tag) tag.textContent = "One surah at a time";
+    hide(document.querySelector(".tag-khitab"));
+    hide(document.querySelector(".hero-lede"));
+    var title = document.getElementById("hero-title");
+    if (title) title.textContent = "Read a surah as one address.";
+    var tert = document.querySelector(".hero-tertiary");
+    if (tert) tert.innerHTML = '<a href="/how-to-use">How to use</a>';
+    hide(document.querySelector(".ask-help"));
+    var askLabel = document.getElementById("ask-label");
+    if (askLabel) askLabel.textContent = "Open a passage";
+    document.querySelectorAll(".workflow-desc").forEach(hide);
+    var welcome = document.querySelector("#welcomeBanner p");
+    if (welcome && welcome.textContent.indexOf("First time") !== -1) {
+      welcome.innerHTML = "<strong>Start below.</strong> A verse is waiting.";
+    }
+    var lenses = document.getElementById("lensesSection");
+    if (lenses) {
+      var heading = lenses.querySelector("h2");
+      if (heading) heading.textContent = "Try a lens";
+      var ps = lenses.querySelectorAll("p");
+      if (ps[0]) {
+        ps[0].innerHTML =
+          '<a href="/read?s=103&a=1-3">Open al-\'Asr</a> and mark its turns. <a href="/how-to-use">How to use</a> holds the method.';
+      }
+      if (ps[1]) hide(ps[1]);
+    }
+    var beginH = document.querySelector("#beginSection h2");
+    if (beginH) beginH.textContent = "Begin";
+    var intro = document.getElementById("dailyIntro");
+    var wrap = document.getElementById("dailyVerseWrap");
+    var reflect = document.getElementById("reflectBox");
+    if (intro && wrap && intro.parentNode) {
+      intro.parentNode.insertBefore(wrap, intro.nextSibling);
+      if (reflect) intro.parentNode.insertBefore(reflect, wrap.nextSibling);
+    }
+  }
+
   function enhanceDailyCard() {
     var section = document.getElementById("dailySection");
     if (!section || !window.SURAHS || !window.SURAHS.length) return;
-
     var when = document.getElementById("dailyWhen");
     var intro = document.getElementById("dailyIntro");
     var meta = document.getElementById("dailyMeta");
@@ -184,14 +161,9 @@
     var verseAr = document.getElementById("dailyVerseAr");
     var verseLabel = document.getElementById("dailyVerseLabel");
     var nextVerseBtn = document.getElementById("dailyNextVerse");
-    var nextSurahBtn = ensureButton(
-      "dailyNextSurah",
-      "Another surah",
-      nextVerseBtn,
-    );
+    var nextSurahBtn = ensureButton("dailyNextSurah", "Another surah", nextVerseBtn);
     var reflect = document.getElementById("reflectBox");
     if (!meta || !wrap || !verseAr || !verseLabel) return;
-
     var communalNum = dailySurahNum();
     var surahShift = 0;
     var verseShift = sessionVisit;
@@ -199,17 +171,12 @@
     var morphSurah = 0;
     var su = surahById(communalNum);
     if (!su) return;
-
     function currentSurahNum() {
       return 1 + ((daysSinceEpoch() + surahShift) % 114);
     }
     function currentVerse() {
       return 1 + ((hoursSinceEpoch() + verseShift) % su.verseCount);
     }
-    function isPreview() {
-      return surahShift !== 0 || verseShift !== 0;
-    }
-
     function applyLinks() {
       var replayLink = document.getElementById("dailyReplayLink");
       if (replayLink) replayLink.href = "/replay?s=" + su.id;
@@ -218,75 +185,46 @@
       var dossierLink = document.getElementById("dailyDossierLink");
       if (dossierLink) dossierLink.href = "/dossier?s=" + su.id;
     }
-
     function paintIntro() {
       if (!intro) return;
       intro.innerHTML =
         "<strong>" +
         su.id +
-        " · " +
+        " \u00b7 " +
         esc(su.translit) +
         "</strong> <span class=\"ar notranslate\" translate=\"no\" lang=\"ar\" dir=\"rtl\">" +
         esc(su.ar) +
         "</span>";
     }
-
     function paintWhen() {
-      if (when) {
-        when.textContent = su.id + ":" + currentVerse();
-      }
-      meta.textContent = "";
+      if (when) when.textContent = su.id + ":" + currentVerse();
+      if (meta) meta.textContent = "";
     }
-
     function paintVerse() {
       var v = currentVerse();
       verseLabel.innerHTML =
-        "<a href=\"/read?s=" +
-        su.id +
-        "&a=" +
-        v +
-        "\">" +
-        su.id +
-        ":" +
-        v +
-        "</a>";
+        "<a href=\"/read?s=" + su.id + "&a=" + v + "\">" + su.id + ":" + v + "</a>";
       wrap.hidden = false;
       if (morph && morphSurah === su.id && morph[String(v)]) {
-        verseAr.textContent = morph[String(v)]
-          .map(function (w) {
-            return w.ar;
-          })
-          .join(" ");
-      } else {
-        verseAr.textContent = "";
+        verseAr.textContent = morph[String(v)].map(function (w) { return w.ar; }).join(" ");
       }
       if (reflect) reflect.setAttribute("data-reflect-ref", su.id + ":" + v);
       if (window.qdMountReflect) window.qdMountReflect(reflect);
-      if (nextVerseBtn) {
-        nextVerseBtn.textContent = "Another verse";
-      }
-      if (nextSurahBtn) {
-        nextSurahBtn.textContent = "Another surah";
-      }
+      if (nextVerseBtn) nextVerseBtn.textContent = "Another verse";
+      if (nextSurahBtn) nextSurahBtn.textContent = "Another surah";
     }
-
     function loadMorph() {
       var id = su.id;
       fetch("data/morphology/" + id + ".json")
-        .then(function (r) {
-          return r.ok ? r.json() : null;
-        })
+        .then(function (r) { return r.ok ? r.json() : null; })
         .then(function (data) {
           if (su.id !== id) return;
           morph = data;
           morphSurah = id;
           paintVerse();
         })
-        .catch(function () {
-          paintVerse();
-        });
+        .catch(function () { paintVerse(); });
     }
-
     function adoptSurah() {
       su = surahById(currentSurahNum());
       if (!su) return;
@@ -298,7 +236,6 @@
       paintVerse();
       loadMorph();
     }
-
     if (nextVerseBtn) {
       nextVerseBtn.addEventListener("click", function () {
         verseShift += 1;
@@ -313,13 +250,11 @@
         adoptSurah();
       });
     }
-
     applyLinks();
     paintIntro();
     paintWhen();
     paintVerse();
     loadMorph();
-    setInterval(paintWhen, 30000);
   }
 
   function mountReflect(box) {
@@ -329,9 +264,7 @@
       box.innerHTML = "";
       return;
     }
-    if (box.getAttribute("data-reflect-mounted") === ref) {
-      return;
-    }
+    if (box.getAttribute("data-reflect-mounted") === ref) return;
     box.setAttribute("data-reflect-mounted", ref);
     var notes = loadNotes();
     var existing = notes[ref] ? notes[ref].text : "";
@@ -346,9 +279,7 @@
       "</textarea>" +
       '<p id="reflectStatus" style="font-size:0.78rem;color:var(--muted);margin:0.3rem 0 0" aria-live="polite">' +
       (existing ? "Saved." : "") +
-      "</p>" +
-      "</div>";
-
+      "</p></div>";
     var area = box.querySelector("#reflectArea");
     var status = box.querySelector("#reflectStatus");
     var promptRow = box.querySelector("#reflectPrompts");
@@ -381,8 +312,7 @@
             delete all[liveRef];
           }
           saveNotes(all);
-          if (status)
-            status.textContent = text.trim() ? "Saved." : "";
+          if (status) status.textContent = text.trim() ? "Saved." : "";
         }, 350);
       });
     }
@@ -398,6 +328,7 @@
   }
 
   ready(function () {
+    quietHome();
     rotateHero();
     rotateAskChips();
     enhanceDailyCard();
