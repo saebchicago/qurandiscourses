@@ -35,13 +35,11 @@
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   } catch (e) {}
 
-  // ── helpers ─────────────────────────────────
   function $(id) {
     return document.getElementById(id);
   }
 
   function globalAyah(s, a) {
-    // Cumulative verse count over the canonical dataset — no API needed.
     var total = 0;
     for (var i = 0; i < window.SURAHS.length && window.SURAHS[i].id < s; i++) {
       total += window.SURAHS[i].verseCount;
@@ -50,7 +48,6 @@
   }
 
   function computeRecurring(morphData) {
-    // Same logic as read.html: roots attested >= 2x in this surah.
     var rootPos = {};
     Object.keys(morphData).forEach(function (ayah) {
       morphData[ayah].forEach(function (word) {
@@ -70,8 +67,6 @@
   }
 
   function buildVerseHtml(ayah) {
-    // Index-align display tokens to morphology words (read.html's
-    // accepted heuristic; exact by construction on the morphology path).
     var text = arabicByAyah[ayah] || "";
     var words = morph[String(ayah)] || [];
     return text
@@ -94,7 +89,6 @@
       })
       .join(" ");
   }
-
 
   function familyRows() {
     return Object.keys(recurring)
@@ -152,7 +146,6 @@
     });
   }
 
-  // ── rendering ───────────────────────────────
   function renderStack() {
     var stack = $("verseStack");
     var html = "";
@@ -189,7 +182,6 @@
       if (!el) continue;
       el.classList.toggle("replay-active", a === idx);
       el.classList.toggle("replay-done", a < idx);
-      // Progressive lighting: recurring words stay dim until reached.
       el.querySelectorAll(".recurring-word").forEach(function (w) {
         w.style.background = a <= idx ? "" : "transparent";
       });
@@ -221,7 +213,6 @@
       (item ? ". Section: " + item.heading.replace(/<[^>]+>/g, "") : "");
   }
 
-  // ── audio ─────────────────────────────────
   function srcFor(a) {
     return (
       "https://cdn.islamic.network/quran/audio/128/" +
@@ -247,7 +238,7 @@
     if (p && p.catch) {
       p.then(function () {
         playing = true;
-        $("btnPlay").textContent = "❚❚ Pause";
+        $("btnPlay").textContent = "◊◊ Pause";
       }).catch(function () {
         enterManualMode();
       });
@@ -285,7 +276,6 @@
       window.qdSaveLastRead(surah.id, "1-" + surah.verseCount);
   }
 
-  // ── reciter picker (read.html's modal pattern, simplified) ──────
   function reciterLabel() {
     var r = (window.qdReciters || []).find(function (x) {
       return x.id === qdState.reciter;
@@ -328,7 +318,6 @@
     });
   }
 
-  // ── boot ────────────────────────────────
   function loadSurah(s) {
     surah = window.SURAHS.find(function (e) {
       return e.id === s;
@@ -380,10 +369,6 @@
           null;
         $("outlineProv").hidden = !outline;
         if (outline) {
-          // Each outline names its own source (khan-exercise-2013 for most
-          // surahs, khan-introduction-2011 for the six worked examples) —
-          // never hardcode one book here, exercise.html reads the same two
-          // fields per-entry for exactly this reason.
           if (outline.sourceIds) {
             $("outlineProvBadge").setAttribute(
               "data-source-ids",
@@ -449,7 +434,6 @@
   function init() {
     if (!window.SURAHS || !window.SURAHS.length) return;
 
-    // Surah picker
     var sel = $("surahSelect");
     window.SURAHS.forEach(function (e) {
       var o = document.createElement("option");
@@ -462,26 +446,23 @@
       loadSurah(parseInt(sel.value, 10));
     });
 
-    // Whitelisted ?s=
-    var s = parseInt(new URLSearchParams(location.search).get("s") || "103", 10);
+    var fallback = 1 + (Math.floor(Date.now() / 86400000) % 114);
+    var s = parseInt(new URLSearchParams(location.search).get("s") || String(fallback), 10);
     if (
       isNaN(s) ||
       !window.SURAHS.some(function (e) {
         return e.id === s;
       })
     )
-      s = 103;
+      s = fallback;
     sel.value = s;
 
-    // One persistent Audio element: the gesture unlock from the Play
-    // click must survive verse transitions (iOS).
     audio = new Audio();
     audio.preload = "none";
     audio.addEventListener("ended", function () {
       if (idx < surah.verseCount) {
         idx++;
         activate();
-        // Synchronous src+play in the ended handler keeps iOS unlocked.
         audio.src = srcFor(idx);
         audio.play().catch(enterManualMode);
       } else {
