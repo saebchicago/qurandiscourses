@@ -9,6 +9,22 @@
     { id: "repeat", label: "What keeps returning?", seed: "What keeps returning in this passage is " },
   ];
 
+  // Short enough to be one address on the first screen.
+  var HERO = [
+    { s: 103, act: "outline", href: "/exercise?id=asr-outline", doText: "Outline it" },
+    { s: 112, act: "outline", href: "/exercise?id=ikhlas-outline", doText: "Outline it" },
+    { s: 108, act: "roots", href: "/exercise-roots?s=108", doText: "Spot the roots" },
+    { s: 110, act: "roots", href: "/exercise-roots?s=110", doText: "Spot the roots" },
+    { s: 112, act: "roots", href: "/exercise-roots?s=112", doText: "Spot the roots" },
+    { s: 109, act: "roots", href: "/exercise-roots?s=109", doText: "Spot the roots" },
+    { s: 97, act: "roots", href: "/exercise-roots?s=97", doText: "Spot the roots" },
+    { s: 106, act: "roots", href: "/exercise-roots?s=106", doText: "Spot the roots" },
+    { s: 105, act: "roots", href: "/exercise-roots?s=105", doText: "Spot the roots" },
+    { s: 1, act: "read", href: "/read?s=1&a=1-7", doText: "Read it" },
+    { s: 114, act: "roots", href: "/exercise-roots?s=114", doText: "Spot the roots" },
+    { s: 103, act: "roots", href: "/exercise-roots?s=103", doText: "Spot the roots" },
+  ];
+
   function daysSinceEpoch() {
     return Math.floor(Date.now() / 86400000);
   }
@@ -69,27 +85,127 @@
   }
 
   var sessionVisit = visitOffset();
+  var heroShift = sessionVisit;
   window.qdFeatured = {
     dailySurahNum: dailySurahNum,
     hoursSinceEpoch: hoursSinceEpoch,
     sessionVisit: sessionVisit,
   };
 
+  function currentHero() {
+    return HERO[(hoursSinceEpoch() + heroShift) % HERO.length];
+  }
+
+  function verseLine(id, v, words) {
+    var ar = words
+      ? words
+          .map(function (w) {
+            return w.ar;
+          })
+          .join(" ")
+      : "";
+    return (
+      '<p class="ar notranslate" translate="no" lang="ar" dir="rtl" style="margin:0.15rem 0;font-size:1.45rem;line-height:1.9">' +
+      (ar ? esc(ar) : "") +
+      ' <a href="/read?s=' +
+      id +
+      "&a=" +
+      v +
+      '" style="font-size:0.72rem;opacity:0.55;margin-inline-start:0.35rem">' +
+      id +
+      ":" +
+      v +
+      "</a></p>"
+    );
+  }
+
   function rotateHero() {
+    var hero = document.querySelector(".landing-hero");
     var btn = document.querySelector(".hero-primary");
-    if (!btn) return;
-    var options = [
-      { href: "/exercise?id=asr-outline", text: "Outline al-'Asr" },
-      { href: "/exercise-roots?s=112", text: "Spot the roots in al-Ikhlas" },
-      { href: "/replay?s=" + dailySurahNum(), text: "Replay today" },
-      { href: "/exercise?id=ikhlas-outline", text: "Outline al-Ikhlas" },
-      { href: "/exercise-roots?s=109", text: "Spot the roots in al-Kafirun" },
-      { href: "/exercise-roots?s=" + dailySurahNum(), text: "Spot today's roots" },
-      { href: "/read?s=" + dailySurahNum() + "&a=1", text: "Read today from verse 1" },
-    ];
-    var pick = options[(hoursSinceEpoch() + sessionVisit) % options.length];
-    btn.href = pick.href;
-    btn.textContent = pick.text;
+    var secondary = document.querySelector(".hero-actions .btn-secondary, .hero-actions a.secondary");
+    var title = document.getElementById("hero-title");
+    if (!hero || !btn) return;
+
+    var mount = document.getElementById("heroDisc");
+    if (!mount) {
+      mount = document.createElement("div");
+      mount.id = "heroDisc";
+      mount.style.margin = "0.4rem 0 1rem";
+      if (title && title.parentNode) title.parentNode.insertBefore(mount, title.nextSibling);
+      else hero.insertBefore(mount, hero.firstChild);
+    }
+
+    hide(document.querySelector(".hero-lede"));
+    var tert = document.querySelector(".hero-tertiary");
+    if (tert) tert.innerHTML = '<a href="/how-to-use">How to use</a>';
+
+    var another = document.getElementById("heroAnother");
+    if (!another && secondary) {
+      another = document.createElement("button");
+      another.type = "button";
+      another.id = "heroAnother";
+      another.className = "button secondary";
+      another.textContent = "Another surah";
+      secondary.parentNode.insertBefore(another, secondary.nextSibling);
+      another.addEventListener("click", function () {
+        heroShift += 1;
+        paint();
+      });
+    }
+
+    var morphCache = {};
+
+    function paint() {
+      var pick = currentHero();
+      var su = surahById(pick.s);
+      if (!su) return;
+      if (title) {
+        title.style.fontSize = "1.35rem";
+        title.innerHTML =
+          su.id +
+          " \u00b7 " +
+          esc(su.translit) +
+          ' <span class="ar notranslate" translate="no" lang="ar" dir="rtl">' +
+          esc(su.ar) +
+          "</span>";
+      }
+      btn.href = pick.href;
+      btn.textContent = pick.doText;
+      if (secondary) {
+        secondary.href = "/replay?s=" + su.id;
+        secondary.textContent = "Replay";
+      }
+
+      function draw(morph) {
+        var html = "";
+        var n = su.verseCount;
+        var i;
+        for (i = 1; i <= n; i++) {
+          html += verseLine(su.id, i, morph && morph[String(i)]);
+        }
+        mount.innerHTML = html;
+      }
+
+      if (morphCache[su.id]) {
+        draw(morphCache[su.id]);
+        return;
+      }
+      draw(null);
+      fetch("data/morphology/" + su.id + ".json")
+        .then(function (r) {
+          return r.ok ? r.json() : null;
+        })
+        .then(function (data) {
+          if (currentHero().s !== su.id) return;
+          morphCache[su.id] = data;
+          draw(data);
+        })
+        .catch(function () {
+          draw(null);
+        });
+    }
+
+    paint();
   }
 
   function rotateAskChips() {
@@ -116,25 +232,11 @@
     if (tag) tag.textContent = "One surah at a time";
     hide(document.querySelector(".tag-khitab"));
     hide(document.querySelector(".hero-lede"));
-    var title = document.getElementById("hero-title");
-    if (title) title.textContent = "Read a surah as one address.";
-    var tert = document.querySelector(".hero-tertiary");
-    if (tert) tert.innerHTML = '<a href="/how-to-use">How to use</a>';
     hide(document.querySelector(".ask-help"));
     var askLabel = document.getElementById("ask-label");
     if (askLabel) askLabel.textContent = "Open a passage";
     document.querySelectorAll(".workflow-desc").forEach(hide);
-    var banner = document.getElementById("welcomeBanner");
-    if (banner) {
-      var ps = banner.querySelectorAll("p");
-      if (ps[0]) ps[0].innerHTML = "<strong>Start below.</strong>";
-      if (ps[1]) hide(ps[1]);
-      var start = document.getElementById("welcomeNewHere");
-      if (start) {
-        start.href = "/exercise?id=asr-outline";
-        start.textContent = "Outline al-'Asr";
-      }
-    }
+    hide(document.getElementById("welcomeBanner"));
     var lenses = document.getElementById("lensesSection");
     if (lenses) {
       var heading = lenses.querySelector("h2");
@@ -221,14 +323,18 @@
     function loadMorph() {
       var id = su.id;
       fetch("data/morphology/" + id + ".json")
-        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (r) {
+          return r.ok ? r.json() : null;
+        })
         .then(function (data) {
           if (su.id !== id) return;
           morph = data;
           morphSurah = id;
           paintVerse();
         })
-        .catch(function () { paintVerse(); });
+        .catch(function () {
+          paintVerse();
+        });
     }
     function adoptSurah() {
       su = surahById(currentSurahNum());
