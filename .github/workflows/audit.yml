@@ -3,8 +3,20 @@ name: Site audit
 on:
   push:
     branches: [main]
+    paths-ignore:
+      # Docs and GitHub metadata never change served pages.
+      # Workflow edits still run: this file is not ignored.
+      - "**/*.md"
+      - "docs/**"
+      - ".github/ISSUE_TEMPLATE/**"
+      - ".github/pull_request_template.md"
   pull_request:
     branches: [main]
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+      - ".github/ISSUE_TEMPLATE/**"
+      - ".github/pull_request_template.md"
   schedule:
     # Citation and translation endpoints can drift without a code change.
     - cron: "17 9 * * 1"
