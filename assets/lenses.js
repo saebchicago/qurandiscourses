@@ -316,6 +316,18 @@
       html += historyWhenHtml(currentSurah) + historyWhoHtml(currentSurah);
     }
     html += '<h4 class="lens-q">Sirah worksheet — your own reading</h4>';
+    // Bibliographic pointers only: the site registers these works and
+    // transcribes nothing from them, so this line names them and asserts
+    // nothing about the surah.
+    html +=
+      '<p class="lens-availability">Reference works registered for this lens: ' +
+      'al-Wāḥidī, <a href="/sources#wahidi-asbab-2008"><em>Asbāb al-Nuzūl</em></a> ' +
+      '(occasion reports; Guezzou tr., 2008); Ibn Isḥāq, ' +
+      '<a href="/sources#ibn-ishaq-guillaume-1955"><em>The Life of Muhammad</em></a> ' +
+      '(the sirah; Guillaume tr., 1955); and Rippin, ' +
+      '<a href="/sources#rippin-asbab-1988">“The Function of asbāb al-nuzūl”</a> ' +
+      '(1988) on what occasion reports can and cannot establish. No occasion ' +
+      'report is transcribed from any of them — the answers below are yours.</p>';
     html += questionsHtml(lens, entry);
     return html;
   }

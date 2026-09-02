@@ -6,8 +6,35 @@
   <id>https://divinediscourses.org/changelog</id>
   <link href="https://divinediscourses.org/changelog"/>
   <link rel="self" href="https://divinediscourses.org/feed.xml"/>
-  <updated>2026-08-01T00:00:00Z</updated>
+  <updated>2026-09-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
+  <entry>
+    <title>Three sirah and occasions-of-revelation reference works are now registered, and the Mishkat entry records that its upstream repository went dark</title>
+    <id>https://divinediscourses.org/changelog#2026-09-sirah-sources-registered</id>
+    <link href="https://divinediscourses.org/changelog#2026-09-sirah-sources-registered"/>
+    <updated>2026-09-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Three sirah and occasions-of-revelation reference works
+              are now registered, and the Mishkat entry records that its
+              upstream repository went dark.&lt;/strong&gt;
+              The history lens&amp;#39;s sirah worksheet had said the site registered
+              no sirah or asbab al-nuzul source. It now names three — al-Wāḥidī&amp;#39;s
+              &lt;em&gt;Asbāb al-Nuzūl&lt;/em&gt; in Guezzou&amp;#39;s translation, Ibn Isḥāq&amp;#39;s
+              sirah in Guillaume&amp;#39;s translation, and Rippin&amp;#39;s 1988 study of
+              the genre — on the &lt;a href="/sources#academic-chronology-and-history"&gt;Sources&lt;/a&gt;
+              page, and the lens, the glossary entries for
+              &lt;a href="/glossary#sirah"&gt;sirah&lt;/a&gt; and
+              &lt;a href="/glossary#asbab-al-nuzul"&gt;asbāb al-nuzūl&lt;/a&gt;, and the
+              maintainer guide now say so.
+              &lt;span class="prov"&gt;Registering is not transcribing: no occasion
+              report is reproduced for any surah, the worksheet stays blank,
+              and the site still asserts nothing about any surah&amp;#39;s
+              historical moment. Separately, the GitHub repository the Mishkat
+              cross-reference corpus was copied from stopped answering; its
+              entry now records that with the date, keeps the date the copy was
+              taken, and drops the dead link rather than guessing at an
+              archive — the bundled data and its license-pending standing are
+              unchanged.&lt;/span&gt;</content>
+  </entry>
   <entry>
     <title>Plain language everywhere a reader meets a count</title>
     <id>https://divinediscourses.org/changelog#2026-08-plain-language-pass</id>

@@ -2,6 +2,12 @@
   "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
   "entries": [
     {
+      "id": "2026-09-sirah-sources-registered",
+      "year": "2026",
+      "month": "September",
+      "html": "\n              <strong>Three sirah and occasions-of-revelation reference works\n              are now registered, and the Mishkat entry records that its\n              upstream repository went dark.</strong>\n              The history lens&#39;s sirah worksheet had said the site registered\n              no sirah or asbab al-nuzul source. It now names three — al-Wāḥidī&#39;s\n              <em>Asbāb al-Nuzūl</em> in Guezzou&#39;s translation, Ibn Isḥāq&#39;s\n              sirah in Guillaume&#39;s translation, and Rippin&#39;s 1988 study of\n              the genre — on the <a href=\"/sources#academic-chronology-and-history\">Sources</a>\n              page, and the lens, the glossary entries for\n              <a href=\"/glossary#sirah\">sirah</a> and\n              <a href=\"/glossary#asbab-al-nuzul\">asbāb al-nuzūl</a>, and the\n              maintainer guide now say so.\n              <span class=\"prov\">Registering is not transcribing: no occasion\n              report is reproduced for any surah, the worksheet stays blank,\n              and the site still asserts nothing about any surah&#39;s\n              historical moment. Separately, the GitHub repository the Mishkat\n              cross-reference corpus was copied from stopped answering; its\n              entry now records that with the date, keeps the date the copy was\n              taken, and drops the dead link rather than guessing at an\n              archive — the bundled data and its license-pending standing are\n              unchanged.</span>\n            "
+    },
+    {
       "id": "2026-08-plain-language-pass",
       "year": "2026",
       "month": "August",
