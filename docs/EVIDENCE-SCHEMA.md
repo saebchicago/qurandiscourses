@@ -12,7 +12,7 @@ work, and how far each statement sits from his own words:
 
 These are **separate registries** and neither reads the other.
 
-`data/sources.json` (36 sources) and `data/claims.json` (22 claims) hold
+`data/sources.json` (39 sources) and `data/claims.json` (22 claims) hold
 the site's computed-analysis apparatus. That schema is built for
 reproducible computation: every claim carries a `derivation`, a
 `reproduction` recipe, and `limitations`, and `scripts/check-claims.mjs`

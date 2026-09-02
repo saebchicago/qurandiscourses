@@ -111,8 +111,12 @@ Gate, never by editing the list alone. The history lens additionally
 reads `data/chronology.json` (the Cairo 1924 / Nöldeke-Bell convention,
 labeled ~ Nuanced with its sources), the computed
 `data/name-mentions.json` and the editorial `data/names.json`
-(check-names.mjs guards the pair); its sirah questions are a blank
-worksheet because no sirah or asbab al-nuzul source is registered.
+(check-names.mjs guards the pair); its sirah questions stay a blank
+worksheet: three sirah / asbab al-nuzul reference works are registered for
+the lens (`wahidi-asbab-2008`, `ibn-ishaq-guillaume-1955`,
+`rippin-asbab-1988`), but no occasion report is transcribed from them, and
+adding one goes through the Transcription Gate, never through the lens
+registry alone.
 These reading lenses are distinct
 from index.html's daily-card "lens", which is a rotating corpus statistic
 (see §3's daily-discourse determinism note). Content registries rendered by pages:
@@ -340,6 +344,15 @@ data fetch fails.
    Publisher", year, url, license, accessed).
 3. Reference it from a badge: `data-source-ids="your-id"` (space-separate
    multiple ids for multi-source claims).
+4. If a lens, glossary entry, or page deep-links to the entry, give its
+   `<li>` an `id` equal to the registry id (precedent: `id="mishkat"`) and
+   no depth class — check-lenses.mjs resolves `sources.html#fragment`
+   against `id="…"`, and a `study-only`/`encyclopedic-only` target would
+   scroll to a hidden element.
+5. If the source backs a reading lens, add its id to that lens's
+   `sourceIds` in `data/lenses.json`, rerun `compute-coverage.mjs`, and
+   update coverage.html's "N of M sources" static fallback
+   (check-data-nums.mjs enforces it).
 
 ### Add a case study (a "how we verify" example)
 The worked examples on the home page and `validation.html` come from one

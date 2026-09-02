@@ -48,9 +48,8 @@
    "author": "Alhassan (Threadwork)",
    "name": "Mishkat Mutashābihāt Corpus",
    "year": "2024",
-   "url": "https://github.com/Alhassan777/Mishkat",
    "license": "License pending: none published in the source repository",
-   "note": "Verse-to-verse cross-references compiled from 13 classical books of mutashābihāt scholarship; 1,905 verse nodes, 3,294 directed edges.",
+   "note": "Verse-to-verse cross-references compiled from 13 classical books of mutashābihāt scholarship; 1,905 verse nodes, 3,294 directed edges. The copy bundled in data/qursim/ was taken from the compiler's GitHub repository (github.com/Alhassan777/Mishkat) on the accessed date. As of 2026-09-02 that repository was no longer publicly reachable at that address, so no URL is given; the bundled data and its license standing are unchanged.",
    "accessed": "2026-07-07"
   },
   {
@@ -280,6 +279,36 @@
    "name": "Ṣanʿāʾ 1 and the Origins of the Qurʾān",
    "publisher": "Der Islam 87, no. 1–2, pp. 1–129",
    "year": "2012"
+  },
+  {
+   "id": "wahidi-asbab-2008",
+   "type": "book",
+   "author": "al-Wahidi, ʿAli ibn Ahmad (d. 468/1075)",
+   "name": "Asbāb al-Nuzūl",
+   "edition": "translated by Mokrane Guezzou; Great Commentaries on the Holy Qurʾān, vol. 3",
+   "publisher": "Louisville, KY: Fons Vitae",
+   "year": "2008",
+   "url": "https://www.altafsir.com/Books/Asbab%20Al-Nuzul%20by%20Al-Wahidi.pdf",
+   "note": "Copyright Royal Aal al-Bayt Institute for Islamic Thought, Amman, which publishes the text at altafsir.com. The earliest surviving occasions-of-revelation collection, registered as a reference work for the history reading lens (data/lenses.json): no occasion report is transcribed from it for any surah, and the site asserts nothing from it."
+  },
+  {
+   "id": "ibn-ishaq-guillaume-1955",
+   "type": "book",
+   "author": "Ibn Ishaq, Muhammad (d. c. 150/767)",
+   "name": "The Life of Muhammad: A Translation of Isḥāq's Sīrat Rasūl Allāh",
+   "edition": "recension of Ibn Hishām; translated with introduction and notes by A. Guillaume",
+   "publisher": "London: Oxford University Press",
+   "year": "1955",
+   "note": "Registered as a reference work for the history reading lens (data/lenses.json); nothing is transcribed from it for any surah, and the site asserts nothing from it."
+  },
+  {
+   "id": "rippin-asbab-1988",
+   "type": "paper",
+   "author": "Rippin, Andrew",
+   "name": "The Function of asbāb al-nuzūl in Qurʾānic Exegesis",
+   "publisher": "Bulletin of the School of Oriental and African Studies 51, pp. 1–20",
+   "year": "1988",
+   "note": "A study of how the occasions-of-revelation genre operates within exegesis and what its reports can and cannot establish. Registered as a reference work for the history reading lens (data/lenses.json); the site transcribes no occasion report and asserts nothing about any surah's historical moment."
   },
   {
    "id": "covington-mcfall-2010",

@@ -57,7 +57,10 @@ GPL corpus data.
 Despite the directory's historical name, the data it contains is derived
 from the **Mishkat Mutashābihāt corpus**
 (github.com/Alhassan777/Mishkat, 13 classical books,
-scholarly-attested), not from the QurSim dataset — QurSim (Sharaf &
+scholarly-attested), not from the QurSim dataset. That repository was no
+longer publicly reachable at that address as of 2026-09-02; the bundled
+copy was taken on 2026-07-07 (the `accessed` date in `data/sources.json`)
+and its standing below is unchanged. QurSim (Sharaf &
 Atwell, LREC 2012) is cited as the methodological reference only, and
 none of its data is bundled. The Mishkat repository publishes **no
 license**; its status is recorded as license-pending in

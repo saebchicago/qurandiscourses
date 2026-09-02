@@ -102,7 +102,7 @@ Continue
 
 ## Today's discourse
 
-Same passage for everyone, changes at midnight UTC
+Same surah for everyone · changes at midnight UTC
 
 Surah 1 · al-Fatihah ( الفاتحة ), “The Opening”, 7 verses, Meccan. A different passage is chosen each day in the browser; with JavaScript off, this is where to start.
 
@@ -111,6 +111,9 @@ Its most repeated root: ر ح م (r-ḥ-m), appearing 4×.
 Read this surah
 Its full dossier
 Explore this root
+Replay this surah
+
+Show another verse
 
 ● Root frequency from the Leeds Quranic Arabic Corpus v0.4.
 
@@ -794,6 +797,10 @@ more times in this surah, per the Leeds corpus. Recurrence and
 distribution do not by themselves establish meaning; the reading is
 yours.
 
+Each row is a root that recurs in this surah. Marks are verses
+where it occurs. The pale column is the verse you are on.
+Distribution only — not a claim about meaning.
+
 Loading…
 
 ▶ Play
@@ -886,6 +893,10 @@ Loading...
 Reveal recurring roots
 
 ### Recurring root families
+
+After you reveal: each row is a recurring root, each mark a verse
+it occupies. Computed from the same Leeds morphology you just
+checked against.
 
 Recurring here means: the root appears on two or more word-units
 within this surah, as recorded in the Leeds corpus's word-by-word
@@ -2384,8 +2395,9 @@ api-docs.quran.foundation
 
 Mishkat Mutashābihāt corpus for verse-to-verse
 cross-references, drawn from 13 classical books of mutashābihāt
-scholarship.
-github.com/Alhassan777/Mishkat
+scholarship. Copied in July 2026 from github.com/Alhassan777/Mishkat,
+which was no longer publicly reachable as of September 2026 — see
+Sources .
 
 Full citations for all sources, including access dates and version
 numbers, are on the Sources page.
@@ -3072,18 +3084,23 @@ reader's own answer.
 Sirah سيرة
 
 The biographical literature on the Prophet's life, against which a surah's
-conventional revelation placement is often read. This site registers no sirah
-source and asserts nothing from that literature: the history reading lens
-shows only the conventional chronology and hands the sirah questions to the
-reader.
+conventional revelation placement is often read. This site registers Ibn Isḥāq's
+sirah ( Guillaume's 1955
+translation ) as a reference work for the history reading lens but
+transcribes nothing from it and asserts nothing from that literature: the
+lens shows only the conventional chronology and hands the sirah questions
+to the reader.
 
 Asbāb al-nuzūl أسباب النزول
 
 The classical genre recording the occasions on which particular verses are
-reported to have been revealed. This site registers no asbab al-nuzul source
-and reproduces none of its reports; where the history lens asks about a
-surah's moment, the answer is the reader's own, built from sources they
-consult themselves.
+reported to have been revealed. This site registers al-Wāḥidī's
+Asbāb al-Nuzūl (Guezzou's
+2008 translation) and Rippin's 1988
+study of the genre as reference works for the history lens but
+reproduces none of their reports; where the lens asks about a surah's
+moment, the answer is the reader's own, built from sources they consult
+themselves.
 
 Reading lens
 
@@ -3216,14 +3233,17 @@ Farahi, Hamiduddin. Mufradat al-Qur'an .
 ### Patterns and cross-references
 
 Alhassan (Threadwork). Mishkat Mutashābihāt Corpus . GitHub
-repository, accessed July 2026.
-https://github.com/Alhassan777/Mishkat . Verse-to-verse cross-references drawn from 13 classical Islamic
+repository (github.com/Alhassan777/Mishkat), accessed July 2026.
+Verse-to-verse cross-references drawn from 13 classical Islamic
 books of mutashābihāt scholarship (similar and structurally parallel
 verses as identified by classical scholars); 1,905 verse nodes,
 3,294 directed edges, expanded to a bidirectional index. License
 pending: none published in the source repository.
 ●
-Note: the QurSim corpus (Sharaf and Atwell, LREC 2012) was
+Note: as of September 2026 the repository was no longer publicly
+reachable at that address, so no link is given; the copy bundled
+here was taken on the date above and its license standing is
+unchanged. The QurSim corpus (Sharaf and Atwell, LREC 2012) was
 previously cited here. Its canonical source at
 corpus.quran.com/qursim.jsp is no longer accessible; Mishkat
 serves the same function from a classical-scholarship
@@ -3402,8 +3422,12 @@ Ibn ʿAshur, Muhammad al-Tahir (d. 1393/1973).
 al-Taḥrīr wa-l-tanwīr . Tunis: al-Dar al-Tunisiyya, 1984.
 
 al-Wahidi, ʿAli ibn Ahmad (d. 468/1075). Asbāb al-Nuzūl .
-Translated by Mokrane Guezzou. Amman: Royal Aal al-Bayt Institute
-for Islamic Thought, 2008.
+Translated by Mokrane Guezzou. Great Commentaries on the Holy
+Qurʾān, vol. 3. Louisville, KY: Fons Vitae, 2008. Copyright Royal
+Aal al-Bayt Institute for Islamic Thought, Amman, which publishes
+the text at
+altafsir.com (PDF) . Registered as a reference work for the history reading lens;
+no occasion report is transcribed from it for any surah.
 
 ### Coherence-based reading
 
@@ -3590,6 +3614,19 @@ Edinburgh University Press, 2017.
 
 Sadeghi, Behnam, and Mohsen Goudarzi. "Ṣanʿāʾ 1 and the Origins of
 the Qurʾān." Der Islam 87, no. 1–2 (2012): 1–129.
+
+Ibn Ishaq, Muhammad (d. c. 150/767).
+The Life of Muhammad: A Translation of Isḥāq's Sīrat Rasūl
+Allāh . Recension of Ibn Hishām. Translated with introduction and notes
+by A. Guillaume. London: Oxford University Press, 1955. Registered
+as a reference work for the history reading lens; nothing is
+transcribed from it for any surah.
+
+Rippin, Andrew. "The Function of asbāb al-nuzūl in Qurʾānic
+Exegesis." Bulletin of the School of Oriental and African
+Studies 51 (1988): 1–20. Registered as a reference work for
+the history reading lens: a study of the occasions-of-revelation
+genre and its limits, cited alongside the collections themselves.
 
 McAuliffe, Jane Dammen, ed. Encyclopaedia of the Qurʾān . 6
 vols. Leiden: Brill, 2001–2006.
@@ -4125,7 +4162,8 @@ edges; the directory keeps its historical name). Four surahs
 ●
 
 License pending — the source repository
-publishes no license; the compiler is credited and the data
+published no license and, as of September 2026, is no longer
+publicly reachable; the compiler is credited and the data
 will be removed if the rights holder objects ·
 sample (surah 2) ·
 full directory
@@ -4281,8 +4319,8 @@ URL
 A source can be fully cited in data/sources.json
 and still be reachable from no badge anywhere: nothing checked
 for that until this measurement.
-35 of
-36 sources appear in at
+38 of
+39 sources appear in at
 least one data-source-ids attribute on the site,
 static or built at render time. The rest are cited in the
 bibliography on Sources but not yet
@@ -4551,6 +4589,31 @@ the middle depth tier appears as "Scholar" in entries written
 before it was renamed "Study".
 
 ### 2026
+
+#### September
+
+Three sirah and occasions-of-revelation reference works
+are now registered, and the Mishkat entry records that its
+upstream repository went dark.
+The history lens's sirah worksheet had said the site registered
+no sirah or asbab al-nuzul source. It now names three — al-Wāḥidī's
+Asbāb al-Nuzūl in Guezzou's translation, Ibn Isḥāq's
+sirah in Guillaume's translation, and Rippin's 1988 study of
+the genre — on the Sources
+page, and the lens, the glossary entries for
+sirah and
+asbāb al-nuzūl , and the
+maintainer guide now say so.
+Registering is not transcribing: no occasion
+report is reproduced for any surah, the worksheet stays blank,
+and the site still asserts nothing about any surah's
+historical moment. Separately, the GitHub repository the Mishkat
+cross-reference corpus was copied from stopped answering; its
+entry now records that with the date, keeps the date the copy was
+taken, and drops the dead link rather than guessing at an
+archive — the bundled data and its license-pending standing are
+unchanged.
+§
 
 #### August
 
@@ -6433,8 +6496,9 @@ LREC 2012); QurSim's canonical source
 data was replaced with Mishkat's. See
 Sources for the full note.
 License pending: not published in the source repository at
-time of writing.
-github.com/Alhassan777/Mishkat
+time of writing. Repository: github.com/Alhassan777/Mishkat (no
+longer publicly reachable as of September 2026, so no link is
+given; the bundled copy was taken in July 2026).
 
 ### Scholarly lineage
 
@@ -6587,8 +6651,8 @@ formulaic-density: The share of a verse's or surah's words that belong to a recu
 dispersion: How evenly a root's occurrences are spread across the 114 surahs, as distinct from raw frequency. This site reports Gries's Deviation of Proportions (DP, DPnorm) and Juilland's D side by side, since the two can disagree and the literature has no single preferred measure.
 juilland-d: An older lexical-dispersion measure (Juilland & Chang-Rodriguez 1964), on a 0-1 scale where 1 is perfectly even. It classically assumes comparably-sized corpus parts; this site's 114 surahs range from 3 to 286 verses, so it is reported for comparability with the literature, not as the preferred measure.
 amud: In the Farahi–Islahi coherence school, the central theme — literally 'pillar' — around which a whole surah is organized, with each part of the surah read in relation to it. Described in Mustansir Mir's 1986 study of Islahi's nazm method. This site transcribes no ʿamūd statement for any surah; its ʿamūd reading lens offers method questions only, for the reader's own answer.
-sirah: The biographical literature on the Prophet's life, against which a surah's conventional revelation placement is often read. This site registers no sirah source and asserts nothing from that literature: the history reading lens shows only the conventional chronology and hands the sirah questions to the reader.
-asbab-al-nuzul: The classical genre recording the occasions on which particular verses are reported to have been revealed. This site registers no asbab al-nuzul source and reproduces none of its reports; where the history lens asks about a surah's moment, the answer is the reader's own, built from sources they consult themselves.
+sirah: The biographical literature on the Prophet's life, against which a surah's conventional revelation placement is often read. This site registers Ibn Isḥāq's sirah (Guillaume's 1955 translation) as a reference work for the history reading lens but transcribes nothing from it and asserts nothing from that literature: the lens shows only the conventional chronology and hands the sirah questions to the reader.
+asbab-al-nuzul: The classical genre recording the occasions on which particular verses are reported to have been revealed. This site registers al-Wāḥidī's Asbāb al-Nuzūl (Guezzou's 2008 translation) and Rippin's 1988 study of the genre as reference works for the history lens but reproduces none of their reports; where the lens asks about a surah's moment, the answer is the reader's own, built from sources they consult themselves.
 reading-lens: A published coherence method rendered as UI scaffolding on the Read, Dossier and Replay pages: Khan's transcribed outlines, the Farahi–Islahi ʿamūd worksheet, or a ring-structure overlay. A lens frames the reader's own study; it never asserts what a verse means, and the reader's answers never carry a verification badge. Distinct from the homepage daily card's rotating data 'lens', which is a corpus statistic.
 
 ===== Export data dictionary =====

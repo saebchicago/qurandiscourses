@@ -1,7 +1,7 @@
 {
  "_script": "scripts/compute-coverage.mjs",
  "_method": "Every number in this report is measured directly from repository data files at generation time, except the 'popular'/alternate values in countingRuleSensitivity, which are quoted verbatim from numbers.html's own prose (already-published editorial text, not independently measurable from a data file) and are marked verified:false accordingly. Source registry fields are read verbatim from data/sources.json; any field absent there is recorded as \"not stated in repository\", never inferred.",
- "_computed": "2026-08-29",
+ "_computed": "2026-09-02",
  "morphology": {
   "totalTokens": 77429,
   "fields": {
@@ -557,7 +557,7 @@
    "author": "Alhassan (Threadwork)",
    "year": "2024",
    "license": "License pending: none published in the source repository",
-   "url": "https://github.com/Alhassan777/Mishkat"
+   "url": "not stated in repository"
   },
   {
    "id": "qursim",
@@ -613,8 +613,8 @@
   }
  ],
  "sourceUsage": {
-  "totalSources": 36,
-  "used": 35,
+  "totalSources": 39,
+  "used": 38,
   "unusedIds": [
    "mir-diss-1983"
   ],
