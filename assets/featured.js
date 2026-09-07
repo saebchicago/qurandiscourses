@@ -228,8 +228,6 @@
   }
 
   function quietHome() {
-    var tag = document.querySelector("header.site .tag");
-    if (tag) tag.textContent = "One surah at a time";
     hide(document.querySelector(".tag-khitab"));
     hide(document.querySelector(".hero-lede"));
     hide(document.querySelector(".ask-help"));
