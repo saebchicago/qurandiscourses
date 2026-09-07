@@ -11,7 +11,7 @@
   "assets/cite-page.js": "1eb65e8712ee9de1b2ba1464d5a15e6bbbcbad923544326d4766e73d3da73ce0",
   "assets/depth-boot.js": "86e78ef0bbc3198527283513dc3656d81dd6ed94934cd0fa4e91473d8b97a3a1",
   "assets/discovery-worksheet.js": "9fa78020b41f5847105489ff952c5cbe19f33014cca58c5a5ebf21db5560e81c",
-  "assets/featured.js": "d55a94e87fa963d33783362b630beba12a9afd25b3f825143ff4cc70a116d367",
+  "assets/featured.js": "68427a273d58b450c3d89f5b3e0f90abcf0ec7b5cc9623f9af4fb1cdcf230f90",
   "assets/feedback.js": "9e8454b88f88a168758b49b08933079f5d55d369eef7e1bf10830914a865bb0e",
   "assets/fonts.css": "13292a826f5fd02c40de188a9b5343b99bc24c2b5c049b033a6b7ec1d871b825",
   "assets/glossary.js": "e88302e7a32495362d9c937e632178212ac8fafccaebd89816353d1990e7ff97",
@@ -35,7 +35,7 @@
   "assets/root-refs/paths.js": "01b6d5ef3e38aaa0e13af653158241d17d9cb702a4830fac3051394925931c16",
   "assets/search.js": "61e34814472893a57cd60a97a6fc9cdd9c67cba22dad5559a98f8c1e8a9d745e",
   "assets/share.js": "9fd266d6e7f65c776de1c5d40a60c700137f7539d248a4d2dccc3542a6043a32",
-  "assets/style.css": "7c031937f35235587db379eaadbac41a93f76a781050c1ed0f160246bdb61bb6",
+  "assets/style.css": "131109b2691cb0d15085c6d1d0875906b461ec1f50dae43acb4910bfea019654",
   "assets/surahs.js": "de8a6221aa3da3cc7dc4f359f613b429732e0fe19e81aa2589fafeb17a2da9ec",
   "assets/tour.js": "d3f923a8af6ae16ad0fc729d9e25222737876dd159a265e1d363bf2fcbc61aa4",
   "assets/trans-picker.js": "b62973d373dfc7d5289e3b781bc122aed82bd919c0ecbf2fc375bfd2a8eebbc5",
@@ -67,7 +67,7 @@
   "data/roots-index.json": "ede890265ea2ab92cf2355f546e261d341a40a66b66f33b10ad70528a216bbdd",
   "data/roots-list.json": "477cff50fa62cb1067125ba01b1a8ffc223b09b55daf4cb1d8d983c2ea2f8af3",
   "data/roots-summary.json": "c75bb05f6429f11483e470fce9579407cbbf6622e058846273a27afd8f6a5dc4",
-  "data/search-index.json": "91026a125f77b0901de4bacfbaa4f287897bb95578190f4539e77cf05bfa449b",
+  "data/search-index.json": "56e68d88009a5fb32ffbd340555c3880586752ecbabb6a24b39399272ad1e5dd",
   "data/sources.json": "c1e4d3d32bc450fea8f770cad244dd2f519075a9f841dc248dd391d900e03089",
   "data/structure-tests.json": "0993bdd2e10cb073478b9cd544ec2d9e3f1afe3e11a80e6531a48ed008667193",
   "data/surah-meta.json": "a3448191e3bfea6c15069ac2485478942e7cab6423216d772802b9cae4cb6454",
@@ -79,10 +79,10 @@
   "data/version.json": "623efc184596f959520192da5230bb30d5a8207383c7214ac76c7785ce0ea636",
   "data/videos.json": "9017e1153b2020d3623c5a3863f09533a8c85a755d19976764ecd0151d85c186",
   "data/word-index.json": "42e17793956d2db3e5ce4126953b9a4289a8173d876ab601b07239aa0c240901",
-  "index.html": "ef14d707a728060349ce0fcf7951d6f236ec631c7193994959aacce1617653f7",
-  "navigate.html": "f40ef081c03090c33dc39482087ee4e1481eb5d6bbdbd5a5098ee953466ab989",
-  "paths.html": "de2e0c5b539f89107630cda16ed9d8f8c64a5554b704c43a009f199250ebc434",
-  "read.html": "338a0602a114b262a9d638229db7b27ce789382e94b224793c58386815c9292a",
-  "search.html": "36f5a29c1fb98796b5ceeeeb6f37a7306d9ffff80ca26f1f4cb99a5e55f072f1"
+  "index.html": "a79480dad985850574d3c68a8adb583d7f09ebb651a2c58b7f77af766329c53f",
+  "navigate.html": "62835f74c9475163aa3e539a4f3432df17a75eed4c63b5c1a71a753bb96526e5",
+  "paths.html": "eb59e79beeaf7623a39689f17e82873c337bba70518b039557e8cac57e98b669",
+  "read.html": "631191a54df4102395bd272cee47fd0909604d7d1fbdb7081e5edeb63c5238d2",
+  "search.html": "873b48a374a81a513240e2ef6a9a3afb32e59bbca9ead9d66595ffb862677183"
  }
 }
