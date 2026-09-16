@@ -103,6 +103,15 @@
    "accessed": "2026-07-11"
   },
   {
+   "id": "islamic-network-audio-en",
+   "type": "api",
+   "author": "Islamic Network",
+   "name": "English translation audio edition (per-ayah MP3), reciter and license unconfirmed",
+   "url": "https://cdn.islamic.network",
+   "accessed": "2026-09-16",
+   "note": "Served by the same CDN as the Arabic recitation audio and played as Listen mode's English leg. Deliberately incomplete: this project has not confirmed the edition's reciter, publisher, or license against the source, so no name is registered here. scripts/check-audio-editions.mjs prints what the API actually reports; the citation gets written from that output, never from memory."
+  },
+  {
    "id": "cairo-1924",
    "type": "book",
    "name": "Chronological Order of Surahs, Cairo Edition",

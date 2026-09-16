@@ -114,12 +114,26 @@
     <main id="main">
       <section>
         <h2>Credits</h2>
+        <!-- static:page-toc -->
+        <nav class="page-toc" aria-label="On this page">
+          <p class="t-annotation">On this page:</p>
+          <ul>
+            <li><a href="#data">Data</a></li>
+            <li><a href="#audio">Audio</a></li>
+            <li><a href="#scholarly-lineage">Scholarly lineage</a></li>
+            <li><a href="#typography">Typography</a></li>
+            <li><a href="#build">Build</a></li>
+            <li><a href="#contributors">Contributors</a></li>
+            <li><a href="#privacy">Privacy</a></li>
+          </ul>
+        </nav>
+        <!-- /static:page-toc -->
         <p class="lede">
           A one-screen summary of what built this site. For the full reference
           list, see <a href="/sources">Sources</a>.
         </p>
         <div class="card">
-          <h3>Data</h3>
+          <h3 id="data">Data</h3>
           <ul>
             <li>
               <strong>Quranic Arabic Corpus v0.4 (Leeds).</strong> Kais Dukes,
@@ -156,7 +170,36 @@
           </ul>
         </div>
         <div class="card">
-          <h3>Scholarly lineage</h3>
+          <h3 id="audio">Audio</h3>
+          <ul>
+            <li>
+              <strong>Recitation audio.</strong> Served per verse by Islamic
+              Network's CDN (<code>cdn.islamic.network</code>) and streamed
+              directly by the reader's browser; this site stores and
+              redistributes none of it. Five reciters are offered — Mahmoud
+              al-Husary, Mohamed al-Minshawi, Abdul Basit, Sudais, and Shuraim
+              — chosen from the microphone button beside any verse. The
+              recordings' own licensing is the CDN's to state, not this
+              project's; see <a href="/sources">Sources</a>.
+            </li>
+            <li>
+              <strong>English translation audio.</strong> The English leg of
+              Listen mode on the <a href="/read">Read</a> page, served by the
+              same CDN. <em>Its reciter, publisher, and license are
+              unconfirmed</em>, so none is named here — this project does not
+              credit a person or a license it has not checked against the
+              source. The player looks the edition up at runtime and drops the
+              Arabic + English toggle when it is not served, so nothing on the
+              page depends on an unverified claim. The entry on
+              <a href="/sources">Sources</a> carries a ○ Pending badge until
+              <code>scripts/check-audio-editions.mjs</code> is run from a
+              machine with outbound network and a full citation is written
+              from its output.
+            </li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 id="scholarly-lineage">Scholarly lineage</h3>
           <ul>
             <li>
               <strong>Hamid al-Din al-Farahi</strong> (1863–1930). Founder of
@@ -180,7 +223,7 @@
           </ul>
         </div>
         <div class="card">
-          <h3>Typography</h3>
+          <h3 id="typography">Typography</h3>
           <ul>
             <li>
               <strong>Amiri.</strong> Khaled Hosny and contributors. Arabic
@@ -245,7 +288,7 @@
           </p>
         </div>
         <div class="card">
-          <h3>Build</h3>
+          <h3 id="build">Build</h3>
           <ul>
             <li>
               Static site, hosted on
@@ -283,7 +326,7 @@
           </ul>
         </div>
         <div class="card">
-          <h3>Privacy</h3>
+          <h3 id="privacy">Privacy</h3>
           <ul>
             <li>No analytics. No tracking. No cookies.</li>
             <li>
@@ -295,10 +338,13 @@
             </li>
             <li>
               The site makes API calls to alquran.cloud for verse text and
-              translations. Requests contain the selected passage and edition,
-              not notes or preferences; as with any direct web request, the
-              provider receives connection data such as the visitor's IP
-              address and browser headers. See
+              translations, and streams recitation audio per verse from
+              cdn.islamic.network as it plays — including, in the Read page's
+              Listen mode, one request per verse for as long as the sitting
+              runs. Requests contain the selected passage, edition, and
+              reciter, not notes or preferences; as with any direct web
+              request, the provider receives connection data such as the
+              visitor's IP address and browser headers. See
               <a href="/about#privacy">Privacy and data</a>.
             </li>
           </ul>

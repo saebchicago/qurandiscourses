@@ -106,7 +106,6 @@ Its most repeated root: ر ح م (r-ḥ-m), appearing 4×.
 Read this surah
 Its full dossier
 Explore this root
-Replay this surah
 
 Show another verse
 
@@ -219,8 +218,10 @@ surah boundaries.
 
 Loading a passage requests the selected verses and editions from
 api.alquran.cloud and the word-by-word meanings from
-api.quran.com; both receive normal connection data. Notes,
-worksheets, and preferences stay in this browser.
+api.quran.com; recitation audio streams per verse from
+cdn.islamic.network as you play it. All three receive normal
+connection data. Notes, worksheets, and preferences stay in this
+browser.
 Privacy and offline details .
 
 ### Start reading
@@ -3693,6 +3694,19 @@ https://cdn.islamic.network . Serves the recitation audio on the Read and Replay
 reciter is chosen from the microphone button beside each verse.
 ●
 
+Islamic Network. English translation audio edition ,
+per-ayah MP3.
+https://cdn.islamic.network . The English leg of Listen mode on the Read page, played after
+each verse's Arabic. The reciter, publisher, and license of this
+edition have not been confirmed against the source, so this entry
+names none of them: the player discovers the edition at runtime
+and omits the Arabic + English toggle entirely when it is not
+served. Running
+scripts/check-audio-editions.mjs from a machine with
+outbound network prints what the API reports for it, which is what
+a full citation here will be written from.
+○
+
 Tarteel AI and Quran.com Foundation.
 Quranic Universal Library (QUL) , 2024.
 https://qul.tarteel.ai/ .
@@ -6320,7 +6334,9 @@ hosts, so a fourth would be blocked by your browser rather than
 silently allowed. Like any direct web request, each provider receives
 technical connection information such as your IP address and browser
 headers. What the request carries is the surah, verse, selected
-edition, or chosen reciter, and nothing else: not your notes, not your
+edition, or chosen reciter — and, in Listen mode, the English
+translation-audio edition and the verse being recited — and nothing
+else: not your notes, not your
 preferences, not your reading history. Previously loaded passages are
 cached in your browser, and the bundled Arabic word data provides a
 limited offline fallback. You can use the site's bundled research
@@ -6495,6 +6511,30 @@ time of writing. Repository: github.com/Alhassan777/Mishkat (no
 longer publicly reachable as of September 2026, so no link is
 given; the bundled copy was taken in July 2026).
 
+### Audio
+
+Recitation audio. Served per verse by Islamic
+Network's CDN ( cdn.islamic.network ) and streamed
+directly by the reader's browser; this site stores and
+redistributes none of it. Five reciters are offered — Mahmoud
+al-Husary, Mohamed al-Minshawi, Abdul Basit, Sudais, and Shuraim
+— chosen from the microphone button beside any verse. The
+recordings' own licensing is the CDN's to state, not this
+project's; see Sources .
+
+English translation audio. The English leg of
+Listen mode on the Read page, served by the
+same CDN. Its reciter, publisher, and license are
+unconfirmed , so none is named here — this project does not
+credit a person or a license it has not checked against the
+source. The player looks the edition up at runtime and drops the
+Arabic + English toggle when it is not served, so nothing on the
+page depends on an unverified claim. The entry on
+Sources carries a ○ Pending badge until
+scripts/check-audio-editions.mjs is run from a
+machine with outbound network and a full citation is written
+from its output.
+
 ### Scholarly lineage
 
 Hamid al-Din al-Farahi (1863–1930). Founder of
@@ -6580,10 +6620,13 @@ reader-authored store has its own clear control so changing
 display settings cannot erase writing unexpectedly.
 
 The site makes API calls to alquran.cloud for verse text and
-translations. Requests contain the selected passage and edition,
-not notes or preferences; as with any direct web request, the
-provider receives connection data such as the visitor's IP
-address and browser headers. See
+translations, and streams recitation audio per verse from
+cdn.islamic.network as it plays — including, in the Read page's
+Listen mode, one request per verse for as long as the sitting
+runs. Requests contain the selected passage, edition, and
+reciter, not notes or preferences; as with any direct web
+request, the provider receives connection data such as the
+visitor's IP address and browser headers. See
 Privacy and data .
 
 ===== Glossary (https://divinediscourses.org/glossary) =====

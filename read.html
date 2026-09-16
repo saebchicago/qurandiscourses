@@ -241,11 +241,18 @@
           <p class="caption-note">
             Loading a passage requests the selected verses and editions from
             api.alquran.cloud and the word-by-word meanings from
-            api.quran.com; both receive normal connection data. Notes,
-            worksheets, and preferences stay in this browser.
+            api.quran.com; recitation audio streams per verse from
+            cdn.islamic.network as you play it. All three receive normal
+            connection data. Notes, worksheets, and preferences stay in this
+            browser.
             <a href="/about#privacy">Privacy and offline details</a>.
           </p>
         </div>
+        <!-- Listen mode. Filled by assets/listen.js only for a juz
+             read (?j=N / ?juz=N) and only while audio is enabled in
+             settings; empty and hidden otherwise, so a single-verse
+             read is unchanged. -->
+        <div class="card listen-panel" id="listenPanel" hidden></div>
         <div id="verseContainer">
           <div class="card" id="readWelcome">
             <h3 style="margin-top: 0">Start reading</h3>
@@ -963,6 +970,9 @@
         if (juzArg !== undefined)
           activeJuz = juzArg ? Number(juzArg) : null;
         const juzMode = activeJuz;
+        // Leaving juz mode tears the Listen transport down before any of
+        // the validation early-returns below can skip past the rebuild.
+        if (!juzMode && window.qdListenSync) window.qdListenSync(null);
         const s = resolveSurah(document.getElementById("surahInput").value);
         const rawA = document.getElementById("ayahInput").value.trim();
         const container = document.getElementById("verseContainer");
@@ -1210,7 +1220,13 @@
                   resolveHlSet(deepLinkHl.spec, tokenCount),
                 );
               }
-              let html = `<div class="verse" data-ayah="${ayahNum}"><div class="meta"><strong><a class="vref" href="/read?s=${s}&a=${ayahNum}" title="Link to this verse">${s}:${ayahNum}</a></strong><span>${surahName} · ${surahNameTranslation}</span><button type="button" class="notebook-pin-btn" data-notebook-type="verse" data-notebook-ref="${s}:${ayahNum}" data-notebook-label="${qdEsc(s + ":" + ayahNum + " · " + surahName)}" title="Pin this verse to your workspace" aria-label="Pin verse ${s}:${ayahNum} to your workspace">📌</button></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button type="button" class="trans-open-btn" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem;max-width:min(100%,22rem);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${qdEsc(transSummary)} ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arHtml}</p>`;
+              // data-surah and data-ar-number are the Listen player's
+              // handle on this verse (assets/listen.js). data-ayah alone
+              // cannot identify a verse inside a juz: numberInSurah
+              // restarts at 1 at every surah boundary, and 28 of the 30
+              // juz cross one. arNumber is the global 1-6236 ayah
+              // number, which is also the audio CDN's filename.
+              let html = `<div class="verse" data-ayah="${ayahNum}" data-surah="${thisSurah || s}" data-ar-number="${arNumber}"><div class="meta"><strong><a class="vref" href="/read?s=${s}&a=${ayahNum}" title="Link to this verse">${s}:${ayahNum}</a></strong><span>${surahName} · ${surahNameTranslation}</span><button type="button" class="notebook-pin-btn" data-notebook-type="verse" data-notebook-ref="${s}:${ayahNum}" data-notebook-label="${qdEsc(s + ":" + ayahNum + " · " + surahName)}" title="Pin this verse to your workspace" aria-label="Pin verse ${s}:${ayahNum} to your workspace">📌</button></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button type="button" class="trans-open-btn" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem;max-width:min(100%,22rem);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${qdEsc(transSummary)} ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arHtml}</p>`;
               // Word-by-word meanings (assets/wordbw.js) render at every
               // depth: knowing what the words say is reading, not
               // analysis. Filled after the passage paints; stays hidden
@@ -1348,6 +1364,9 @@
             },
           );
           container.innerHTML = allHtml;
+          // The transport binds to the verse nodes that were just
+          // written, so it goes after the paint, not before it.
+          if (window.qdListenSync) window.qdListenSync(juzMode || null);
           maybeScrollToHighlight(container);
           if (window.qdNotebook) qdNotebook.enhance(container);
           // Published word-by-word meanings, fetched per page of the
@@ -1489,10 +1508,12 @@
             // in the form, which is how ?j= used to lose 27 of its 28
             // cross-surah juz.
             url.searchParams.set("j", juzMode);
+            url.searchParams.delete("juz");
             url.searchParams.delete("s");
             url.searchParams.delete("a");
           } else {
             url.searchParams.delete("j");
+            url.searchParams.delete("juz");
             url.searchParams.set("s", s);
             url.searchParams.set("a", aParam);
           }
@@ -1524,6 +1545,9 @@
             `<p style="margin:0.6rem 0 0"><a href="/replay?s=${s}">▶ Replay this surah</a> — recitation verse by verse, recurring roots lighting up as it unfolds. <a href="/dossier?s=${s}">Its dossier</a> — everything this site knows about it, on one page.</p>`,
           );
         } catch (e) {
+          // The fallback below renders cards, not .verse nodes, so there
+          // is nothing left for the transport to walk.
+          if (window.qdListenSync) window.qdListenSync(null);
           // Offline fallback: the Arabic word tokens are bundled locally
           // (Leeds corpus); render them so the reader is not left empty.
           let fallback = "";
@@ -1693,7 +1717,11 @@
         load(null);
       });
       const params = new URLSearchParams(location.search);
-      const juzParam = params.get("j");
+      // ?j=N is the canonical, shareable form (it is what load() writes
+      // back into the address bar). ?juz=N is accepted as a spelled-out
+      // alias so a hand-typed or externally linked address still opens
+      // the juz; it is normalised to ?j= on the first render.
+      const juzParam = params.get("j") || params.get("juz");
       const hasParams = !!(params.get("s") || params.get("a") || juzParam);
       if (params.get("s"))
         document.getElementById("surahInput").value = params.get("s");
@@ -1856,6 +1884,7 @@
     <script src="assets/passage.js" defer></script>
     <script src="assets/read-picker.js" defer></script>
     <script src="assets/read-polish.js" defer></script>
+    <script src="assets/listen.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
     <script src="assets/notebook.js" defer></script>

@@ -86,7 +86,18 @@ Amiri, Cormorant Garamond, Inter, Noto Nastaliq Urdu, Noto Serif Bengali —
 each face's OFL text is bundled beside the binaries). Chart-bearing pages add `assets/chart.js`
 (`qdChart`: revelation timeline, heat strip, scatter, ego network —
 theme-aware via `--chart-1..4`, which are dataviz-validated mark colors;
-every chart needs a method note beside it). `assets/notes.js` renders the
+every chart needs a method note beside it). `assets/listen.js` is the Read page's Listen mode: one
+sequential transport for a whole-juz read (`?j=N`, or the `?juz=N`
+alias), built only when a juz is on screen and audio is enabled, and
+torn down again on any other read. It keys every clip on the GLOBAL
+ayah number read.html renders into `data-ar-number` — `data-ayah`
+restarts at 1 at each surah boundary and 28 of the 30 juz cross one.
+Its English leg is discovered at runtime rather than registered: that
+edition's reciter and license are unconfirmed, so /sources carries it
+○ Pending and `scripts/check-audio-editions.mjs` is what a real
+citation gets written from. All playback runs through ONE `<audio>`
+element, which is what keeps iOS's gesture grant alive across a
+185-verse sitting. `assets/notes.js` renders the
 Read page's local-only notes panel (storage key `qd_notes`, deliberately
 NOT cleared with preferences). `assets/discovery-worksheet.js` renders a
 per-surah "propose your own structure" form on the Read page (storage key
@@ -265,6 +276,7 @@ dispatch instead of blocking every contribution.
 | check-ask.mjs | every Ask-box route must point at something real: theme words, page words and glossary keys all resolve to a destination that exists, so no query can dead-end |
 | check-contrib.mjs | the contribution pipeline's joints: every issue template is linked from contribute.html, and the correction form is present and wired |
 | check-juz-endpoint.mjs | the third-party contract whole-juz reading rests on — alquran.cloud must still serve a juz cross-surah in the shape read.html expects. Needs real outbound network |
+| check-audio-editions.mjs | the audio half of check-editions.mjs. Asserts that every reciter ID in assets/app.js's RECITERS array is still served by cdn.islamic.network (a dead ID makes the player silently never start, which reads as a slow network), and REPORTS — never asserts — what the API says the English audio editions are, because Listen mode's English leg is registered ○ Pending precisely until a maintainer reads a real response off this output and writes the citation from it. Needs real outbound network |
 | validate-evidence.mjs | structural gate for the provenance registry (data/provenance/): 11 rules over sources.json and claims.json — unique ids, exact key sets, resolvable source references, byte-frozen quotes, and a resolution_note on every pending claim and no other |
 | check-docs-sync.mjs | this guide's own inventories: every page appears in §2's table, §2's heading count matches, and every script — generators, checkers, dev tools, `scripts/lib/` modules — is documented somewhere here, or is named in the checker's printed exclusion list with a reason. The no-extension form of a name counts only when it is hyphenated: mutation-testing showed a bare `nothing.mjs` passing because "nothing" appears in this file's prose. Written after the table silently lost two pages and four checkers, and extended after nine site-artifact generators and seven lib modules turned out to have no row anywhere |
 | check-exports-sync.mjs | the published data hub: `data/exports/schema.json` declares what is published, and the files, export.html's download cards and their row counts, the table-count prose on export.html and datasets.html, the counts inside the schema's own descriptions (which propagate into datapackage.json, croissant.json and both pages' JSON-LD), and the tables themselves against the sources they derive from must all match it. The source cross-validation is recomputed here rather than by re-running build-exports.mjs — `check-generated-freshness` proves the tables are what the generator produces, this proves the generator did not drop or invent rows. Written after `dispersion` reached every generated surface, including the citable archive and the JSON-LD, but never reached the hand-written card grid |
