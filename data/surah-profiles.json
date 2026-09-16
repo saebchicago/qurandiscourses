@@ -1,7 +1,7 @@
 {
-  "_source": "Leeds Quranic Arabic Corpus v0.4 (morphology/roots); chronology.json (Egyptian Standard, Cairo 1924); data/qursim (Mishkat cross-reference index, 110/114 surahs)",
-  "_generated": "2026-08-09",
-  "_note": "Descriptive corpus statistics only. Root/form/lemma diversity ratios (type-token ratios) divide distinct count by all word-tokens, including function words with no tagged root — sensitive to text length, so compare within similar surah lengths, not as a single corpus-wide ranking. QurSim connectivity counts distinct other surahs cross-referenced; null means the surah is outside current QurSim/Mishkat coverage (104, 105, 106, 110), not zero connections.",
+  "_source": "Leeds Quranic Arabic Corpus v0.4 (morphology/roots); chronology.json (Egyptian Standard, Cairo 1924)",
+  "_generated": "2026-09-16",
+  "_note": "Descriptive corpus statistics only. Root/form/lemma diversity ratios (type-token ratios) divide distinct count by all word-tokens, including function words with no tagged root — sensitive to text length, so compare within similar surah lengths, not as a single corpus-wide ranking.",
   "surahs": {
     "1": {
       "surah": 1,
@@ -86,8 +86,7 @@
         "nounPct": 41.4,
         "verbPct": 13.8
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 3
+      "chronologyPeriod": "meccan-early"
     },
     "2": {
       "surah": 2,
@@ -172,8 +171,7 @@
         "nounPct": 30.4,
         "verbPct": 25
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 70
+      "chronologyPeriod": "medinan"
     },
     "3": {
       "surah": 3,
@@ -258,8 +256,7 @@
         "nounPct": 31.1,
         "verbPct": 24.8
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 32
+      "chronologyPeriod": "medinan"
     },
     "4": {
       "surah": 4,
@@ -344,8 +341,7 @@
         "nounPct": 30.4,
         "verbPct": 24.8
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 47
+      "chronologyPeriod": "medinan"
     },
     "5": {
       "surah": 5,
@@ -430,8 +426,7 @@
         "nounPct": 31,
         "verbPct": 25.4
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 29
+      "chronologyPeriod": "medinan"
     },
     "6": {
       "surah": 6,
@@ -516,8 +511,7 @@
         "nounPct": 30.9,
         "verbPct": 26.9
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 38
+      "chronologyPeriod": "meccan-late"
     },
     "7": {
       "surah": 7,
@@ -602,8 +596,7 @@
         "nounPct": 30.4,
         "verbPct": 29.2
       },
-      "chronologyPeriod": "meccan-middle",
-      "qursimConnectivity": 42
+      "chronologyPeriod": "meccan-middle"
     },
     "8": {
       "surah": 8,
@@ -688,8 +681,7 @@
         "nounPct": 29.3,
         "verbPct": 25.8
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 16
+      "chronologyPeriod": "medinan"
     },
     "9": {
       "surah": 9,
@@ -774,8 +766,7 @@
         "nounPct": 30.1,
         "verbPct": 24.5
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 22
+      "chronologyPeriod": "medinan"
     },
     "10": {
       "surah": 10,
@@ -860,8 +851,7 @@
         "nounPct": 30,
         "verbPct": 25.5
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 21
+      "chronologyPeriod": "meccan-late"
     },
     "11": {
       "surah": 11,
@@ -946,8 +936,7 @@
         "nounPct": 32,
         "verbPct": 23.8
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 31
+      "chronologyPeriod": "meccan-late"
     },
     "12": {
       "surah": 12,
@@ -1032,8 +1021,7 @@
         "nounPct": 30.9,
         "verbPct": 26.6
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 20
+      "chronologyPeriod": "meccan-late"
     },
     "13": {
       "surah": 13,
@@ -1118,8 +1106,7 @@
         "nounPct": 37.5,
         "verbPct": 22
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 13
+      "chronologyPeriod": "medinan"
     },
     "14": {
       "surah": 14,
@@ -1204,8 +1191,7 @@
         "nounPct": 34.9,
         "verbPct": 23.7
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 11
+      "chronologyPeriod": "meccan-late"
     },
     "15": {
       "surah": 15,
@@ -1290,8 +1276,7 @@
         "nounPct": 35.1,
         "verbPct": 25.2
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 14
+      "chronologyPeriod": "meccan-late"
     },
     "16": {
       "surah": 16,
@@ -1376,8 +1361,7 @@
         "nounPct": 32.5,
         "verbPct": 24.3
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 35
+      "chronologyPeriod": "meccan-late"
     },
     "17": {
       "surah": 17,
@@ -1462,8 +1446,7 @@
         "nounPct": 35.5,
         "verbPct": 26.5
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 21
+      "chronologyPeriod": "meccan-late"
     },
     "18": {
       "surah": 18,
@@ -1548,8 +1531,7 @@
         "nounPct": 35.6,
         "verbPct": 27.7
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 19
+      "chronologyPeriod": "meccan-late"
     },
     "19": {
       "surah": 19,
@@ -1634,8 +1616,7 @@
         "nounPct": 34.3,
         "verbPct": 26.6
       },
-      "chronologyPeriod": "meccan-middle",
-      "qursimConnectivity": 23
+      "chronologyPeriod": "meccan-middle"
     },
     "20": {
       "surah": 20,
@@ -1720,8 +1701,7 @@
         "nounPct": 27.9,
         "verbPct": 29.4
       },
-      "chronologyPeriod": "meccan-middle",
-      "qursimConnectivity": 31
+      "chronologyPeriod": "meccan-middle"
     },
     "21": {
       "surah": 21,
@@ -1806,8 +1786,7 @@
         "nounPct": 33.6,
         "verbPct": 25.7
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 20
+      "chronologyPeriod": "meccan-late"
     },
     "22": {
       "surah": 22,
@@ -1892,8 +1871,7 @@
         "nounPct": 32.7,
         "verbPct": 22
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 14
+      "chronologyPeriod": "medinan"
     },
     "23": {
       "surah": 23,
@@ -1978,8 +1956,7 @@
         "nounPct": 33,
         "verbPct": 24.1
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 17
+      "chronologyPeriod": "meccan-late"
     },
     "24": {
       "surah": 24,
@@ -2064,8 +2041,7 @@
         "nounPct": 33.4,
         "verbPct": 21.3
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 14
+      "chronologyPeriod": "medinan"
     },
     "25": {
       "surah": 25,
@@ -2150,8 +2126,7 @@
         "nounPct": 35.3,
         "verbPct": 27.2
       },
-      "chronologyPeriod": "meccan-middle",
-      "qursimConnectivity": 21
+      "chronologyPeriod": "meccan-middle"
     },
     "26": {
       "surah": 26,
@@ -2236,8 +2211,7 @@
         "nounPct": 31.7,
         "verbPct": 25.9
       },
-      "chronologyPeriod": "meccan-middle",
-      "qursimConnectivity": 17
+      "chronologyPeriod": "meccan-middle"
     },
     "27": {
       "surah": 27,
@@ -2322,8 +2296,7 @@
         "nounPct": 30.6,
         "verbPct": 27.4
       },
-      "chronologyPeriod": "meccan-middle",
-      "qursimConnectivity": 14
+      "chronologyPeriod": "meccan-middle"
     },
     "28": {
       "surah": 28,
@@ -2408,8 +2381,7 @@
         "nounPct": 29.8,
         "verbPct": 28
       },
-      "chronologyPeriod": "meccan-middle",
-      "qursimConnectivity": 26
+      "chronologyPeriod": "meccan-middle"
     },
     "29": {
       "surah": 29,
@@ -2494,8 +2466,7 @@
         "nounPct": 31.1,
         "verbPct": 26.5
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 20
+      "chronologyPeriod": "meccan-late"
     },
     "30": {
       "surah": 30,
@@ -2580,8 +2551,7 @@
         "nounPct": 35.4,
         "verbPct": 24.2
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 20
+      "chronologyPeriod": "meccan-late"
     },
     "31": {
       "surah": 31,
@@ -2666,8 +2636,7 @@
         "nounPct": 34.2,
         "verbPct": 19.6
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 9
+      "chronologyPeriod": "meccan-late"
     },
     "32": {
       "surah": 32,
@@ -2752,8 +2721,7 @@
         "nounPct": 32.8,
         "verbPct": 27.2
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 16
+      "chronologyPeriod": "meccan-late"
     },
     "33": {
       "surah": 33,
@@ -2838,8 +2806,7 @@
         "nounPct": 33.9,
         "verbPct": 24.2
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 14
+      "chronologyPeriod": "medinan"
     },
     "34": {
       "surah": 34,
@@ -2924,8 +2891,7 @@
         "nounPct": 31,
         "verbPct": 24.1
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 11
+      "chronologyPeriod": "meccan-late"
     },
     "35": {
       "surah": 35,
@@ -3010,8 +2976,7 @@
         "nounPct": 36.3,
         "verbPct": 20.6
       },
-      "chronologyPeriod": "meccan-middle",
-      "qursimConnectivity": 20
+      "chronologyPeriod": "meccan-middle"
     },
     "36": {
       "surah": 36,
@@ -3096,8 +3061,7 @@
         "nounPct": 30.9,
         "verbPct": 26.1
       },
-      "chronologyPeriod": "meccan-middle",
-      "qursimConnectivity": 12
+      "chronologyPeriod": "meccan-middle"
     },
     "37": {
       "surah": 37,
@@ -3182,8 +3146,7 @@
         "nounPct": 34.7,
         "verbPct": 22.4
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 14
+      "chronologyPeriod": "meccan-late"
     },
     "38": {
       "surah": 38,
@@ -3268,8 +3231,7 @@
         "nounPct": 38.2,
         "verbPct": 21.1
       },
-      "chronologyPeriod": "meccan-middle",
-      "qursimConnectivity": 11
+      "chronologyPeriod": "meccan-middle"
     },
     "39": {
       "surah": 39,
@@ -3354,8 +3316,7 @@
         "nounPct": 33.7,
         "verbPct": 24.8
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 20
+      "chronologyPeriod": "meccan-late"
     },
     "40": {
       "surah": 40,
@@ -3440,8 +3401,7 @@
         "nounPct": 33.6,
         "verbPct": 24
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 14
+      "chronologyPeriod": "meccan-late"
     },
     "41": {
       "surah": 41,
@@ -3526,8 +3486,7 @@
         "nounPct": 32.1,
         "verbPct": 24.4
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 16
+      "chronologyPeriod": "meccan-late"
     },
     "42": {
       "surah": 42,
@@ -3612,8 +3571,7 @@
         "nounPct": 30.2,
         "verbPct": 20.9
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 20
+      "chronologyPeriod": "meccan-late"
     },
     "43": {
       "surah": 43,
@@ -3698,8 +3656,7 @@
         "nounPct": 33.3,
         "verbPct": 24.2
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 20
+      "chronologyPeriod": "meccan-late"
     },
     "44": {
       "surah": 44,
@@ -3784,8 +3741,7 @@
         "nounPct": 39,
         "verbPct": 18.2
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 7
+      "chronologyPeriod": "meccan-late"
     },
     "45": {
       "surah": 45,
@@ -3870,8 +3826,7 @@
         "nounPct": 34.4,
         "verbPct": 24.2
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 9
+      "chronologyPeriod": "meccan-late"
     },
     "46": {
       "surah": 46,
@@ -3956,8 +3911,7 @@
         "nounPct": 30.5,
         "verbPct": 26.6
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 6
+      "chronologyPeriod": "meccan-late"
     },
     "47": {
       "surah": 47,
@@ -4042,8 +3996,7 @@
         "nounPct": 30.1,
         "verbPct": 28.2
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 9
+      "chronologyPeriod": "medinan"
     },
     "48": {
       "surah": 48,
@@ -4128,8 +4081,7 @@
         "nounPct": 33,
         "verbPct": 26.4
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 3
+      "chronologyPeriod": "medinan"
     },
     "49": {
       "surah": 49,
@@ -4214,8 +4166,7 @@
         "nounPct": 30.3,
         "verbPct": 24.5
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 6
+      "chronologyPeriod": "medinan"
     },
     "50": {
       "surah": 50,
@@ -4300,8 +4251,7 @@
         "nounPct": 37,
         "verbPct": 19.6
       },
-      "chronologyPeriod": "meccan-middle",
-      "qursimConnectivity": 14
+      "chronologyPeriod": "meccan-middle"
     },
     "51": {
       "surah": 51,
@@ -4386,8 +4336,7 @@
         "nounPct": 36.9,
         "verbPct": 23.1
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 6
+      "chronologyPeriod": "meccan-late"
     },
     "52": {
       "surah": 52,
@@ -4472,8 +4421,7 @@
         "nounPct": 39.4,
         "verbPct": 22.8
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 9
+      "chronologyPeriod": "meccan-late"
     },
     "53": {
       "surah": 53,
@@ -4558,8 +4506,7 @@
         "nounPct": 32.2,
         "verbPct": 23.3
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 10
+      "chronologyPeriod": "meccan-early"
     },
     "54": {
       "surah": 54,
@@ -4644,8 +4591,7 @@
         "nounPct": 45.6,
         "verbPct": 21.9
       },
-      "chronologyPeriod": "meccan-middle",
-      "qursimConnectivity": 10
+      "chronologyPeriod": "meccan-middle"
     },
     "55": {
       "surah": 55,
@@ -4730,8 +4676,7 @@
         "nounPct": 57.3,
         "verbPct": 19.4
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 6
+      "chronologyPeriod": "medinan"
     },
     "56": {
       "surah": 56,
@@ -4816,8 +4761,7 @@
         "nounPct": 44.3,
         "verbPct": 17.9
       },
-      "chronologyPeriod": "meccan-middle",
-      "qursimConnectivity": 3
+      "chronologyPeriod": "meccan-middle"
     },
     "57": {
       "surah": 57,
@@ -4902,8 +4846,7 @@
         "nounPct": 35.9,
         "verbPct": 22
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 11
+      "chronologyPeriod": "medinan"
     },
     "58": {
       "surah": 58,
@@ -4988,8 +4931,7 @@
         "nounPct": 27.1,
         "verbPct": 23.5
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 9
+      "chronologyPeriod": "medinan"
     },
     "59": {
       "surah": 59,
@@ -5074,8 +5016,7 @@
         "nounPct": 31.9,
         "verbPct": 20.2
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 5
+      "chronologyPeriod": "medinan"
     },
     "60": {
       "surah": 60,
@@ -5160,8 +5101,7 @@
         "nounPct": 25.6,
         "verbPct": 26.4
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 5
+      "chronologyPeriod": "medinan"
     },
     "61": {
       "surah": 61,
@@ -5246,8 +5186,7 @@
         "nounPct": 31.7,
         "verbPct": 22.2
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 6
+      "chronologyPeriod": "medinan"
     },
     "62": {
       "surah": 62,
@@ -5332,8 +5271,7 @@
         "nounPct": 30.3,
         "verbPct": 24.6
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 11
+      "chronologyPeriod": "medinan"
     },
     "63": {
       "surah": 63,
@@ -5418,8 +5356,7 @@
         "nounPct": 25,
         "verbPct": 29.4
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 5
+      "chronologyPeriod": "medinan"
     },
     "64": {
       "surah": 64,
@@ -5504,8 +5441,7 @@
         "nounPct": 33.6,
         "verbPct": 24.9
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 6
+      "chronologyPeriod": "medinan"
     },
     "65": {
       "surah": 65,
@@ -5590,8 +5526,7 @@
         "nounPct": 33.1,
         "verbPct": 26.5
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 7
+      "chronologyPeriod": "medinan"
     },
     "66": {
       "surah": 66,
@@ -5676,8 +5611,7 @@
         "nounPct": 30.5,
         "verbPct": 25.3
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 6
+      "chronologyPeriod": "medinan"
     },
     "67": {
       "surah": 67,
@@ -5762,8 +5696,7 @@
         "nounPct": 30.6,
         "verbPct": 26.1
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 7
+      "chronologyPeriod": "meccan-late"
     },
     "68": {
       "surah": 68,
@@ -5848,8 +5781,7 @@
         "nounPct": 34,
         "verbPct": 25
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 6
+      "chronologyPeriod": "meccan-early"
     },
     "69": {
       "surah": 69,
@@ -5934,8 +5866,7 @@
         "nounPct": 33.7,
         "verbPct": 21.3
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 8
+      "chronologyPeriod": "meccan-late"
     },
     "70": {
       "surah": 70,
@@ -6020,8 +5951,7 @@
         "nounPct": 42.4,
         "verbPct": 20.3
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 6
+      "chronologyPeriod": "meccan-late"
     },
     "71": {
       "surah": 71,
@@ -6106,8 +6036,7 @@
         "nounPct": 30.1,
         "verbPct": 28.3
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 5
+      "chronologyPeriod": "meccan-late"
     },
     "72": {
       "surah": 72,
@@ -6192,8 +6121,7 @@
         "nounPct": 29.5,
         "verbPct": 26
       },
-      "chronologyPeriod": "meccan-middle",
-      "qursimConnectivity": 1
+      "chronologyPeriod": "meccan-middle"
     },
     "73": {
       "surah": 73,
@@ -6278,8 +6206,7 @@
         "nounPct": 37.2,
         "verbPct": 23.1
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 4
+      "chronologyPeriod": "meccan-early"
     },
     "74": {
       "surah": 74,
@@ -6364,8 +6291,7 @@
         "nounPct": 30.2,
         "verbPct": 29.8
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 7
+      "chronologyPeriod": "meccan-early"
     },
     "75": {
       "surah": 75,
@@ -6450,8 +6376,7 @@
         "nounPct": 36.6,
         "verbPct": 26.8
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 5
+      "chronologyPeriod": "meccan-early"
     },
     "76": {
       "surah": 76,
@@ -6536,8 +6461,7 @@
         "nounPct": 39.5,
         "verbPct": 24.3
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 15
+      "chronologyPeriod": "medinan"
     },
     "77": {
       "surah": 77,
@@ -6622,8 +6546,7 @@
         "nounPct": 42,
         "verbPct": 22.7
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 3
+      "chronologyPeriod": "meccan-early"
     },
     "78": {
       "surah": 78,
@@ -6708,8 +6631,7 @@
         "nounPct": 43.9,
         "verbPct": 23.1
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 2
+      "chronologyPeriod": "meccan-late"
     },
     "79": {
       "surah": 79,
@@ -6794,8 +6716,7 @@
         "nounPct": 35.2,
         "verbPct": 24.6
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 9
+      "chronologyPeriod": "meccan-late"
     },
     "80": {
       "surah": 80,
@@ -6880,8 +6801,7 @@
         "nounPct": 33.1,
         "verbPct": 27.1
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 7
+      "chronologyPeriod": "meccan-early"
     },
     "81": {
       "surah": 81,
@@ -6966,8 +6886,7 @@
         "nounPct": 31.7,
         "verbPct": 23.1
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 3
+      "chronologyPeriod": "meccan-early"
     },
     "82": {
       "surah": 82,
@@ -7052,8 +6971,7 @@
         "nounPct": 33.8,
         "verbPct": 25
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 1
+      "chronologyPeriod": "meccan-late"
     },
     "83": {
       "surah": 83,
@@ -7138,8 +7056,7 @@
         "nounPct": 32,
         "verbPct": 24.9
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 4
+      "chronologyPeriod": "meccan-late"
     },
     "84": {
       "surah": 84,
@@ -7224,8 +7141,7 @@
         "nounPct": 30.8,
         "verbPct": 29
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 2
+      "chronologyPeriod": "meccan-late"
     },
     "85": {
       "surah": 85,
@@ -7310,8 +7226,7 @@
         "nounPct": 40.4,
         "verbPct": 12.8
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 2
+      "chronologyPeriod": "meccan-early"
     },
     "86": {
       "surah": 86,
@@ -7396,8 +7311,7 @@
         "nounPct": 47.5,
         "verbPct": 16.4
       },
-      "chronologyPeriod": "meccan-middle",
-      "qursimConnectivity": 3
+      "chronologyPeriod": "meccan-middle"
     },
     "87": {
       "surah": 87,
@@ -7482,8 +7396,7 @@
         "nounPct": 23.6,
         "verbPct": 36.1
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 6
+      "chronologyPeriod": "meccan-early"
     },
     "88": {
       "surah": 88,
@@ -7568,8 +7481,7 @@
         "nounPct": 31.5,
         "verbPct": 18.5
       },
-      "chronologyPeriod": "meccan-late",
-      "qursimConnectivity": 6
+      "chronologyPeriod": "meccan-late"
     },
     "89": {
       "surah": 89,
@@ -7654,8 +7566,7 @@
         "nounPct": 41.6,
         "verbPct": 23.4
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 1
+      "chronologyPeriod": "meccan-early"
     },
     "90": {
       "surah": 90,
@@ -7740,8 +7651,7 @@
         "nounPct": 42.7,
         "verbPct": 22
       },
-      "chronologyPeriod": "meccan-middle",
-      "qursimConnectivity": 5
+      "chronologyPeriod": "meccan-middle"
     },
     "91": {
       "surah": 91,
@@ -7826,8 +7736,7 @@
         "nounPct": 33.3,
         "verbPct": 35.2
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 1
+      "chronologyPeriod": "meccan-early"
     },
     "92": {
       "surah": 92,
@@ -7912,8 +7821,7 @@
         "nounPct": 32.4,
         "verbPct": 32.4
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 3
+      "chronologyPeriod": "meccan-early"
     },
     "93": {
       "surah": 93,
@@ -7998,8 +7906,7 @@
         "nounPct": 35,
         "verbPct": 35
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 8
+      "chronologyPeriod": "meccan-early"
     },
     "94": {
       "surah": 94,
@@ -8084,8 +7991,7 @@
         "nounPct": 33.3,
         "verbPct": 25.9
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 1
+      "chronologyPeriod": "meccan-early"
     },
     "95": {
       "surah": 95,
@@ -8170,8 +8076,7 @@
         "nounPct": 44.1,
         "verbPct": 17.6
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 1
+      "chronologyPeriod": "meccan-early"
     },
     "96": {
       "surah": 96,
@@ -8256,8 +8161,7 @@
         "nounPct": 23.6,
         "verbPct": 38.9
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 2
+      "chronologyPeriod": "meccan-early"
     },
     "97": {
       "surah": 97,
@@ -8342,8 +8246,7 @@
         "nounPct": 60,
         "verbPct": 10
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 4
+      "chronologyPeriod": "meccan-early"
     },
     "98": {
       "surah": 98,
@@ -8428,8 +8331,7 @@
         "nounPct": 37.2,
         "verbPct": 19.1
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 3
+      "chronologyPeriod": "medinan"
     },
     "99": {
       "surah": 99,
@@ -8514,8 +8416,7 @@
         "nounPct": 44.4,
         "verbPct": 30.6
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": 1
+      "chronologyPeriod": "medinan"
     },
     "100": {
       "surah": 100,
@@ -8600,8 +8501,7 @@
         "nounPct": 45,
         "verbPct": 12.5
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 5
+      "chronologyPeriod": "meccan-early"
     },
     "101": {
       "surah": 101,
@@ -8686,8 +8586,7 @@
         "nounPct": 36.1,
         "verbPct": 16.7
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 2
+      "chronologyPeriod": "meccan-early"
     },
     "102": {
       "surah": 102,
@@ -8772,8 +8671,7 @@
         "nounPct": 28.6,
         "verbPct": 28.6
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 1
+      "chronologyPeriod": "meccan-early"
     },
     "103": {
       "surah": 103,
@@ -8852,8 +8750,7 @@
         "nounPct": 42.9,
         "verbPct": 28.6
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 0
+      "chronologyPeriod": "meccan-early"
     },
     "104": {
       "surah": 104,
@@ -8938,8 +8835,7 @@
         "nounPct": 36.4,
         "verbPct": 21.2
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": null
+      "chronologyPeriod": "meccan-early"
     },
     "105": {
       "surah": 105,
@@ -9024,8 +8920,7 @@
         "nounPct": 39.1,
         "verbPct": 26.1
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": null
+      "chronologyPeriod": "meccan-early"
     },
     "106": {
       "surah": 106,
@@ -9110,8 +9005,7 @@
         "nounPct": 52.9,
         "verbPct": 17.6
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": null
+      "chronologyPeriod": "meccan-early"
     },
     "107": {
       "surah": 107,
@@ -9196,8 +9090,7 @@
         "nounPct": 36,
         "verbPct": 24
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 1
+      "chronologyPeriod": "meccan-early"
     },
     "108": {
       "surah": 108,
@@ -9264,8 +9157,7 @@
         "nounPct": 40,
         "verbPct": 30
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 1
+      "chronologyPeriod": "meccan-early"
     },
     "109": {
       "surah": 109,
@@ -9314,8 +9206,7 @@
         "nounPct": 26.9,
         "verbPct": 23.1
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 4
+      "chronologyPeriod": "meccan-early"
     },
     "110": {
       "surah": 110,
@@ -9400,8 +9291,7 @@
         "nounPct": 42.1,
         "verbPct": 31.6
       },
-      "chronologyPeriod": "medinan",
-      "qursimConnectivity": null
+      "chronologyPeriod": "medinan"
     },
     "111": {
       "surah": 111,
@@ -9486,8 +9376,7 @@
         "nounPct": 56.5,
         "verbPct": 21.7
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 2
+      "chronologyPeriod": "meccan-early"
     },
     "112": {
       "surah": 112,
@@ -9554,8 +9443,7 @@
         "nounPct": 26.7,
         "verbPct": 26.7
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 1
+      "chronologyPeriod": "meccan-early"
     },
     "113": {
       "surah": 113,
@@ -9640,8 +9528,7 @@
         "nounPct": 43.5,
         "verbPct": 21.7
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 0
+      "chronologyPeriod": "meccan-early"
     },
     "114": {
       "surah": 114,
@@ -9726,8 +9613,7 @@
         "nounPct": 60,
         "verbPct": 15
       },
-      "chronologyPeriod": "meccan-early",
-      "qursimConnectivity": 2
+      "chronologyPeriod": "meccan-early"
     }
   }
 }

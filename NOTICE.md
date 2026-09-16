@@ -51,21 +51,19 @@ redistributing that text must clear its own license. The bundled Leeds
 morphology carries no English glosses, so nothing here overlaps the
 GPL corpus data.
 
-## Cross-reference data (`data/qursim/` = Mishkat corpus)
+## Cross-reference data — removed
 
-`data/qursim/` (110 per-surah files) powers the Related-verses feature.
-Despite the directory's historical name, the data it contains is derived
-from the **Mishkat Mutashābihāt corpus**
-(github.com/Alhassan777/Mishkat, 13 classical books,
-scholarly-attested), not from the QurSim dataset. That repository was no
-longer publicly reachable at that address as of 2026-09-02; the bundled
-copy was taken on 2026-07-07 (the `accessed` date in `data/sources.json`)
-and its standing below is unchanged. QurSim (Sharaf &
-Atwell, LREC 2012) is cited as the methodological reference only, and
-none of its data is bundled. The Mishkat repository publishes **no
-license**; its status is recorded as license-pending in
-`data/sources.json`, the compiler is credited, and if the rights holder
-objects the data will be removed.
+Until September 2026 this repository bundled a verse-to-verse
+cross-reference dataset under `data/qursim/` (110 per-surah files,
+derived from the Mishkat Mutashābihāt corpus) and rendered it as a
+"Related verses" panel on the Read page, a browser on the Patterns page,
+and a connectivity figure on Navigate, Compare and each surah's dossier.
+Its compiler published no license, the source repository later became
+unreachable, and no license could be obtained. The data and every
+feature built on it were removed rather than kept as an unlicensed
+redistribution. Nothing derived from it remains in `data/` or
+`data/exports/`. The QurSim paper (Sharaf & Atwell, LREC 2012), which
+was only ever cited as a methodological reference, is no longer cited.
 
 ## Surah metadata (Quran.com Foundation API)
 
@@ -185,12 +183,10 @@ reading lens), `numbers.json`,
 `symmetry-test.json`, `theme-surah-index.json`, `themes.json`,
 `word-index.json`. Each
 generator script under
-`scripts/` names its inputs in its header. Two of these additionally
-draw on other inputs: `data/coverage/report.json` includes file-count
-measurements of the license-pending `data/qursim/` directory (counts
-only, no Mishkat content), and `data/exports/` republishes
-Leeds-derived tables as downloadable CSV/JSON under the GPL, as stated
-on the export page.
+`scripts/` names its inputs in its header. One of these additionally
+draws on another output: `data/exports/` republishes Leeds-derived
+tables as downloadable CSV/JSON under the GPL, as stated on the export
+page.
 
 The GNU General Public License text is not bundled in this repository
 yet; upstream (corpus.quran.com) states "GNU General Public License"

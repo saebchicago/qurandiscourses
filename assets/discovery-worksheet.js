@@ -108,7 +108,7 @@
       esc(entry.evidence) +
       "</textarea>" +
       '<label for="wsCrossRefs" style="margin-top:0.7rem;display:block">Cross-references</label>' +
-      '<textarea id="wsCrossRefs" rows="2" placeholder="Related verses elsewhere in the Qur’an (see Mishkat cross-references on this surah’s verses).">' +
+      '<textarea id="wsCrossRefs" rows="2" placeholder="Related verses elsewhere in the Qur’an.">' +
       esc(entry.crossRefs) +
       "</textarea>" +
       '<label for="wsConfidence" style="margin-top:0.7rem;display:block">Your own confidence <span style="font-weight:400;color:var(--muted)">(your rating, not a site verification label)</span></label>' +

@@ -28,6 +28,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { readJson } from "./lib/io.mjs";
+import { applyCoverageBindings } from "./lib/coverage-bindings.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CHECK = process.argv.includes("--check");
@@ -113,6 +114,8 @@ const dailyLinks =
   `              >Read this surah</a\n            >\n` +
   `            <a id="dailyDossierLink" class="button secondary" href="/dossier?s=${DEFAULT_SURAH}"\n` +
   `              >Its full dossier</a\n            >\n` +
+  `            <a id="dailyListenLink" class="button secondary" href="/read?s=${DEFAULT_SURAH}&amp;a=1-${dm.versesCount}#listen"\n` +
+  `              >Listen to this surah</a\n            >\n` +
   `            <a id="dailyLensLink" class="button secondary" href="/roots?root=${encodeURIComponent(topRoot.root)}"\n` +
   `              >Explore this root</a\n            >`;
 
@@ -156,6 +159,16 @@ for (const [file, name, body] of REGIONS) {
   const after =
     before.slice(0, i + open.length) + "\n            " + body + "\n            " + before.slice(j);
   writes.set(abs, after);
+}
+
+// coverage.html's headline numbers are not a region but bound spans
+// scattered through its prose; the same table check-data-nums verifies
+// writes them here, so they can no longer be edited by hand and drift.
+{
+  const abs = join(ROOT, "coverage.html");
+  const report = readJson("data/coverage/report.json");
+  const before = writes.get(abs) ?? readFileSync(abs, "utf8");
+  writes.set(abs, applyCoverageBindings(before, report));
 }
 
 const changed = [...writes].filter(([abs, text]) => text !== readFileSync(abs, "utf8"));

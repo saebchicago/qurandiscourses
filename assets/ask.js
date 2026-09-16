@@ -472,7 +472,14 @@
     if (!reduce) startRotation();
   }
 
-  if (document.readyState === "loading") {
+  // "interactive" is not "ready". A deferred script sees readyState
+  // "interactive" while the deferred queue is still running, and this one
+  // sits ahead of passage.js in that queue — so initialising on the spot
+  // ran before window.qdPassage existed, the passage mode was never
+  // offered, and a typed chapter name fell through to plain routing.
+  // DOMContentLoaded fires only after every deferred script, which is the
+  // moment this UI can actually see its dependencies.
+  if (document.readyState !== "complete") {
     document.addEventListener("DOMContentLoaded", initAskUi);
   } else {
     initAskUi();

@@ -397,7 +397,9 @@
       var b = document.createElement("button");
       b.type = "button";
       b.className = "button secondary";
-      b.style.minHeight = "36px";
+      // 44, like every other control on the site: these three are the home
+      // page's entry prompts, pressed on a phone more than anywhere else.
+      b.style.minHeight = "44px";
       b.style.fontSize = "0.82rem";
       b.textContent = p.label;
       b.addEventListener("click", function () {

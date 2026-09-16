@@ -106,6 +106,11 @@
         font-variant-numeric: tabular-nums;
       }
       th .th-sort {
+        min-height: 44px;
+        min-width: 44px;
+        justify-content: center;
+        display: inline-flex;
+        align-items: center;
         background: none;
         border: 0;
         padding: 0;
@@ -328,11 +333,7 @@
             tokenization). Chronology period follows the Egyptian Standard
             (Cairo 1924) Meccan/Medinan and four-period classification. Root
             diversity ratio divides distinct roots by all word-units in the
-            surah, including function words with no tagged root. Cross-reference
-            connectivity (Mishkat Mutashābihāt corpus) counts distinct other surahs
-            cross-referenced (same-surah references excluded) and covers 110
-            of 114 surahs; surahs 104, 105, 106, and 110 show no figure rather
-            than zero, since they are outside current coverage. These are
+            surah, including function words with no tagged root. These are
             descriptive corpus counts, not claims about meaning or emphasis.
           </div>
           <h3>
@@ -704,15 +705,6 @@
 
       function profilePanelHTML(p) {
         const period = PERIOD_LABELS[p.chronologyPeriod] || p.chronologyPeriod || "Unclassified";
-        const qursimHTML =
-          p.qursimConnectivity === null
-            ? `<p class="stat-value" style="color:var(--muted);font-size:1rem">Not covered</p>`
-            : `<p class="stat-value">${p.qursimConnectivity} surah${p.qursimConnectivity === 1 ? "" : "s"}</p>`;
-        const qursimBadge =
-          p.qursimConnectivity === null
-            ? `<span class="badge pending" aria-label="Pending" tabindex="0" title="Pending · outside Mishkat coverage">○</span>`
-            : `<span class="badge nuanced" aria-label="Nuanced" tabindex="0" title="Nuanced · self-surah refs excluded">~</span>`;
-
         return `
           <div class="stat-block">
             <h4>Verses <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · Leeds Corpus v0.4">●</span></h4>
@@ -741,10 +733,6 @@
           <div class="stat-block">
             <h4>Chronology period <span class="badge nuanced" data-source-ids="cairo-1924 noldeke-schwally-1909 watt-bell-1970" aria-label="Nuanced" tabindex="0" title="Nuanced · Cairo 1924 convention; Nöldeke–Bell periods">~</span></h4>
             <p class="stat-value" style="font-size:1rem">${period}</p>
-          </div>
-          <div class="stat-block">
-            <h4>Cross-reference connectivity ${qursimBadge}</h4>
-            ${qursimHTML}
           </div>
           <div class="stat-block">
             <h4>Top ${p.topRoots.length} roots by frequency <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · per-surah frequency">●</span></h4>

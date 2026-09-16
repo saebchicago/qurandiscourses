@@ -362,7 +362,7 @@ nav.primary .nav-menu a {
   text-decoration: none;
   font-size: 0.9rem;
   border-radius: 4px;
-  min-height: 40px;
+  min-height: 44px;
   line-height: 1.4;
 }
 nav.primary .nav-menu a:hover,
@@ -688,6 +688,10 @@ blockquote.khan cite {
   padding-left: 0.6rem;
 }
 .method-note summary {
+  /* A disclosure is a control: same target as every other control. */
+  min-height: 44px;
+  display: flex;
+  align-items: center;
   cursor: pointer;
   list-style: none;
   user-select: none;
@@ -790,6 +794,12 @@ table.data tbody tr:last-child td {
   font-size: 0.86rem;
 }
 .barwrap .lbl {
+  /* refs.js turns the root in this label into a popover target; a row
+     of 20px labels stacked 9px-bar apart is a crowded 20px target. 24 is
+     the WCAG 2.2 AA floor, and the row simply grows to hold it. */
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
   width: 140px;
   flex-shrink: 0;
   color: var(--muted);
@@ -819,6 +829,7 @@ input[type="search"],
 input[type="number"],
 select {
   font: inherit;
+  min-height: 44px;
   padding: 0.45rem 0.6rem;
   border: 1px solid var(--line);
   border-radius: 6px;
@@ -836,6 +847,9 @@ label {
   cursor: pointer;
 }
 .button {
+  /* min-width for the icon-only cases (a lone × or ‹): a text button is
+     wider than this anyway, so it changes nothing else. */
+  min-width: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -919,6 +933,7 @@ label {
 .qd-picker-close,
 .qd-step {
   min-height: 44px;
+  min-width: 44px;
   padding: 0.35rem 0.7rem;
   background: none;
   color: var(--link);
@@ -1970,6 +1985,15 @@ dd {
   cursor: pointer;
   font-variant-numeric: tabular-nums;
 }
+/* In a table cell the reference IS the cell's content, so the inline
+   exemption does not apply and a 20px line is a 20px target. 24 is the
+   WCAG 2.2 AA minimum; scoped to cells so running prose is untouched. */
+td .qd-ref,
+th .qd-ref {
+  display: inline-block;
+  min-height: 24px;
+  line-height: 24px;
+}
 .qd-ref:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
@@ -2228,7 +2252,8 @@ dd {
   font-family: inherit;
   font-size: 0.85rem;
   transition: all 0.12s ease;
-  min-height: 36px;
+  /* 44, like every other control on the site. */
+  min-height: 44px;
 }
 .vocab-root-btn:hover {
   border-color: var(--accent);
@@ -3886,6 +3911,8 @@ html[data-focus] .ar.xl {
 /* navigate.html: the Verses column becomes the way in, not just a
    number to read. Sized as a text button so the table stays a table. */
 .verse-count-btn {
+  min-height: 44px;
+  min-width: 44px;
   padding: 0.25rem 0.4rem;
   border: 1px solid transparent;
   border-radius: 6px;
@@ -4151,4 +4178,13 @@ html[data-focus] .ar.xl {
 }
 .prov-counts {
   font-size: 0.9rem;
+}
+
+/* Native checkboxes are ~13px. The /paths progress boxes are the one
+   place they carry a task; WCAG 2.2 AA (2.5.8) wants 24×24 for a target
+   that is not inline in running text. */
+input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
 }

@@ -10,6 +10,7 @@
 //   s/root/<safeKey>.html   -> /roots?root=<safeKey>   (1,642)
 //   s/theme/<slug>.html     -> /themes#<slug>          (33)
 //   s/surah/<n>.html        -> /dossier?s=<n>           (114)
+//   s/juz/<n>.html          -> /read?j=<n>              (30)
 //
 // Share pages are noindex and deliberately NOT in sitemap.xml (1,789
 // thin near-duplicates would hurt search, and noindex requires
@@ -184,8 +185,32 @@ for (let n = 1; n <= 114; n++) {
   );
 }
 
+// ── Juz ────────────────────────────────────────────
+// A juz is a first-class listening unit on Read, so a pasted link to one
+// should unfurl as that juz rather than as the site. No per-juz image
+// exists; the site image carries it.
+const juzList = readJson("data/juz.json").juz;
+for (const j of juzList) {
+  const a = names[String(j.startSurah)];
+  const b = names[String(j.endSurah)];
+  const span =
+    j.startSurah === j.endSurah
+      ? `${a.translit} ${j.startSurah}:${j.startAyah}-${j.endAyah}`
+      : `${a.translit} ${j.startSurah}:${j.startAyah} to ${b.translit} ${j.endSurah}:${j.endAyah}`;
+  wanted.set(
+    `s/juz/${j.juz}.html`,
+    page({
+      path: `s/juz/${j.juz}.html`,
+      title: `Juz ${j.juz} · Divine Discourses`,
+      description: `Juz ${j.juz} of 30 · ${span}. Read it verse by verse, or listen to the whole juz in Arabic with English translation audio, on Divine Discourses.`,
+      og: ogFor("assets/og/site-og.png", `Juz ${j.juz} — ${span}`),
+      target: `/read?j=${j.juz}`,
+    }),
+  );
+}
+
 // ── Write + prune ───────────────────────────────────────────────────
-for (const dir of ["s", "s/root", "s/theme", "s/surah"]) {
+for (const dir of ["s", "s/root", "s/theme", "s/surah", "s/juz"]) {
   mkdirSync(join(ROOT, dir), { recursive: true });
 }
 let written = 0;
@@ -194,7 +219,7 @@ for (const [rel, content] of wanted) {
   written++;
 }
 let pruned = 0;
-for (const dir of ["s/root", "s/theme", "s/surah"]) {
+for (const dir of ["s/root", "s/theme", "s/surah", "s/juz"]) {
   for (const f of readdirSync(join(ROOT, dir))) {
     const rel = `${dir}/${f}`;
     if (!wanted.has(rel)) {

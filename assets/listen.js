@@ -394,5 +394,17 @@
     // re-rendered (a depth or translation change), and nowhere otherwise.
     player.restore(carry);
     carry = null;
+    // A link ending in #listen (the homepage's "Listen to this surah")
+    // lands on the transport, once, with Play focused so one keypress
+    // starts the sitting. Autoplay is never attempted: browsers require a
+    // gesture and the reader supplies it.
+    if (location.hash === "#listen" && !window.__qdListenLanded) {
+      window.__qdListenLanded = true;
+      try {
+        host.scrollIntoView({ block: "start", behavior: reducedMotion() ? "auto" : "smooth" });
+        var play = player.el("play");
+        if (play) play.focus({ preventScroll: true });
+      } catch (e) {}
+    }
   };
 })();

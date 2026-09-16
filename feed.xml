@@ -9,6 +9,25 @@
   <updated>2026-09-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>The cross-reference dataset and every feature built on it are removed</title>
+    <id>https://divinediscourses.org/changelog#2026-09-cross-references-removed</id>
+    <link href="https://divinediscourses.org/changelog#2026-09-cross-references-removed"/>
+    <updated>2026-09-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;The cross-reference dataset and every feature built on it are
+              removed.&lt;/strong&gt; The verse-to-verse cross-references bundled since
+              July 2026 came from a corpus whose compiler published no license, and
+              whose repository later became unreachable; no license could be
+              obtained. Rather than keep an unlicensed redistribution, the data,
+              the Related-verses panel on Read, the browser on Patterns, and the
+              connectivity figure on Navigate, Compare and each dossier are gone,
+              and the two registry entries that described them are retired.
+              Nothing derived from that corpus remains in &lt;code&gt;data/&lt;/code&gt; or the
+              exports. Separately: three of the five reciters had been silent on
+              every page (served at 64 kbps while each player asked for 128); the
+              bitrate now lives on each reciter and the audit checks it. Listen
+              mode reaches any passage on Read, and Replay shares its engine.</content>
+  </entry>
+  <entry>
     <title>Three sirah and occasions-of-revelation reference works are now registered, and the Mishkat entry records that its upstream repository went dark</title>
     <id>https://divinediscourses.org/changelog#2026-09-sirah-sources-registered</id>
     <link href="https://divinediscourses.org/changelog#2026-09-sirah-sources-registered"/>

@@ -43,26 +43,6 @@
    "accessed": "2026-05-19"
   },
   {
-   "id": "mishkat",
-   "type": "dataset",
-   "author": "Alhassan (Threadwork)",
-   "name": "Mishkat Mutashābihāt Corpus",
-   "year": "2024",
-   "license": "License pending: none published in the source repository",
-   "note": "Verse-to-verse cross-references compiled from 13 classical books of mutashābihāt scholarship; 1,905 verse nodes, 3,294 directed edges. The copy bundled in data/qursim/ was taken from the compiler's GitHub repository (github.com/Alhassan777/Mishkat) on the accessed date. As of 2026-09-02 that repository was no longer publicly reachable at that address, so no URL is given; the bundled data and its license standing are unchanged.",
-   "accessed": "2026-07-07"
-  },
-  {
-   "id": "qursim",
-   "type": "paper",
-   "author": "Sharaf, Abdul-Baquee, and Eric Atwell",
-   "name": "QurSim: A Corpus for Evaluation of Relatedness in Short Texts",
-   "publisher": "In Proceedings of the Eighth International Conference on Language Resources and Evaluation (LREC 2012). Istanbul: European Language Resources Association",
-   "year": "2012",
-   "note": "Methodological reference for the verse-relatedness approach. The dataset's canonical host, corpus.quran.com/qursim.jsp, is no longer accessible; no QurSim data is bundled. The cross-reference files in data/qursim/ carry that directory name for historical reasons but contain the Mishkat corpus (see the mishkat entry and NOTICE.md).",
-   "accessed": "2026-05-19"
-  },
-  {
    "id": "quran-foundation-api-v4",
    "type": "api",
    "author": "Quran.com Foundation",

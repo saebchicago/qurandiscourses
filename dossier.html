@@ -6,13 +6,13 @@
     <title>Surah dossier: one profile per surah · Divine Discourses</title>
     <meta
       name="description"
-      content="One synthesized profile per surah: identity and chronology, vocabulary and root profile, verse-ending sound patterns, recurring phrases, cross-references, and structure — every claim badged and traceable to its source."
+      content="One synthesized profile per surah: identity and chronology, vocabulary and root profile, verse-ending sound patterns, recurring phrases, and structure — every claim badged and traceable to its source."
     />
     <link rel="canonical" href="https://divinediscourses.org/dossier" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Divine Discourses" />
     <meta property="og:title" content="Surah dossier: one profile per surah · Divine Discourses" />
-    <meta property="og:description" content="One synthesized profile per surah: identity, chronology, vocabulary, sound patterns, recurring phrases, cross-references, and structure — every claim badged and traceable." />
+    <meta property="og:description" content="One synthesized profile per surah: identity, chronology, vocabulary, sound patterns, recurring phrases, references, and structure — every claim badged and traceable." />
     <meta property="og:url" content="https://divinediscourses.org/dossier" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta property="og:image" content="https://divinediscourses.org/assets/og/site-og.png" />
@@ -154,7 +154,6 @@
       #secRhyme { min-height: 4.9em; }
       #secFormulas { min-height: 20em; }
       #secFormulaicDensity { min-height: 10.5em; }
-      #secXref { min-height: 8em; }
       #secStructure { min-height: 20.5em; }
       @media (max-width: 600px) {
         #secIdentity { min-height: 21.4em; }
@@ -162,7 +161,6 @@
         #secRhyme { min-height: 7.9em; }
         #secFormulas { min-height: 41.7em; }
         #secFormulaicDensity { min-height: 20em; }
-        #secXref { min-height: 14.5em; }
         #secStructure { min-height: 48.5em; }
       }
     </style>
@@ -177,7 +175,7 @@
     <meta name="theme-color" content="#2b1d0e" />
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/dossier","url":"https://divinediscourses.org/dossier","name":"Surah dossier: one profile per surah · Divine Discourses","description":"One synthesized profile per surah: identity and chronology, vocabulary and root profile, verse-ending sound patterns, recurring phrases, cross-references, and structure — every claim badged and traceable to its source.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.2.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Surah dossier: one profile per surah","item":"https://divinediscourses.org/dossier"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/dossier","url":"https://divinediscourses.org/dossier","name":"Surah dossier: one profile per surah · Divine Discourses","description":"One synthesized profile per surah: identity and chronology, vocabulary and root profile, verse-ending sound patterns, recurring phrases, and structure — every claim badged and traceable to its source.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.2.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Surah dossier: one profile per surah","item":"https://divinediscourses.org/dossier"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -263,7 +261,7 @@
         <h2>Surah Dossier</h2>
         <p class="lede">
           One surah on one page: identity and chronology, vocabulary,
-          verse-ending sound, recurring phrases, cross-references, and
+          verse-ending sound, recurring phrases, and
           structure.
         </p>
         <div class="depth-row">
@@ -545,7 +543,6 @@
             `<div class="card"><h3 style="margin-top:0">Sound &amp; rhyme</h3>${ph("secRhyme", "Loading the verse-ending profile…")}</div>` +
             `<div class="card"><h3 style="margin-top:0">Recurring phrases</h3>${ph("secFormulas", "Loading recurring phrases…")}</div>` +
             `<div class="card"><h3 style="margin-top:0">Formulaic density</h3>${ph("secFormulaicDensity", "Loading formulaic density…")}</div>` +
-            `<div class="card"><h3 style="margin-top:0">Cross-references</h3>${ph("secXref", "Loading the cross-reference profile…")}</div>` +
             `<div class="card"><h3 style="margin-top:0">Structure</h3>${ph("secStructure", "Loading structural notes…")}</div>` +
             `<div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin:1.25rem 0">` +
             `<a class="button" href="/read?s=${su.id}&a=1-${su.verseCount}">Read this surah</a>` +
@@ -733,66 +730,6 @@
           );
         }
 
-        function renderXref(s, profiles) {
-          const p = profiles && profiles.surahs && profiles.surahs[String(s)];
-          if (!p) return fail("secXref", "Cross-reference profile");
-          if (p.qursimConnectivity === null) {
-            fill(
-              "secXref",
-              `<p style="margin:0">${PENDING("outside Mishkat coverage")} This surah is one of the four (104, 105, 106, 110) not covered by the Mishkat cross-reference corpus — no scholarly-attested link data is bundled for it, and none is asserted.</p>`,
-            );
-            return;
-          }
-          // Detail fetched separately; keep the count immediately.
-          fill(
-            "secXref",
-            `<p style="margin:0" id="xrefCount">Linked to ${p.qursimConnectivity} other surah${p.qursimConnectivity === 1 ? "" : "s"} in the Mishkat cross-reference corpus. ${NUANCED("self-surah refs excluded")}</p>` +
-              `<div id="xrefDetail" style="min-height:7em"><p style="color:var(--muted)">Loading sample links…</p></div>`,
-          );
-          fetchJson("data/qursim/" + s + ".json")
-            .then((q) => {
-              const bySurah = new Map();
-              let pairCount = 0;
-              const samples = [];
-              for (const [key, links] of Object.entries(q)) {
-                if (key.startsWith("_")) continue;
-                const a = parseInt(key.split(":")[1], 10);
-                for (const l of links) {
-                  if (l.s === s) continue;
-                  pairCount++;
-                  bySurah.set(l.s, (bySurah.get(l.s) || 0) + 1);
-                  if (samples.length < 5) samples.push({ a, to: l });
-                }
-              }
-              const top = [...bySurah.entries()]
-                .sort((x, y) => y[1] - x[1] || x[0] - y[0])
-                .slice(0, 5);
-              const surahName = (n) => {
-                const su =
-                  window.SURAHS && window.SURAHS.find((x) => x.id === n);
-                return su ? su.translit : "Surah " + n;
-              };
-              const topHtml = top
-                .map(
-                  ([n, c]) =>
-                    `<a href="/dossier?s=${n}">${qdEsc(surahName(n))}</a> <span style="color:var(--muted)">(×${c})</span>`,
-                )
-                .join(" · ");
-              const sampleHtml = samples
-                .map(
-                  (x) =>
-                    `<li><a href="/read?s=${s}&a=${x.a}">${s}:${x.a}</a> ↔ <a href="/read?s=${x.to.s}&a=${x.to.a}">${x.to.s}:${x.to.a}</a></li>`,
-                )
-                .join("");
-              fill(
-                "xrefDetail",
-                `<p style="margin:0.5rem 0 0.2rem;font-size:0.92rem">${pairCount} verse-level links in all. Most connected to: ${topHtml}.</p>` +
-                  `<ul style="margin:0.3rem 0 0.4rem;padding-left:1.2rem;font-size:0.9rem;line-height:1.8">${sampleHtml}</ul>` +
-                  `<p class="caption-note" style="margin:0">${OK("mishkat qursim", "Mishkat corpus via QurSim")} Cross-references from the Mishkat Mutashābihāt corpus (13 classical books, scholarly-attested), bundled per surah.</p>`,
-              );
-            })
-            .catch(() => fail("xrefDetail", "Cross-reference detail"));
-        }
 
         function renderStructure(
           s,
@@ -1051,12 +988,10 @@
                 .catch(() => null)
                 .then((themeIndex) => {
                   renderVocab(s, profiles, themeIndex);
-                  renderXref(s, profiles);
                 }),
             )
             .catch(() => {
               fail("secVocab", "Vocabulary profile");
-              fail("secXref", "Cross-reference profile");
             });
 
           fetchJson("data/rhyme-summary.json")

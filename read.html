@@ -524,7 +524,6 @@
             glossCache[s] = null;
           });
       }
-      const xrefCache = {};
       const verseTransCache = {};
       const surahHighlightCache = {};
 
@@ -870,93 +869,6 @@
         }
       });
 
-      async function fetchXrefTranslations(detailsEl, refs) {
-        await Promise.all(
-          refs.map(async (ref, i) => {
-            const key = `${ref.s}:${ref.a}`;
-            if (!verseTransCache[key]) {
-              try {
-                verseTransCache[key] = await qdFetchVerse(ref.s, ref.a);
-              } catch {
-                return;
-              }
-            }
-            const data = verseTransCache[key];
-            const trans = data.filter(
-              (d) => d.edition.identifier !== "quran-uthmani",
-            );
-            if (!trans.length) return;
-            // Prefer a translation the API actually served; only fall back
-            // to a mismatch placeholder if every requested edition failed.
-            const usable = trans.find((t) => !t._mismatchOf);
-            const items = detailsEl.querySelectorAll(".xref-item");
-            if (!items[i]) return;
-            const el = items[i].querySelector(".xref-trans");
-            if (el) {
-              if (usable) {
-                el.textContent = usable.text;
-                el.style.color = "var(--text)";
-              } else {
-                el.textContent = "Translation unavailable for this cross-reference.";
-                el.style.color = "var(--muted)";
-              }
-            }
-          }),
-        );
-      }
-
-      async function attachXrefs(surahNum, ayahNums, depth) {
-        if (!xrefCache[surahNum]) {
-          try {
-            const r = await fetch(`data/qursim/${surahNum}.json`);
-            xrefCache[surahNum] = r.ok ? await r.json() : {};
-          } catch {
-            xrefCache[surahNum] = {};
-            return;
-          }
-        }
-        const surahXrefs = xrefCache[surahNum];
-        const autoExpand = depth === "study" || depth === "encyclopedic";
-
-        for (const ayahNum of ayahNums) {
-          const refs = surahXrefs[`${surahNum}:${ayahNum}`];
-          if (!refs || !refs.length) continue;
-          const placeholder = document.getElementById(`xref-${ayahNum}`);
-          if (!placeholder) continue;
-
-          const details = document.createElement("details");
-          details.className = "xref-panel";
-          if (autoExpand) details.open = true;
-
-          const items = refs
-            .map((ref) => {
-              const sName = SURAH_DISPLAY_NAMES[ref.s] || `Surah ${ref.s}`;
-              const catLabel =
-                ref.cat === "structural"
-                  ? "structural"
-                  : ref.cat === "semantic"
-                    ? "semantic"
-                    : ref.cat === "lexical"
-                      ? "lexical"
-                      : ref.cat;
-              const rs = Number(ref.s);
-              const ra = Number(ref.a);
-              return `<div class="xref-item"><a href="/read?s=${rs}&a=${ra}" class="xref-ref">${rs}:${ra} · ${qdEsc(sName)}</a><span class="xref-cat">${qdEsc(catLabel)}</span><span class="ar notranslate xref-ar" translate="no" lang="ar" dir="rtl">${qdEsc(ref.ar)}</span><span class="xref-trans" style="color:var(--muted)">Loading translation…</span></div>`;
-            })
-            .join("");
-
-          details.innerHTML = `<summary>Related verses (${refs.length})</summary><div class="xref-list">${items}<p class="prov" style="margin-top:.5rem"><span class="badge ok" data-source-ids="mishkat" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Mishkat corpus.</p>
-<details class="method-note">
-  <summary>ℹ How this is computed</summary>
-  <p><span class="badge ok" data-source-ids="mishkat" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Cross-references from the <a href="/sources#mishkat">Mishkat Mutashābihāt corpus</a> (13 classical books, scholarly-attested).</p>
-</details><p class="caption-note">Cross-reference coverage: 110 of 114 surahs. Not yet covered: 104, 105, 106, 110.</p></div>`;
-
-          placeholder.appendChild(details);
-
-          fetchXrefTranslations(details, refs);
-        }
-      }
-
       // Reading a juz. 28 of the 30 cross a surah boundary, so a juz
       // cannot be expressed as a surah plus a range; it is its own mode.
       // Set by the ?j= hydration below, cleared by any surah load, so
@@ -1230,7 +1142,11 @@
               // restarts at 1 at every surah boundary, and 28 of the 30
               // juz cross one. arNumber is the global 1-6236 ayah
               // number, which is also the audio CDN's filename.
-              let html = `<div class="verse" data-ayah="${ayahNum}" data-surah="${thisSurah || s}" data-ar-number="${arNumber}"><div class="meta"><strong><a class="vref" href="/read?s=${s}&a=${ayahNum}" title="Link to this verse">${s}:${ayahNum}</a></strong><span>${surahName} · ${surahNameTranslation}</span><button type="button" class="notebook-pin-btn" data-notebook-type="verse" data-notebook-ref="${s}:${ayahNum}" data-notebook-label="${qdEsc(s + ":" + ayahNum + " · " + surahName)}" title="Pin this verse to your workspace" aria-label="Pin verse ${s}:${ayahNum} to your workspace">📌</button></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button type="button" class="trans-open-btn" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem;max-width:min(100%,22rem);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${qdEsc(transSummary)} ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arHtml}</p>`;
+              // vs is the verse's OWN surah. In a juz the form still holds the
+              // juz's first surah, so building links and pins from `s` sent every
+              // al-Kahf verse in juz 15 to surah 17 and pinned it there.
+              const vs = thisSurah || s;
+              let html = `<div class="verse" data-ayah="${ayahNum}" data-surah="${vs}" data-ar-number="${arNumber}"><div class="meta"><strong><a class="vref" href="/read?s=${vs}&a=${ayahNum}" title="Link to this verse">${vs}:${ayahNum}</a></strong><span>${surahName} · ${surahNameTranslation}</span><button type="button" class="notebook-pin-btn" data-notebook-type="verse" data-notebook-ref="${vs}:${ayahNum}" data-notebook-label="${qdEsc(vs + ":" + ayahNum + " · " + surahName)}" title="Pin this verse to your workspace" aria-label="Pin verse ${vs}:${ayahNum} to your workspace">📌</button></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button type="button" class="trans-open-btn" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem;max-width:min(100%,22rem);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${qdEsc(transSummary)} ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arHtml}</p>`;
               // Word-by-word meanings (assets/wordbw.js) render at every
               // depth: knowing what the words say is reading, not
               // analysis. Filled after the passage paints; stays hidden
@@ -1248,7 +1164,7 @@
                 // about any other verse, so "listen to this surah" meant
                 // pressing play 286 times. This button starts the transport
                 // AT this verse instead; assets/listen.js wires it.
-                html += `<div class="verse-audio-row"><button type="button" class="button secondary verse-listen-btn" data-listen-from="${arNumber}" aria-label="Play from verse ${s}:${ayahNum}">▶ Listen from here</button><button type="button" class="reciter-open-btn" title="Change reciter" aria-label="Change reciter">\uD83C\uDFA4</button></div><div id="reciterName-${ayahNum}" class="verse-reciter-name">${reciterName}</div>`;
+                html += `<div class="verse-audio-row"><button type="button" class="button secondary verse-listen-btn" data-listen-from="${arNumber}" aria-label="Play from verse ${vs}:${ayahNum}">▶ Listen from here</button><button type="button" class="reciter-open-btn" title="Change reciter" aria-label="Change reciter">\uD83C\uDFA4</button></div><div id="reciterName-${ayahNum}" class="verse-reciter-name">${reciterName}</div>`;
               }
               translations.forEach((t) => {
                 if (t._mismatchOf) {
@@ -1368,7 +1284,6 @@
                   html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Patterns in this verse</h4><p style="font-size:.9rem;color:var(--muted)">Pattern-level data is pending — see the <a href="/patterns">Patterns page</a> for the methodology.</p></div>`;
                 }
               }
-              html += `<div id="xref-${ayahNum}"></div>`;
               html += `<p class="prov"><span class="badge ok" data-source-ids="tanzil alquran-cloud-api" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Arabic from Tanzil Uthmani via alquran.cloud; translations rendered as published.</p></div>`;
               allHtml += html;
             },
@@ -1499,11 +1414,6 @@
           }
 
           if (!juzMode) {
-            attachXrefs(
-              s,
-              verses.map((v) => v.ayahNum),
-              depth,
-            );
             attachRootTooltips(s, recurringRoots);
             if (depth === "encyclopedic") renderVocabPanel(s, recurringRoots);
           }
@@ -1536,9 +1446,11 @@
           // the exact verse is never lost to a redirect.
           if (window.qdSetShareUrl)
             window.qdSetShareUrl(
-              !juzMode && ayahStart === 1
-                ? `https://divinediscourses.org/s/surah/${s}.html`
-                : null,
+              juzMode
+                ? `https://divinediscourses.org/s/juz/${juzMode}.html`
+                : ayahStart === 1
+                  ? `https://divinediscourses.org/s/surah/${s}.html`
+                  : null,
             );
           // Human-readable label ("al-'Asr 103:1-3") for the native
           // share sheet; the copy fallback stays URL-only.

@@ -6,13 +6,13 @@
     <title>Data coverage, measured · Divine Discourses</title>
     <meta
       name="description"
-      content="Measured data coverage: morphology fields, root glosses, QurSim cross-references, counting-rule sensitivity, and the dataset source registry."
+      content="Measured data coverage: morphology fields, root glosses, counting-rule sensitivity, and the dataset source registry."
     />
     <link rel="canonical" href="https://divinediscourses.org/coverage" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Divine Discourses" />
     <meta property="og:title" content="Data coverage, measured · Divine Discourses" />
-    <meta property="og:description" content="Measured data coverage: morphology fields, root glosses, QurSim cross-references, counting-rule sensitivity, and the dataset source registry." />
+    <meta property="og:description" content="Measured data coverage: morphology fields, root glosses, counting-rule sensitivity, and the dataset source registry." />
     <meta property="og:url" content="https://divinediscourses.org/coverage" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta property="og:image" content="https://divinediscourses.org/assets/og/site-og.png" />
@@ -67,7 +67,7 @@
     <meta name="theme-color" content="#2b1d0e" />
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/coverage","url":"https://divinediscourses.org/coverage","name":"Data coverage, measured · Divine Discourses","description":"Measured data coverage: morphology fields, root glosses, QurSim cross-references, counting-rule sensitivity, and the dataset source registry.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.2.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Data coverage, measured","item":"https://divinediscourses.org/coverage"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/coverage","url":"https://divinediscourses.org/coverage","name":"Data coverage, measured · Divine Discourses","description":"Measured data coverage: morphology fields, root glosses, counting-rule sensitivity, and the dataset source registry.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.2.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Data coverage, measured","item":"https://divinediscourses.org/coverage"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -154,7 +154,6 @@
             <li><a href="#root-gloss-coverage">Root gloss coverage</a></li>
             <li><a href="#per-word-gloss-coverage">Per-word gloss coverage</a></li>
             <li><a href="#khan-2005-reflections-coverage">Khan 2005 Reflections coverage</a></li>
-            <li><a href="#qursim-mishkat-cross-reference-coverage">QurSim (Mishkat) cross-reference coverage</a></li>
             <li><a href="#counting-rule-sensitivity">Counting-rule sensitivity</a></li>
             <li><a href="#wanted-outlines">Wanted: surah outlines to transcribe</a></li>
             <li><a href="#wanted-ring">Wanted: ring and structural analyses</a></li>
@@ -264,28 +263,6 @@
           only on the 2011 volume. The count stays zero until someone
           brings a page-cited transcription; see
           <a href="/sources#khans-works-and-lineage">Sources</a>.
-        </p>
-      </section>
-
-      <section>
-        <h3 id="qursim-mishkat-cross-reference-coverage">
-          QurSim (Mishkat) cross-reference coverage
-          <span
-            class="badge ok"
-            data-source-ids="mishkat"
-            aria-label="Verified"
-            tabindex="0"
-            title="Verified · measured file presence"
-            >●</span
-          >
-        </h3>
-        <p>
-          <strong id="qursimCovered">110</strong> of
-          <span id="qursimTotal">114</span> surahs have a
-          <code>data/qursim/{surah}.json</code> cross-reference file.
-        </p>
-        <p>
-          Surahs not covered: <strong id="qursimUncovered">104, 105, 106, 110</strong>.
         </p>
       </section>
 
@@ -429,8 +406,8 @@
           A source can be fully cited in <code>data/sources.json</code>
           and still be reachable from no badge anywhere: nothing checked
           for that until this measurement.
-          <strong id="sourceUsageUsed">39</strong> of
-          <span id="sourceUsageTotal">40</span> sources appear in at
+          <strong id="sourceUsageUsed">37</strong> of
+          <span id="sourceUsageTotal">38</span> sources appear in at
           least one <code>data-source-ids</code> attribute on the site,
           static or built at render time. The rest are cited in the
           bibliography on <a href="/sources">Sources</a> but not yet
@@ -532,7 +509,6 @@
           renderMorphology(report.morphology);
           renderGloss(report.rootGloss);
           renderPerWordGloss(report.perWordGloss);
-          renderQursim(report.qursim);
           renderSensitivity(report.countingRuleSensitivity);
           renderWanted(report.khanOutlines);
           renderWantedRing(report.ringAnalyses, report.structureTests);
@@ -769,12 +745,6 @@
           el.textContent = rootGloss.editorialGlossDashboardText;
           el.hidden = false;
         }
-      }
-
-      function renderQursim(qursim) {
-        document.getElementById("qursimCovered").textContent = qursim.covered;
-        document.getElementById("qursimTotal").textContent = qursim.totalSurahs;
-        document.getElementById("qursimUncovered").textContent = qursim.uncovered.join(", ");
       }
 
       function renderPerWordGloss(g) {
