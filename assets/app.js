@@ -67,13 +67,47 @@
     { id: "ku.asan", name: "Burhan Muhammad-Amin (Kurdish)", lang: "ku" },
   ];
 
+  // Each reciter carries the bitrate directory cdn.islamic.network
+  // actually serves it from. This is NOT cosmetic and NOT a quality
+  // setting: the CDN publishes each edition under one or more bitrate
+  // paths and names none of them, so a URL built with the wrong number
+  // is a 403. An <audio> element does not surface a 403 — it just never
+  // plays, which a reader reads as a slow network. Three of these five
+  // sat at 64 while every player on the site asked for 128, so Abdul
+  // Basit, Sudais and Shuraim were silent on /read, /replay and Listen
+  // mode alike, with nothing anywhere reporting it.
+  //
+  // The values come from scripts/check-audio-editions.mjs probing the
+  // CDN on a networked runner (2026-09-16), and that checker now holds
+  // each reciter to the bitrate registered here — so this rots loudly
+  // next time instead of silently.
   const RECITERS = [
-    { id: "ar.husary", name: "Mahmoud al-Husary" },
-    { id: "ar.minshawi", name: "Mohamed al-Minshawi" },
-    { id: "ar.abdulbasitmurattal", name: "Abdul Basit" },
-    { id: "ar.abdurrahmaansudais", name: "Sudais" },
-    { id: "ar.saoodshuraym", name: "Shuraim" },
+    { id: "ar.husary", name: "Mahmoud al-Husary", bitrate: 128 },
+    { id: "ar.minshawi", name: "Mohamed al-Minshawi", bitrate: 128 },
+    { id: "ar.abdulbasitmurattal", name: "Abdul Basit", bitrate: 64 },
+    { id: "ar.abdurrahmaansudais", name: "Sudais", bitrate: 64 },
+    { id: "ar.saoodshuraym", name: "Shuraim", bitrate: 64 },
   ];
+  // The one place a per-ayah recitation URL is built. Everything that
+  // plays Arabic goes through this, so the bitrate lookup cannot be
+  // forgotten at a fourth call site later.
+  window.qdReciteUrl = function (reciterId, globalAyah) {
+    const id = reciterId || "ar.husary";
+    const rec = RECITERS.find((r) => r.id === id);
+    // An unregistered id is a caller bug, not a reader-facing state;
+    // 128 keeps it playable for the two editions that use it rather
+    // than emitting a URL with "undefined" in the path.
+    const bitrate = (rec && rec.bitrate) || 128;
+    return (
+      "https://cdn.islamic.network/quran/audio/" +
+      bitrate +
+      "/" +
+      id +
+      "/" +
+      globalAyah +
+      ".mp3"
+    );
+  };
 
   const state = {
     depth: "simple",

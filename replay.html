@@ -180,6 +180,12 @@
           <button type="button" id="btnPrev" aria-label="Previous verse">‹</button>
           <button type="button" id="btnNext" aria-label="Next verse">›</button>
           <button type="button" id="btnRestart" aria-label="Restart from verse 1">⟲</button>
+          <button type="button" id="btnRepeat" aria-pressed="false" aria-label="Repeat this verse">↻</button>
+          <button type="button" id="btnSpeed" aria-label="Playback speed">1×</button>
+          <!-- Revealed only once a clip from the English edition has
+               actually loaded, so it is never a control that cannot do
+               anything. assets/audio-engine.js probes for it. -->
+          <button type="button" id="btnLang" aria-pressed="false" hidden>Arabic only</button>
           <span class="replay-pos" id="posLabel"></span>
         </div>
         <p id="audioNote" class="caption-note" hidden>
@@ -300,6 +306,7 @@
     <script src="assets/share.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="js/viz.js"></script>
+    <script src="assets/audio-engine.js" defer></script>
     <script src="assets/replay.js" defer></script>
     <script src="assets/lenses.js" defer></script>
     <script src="assets/glossary.js" defer></script>

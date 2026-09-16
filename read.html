@@ -248,10 +248,11 @@
             <a href="/about#privacy">Privacy and offline details</a>.
           </p>
         </div>
-        <!-- Listen mode. Filled by assets/listen.js only for a juz
-             read (?j=N / ?juz=N) and only while audio is enabled in
-             settings; empty and hidden otherwise, so a single-verse
-             read is unchanged. -->
+        <!-- Listen mode. One transport for whatever passage is on
+             screen — a verse, a range, a surah, or a juz — filled by
+             assets/listen.js over assets/audio-engine.js whenever audio
+             is enabled in settings and at least one verse rendered.
+             Empty and hidden otherwise. -->
         <div class="card listen-panel" id="listenPanel" hidden></div>
         <div id="verseContainer">
           <div class="card" id="readWelcome">
@@ -970,9 +971,12 @@
         if (juzArg !== undefined)
           activeJuz = juzArg ? Number(juzArg) : null;
         const juzMode = activeJuz;
-        // Leaving juz mode tears the Listen transport down before any of
-        // the validation early-returns below can skip past the rebuild.
-        if (!juzMode && window.qdListenSync) window.qdListenSync(null);
+        // Retire the transport before the verses it is bound to are
+        // replaced, and before any validation early-return below can skip
+        // past the rebuild. It remembers where the reader was, so a
+        // re-render of the SAME passage (a depth or translation change)
+        // resumes rather than restarting.
+        if (window.qdListenTeardown) window.qdListenTeardown();
         const s = resolveSurah(document.getElementById("surahInput").value);
         const rawA = document.getElementById("ayahInput").value.trim();
         const container = document.getElementById("verseContainer");
@@ -1238,7 +1242,13 @@
                 const reciterName =
                   qdReciters.find((r) => r.id === qdState.reciter)?.name ||
                   "Reciter";
-                html += `<div style="display:flex;gap:0.5rem;align-items:center;margin:.5rem 0"><audio controls style="flex:1"><source src="https://cdn.islamic.network/quran/audio/128/${qdState.reciter}/${arNumber}.mp3" type="audio/mpeg"></audio><button type="button" class="reciter-open-btn" style="min-width:44px;min-height:44px;padding:0.5rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem" title="Change reciter">\uD83C\uDFA4</button></div><div id="reciterName-${ayahNum}" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.5rem">${reciterName}</div>`;
+                // One transport for the whole passage (the Listen panel above),
+                // not one native <audio> per verse. A 286-verse surah used
+                // to render 286 independent players, none of which knew
+                // about any other verse, so "listen to this surah" meant
+                // pressing play 286 times. This button starts the transport
+                // AT this verse instead; assets/listen.js wires it.
+                html += `<div class="verse-audio-row"><button type="button" class="button secondary verse-listen-btn" data-listen-from="${arNumber}" aria-label="Play from verse ${s}:${ayahNum}">▶ Listen from here</button><button type="button" class="reciter-open-btn" title="Change reciter" aria-label="Change reciter">\uD83C\uDFA4</button></div><div id="reciterName-${ayahNum}" class="verse-reciter-name">${reciterName}</div>`;
               }
               translations.forEach((t) => {
                 if (t._mismatchOf) {
@@ -1547,7 +1557,7 @@
         } catch (e) {
           // The fallback below renders cards, not .verse nodes, so there
           // is nothing left for the transport to walk.
-          if (window.qdListenSync) window.qdListenSync(null);
+          if (window.qdListenTeardown) window.qdListenTeardown();
           // Offline fallback: the Arabic word tokens are bundled locally
           // (Leeds corpus); render them so the reader is not left empty.
           let fallback = "";
@@ -1884,6 +1894,7 @@
     <script src="assets/passage.js" defer></script>
     <script src="assets/read-picker.js" defer></script>
     <script src="assets/read-polish.js" defer></script>
+    <script src="assets/audio-engine.js" defer></script>
     <script src="assets/listen.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>

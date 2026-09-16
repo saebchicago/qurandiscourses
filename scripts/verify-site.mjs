@@ -918,6 +918,154 @@ if (runCheck("palette") && (!PAGE_FILTER || PAGE_FILTER === "index.html")) {
   await pctx.close();
 }
 
+// ── replay.html: the guided replay's transport and highlighting ─────
+// Characterization first: this page had no coverage at all, and it is
+// about to be moved onto the shared audio engine. These assert what it
+// DOES, so the move can be proved not to change it. The CDN is aborted
+// like every other outside host, so this is the manual-stepping path —
+// which is also the path a reader on a bad connection gets.
+if (runCheck("replay") && (!PAGE_FILTER || PAGE_FILTER === "replay.html") && !LIVE) {
+  // apiMode "abort", not "stub": this page reassembles its Arabic from the
+  // BUNDLED Leeds morphology when the API is unreachable, and that is the
+  // path where recurrence highlighting is meaningful. Stub fixtures would
+  // replace the real text with placeholder tokens that no longer line up
+  // with the morphology the highlighting is computed from.
+  const rctx = await newContext({ apiMode: "abort" });
+  const page = await rctx.newPage();
+  const errors = [];
+  attachConsoleCollector(page, errors);
+  // al-'Asr: three verses, small enough to step end to end.
+  await page.goto(`${BASE}/replay.html?s=103`, { waitUntil: "load" });
+  await page.waitForFunction(
+    () => /Verse 1 of/.test((document.getElementById("posLabel") || {}).textContent || ""),
+    null,
+    { timeout: 20000 },
+  ).catch(() => {});
+
+  const read = () =>
+    page.evaluate(() => ({
+      pos: (document.getElementById("posLabel") || {}).textContent || "",
+      active: (document.querySelector("#verseStack .is-current") ||
+        document.querySelector('#verseStack [aria-current="true"]') || {}).id || "",
+      verses: document.querySelectorAll("#verseStack > *").length,
+      live: (document.getElementById("replayLive") || {}).textContent || "",
+      transportHidden: (document.getElementById("transport") || {}).hidden,
+      reciter: (document.getElementById("reciterName") || {}).textContent || "",
+    }));
+
+  const start = await read();
+  report(
+    "replay-load", "replay.html",
+    /Verse 1 of 3/.test(start.pos) && start.verses >= 3 && start.transportHidden === false,
+    `posLabel="${start.pos.trim()}"; ${start.verses} verse nodes; transport shown=${!start.transportHidden}; reciter="${start.reciter.trim()}"`,
+  );
+
+  await page.click("#btnNext");
+  await page.click("#btnNext");
+  const stepped = await read();
+  await page.click("#btnNext"); // past the end: must clamp, not run off
+  const clamped = await read();
+  await page.click("#btnRestart");
+  const restarted = await read();
+  report(
+    "replay-step", "replay.html",
+    /Verse 3 of 3/.test(stepped.pos) && /Verse 3 of 3/.test(clamped.pos) &&
+      /Verse 1 of 3/.test(restarted.pos),
+    `two Next -> "${stepped.pos.trim()}"; a third (past the end) -> "${clamped.pos.trim()}" (must clamp); Restart -> "${restarted.pos.trim()}"`,
+  );
+
+  const keys = await page.evaluate(async () => {
+    const pos = () => (document.getElementById("posLabel") || {}).textContent || "";
+    const press = async (key) => {
+      document.body.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
+      await new Promise((r) => setTimeout(r, 150));
+      return pos();
+    };
+    return { right: await press("ArrowRight"), left: await press("ArrowLeft") };
+  });
+  report(
+    "replay-keys", "replay.html",
+    /Verse 2 of 3/.test(keys.right) && /Verse 1 of 3/.test(keys.left),
+    `ArrowRight -> "${keys.right.trim()}", ArrowLeft -> "${keys.left.trim()}"`,
+  );
+
+  // Recurrence highlighting is this page's whole reason for existing and
+  // is computed from the bundled Leeds morphology, so it works with the
+  // network down.
+  const roots = await page.evaluate(() => ({
+    marked: document.querySelectorAll("#verseStack [class*='rg-']").length,
+    strip: !document.getElementById("rootStrip").hidden,
+    prov: !!document.querySelector('#replayProv .badge[data-source-ids]'),
+  }));
+  report(
+    "replay-roots", "replay.html",
+    roots.marked > 0 && roots.prov,
+    `${roots.marked} recurring-root words marked; root strip shown=${roots.strip}; provenance badge present=${roots.prov}`,
+  );
+
+  // With the CDN aborted, play must fall back to manual stepping rather
+  // than leaving a dead button.
+  await page.click("#btnPlay").catch(() => {});
+  await page.waitForTimeout(1200);
+  const manual = await page.evaluate(() => ({
+    note: !document.getElementById("audioNote").hidden,
+    playHidden: document.getElementById("btnPlay").hidden,
+    stillSteps: !document.getElementById("btnNext").disabled,
+  }));
+  report(
+    "replay-manual-fallback", "replay.html",
+    manual.note && manual.stillSteps,
+    `audio unavailable note shown=${manual.note}; play button hidden=${manual.playHidden}; stepping still available=${manual.stillSteps}`,
+  );
+  // What moving onto the shared engine bought this page. Before it, the
+  // transport was play/prev/next/restart and Arabic only, with its own
+  // Audio element and its own hard-coded bitrate.
+  const shared = await page.evaluate(() => {
+    const pl = window.qdListenPlayer || null; // not set on this page
+    const hasEngine = !!window.qdAudioEngine;
+    const btn = (id) => document.getElementById(id);
+    return {
+      hasEngine,
+      controls: ["btnPlay", "btnPrev", "btnNext", "btnRestart", "btnRepeat", "btnSpeed"]
+        .filter((id) => !!btn(id)),
+      // The English toggle must stay hidden while no English clip has
+      // loaded — here the CDN is aborted, so it never will.
+      langHidden: btn("btnLang") ? btn("btnLang").hidden : "missing",
+      leaked: pl,
+    };
+  });
+  report(
+    "replay-shared-engine", "replay.html",
+    shared.hasEngine && shared.controls.length === 6 && shared.langHidden === true,
+    `qdAudioEngine present=${shared.hasEngine}; controls=${shared.controls.join(",")}; English toggle hidden while no clip loaded=${shared.langHidden}`,
+  );
+
+  // Speed and repeat are new here and must actually reach the engine,
+  // not just repaint a button.
+  const transport = await page.evaluate(async () => {
+    // The page keeps its engine private; reach it through the control.
+    const speed = document.getElementById("btnSpeed");
+    const repeat = document.getElementById("btnRepeat");
+    const before = speed.textContent;
+    speed.click();
+    repeat.click();
+    await new Promise((r) => setTimeout(r, 150));
+    return {
+      before,
+      after: speed.textContent,
+      repeatPressed: repeat.getAttribute("aria-pressed"),
+    };
+  });
+  report(
+    "replay-transport-extras", "replay.html",
+    transport.before === "1×" && transport.after === "1.25×" && transport.repeatPressed === "true",
+    `speed ${transport.before} -> ${transport.after} (want 1× -> 1.25×); repeat aria-pressed=${transport.repeatPressed} (want true)`,
+  );
+
+  report("replay-console", "replay.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+  await rctx.close();
+}
+
 // ── read.html: offline fallback + stubbed render + XSS regression ───
 if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) {
   {
@@ -1143,13 +1291,11 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
       pl.english = null;
       pl.armed = true;
       pl.go(1);
-      pl.highlight();
       out.idxAfterNext = pl.idx;
       out.highlighted = [...document.querySelectorAll(".verse.is-listening")].map((v) =>
         v.getAttribute("data-ar-number"),
       );
       pl.go(-1);
-      pl.highlight();
       out.idxAfterPrev = pl.idx;
       pl.go(-1);
       out.idxClampedLow = pl.idx;
@@ -1175,26 +1321,236 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
         : `ar=${seq.arUrl.split("/").slice(-2).join("/")} en=${seq.enUrl.split("/").slice(-2).join("/")}; ar-only next=${JSON.stringify(seq.arOnlyNext)}; ar+en next=${JSON.stringify(seq.arEnNext)} then ${JSON.stringify(seq.afterEnglish)}; end=${JSON.stringify(seq.atEnd)}; repeat ar->${JSON.stringify(seq.repeatAfterAr)} en->${JSON.stringify(seq.repeatAfterEn)}; speed ${seq.rate}x applied=${seq.audioRate}; idx next/prev/clamped=${seq.idxAfterNext}/${seq.idxAfterPrev}/${seq.idxClampedLow}; highlighted=${JSON.stringify(seq.highlighted)}`,
     );
 
-    // Leaving the juz must take the transport with it, or a stale
-    // player keeps a passage that is no longer on screen.
+    // Leaving the juz for a verse range must REBIND the transport, not
+    // retire it: the reader's unit of listening is whatever they asked to
+    // read. (This check asserted the opposite while Listen mode was
+    // juz-only.)
     await page.evaluate(() => {
       document.getElementById("surahInput").value = "103";
       document.getElementById("ayahInput").value = "1-3";
       document.getElementById("loadBtn").click();
     });
     await page.waitForFunction(() => /s=103/.test(location.search), null, { timeout: 15000 }).catch(() => {});
+    await page.waitForFunction(
+      () => window.qdListenPlayer && window.qdListenPlayer.items.length === 3,
+      null,
+      { timeout: 15000 },
+    ).catch(() => {});
     const after = await page.evaluate(() => ({
       hidden: document.getElementById("listenPanel").hidden,
-      emptied: document.getElementById("listenPanel").children.length === 0,
-      seam: !!window.qdListenPlayer,
+      title: (document.querySelector(".listen-title") || {}).textContent || "",
+      verses: window.qdListenPlayer ? window.qdListenPlayer.items.length : 0,
+      globals: window.qdListenPlayer
+        ? window.qdListenPlayer.items.map((i) => i.arNumber)
+        : [],
+      // Nothing from the juz may still be highlighted.
+      stale: document.querySelectorAll(".verse.is-listening").length,
       search: location.search,
     }));
     report(
-      "listen-teardown", "read.html",
-      after.hidden && after.emptied && !after.seam && !/[?&]j=/.test(after.search),
-      `after loading 103:1-3 — panel hidden=${after.hidden} emptied=${after.emptied} seam released=${!after.seam} url="${after.search}"`,
+      "listen-rebind", "read.html",
+      !after.hidden && after.verses === 3 && after.stale === 0 && !/[?&]j=/.test(after.search),
+      `after loading 103:1-3 — panel hidden=${after.hidden} (want false); title="${after.title.trim()}"; ${after.verses} verses bound (want 3) globals=${JSON.stringify(after.globals)}; stale highlights=${after.stale} (want 0); url="${after.search}"`,
     );
     report("listen-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+    await rctx.close();
+  }
+  {
+    // The passages Listen mode was gated away from until now: a single
+    // verse, and a range. A reader's unit of listening is whatever they
+    // asked to read, not one division of the mushaf.
+    const rctx = await newContext({ apiMode: "stub" });
+    const page = await rctx.newPage();
+    const errors = [];
+    attachConsoleCollector(page, errors);
+
+    await page.goto(`${BASE}/read.html?s=1&a=1`, { waitUntil: "load" });
+    await page.waitForSelector("#listenPanel [data-listen-play]", { timeout: 15000 }).catch(() => {});
+    const single = await page.evaluate(() => ({
+      verses: window.qdListenPlayer ? window.qdListenPlayer.items.length : 0,
+      title: (document.querySelector(".listen-title") || {}).textContent || "",
+      // A one-verse passage has nowhere to advance to.
+      next: window.qdListenPlayer ? window.qdListenPlayer.nextStep(0, "ar") : "no player",
+    }));
+    report(
+      "listen-single-verse", "read.html",
+      single.verses === 1 && single.next === null,
+      `one-verse passage — ${single.verses} verse bound (want 1); title="${single.title.trim()}"; nextStep=${JSON.stringify(single.next)} (want null)`,
+    );
+
+    // "Listen from here" on a verse starts the transport AT that verse.
+    // This is what replaced the native per-verse <audio> controls.
+    await page.goto(`${BASE}/read.html?s=103&a=1-3`, { waitUntil: "load" });
+    await page.waitForFunction(
+      () => window.qdListenPlayer && window.qdListenPlayer.items.length === 3,
+      null,
+      { timeout: 15000 },
+    ).catch(() => {});
+    const seek = await page.evaluate(() => {
+      const btns = [...document.querySelectorAll("[data-listen-from]")];
+      const before = window.qdListenPlayer.idx;
+      // Third verse's button.
+      if (btns[2]) btns[2].click();
+      return {
+        buttons: btns.length,
+        nativePlayers: document.querySelectorAll(".verse audio").length,
+        before,
+        after: window.qdListenPlayer.idx,
+        armed: window.qdListenPlayer.armed,
+        highlighted: [...document.querySelectorAll(".verse.is-listening")].map((v) =>
+          v.getAttribute("data-ayah"),
+        ),
+      };
+    });
+    report(
+      "listen-seek-from-verse", "read.html",
+      seek.buttons === 3 && seek.nativePlayers === 0 && seek.before === 0 && seek.after === 2 &&
+        seek.highlighted.length === 1 && seek.highlighted[0] === "3",
+      `${seek.buttons} per-verse buttons (want 3), ${seek.nativePlayers} native <audio> left (want 0); clicking verse 3 moved idx ${seek.before}->${seek.after} (want 0->2); highlighted=${JSON.stringify(seek.highlighted)} (want ["3"])`,
+    );
+
+    // Changing translation re-renders the whole passage. A reader forty
+    // verses in must not be thrown back to verse 1 with the audio
+    // stopped, so the transport carries its position across a re-render
+    // of the SAME passage.
+    const carried = await page.evaluate(async () => {
+      window.qdListenPlayer.seek(1);
+      window.qdListenPlayer.cycleSpeed();
+      window.qdListenPlayer.setRepeat(true);
+      const before = {
+        idx: window.qdListenPlayer.idx,
+        rate: window.qdListenPlayer.rate,
+        repeat: window.qdListenPlayer.repeat,
+      };
+      document.dispatchEvent(new CustomEvent("qd:translations-changed"));
+      await new Promise((r) => setTimeout(r, 1200));
+      return {
+        before,
+        after: window.qdListenPlayer
+          ? {
+              idx: window.qdListenPlayer.idx,
+              rate: window.qdListenPlayer.rate,
+              repeat: window.qdListenPlayer.repeat,
+              verses: window.qdListenPlayer.items.length,
+            }
+          : null,
+      };
+    });
+    const c = carried.after;
+    report(
+      "listen-carry-position", "read.html",
+      !!c && c.idx === carried.before.idx && c.rate === carried.before.rate &&
+        c.repeat === carried.before.repeat && c.verses === 3,
+      c === null
+        ? "the transport did not survive a translation change at all"
+        : `across a translation re-render: idx ${carried.before.idx}->${c.idx}, speed ${carried.before.rate}->${c.rate}, repeat ${carried.before.repeat}->${c.repeat}, ${c.verses} verses still bound`,
+    );
+    report("listen-passages-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+    await rctx.close();
+  }
+  {
+    // Per-reciter bitrate. cdn.islamic.network serves each edition from
+    // one or more bitrate directories and names none of them, so a URL
+    // built with the wrong number is a 403 — and an <audio> element does
+    // not surface a 403, it just never plays. Three of the five reciters
+    // sat at 64 while every player asked for 128, so Abdul Basit, Sudais
+    // and Shuraim were silent on /read, /replay and Listen mode at once,
+    // with nothing reporting it. This asserts the registered bitrate
+    // reaches the URL on every surface that builds one.
+    const rctx = await newContext({ apiMode: "stub" });
+    const page = await rctx.newPage();
+    const errors = [];
+    attachConsoleCollector(page, errors);
+    await page.goto(`${BASE}/read.html?s=103&a=1-3`, { waitUntil: "load" });
+    await page.waitForSelector("#listenPanel [data-listen-play]", { timeout: 15000 }).catch(() => {});
+
+    const urls = await page.evaluate(async () => {
+      const out = { builder: !!window.qdReciteUrl, registry: [], rendered: {} };
+      if (!window.qdReciteUrl) return out;
+      // Every registered reciter, straight through the one URL builder.
+      out.registry = (window.qdReciters || []).map((r) => ({
+        id: r.id,
+        bitrate: r.bitrate,
+        url: window.qdReciteUrl(r.id, 1),
+      }));
+      // And what the live transport actually resolves, for one 128 and
+      // one 64 reciter. The per-verse <audio> elements are gone — one
+      // transport serves the passage — so the URL that matters is the
+      // one the engine builds for the verse it is about to play.
+      const render = async (id) => {
+        window.qdState.reciter = id;
+        document.getElementById("loadBtn").click();
+        await new Promise((r) => setTimeout(r, 900));
+        const pl = window.qdListenPlayer;
+        return pl && pl.items.length ? pl.urlFor(pl.items[0], "ar") : null;
+      };
+      out.rendered["ar.husary"] = await render("ar.husary");
+      out.rendered["ar.abdulbasitmurattal"] = await render("ar.abdulbasitmurattal");
+      return out;
+    });
+
+    // Every reciter must declare a bitrate, and the builder must use it.
+    const everyDeclared =
+      urls.registry.length === 5 &&
+      urls.registry.every((r) => Number.isFinite(r.bitrate));
+    const builderHonoursIt = urls.registry.every((r) =>
+      r.url.includes(`/quran/audio/${r.bitrate}/${r.id}/`),
+    );
+    // The 64kbps three are the whole reason this exists.
+    const sixtyFours = urls.registry.filter((r) => r.bitrate === 64).map((r) => r.id);
+    const renderedOk =
+      /\/audio\/128\/ar\.husary\//.test(urls.rendered["ar.husary"] || "") &&
+      /\/audio\/64\/ar\.abdulbasitmurattal\//.test(
+        urls.rendered["ar.abdulbasitmurattal"] || "",
+      );
+    report(
+      "audio-bitrate-registry", "read.html",
+      urls.builder && everyDeclared && builderHonoursIt && renderedOk,
+      !urls.builder
+        ? "window.qdReciteUrl is missing — some surface is still building its own recitation URL"
+        : `${urls.registry.length} reciters, all declare a bitrate=${everyDeclared}, builder honours it=${builderHonoursIt}; 64kbps: ${sixtyFours.join(", ") || "none"}; transport resolves husary="${(urls.rendered["ar.husary"] || "").split("/audio/")[1]}" abdulbasit="${(urls.rendered["ar.abdulbasitmurattal"] || "").split("/audio/")[1]}"`,
+    );
+    report("audio-bitrate-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+    await rctx.close();
+  }
+  {
+    // The transport must not wait on the English probe. That probe walks
+    // four candidate bitrates and each miss can cost a timeout, so a
+    // build that awaited it would leave a juz reader with no play button
+    // for that whole window — to settle a question that only adds an
+    // optional toggle. Here the CDN hangs rather than failing fast, which
+    // is the case a route.abort() cannot reproduce.
+    const rctx = await newContext({ apiMode: "stub" });
+    const page = await rctx.newPage();
+    const errors = [];
+    attachConsoleCollector(page, errors);
+    let probes = 0;
+    // A page route takes precedence over the context route, so the CDN
+    // hangs here while everything else keeps the stub behaviour.
+    await page.route(/cdn\.islamic\.network/, () => {
+      probes++;
+      // Never fulfilled, never aborted: the probe stays outstanding.
+    });
+    await page.goto(`${BASE}/read.html?j=15`, { waitUntil: "load" });
+    const t0 = Date.now();
+    const appeared = await page
+      .waitForSelector("#listenPanel [data-listen-play]", { timeout: 8000 })
+      .then(() => Date.now() - t0)
+      .catch(() => null);
+    const state = await page.evaluate(() => ({
+      seam: !!window.qdListenPlayer,
+      // Still outstanding, so no toggle may exist yet.
+      toggle: !!document.querySelector("#listenPanel [data-listen-mode]"),
+      verses: window.qdListenPlayer ? window.qdListenPlayer.items.length : 0,
+    }));
+    report(
+      "listen-probe-nonblocking", "read.html",
+      appeared !== null && state.seam && !state.toggle && state.verses > 0,
+      appeared === null
+        ? `no play button within 8s while the CDN hung (${probes} outstanding request(s)) — the build is waiting on the English probe`
+        : `play button in ${appeared}ms with the CDN hung (${probes} outstanding request(s)); ${state.verses} verses bound; English toggle absent while unresolved=${!state.toggle}`,
+    );
+    report("listen-probe-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
     await rctx.close();
   }
   {

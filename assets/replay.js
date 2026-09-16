@@ -23,10 +23,10 @@
   var recurring = {}; // root -> {count, positions}
   var familyClass = {}; // root -> rg-K class for the top families
   var outline = null; // exercises.json outline entry or null
-  var idx = 1; // current verse (1-based)
+  var idx = 1; // current verse (1-based); the engine indexes from 0
   var playing = false;
   var manualMode = false;
-  var audio = null;
+  var engine = null; // assets/audio-engine.js — the site's one transport
 
   var reduce = false;
   try {
@@ -213,14 +213,20 @@
       (item ? ". Section: " + item.heading.replace(/<[^>]+>/g, "") : "");
   }
 
-  function srcFor(a) {
-    return (
-      "https://cdn.islamic.network/quran/audio/128/" +
-      (window.qdState && qdState.reciter ? qdState.reciter : "ar.husary") +
-      "/" +
-      globalAyah(surah.id, a) +
-      ".mp3"
-    );
+  // The verses this surah's transport walks, in the shape
+  // assets/audio-engine.js wants: keyed on the GLOBAL ayah number, which
+  // is also the CDN's filename.
+  function engineItems() {
+    var out = [];
+    for (var a = 1; a <= surah.verseCount; a++) {
+      out.push({
+        arNumber: globalAyah(surah.id, a),
+        surah: surah.id,
+        ayah: a,
+        surahName: surah.translit,
+      });
+    }
+    return out;
   }
 
   function enterManualMode() {
@@ -232,28 +238,14 @@
   }
 
   function playCurrent() {
-    if (manualMode) return;
-    audio.src = srcFor(idx);
-    var p = audio.play();
-    if (p && p.catch) {
-      p.then(function () {
-        playing = true;
-        $("btnPlay").textContent = "◊◊ Pause";
-      }).catch(function () {
-        enterManualMode();
-      });
-    }
+    if (manualMode || !engine) return;
+    engine.seek(idx - 1);
+    if (!engine.playing) engine.toggle();
   }
 
   function togglePlay() {
-    if (manualMode) return;
-    if (playing) {
-      audio.pause();
-      playing = false;
-      $("btnPlay").textContent = "▶ Play";
-    } else {
-      playCurrent();
-    }
+    if (manualMode || !engine) return;
+    engine.toggle();
   }
 
   function step(delta) {
@@ -264,16 +256,41 @@
     }
     idx = next;
     activate();
-    if (playing) playCurrent();
+    // Manual mode has no engine to move; the highlighting above is the
+    // whole of stepping there.
+    if (engine && !manualMode) engine.seek(idx - 1);
   }
 
   function finish() {
     playing = false;
-    if (audio) audio.pause();
+    if (engine) engine.audio.pause();
     $("btnPlay").textContent = "▶ Replay from start";
     $("btnPlay").dataset.restart = "1";
     if (window.qdSaveLastRead)
       window.qdSaveLastRead(surah.id, "1-" + surah.verseCount);
+  }
+
+  // Everything the transport can change, reflected into this page's own
+  // controls. The engine reports; this decides what it means here.
+  function onEngineState(st) {
+    playing = st.playing;
+    if (st.idx + 1 !== idx) {
+      idx = st.idx + 1;
+      activate();
+    }
+    var play = $("btnPlay");
+    if (play && !play.dataset.restart)
+      play.textContent = playing ? "⏸ Pause" : "▶ Play";
+    var sp = $("btnSpeed");
+    if (sp) sp.textContent = st.rate + "×";
+    var rp = $("btnRepeat");
+    if (rp) rp.setAttribute("aria-pressed", String(st.repeat));
+    var md = $("btnLang");
+    if (md) {
+      var arEn = st.mode === "ar-en";
+      md.setAttribute("aria-pressed", String(arEn));
+      md.textContent = arEn ? "Arabic + English" : "Arabic only";
+    }
   }
 
   function reciterLabel() {
@@ -410,6 +427,10 @@
 
         renderStack();
         renderStrip();
+        // Hand the transport this surah's verses. Done here, after the
+        // surah is known, so switching surah rebinds rather than leaving
+        // the engine pointed at the previous one.
+        if (engine) engine.setItems(engineItems());
         $("transport").hidden = false;
         var startV = parseInt(
           new URLSearchParams(location.search).get("v") || "1",
@@ -442,7 +463,7 @@
       sel.appendChild(o);
     });
     sel.addEventListener("change", function () {
-      if (audio) audio.pause();
+      if (engine) engine.audio.pause();
       loadSurah(parseInt(sel.value, 10));
     });
 
@@ -457,19 +478,25 @@
       s = fallback;
     sel.value = s;
 
-    audio = new Audio();
-    audio.preload = "none";
-    audio.addEventListener("ended", function () {
-      if (idx < surah.verseCount) {
-        idx++;
-        activate();
-        audio.src = srcFor(idx);
-        audio.play().catch(enterManualMode);
-      } else {
-        finish();
-      }
+    // One transport for the whole site (assets/audio-engine.js). This
+    // page used to keep its own Audio element, its own sequencing and its
+    // own hard-coded 128kbps path — which is why three of the five
+    // reciters were silent here too. It now gains, for free, the English
+    // leg, speed, repeat, preloading and lock-screen control.
+    engine = window.qdAudioEngine.create({
+      album: "Replay · Divine Discourses",
+      labelFor: function (item) {
+        return item.surahName + " " + item.surah + ":" + item.ayah;
+      },
+      onState: onEngineState,
+      onEnglish: function () {
+        var btn = $("btnLang");
+        if (btn) btn.hidden = false;
+      },
     });
-    audio.addEventListener("error", enterManualMode);
+    // An autoplay refusal or a dead clip drops to manual stepping, the
+    // same as before; the highlighting is the point and it still works.
+    engine.audio.addEventListener("error", enterManualMode);
 
     $("btnPlay").addEventListener("click", function () {
       if (this.dataset.restart) {
@@ -490,11 +517,30 @@
       activate();
       if (playing) playCurrent();
     });
+    var speedBtn = $("btnSpeed");
+    if (speedBtn)
+      speedBtn.addEventListener("click", function () {
+        if (engine) engine.cycleSpeed();
+      });
+    var repeatBtn = $("btnRepeat");
+    if (repeatBtn)
+      repeatBtn.addEventListener("click", function () {
+        if (engine) engine.setRepeat(!engine.repeat);
+      });
+    var langBtn = $("btnLang");
+    if (langBtn)
+      langBtn.addEventListener("click", function () {
+        if (engine) engine.setMode(engine.mode === "ar-en" ? "ar" : "ar-en");
+      });
     $("reciterBtn").addEventListener("click", openReciterModal);
     $("reciterName").textContent = reciterLabel();
 
     document.addEventListener("keydown", function (e) {
-      if (e.target.matches("input,select,textarea")) return;
+      // e.target is not always an Element — a keydown dispatched at the
+      // document has no .matches, and calling it threw, killing every
+      // shortcut on the page for the rest of the session.
+      if (e.target && e.target.matches && e.target.matches("input,select,textarea"))
+        return;
       if (e.key === " " || e.key === "Spacebar") {
         e.preventDefault();
         togglePlay();
@@ -505,10 +551,8 @@
         e.preventDefault();
         step(-1);
       } else if (e.key === "Escape") {
-        if (playing) {
-          audio.pause();
-          playing = false;
-          $("btnPlay").textContent = "▶ Play";
+        if (playing && engine) {
+          engine.toggle();
           $("btnPlay").focus();
         }
       }
