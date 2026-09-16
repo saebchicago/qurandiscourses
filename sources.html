@@ -933,23 +933,22 @@
             <a href="https://cdn.islamic.network" rel="noopener"
               >https://cdn.islamic.network</a
             >. The English leg of Listen mode on the Read page, played after
-            each verse's Arabic. Three things are worth separating here,
-            because only one of them is settled.
+            each verse's Arabic. Three things are worth separating here, and
+            the third is why this entry is not marked Verified.
             <strong>What the edition is</strong>: alquran.cloud's own edition
             registry reports <code>en.walk</code> as “Ibrahim Walk”, language
             English, recorded verse by verse;
             <code>scripts/check-audio-editions.mjs</code> read that from the
             API on 16 September 2026, and the name above is taken from that
             response rather than from anywhere else.
-            <strong>Whether it plays</strong>: the same run found the CDN not
-            serving <code>en.walk</code> at any bitrate it probed, while
-            serving the Arabic reciters normally — so the player's runtime
-            probe fails and Listen mode currently offers Arabic only. That is
-            the designed behaviour for an edition that is registered but not
-            served, not a fault in the page.
-            <strong>Under what license</strong>: nothing this project can
-            reach states it, so this entry states none. It stays Pending until
-            the second and third are established.
+            <strong>Whether it plays</strong>: the same run found the CDN
+            serving it from the 192 kbps directory, after 128 and 64 had both
+            refused — which is why the player probes bitrates at runtime
+            instead of assuming one. The check found three Arabic reciters had
+            moved the same way.
+            <strong>Under what license</strong>: neither the registry nor the
+            CDN states who holds this recording or on what terms, so this
+            entry states neither, and stays Pending until one of them does.
             <span
               class="badge pending"
               data-source-ids="islamic-network-audio-en"

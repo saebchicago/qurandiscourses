@@ -12,20 +12,20 @@
 // (1-6236) that read.html renders into data-ar-number. No new host, so
 // no CSP change — media-src already names cdn.islamic.network.
 //
-// The English leg is NOT assumed to be available. alquran.cloud's edition
-// registry does name a verse-by-verse English audio edition — en.walk,
-// "Ibrahim Walk" — and scripts/check-audio-editions.mjs confirmed that
-// from the API on a networked runner. Being registered is not being
-// served: that same run found cdn.islamic.network answering for the
-// Arabic reciters and NOT for en.walk. Registration, availability and
-// license are three separate questions and only the first is settled.
+// The English leg is still DISCOVERED, not assumed. What is now settled,
+// by scripts/check-audio-editions.mjs on a networked runner (2026-09-16):
+// alquran.cloud's registry names en.walk as "Ibrahim Walk", English,
+// verse by verse, and cdn.islamic.network serves it — from the 192kbps
+// directory, after 128 and 64 both answered 403. Its LICENSE is stated by
+// nothing either of them exposes, which is why /sources still carries the
+// entry as Pending.
 //
-// So the English track is discovered at runtime (probeEnglish below) and
-// the Arabic+English toggle appears only once a clip has actually loaded.
-// Arabic-only listening never waits on that probe and never depends on
-// it. Today the probe is expected to fail and the mode is Arabic-only in
-// practice; the day the CDN starts serving it, the toggle appears with no
-// code change.
+// The runtime probe stays, because a bitrate directory is not a contract:
+// the same run proved three Arabic reciters had quietly moved to 64kbps
+// while the page went on asking for 128, which is exactly the failure a
+// hard-coded path produces and a probe does not. The Arabic+English toggle
+// appears only once a clip has actually loaded, and Arabic-only listening
+// never waits on that probe or depends on it.
 //
 // Mobile Safari: ONE <audio> element does all playback for the whole
 // session. iOS grants an element permission to play on a user gesture
@@ -46,10 +46,14 @@
   // serves. Its bitrate directory is unknown — the CDN publishes an
   // edition under one or more and names none of them — so each is tried
   // until one loads.
+  // 192 leads because that is the directory the CDN actually serves
+  // en.walk from — confirmed by scripts/check-audio-editions.mjs on a
+  // networked runner, 2026-09-16, after 128 and 64 both answered 403.
+  // The rest stay as fallbacks in case the CDN reorganises.
   var EN_CANDIDATES = [
+    { edition: "en.walk", bitrate: 192 },
     { edition: "en.walk", bitrate: 128 },
     { edition: "en.walk", bitrate: 64 },
-    { edition: "en.walk", bitrate: 192 },
     { edition: "en.walk", bitrate: 32 },
   ];
   var PROBE_AYAH = 1;
@@ -591,11 +595,12 @@
     note.innerHTML =
       "English translation audio comes from the same CDN, as the edition " +
       'alquran.cloud\'s registry names <code>en.walk</code> \u00B7 Ibrahim Walk, ' +
-      "read verse by verse. That registry is the whole of what this project " +
-      "has confirmed: it does not establish who holds the recording or under " +
-      "what license, so neither is stated here or on " +
+      "read verse by verse. That the edition is this one, and that the CDN " +
+      "serves it, are both checked. Who holds the recording and under what " +
+      "license are not established by anything either source exposes, so " +
+      "neither is stated here or on " +
       '<a href="/sources">Sources</a>, where the entry stays ' +
-      '<span class="badge pending" data-source-ids="islamic-network-audio-en" aria-label="Pending" tabindex="0" title="Pending \u00B7 awaiting triangulation from a second independent source">\u25CB</span> Pending.';
+      '<span class="badge pending" data-source-ids="islamic-network-audio-en" aria-label="Pending" tabindex="0" title="Pending \u00B7 awaiting triangulation from a second independent source">\u25CB</span> Pending on the licensing.';
     pl.panel.appendChild(note);
     if (window.qdCiteEnhance) window.qdCiteEnhance(pl.panel);
   }

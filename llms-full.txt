@@ -3697,23 +3697,22 @@ reciter is chosen from the microphone button beside each verse.
 Islamic Network. English translation audio edition ,
 en.walk , verse by verse.
 https://cdn.islamic.network . The English leg of Listen mode on the Read page, played after
-each verse's Arabic. Three things are worth separating here,
-because only one of them is settled.
+each verse's Arabic. Three things are worth separating here, and
+the third is why this entry is not marked Verified.
 What the edition is : alquran.cloud's own edition
 registry reports en.walk as “Ibrahim Walk”, language
 English, recorded verse by verse;
 scripts/check-audio-editions.mjs read that from the
 API on 16 September 2026, and the name above is taken from that
 response rather than from anywhere else.
-Whether it plays : the same run found the CDN not
-serving en.walk at any bitrate it probed, while
-serving the Arabic reciters normally — so the player's runtime
-probe fails and Listen mode currently offers Arabic only. That is
-the designed behaviour for an edition that is registered but not
-served, not a fault in the page.
-Under what license : nothing this project can
-reach states it, so this entry states none. It stays Pending until
-the second and third are established.
+Whether it plays : the same run found the CDN
+serving it from the 192 kbps directory, after 128 and 64 had both
+refused — which is why the player probes bitrates at runtime
+instead of assuming one. The check found three Arabic reciters had
+moved the same way.
+Under what license : neither the registry nor the
+CDN states who holds this recording or on what terms, so this
+entry states neither, and stays Pending until one of them does.
 ○
 
 Tarteel AI and Quran.com Foundation.
@@ -4337,8 +4336,8 @@ URL
 A source can be fully cited in data/sources.json
 and still be reachable from no badge anywhere: nothing checked
 for that until this measurement.
-38 of
-39 sources appear in at
+39 of
+40 sources appear in at
 least one data-source-ids attribute on the site,
 static or built at render time. The rest are cited in the
 bibliography on Sources but not yet
@@ -6535,14 +6534,12 @@ English translation audio. The English leg of
 Listen mode on the Read page. The edition is
 en.walk , which alquran.cloud's registry names
 “Ibrahim Walk”, read verse by verse — checked against the API on
-16 September 2026. That is the extent of what has been
-established: no license for the recording is stated by
-anything this project can reach , so none is claimed here,
-and on the day this was written the CDN was not serving the
-edition at all, so the player's runtime check finds nothing and
-Listen mode offers Arabic only. The
-Sources entry stays ○ Pending until the
-recording is both reachable and licensed on the record.
+16 September 2026, and served by the CDN from its 192 kbps
+directory. What is not established is the licensing:
+neither the registry nor the CDN states who holds the recording
+or on what terms, so this project credits no one for it and
+claims no license. The Sources entry
+stays ○ Pending on that ground alone.
 
 ### Scholarly lineage
 
