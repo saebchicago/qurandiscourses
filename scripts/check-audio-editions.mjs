@@ -210,6 +210,63 @@ if (audioEditions) {
     );
 }
 
+// ── Which TRANSLATION the English recording reads ─────────────────────
+// The API registry names the reader (Ibrahim Walk) but not the text he
+// reads, and Listen mode pairs his audio with whatever translation the
+// reader has selected — so a mismatch between the spoken and written
+// English is possible and the panel says so. Closing that gap needs
+// evidence of which translation the recording IS. Two probes, reported
+// and never asserted:
+//
+//   1. everyayah.com is the upstream of most per-ayah recitation
+//      mirrors, and its directory names carry the reciter and bitrate
+//      (the bitrates it uses are exactly the ones cdn.islamic.network
+//      serves each edition at). If the directory below exists, its NAME
+//      is everyayah's own label for what the recording reads.
+//   2. If that file and the CDN's en.walk file for the same ayah have
+//      the same byte length, they are very likely the same recording.
+//
+// A maintainer who sees both hold has evidence to pair en.walk with a
+// specific translation edition on /read. Neither probe writes anything.
+const WALK_UPSTREAM =
+  "https://everyayah.com/data/English/Sahih_Intnl_Ibrahim_Walk_192kbps/001001.mp3";
+const WALK_CDN = clip("en.walk", 192, PROBE_AYAH);
+async function sizeOf(url) {
+  try {
+    const r = await fetch(url, {
+      headers: { range: "bytes=0-0" },
+      signal: AbortSignal.timeout(TIMEOUT),
+    });
+    const range = r.headers.get("content-range") || "";
+    const total = /\/(\d+)$/.exec(range)?.[1] || r.headers.get("content-length");
+    if (r.body && typeof r.body.cancel === "function") await r.body.cancel();
+    return { status: r.status, size: total ? Number(total) : null, type: r.headers.get("content-type") || "" };
+  } catch (e) {
+    return { status: 0, size: null, type: "", error: e.message };
+  }
+}
+{
+  const up = await sizeOf(WALK_UPSTREAM);
+  const cdn = await sizeOf(WALK_CDN);
+  console.log("\nTranslation read by the en.walk recording — evidence, not a claim:");
+  console.log(`  upstream ${WALK_UPSTREAM}\n    → ${up.status || up.error} ${up.type} ${up.size ?? "?"} bytes`);
+  console.log(`  cdn      ${WALK_CDN}\n    → ${cdn.status || cdn.error} ${cdn.type} ${cdn.size ?? "?"} bytes`);
+  const upOk = (up.status === 206 || up.status === 200) && /audio/.test(up.type);
+  if (!upOk) {
+    notes.push(
+      "everyayah.com does not serve the directory this check guessed for the Walk recording, so nothing here says which translation it reads. Establish that by ear (play 1:1 on /read with English audio on and compare it with each English translation) before pairing en.walk with any text edition.",
+    );
+  } else if (up.size && cdn.size && up.size === cdn.size) {
+    notes.push(
+      `everyayah.com serves the Walk recording under a directory it names "Sahih_Intnl_Ibrahim_Walk_192kbps", and that file is byte-for-byte the same LENGTH as cdn.islamic.network's en.walk clip for the same ayah (${up.size} bytes). That is evidence — from the upstream's own labelling plus a size match, not from listening — that en.walk reads Saheeh International (en.sahih on this site). Confirm by ear once, then pair them.`,
+    );
+  } else {
+    notes.push(
+      `everyayah.com serves a directory it names "Sahih_Intnl_Ibrahim_Walk_192kbps" (${up.size ?? "?"} bytes for 1:1) but cdn.islamic.network's en.walk clip for the same ayah is ${cdn.size ?? "?"} bytes. The upstream's label says Saheeh International; the size mismatch means the CDN's file may be a different encode or a different recording. Confirm by ear before pairing.`,
+    );
+  }
+}
+
 if (notes.length) {
   console.log("\nNotes for a maintainer:");
   for (const n of notes) console.log("  - " + n);

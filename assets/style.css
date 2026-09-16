@@ -2449,6 +2449,11 @@ footer.site .footer-license {
 main a {
   overflow-wrap: anywhere;
 }
+/* Edition identifiers and file paths are one unbreakable token each;
+   at 375px a long one pushes the page wider than the viewport. */
+main code {
+  overflow-wrap: anywhere;
+}
 .table-scroll {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
