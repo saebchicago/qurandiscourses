@@ -1198,6 +1198,68 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
     await rctx.close();
   }
   {
+    // Per-reciter bitrate. cdn.islamic.network serves each edition from
+    // one or more bitrate directories and names none of them, so a URL
+    // built with the wrong number is a 403 — and an <audio> element does
+    // not surface a 403, it just never plays. Three of the five reciters
+    // sat at 64 while every player asked for 128, so Abdul Basit, Sudais
+    // and Shuraim were silent on /read, /replay and Listen mode at once,
+    // with nothing reporting it. This asserts the registered bitrate
+    // reaches the URL on every surface that builds one.
+    const rctx = await newContext({ apiMode: "stub" });
+    const page = await rctx.newPage();
+    const errors = [];
+    attachConsoleCollector(page, errors);
+    await page.goto(`${BASE}/read.html?s=103&a=1-3`, { waitUntil: "load" });
+    await page.waitForSelector(".verse audio source", { timeout: 15000 }).catch(() => {});
+
+    const urls = await page.evaluate(async () => {
+      const out = { builder: !!window.qdReciteUrl, registry: [], rendered: {} };
+      if (!window.qdReciteUrl) return out;
+      // Every registered reciter, straight through the one URL builder.
+      out.registry = (window.qdReciters || []).map((r) => ({
+        id: r.id,
+        bitrate: r.bitrate,
+        url: window.qdReciteUrl(r.id, 1),
+      }));
+      // And what the page actually renders, for one 128 and one 64.
+      const render = async (id) => {
+        window.qdState.reciter = id;
+        document.getElementById("loadBtn").click();
+        await new Promise((r) => setTimeout(r, 900));
+        const el = document.querySelector(".verse audio source");
+        return el ? el.getAttribute("src") : null;
+      };
+      out.rendered["ar.husary"] = await render("ar.husary");
+      out.rendered["ar.abdulbasitmurattal"] = await render("ar.abdulbasitmurattal");
+      return out;
+    });
+
+    // Every reciter must declare a bitrate, and the builder must use it.
+    const everyDeclared =
+      urls.registry.length === 5 &&
+      urls.registry.every((r) => Number.isFinite(r.bitrate));
+    const builderHonoursIt = urls.registry.every((r) =>
+      r.url.includes(`/quran/audio/${r.bitrate}/${r.id}/`),
+    );
+    // The 64kbps three are the whole reason this exists.
+    const sixtyFours = urls.registry.filter((r) => r.bitrate === 64).map((r) => r.id);
+    const renderedOk =
+      /\/audio\/128\/ar\.husary\//.test(urls.rendered["ar.husary"] || "") &&
+      /\/audio\/64\/ar\.abdulbasitmurattal\//.test(
+        urls.rendered["ar.abdulbasitmurattal"] || "",
+      );
+    report(
+      "audio-bitrate-registry", "read.html",
+      urls.builder && everyDeclared && builderHonoursIt && renderedOk,
+      !urls.builder
+        ? "window.qdReciteUrl is missing — some surface is still building its own recitation URL"
+        : `${urls.registry.length} reciters, all declare a bitrate=${everyDeclared}, builder honours it=${builderHonoursIt}; 64kbps: ${sixtyFours.join(", ") || "none"}; rendered <audio> husary="${(urls.rendered["ar.husary"] || "").split("/audio/")[1]}" abdulbasit="${(urls.rendered["ar.abdulbasitmurattal"] || "").split("/audio/")[1]}"`,
+    );
+    report("audio-bitrate-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+    await rctx.close();
+  }
+  {
     // The transport must not wait on the English probe. That probe walks
     // four candidate bitrates and each miss can cost a timeout, so a
     // build that awaited it would leave a juz reader with no play button

@@ -65,16 +65,31 @@ if (!recitersMatch) {
   );
   process.exit(2);
 }
-const reciters = [...recitersMatch[1].matchAll(/id:\s*"([^"]+)"/g)].map((m) => m[1]);
-if (!reciters.length) {
+// Each entry now registers the bitrate directory the CDN serves it from,
+// so this check holds every reciter to ITS OWN path rather than to one
+// constant that happened to be right for two of five.
+const reciters = [
+  ...recitersMatch[1].matchAll(/id:\s*"([^"]+)"[^}]*?bitrate:\s*(\d+)/g),
+].map((m) => ({ id: m[1], bitrate: Number(m[2]) }));
+const idsOnly = [...recitersMatch[1].matchAll(/id:\s*"([^"]+)"/g)].map((m) => m[1]);
+if (!idsOnly.length) {
   console.error("check-audio-editions: FAIL — parsed zero reciter IDs (parser broken?)");
   process.exit(2);
 }
+// A reciter without a bitrate would fall back to 128 at runtime and
+// could be silent with nothing reporting it — the exact bug this whole
+// registry exists to prevent. Catch it here, offline, before the network
+// half runs.
+const missing = idsOnly.filter((id) => !reciters.some((r) => r.id === id));
+if (missing.length) {
+  console.error(
+    `check-audio-editions: FAIL — these RECITERS entries have no bitrate: ${missing.join(", ")}.\n` +
+      "  Every reciter must register the bitrate directory cdn.islamic.network serves it from;\n" +
+      "  without one the player falls back to 128 and plays nothing if that is the wrong path.",
+  );
+  process.exit(1);
+}
 
-// The bitrate directory read.html and listen.js both interpolate. Kept
-// here as a literal on purpose: if the page's path changes, this check
-// should be edited in the same commit.
-const AR_BITRATE = 128;
 // The CDN publishes an edition under one or more bitrate directories and
 // there is no registry saying which. 128 is what the site interpolates;
 // the rest are probed so a "missing" reciter can be told apart from one
@@ -112,28 +127,27 @@ async function servedAt(edition) {
 }
 
 console.log(
-  `Reciters registered in assets/app.js (${reciters.length}), against ${AR_BITRATE}kbps — the directory read.html and listen.js interpolate:`,
+  `Reciters registered in assets/app.js (${reciters.length}), each against its OWN registered bitrate:`,
 );
-for (const id of reciters) {
-  const at128 = await probe(clip(id, AR_BITRATE, PROBE_AYAH));
-  if (at128.ok) {
-    console.log(`  OK   ${id} · ${at128.status} ${at128.type}`);
+for (const { id, bitrate } of reciters) {
+  const atRegistered = await probe(clip(id, bitrate, PROBE_AYAH));
+  if (atRegistered.ok) {
+    console.log(`  OK   ${id} @ ${bitrate}kbps · ${atRegistered.status} ${atRegistered.type}`);
     continue;
   }
-  // Not at 128. Distinguish "this reciter is gone" from "this reciter
-  // lives at another bitrate and the page is asking for the wrong path" —
-  // the two need completely different fixes.
+  // Wrong path, or gone? The two need completely different fixes, so the
+  // message has to say which.
   const elsewhere = await servedAt(id);
   if (elsewhere) {
     failures.push(
-      `reciter "${id}": not served at ${AR_BITRATE}kbps (${at128.status || at128.error}) but IS served at ${elsewhere.bitrate}kbps. The page builds a ${AR_BITRATE}kbps URL for every reciter, so this one plays nothing. Fix the path, not the registration.`,
+      `reciter "${id}": registered at ${bitrate}kbps but that answered ${atRegistered.status || atRegistered.error}; the CDN serves it at ${elsewhere.bitrate}kbps. Update this reciter's bitrate in assets/app.js's RECITERS — until then it plays nothing anywhere on the site.`,
     );
-    console.log(`  FAIL ${id} · ${at128.status} at ${AR_BITRATE}kbps, served at ${elsewhere.bitrate}kbps`);
+    console.log(`  FAIL ${id} · registered ${bitrate}kbps, actually served at ${elsewhere.bitrate}kbps`);
   } else {
     failures.push(
-      `reciter "${id}": no bitrate directory (${BITRATES.join(", ")}) serves it — ${at128.status || at128.error} at ${AR_BITRATE}kbps. Registered in RECITERS but the CDN does not carry it; a reader who picks it gets silence.`,
+      `reciter "${id}": no bitrate directory (${BITRATES.join(", ")}) serves it — ${atRegistered.status || atRegistered.error} at its registered ${bitrate}kbps. The CDN no longer carries this edition; a reader who picks it gets silence, so retire it from RECITERS.`,
     );
-    console.log(`  FAIL ${id} · ${at128.status}, absent at every probed bitrate`);
+    console.log(`  FAIL ${id} · absent at every probed bitrate`);
   }
 }
 

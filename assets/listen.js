@@ -37,9 +37,9 @@
   "use strict";
 
   var CDN = "https://cdn.islamic.network/quran/audio";
-  // Arabic reciters are served at 128kbps (the per-verse players in
-  // read.html have used that path since the audio feature shipped).
-  var AR_BITRATE = 128;
+  // Arabic URLs come from assets/app.js's qdReciteUrl, which carries the
+  // per-reciter bitrate. Only the English leg builds its own URL here,
+  // because its bitrate is discovered rather than registered.
   // en.walk is the ONE English edition the API registers as
   // type=versebyverse; the other three are surah-by-surah, a single file
   // per surah, which cannot be sequenced against a verse whatever the CDN
@@ -203,7 +203,7 @@
       if (!this.english) return null;
       return clipUrl(this.english.edition, this.english.bitrate, item.arNumber);
     }
-    return clipUrl(this.reciterId(), AR_BITRATE, item.arNumber);
+    return window.qdReciteUrl(this.reciterId(), item.arNumber);
   };
 
   // The clip that follows (item, leg) in the current mode, which is what

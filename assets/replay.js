@@ -213,13 +213,13 @@
       (item ? ". Section: " + item.heading.replace(/<[^>]+>/g, "") : "");
   }
 
+  // Built by assets/app.js, which is the only place that knows which
+  // bitrate directory the CDN serves each reciter from. This page used
+  // to hard-code 128, so three of the five reciters played nothing here.
   function srcFor(a) {
-    return (
-      "https://cdn.islamic.network/quran/audio/128/" +
-      (window.qdState && qdState.reciter ? qdState.reciter : "ar.husary") +
-      "/" +
-      globalAyah(surah.id, a) +
-      ".mp3"
+    return window.qdReciteUrl(
+      window.qdState && qdState.reciter ? qdState.reciter : "ar.husary",
+      globalAyah(surah.id, a),
     );
   }
 

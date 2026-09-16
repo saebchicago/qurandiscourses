@@ -1238,7 +1238,7 @@
                 const reciterName =
                   qdReciters.find((r) => r.id === qdState.reciter)?.name ||
                   "Reciter";
-                html += `<div style="display:flex;gap:0.5rem;align-items:center;margin:.5rem 0"><audio controls style="flex:1"><source src="https://cdn.islamic.network/quran/audio/128/${qdState.reciter}/${arNumber}.mp3" type="audio/mpeg"></audio><button type="button" class="reciter-open-btn" style="min-width:44px;min-height:44px;padding:0.5rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem" title="Change reciter">\uD83C\uDFA4</button></div><div id="reciterName-${ayahNum}" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.5rem">${reciterName}</div>`;
+                html += `<div style="display:flex;gap:0.5rem;align-items:center;margin:.5rem 0"><audio controls style="flex:1"><source src="${qdReciteUrl(qdState.reciter, arNumber)}" type="audio/mpeg"></audio><button type="button" class="reciter-open-btn" style="min-width:44px;min-height:44px;padding:0.5rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem" title="Change reciter">\uD83C\uDFA4</button></div><div id="reciterName-${ayahNum}" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.5rem">${reciterName}</div>`;
               }
               translations.forEach((t) => {
                 if (t._mismatchOf) {
