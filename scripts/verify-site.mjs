@@ -918,6 +918,154 @@ if (runCheck("palette") && (!PAGE_FILTER || PAGE_FILTER === "index.html")) {
   await pctx.close();
 }
 
+// ── replay.html: the guided replay's transport and highlighting ─────
+// Characterization first: this page had no coverage at all, and it is
+// about to be moved onto the shared audio engine. These assert what it
+// DOES, so the move can be proved not to change it. The CDN is aborted
+// like every other outside host, so this is the manual-stepping path —
+// which is also the path a reader on a bad connection gets.
+if (runCheck("replay") && (!PAGE_FILTER || PAGE_FILTER === "replay.html") && !LIVE) {
+  // apiMode "abort", not "stub": this page reassembles its Arabic from the
+  // BUNDLED Leeds morphology when the API is unreachable, and that is the
+  // path where recurrence highlighting is meaningful. Stub fixtures would
+  // replace the real text with placeholder tokens that no longer line up
+  // with the morphology the highlighting is computed from.
+  const rctx = await newContext({ apiMode: "abort" });
+  const page = await rctx.newPage();
+  const errors = [];
+  attachConsoleCollector(page, errors);
+  // al-'Asr: three verses, small enough to step end to end.
+  await page.goto(`${BASE}/replay.html?s=103`, { waitUntil: "load" });
+  await page.waitForFunction(
+    () => /Verse 1 of/.test((document.getElementById("posLabel") || {}).textContent || ""),
+    null,
+    { timeout: 20000 },
+  ).catch(() => {});
+
+  const read = () =>
+    page.evaluate(() => ({
+      pos: (document.getElementById("posLabel") || {}).textContent || "",
+      active: (document.querySelector("#verseStack .is-current") ||
+        document.querySelector('#verseStack [aria-current="true"]') || {}).id || "",
+      verses: document.querySelectorAll("#verseStack > *").length,
+      live: (document.getElementById("replayLive") || {}).textContent || "",
+      transportHidden: (document.getElementById("transport") || {}).hidden,
+      reciter: (document.getElementById("reciterName") || {}).textContent || "",
+    }));
+
+  const start = await read();
+  report(
+    "replay-load", "replay.html",
+    /Verse 1 of 3/.test(start.pos) && start.verses >= 3 && start.transportHidden === false,
+    `posLabel="${start.pos.trim()}"; ${start.verses} verse nodes; transport shown=${!start.transportHidden}; reciter="${start.reciter.trim()}"`,
+  );
+
+  await page.click("#btnNext");
+  await page.click("#btnNext");
+  const stepped = await read();
+  await page.click("#btnNext"); // past the end: must clamp, not run off
+  const clamped = await read();
+  await page.click("#btnRestart");
+  const restarted = await read();
+  report(
+    "replay-step", "replay.html",
+    /Verse 3 of 3/.test(stepped.pos) && /Verse 3 of 3/.test(clamped.pos) &&
+      /Verse 1 of 3/.test(restarted.pos),
+    `two Next -> "${stepped.pos.trim()}"; a third (past the end) -> "${clamped.pos.trim()}" (must clamp); Restart -> "${restarted.pos.trim()}"`,
+  );
+
+  const keys = await page.evaluate(async () => {
+    const pos = () => (document.getElementById("posLabel") || {}).textContent || "";
+    const press = async (key) => {
+      document.body.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
+      await new Promise((r) => setTimeout(r, 150));
+      return pos();
+    };
+    return { right: await press("ArrowRight"), left: await press("ArrowLeft") };
+  });
+  report(
+    "replay-keys", "replay.html",
+    /Verse 2 of 3/.test(keys.right) && /Verse 1 of 3/.test(keys.left),
+    `ArrowRight -> "${keys.right.trim()}", ArrowLeft -> "${keys.left.trim()}"`,
+  );
+
+  // Recurrence highlighting is this page's whole reason for existing and
+  // is computed from the bundled Leeds morphology, so it works with the
+  // network down.
+  const roots = await page.evaluate(() => ({
+    marked: document.querySelectorAll("#verseStack [class*='rg-']").length,
+    strip: !document.getElementById("rootStrip").hidden,
+    prov: !!document.querySelector('#replayProv .badge[data-source-ids]'),
+  }));
+  report(
+    "replay-roots", "replay.html",
+    roots.marked > 0 && roots.prov,
+    `${roots.marked} recurring-root words marked; root strip shown=${roots.strip}; provenance badge present=${roots.prov}`,
+  );
+
+  // With the CDN aborted, play must fall back to manual stepping rather
+  // than leaving a dead button.
+  await page.click("#btnPlay").catch(() => {});
+  await page.waitForTimeout(1200);
+  const manual = await page.evaluate(() => ({
+    note: !document.getElementById("audioNote").hidden,
+    playHidden: document.getElementById("btnPlay").hidden,
+    stillSteps: !document.getElementById("btnNext").disabled,
+  }));
+  report(
+    "replay-manual-fallback", "replay.html",
+    manual.note && manual.stillSteps,
+    `audio unavailable note shown=${manual.note}; play button hidden=${manual.playHidden}; stepping still available=${manual.stillSteps}`,
+  );
+  // What moving onto the shared engine bought this page. Before it, the
+  // transport was play/prev/next/restart and Arabic only, with its own
+  // Audio element and its own hard-coded bitrate.
+  const shared = await page.evaluate(() => {
+    const pl = window.qdListenPlayer || null; // not set on this page
+    const hasEngine = !!window.qdAudioEngine;
+    const btn = (id) => document.getElementById(id);
+    return {
+      hasEngine,
+      controls: ["btnPlay", "btnPrev", "btnNext", "btnRestart", "btnRepeat", "btnSpeed"]
+        .filter((id) => !!btn(id)),
+      // The English toggle must stay hidden while no English clip has
+      // loaded — here the CDN is aborted, so it never will.
+      langHidden: btn("btnLang") ? btn("btnLang").hidden : "missing",
+      leaked: pl,
+    };
+  });
+  report(
+    "replay-shared-engine", "replay.html",
+    shared.hasEngine && shared.controls.length === 6 && shared.langHidden === true,
+    `qdAudioEngine present=${shared.hasEngine}; controls=${shared.controls.join(",")}; English toggle hidden while no clip loaded=${shared.langHidden}`,
+  );
+
+  // Speed and repeat are new here and must actually reach the engine,
+  // not just repaint a button.
+  const transport = await page.evaluate(async () => {
+    // The page keeps its engine private; reach it through the control.
+    const speed = document.getElementById("btnSpeed");
+    const repeat = document.getElementById("btnRepeat");
+    const before = speed.textContent;
+    speed.click();
+    repeat.click();
+    await new Promise((r) => setTimeout(r, 150));
+    return {
+      before,
+      after: speed.textContent,
+      repeatPressed: repeat.getAttribute("aria-pressed"),
+    };
+  });
+  report(
+    "replay-transport-extras", "replay.html",
+    transport.before === "1×" && transport.after === "1.25×" && transport.repeatPressed === "true",
+    `speed ${transport.before} -> ${transport.after} (want 1× -> 1.25×); repeat aria-pressed=${transport.repeatPressed} (want true)`,
+  );
+
+  report("replay-console", "replay.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+  await rctx.close();
+}
+
 // ── read.html: offline fallback + stubbed render + XSS regression ───
 if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) {
   {
