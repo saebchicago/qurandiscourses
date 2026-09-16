@@ -3762,6 +3762,43 @@ html[data-focus] .ar.xl {
 .listen-keys {
   margin-top: 0.6rem;
 }
+
+/* Per-verse entry into the transport, in place of the native <audio>
+   controls this page used to render once per verse — 286 of them on
+   al-Baqarah, each an independent player that knew about no other verse.
+   One row, two 44px targets: start the sitting here, or change reciter. */
+.verse-audio-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+.verse-listen-btn {
+  min-height: 44px;
+  flex: 1;
+  text-align: start;
+}
+.verse-audio-row .reciter-open-btn {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--card);
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.verse-reciter-name {
+  margin-bottom: 0.5rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+/* The verse already playing does not offer to start playing. */
+.verse.is-listening .verse-listen-btn {
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
 .listen-en-note {
   border-top: 1px solid var(--line);
   padding-top: 0.5rem;

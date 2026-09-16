@@ -5,6 +5,7 @@
   "assets/app.js": "1e81e54d5379fb6ec76d886900687950bcb6b37586b23f5ab8c35e6cf3e29c4f",
   "assets/ask-routes.js": "875d117c3c687c53f4a5d8f0323363440519079f7154452f31e76d062b3139da",
   "assets/ask.js": "2d168631b97e0766ba2f464fb2668c130389f76db5b8352cf96b1244b9bfd112",
+  "assets/audio-engine.js": "121387537d1258e7e3bc40d8ed0b241ab6288fa5a41a709eb6ca041fbc30a8e6",
   "assets/case-studies.js": "4b02eb58852ca74cc747d7fdface11c8a6b921b985b210e776f0ef73a58dcfcc",
   "assets/chart.js": "d813a1336a9f71bfe01c1699121731f2f6cc9022850dbb762e0b3b333717af32",
   "assets/cite-badge.js": "cdba7057f43128b2a40dfa35b3ba5a9a6b291466717b9e1539cfa623edda57ba",
@@ -20,7 +21,7 @@
   "assets/issue-url.js": "1129b521cac3776f30c507655d80c20f9f9f701b441a670dea72a4e230f068b6",
   "assets/lang-labels.js": "06619ad96e2393521fea2772b94b2c7aaa26a4f5ae41ca41e0e155dd38fbaa4a",
   "assets/lenses.js": "3b74dbc1697aec5d6b341223bca824aa9b13ce8872a7546a8cf0f9d615296927",
-  "assets/listen.js": "f9fdcb5c4249f20b1dc7fd196ee1108445659eddb781a950db29aba542620c17",
+  "assets/listen.js": "00172bf84a40415be5bc89d1b6d56b73894bbd84698e970d227b87c7cf7a3ee4",
   "assets/nav.js": "9cab6cdaf3c19d2fd1b487478951c9c1f6e14875d150cc85a304f6f50cbface0",
   "assets/navigate-picker.js": "f0619c9bf5557687c3e03484fc3b22f9c7355fb69a08ffbdf9904ff1cf388f74",
   "assets/notebook.js": "3cd62dc9ae8cccfde1653256dc528464071160a6324fb58f7a084434f77b1ae1",
@@ -36,7 +37,7 @@
   "assets/root-refs/paths.js": "01b6d5ef3e38aaa0e13af653158241d17d9cb702a4830fac3051394925931c16",
   "assets/search.js": "61e34814472893a57cd60a97a6fc9cdd9c67cba22dad5559a98f8c1e8a9d745e",
   "assets/share.js": "9fd266d6e7f65c776de1c5d40a60c700137f7539d248a4d2dccc3542a6043a32",
-  "assets/style.css": "9e5d6fa196a3ee41fe63b95c6d1e03d9997a87b88b90c409c8ac42eac04f15e2",
+  "assets/style.css": "74a7a6eaba67132af14935b0cbdbd415e377e4f5cd650bdfeed117153300a278",
   "assets/surahs.js": "de8a6221aa3da3cc7dc4f359f613b429732e0fe19e81aa2589fafeb17a2da9ec",
   "assets/tour.js": "d3f923a8af6ae16ad0fc729d9e25222737876dd159a265e1d363bf2fcbc61aa4",
   "assets/trans-picker.js": "b62973d373dfc7d5289e3b781bc122aed82bd919c0ecbf2fc375bfd2a8eebbc5",
@@ -83,7 +84,7 @@
   "index.html": "d20555833e54224a016ed3e7b898c32d82c1c259a7a98ebe0e577cd4e77a8e16",
   "navigate.html": "62835f74c9475163aa3e539a4f3432df17a75eed4c63b5c1a71a753bb96526e5",
   "paths.html": "eb59e79beeaf7623a39689f17e82873c337bba70518b039557e8cac57e98b669",
-  "read.html": "2c963fc75b2e4ae5a9beb84b0c71e8515f34431ef2514ce4f28d2f8a2da3e7da",
+  "read.html": "1fad3efdd182836f64212f81c7efc3236c3416b7540e92e1e43fca8dc2e0a39e",
   "search.html": "873b48a374a81a513240e2ef6a9a3afb32e59bbca9ead9d66595ffb862677183"
  }
 }

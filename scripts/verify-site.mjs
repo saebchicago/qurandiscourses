@@ -1143,13 +1143,11 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
       pl.english = null;
       pl.armed = true;
       pl.go(1);
-      pl.highlight();
       out.idxAfterNext = pl.idx;
       out.highlighted = [...document.querySelectorAll(".verse.is-listening")].map((v) =>
         v.getAttribute("data-ar-number"),
       );
       pl.go(-1);
-      pl.highlight();
       out.idxAfterPrev = pl.idx;
       pl.go(-1);
       out.idxClampedLow = pl.idx;
@@ -1175,26 +1173,131 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
         : `ar=${seq.arUrl.split("/").slice(-2).join("/")} en=${seq.enUrl.split("/").slice(-2).join("/")}; ar-only next=${JSON.stringify(seq.arOnlyNext)}; ar+en next=${JSON.stringify(seq.arEnNext)} then ${JSON.stringify(seq.afterEnglish)}; end=${JSON.stringify(seq.atEnd)}; repeat ar->${JSON.stringify(seq.repeatAfterAr)} en->${JSON.stringify(seq.repeatAfterEn)}; speed ${seq.rate}x applied=${seq.audioRate}; idx next/prev/clamped=${seq.idxAfterNext}/${seq.idxAfterPrev}/${seq.idxClampedLow}; highlighted=${JSON.stringify(seq.highlighted)}`,
     );
 
-    // Leaving the juz must take the transport with it, or a stale
-    // player keeps a passage that is no longer on screen.
+    // Leaving the juz for a verse range must REBIND the transport, not
+    // retire it: the reader's unit of listening is whatever they asked to
+    // read. (This check asserted the opposite while Listen mode was
+    // juz-only.)
     await page.evaluate(() => {
       document.getElementById("surahInput").value = "103";
       document.getElementById("ayahInput").value = "1-3";
       document.getElementById("loadBtn").click();
     });
     await page.waitForFunction(() => /s=103/.test(location.search), null, { timeout: 15000 }).catch(() => {});
+    await page.waitForFunction(
+      () => window.qdListenPlayer && window.qdListenPlayer.items.length === 3,
+      null,
+      { timeout: 15000 },
+    ).catch(() => {});
     const after = await page.evaluate(() => ({
       hidden: document.getElementById("listenPanel").hidden,
-      emptied: document.getElementById("listenPanel").children.length === 0,
-      seam: !!window.qdListenPlayer,
+      title: (document.querySelector(".listen-title") || {}).textContent || "",
+      verses: window.qdListenPlayer ? window.qdListenPlayer.items.length : 0,
+      globals: window.qdListenPlayer
+        ? window.qdListenPlayer.items.map((i) => i.arNumber)
+        : [],
+      // Nothing from the juz may still be highlighted.
+      stale: document.querySelectorAll(".verse.is-listening").length,
       search: location.search,
     }));
     report(
-      "listen-teardown", "read.html",
-      after.hidden && after.emptied && !after.seam && !/[?&]j=/.test(after.search),
-      `after loading 103:1-3 — panel hidden=${after.hidden} emptied=${after.emptied} seam released=${!after.seam} url="${after.search}"`,
+      "listen-rebind", "read.html",
+      !after.hidden && after.verses === 3 && after.stale === 0 && !/[?&]j=/.test(after.search),
+      `after loading 103:1-3 — panel hidden=${after.hidden} (want false); title="${after.title.trim()}"; ${after.verses} verses bound (want 3) globals=${JSON.stringify(after.globals)}; stale highlights=${after.stale} (want 0); url="${after.search}"`,
     );
     report("listen-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+    await rctx.close();
+  }
+  {
+    // The passages Listen mode was gated away from until now: a single
+    // verse, and a range. A reader's unit of listening is whatever they
+    // asked to read, not one division of the mushaf.
+    const rctx = await newContext({ apiMode: "stub" });
+    const page = await rctx.newPage();
+    const errors = [];
+    attachConsoleCollector(page, errors);
+
+    await page.goto(`${BASE}/read.html?s=1&a=1`, { waitUntil: "load" });
+    await page.waitForSelector("#listenPanel [data-listen-play]", { timeout: 15000 }).catch(() => {});
+    const single = await page.evaluate(() => ({
+      verses: window.qdListenPlayer ? window.qdListenPlayer.items.length : 0,
+      title: (document.querySelector(".listen-title") || {}).textContent || "",
+      // A one-verse passage has nowhere to advance to.
+      next: window.qdListenPlayer ? window.qdListenPlayer.nextStep(0, "ar") : "no player",
+    }));
+    report(
+      "listen-single-verse", "read.html",
+      single.verses === 1 && single.next === null,
+      `one-verse passage — ${single.verses} verse bound (want 1); title="${single.title.trim()}"; nextStep=${JSON.stringify(single.next)} (want null)`,
+    );
+
+    // "Listen from here" on a verse starts the transport AT that verse.
+    // This is what replaced the native per-verse <audio> controls.
+    await page.goto(`${BASE}/read.html?s=103&a=1-3`, { waitUntil: "load" });
+    await page.waitForFunction(
+      () => window.qdListenPlayer && window.qdListenPlayer.items.length === 3,
+      null,
+      { timeout: 15000 },
+    ).catch(() => {});
+    const seek = await page.evaluate(() => {
+      const btns = [...document.querySelectorAll("[data-listen-from]")];
+      const before = window.qdListenPlayer.idx;
+      // Third verse's button.
+      if (btns[2]) btns[2].click();
+      return {
+        buttons: btns.length,
+        nativePlayers: document.querySelectorAll(".verse audio").length,
+        before,
+        after: window.qdListenPlayer.idx,
+        armed: window.qdListenPlayer.armed,
+        highlighted: [...document.querySelectorAll(".verse.is-listening")].map((v) =>
+          v.getAttribute("data-ayah"),
+        ),
+      };
+    });
+    report(
+      "listen-seek-from-verse", "read.html",
+      seek.buttons === 3 && seek.nativePlayers === 0 && seek.before === 0 && seek.after === 2 &&
+        seek.highlighted.length === 1 && seek.highlighted[0] === "3",
+      `${seek.buttons} per-verse buttons (want 3), ${seek.nativePlayers} native <audio> left (want 0); clicking verse 3 moved idx ${seek.before}->${seek.after} (want 0->2); highlighted=${JSON.stringify(seek.highlighted)} (want ["3"])`,
+    );
+
+    // Changing translation re-renders the whole passage. A reader forty
+    // verses in must not be thrown back to verse 1 with the audio
+    // stopped, so the transport carries its position across a re-render
+    // of the SAME passage.
+    const carried = await page.evaluate(async () => {
+      window.qdListenPlayer.seek(1);
+      window.qdListenPlayer.cycleSpeed();
+      window.qdListenPlayer.setRepeat(true);
+      const before = {
+        idx: window.qdListenPlayer.idx,
+        rate: window.qdListenPlayer.rate,
+        repeat: window.qdListenPlayer.repeat,
+      };
+      document.dispatchEvent(new CustomEvent("qd:translations-changed"));
+      await new Promise((r) => setTimeout(r, 1200));
+      return {
+        before,
+        after: window.qdListenPlayer
+          ? {
+              idx: window.qdListenPlayer.idx,
+              rate: window.qdListenPlayer.rate,
+              repeat: window.qdListenPlayer.repeat,
+              verses: window.qdListenPlayer.items.length,
+            }
+          : null,
+      };
+    });
+    const c = carried.after;
+    report(
+      "listen-carry-position", "read.html",
+      !!c && c.idx === carried.before.idx && c.rate === carried.before.rate &&
+        c.repeat === carried.before.repeat && c.verses === 3,
+      c === null
+        ? "the transport did not survive a translation change at all"
+        : `across a translation re-render: idx ${carried.before.idx}->${c.idx}, speed ${carried.before.rate}->${c.rate}, repeat ${carried.before.repeat}->${c.repeat}, ${c.verses} verses still bound`,
+    );
+    report("listen-passages-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
     await rctx.close();
   }
   {
@@ -1211,7 +1314,7 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
     const errors = [];
     attachConsoleCollector(page, errors);
     await page.goto(`${BASE}/read.html?s=103&a=1-3`, { waitUntil: "load" });
-    await page.waitForSelector(".verse audio source", { timeout: 15000 }).catch(() => {});
+    await page.waitForSelector("#listenPanel [data-listen-play]", { timeout: 15000 }).catch(() => {});
 
     const urls = await page.evaluate(async () => {
       const out = { builder: !!window.qdReciteUrl, registry: [], rendered: {} };
@@ -1222,13 +1325,16 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
         bitrate: r.bitrate,
         url: window.qdReciteUrl(r.id, 1),
       }));
-      // And what the page actually renders, for one 128 and one 64.
+      // And what the live transport actually resolves, for one 128 and
+      // one 64 reciter. The per-verse <audio> elements are gone — one
+      // transport serves the passage — so the URL that matters is the
+      // one the engine builds for the verse it is about to play.
       const render = async (id) => {
         window.qdState.reciter = id;
         document.getElementById("loadBtn").click();
         await new Promise((r) => setTimeout(r, 900));
-        const el = document.querySelector(".verse audio source");
-        return el ? el.getAttribute("src") : null;
+        const pl = window.qdListenPlayer;
+        return pl && pl.items.length ? pl.urlFor(pl.items[0], "ar") : null;
       };
       out.rendered["ar.husary"] = await render("ar.husary");
       out.rendered["ar.abdulbasitmurattal"] = await render("ar.abdulbasitmurattal");
@@ -1254,7 +1360,7 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
       urls.builder && everyDeclared && builderHonoursIt && renderedOk,
       !urls.builder
         ? "window.qdReciteUrl is missing — some surface is still building its own recitation URL"
-        : `${urls.registry.length} reciters, all declare a bitrate=${everyDeclared}, builder honours it=${builderHonoursIt}; 64kbps: ${sixtyFours.join(", ") || "none"}; rendered <audio> husary="${(urls.rendered["ar.husary"] || "").split("/audio/")[1]}" abdulbasit="${(urls.rendered["ar.abdulbasitmurattal"] || "").split("/audio/")[1]}"`,
+        : `${urls.registry.length} reciters, all declare a bitrate=${everyDeclared}, builder honours it=${builderHonoursIt}; 64kbps: ${sixtyFours.join(", ") || "none"}; transport resolves husary="${(urls.rendered["ar.husary"] || "").split("/audio/")[1]}" abdulbasit="${(urls.rendered["ar.abdulbasitmurattal"] || "").split("/audio/")[1]}"`,
     );
     report("audio-bitrate-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
     await rctx.close();
