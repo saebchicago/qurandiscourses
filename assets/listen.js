@@ -12,17 +12,20 @@
 // (1-6236) that read.html renders into data-ar-number. No new host, so
 // no CSP change — media-src already names cdn.islamic.network.
 //
-// The English leg is NOT assumed to exist. alquran.cloud registers an
-// English translation-audio edition, but this project could not confirm
-// its identifier, bitrate directory, reciter, or license from a
-// sandboxed session, and the site's citation rule is to omit what cannot
-// be confirmed rather than guess it. So the English track is discovered
-// at runtime (probeEnglish below) and the Arabic+English toggle simply
-// does not appear when the probe fails. Arabic-only listening never
-// depends on that probe. scripts/check-audio-editions.mjs is the CI-side
-// half: it asks the API what the English audio edition actually is, on a
-// runner with real outbound network, so /sources and /credits can one day
-// carry a real name and license instead of a Pending badge.
+// The English leg is NOT assumed to be available. alquran.cloud's edition
+// registry does name a verse-by-verse English audio edition — en.walk,
+// "Ibrahim Walk" — and scripts/check-audio-editions.mjs confirmed that
+// from the API on a networked runner. Being registered is not being
+// served: that same run found cdn.islamic.network answering for the
+// Arabic reciters and NOT for en.walk. Registration, availability and
+// license are three separate questions and only the first is settled.
+//
+// So the English track is discovered at runtime (probeEnglish below) and
+// the Arabic+English toggle appears only once a clip has actually loaded.
+// Arabic-only listening never waits on that probe and never depends on
+// it. Today the probe is expected to fail and the mode is Arabic-only in
+// practice; the day the CDN starts serving it, the toggle appears with no
+// code change.
 //
 // Mobile Safari: ONE <audio> element does all playback for the whole
 // session. iOS grants an element permission to play on a user gesture
@@ -37,13 +40,17 @@
   // Arabic reciters are served at 128kbps (the per-verse players in
   // read.html have used that path since the audio feature shipped).
   var AR_BITRATE = 128;
-  // The English edition's identifier and bitrate directory are both
-  // unconfirmed, so every plausible combination is probed and the first
-  // that answers wins. Nothing here is presented to the reader as a
-  // named source; see the header note.
+  // en.walk is the ONE English edition the API registers as
+  // type=versebyverse; the other three are surah-by-surah, a single file
+  // per surah, which cannot be sequenced against a verse whatever the CDN
+  // serves. Its bitrate directory is unknown — the CDN publishes an
+  // edition under one or more and names none of them — so each is tried
+  // until one loads.
   var EN_CANDIDATES = [
     { edition: "en.walk", bitrate: 128 },
     { edition: "en.walk", bitrate: 64 },
+    { edition: "en.walk", bitrate: 192 },
+    { edition: "en.walk", bitrate: 32 },
   ];
   var PROBE_AYAH = 1;
   var PROBE_TIMEOUT_MS = 8000;
@@ -453,17 +460,8 @@
       .addEventListener("click", function () {
         self.cycleSpeed();
       });
-    var modeBtn = this.panel.querySelector("[data-listen-mode]");
-    if (modeBtn)
-      modeBtn.addEventListener("click", function () {
-        self.mode = self.mode === "ar-en" ? "ar" : "ar-en";
-        if (self.mode === "ar" && self.leg === "en") {
-          self.leg = "ar";
-          if (self.playing) self.advance();
-        }
-        self.render();
-        self.preloadNext();
-      });
+    // The Arabic+English toggle is not built here: it only exists once
+    // the English probe has loaded a clip. addEnglishToggle wires its own.
 
     // Lock screen / headset / car stereo. Registered once; the metadata
     // is refreshed on every clip change in updateMediaSession.
@@ -536,7 +534,7 @@
     }
   };
 
-  function panelHtml(juz, hasEnglish) {
+  function panelHtml(juz) {
     return (
       '<div class="listen-head">' +
       '<h3 class="listen-title">Listen to juz ' +
@@ -546,14 +544,11 @@
       '<p class="listen-pos t-annotation" data-listen-pos></p>' +
       "</div>" +
       '<div class="listen-controls" role="group" aria-label="Recitation transport">' +
-      '<button type="button" class="button secondary listen-btn" data-listen-prev aria-label="Previous verse">‹ Verse</button>' +
-      '<button type="button" class="button btn-primary listen-btn" data-listen-play aria-label="Play">▶ Play</button>' +
-      '<button type="button" class="button secondary listen-btn" data-listen-next aria-label="Next verse">Verse ›</button>' +
-      '<button type="button" class="button secondary listen-btn" data-listen-repeat aria-pressed="false" aria-label="Repeat this verse">↻ Repeat</button>' +
-      '<button type="button" class="button secondary listen-btn" data-listen-speed aria-label="Playback speed">1×</button>' +
-      (hasEnglish
-        ? '<button type="button" class="button secondary listen-btn" data-listen-mode aria-pressed="false">Arabic only</button>'
-        : "") +
+      '<button type="button" class="button secondary listen-btn" data-listen-prev aria-label="Previous verse">\u2039 Verse</button>' +
+      '<button type="button" class="button btn-primary listen-btn" data-listen-play aria-label="Play">\u25B6 Play</button>' +
+      '<button type="button" class="button secondary listen-btn" data-listen-next aria-label="Next verse">Verse \u203A</button>' +
+      '<button type="button" class="button secondary listen-btn" data-listen-repeat aria-pressed="false" aria-label="Repeat this verse">\u21BB Repeat</button>' +
+      '<button type="button" class="button secondary listen-btn" data-listen-speed aria-label="Playback speed">1\u00D7</button>' +
       "</div>" +
       '<p class="caption-note listen-keys">Keys <kbd>Space</kbd> play/pause, ' +
       "<kbd>[</kbd> <kbd>]</kbd> previous/next verse, <kbd>R</kbd> repeat. " +
@@ -561,16 +556,48 @@
       '<p class="caption-note">Recitation audio streams per verse from ' +
       "cdn.islamic.network as it plays, which receives normal connection " +
       "data. Nothing about what you listen to is stored or sent anywhere " +
-      "else. <a href=\"/about#privacy\">Privacy and offline details</a>.</p>" +
-      (hasEnglish
-        ? '<p class="caption-note listen-en-note">English translation audio is served by the ' +
-          "same CDN as an audio edition of a published English translation. " +
-          "This project has not yet confirmed its reciter or license against " +
-          "the source, so it carries a " +
-          '<span class="badge pending" data-source-ids="islamic-network-audio" aria-label="Pending" tabindex="0" title="Pending · awaiting confirmation from the source">○</span> ' +
-          'Pending label on <a href="/sources">Sources</a> rather than a name this project cannot yet stand behind.</p>'
-        : "")
+      'else. <a href="/about#privacy">Privacy and offline details</a>.</p>'
     );
+  }
+
+  // Added only after a clip from the English edition has actually loaded,
+  // so the reader is never shown a control that cannot do anything. The
+  // note beside it says what is and is not established about that audio:
+  // the API's registry names the edition, nothing this page can reach
+  // states its license, and the site does not print a license it has not
+  // been told.
+  function addEnglishToggle(pl) {
+    var row = pl.panel.querySelector(".listen-controls");
+    if (!row || row.querySelector("[data-listen-mode]")) return;
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "button secondary listen-btn";
+    btn.setAttribute("data-listen-mode", "");
+    btn.setAttribute("aria-pressed", "false");
+    btn.textContent = "Arabic only";
+    btn.addEventListener("click", function () {
+      pl.mode = pl.mode === "ar-en" ? "ar" : "ar-en";
+      if (pl.mode === "ar" && pl.leg === "en") {
+        pl.leg = "ar";
+        if (pl.playing) pl.advance();
+      }
+      pl.render();
+      pl.preloadNext();
+    });
+    row.appendChild(btn);
+
+    var note = document.createElement("p");
+    note.className = "caption-note listen-en-note";
+    note.innerHTML =
+      "English translation audio comes from the same CDN, as the edition " +
+      'alquran.cloud\'s registry names <code>en.walk</code> \u00B7 Ibrahim Walk, ' +
+      "read verse by verse. That registry is the whole of what this project " +
+      "has confirmed: it does not establish who holds the recording or under " +
+      "what license, so neither is stated here or on " +
+      '<a href="/sources">Sources</a>, where the entry stays ' +
+      '<span class="badge pending" data-source-ids="islamic-network-audio-en" aria-label="Pending" tabindex="0" title="Pending \u00B7 awaiting triangulation from a second independent source">\u25CB</span> Pending.';
+    pl.panel.appendChild(note);
+    if (window.qdCiteEnhance) window.qdCiteEnhance(pl.panel);
   }
 
   // read.html calls this after every passage render. A juz read gets a
@@ -607,23 +634,30 @@
     }
     if (player) player.stop();
     host.hidden = false;
+    // Build Arabic-only IMMEDIATELY. The English probe walks up to four
+    // candidate bitrates and each miss can cost a timeout, so waiting on
+    // it would leave the reader with no transport for that whole window,
+    // to settle a question that only adds an optional toggle.
+    host.innerHTML = panelHtml(juz);
+    player = new Player(host, juz);
+    player.collect();
+    player.wire();
+    player.render();
+    // Test seam and debugging handle. scripts/verify-site.mjs drives the
+    // transport through this: headless Chromium will not decode a real
+    // recitation, so the sequencing (Arabic leg, English leg, next verse,
+    // repeat) is asserted against the state machine directly rather than
+    // against audio that never plays.
+    window.qdListenPlayer = player;
+    if (window.qdCiteEnhance) window.qdCiteEnhance(host);
+    var built = player;
     probeEnglish().then(function (english) {
-      // The probe is async and a reader can change passage while it
-      // runs; only build if this juz is still the one on screen.
-      if (!document.getElementById("listenPanel")) return;
-      host.innerHTML = panelHtml(juz, !!english);
-      player = new Player(host, juz);
-      player.english = english;
-      player.collect();
-      player.wire();
-      player.render();
-      // Test seam and debugging handle. scripts/verify-site.mjs drives
-      // the transport through this: headless Chromium will not decode a
-      // real recitation, so the sequencing (Arabic leg, English leg, next
-      // verse, repeat) is asserted against the state machine directly
-      // rather than against audio that never plays.
-      window.qdListenPlayer = player;
-      if (window.qdCiteEnhance) window.qdCiteEnhance(host);
+      // A reader can change passage while the probe runs. Upgrade only
+      // the transport this call built, and only if it is still the live
+      // one — never a successor that has replaced it.
+      if (!english || built.dead || window.qdListenPlayer !== built) return;
+      built.english = english;
+      addEnglishToggle(built);
     });
   };
 })();

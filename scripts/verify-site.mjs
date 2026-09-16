@@ -1198,6 +1198,46 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
     await rctx.close();
   }
   {
+    // The transport must not wait on the English probe. That probe walks
+    // four candidate bitrates and each miss can cost a timeout, so a
+    // build that awaited it would leave a juz reader with no play button
+    // for that whole window — to settle a question that only adds an
+    // optional toggle. Here the CDN hangs rather than failing fast, which
+    // is the case a route.abort() cannot reproduce.
+    const rctx = await newContext({ apiMode: "stub" });
+    const page = await rctx.newPage();
+    const errors = [];
+    attachConsoleCollector(page, errors);
+    let probes = 0;
+    // A page route takes precedence over the context route, so the CDN
+    // hangs here while everything else keeps the stub behaviour.
+    await page.route(/cdn\.islamic\.network/, () => {
+      probes++;
+      // Never fulfilled, never aborted: the probe stays outstanding.
+    });
+    await page.goto(`${BASE}/read.html?j=15`, { waitUntil: "load" });
+    const t0 = Date.now();
+    const appeared = await page
+      .waitForSelector("#listenPanel [data-listen-play]", { timeout: 8000 })
+      .then(() => Date.now() - t0)
+      .catch(() => null);
+    const state = await page.evaluate(() => ({
+      seam: !!window.qdListenPlayer,
+      // Still outstanding, so no toggle may exist yet.
+      toggle: !!document.querySelector("#listenPanel [data-listen-mode]"),
+      verses: window.qdListenPlayer ? window.qdListenPlayer.items.length : 0,
+    }));
+    report(
+      "listen-probe-nonblocking", "read.html",
+      appeared !== null && state.seam && !state.toggle && state.verses > 0,
+      appeared === null
+        ? `no play button within 8s while the CDN hung (${probes} outstanding request(s)) — the build is waiting on the English probe`
+        : `play button in ${appeared}ms with the CDN hung (${probes} outstanding request(s)); ${state.verses} verses bound; English toggle absent while unresolved=${!state.toggle}`,
+    );
+    report("listen-probe-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+    await rctx.close();
+  }
+  {
     // The transport is a phone control before it is anything else, and
     // it has to survive Focus mode: a reader who hides the chrome to
     // listen must not lose pause along with it. 375px because that is

@@ -106,10 +106,10 @@
    "id": "islamic-network-audio-en",
    "type": "api",
    "author": "Islamic Network",
-   "name": "English translation audio edition (per-ayah MP3), reciter and license unconfirmed",
+   "name": "English translation audio edition en.walk (Ibrahim Walk), verse by verse",
    "url": "https://cdn.islamic.network",
    "accessed": "2026-09-16",
-   "note": "Served by the same CDN as the Arabic recitation audio and played as Listen mode's English leg. Deliberately incomplete: this project has not confirmed the edition's reciter, publisher, or license against the source, so no name is registered here. scripts/check-audio-editions.mjs prints what the API actually reports; the citation gets written from that output, never from memory."
+   "note": "Listen mode's English leg on the Read page. Three separate questions, and only one is settled. IDENTITY: alquran.cloud's own edition registry reports en.walk as \"Ibrahim Walk\", language en, type versebyverse; scripts/check-audio-editions.mjs read that from the API on 2026-09-16 and the name here comes from that response. AVAILABILITY: the same run found cdn.islamic.network not serving en.walk at any probed bitrate, while it served the Arabic reciters normally — so the player's runtime probe fails and Listen mode offers Arabic only, by design rather than by regression. LICENSE: nothing this project can reach states it, so none is given. Pending until availability and license are both established."
   },
   {
    "id": "cairo-1924",

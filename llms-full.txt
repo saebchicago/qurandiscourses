@@ -3695,16 +3695,25 @@ reciter is chosen from the microphone button beside each verse.
 ●
 
 Islamic Network. English translation audio edition ,
-per-ayah MP3.
+en.walk , verse by verse.
 https://cdn.islamic.network . The English leg of Listen mode on the Read page, played after
-each verse's Arabic. The reciter, publisher, and license of this
-edition have not been confirmed against the source, so this entry
-names none of them: the player discovers the edition at runtime
-and omits the Arabic + English toggle entirely when it is not
-served. Running
-scripts/check-audio-editions.mjs from a machine with
-outbound network prints what the API reports for it, which is what
-a full citation here will be written from.
+each verse's Arabic. Three things are worth separating here,
+because only one of them is settled.
+What the edition is : alquran.cloud's own edition
+registry reports en.walk as “Ibrahim Walk”, language
+English, recorded verse by verse;
+scripts/check-audio-editions.mjs read that from the
+API on 16 September 2026, and the name above is taken from that
+response rather than from anywhere else.
+Whether it plays : the same run found the CDN not
+serving en.walk at any bitrate it probed, while
+serving the Arabic reciters normally — so the player's runtime
+probe fails and Listen mode currently offers Arabic only. That is
+the designed behaviour for an edition that is registered but not
+served, not a fault in the page.
+Under what license : nothing this project can
+reach states it, so this entry states none. It stays Pending until
+the second and third are established.
 ○
 
 Tarteel AI and Quran.com Foundation.
@@ -6523,17 +6532,17 @@ recordings' own licensing is the CDN's to state, not this
 project's; see Sources .
 
 English translation audio. The English leg of
-Listen mode on the Read page, served by the
-same CDN. Its reciter, publisher, and license are
-unconfirmed , so none is named here — this project does not
-credit a person or a license it has not checked against the
-source. The player looks the edition up at runtime and drops the
-Arabic + English toggle when it is not served, so nothing on the
-page depends on an unverified claim. The entry on
-Sources carries a ○ Pending badge until
-scripts/check-audio-editions.mjs is run from a
-machine with outbound network and a full citation is written
-from its output.
+Listen mode on the Read page. The edition is
+en.walk , which alquran.cloud's registry names
+“Ibrahim Walk”, read verse by verse — checked against the API on
+16 September 2026. That is the extent of what has been
+established: no license for the recording is stated by
+anything this project can reach , so none is claimed here,
+and on the day this was written the CDN was not serving the
+edition at all, so the player's runtime check finds nothing and
+Listen mode offers Arabic only. The
+Sources entry stays ○ Pending until the
+recording is both reachable and licensed on the record.
 
 ### Scholarly lineage
 

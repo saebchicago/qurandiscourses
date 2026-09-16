@@ -12,19 +12,28 @@
 //      TRANSLATIONS array.
 //
 //   2. Listen mode (assets/listen.js) plays an ENGLISH translation-audio
-//      leg after each verse's Arabic. That edition is deliberately not
-//      hard-coded as a known source: this project has never confirmed
-//      its identifier, reciter or license against the API from a machine
-//      with real outbound network, so the player discovers it at runtime
-//      and /sources carries it as ○ Pending. This check is how that
-//      Pending becomes Verified: it prints what the API actually reports
-//      for every English audio edition, so a maintainer can read the
-//      identifier, englishName and language off a real response and
-//      write the citation from that, rather than from a guess.
+//      leg after each verse's Arabic. That edition is not hard-coded as a
+//      known source; the player discovers it at runtime. This check is
+//      the evidence side of that, and it separates two questions the
+//      registration conflates:
 //
-// Registering an English reciter name or a license on the strength of
-// this script's OUTPUT is the intended path. Registering one without it
-// is exactly the "never guess" the maintainer guide forbids.
+//        identity      what the API's own edition registry says an
+//                      English audio edition IS. Its first run answered
+//                      this: en.walk is "Ibrahim Walk", language en,
+//                      type=versebyverse. That is evidence, from a
+//                      primary source, and /sources may use it.
+//        availability  whether cdn.islamic.network actually serves that
+//                      edition's per-ayah files. Its first run said no,
+//                      at either bitrate it then probed. An edition can
+//                      be registered and not served.
+//        license       neither of the above establishes this, and this
+//                      script cannot. It stays unstated until the rights
+//                      holder states it.
+//
+// Registering a reciter name or a license on the strength of this
+// script's OUTPUT is the intended path, and only for the part the output
+// actually covers. Registering one without it is exactly the "never
+// guess" the maintainer guide forbids.
 //
 // A checker, not a generator: writes nothing. Needs real outbound
 // network to api.alquran.cloud and cdn.islamic.network — a sandboxed
@@ -66,31 +75,66 @@ if (!reciters.length) {
 // here as a literal on purpose: if the page's path changes, this check
 // should be edited in the same commit.
 const AR_BITRATE = 128;
+// The CDN publishes an edition under one or more bitrate directories and
+// there is no registry saying which. 128 is what the site interpolates;
+// the rest are probed so a "missing" reciter can be told apart from one
+// that is simply served somewhere else.
+const BITRATES = [128, 64, 192, 32];
 const clip = (edition, bitrate, n) =>
   `https://cdn.islamic.network/quran/audio/${bitrate}/${edition}/${n}.mp3`;
 
-async function head(url) {
+// A ranged GET, not a HEAD. An object store can answer HEAD 403 on an
+// object it will happily GET, so a HEAD-only probe can report a live
+// reciter as dead. Range keeps it to the first byte either way.
+async function probe(url) {
   try {
     const r = await fetch(url, {
-      method: "HEAD",
+      headers: { range: "bytes=0-0" },
       signal: AbortSignal.timeout(TIMEOUT),
     });
-    return { ok: r.ok, status: r.status, type: r.headers.get("content-type") };
+    const type = r.headers.get("content-type") || "";
+    // 206 for a served range, 200 if the CDN ignores the header.
+    const ok = (r.status === 206 || r.status === 200) && /audio/.test(type);
+    if (r.body && typeof r.body.cancel === "function") await r.body.cancel();
+    return { ok, status: r.status, type };
   } catch (e) {
-    return { ok: false, status: 0, error: e.message };
+    return { ok: false, status: 0, type: "", error: e.message };
   }
 }
 
-console.log(`Reciters registered in assets/app.js (${reciters.length}):`);
+// The first bitrate directory that actually serves this edition.
+async function servedAt(edition) {
+  for (const bitrate of BITRATES) {
+    const r = await probe(clip(edition, bitrate, PROBE_AYAH));
+    if (r.ok) return { bitrate, status: r.status, type: r.type };
+  }
+  return null;
+}
+
+console.log(
+  `Reciters registered in assets/app.js (${reciters.length}), against ${AR_BITRATE}kbps — the directory read.html and listen.js interpolate:`,
+);
 for (const id of reciters) {
-  const url = clip(id, AR_BITRATE, PROBE_AYAH);
-  const r = await head(url);
-  const ok = r.ok && (r.type || "").includes("audio");
-  if (!ok)
+  const at128 = await probe(clip(id, AR_BITRATE, PROBE_AYAH));
+  if (at128.ok) {
+    console.log(`  OK   ${id} · ${at128.status} ${at128.type}`);
+    continue;
+  }
+  // Not at 128. Distinguish "this reciter is gone" from "this reciter
+  // lives at another bitrate and the page is asking for the wrong path" —
+  // the two need completely different fixes.
+  const elsewhere = await servedAt(id);
+  if (elsewhere) {
     failures.push(
-      `reciter "${id}": ${url} answered ${r.status || r.error} (content-type ${r.type || "none"}) — this ID is registered in RECITERS but the CDN does not serve it`,
+      `reciter "${id}": not served at ${AR_BITRATE}kbps (${at128.status || at128.error}) but IS served at ${elsewhere.bitrate}kbps. The page builds a ${AR_BITRATE}kbps URL for every reciter, so this one plays nothing. Fix the path, not the registration.`,
     );
-  console.log(`  ${ok ? "OK  " : "FAIL"} ${id} · ${r.status} ${r.type || ""}`);
+    console.log(`  FAIL ${id} · ${at128.status} at ${AR_BITRATE}kbps, served at ${elsewhere.bitrate}kbps`);
+  } else {
+    failures.push(
+      `reciter "${id}": no bitrate directory (${BITRATES.join(", ")}) serves it — ${at128.status || at128.error} at ${AR_BITRATE}kbps. Registered in RECITERS but the CDN does not carry it; a reader who picks it gets silence.`,
+    );
+    console.log(`  FAIL ${id} · ${at128.status}, absent at every probed bitrate`);
+  }
 }
 
 // ── What the API says the English audio editions are ──────────────────
@@ -127,27 +171,29 @@ if (audioEditions) {
       `  ${e.identifier} · ${e.language} · ${e.englishName || e.name || "?"} · type=${e.type || "?"}`,
     );
   }
-  // listen.js probes these at runtime; print whether the CDN agrees, so
-  // the two halves can be compared in one place.
-  const candidates = [
-    ["en.walk", 128],
-    ["en.walk", 64],
-  ];
-  console.log("\nListen mode's runtime candidates, against the CDN:");
-  for (const [edition, bitrate] of candidates) {
-    const url = clip(edition, bitrate, PROBE_AYAH);
-    const r = await head(url);
-    const serves = r.ok && (r.type || "").includes("audio");
-    console.log(`  ${serves ? "SERVES  " : "absent  "} ${edition} @ ${bitrate}kbps · ${r.status} ${r.type || ""}`);
-    if (serves) {
-      const listed = audioEditions.find((e) => e.identifier === edition);
-      notes.push(
-        listed
-          ? `${edition} is served at ${bitrate}kbps and the API lists it as "${listed.englishName || listed.name}" (${listed.language}). /sources can move from ○ Pending to a real citation — write it from THIS output, and confirm the license with the rights holder before naming one.`
-          : `${edition} is served at ${bitrate}kbps but the API's edition list does not name it. Do not cite what the registry does not carry; leave /sources at ○ Pending.`,
-      );
-    }
+  // Listen mode plays ONE verse at a time, so only a verse-by-verse
+  // edition can drive its English leg; a surah-by-surah recording is a
+  // single file per surah and cannot be sequenced against a verse.
+  const perVerse = english.filter((e) => (e.type || "") === "versebyverse");
+  console.log(
+    `\nEnglish editions usable by Listen mode (type=versebyverse): ${perVerse.length || "none"}`,
+  );
+  for (const e of perVerse) {
+    const at = await servedAt(e.identifier);
+    console.log(
+      `  ${at ? `SERVES @ ${at.bitrate}kbps` : "absent at every probed bitrate"}  ${e.identifier} · ${e.englishName || e.name}`,
+    );
+    notes.push(
+      at
+        ? `${e.identifier} is registered by the API as "${e.englishName || e.name}" (${e.language}, verse-by-verse) AND served at ${at.bitrate}kbps. Listen mode's English leg will work. /sources may name the reciter on this evidence; the LICENSE is still not established by any of it, so do not state one until the rights holder does.`
+        : `${e.identifier} is registered by the API as "${e.englishName || e.name}" (${e.language}, verse-by-verse) but NO probed bitrate directory (${BITRATES.join(", ")}) serves it. The identity is evidenced; the availability is not. Listen mode's runtime probe will fail and it will offer Arabic only — which is the designed behaviour, not a regression.`,
+    );
   }
+  const surahOnly = english.filter((e) => (e.type || "") !== "versebyverse");
+  if (surahOnly.length)
+    notes.push(
+      `${surahOnly.length} further English audio edition(s) exist but are surah-by-surah (${surahOnly.map((e) => e.identifier).join(", ")}). One file per surah cannot be sequenced verse by verse, so Listen mode cannot use them whatever the CDN serves.`,
+    );
 }
 
 if (notes.length) {
