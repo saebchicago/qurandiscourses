@@ -699,6 +699,9 @@ for (const pageFile of testPages) {
       // passing one in the summary line. Pages listed in
       // DEDICATED_POPOVER_CHECK are exempt because a targeted check
       // below exercises them in a state where badges do render.
+      if (pageFile === "read.html") {
+        report("badge-popover", pageFile, true, "no badge before a passage loads; covered by read-badge-popover after one does");
+      } else
       report(
         "badge-popover", pageFile, false,
         "no source badge visible in the default state; popover interaction untested on this page",
@@ -1064,6 +1067,202 @@ if (runCheck("replay") && (!PAGE_FILTER || PAGE_FILTER === "replay.html") && !LI
 
   report("replay-console", "replay.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
   await rctx.close();
+}
+
+// ── Every page renders its own content (the sweep only proved it loads) ─
+// Twenty pages had nothing but the generic eight checks — overflow,
+// links, nav, badges, a11y, console — none of which asks whether the
+// page did its job. Each row here names the element that IS the page
+// and how much of it must be there, against the bundled data, with
+// outside hosts aborted. A page that leaves "Loading…" behind after it
+// settles has failed at that job whatever the row says.
+if (runCheck("renders") && !PAGE_FILTER && !LIVE) {
+  const RENDERS = [
+    { url: "/dossier.html", sel: "#surahPicker li", min: 114, what: "114-surah picker" },
+    { url: "/roots.html", sel: "#rootBody tr, #rootBody li, #rootBody .root-row", min: 20, what: "root list rows" },
+    { url: "/words.html", sel: "#wordResults tr", min: 3, what: "word rows for the page's own example 'r-h-m'", type: ["#wordSearch", "r-h-m"] },
+    { url: "/patterns.html", sel: "#structureTestList *", min: 5, what: "structure-test detail (Study depth, rendered on open)", press: "2", open: "#structureTestDetails summary" },
+    { url: "/formulas.html", sel: "#formulaList > *", min: 10, what: "formula rows" },
+    { url: "/themes.html", sel: "#themeSections section, #themeSections > *", min: 10, what: "theme sections" },
+    { url: "/glossary.html", sel: "dl dt", min: 40, what: "glossary terms" },
+    { url: "/search.html?q=fatihah", sel: "#searchResults > *, #searchPassage > *", min: 1, what: "search results for 'fatihah'" },
+    { url: "/paths.html", sel: "#pathCards > *", min: 3, what: "study-path cards" },
+    { url: "/export.html", sel: "a[download], #previewBody tr", min: 5, what: "export downloads or preview rows" },
+    { url: "/datasets.html", sel: "a[download]", min: 8, what: "dataset download links" },
+    { url: "/exercises.html", sel: "#exerciseGrid > *", min: 5, what: "exercise cards" },
+    { url: "/exercise.html?id=asr-outline", sel: "#verseStack > *", min: 3, what: "al-'Asr verses in the exercise" },
+    { url: "/exercise-roots.html", sel: "#surahPicker button", min: 20, what: "surah picker buttons" },
+    { url: "/coverage.html", sel: "#morphChart *", min: 1, what: "morphology chart marks" },
+    { url: "/validation.html", sel: "pre, code", min: 5, what: "verification prompts" },
+    { url: "/about.html", sel: "#privacy, #trust, #accessibility, #cite", min: 4, what: "privacy/trust/accessibility/cite sections" },
+    { url: "/how-it-works.html", sel: "#sources li, #sources ~ ul li", min: 3, what: "source list items" },
+    { url: "/how-to-use.html", sel: ".badge", min: 1, what: "label examples" },
+    { url: "/contribute.html", sel: "#corrections, #hypotheses, #translate, #review", min: 4, what: "the four contribution routes" },
+    { url: "/watch.html", sel: "#videoList", min: 1, what: "video list container" },
+    { url: "/changelog.html", sel: "[id^='2026-'], [id^='2025-']", min: 50, what: "dated changelog entries" },
+    { url: "/navigate.html", sel: ".verse-count-btn", min: 114, what: "per-surah verse-count buttons" },
+    { url: "/numbers.html", sel: "[data-num]", min: 10, what: "data-bound figures" },
+  ];
+  for (const r of RENDERS) {
+    const rctx = await newContext({ apiMode: "stub" });
+    const page = await rctx.newPage();
+    const errors = [];
+    attachConsoleCollector(page, errors);
+    await page.goto(`${BASE}${r.url}`, { waitUntil: "load" });
+    // Some pages render on an action, not on load: a query typed, a
+    // disclosure opened. The row says which.
+    // A listener that attaches once data has loaded must exist before
+    // the query is typed; `ready` names an element whose text proves it.
+    if (r.ready)
+      await page.waitForFunction((sel) => ((document.querySelector(sel) || {}).textContent || "").trim().length > 0, r.ready, { timeout: 15000 }).catch(() => {});
+    if (r.type) await page.fill(r.type[0], r.type[1]).catch(() => {});
+    // Depth-gated content (.study-only) is display:none at Simple; the
+    // 1/2/3 keys are the page's own way up, so use them rather than
+    // reaching into state.
+    if (r.press) { await page.keyboard.press(r.press); await page.waitForTimeout(300); }
+    if (r.open) await page.click(r.open).catch(() => {});
+    await page.waitForFunction(
+      ([sel, min]) => document.querySelectorAll(sel).length >= min,
+      [r.sel, r.min],
+      { timeout: 15000 },
+    ).catch(() => {});
+    await page.waitForTimeout(400);
+    const got = await page.evaluate(
+      (sel) => ({
+        count: document.querySelectorAll(sel).length,
+        // A residual spinner is the one universal symptom of a render
+        // that never finished, whatever the page.
+        loading: [...document.querySelectorAll("main *")]
+          .filter((el) => el.children.length === 0 && /^Loading[.…]*$/.test((el.textContent || "").trim()))
+          .filter((el) => el.offsetParent !== null).length,
+      }),
+      r.sel,
+    );
+    const pageFile = r.url.split("?")[0].slice(1);
+    report(
+      "renders", pageFile, got.count >= r.min && got.loading === 0,
+      `${r.what}: ${got.count} (want ≥${r.min}); residual "Loading…"=${got.loading}`,
+    );
+    report("renders-console", pageFile, errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+    await rctx.close();
+  }
+}
+
+// ── Touch targets at phone width (WCAG 2.2 AA 2.5.8, and the site's 44) ─
+// Two tiers. Everything interactive must clear 24×24 (the AA minimum),
+// with the inline-in-text exemption the criterion itself grants for
+// links and marks that sit inside running prose. The site's own controls
+// — buttons, transport, nav entries, form fields, disclosures — hold to
+// 44, which is what the maintainer guide already asks of them.
+if (runCheck("targets") && !PAGE_FILTER && !LIVE) {
+  const TARGET_PAGES = ["index", "read", "navigate", "dossier", "roots", "numbers", "glossary", "search", "sources", "paths", "exercises", "replay"];
+  const CONTROL_44 = ".button, .btn-primary, .btn-secondary, .btn-utility, nav.primary .nav-menu a, .nav-group-btn, .listen-btn, .verse-listen-btn, .verse-count-btn, .depth-toggle button, .qd-chip, .method-note summary, input[type=text], input[type=search], input[type=number], select, .replay-transport button";
+  for (const p of TARGET_PAGES) {
+    const tctx = await newContext({ apiMode: "stub" });
+    const page = await tctx.newPage();
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto(`${BASE}/${p}.html${p === "read" ? "?s=103&a=1-3" : p === "dossier" ? "?s=103" : ""}`, { waitUntil: "load" });
+    await page.waitForTimeout(600);
+    const r = await page.evaluate((CONTROL_44) => {
+      const under24 = {}, under44 = {};
+      const key = (el) => (el.id ? "#" + el.id : el.tagName.toLowerCase() + (el.className && typeof el.className === "string" ? "." + el.className.trim().split(/\s+/).slice(0, 2).join(".") : ""));
+      const all = [...document.querySelectorAll("a,button,[role=button],input:not([type=hidden]),select,summary")];
+      const visible = (el) => {
+        const b = el.getBoundingClientRect(); const cs = getComputedStyle(el);
+        if (!b.width || !b.height || cs.visibility === "hidden" || el.closest("[hidden]")) return null;
+        if (el.classList.contains("skip")) return null; // off-screen until focused, by design
+        // Not a target: unreachable by design (the correction form's honeypot).
+        if (el.getAttribute("tabindex") === "-1") return null;
+        // Content of a CLOSED <details> is unreachable, whatever rect the
+        // engine reports for it (Chromium lays out the nav menu's absolute
+        // panel at 41px wide while closed). The summary itself stays in.
+        const closedHost = el.closest("details:not([open])");
+        if (closedHost && !el.matches("summary")) return null;
+        return b;
+      };
+      const rects = all.map((el) => ({ el, b: visible(el) })).filter((x) => x.b);
+      const intersects = (r1, r2) => r1.left < r2.right && r1.right > r2.left && r1.top < r2.bottom && r1.bottom > r2.top;
+      for (const { el, b } of rects) {
+        const cs = getComputedStyle(el);
+        if (b.height < 24 || b.width < 24) {
+          // WCAG 2.2 SC 2.5.8 grants three exceptions this sweep applies
+          // mechanically, in the criterion's own terms:
+          //   inline   the target sits in a sentence or block of text and
+          //            its size is constrained by that text's line-height;
+          //   spacing  a 24×24 box centred on the target intersects no
+          //            other target — the small link in a spaced list;
+          // (equivalent-control and essential are judgment calls, not
+          // measured here.) What is left is a genuinely crowded small
+          // control, which is the defect the criterion exists to name.
+          // "In a block of text" means the nearest BLOCK ancestor carries
+          // other text; an <em> or <strong> wrapping the target is not
+          // the block, it is part of the sentence.
+          const own = (el.textContent || "").trim().length;
+          let block = el.parentElement;
+          while (block && /^inline/.test(getComputedStyle(block).display)) block = block.parentElement;
+          const around = (block && block.textContent || "").trim().length;
+          const inline = /^inline/.test(cs.display) && around > own + 3;
+          const cx = b.left + b.width / 2, cy = b.top + b.height / 2;
+          const box = { left: cx - 12, right: cx + 12, top: cy - 12, bottom: cy + 12 };
+          const crowded = rects.some((o) => o.el !== el && !el.contains(o.el) && !o.el.contains(el) && intersects(box, o.b));
+          if (!inline && crowded) under24[key(el)] = (under24[key(el)] || 0) + 1;
+        }
+        if (el.matches(CONTROL_44) && (b.height < 44 || b.width < 44)) under44[key(el)] = (under44[key(el)] || 0) + 1;
+      }
+      const fmt = (o) => Object.entries(o).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k}×${v}`).join(", ");
+      return { n24: Object.values(under24).reduce((a, b) => a + b, 0), n44: Object.values(under44).reduce((a, b) => a + b, 0), s24: fmt(under24), s44: fmt(under44) };
+    }, CONTROL_44);
+    report(
+      "targets", `${p}.html`, r.n24 === 0 && r.n44 === 0,
+      `375px — under 24×24: ${r.n24}${r.s24 ? " (" + r.s24 + ")" : ""}; site controls under 44: ${r.n44}${r.s44 ? " (" + r.s44 + ")" : ""}`,
+    );
+    await tctx.close();
+  }
+}
+
+// ── Performance budgets (lab: bytes, requests, DOM nodes per template) ─
+// The prior excellence review's R01 asked for per-template budgets and
+// none existed, so a heavier page never failed anything. These are
+// measured on the local server with outside hosts aborted, at 375px, so
+// they capture what the SITE ships — transfer weight, request count and
+// DOM size — and deliberately not latency, which a local server cannot
+// stand in for. Budgets sit above today's measured figures (recorded in
+// docs/maintainer-guide.md) with headroom; a change that crosses one is
+// a change worth a look, not necessarily a change to refuse.
+if (runCheck("budgets") && !PAGE_FILTER && !LIVE) {
+  const BUDGETS = [
+    // Measured 2026-09-16 with the API stubbed (a full render), 375px:
+    // index 1037 KB / 32 req / 361 nodes · read(103:1-3) <1000 / <45 / <1200
+    // roots 1165 / 35 / 2910 · numbers 760 / 31 / 6668 · navigate 852 / 27 / 2010
+    // dossier(103) 1638 / 42 / 371. The DOM counts on numbers and roots and
+    // the weight of a dossier are the findings here; the budgets hold the
+    // line at them rather than pretending they are smaller.
+    { path: "/index.html", bytesKB: 1250, requests: 40, domNodes: 800 },
+    { path: "/read.html?s=103&a=1-3", bytesKB: 1000, requests: 45, domNodes: 1200 },
+    { path: "/roots.html", bytesKB: 1400, requests: 45, domNodes: 3500 },
+    { path: "/numbers.html", bytesKB: 950, requests: 40, domNodes: 8000 },
+    { path: "/navigate.html", bytesKB: 1050, requests: 40, domNodes: 2500 },
+    { path: "/dossier.html?s=103", bytesKB: 2000, requests: 52, domNodes: 1000 },
+  ];
+  for (const b of BUDGETS) {
+    const bctx = await newContext({ apiMode: "stub" });
+    const page = await bctx.newPage();
+    await page.setViewportSize({ width: 375, height: 812 });
+    let bytes = 0, requests = 0;
+    page.on("response", async (r) => {
+      try { const body = await r.body(); bytes += body.length; requests++; } catch {}
+    });
+    await page.goto(`${BASE}${b.path}`, { waitUntil: "load" });
+    await page.waitForTimeout(500);
+    const dom = await page.evaluate(() => document.getElementsByTagName("*").length);
+    const kb = Math.round(bytes / 1024);
+    const ok = kb <= b.bytesKB && requests <= b.requests && dom <= b.domNodes;
+    report(
+      "budget", b.path.split("?")[0].slice(1), ok,
+      `${kb} KB (≤${b.bytesKB}), ${requests} requests (≤${b.requests}), ${dom} DOM nodes (≤${b.domNodes})`,
+    );
+    await bctx.close();
+  }
 }
 
 // ── read.html: offline fallback + stubbed render + XSS regression ───
@@ -1583,6 +1782,34 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
       m.overflow <= 0 && m.sticky === "sticky" && focused.on && focused.panelVisible && focused.playVisible,
       `375px horizontal overflow=${m.overflow}px (want 0); panel ${Math.round(m.wide)}px, position=${m.sticky}; in Focus mode panel visible=${focused.panelVisible} play reachable=${focused.playVisible}`,
     );
+    await rctx.close();
+  }
+  {
+    // The citation badge on a rendered passage. The generic per-page
+    // sweep loads a bare read.html, where no badge is visible yet (the
+    // provenance line arrives with the verses), so it has only ever
+    // WARNed here. This is the check that sweep could not make.
+    const rctx = await newContext({ apiMode: "stub" });
+    const page = await rctx.newPage();
+    const errors = [];
+    attachConsoleCollector(page, errors);
+    await page.goto(`${BASE}/read.html?s=103&a=1-3`, { waitUntil: "load" });
+    await page.waitForSelector("#verseContainer .badge[data-source-ids]", { timeout: 15000 }).catch(() => {});
+    const badge = page.locator("#verseContainer .badge[data-source-ids]:visible").first();
+    const present = (await badge.count()) > 0;
+    let opened = false, closed = false, ids = "";
+    if (present) {
+      ids = (await badge.getAttribute("data-source-ids")) || "";
+      await badge.click();
+      opened = await page.locator(".cite-popover").waitFor({ state: "visible", timeout: 3000 }).then(() => true, () => false);
+      await page.keyboard.press("Escape");
+      closed = await page.locator(".cite-popover").waitFor({ state: "detached", timeout: 3000 }).then(() => true, () => false);
+    }
+    report(
+      "read-badge-popover", "read.html", present && opened && closed,
+      present ? `badge [${ids}] on the rendered passage opens=${opened}, Escape closes=${closed}` : "no cited badge rendered with the passage",
+    );
+    report("read-badge-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
     await rctx.close();
   }
   {

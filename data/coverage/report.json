@@ -246,17 +246,6 @@
   ],
   "_method": "Khan (2005), Reflections on the Qur'an: Understanding Surahs al-Fatihah and al-Baqarah (source khan-reflections-2005 in data/sources.json), covers surahs 1 and 2 in full. No transcribed excerpt from this volume exists anywhere in the repository (data/khan-interpretations.json only draws on the 2011 volume). The count is zero and stays zero until someone brings a page-cited transcription."
  },
- "qursim": {
-  "totalSurahs": 114,
-  "covered": 110,
-  "uncovered": [
-   104,
-   105,
-   106,
-   110
-  ],
-  "_method": "Counted data/qursim/{surah}.json files present for surah numbers 1-114."
- },
  "countingRuleSensitivity": [
   {
    "root": "ArD",
@@ -551,24 +540,6 @@
    "url": "https://corpus.quran.com"
   },
   {
-   "id": "mishkat",
-   "name": "Mishkat Mutashābihāt Corpus",
-   "version": "not stated in repository",
-   "author": "Alhassan (Threadwork)",
-   "year": "2024",
-   "license": "License pending: none published in the source repository",
-   "url": "not stated in repository"
-  },
-  {
-   "id": "qursim",
-   "name": "QurSim: A Corpus for Evaluation of Relatedness in Short Texts",
-   "version": "not stated in repository",
-   "author": "Sharaf, Abdul-Baquee, and Eric Atwell",
-   "year": "2012",
-   "license": "not stated in repository",
-   "url": "not stated in repository"
-  },
-  {
    "id": "tanzil",
    "name": "Tanzil Quran Text",
    "version": "Uthmani script",
@@ -605,16 +576,10 @@
    "url": "https://www.quranicunderstanding.com/"
   }
  ],
- "sourceRegistryBlockers": [
-  {
-   "field": "qursim.license",
-   "severity": "blocker",
-   "note": "qursim.license is not stated in repository. data/qursim/ actually contains Mishkat Mutashabihat corpus data (see NOTICE.md); the mishkat source registry entry records its license as license-pending (no license published in the source repository). Any future export of QurSim-derived (Mishkat-derived) data must resolve licensing before publication."
-  }
- ],
+ "sourceRegistryBlockers": [],
  "sourceUsage": {
-  "totalSources": 40,
-  "used": 39,
+  "totalSources": 38,
+  "used": 37,
   "unusedIds": [
    "mir-diss-1983"
   ],

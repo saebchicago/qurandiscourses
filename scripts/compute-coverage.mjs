@@ -8,7 +8,7 @@
 // from memory. Where a fact is not available in the repo, the output
 // says so explicitly instead of guessing.
 //
-// Reads: data/morphology/, data/roots-summary.json, data/qursim/,
+// Reads: data/morphology/, data/roots-summary.json,
 // data/sources.json, assets/root-meanings.js (existence check only).
 // Writes only new files under data/coverage/.
 //
@@ -214,39 +214,6 @@ console.log(`  Verified root gloss coverage: 0/${TOTAL_ROOTS} (0%). Reason: ${ro
 console.log(`  (Editorial, unverified: ${editorialGlossCount} roots in assets/root-meanings.js, not counted.)`);
 console.log(`  Render paths (${glossRenderPaths.length}): ${glossRenderPaths.join(", ")}`);
 
-// ── Step C: QurSim (Mishkat) surah coverage ────────────────────────
-
-console.log("\nMeasuring QurSim/Mishkat surah coverage...");
-
-const qursimDir = join(DATA, "qursim");
-const qursimFiles = new Set(
-  readdirSync(qursimDir)
-    .filter((f) => f.endsWith(".json"))
-    .map((f) => Number(f.replace(".json", "")))
-    .filter((n) => Number.isInteger(n)),
-);
-const uncoveredSurahs = [];
-for (let s = 1; s <= TOTAL_SURAHS; s++) {
-  if (!qursimFiles.has(s)) uncoveredSurahs.push(s);
-}
-const qursim = {
-  totalSurahs: TOTAL_SURAHS,
-  covered: TOTAL_SURAHS - uncoveredSurahs.length,
-  uncovered: uncoveredSurahs,
-  _method: "Counted data/qursim/{surah}.json files present for surah numbers 1-114.",
-};
-
-console.log(`  Covered: ${qursim.covered}/${TOTAL_SURAHS}. Uncovered: [${uncoveredSurahs.join(", ")}]`);
-
-if (qursim.covered !== 110 || uncoveredSurahs.join(",") !== "104,105,106,110") {
-  console.error(
-    `MEASURED VALUES DIVERGE FROM EXPECTED SANITY CHECK: covered=${qursim.covered}, ` +
-      `uncovered=[${uncoveredSurahs.join(",")}]. Reporting measured values as-is; NOT changing them. STOPPING per instructions.`,
-  );
-  writeFileSync(join(OUT, "STOP-qursim-mismatch.json"), JSON.stringify(qursim, null, 1));
-  process.exit(1);
-}
-
 // ── Step D: counting-rule sensitivity ──────────────────────────────
 //
 // Only entries already documented in the repo's own prose (numbers.html)
@@ -341,7 +308,7 @@ const sourcesJson = JSON.parse(readFileSync(join(DATA, "sources.json"), "utf8"))
 const sourcesById = new Map(sourcesJson.sources.map((s) => [s.id, s]));
 
 const NOT_STATED = "not stated in repository";
-const REGISTRY_IDS = ["leeds-corpus-v0.4", "mishkat", "qursim", "tanzil", "cairo-1924", "quran-foundation-api-v4", "khan-introduction-2011"];
+const REGISTRY_IDS = ["leeds-corpus-v0.4", "tanzil", "cairo-1924", "quran-foundation-api-v4", "khan-introduction-2011"];
 
 const sourceRegistry = REGISTRY_IDS.map((id) => {
   const s = sourcesById.get(id);
@@ -372,26 +339,10 @@ console.log(
   `  ${sourceRegistry.length} entries. Fields not stated in repository (${notStatedFields.length}): ${notStatedFields.join(", ") || "(none)"}`,
 );
 
-// qursim entry's data is, per NOTICE.md, actually the Mishkat corpus
-// (data/qursim/ keeps its historical directory name); its license
-// field is "not stated in repository" for BOTH the qursim and mishkat
-// registry entries. Flagged explicitly as a blocker: any future
-// CSV/JSON export of QurSim-derived (i.e. Mishkat-derived) data must
-// not ship without resolving this first.
+// Nothing is currently flagged at blocker severity. The mechanism stays:
+// a registry entry whose license is not stated AND whose data is bundled
+// or exported belongs here, so the dashboard can say so.
 const blockers = [];
-const qursimEntry = sourceRegistry.find((e) => e.id === "qursim");
-const mishkatEntry = sourceRegistry.find((e) => e.id === "mishkat");
-if (qursimEntry && qursimEntry.license === NOT_STATED) {
-  blockers.push({
-    field: "qursim.license",
-    severity: "blocker",
-    note:
-      "qursim.license is not stated in repository. data/qursim/ actually contains Mishkat Mutashabihat corpus " +
-      "data (see NOTICE.md); the mishkat source registry entry records its license as license-pending " +
-      "(no license published in the source repository). Any future export of QurSim-derived (Mishkat-derived) " +
-      "data must resolve licensing before publication.",
-  });
-}
 if (blockers.length) {
   console.log(`  BLOCKER flagged: ${blockers.map((b) => b.field).join(", ")}`);
 }
@@ -442,10 +393,9 @@ console.log(`  Khan 2005 Reflections: 0/2 transcribed (surahs 1, 2 both wanted).
 // (found by hand for khan-introduction-2011/bannister-2014 during an
 // audit; both are now fixed, but nothing before this caught it
 // mechanically). A bare substring scan over every page's raw text is
-// too loose, though: an id like "qursim" also occurs inside unrelated
-// identifiers (qursimCovered, qursimConnectivity) and prose (the old
-// qursim.jsp endpoint mentioned on Sources), so it registers hits that
-// are not badges at all. Instead, pull ids only from the two places a
+// too loose, though: a short id also occurs inside unrelated identifiers
+// and prose (an id like "tanzil" appears in a URL, a script name and a
+// sentence), so it registers hits that are not badges at all. Instead, pull ids only from the two places a
 // real badge's id list actually appears in source: the static
 // data-source-ids="..." attribute, and dossier.html's OK("...", title)
 // helper, the one place a badge is built from a JS template literal
@@ -624,7 +574,6 @@ const report = {
   rootGloss,
   perWordGloss,
   khanReflections2005,
-  qursim,
   countingRuleSensitivity,
   khanOutlines,
   ringAnalyses,

@@ -3,13 +3,12 @@
 // build-surah-profiles.mjs — generate data/surah-profiles.json, a per-surah
 // analytics fingerprint: verse count, word-token count, distinct root/
 // surface-form/lemma counts and their type-token ratios, top 10 roots by
-// frequency, chronology period, and QurSim cross-reference connectivity.
+// frequency, and chronology period.
 //
 // Sources (all local, already-committed data; no network access):
 //   data/morphology/{1..114}.json — Leeds Quranic Arabic Corpus v0.4 tokens
 //   data/roots-summary.json       — Buckwalter root -> Latin/Arabic lookup
 //   data/chronology.json          — Egyptian Standard (Cairo 1924) order
-//   data/qursim/{n}.json          — Mishkat cross-reference data (110/114)
 //
 // Counting rules (see method disclosure in navigate.html for the reader-
 // facing version of these same rules):
@@ -39,11 +38,6 @@
 //     descending, ties broken by first appearance order.
 //   - Chronology period: chronology.json's period field (Cairo 1924
 //     Meccan/Medinan + four-period classification).
-//   - QurSim connectivity: count of distinct OTHER surahs appearing as a
-//     cross-reference target in data/qursim/{n}.json (self-references to
-//     the same surah are excluded, since they are intra-surah, not
-//     cross-surah, connections). null when the surah has no qursim file
-//     (104, 105, 106, 110 are not covered).
 //
 // To reproduce: node scripts/build-surah-profiles.mjs
 //
@@ -160,18 +154,6 @@ function buildProfile(surahNum) {
 
   const chronologyPeriod = chronology[String(surahNum)]?.period || null;
 
-  const qursimPath = join(DATA, "qursim", `${surahNum}.json`);
-  let qursimConnectivity = null;
-  if (existsSync(qursimPath)) {
-    const xrefs = JSON.parse(readFileSync(qursimPath, "utf8"));
-    const linked = new Set();
-    for (const refs of Object.values(xrefs)) {
-      for (const ref of refs) {
-        if (ref.s !== surahNum) linked.add(ref.s);
-      }
-    }
-    qursimConnectivity = linked.size;
-  }
 
   return {
     surah: surahNum,
@@ -188,7 +170,6 @@ function buildProfile(surahNum) {
     topRoots,
     posMix,
     chronologyPeriod,
-    qursimConnectivity,
   };
 }
 
@@ -204,26 +185,13 @@ function main() {
     process.exit(1);
   }
 
-  const noQursim = Object.values(surahs)
-    .filter((p) => p.qursimConnectivity === null)
-    .map((p) => p.surah);
-  const expectedNoQursim = [104, 105, 106, 110];
-  const matches =
-    noQursim.length === expectedNoQursim.length &&
-    noQursim.every((s, i) => s === expectedNoQursim[i]);
-  if (!matches) {
-    console.error(
-      `ERROR: expected null qursimConnectivity for [${expectedNoQursim.join(", ")}], got [${noQursim.join(", ")}]`,
-    );
-    process.exit(1);
-  }
 
   const output = {
     _source:
-      "Leeds Quranic Arabic Corpus v0.4 (morphology/roots); chronology.json (Egyptian Standard, Cairo 1924); data/qursim (Mishkat cross-reference index, 110/114 surahs)",
+      "Leeds Quranic Arabic Corpus v0.4 (morphology/roots); chronology.json (Egyptian Standard, Cairo 1924)",
     _generated: computedDate(),
     _note:
-      "Descriptive corpus statistics only. Root/form/lemma diversity ratios (type-token ratios) divide distinct count by all word-tokens, including function words with no tagged root — sensitive to text length, so compare within similar surah lengths, not as a single corpus-wide ranking. QurSim connectivity counts distinct other surahs cross-referenced; null means the surah is outside current QurSim/Mishkat coverage (104, 105, 106, 110), not zero connections.",
+      "Descriptive corpus statistics only. Root/form/lemma diversity ratios (type-token ratios) divide distinct count by all word-tokens, including function words with no tagged root — sensitive to text length, so compare within similar surah lengths, not as a single corpus-wide ranking.",
     surahs,
   };
 
@@ -235,7 +203,7 @@ function main() {
   for (const n of [2, 103, 110, 104]) {
     const p = surahs[String(n)];
     console.log(
-      `  Surah ${n}: verses=${p.verseCount} tokens=${p.tokenCount} distinctRoots=${p.distinctRootCount} rootTTR=${p.rootDiversityRatio} formTTR=${p.formDiversityRatio} lemmaTTR=${p.lemmaDiversityRatio} period=${p.chronologyPeriod} qursim=${p.qursimConnectivity} topRoot=${p.topRoots[0]?.root || "n/a"}(${p.topRoots[0]?.count || 0})`,
+      `  Surah ${n}: verses=${p.verseCount} tokens=${p.tokenCount} distinctRoots=${p.distinctRootCount} rootTTR=${p.rootDiversityRatio} formTTR=${p.formDiversityRatio} lemmaTTR=${p.lemmaDiversityRatio} period=${p.chronologyPeriod} topRoot=${p.topRoots[0]?.root || "n/a"}(${p.topRoots[0]?.count || 0})`,
     );
   }
 }

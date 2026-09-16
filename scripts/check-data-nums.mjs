@@ -50,6 +50,7 @@
 // Run: node scripts/check-data-nums.mjs   (exit 1 on any failure)
 
 import { readFileSync, readdirSync } from "node:fs";
+import { coverageBindings, COVERAGE_PROSE } from "./lib/coverage-bindings.mjs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -95,34 +96,13 @@ const COVERAGE_PAGE = "coverage.html";
 const report = JSON.parse(
   readFileSync(join(ROOT, "data", "coverage", "report.json"), "utf8"),
 );
-const n = (v) => Number(v).toLocaleString("en-US");
-
-// id → the value coverage.html renders into it, in the same shape the
-// page's own JS produces. Kept beside the assertion rather than in a
-// data file: it is a statement about one page's markup.
-const COVERAGE_BINDINGS = {
-  covTotalTokens: () => n(report.morphology.totalTokens),
-  glossCount: () => String(report.rootGloss.withVerifiedGloss),
-  glossTotal: () => n(report.rootGloss.totalRoots),
-  glossPercent: () => report.rootGloss.percentWith + "%",
-  qursimCovered: () => String(report.qursim.covered),
-  qursimTotal: () => String(report.qursim.totalSurahs),
-  qursimUncovered: () => report.qursim.uncovered.join(", "),
-  perWordGlossCovered: () => String(report.perWordGloss.covered),
-  perWordGlossTotal: () => String(report.perWordGloss.totalSurahs),
-  perWordGlossPercent: () => report.perWordGloss.percentWith + "%",
-  sourceUsageUsed: () => String(report.sourceUsage.used),
-  sourceUsageTotal: () => String(report.sourceUsage.totalSources),
-};
-
-// Ids whose rendered text is prose assembled at run time ("Reason: …",
-// "Covered surahs: …") or a count of a list rather than a value. Their
-// static fallback is empty by design, so there is nothing to compare.
-const COVERAGE_PROSE = new Set([
-  "glossReason",
-  "perWordGlossSurahs",
-  "sourceUsageUnused",
-]);
+// The id -> value table lives in scripts/lib/coverage-bindings.mjs,
+// shared with build-static-fallbacks.mjs, which WRITES these values into
+// the page. This check verifies the page carries what the generator
+// would write; a mismatch means the generator was not run.
+const COVERAGE_BINDINGS = Object.fromEntries(
+  Object.entries(coverageBindings(report)).map(([id, v]) => [id, () => v]),
+);
 
 const coverageHtml = readFileSync(join(ROOT, COVERAGE_PAGE), "utf8");
 const boundIds = [
@@ -163,9 +143,6 @@ for (const id of new Set(boundIds)) {
 // its reason. Same shape as check-generated-freshness's EXCLUDED and
 // check-docs-sync's exclusion map.
 const SHOULD_BIND_SKIP = {
-  "patterns.html|7,679":
-    "QurSim's published pair count (Sharaf & Atwell 2012), which happens to " +
-    "equal posProfile.byTag.P — a coincidence, not this corpus's figure",
 };
 
 // Every numbers.json integer >= 1,000, in the rendering initDataNums uses.

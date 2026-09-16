@@ -47,8 +47,15 @@
     />
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/style.css" />
+    <!-- Only depth-boot.js blocks by necessity: it sets the depth/theme
+         attribute on <html> before first paint. nav.js, ask-routes.js,
+         ask.js and featured.js all wait for DOMContentLoaded (or are data
+         read at render time), so they defer — the same call read.html
+         already made in its head. surahs.js and app.js stay blocking: the
+         inline scripts below read window.SURAHS and window.qdState during
+         parse. -->
     <script src="assets/depth-boot.js"></script>
-    <script src="assets/nav.js"></script>
+    <script src="assets/nav.js" defer></script>
     <link
       rel="icon"
       type="image/svg+xml"
@@ -311,6 +318,9 @@
             <a id="dailyDossierLink" class="button secondary" href="/dossier?s=1"
               >Its full dossier</a
             >
+            <a id="dailyListenLink" class="button secondary" href="/read?s=1&amp;a=1-7#listen"
+              >Listen to this surah</a
+            >
             <a id="dailyLensLink" class="button secondary" href="/roots?root=rHm"
               >Explore this root</a
             >
@@ -533,8 +543,8 @@
       ></div>
     </div>
     <script src="assets/surahs.js"></script>
-    <script src="assets/ask-routes.js"></script>
-    <script src="assets/ask.js"></script>
+    <script src="assets/ask-routes.js" defer></script>
+    <script src="assets/ask.js" defer></script>
     <script src="assets/app.js"></script>
     <script src="assets/lang-labels.js" defer></script>
     <script src="assets/trans-picker.js" defer></script>
@@ -680,6 +690,9 @@
             "/read?s=" + surahNum + "&a=1-" + su.verseCount;
           document.getElementById("dailyDossierLink").href =
             "/dossier?s=" + surahNum;
+          var listenLink = document.getElementById("dailyListenLink");
+          if (listenLink)
+            listenLink.href = "/read?s=" + surahNum + "&a=1-" + su.verseCount + "#listen";
 
           var lensEl = document.getElementById("dailyLens");
           var lensLink = document.getElementById("dailyLensLink");
@@ -764,7 +777,7 @@
         });
       })();
     </script>
-    <script src="assets/featured.js"></script>
+    <script src="assets/featured.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
     <script src="assets/version.js" defer></script>

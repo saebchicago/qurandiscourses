@@ -483,7 +483,12 @@
       // While any dialog is open, depth hotkeys must not re-render the
       // page behind the overlay.
       if (document.querySelector('[aria-modal="true"]')) return;
-      if (!e.target.matches("input,select,textarea")) {
+      // e.target is not always an Element: a keydown dispatched at the
+      // document has no .matches, and an unguarded call threw and killed
+      // every shortcut for the rest of the session (found via replay.js).
+      const inField =
+        e.target && e.target.matches && e.target.matches("input,select,textarea");
+      if (!inField) {
         if (e.key === "1") {
           state.depth = "simple";
           save();
@@ -872,7 +877,7 @@
         !e.ctrlKey &&
         !e.metaKey &&
         !e.altKey &&
-        !e.target.matches("input,select,textarea") &&
+        !(e.target && e.target.matches && e.target.matches("input,select,textarea")) &&
         !document.querySelector('[aria-modal="true"]')
       ) {
         setFocus(!document.documentElement.hasAttribute("data-focus"));

@@ -54,7 +54,7 @@ data/                bundled datasets: morphology/ (per-surah tokens),
                      association/ (PMI/LLR/Dice pair statistics),
                      network/ (precomputed graph layouts), centrality/,
                      coverage/, exports/ (public CSV/JSON downloads),
-                     gloss/, qursim/ (cross-references), rhyme/,
+                     gloss/, rhyme/,
                      themes, surah profiles, sources registry
 scripts/             deterministic, zero-dependency Node generators
                      that produce data/ artifacts from the morphology
@@ -103,8 +103,6 @@ governance, privacy, learning, reach, and operational resilience is in the
 - Tanzil verse text and the translation editions: fetched at runtime,
   never bundled; Tanzil is CC BY-ND 3.0, translations keep their own
   copyrights — see NOTICE.md
-- `data/qursim/` cross-references (Mishkat corpus): no license
-  published upstream; recorded as license-pending — see NOTICE.md
 - `data/gloss/` and `data/khan-interpretations.json`: quoted from
   Khan (2011), © Association for Qur'anic Understanding — see NOTICE.md
 - `assets/fonts/`: SIL Open Font License 1.1, license texts bundled

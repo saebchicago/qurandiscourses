@@ -161,7 +161,7 @@ them only when their inputs change; commit their outputs.
 | build-juz.mjs | Tanzil standard division + surah-meta | data/juz.json | navigate.html juz grid, read.html `?j=` |
 | build-csp.mjs | every page's inline `<script>` and `<style>` blocks | netlify.toml `script-src` + `style-src-elem` hashes | CSP authorizes inline scripts/styles without `'unsafe-inline'` (`--check` guards staleness) |
 | build-canonicals.mjs | `scripts/lib/site.mjs` (origin + clean-path rule) | every page's canonical/og:url, every internal link, sitemap.xml `<loc>`, robots.txt | one address per page. `--check` fails on a canonical that is missing, duplicated, points elsewhere, disagrees with og:url, or names a `.html` address; also on an internal link that still ends in `.html` |
-| build-surah-profiles.mjs | morphology, chronology, qursim | data/surah-profiles.json | navigate.html profiles; also `formDiversityRatio`/`lemmaDiversityRatio` (type-token ratio at the surface-form and lemma level, alongside the existing root-level ratio), surfaced on dossier.html's Vocab section |
+| build-surah-profiles.mjs | morphology, chronology | data/surah-profiles.json | navigate.html profiles; also `formDiversityRatio`/`lemmaDiversityRatio` (type-token ratio at the surface-form and lemma level, alongside the existing root-level ratio), surfaced on dossier.html's Vocab section |
 | build-themes.mjs | morphology, roots-summary, surah-profiles | data/themes.json, data/theme-surah-index.json | themes.html (each theme's `topSurahs` = where its root-family vocabulary clusters, tokens per 1,000 normalized by surah length); the reverse index feeds dossier.html's "themes touching this surah" line. Absence from a theme's top-8 means "not among its densest", not "vocabulary absent" — the `_method` strings state this |
 | build-rhetorical-features.mjs | morphology | data/rhetorical-features.json | patterns.html direct-address list, numbers.html fawatih list |
 | build-numbers.mjs | morphology, roots-summary, chronology | data/numbers.json | every corpus figure on numbers.html (`[data-num]` elements); also `ttrByPeriod` — form/lemma type-token ratio by Cairo 1924 period, numbers.html's "Lexical diversity by period" table (filled at 4-decimal precision outside the `[data-num]` convention, since that convention rounds to 1 decimal) |
@@ -182,7 +182,7 @@ them only when their inputs change; commit their outputs.
 | build-structure.mjs | rhyme/, morphology/, formulas-*, discursive-pivots | data/structure/{1..114}.json | Computed section boundaries per surah (penalized multi-signal changepoint, MDL/BIC). NOT a scholar's outline — see the attribution policy below |
 | build-structure-tests.mjs | structure/, morphology/ | data/structure-tests.json | Four ring/symmetry tests over those sections, pooled BH-FDR. Rerun after build-structure.mjs |
 | build-formulaic-density.mjs | formulas-root, formulas-surface, morphology/ | data/formulaic-density.json | Per-verse and per-surah formulaic density (Bannister). Rerun after build-formulas.mjs |
-| compute-coverage.mjs | morphology, roots-summary, qursim/ (file counts), sources.json | data/coverage/report.json | coverage.html dashboard — every number there traces to this report |
+| compute-coverage.mjs | morphology, roots-summary, sources.json | data/coverage/report.json | coverage.html dashboard — every number there traces to this report |
 | build-exports.mjs | roots-summary, numbers.json, chronology, surah-profiles, surah-names, morphology, association/ | data/exports/ (CSV+JSON tables, schema.json, DATA-DICTIONARY.md) | export.html downloads. Rerun after compute-association-stats.mjs |
 
 ### Site artifacts
@@ -229,6 +229,7 @@ so every one is listed here, not only the ones with a recent story.
 | site.mjs | the origin and the clean-path rule; the one place a URL's shape is decided |
 | extract-text.mjs | a page's `<main>` as readable plain text. Shared by build-llms and build-search-index so the two cannot disagree about what a page says |
 | sw-precache.mjs | the ONE computation behind the service worker's precache list and hash manifest, shared by build-sw-manifest.mjs (the writer) and check-sw-version.mjs (the guard) |
+| coverage-bindings.mjs | the ONE statement of how coverage.html's headline numbers resolve from data/coverage/report.json, shared by build-static-fallbacks.mjs (which writes them into the page) and check-data-nums.mjs (which verifies them). They were hand-maintained beside the generated report and drifted twice; now a stale figure is a generator not run, which CI reports |
 | static-server.mjs | the ONE local static server the browser-driving scripts point Chromium at. Serving over http:// rather than file:// matters — fetch, the SW and CSP all behave differently |
 | playwright.mjs | the ONE way this repo resolves Playwright, degrading with a clear message rather than a module-not-found stack. Playwright is a dev-machine tool; nothing it needs ever ships |
 | ordinal.mjs | English ordinal suffix ("13th") |
@@ -255,6 +256,33 @@ audit on every push and pull request via `.github/workflows/audit.yml`.
 Because third-party availability is nondeterministic, external citation-link
 and translation-edition checks run on the weekly schedule and by manual
 dispatch instead of blocking every contribution.
+
+
+### Three check groups added in September 2026
+
+`renders` — one behavioural assertion per page (the element that IS the
+page, and how much of it must be there, against bundled data), plus a
+universal "no residual Loading…" test; twenty pages had only the generic
+sweep before this. `targets` — WCAG 2.2 AA 2.5.8 at 375px, applying the
+criterion's own inline and spacing exceptions mechanically, with the
+site's 44px rule held on its own controls. `budgets` — below.
+
+### Performance budgets (verify-site `budgets`)
+
+Lab figures on the local server at 375px with outside hosts aborted —
+transfer weight, request count and DOM size, which do not depend on
+network latency and which a local server therefore cannot misreport.
+Budgets sit above the measured figures with headroom; crossing one is a
+change worth a look, not necessarily one to refuse. Measured 2026-09-16 with the API
+stubbed (a full render): index 1,037 KB / 32 requests / 361 nodes;
+read (103:1-3) under 1,000 / 45 / 1,200; roots 1,165 / 35 / 2,910;
+numbers 760 / 31 / 6,668; navigate 852 / 27 / 2,010; dossier (103)
+1,638 / 42 / 371. Two of those are findings rather than budgets to
+tighten: numbers.html builds 6,668 DOM nodes and roots.html 2,910, both
+from rendering every row of their tables up front, and a dossier pulls
+1.6 MB of per-surah data on open. The 1 MB of self-hosted fonts is the
+bulk of every other page's weight and is cached stale-while-revalidate
+after the first visit.
 
 | Script | Guards |
 |---|---|
@@ -357,7 +385,7 @@ data fetch fails.
 3. Reference it from a badge: `data-source-ids="your-id"` (space-separate
    multiple ids for multi-source claims).
 4. If a lens, glossary entry, or page deep-links to the entry, give its
-   `<li>` an `id` equal to the registry id (precedent: `id="mishkat"`) and
+   `<li>` an `id` equal to the registry id (precedent: `id="wahidi-asbab-2008"`) and
    no depth class — check-lenses.mjs resolves `sources.html#fragment`
    against `id="…"`, and a `study-only`/`encyclopedic-only` target would
    scroll to a hidden element.

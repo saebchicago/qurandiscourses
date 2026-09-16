@@ -29,7 +29,7 @@ Ground rules for using this site as a source:
 - [Divine Discourses: Read the Qur'an One Surah at a Time](https://divinediscourses.org/): Study the Qur'an surah by surah in a coherence-reading tradition: structure first, every claim sourced and citable, no intermediary interpretation. Roots, words, patterns, and verification on every claim.
 - [Read a surah with parallel translations](https://divinediscourses.org/read): Open any surah or verse range of the Qur'an with the Arabic, parallel translations, word-by-word meanings, and recitation.
 - [Browse all 114 surahs](https://divinediscourses.org/navigate): All 114 surahs in mushaf or revelation order, filtered by length, period, and structure, with a juz grid for finding your place.
-- [Surah dossier: one profile per surah](https://divinediscourses.org/dossier): One synthesized profile per surah: identity and chronology, vocabulary and root profile, verse-ending sound patterns, recurring phrases, cross-references, and structure — every claim badged and traceable to its source.
+- [Surah dossier: one profile per surah](https://divinediscourses.org/dossier): One synthesized profile per surah: identity and chronology, vocabulary and root profile, verse-ending sound patterns, recurring phrases, and structure — every claim badged and traceable to its source.
 - [Themes across the Qur'an](https://divinediscourses.org/themes): 33 theme gateways into the Qur'an, from forgiveness and gratitude to death and paradise: root families and computed key passages for self-study.
 - [Compare passages and roots](https://divinediscourses.org/compare): Put passages side by side to see the vocabulary they share, or compare roots by how they distribute across the chronology.
 - [Replay a surah with recitation](https://divinediscourses.org/replay): Watch a surah unfold: recitation plays verse by verse while recurring roots light up and, where transcribed, Khan's outline appears at each pivot.
@@ -38,7 +38,7 @@ Ground rules for using this site as a source:
 - [Exercise: Spot the roots](https://divinediscourses.org/exercise-roots): An interactive exercise: spot the recurring roots in a short surah, then check your reading against the Leeds corpus morphology data.
 - [Qur'anic roots and where they occur](https://divinediscourses.org/roots): The 1,642 triliteral roots of the Qur'an with frequency, derived forms, surah distribution, Makki/Madani split, and co-occurrence data from the Leeds Corpus.
 - [Search Qur'anic Arabic word forms](https://divinediscourses.org/words): Search all 4,832 dictionary forms of Qur'anic Arabic by Arabic, transliteration, or root — with frequency, part of speech, and first occurrences from the Leeds Corpus.
-- [Structural and rhetorical patterns](https://divinediscourses.org/patterns): Structural and rhetorical patterns in the Qur'an: iltifat, mutashabihat, cross-references.
+- [Structural and rhetorical patterns](https://divinediscourses.org/patterns): Structural and rhetorical patterns in the Qur'an: iltifat, mutashabihat.
 - [Recurring phrases in the Qur'an](https://divinediscourses.org/formulas): Every recurring 3-5 word sequence in the Qur'an, counted mechanically two ways: by root sequence and by surface form. Browse each phrase and every place it occurs.
 - [The numbers behind the text, and how each was counted](https://divinediscourses.org/numbers): Counted figures from the Qur'anic corpus: root frequency, verse length, lexical diversity by period, and the method behind each number.
 - [How to use this site](https://divinediscourses.org/how-to-use): How to use Divine Discourses: four ways to start, depth levels, the method Dr. Khan taught, and what the labels mean.
@@ -50,7 +50,7 @@ Ground rules for using this site as a source:
 - [Sources, cited in full](https://divinediscourses.org/sources): Every dataset, translation, scholarly work, and API that Divine Discourses draws on, cited in Chicago style.
 - [How each claim is validated](https://divinediscourses.org/validation): Inspect source checks, reproduction methods, dependencies, and known limits behind published research claims.
 - [Datasets, documented for reuse](https://divinediscourses.org/datasets): Every dataset this site is built on, documented for reuse: schema, generator script, license, and direct download. Recompute any number yourself.
-- [Data coverage, measured](https://divinediscourses.org/coverage): Measured data coverage: morphology fields, root glosses, QurSim cross-references, counting-rule sensitivity, and the dataset source registry.
+- [Data coverage, measured](https://divinediscourses.org/coverage): Measured data coverage: morphology fields, root glosses, counting-rule sensitivity, and the dataset source registry.
 - [Download the data](https://divinediscourses.org/export): Download precomputed root frequencies, association statistics, per-surah stats, verse lengths, formulas, centrality, rhyme, and structure data as CSV or JSON, with a machine-readable schema and data dictionary.
 - [Changelog: every correction logged](https://divinediscourses.org/changelog): Every correction and material change to Divine Discourses since launch. A public record of accountability.
 - [Contribute to this project](https://divinediscourses.org/contribute): How to contribute to Divine Discourses: corrections, structural hypotheses, outline transcription, translation, and review.
@@ -105,6 +105,7 @@ Its most repeated root: ر ح م (r-ḥ-m), appearing 4×.
 
 Read this surah
 Its full dossier
+Listen to this surah
 Explore this root
 
 Show another verse
@@ -314,11 +315,7 @@ morphology files, one token per morphology entry (Leeds' Uthmani
 tokenization). Chronology period follows the Egyptian Standard
 (Cairo 1924) Meccan/Medinan and four-period classification. Root
 diversity ratio divides distinct roots by all word-units in the
-surah, including function words with no tagged root. Cross-reference
-connectivity (Mishkat Mutashābihāt corpus) counts distinct other surahs
-cross-referenced (same-surah references excluded) and covers 110
-of 114 surahs; surahs 104, 105, 106, and 110 show no figure rather
-than zero, since they are outside current coverage. These are
+surah, including function words with no tagged root. These are
 descriptive corpus counts, not claims about meaning or emphasis.
 
 ### The 114 surahs at a glance ●
@@ -399,7 +396,7 @@ other traditions.
 ## Surah Dossier
 
 One surah on one page: identity and chronology, vocabulary,
-verse-ending sound, recurring phrases, cross-references, and
+verse-ending sound, recurring phrases, and
 structure.
 
 Depth:
@@ -1395,7 +1392,7 @@ Follow the guided path "Follow a root through the Qur'an" →
 
 The Qur'an's linguistic structure includes documented rhetorical
 features. Three are surfaced here: grammatical shifts (iltifat),
-similar phrasings (mutashabihat), and cross-references.
+and similar phrasings (mutashabihat).
 
 Depth:
 
@@ -1434,29 +1431,6 @@ depth and above.
 
 ● phrase. Dataset: QUL
 mutashabihat (~5,277 entries), Tarteel.
-
-### Cross-references (Mishkat Mutashābihāt)
-
-The cross-reference data shipped on this site — the expandable
-"Related verses" panels on the Read page and the browser below —
-is the Mishkat Mutashābihāt corpus: documented verse-to-verse
-parallels, browsable without tafsir traversal. Coverage: 110 of
-114 surahs (not yet covered: 104, 105, 106, 110).
-
-● dataset. See
-Sources .
-
-Conceptual lineage: the QurSim corpus (Sharaf and Atwell,
-LREC 2012) pioneered this approach, identifying 7,679
-pairs of related verses ranked by relatedness. QurSim is cited
-here as a conceptual reference only — its canonical host is no
-longer accessible, and it is not the data this site
-ships.
-
-### Browse cross-references by surah
-
-The same Mishkat data, browsable a surah at a time: every verse in
-it that carries a documented parallel elsewhere in the Qur'an.
 
 ### Sound and rhyme — the verse endings (fawāṣil)
 
@@ -2393,12 +2367,6 @@ Quran.com Foundation Content API v4 (Quran.com
 Foundation, 2025) for translations, recitations, and metadata.
 api-docs.quran.foundation
 
-Mishkat Mutashābihāt corpus for verse-to-verse
-cross-references, drawn from 13 classical books of mutashābihāt
-scholarship. Copied in July 2026 from github.com/Alhassan777/Mishkat,
-which was no longer publicly reachable as of September 2026 — see
-Sources .
-
 Full citations for all sources, including access dates and version
 numbers, are on the Sources page.
 
@@ -3042,13 +3010,6 @@ Reflective, contemplative study of the Qur'an, read as a connected discourse
 rather than isolated verses. The term names the reading approach behind
 Islahi's Tadabbur-i Qur'an and this site's discovery-worksheet exercises.
 
-Mishkat
-
-The Mishkat Mutashabihat corpus, a compilation of verse-to-verse
-cross-references drawn from 13 classical books of mutashabihat scholarship,
-powering this site's Related-verses feature. Its rights holder has not
-published a license; see Sources.
-
 Formulaic density
 
 The share of a verse's or surah's words that belong to a recurring formula,
@@ -3231,23 +3192,6 @@ Farahi, Hamiduddin. Mufradat al-Qur'an .
 ●
 
 ### Patterns and cross-references
-
-Alhassan (Threadwork). Mishkat Mutashābihāt Corpus . GitHub
-repository (github.com/Alhassan777/Mishkat), accessed July 2026.
-Verse-to-verse cross-references drawn from 13 classical Islamic
-books of mutashābihāt scholarship (similar and structurally parallel
-verses as identified by classical scholars); 1,905 verse nodes,
-3,294 directed edges, expanded to a bidirectional index. License
-pending: none published in the source repository.
-●
-Note: as of September 2026 the repository was no longer publicly
-reachable at that address, so no link is given; the copy bundled
-here was taken on the date above and its license standing is
-unchanged. The QurSim corpus (Sharaf and Atwell, LREC 2012) was
-previously cited here. Its canonical source at
-corpus.quran.com/qursim.jsp is no longer accessible; Mishkat
-serves the same function from a classical-scholarship
-basis.
 
 Tarteel AI and Quran.com Foundation. "Mutashabihat Dataset," 2024.
 Quranic Universal Library . Approximately 5,277 entries.
@@ -3966,9 +3910,8 @@ live in the
 public repository
 (directory datasets are easiest to grab there — clone or use the
 per-directory links below). Licensing in one line: data derived
-from the Leeds corpus is GPL ; the Mishkat
-cross-references are license-pending (credited,
-removed on request); site code is MIT . Details in
+from the Leeds corpus is GPL ; site code is
+MIT . Details in
 NOTICE.md .
 
 ### Corpus foundation
@@ -4089,8 +4032,7 @@ measured data-coverage report behind the
 Coverage dashboard.
 ●
 
-GPL (Leeds-derived; the coverage report also
-counts files in the license-pending data/qursim/ ) ·
+GPL (Leeds-derived) ·
 generators build-exports.mjs ,
 compute-coverage.mjs ·
 schema ·
@@ -4174,21 +4116,6 @@ profiles ·
 chronology ·
 juz
 
-#### data/qursim/{surah}.json × 110
-
-Verse-to-verse cross-references from the Mishkat Mutashābihāt
-corpus (13 classical books; 1,905 verse nodes, 3,294 directed
-edges; the directory keeps its historical name). Four surahs
-(104, 105, 106, 110) are outside its coverage.
-●
-
-License pending — the source repository
-published no license and, as of September 2026, is no longer
-publicly reachable; the compiler is credited and the data
-will be removed if the rights holder objects ·
-sample (surah 2) ·
-full directory
-
 #### data/numbers.json · data/themes.json · data/sources.json
 
 Corpus-wide statistics behind the Numbers page (hapax counts,
@@ -4258,14 +4185,6 @@ from it: data/khan-interpretations.json draws
 only on the 2011 volume. The count stays zero until someone
 brings a page-cited transcription; see
 Sources .
-
-### QurSim (Mishkat) cross-reference coverage ●
-
-110 of
-114 surahs have a
-data/qursim/{surah}.json cross-reference file.
-
-Surahs not covered: 104, 105, 106, 110 .
 
 ### Counting-rule sensitivity ~
 
@@ -4340,8 +4259,8 @@ URL
 A source can be fully cited in data/sources.json
 and still be reachable from no badge anywhere: nothing checked
 for that until this measurement.
-39 of
-40 sources appear in at
+37 of
+38 sources appear in at
 least one data-source-ids attribute on the site,
 static or built at render time. The rest are cited in the
 bibliography on Sources but not yet
@@ -4612,6 +4531,21 @@ before it was renamed "Study".
 ### 2026
 
 #### September
+
+The cross-reference dataset and every feature built on it are
+removed. The verse-to-verse cross-references bundled since
+July 2026 came from a corpus whose compiler published no license, and
+whose repository later became unreachable; no license could be
+obtained. Rather than keep an unlicensed redistribution, the data,
+the Related-verses panel on Read, the browser on Patterns, and the
+connectivity figure on Navigate, Compare and each dossier are gone,
+and the two registry entries that described them are retired.
+Nothing derived from that corpus remains in data/ or the
+exports. Separately: three of the five reciters had been silent on
+every page (served at 64 kbps while each player asked for 128); the
+bitrate now lives on each reciter and the audit checks it. Listen
+mode reaches any passage on Read, and Replay shares its engine.
+§
 
 Three sirah and occasions-of-revelation reference works
 are now registered, and the Mishkat entry records that its
@@ -6508,21 +6442,6 @@ the alquran.cloud API. CC BY-ND 3.0.
 Egyptian Standard (Cairo 1924) revelation order.
 Public-domain reference for the four-period chronology.
 
-Mishkat Mutashabihat corpus. Alhassan777 /
-Threadwork. Verse-to-verse cross-reference data drawn from 13
-classical Islamic books of mutashabihat scholarship (1,905
-verse nodes, 3,294 directed edges). Stored in this site as
-data/qursim/ , a legacy folder name kept from an
-earlier citation of the QurSim corpus (Sharaf and Atwell,
-LREC 2012); QurSim's canonical source
-(corpus.quran.com/qursim.jsp) is no longer accessible, so the
-data was replaced with Mishkat's. See
-Sources for the full note.
-License pending: not published in the source repository at
-time of writing. Repository: github.com/Alhassan777/Mishkat (no
-longer publicly reachable as of September 2026, so no link is
-given; the bundled copy was taken in July 2026).
-
 ### Audio
 
 Recitation audio. Served per verse by Islamic
@@ -6694,7 +6613,6 @@ tokenization: Splitting text into the smallest countable units (tokens). The Lee
 discursive-pivot: A verse mechanically flagged for opening with a temporal particle (like idh or idha) while sharing vocabulary with what precedes it, a candidate marker of where a passage turns. Detected by pattern matching, not by a scholar's reading; see Patterns.
 centrality: A family of statistical measures of a node's position in a network, such as this site's root co-occurrence graph. This site reports degree, betweenness, and eigenvector centrality; none of them indicate a root's importance, only its structural position.
 tadabbur: Reflective, contemplative study of the Qur'an, read as a connected discourse rather than isolated verses. The term names the reading approach behind Islahi's Tadabbur-i Qur'an and this site's discovery-worksheet exercises.
-mishkat: The Mishkat Mutashabihat corpus, a compilation of verse-to-verse cross-references drawn from 13 classical books of mutashabihat scholarship, powering this site's Related-verses feature. Its rights holder has not published a license; see Sources.
 formulaic-density: The share of a verse's or surah's words that belong to a recurring formula, operationalizing the central quantity in Bannister's (2014) computerized oral-formulaic study. This site tests whether a surah's density is higher than a length-matched resampling of corpus verses would predict, correcting for the fact that short surahs mechanically show noisier density than long ones.
 dispersion: How evenly a root's occurrences are spread across the 114 surahs, as distinct from raw frequency. This site reports Gries's Deviation of Proportions (DP, DPnorm) and Juilland's D side by side, since the two can disagree and the literature has no single preferred measure.
 juilland-d: An older lexical-dispersion measure (Juilland & Chang-Rodriguez 1964), on a 0-1 scale where 1 is perfectly even. It classically assumes comparably-sized corpus parts; this site's 114 surahs range from 3 to 286 verses, so it is reported for comparability with the literature, not as the preferred measure.
