@@ -302,6 +302,19 @@ const XSS = '<img src=x onerror="window.__xss=1">hostile';
 // fixture never supplied the field, so no check had ever rendered a
 // right-to-left translation. That is why a backwards RTL margin rule
 // shipped in #116.
+// Real juz 15 geometry, taken from data/juz.json (17:1-18:74) and the
+// cumulative verse counts in data/surah-meta.json: 17:1 is global ayah
+// 2030, al-Isra ends at 17:111 / global 2140, and al-Kahf opens at 18:1
+// / global 2141. Four verses either side of the boundary is enough to
+// prove the surah divider, the per-verse global numbering the Listen
+// player keys on, and the translation pairing that must match on
+// `number` and never on `numberInSurah`.
+const JUZ_SPANS = {
+  15: [
+    { surah: 17, firstAyah: 1, firstGlobal: 2030, count: 4, englishName: "Al-Israa", englishNameTranslation: "The Night Journey" },
+    { surah: 18, firstAyah: 1, firstGlobal: 2141, count: 4, englishName: "Al-Kahf", englishNameTranslation: "The Cave" },
+  ],
+};
 const RTL_LANGS = new Set(["ar", "ur", "fa", "ps", "ku"]);
 const langOf = (id) => (id === "quran-uthmani" ? "ar" : id.split(".")[0]);
 const mkEdition = (id, en) => ({
@@ -340,6 +353,45 @@ function fixtureFor(url) {
       })),
     };
   }
+  // Whole-juz shape: /v1/juz/{n}/{edition}, ONE edition per request
+  // (alquran.cloud has no multi-edition juz endpoint — see
+  // scripts/check-juz-endpoint.mjs). The fixture reproduces the thing
+  // that makes a juz different from a surah: it crosses a surah
+  // boundary, and its ayahs are addressed by a GLOBAL number that keeps
+  // rising while numberInSurah restarts at 1. Juz 15 is 17:1-18:74,
+  // global 2030-2214, which is what JUZ_SPANS encodes; the fixture
+  // returns the first few verses on each side of the boundary rather
+  // than all 185, because what is under test is the stitching, not the
+  // length.
+  const juz = url.match(/\/v1\/juz\/(\d+)\/([^/?]+)$/);
+  if (juz) {
+    const n = parseInt(juz[1], 10);
+    const ed = decodeURIComponent(juz[2]);
+    const span = JUZ_SPANS[n];
+    if (!span) return null;
+    const text = ed === "quran-uthmani" ? "نَصٌّ تَجْرِيبِيٌّ" : `FIXTURE ${XSS}`;
+    const ayahs = [];
+    for (const part of span) {
+      for (let i = 0; i < part.count; i++) {
+        ayahs.push({
+          number: part.firstGlobal + i,
+          numberInSurah: part.firstAyah + i,
+          text,
+          surah: {
+            number: part.surah,
+            englishName: part.englishName,
+            englishNameTranslation: part.englishNameTranslation,
+          },
+        });
+      }
+    }
+    return {
+      code: 200,
+      status: "OK",
+      data: { number: n, edition: mkEdition(ed, ed === "quran-uthmani" ? "Uthmani" : "Fixture Translation"), ayahs },
+    };
+  }
+
   // Quran.com v4 word-by-word shape (assets/wordbw.js). Includes an
   // "end" pseudo-word (the ayah-number ornament) so the renderer's
   // char_type_name filter is exercised, and a hostile translation
@@ -976,6 +1028,204 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
       m === null
         ? "no RTL translation rendered"
         : `capped=${m.capped} spare width left=${m.gapLeft}px right=${m.gapRight}px (want all on the left)`,
+    );
+    await rctx.close();
+  }
+  {
+    // Listen mode (assets/listen.js) on a juz read. Two things are being
+    // proved here and they fail in different ways:
+    //
+    //   the passage   a juz crosses a surah boundary, so every verse has
+    //                 to carry the GLOBAL ayah number the audio CDN is
+    //                 keyed by. data-ayah alone restarts at 1 in al-Kahf
+    //                 and would send the player back to the start of the
+    //                 Qur'an mid-sitting.
+    //   the transport the Arabic/English/next-verse sequencing. Headless
+    //                 Chromium decodes no audio here (the CDN is aborted
+    //                 like every other outside host), so the state
+    //                 machine is driven directly through the seam the
+    //                 player exposes rather than by waiting for an
+    //                 "ended" event that will never fire.
+    const rctx = await newContext({ apiMode: "stub" });
+    const page = await rctx.newPage();
+    const errors = [];
+    attachConsoleCollector(page, errors);
+    // ?juz=15, the spelled-out alias, not the canonical ?j=15: this
+    // asserts the alias resolves AND that it is normalised away.
+    await page.goto(`${BASE}/read.html?juz=15`, { waitUntil: "load" });
+    await page.waitForSelector("#listenPanel [data-listen-play]", { timeout: 15000 }).catch(() => {});
+
+    const passage = await page.evaluate(() => {
+      const verses = [...document.querySelectorAll("#verseContainer .verse")];
+      const dividers = [...document.querySelectorAll(".juz-surah-divider")].map((d) =>
+        d.textContent.trim(),
+      );
+      return {
+        verses: verses.length,
+        dividers,
+        surahs: verses.map((v) => v.getAttribute("data-surah")),
+        globals: verses.map((v) => parseInt(v.getAttribute("data-ar-number"), 10)),
+        ayahs: verses.map((v) => parseInt(v.getAttribute("data-ayah"), 10)),
+        search: location.search,
+      };
+    });
+    const ascending = passage.globals.every((n, i) => i === 0 || n > passage.globals[i - 1]);
+    const crosses = new Set(passage.surahs).size === 2;
+    // numberInSurah restarts; the global number must not.
+    const restarts = passage.ayahs.filter((a) => a === 1).length === 2;
+    report(
+      "listen-passage", "read.html",
+      passage.verses > 0 && crosses && ascending && restarts && passage.dividers.length === 2,
+      `${passage.verses} verses across ${new Set(passage.surahs).size} surahs; dividers=${JSON.stringify(passage.dividers)}; global ${passage.globals[0]}..${passage.globals[passage.globals.length - 1]} ascending=${ascending}; numberInSurah restarts twice=${restarts}`,
+    );
+    report(
+      "listen-alias", "read.html",
+      /[?&]j=15\b/.test(passage.search) && !/juz=/.test(passage.search),
+      `?juz=15 normalised to "${passage.search}" (want j=15, no juz=)`,
+    );
+
+    const panel = await page.evaluate(() => {
+      const p = document.getElementById("listenPanel");
+      const btn = (n) => p.querySelector(`[data-listen-${n}]`);
+      return {
+        hidden: p.hidden,
+        controls: ["play", "prev", "next", "repeat", "speed"].filter((n) => !!btn(n)),
+        // The CDN is aborted in this context, so the English probe must
+        // fail and the Arabic+English toggle must NOT be offered.
+        englishOffered: !!btn("mode"),
+        tapTargets: ["play", "prev", "next", "repeat", "speed"]
+          .map((n) => btn(n))
+          .filter(Boolean)
+          .every((b) => b.getBoundingClientRect().height >= 44),
+      };
+    });
+    report(
+      "listen-panel", "read.html",
+      !panel.hidden && panel.controls.length === 5 && !panel.englishOffered && panel.tapTargets,
+      `controls=${panel.controls.join(",")}; english toggle offered with no reachable edition=${panel.englishOffered} (want false); all controls >=44px=${panel.tapTargets}`,
+    );
+
+    // The transport, driven through the seam. urlFor/nextStep are the
+    // whole sequencing contract: what plays, and what plays after it.
+    const seq = await page.evaluate(() => {
+      const pl = window.qdListenPlayer;
+      if (!pl) return null;
+      const out = { arUrl: pl.urlFor(pl.items[0], "ar") };
+      // Arabic-only: verse 1 is followed by verse 2, never an English leg.
+      out.arOnlyNext = pl.nextStep(0, "ar");
+      // With an English edition present, verse 1's Arabic is followed by
+      // verse 1's English, and only then by verse 2.
+      pl.english = { edition: "en.walk", bitrate: 128 };
+      pl.mode = "ar-en";
+      out.arEnNext = pl.nextStep(0, "ar");
+      out.afterEnglish = pl.nextStep(0, "en");
+      out.enUrl = pl.urlFor(pl.items[0], "en");
+      // The last verse ends the sitting rather than wrapping.
+      out.atEnd = pl.nextStep(pl.items.length - 1, "en");
+      // Repeat holds the VERSE, not the clip: in Arabic+English mode the
+      // Arabic must still hand off to the English leg, and only the step
+      // that would leave the verse wraps back to its Arabic. A repeat
+      // that pinned the Arabic leg would never play the English at all.
+      pl.repeat = true;
+      pl.idx = 0;
+      pl.leg = "ar";
+      pl.advance();
+      out.repeatAfterAr = { idx: pl.idx, leg: pl.leg };
+      pl.advance();
+      out.repeatAfterEn = { idx: pl.idx, leg: pl.leg };
+      // Speed is applied to the element, not just remembered.
+      pl.cycleSpeed();
+      out.rate = pl.rate;
+      out.audioRate = pl.audio.playbackRate;
+      // Highlight and next/prev move the active verse and nothing else.
+      pl.repeat = false;
+      pl.mode = "ar";
+      pl.english = null;
+      pl.armed = true;
+      pl.go(1);
+      pl.highlight();
+      out.idxAfterNext = pl.idx;
+      out.highlighted = [...document.querySelectorAll(".verse.is-listening")].map((v) =>
+        v.getAttribute("data-ar-number"),
+      );
+      pl.go(-1);
+      pl.highlight();
+      out.idxAfterPrev = pl.idx;
+      pl.go(-1);
+      out.idxClampedLow = pl.idx;
+      return out;
+    });
+    const seqOk =
+      seq &&
+      seq.arUrl === "https://cdn.islamic.network/quran/audio/128/ar.husary/2030.mp3" &&
+      seq.enUrl === "https://cdn.islamic.network/quran/audio/128/en.walk/2030.mp3" &&
+      seq.arOnlyNext && seq.arOnlyNext.idx === 1 && seq.arOnlyNext.leg === "ar" &&
+      seq.arEnNext && seq.arEnNext.idx === 0 && seq.arEnNext.leg === "en" &&
+      seq.afterEnglish && seq.afterEnglish.idx === 1 && seq.afterEnglish.leg === "ar" &&
+      seq.atEnd === null &&
+      seq.repeatAfterAr && seq.repeatAfterAr.idx === 0 && seq.repeatAfterAr.leg === "en" &&
+      seq.repeatAfterEn && seq.repeatAfterEn.idx === 0 && seq.repeatAfterEn.leg === "ar" &&
+      seq.rate === 1.25 && seq.audioRate === 1.25 &&
+      seq.idxAfterNext === 1 && seq.idxAfterPrev === 0 && seq.idxClampedLow === 0 &&
+      seq.highlighted.length === 1 && seq.highlighted[0] === String(passage.globals[1]);
+    report(
+      "listen-sequence", "read.html", !!seqOk,
+      seq === null
+        ? "the player exposed no seam (window.qdListenPlayer missing)"
+        : `ar=${seq.arUrl.split("/").slice(-2).join("/")} en=${seq.enUrl.split("/").slice(-2).join("/")}; ar-only next=${JSON.stringify(seq.arOnlyNext)}; ar+en next=${JSON.stringify(seq.arEnNext)} then ${JSON.stringify(seq.afterEnglish)}; end=${JSON.stringify(seq.atEnd)}; repeat ar->${JSON.stringify(seq.repeatAfterAr)} en->${JSON.stringify(seq.repeatAfterEn)}; speed ${seq.rate}x applied=${seq.audioRate}; idx next/prev/clamped=${seq.idxAfterNext}/${seq.idxAfterPrev}/${seq.idxClampedLow}; highlighted=${JSON.stringify(seq.highlighted)}`,
+    );
+
+    // Leaving the juz must take the transport with it, or a stale
+    // player keeps a passage that is no longer on screen.
+    await page.evaluate(() => {
+      document.getElementById("surahInput").value = "103";
+      document.getElementById("ayahInput").value = "1-3";
+      document.getElementById("loadBtn").click();
+    });
+    await page.waitForFunction(() => /s=103/.test(location.search), null, { timeout: 15000 }).catch(() => {});
+    const after = await page.evaluate(() => ({
+      hidden: document.getElementById("listenPanel").hidden,
+      emptied: document.getElementById("listenPanel").children.length === 0,
+      seam: !!window.qdListenPlayer,
+      search: location.search,
+    }));
+    report(
+      "listen-teardown", "read.html",
+      after.hidden && after.emptied && !after.seam && !/[?&]j=/.test(after.search),
+      `after loading 103:1-3 — panel hidden=${after.hidden} emptied=${after.emptied} seam released=${!after.seam} url="${after.search}"`,
+    );
+    report("listen-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+    await rctx.close();
+  }
+  {
+    // The transport is a phone control before it is anything else, and
+    // it has to survive Focus mode: a reader who hides the chrome to
+    // listen must not lose pause along with it. 375px because that is
+    // the narrowest viewport this audit holds the site to.
+    const rctx = await newContext({ apiMode: "stub" });
+    const page = await rctx.newPage();
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto(`${BASE}/read.html?j=15`, { waitUntil: "load" });
+    await page.waitForSelector("#listenPanel [data-listen-play]", { timeout: 15000 }).catch(() => {});
+    const m = await page.evaluate(() => {
+      const p = document.getElementById("listenPanel");
+      const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+      const sticky = getComputedStyle(p).position;
+      return { overflow, sticky, wide: p.getBoundingClientRect().width };
+    });
+    // Focus mode hides the page chrome; the transport is not chrome.
+    await page.keyboard.press("f");
+    const focused = await page.evaluate(() => ({
+      on: document.documentElement.hasAttribute("data-focus"),
+      panelVisible: document.getElementById("listenPanel").offsetParent !== null,
+      playVisible: !!document
+        .querySelector("#listenPanel [data-listen-play]")
+        ?.getBoundingClientRect().height,
+    }));
+    report(
+      "listen-mobile", "read.html",
+      m.overflow <= 0 && m.sticky === "sticky" && focused.on && focused.panelVisible && focused.playVisible,
+      `375px horizontal overflow=${m.overflow}px (want 0); panel ${Math.round(m.wide)}px, position=${m.sticky}; in Focus mode panel visible=${focused.panelVisible} play reachable=${focused.playVisible}`,
     );
     await rctx.close();
   }

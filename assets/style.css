@@ -3708,6 +3708,91 @@ html[data-focus] .ar.xl {
   margin: 0 0 0.9rem;
 }
 
+/* ── Listen mode (assets/listen.js, read.html juz reads) ────────────
+   A juz is a 100-to-250-verse sitting, so the transport sticks to the
+   top of the viewport: the passage scrolls itself under the reader as
+   each verse is recited, and pause has to stay one tap away the whole
+   time rather than however far back up the page it started. */
+.listen-panel {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  margin-bottom: 1rem;
+}
+.listen-panel[hidden] {
+  display: none;
+}
+.listen-head {
+  margin-bottom: 0.6rem;
+}
+.listen-title {
+  margin: 0 0 0.25rem;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: var(--accent);
+}
+.listen-now {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+.listen-pos {
+  margin: 0.1rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+.listen-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+/* 44px minimum on every transport control: these are pressed repeatedly,
+   one-handed, on a phone, which is the whole point of the mode. */
+.listen-btn {
+  min-height: 44px;
+  min-width: 44px;
+}
+.listen-btn[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+.listen-keys {
+  margin-top: 0.6rem;
+}
+.listen-en-note {
+  border-top: 1px solid var(--line);
+  padding-top: 0.5rem;
+}
+
+/* The verse being recited. A left rule plus a tinted ground, not a
+   colour-only cue: the distinction still reads in the high-contrast and
+   dark palettes and for a reader who cannot separate the two hues. */
+.verse.is-listening {
+  border-inline-start: 3px solid var(--accent);
+  padding-inline-start: 0.85rem;
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  border-radius: 3px;
+}
+.verse.is-listening-en .translation {
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+  border-radius: 3px;
+}
+@supports not (background: color-mix(in srgb, red 5%, transparent)) {
+  .verse.is-listening {
+    background: var(--card);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .verse.is-listening {
+    transition:
+      background 0.25s ease,
+      border-color 0.25s ease;
+  }
+}
+
 /* ── Passage panel (assets/passage.js) ─────────────────────────────
    The answer a reader gets when they name a chapter but not a verse:
    the surah, its real verse count, and the From/To control bounded by

@@ -138,6 +138,10 @@ jobs:
         if: ${{ !cancelled() }}
         run: node scripts/check-juz-endpoint.mjs
 
+      - name: Check the recitation audio the Read page plays
+        if: ${{ !cancelled() }}
+        run: node scripts/check-audio-editions.mjs
+
       - name: Check translation edition identities
         if: ${{ !cancelled() }}
         run: node scripts/check-editions.mjs
