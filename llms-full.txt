@@ -3655,6 +3655,19 @@ serving it from the 192 kbps directory, after 128 and 64 had both
 refused — which is why the player probes bitrates at runtime
 instead of assuming one. The check found three Arabic reciters had
 moved the same way.
+What he reads : two primary sources agree. The
+same registry describes a companion edition,
+en.misharyrashidalafasyenglishtranslationsaheehibrahimwalk ,
+as “Mishary Rashid Alafasy with Saheeh International translation
+(Ibrahim Walk)”, and everyayah.com, the upstream these per-ayah
+mirrors draw on, files his recording under a directory it names
+Sahih_Intnl_Ibrahim_Walk_192kbps — both read on 16
+September 2026. So the recording reads Saheeh International, the
+translation this site shows by default. Not yet established is
+that the CDN's file is that same recording rather than another
+encode or take: its clip for 1:1 is 57,867 bytes against the
+upstream's 171,910. Until one listening check settles that, the
+Read page does not pair the audio with the text automatically.
 Under what license : neither the registry nor the
 CDN states who holds this recording or on what terms, so this
 entry states neither, and stays Pending until one of them does.
@@ -6455,7 +6468,11 @@ Listen mode on the Read page. The edition is
 en.walk , which alquran.cloud's registry names
 “Ibrahim Walk”, read verse by verse — checked against the API on
 16 September 2026, and served by the CDN from its 192 kbps
-directory. What is not established is the licensing:
+directory. The recording reads Saheeh International: the same
+registry says so of a companion edition that names him, and
+everyayah.com, the upstream of these mirrors, files it under a
+directory named for that translation — both checked the same
+day. What is not established is the licensing:
 neither the registry nor the CDN states who holds the recording
 or on what terms, so this project credits no one for it and
 claims no license. The Sources entry
