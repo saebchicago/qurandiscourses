@@ -205,6 +205,23 @@
       currentRef = e.detail.s + ":" + e.detail.a;
       render();
     });
+    document.addEventListener("qd:note-verse", function (e) {
+      if (!e.detail) return;
+      currentRef = e.detail.s + ":" + e.detail.a;
+      document.documentElement.removeAttribute("data-focus");
+      var focusButton = document.getElementById("focusToggleBtn");
+      if (focusButton) focusButton.setAttribute("aria-pressed", "false");
+      render();
+      var details = mount.querySelector("details");
+      if (details) details.open = true;
+      try {
+        mount.scrollIntoView({ block: "center", behavior: "smooth" });
+      } catch (err) {
+        mount.scrollIntoView();
+      }
+      var area = document.getElementById("noteArea");
+      if (e.detail.focus && area) area.focus({ preventScroll: true });
+    });
     // The card's default open/closed state follows depth; hotkeys are
     // suppressed inside the textarea, so a mid-typing re-render cannot
     // fire from this.

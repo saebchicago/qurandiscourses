@@ -185,9 +185,18 @@
           <!-- Revealed only once a clip from the English edition has
                actually loaded, so it is never a control that cannot do
                anything. assets/audio-engine.js probes for it. -->
-          <button type="button" id="btnLang" aria-pressed="false" hidden>Arabic only</button>
+          <label id="btnLangWrap" class="replay-lang" hidden>
+            <span class="visually-hidden">Audio language</span>
+            <select id="btnLang" aria-label="Audio language">
+              <option value="ar">Arabic</option>
+              <option value="ar-en">Arabic + English translation</option>
+            </select>
+          </label>
           <span class="replay-pos" id="posLabel"></span>
         </div>
+        <p id="replayEnglishNote" class="caption-note" role="status" aria-live="polite">
+          Checking whether English translation audio is available…
+        </p>
         <p id="audioNote" class="caption-note" hidden>
           Audio unavailable — step through the surah manually with the ‹ ›
           buttons or arrow keys; the highlighting still works.

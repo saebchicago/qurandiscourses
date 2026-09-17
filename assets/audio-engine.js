@@ -157,6 +157,7 @@
     opts = opts || {};
     this.onState = opts.onState || function () {};
     this.onEnglish = opts.onEnglish || function () {};
+    this.onEnglishChecked = opts.onEnglishChecked || function () {};
     this.labelFor = opts.labelFor || null;
     this.album = opts.album || "Divine Discourses";
 
@@ -171,6 +172,7 @@
     this.armed = false; // a user has pressed play at least once
     this.dead = false;
     this.ended = false; // the last step of the passage played out
+    this.error = "";
     this._switching = false;
     this._started = false; // the CURRENT clip reached "playing"
     this._handlers = null;
@@ -184,9 +186,12 @@
     // Non-blocking on purpose: the caller's UI must render and be usable
     // before this settles. A miss can cost a timeout per candidate.
     probeEnglish().then(function (english) {
-      if (!english || self.dead) return;
-      self.english = english;
-      self.onEnglish(english);
+      if (self.dead) return;
+      if (english) {
+        self.english = english;
+        self.onEnglish(english);
+      }
+      self.onEnglishChecked(english);
     });
   }
 
@@ -215,6 +220,7 @@
       playing: this.playing,
       armed: this.armed,
       ended: this.ended,
+      error: this.error,
       hasEnglish: !!this.english,
     };
   };
@@ -291,6 +297,7 @@
   // single-element rule holds everywhere.
   Engine.prototype.playCurrent = function () {
     if (this.dead) return;
+    this.error = "";
     var url = this.urlFor(this.current(), this.leg);
     if (!url) {
       // No English clip for this verse (or the edition vanished
@@ -300,6 +307,9 @@
         this.leg = "ar";
         return this.advance();
       }
+      this.error = "Audio is unavailable for this verse. Try another reciter.";
+      this.playing = false;
+      this.emit();
       return;
     }
     var self = this;
@@ -319,6 +329,7 @@
         // Autoplay refused (no gesture yet) or the clip 404'd. Stop
         // rather than spin: the reader presses play again.
         self.playing = false;
+        self.error = "Audio could not start. Check your connection and try again.";
         self.emit();
       });
     this.playing = true;
@@ -385,6 +396,7 @@
     this.idx = Math.min(Math.max(i, 0), this.items.length - 1);
     this.leg = "ar";
     this.ended = false;
+    this.error = "";
     this.armed = true;
     if (this.playing) this.playCurrent();
     else {
@@ -435,6 +447,7 @@
       },
       play: function () {
         self._switching = false;
+        self.error = "";
         self.playing = true;
         self.emit();
       },
@@ -450,6 +463,7 @@
         // say so through state; the reader presses play again.
         if (self._started && self.playing) return self.advance();
         self.playing = false;
+        self.error = "Audio is unavailable. Try again or choose another reciter.";
         self.emit();
       },
     });

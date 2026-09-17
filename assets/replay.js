@@ -27,6 +27,21 @@
   var playing = false;
   var manualMode = false;
   var engine = null; // assets/audio-engine.js — the site's one transport
+  var MODE_KEY = "qd_listen_mode_v1";
+
+  function storedMode() {
+    try {
+      return localStorage.getItem(MODE_KEY) === "ar-en" ? "ar-en" : "ar";
+    } catch (e) {
+      return "ar";
+    }
+  }
+
+  function saveMode(mode) {
+    try {
+      localStorage.setItem(MODE_KEY, mode);
+    } catch (e) {}
+  }
 
   var reduce = false;
   try {
@@ -293,11 +308,7 @@
     var rp = $("btnRepeat");
     if (rp) rp.setAttribute("aria-pressed", String(st.repeat));
     var md = $("btnLang");
-    if (md) {
-      var arEn = st.mode === "ar-en";
-      md.setAttribute("aria-pressed", String(arEn));
-      md.textContent = arEn ? "Arabic + English" : "Arabic only";
-    }
+    if (md) md.value = st.mode;
   }
 
   function reciterLabel() {
@@ -501,10 +512,19 @@
       },
       onState: onEngineState,
       onEnglish: function () {
-        var btn = $("btnLang");
-        if (btn) btn.hidden = false;
+        var wrap = $("btnLangWrap");
+        if (wrap) wrap.hidden = false;
+      },
+      onEnglishChecked: function (english) {
+        var note = $("replayEnglishNote");
+        if (!note) return;
+        note.innerHTML = english
+          ? 'English translation audio: <strong>Ibrahim Walk</strong>. It may differ from the translation displayed. The recording\'s rights and exact CDN identity remain unresolved; <a href="/sources#english-audio-source">source details</a> <span class="badge pending" data-source-ids="islamic-network-audio-en" aria-label="Pending" tabindex="0" title="Pending · recording rights and exact CDN identity unresolved">○</span>.'
+          : "English translation audio is unavailable right now. Arabic recitation remains available.";
+        if (window.qdCiteEnhance) window.qdCiteEnhance(note);
       },
     });
+    engine.mode = storedMode();
     // An autoplay refusal or a dead clip drops to manual stepping, the
     // same as before; the highlighting is the point and it still works.
     // The engine’s own listener runs first: a clip that failed MID-sitting
@@ -549,8 +569,10 @@
       });
     var langBtn = $("btnLang");
     if (langBtn)
-      langBtn.addEventListener("click", function () {
-        if (engine) engine.setMode(engine.mode === "ar-en" ? "ar" : "ar-en");
+      langBtn.addEventListener("change", function () {
+        if (!engine) return;
+        engine.setMode(langBtn.value);
+        saveMode(engine.mode);
       });
     $("reciterBtn").addEventListener("click", openReciterModal);
     $("reciterName").textContent = reciterLabel();

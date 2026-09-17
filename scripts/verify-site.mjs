@@ -1050,7 +1050,7 @@ if (runCheck("replay") && (!PAGE_FILTER || PAGE_FILTER === "replay.html") && !LI
         .filter((id) => !!btn(id)),
       // The English toggle must stay hidden while no English clip has
       // loaded — here the CDN is aborted, so it never will.
-      langHidden: btn("btnLang") ? btn("btnLang").hidden : "missing",
+      langHidden: btn("btnLangWrap") ? btn("btnLangWrap").hidden : "missing",
       leaked: pl,
     };
   });
@@ -1648,6 +1648,8 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
       const before = window.qdListenPlayer.idx;
       // Third verse's button.
       if (btns[2]) btns[2].click();
+      const reflect = document.querySelector("#listenPanel [data-listen-reflect]");
+      if (reflect) reflect.click();
       return {
         buttons: btns.length,
         nativePlayers: document.querySelectorAll(".verse audio").length,
@@ -1657,6 +1659,12 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
         highlighted: [...document.querySelectorAll(".verse.is-listening")].map((v) =>
           v.getAttribute("data-ayah"),
         ),
+        reflect: {
+          present: !!reflect,
+          noteLabel: (document.querySelector('#notesSection label[for="noteArea"]') || {}).textContent || "",
+          focused: document.activeElement && document.activeElement.id,
+          open: !!document.querySelector("#notesSection details[open]"),
+        },
       };
     });
     report(
@@ -1664,6 +1672,12 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
       seek.buttons === 3 && seek.nativePlayers === 0 && seek.before === 0 && seek.after === 2 &&
         seek.highlighted.length === 1 && seek.highlighted[0] === "3",
       `${seek.buttons} per-verse buttons (want 3), ${seek.nativePlayers} native <audio> left (want 0); clicking verse 3 moved idx ${seek.before}->${seek.after} (want 0->2); highlighted=${JSON.stringify(seek.highlighted)} (want ["3"])`,
+    );
+    report(
+      "listen-reflect-current-verse", "read.html",
+      seek.reflect.present && /103:3/.test(seek.reflect.noteLabel) &&
+        seek.reflect.focused === "noteArea" && seek.reflect.open,
+      `reflect present=${seek.reflect.present}; note="${seek.reflect.noteLabel.trim()}"; focused=${seek.reflect.focused}; notes open=${seek.reflect.open}`,
     );
 
     // Changing translation re-renders the whole passage. A reader forty
@@ -1693,7 +1707,7 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
         pl.mode = "ar-en";
         window.qdListenPanel.addEnglishToggle();
         const b = document.querySelector("#listenPanel [data-listen-mode]");
-        toggle = b ? { pressed: b.getAttribute("aria-pressed"), text: b.textContent } : null;
+        toggle = b ? { value: b.value, options: b.options.length } : null;
       }
       return {
         before: { idx: before.idx, rate: before.rate, repeat: before.repeat },
@@ -1725,9 +1739,9 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
     );
     report(
       "listen-mode-toggle-sync", "read.html",
-      !!carried.toggle && carried.toggle.pressed === "true" && /English/.test(carried.toggle.text),
+      !!carried.toggle && carried.toggle.value === "ar-en" && carried.toggle.options === 2,
       carried.toggle
-        ? `English toggle added while the engine was already in ar-en: aria-pressed=${carried.toggle.pressed}, label="${carried.toggle.text}" (want true, Arabic + English)`
+        ? `English selector added while the engine was already in ar-en: value=${carried.toggle.value}, options=${carried.toggle.options}`
         : "no toggle was added",
     );
     report("listen-passages-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
@@ -1850,9 +1864,35 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
     await page.waitForSelector("#listenPanel [data-listen-play]", { timeout: 15000 }).catch(() => {});
     const m = await page.evaluate(() => {
       const p = document.getElementById("listenPanel");
+      p.scrollIntoView({ block: "start" });
       const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
       const sticky = getComputedStyle(p).position;
-      return { overflow, sticky, wide: p.getBoundingClientRect().width };
+      const nav = document.querySelector("nav.primary");
+      const pr = p.getBoundingClientRect();
+      const nr = nav.getBoundingClientRect();
+      return {
+        overflow,
+        sticky,
+        wide: pr.width,
+        panelTop: pr.top,
+        panelHeight: pr.height,
+        navBottom: nr.bottom,
+      };
+    });
+    await page.evaluate(() => {
+      window.qdListenPlayer.armed = true;
+      window.qdListenPlayer.emit();
+    });
+    await page.waitForTimeout(700);
+    const follow = await page.evaluate(() => {
+      const panel = document.getElementById("listenPanel").getBoundingClientRect();
+      const arabic = document.querySelector(".verse.is-listening .ar");
+      const ar = arabic && arabic.getBoundingClientRect();
+      return {
+        panelBottom: panel.bottom,
+        arabicTop: ar ? ar.top : -1,
+        arabicVisible: !!ar && ar.top >= panel.bottom - 1 && ar.top < window.innerHeight,
+      };
     });
     // Focus mode hides the page chrome; the transport is not chrome.
     await page.keyboard.press("f");
@@ -1865,8 +1905,10 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
     }));
     report(
       "listen-mobile", "read.html",
-      m.overflow <= 0 && m.sticky === "sticky" && focused.on && focused.panelVisible && focused.playVisible,
-      `375px horizontal overflow=${m.overflow}px (want 0); panel ${Math.round(m.wide)}px, position=${m.sticky}; in Focus mode panel visible=${focused.panelVisible} play reachable=${focused.playVisible}`,
+      m.overflow <= 0 && m.sticky === "sticky" && m.panelTop >= m.navBottom - 1 &&
+        m.panelHeight < 260 && follow.arabicVisible && focused.on &&
+        focused.panelVisible && focused.playVisible,
+      `375px overflow=${m.overflow}px; panel ${Math.round(m.wide)}×${Math.round(m.panelHeight)}px, top=${Math.round(m.panelTop)}px vs nav bottom=${Math.round(m.navBottom)}px; active Arabic top=${Math.round(follow.arabicTop)}px vs panel bottom=${Math.round(follow.panelBottom)}px; Focus panel visible=${focused.panelVisible} play reachable=${focused.playVisible}`,
     );
     await rctx.close();
   }
