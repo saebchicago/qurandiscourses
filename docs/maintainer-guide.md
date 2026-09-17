@@ -86,18 +86,27 @@ Amiri, Cormorant Garamond, Inter, Noto Nastaliq Urdu, Noto Serif Bengali —
 each face's OFL text is bundled beside the binaries). Chart-bearing pages add `assets/chart.js`
 (`qdChart`: revelation timeline, heat strip, scatter, ego network —
 theme-aware via `--chart-1..4`, which are dataviz-validated mark colors;
-every chart needs a method note beside it). `assets/listen.js` is the Read page's Listen mode: one
-sequential transport for a whole-juz read (`?j=N`, or the `?juz=N`
-alias), built only when a juz is on screen and audio is enabled, and
-torn down again on any other read. It keys every clip on the GLOBAL
-ayah number read.html renders into `data-ar-number` — `data-ayah`
-restarts at 1 at each surah boundary and 28 of the 30 juz cross one.
-Its English leg is discovered at runtime rather than registered: that
-edition's reciter and license are unconfirmed, so /sources carries it
-○ Pending and `scripts/check-audio-editions.mjs` is what a real
-citation gets written from. All playback runs through ONE `<audio>`
-element, which is what keeps iOS's gesture grant alive across a
-185-verse sitting. `assets/notes.js` renders the
+every chart needs a method note beside it). `assets/audio-engine.js` is the ONE playback
+transport for the whole site — no DOM, no markup, just state and
+callbacks — shared by `assets/listen.js` (the Read page) and
+`assets/replay.js` (the /replay page). It carries the rules that used
+to be re-derived per surface: one `<audio>` element for the whole
+session (what keeps iOS's gesture grant alive across a many-verse
+sitting), the GLOBAL ayah number as the key (`data-ar-number` —
+`data-ayah` restarts at 1 at each surah boundary and 28 of the 30 juz
+cross one), and reciter bitrates that come from the registry or a
+runtime probe, never a literal. `assets/listen.js` builds a transport
+for ANY passage read.html renders — a single verse, a range, a whole
+surah, or a juz (`?j=N`, or the `?juz=N` alias) — not juz-only, and
+tears down on any other read. Its English leg is discovered at
+runtime rather than registered: that edition's license is unconfirmed
+(the reciter and the translation he reads now are, per
+`scripts/check-audio-editions.mjs`), so /sources carries it ○ Pending
+and that script is what a real license citation gets written from.
+Real-device audio behavior (lock screen, background playback,
+interruption recovery) is unverified from any session that has
+authored this code; `docs/mobile-audio-device-checklist.md` is the
+proposed manual test plan, not yet run. `assets/notes.js` renders the
 Read page's local-only notes panel (storage key `qd_notes`, deliberately
 NOT cleared with preferences). `assets/discovery-worksheet.js` renders a
 per-surah "propose your own structure" form on the Read page (storage key
