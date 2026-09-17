@@ -173,6 +173,8 @@ const REQUIRED_BLOCKS = [
   ["/data/*", "Cache-Control"],
   ["/docs/*", "X-Robots-Tag"],
   ["/sw.js", "Cache-Control"],
+  // RFC 9116 contact file: served as text/plain by a hand-authored block.
+  ["/.well-known/security.txt", "Content-Type"],
 ];
 for (const [path, header] of REQUIRED_BLOCKS) {
   const blk = blocks.find((b) => b.path === path);

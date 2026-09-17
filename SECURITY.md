@@ -1,6 +1,6 @@
 # Security policy
 
-_Last updated: 2026-08-20_
+_Last updated: 2026-09-16_
 
 ## Scope
 
@@ -30,6 +30,11 @@ Reports are welcome for anything that could:
 
 ## Reporting
 
+The machine-readable contact for this policy is
+`https://divinediscourses.org/.well-known/security.txt` (RFC 9116); it
+points back here. It expires one year after its `Expires` line and must be
+re-dated before then.
+
 Use GitHub's private vulnerability reporting on this repository ("Report a
 vulnerability" under the Security tab). If that is not available to you, open a
 plain issue saying only that you have a security report and how to reach you; do
@@ -51,6 +56,8 @@ verified release.
 - External evidence checks are intentionally separated from deterministic
   repository checks so third-party downtime cannot masquerade as a local
   integrity failure.
+- GitHub Actions are pinned to full commit SHAs, with the version tag as a
+  comment, so a moved tag cannot change what runs.
 - GitHub Actions may be scoped to `main`, pull requests, schedules, and manual
   dispatch to avoid duplicate runner consumption on the same change.
 
