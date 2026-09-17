@@ -49,9 +49,10 @@ import { dirname, join } from "node:path";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const TIMEOUT = 20000;
-// The verse every probe asks for. 1 is al-Fatihah:1, present in every
-// edition that exists at all.
+// Ayah 1 discovers the bitrate. Early, middle, and final sentinels then
+// catch an edition whose directory exists but whose corpus is incomplete.
 const PROBE_AYAH = 1;
+const SENTINEL_AYAHS = [1, 3118, 6236];
 
 const failures = [];
 const notes = [];
@@ -126,13 +127,32 @@ async function servedAt(edition) {
   return null;
 }
 
+async function missingSentinels(edition, bitrate) {
+  const missing = [];
+  for (const ayah of SENTINEL_AYAHS.filter((n) => n !== PROBE_AYAH)) {
+    const r = await probe(clip(edition, bitrate, ayah));
+    if (!r.ok) missing.push({ ayah, status: r.status || r.error });
+  }
+  return missing;
+}
+
 console.log(
   `Reciters registered in assets/app.js (${reciters.length}), each against its OWN registered bitrate:`,
 );
 for (const { id, bitrate } of reciters) {
   const atRegistered = await probe(clip(id, bitrate, PROBE_AYAH));
   if (atRegistered.ok) {
-    console.log(`  OK   ${id} @ ${bitrate}kbps · ${atRegistered.status} ${atRegistered.type}`);
+    const missing = await missingSentinels(id, bitrate);
+    if (missing.length) {
+      failures.push(
+        `reciter "${id}": its directory works at ayah ${PROBE_AYAH}, but sampled corpus clips are missing (${missing.map((m) => `${m.ayah}: ${m.status}`).join(", ")}).`,
+      );
+      console.log(`  FAIL ${id} · incomplete sampled corpus`);
+    } else {
+      console.log(
+        `  OK   ${id} @ ${bitrate}kbps · ayahs ${SENTINEL_AYAHS.join(", ")} served`,
+      );
+    }
     continue;
   }
   // Wrong path, or gone? The two need completely different fixes, so the
@@ -194,13 +214,21 @@ if (audioEditions) {
   );
   for (const e of perVerse) {
     const at = await servedAt(e.identifier);
+    const missing = at ? await missingSentinels(e.identifier, at.bitrate) : [];
     console.log(
-      `  ${at ? `SERVES @ ${at.bitrate}kbps` : "absent at every probed bitrate"}  ${e.identifier} · ${e.englishName || e.name}`,
+      `  ${at && !missing.length ? `SERVES @ ${at.bitrate}kbps · sampled corpus complete` : at ? "sampled corpus incomplete" : "absent at every probed bitrate"}  ${e.identifier} · ${e.englishName || e.name}`,
     );
+    if (missing.length) {
+      failures.push(
+        `English edition "${e.identifier}" serves ayah ${PROBE_AYAH} but not sampled clips ${missing.map((m) => `${m.ayah} (${m.status})`).join(", ")}.`,
+      );
+    }
     notes.push(
-      at
-        ? `${e.identifier} is registered by the API as "${e.englishName || e.name}" (${e.language}, verse-by-verse) AND served at ${at.bitrate}kbps. Listen mode's English leg will work. /sources may name the reciter on this evidence; the LICENSE is still not established by any of it, so do not state one until the rights holder does.`
-        : `${e.identifier} is registered by the API as "${e.englishName || e.name}" (${e.language}, verse-by-verse) but NO probed bitrate directory (${BITRATES.join(", ")}) serves it. The identity is evidenced; the availability is not. Listen mode's runtime probe will fail and it will offer Arabic only — which is the designed behaviour, not a regression.`,
+      at && !missing.length
+        ? `${e.identifier} is registered by the API as "${e.englishName || e.name}" (${e.language}, verse-by-verse) AND served at ${at.bitrate}kbps across sampled early, middle, and final clips. Listen mode's English leg will work for those sentinels. /sources may name the reciter on this evidence; the LICENSE is still not established by any of it, so do not state one until the rights holder does.`
+        : at
+          ? `${e.identifier} is registered and its first clip is served at ${at.bitrate}kbps, but one or more middle/final sentinel clips are missing. Treat the edition as incomplete until the CDN sample passes.`
+          : `${e.identifier} is registered by the API as "${e.englishName || e.name}" (${e.language}, verse-by-verse) but NO probed bitrate directory (${BITRATES.join(", ")}) serves it. The identity is evidenced; the availability is not. Listen mode's runtime probe will fail and it will offer Arabic only — which is the designed behaviour, not a regression.`,
     );
   }
   const surahOnly = english.filter((e) => (e.type || "") !== "versebyverse");

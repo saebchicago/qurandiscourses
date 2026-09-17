@@ -30,9 +30,22 @@
   var mount = null;
   var currentRef = null;
   var saveTimer = null;
+  var pendingSave = null;
 
   function refLabel(ref) {
     return ref.replace("|", ":");
+  }
+
+  // A note save is debounced, but the verse reference must not be. Keep
+  // the pending write bound to the textarea/ref that produced it and flush
+  // it before any action changes currentRef or replaces the note DOM.
+  function flushPendingSave() {
+    if (!pendingSave) return;
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = null;
+    var save = pendingSave;
+    pendingSave = null;
+    save();
   }
 
   function render() {
@@ -119,29 +132,45 @@
     if (area) {
       area.addEventListener("input", function () {
         if (saveTimer) clearTimeout(saveTimer);
-        saveTimer = setTimeout(function () {
+        var ref = currentRef;
+        var persist = function () {
           var all = loadNotes();
           var text = area.value;
           if (text.trim()) {
-            all[currentRef] = {
+            all[ref] = {
               text: text,
               updated: new Date().toISOString(),
             };
           } else {
-            delete all[currentRef];
+            delete all[ref];
           }
           saveNotes(all);
-          var status = document.getElementById("noteStatus");
-          if (status) status.textContent = text.trim() ? "Saved." : "";
+          // Do not paint a status into a different verse's freshly-rendered
+          // note card if this write was flushed during navigation.
+          if (currentRef === ref) {
+            var status = document.getElementById("noteStatus");
+            if (status) status.textContent = text.trim() ? "Saved." : "";
+          }
+        };
+        pendingSave = persist;
+        saveTimer = setTimeout(function () {
+          saveTimer = null;
+          if (pendingSave === persist) pendingSave = null;
+          persist();
         }, 400);
       });
     }
     var exp = document.getElementById("notesExport");
-    if (exp) exp.addEventListener("click", exportMarkdown);
+    if (exp)
+      exp.addEventListener("click", function () {
+        flushPendingSave();
+        exportMarkdown();
+      });
     var deleteAll = document.getElementById("notesDeleteAll");
     if (deleteAll)
       deleteAll.addEventListener("click", function () {
         if (!window.confirm("Delete every study note saved in this browser? This cannot be undone.")) return;
+        flushPendingSave();
         try {
           localStorage.removeItem(KEY);
         } catch (e) {}
@@ -151,6 +180,7 @@
     var del = document.getElementById("noteDelete");
     if (del)
       del.addEventListener("click", function () {
+        flushPendingSave();
         var all = loadNotes();
         delete all[currentRef];
         saveNotes(all);
@@ -198,17 +228,51 @@
     }, 1000);
   }
 
+  function focusNoteFor(ref, focus) {
+    flushPendingSave();
+    currentRef = ref;
+    render();
+    var details = mount.querySelector("details");
+    if (details) details.open = true;
+    try {
+      mount.scrollIntoView({ block: "center", behavior: "smooth" });
+    } catch (err) {
+      mount.scrollIntoView();
+    }
+    var area = document.getElementById("noteArea");
+    if (focus && area) {
+      try {
+        area.focus({ preventScroll: true });
+      } catch (e) {
+        area.focus();
+      }
+    }
+  }
+
   function init() {
     mount = document.getElementById("notesSection");
     if (!mount) return;
     document.addEventListener("qd:verse-loaded", function (e) {
+      if (!e.detail) return;
+      flushPendingSave();
       currentRef = e.detail.s + ":" + e.detail.a;
       render();
     });
-    // The card's default open/closed state follows depth; hotkeys are
-    // suppressed inside the textarea, so a mid-typing re-render cannot
-    // fire from this.
-    document.addEventListener("qd:depth-changed", render);
+    document.addEventListener("qd:note-verse", function (e) {
+      if (!e.detail) return;
+      document.documentElement.removeAttribute("data-focus");
+      var focusButton = document.getElementById("focusToggleBtn");
+      if (focusButton) focusButton.setAttribute("aria-pressed", "false");
+      focusNoteFor(e.detail.s + ":" + e.detail.a, e.detail.focus !== false);
+    });
+    // The card's default open/closed state follows depth. Flush first so a
+    // depth change cannot replace a textarea while its save still points
+    // at mutable currentRef.
+    document.addEventListener("qd:depth-changed", function () {
+      flushPendingSave();
+      render();
+    });
+    window.addEventListener("beforeunload", flushPendingSave);
     render();
   }
 
