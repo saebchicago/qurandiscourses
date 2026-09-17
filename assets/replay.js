@@ -39,6 +39,12 @@
     return document.getElementById(id);
   }
 
+  function modeLabel(mode) {
+    if (mode === "en") return "English";
+    if (mode === "ar-en") return "Arabic + English";
+    return "Arabic";
+  }
+
   function globalAyah(s, a) {
     var total = 0;
     for (var i = 0; i < window.SURAHS.length && window.SURAHS[i].id < s; i++) {
@@ -274,6 +280,22 @@
       window.qdSaveLastRead(surah.id, "1-" + surah.verseCount);
   }
 
+  function ensureEnglishNote() {
+    if ($("englishAudioNote")) return;
+    var transport = $("transport");
+    if (!transport) return;
+    var note = document.createElement("p");
+    note.id = "englishAudioNote";
+    note.className = "caption-note";
+    note.innerHTML =
+      "English audio is the fixed verse-by-verse edition alquran.cloud names " +
+      "<code>en.walk</code> · Ibrahim Walk. Its rights holder and license are " +
+      'not established by the registry or CDN, so <a href="/sources">Sources</a> marks it ' +
+      '<span class="badge pending" data-source-ids="islamic-network-audio-en" aria-label="Pending" tabindex="0" title="Pending · awaiting triangulation from a second independent source">○</span> Pending.';
+    transport.insertAdjacentElement("afterend", note);
+    if (window.qdCiteEnhance) window.qdCiteEnhance(note);
+  }
+
   // Everything the transport can change, reflected into this page's own
   // controls. The engine reports; this decides what it means here.
   function onEngineState(st) {
@@ -294,9 +316,14 @@
     if (rp) rp.setAttribute("aria-pressed", String(st.repeat));
     var md = $("btnLang");
     if (md) {
-      var arEn = st.mode === "ar-en";
-      md.setAttribute("aria-pressed", String(arEn));
-      md.textContent = arEn ? "Arabic + English" : "Arabic only";
+      var label = modeLabel(st.mode);
+      md.textContent = label;
+      md.setAttribute("aria-label", "Audio mode: " + label + ". Activate to change.");
+    }
+    var reciter = $("reciterBtn");
+    if (reciter) {
+      reciter.disabled = st.mode === "en";
+      reciter.title = st.mode === "en" ? "Arabic reciter applies to Arabic audio modes" : "Change Arabic reciter";
     }
   }
 
@@ -492,8 +519,8 @@
     // One transport for the whole site (assets/audio-engine.js). This
     // page used to keep its own Audio element, its own sequencing and its
     // own hard-coded 128kbps path — which is why three of the five
-    // reciters were silent here too. It now gains, for free, the English
-    // leg, speed, repeat, preloading and lock-screen control.
+    // reciters were silent here too. It now gains, for free, all three
+    // language modes, speed, repeat, preloading and lock-screen control.
     engine = window.qdAudioEngine.create({
       album: "Replay · Divine Discourses",
       labelFor: function (item) {
@@ -502,7 +529,12 @@
       onState: onEngineState,
       onEnglish: function () {
         var btn = $("btnLang");
-        if (btn) btn.hidden = false;
+        if (btn) {
+          btn.removeAttribute("aria-pressed");
+          btn.hidden = false;
+          onEngineState(engine.state());
+        }
+        ensureEnglishNote();
       },
     });
     // An autoplay refusal or a dead clip drops to manual stepping, the
@@ -550,7 +582,9 @@
     var langBtn = $("btnLang");
     if (langBtn)
       langBtn.addEventListener("click", function () {
-        if (engine) engine.setMode(engine.mode === "ar-en" ? "ar" : "ar-en");
+        if (!engine) return;
+        var next = engine.mode === "ar" ? "en" : engine.mode === "en" ? "ar-en" : "ar";
+        engine.setMode(next);
       });
     $("reciterBtn").addEventListener("click", openReciterModal);
     $("reciterName").textContent = reciterLabel();
