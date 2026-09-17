@@ -163,7 +163,7 @@
     this.items = [];
     this.idx = 0;
     this.leg = "ar";
-    this.mode = "ar"; // "ar" | "ar-en"
+    this.mode = "ar"; // "ar" | "en" | "ar-en"
     this.english = null; // {edition, bitrate} once probed and found
     this.repeat = false;
     this.rate = 1;
@@ -239,9 +239,18 @@
     return window.qdReciteUrl(this.reciterId(), item.arNumber);
   };
 
+  Engine.prototype.startLeg = function () {
+    return this.mode === "en" ? "en" : "ar";
+  };
+
   // What follows (idx, leg) in the current mode. This is the whole
   // sequencing contract: what plays, and what plays after it.
   Engine.prototype.nextStep = function (idx, leg) {
+    if (this.mode === "en") {
+      if (leg !== "en") return { idx: idx, leg: "en" };
+      if (idx + 1 < this.items.length) return { idx: idx + 1, leg: "en" };
+      return null;
+    }
     if (this.mode === "ar-en" && leg === "ar" && this.english)
       return { idx: idx, leg: "en" };
     if (idx + 1 < this.items.length) return { idx: idx + 1, leg: "ar" };
@@ -293,13 +302,11 @@
     if (this.dead) return;
     var url = this.urlFor(this.current(), this.leg);
     if (!url) {
-      // No English clip for this verse (or the edition vanished
-      // mid-sitting): fall through to the next Arabic rather than
-      // stalling on a silent player.
-      if (this.leg === "en") {
-        this.leg = "ar";
-        return this.advance();
-      }
+      // English-only is offered only after the English edition probes
+      // successfully. If it later disappears, stop rather than silently
+      // substituting Arabic for a mode the reader explicitly chose.
+      this.playing = false;
+      this.emit();
       return;
     }
     var self = this;
@@ -329,15 +336,15 @@
 
   Engine.prototype.advance = function () {
     if (this.repeat) {
-      // Repeat holds the VERSE, not the clip. In Arabic+English mode the
-      // Arabic still hands off to the English leg; only the step that
-      // would leave this verse wraps back to its Arabic.
+      // Repeat holds the VERSE, not the clip. Arabic+English still hands
+      // Arabic to English before the verse repeats; single-language modes
+      // simply replay that language for the same verse.
       var within = this.nextStep(this.idx, this.leg);
       if (within && within.idx === this.idx) {
         this.leg = within.leg;
         return this.playCurrent();
       }
-      this.leg = "ar";
+      this.leg = this.startLeg();
       try {
         this.audio.currentTime = 0;
       } catch (e) {}
@@ -375,7 +382,7 @@
   Engine.prototype.point = function (i) {
     if (!this.items.length) return;
     this.idx = Math.min(Math.max(i, 0), this.items.length - 1);
-    this.leg = "ar";
+    this.leg = this.startLeg();
     this.ended = false;
     this.emit();
   };
@@ -383,13 +390,13 @@
   Engine.prototype.seek = function (i) {
     if (!this.items.length) return;
     this.idx = Math.min(Math.max(i, 0), this.items.length - 1);
-    this.leg = "ar";
+    this.leg = this.startLeg();
     this.ended = false;
     this.armed = true;
     if (this.playing) this.playCurrent();
     else {
       this.audio.pause();
-      var url = this.urlFor(this.current(), "ar");
+      var url = this.urlFor(this.current(), this.leg);
       if (url && this.audio.getAttribute("src") !== url) this.audio.src = url;
       this.emit();
       this.preloadNext();
@@ -406,11 +413,22 @@
   };
 
   Engine.prototype.setMode = function (mode) {
-    this.mode = mode === "ar-en" ? "ar-en" : "ar";
-    if (this.mode === "ar" && this.leg === "en") {
-      this.leg = "ar";
-      if (this.playing) return this.advance();
+    var nextMode = mode === "en" && this.english ? "en" : mode === "ar-en" ? "ar-en" : "ar";
+    if (nextMode === this.mode) {
+      this.emit();
+      return;
     }
+    this.mode = nextMode;
+
+    // Switching language never skips the current verse. If audio is
+    // playing, swap the current clip in place; if paused, point the next
+    // Play at the selected mode's first leg.
+    var desired = nextMode === "en" ? "en" : nextMode === "ar" ? "ar" : this.leg;
+    if (this.playing && this.leg !== desired) {
+      this.leg = desired;
+      return this.playCurrent();
+    }
+    if (!this.playing) this.leg = this.startLeg();
     this.emit();
     this.preloadNext();
   };

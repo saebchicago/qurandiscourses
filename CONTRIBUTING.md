@@ -47,8 +47,8 @@ Sectional divisions:
 Supporting evidence: [which roots/frequencies/boundary markers you looked
   at, and what you found — link to the relevant roots.html/patterns.html
   page where possible]
-Cross-references: [related verses elsewhere, if any — cite Mishkat or your
-  own reading]
+Cross-references: [related verses elsewhere, if any — cite a source with
+  documented rights status or identify them as your own reading]
 Confidence: [draft / tentative / confident — your own rating]
 License: [CC0 or CC-BY — your choice; state which]
 ```
@@ -101,9 +101,9 @@ Before a submission is merged, it needs to pass:
 3. **A verification label on every claim.** ● / ○ / ~ — never left
    implicit. A structural hypothesis is Pending or Nuanced by definition,
    not Verified.
-4. **Recomputable from open sources.** Either the bundled Tanzil/Leeds/
-   Mishkat data, or a newly-added source with documented rights status —
-   never invented figures.
+4. **Recomputable from open sources.** Either the bundled Tanzil/Leeds
+   data, or a newly-added source with documented rights status — never
+   invented figures.
 5. **No new tracking, analytics, backend, or paywall logic.** This stays a
    static site with client-only persistence.
 6. `node scripts/verify-site.mjs` and `node scripts/build-csp.mjs --check`
