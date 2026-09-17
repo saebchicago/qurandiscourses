@@ -3659,14 +3659,15 @@ What he reads : two primary sources agree. The
 same registry describes a companion edition,
 en.misharyrashidalafasyenglishtranslationsaheehibrahimwalk ,
 as “Mishary Rashid Alafasy with Saheeh International translation
-(Ibrahim Walk)”, and everyayah.com, the upstream these per-ayah
-mirrors draw on, files his recording under a directory it names
+(Ibrahim Walk)”, and everyayah.com, a separate site that
+also hosts per-ayah recitation audio, files his recording under a directory it names
 Sahih_Intnl_Ibrahim_Walk_192kbps — both read on 16
 September 2026. So the recording reads Saheeh International, the
 translation this site shows by default. Not yet established is
 that the CDN's file is that same recording rather than another
-encode or take: its clip for 1:1 is 57,867 bytes against the
-upstream's 171,910. Until one listening check settles that, the
+encode or take: its clip for 1:1 is 57,867 bytes against
+everyayah.com's 171,910 — a size difference this large is itself
+reason to doubt the two sites serve the same recording. Until one listening check settles that, the
 Read page does not pair the audio with the text automatically.
 Under what license : neither the registry nor the
 CDN states who holds this recording or on what terms, so this
@@ -6446,8 +6447,17 @@ Quranic Arabic Corpus v0.4 (Leeds). Kais Dukes,
 licensed.
 corpus.quran.com
 
-Tanzil Uthmani text and translations. Served via
-the alquran.cloud API. CC BY-ND 3.0.
+Tanzil Uthmani Arabic text. Served via the
+alquran.cloud API. CC BY-ND 3.0 — Tanzil's license on the Arabic
+text itself, not on the English translations below.
+
+English translations. Served via the same API,
+each from its own original publisher or rights holder — Saheeh
+International, Pickthall, Yusuf Ali, and the others listed in
+full on Sources . The API states no
+blanket license for these editions; where a translation's own
+publication states one (public domain, for the older ones), it
+is recorded there per edition rather than assumed here.
 
 Egyptian Standard (Cairo 1924) revelation order.
 Public-domain reference for the four-period chronology.
@@ -6470,8 +6480,9 @@ en.walk , which alquran.cloud's registry names
 16 September 2026, and served by the CDN from its 192 kbps
 directory. The recording reads Saheeh International: the same
 registry says so of a companion edition that names him, and
-everyayah.com, the upstream of these mirrors, files it under a
-directory named for that translation — both checked the same
+everyayah.com, a separate site that also hosts per-ayah
+recitation audio, files it under a directory named for that
+translation — both checked the same
 day. What is not established is the licensing:
 neither the registry nor the CDN states who holds the recording
 or on what terms, so this project credits no one for it and
