@@ -50,6 +50,8 @@ if (CHECK) {
   if (stale.length) {
     console.error("build-sw-manifest --check: FAIL");
     for (const f of stale) console.error(`  - ${f} is stale`);
+    console.error("  GENERATED MANIFEST FOLLOWS");
+    console.error(manifestText);
     console.error("  Run: node scripts/build-sw-manifest.mjs");
     process.exit(1);
   }
