@@ -39,6 +39,12 @@
     }
   }
 
+  function modeLabel(mode) {
+    if (mode === "en") return "English";
+    if (mode === "ar-en") return "Arabic + English";
+    return "Arabic";
+  }
+
   // The surah's display name comes from the one canonical dataset
   // (assets/surahs.js) rather than a data- attribute, so no surah name
   // has to survive a second round of HTML escaping on its way here.
@@ -98,6 +104,7 @@
     this.items = items;
     this.juz = juz;
     this.title = passageTitle(items, juz);
+    this._resumeEnglish = false;
     var self = this;
     this.engine = window.qdAudioEngine.create({
       album: (juz ? "Juz " + juz : this.title) + " · Divine Discourses",
@@ -112,7 +119,15 @@
         self.highlight(st);
       },
       onEnglish: function () {
-        self.addEnglishToggle();
+        self.addEnglishControl();
+        // A passage re-render can happen while English-only audio is
+        // playing. The replacement engine is created before its cached
+        // probe settles, so resume only after that edition is available.
+        if (self._resumeEnglish) {
+          self._resumeEnglish = false;
+          self.engine.leg = "en";
+          self.engine.playCurrent();
+        }
       },
     });
     this.engine.setItems(items);
@@ -145,9 +160,9 @@
     speed.setAttribute("aria-label", "Playback speed " + st.rate + "×");
     var mode = this.el("mode");
     if (mode) {
-      var arEn = st.mode === "ar-en";
-      mode.setAttribute("aria-pressed", String(arEn));
-      mode.textContent = arEn ? "Arabic + English" : "Arabic only";
+      var label = modeLabel(st.mode);
+      mode.textContent = label;
+      mode.setAttribute("aria-label", "Audio mode: " + label + ". Activate to change.");
     }
   };
 
@@ -161,7 +176,7 @@
       else items[i].el.removeAttribute("aria-current");
     }
     // Scroll only when the POSITION moves. Every state change emits
-    // (speed, repeat, pause, the English toggle appearing), and a reader
+    // (speed, repeat, pause, the English control appearing), and a reader
     // who scrolled ahead to read must not be dragged back by any of them.
     var cur = items[st.idx];
     var key = st.idx + ":" + st.leg;
@@ -179,8 +194,8 @@
   };
 
   // Added only after a clip from the English edition has actually loaded,
-  // so the reader is never shown a control that cannot do anything.
-  Panel.prototype.addEnglishToggle = function () {
+  // so the reader is never shown a mode that cannot do anything.
+  Panel.prototype.addEnglishControl = function () {
     var row = this.host.querySelector(".listen-controls");
     if (!row || row.querySelector("[data-listen-mode]")) return;
     var self = this;
@@ -188,22 +203,19 @@
     btn.type = "button";
     btn.className = "button secondary listen-btn";
     btn.setAttribute("data-listen-mode", "");
-    btn.setAttribute("aria-pressed", "false");
-    btn.textContent = "Arabic only";
+    btn.textContent = "Arabic";
     btn.addEventListener("click", function () {
-      self.engine.setMode(self.engine.mode === "ar-en" ? "ar" : "ar-en");
+      var next = self.engine.mode === "ar" ? "en" : self.engine.mode === "en" ? "ar-en" : "ar";
+      self.engine.setMode(next);
     });
     row.appendChild(btn);
-    // The engine may already be in Arabic+English (a restored sitting)
-    // by the time the probe lets this control exist: paint it from
-    // state, never from a default.
+    // The engine may already carry a restored mode by the time the probe
+    // lets this control exist: paint it from state, never from a default.
     this.render(this.engine.state());
 
-    // The reader is about to hear one English rendering while reading
-    // another, and nothing on the page would otherwise say so. The spoken
-    // text is a fixed edition; the written one is theirs to choose from
-    // sixteen. Naming which translation is recited would be a claim this
-    // project has not verified, so this says what IS known.
+    // The reader may hear one fixed English rendering while reading a
+    // different translation. Naming which translation is recited would be
+    // a claim this project has not verified, so this says what IS known.
     var note = document.createElement("p");
     note.className = "caption-note listen-en-note";
     note.innerHTML =
@@ -316,6 +328,7 @@
     return {
       sig: signature(this.items),
       idx: e.idx,
+      leg: e.leg,
       mode: e.mode,
       rate: e.rate,
       repeat: e.repeat,
@@ -329,12 +342,16 @@
     var e = this.engine;
     e.idx = Math.min(snap.idx, this.items.length - 1);
     e.mode = snap.mode;
+    e.leg = snap.leg || (snap.mode === "en" ? "en" : "ar");
     e.rate = snap.rate;
     e.repeat = snap.repeat;
     e.armed = snap.armed;
     e.audio.playbackRate = e.rate;
     e.emit();
-    if (snap.playing) e.playCurrent();
+    if (snap.playing) {
+      if (snap.mode === "en" && !e.english) this._resumeEnglish = true;
+      else e.playCurrent();
+    }
   };
 
   Panel.prototype.destroy = function () {
@@ -401,9 +418,9 @@
     // rather than against audio that never plays.
     window.qdListenPanel = player;
     window.qdListenPlayer = player.engine;
-    // The English toggle arrives through onEnglish, which the probe fires
-    // for every engine — a promise already settled still resolves its
-    // new .then — so nothing needs asking here.
+    // The language control arrives through onEnglish, which the probe fires
+    // for every engine — a promise already settled still resolves its new
+    // .then — so nothing needs asking here.
     if (window.qdCiteEnhance) window.qdCiteEnhance(host);
     // Put the reader back where they were if this is the same passage
     // re-rendered (a depth or translation change), and nowhere otherwise.
