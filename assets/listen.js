@@ -14,13 +14,23 @@
   "use strict";
 
   var player = null;
-  // Carried across a re-render. Changing depth or translations rebuilds
-  // the whole passage, and without this a reader who is forty verses into
-  // al-Baqarah and switches translation is dropped back to verse 1 with
-  // the audio stopped. Keyed by the passage's first and last global ayah
-  // numbers, so it is restored onto the SAME passage and never onto a
-  // different one the reader navigated to.
   var carry = null;
+  var MODE_KEY = "qd_listen_mode_v2";
+
+  function storedMode() {
+    try {
+      var mode = localStorage.getItem(MODE_KEY);
+      return mode === "en" || mode === "ar-en" ? mode : "ar";
+    } catch (e) {
+      return "ar";
+    }
+  }
+
+  function saveMode(mode) {
+    try {
+      localStorage.setItem(MODE_KEY, mode);
+    } catch (e) {}
+  }
 
   function signature(items) {
     return items.length
@@ -45,9 +55,6 @@
     return "Arabic";
   }
 
-  // The surah's display name comes from the one canonical dataset
-  // (assets/surahs.js) rather than a data- attribute, so no surah name
-  // has to survive a second round of HTML escaping on its way here.
   function surahNameFor(n) {
     var rec = (window.SURAHS || []).filter(function (x) {
       return x.id === n;
@@ -55,9 +62,6 @@
     return (rec && rec.translit) || "";
   }
 
-  // Every verse div carries the global ayah number read.html renders into
-  // data-ar-number — the one identifier stable across a surah boundary,
-  // which numberInSurah is not.
   function collect() {
     var nodes = document.querySelectorAll("#verseContainer .verse[data-ar-number]");
     return Array.prototype.map
@@ -76,9 +80,6 @@
       });
   }
 
-  // What the panel calls the passage. Derived from the verses actually on
-  // screen, so it stays true for a range that got clamped or a juz that
-  // crossed into a second surah.
   function passageTitle(items, juz) {
     if (juz) return "juz " + juz;
     if (!items.length) return "this passage";
@@ -104,7 +105,10 @@
     this.items = items;
     this.juz = juz;
     this.title = passageTitle(items, juz);
+    this.support = null;
     this._resumeEnglish = false;
+    this._storedEnglish = false;
+    this._error = "";
     var self = this;
     this.engine = window.qdAudioEngine.create({
       album: (juz ? "Juz " + juz : this.title) + " · Divine Discourses",
@@ -120,9 +124,11 @@
       },
       onEnglish: function () {
         self.addEnglishControl();
-        // A passage re-render can happen while English-only audio is
-        // playing. The replacement engine is created before its cached
-        // probe settles, so resume only after that edition is available.
+        self.showEnglishStatus();
+        if (self._storedEnglish && !self.engine.armed) {
+          self._storedEnglish = false;
+          self.engine.setMode("en");
+        }
         if (self._resumeEnglish) {
           self._resumeEnglish = false;
           self.engine.leg = "en";
@@ -130,6 +136,17 @@
         }
       },
     });
+    this._onAudioError = function () {
+      self._error = "Audio could not load. Check your connection or choose another Arabic reciter.";
+      self.render(self.engine.state());
+    };
+    this._onAudioPlaying = function () {
+      if (!self._error) return;
+      self._error = "";
+      self.render(self.engine.state());
+    };
+    this.engine.audio.addEventListener("error", this._onAudioError);
+    this.engine.audio.addEventListener("playing", this._onAudioPlaying);
     this.engine.setItems(items);
   }
 
@@ -137,10 +154,15 @@
     return this.host.querySelector("[data-listen-" + name + "]");
   };
 
+  Panel.prototype.reciterName = function () {
+    var id = this.engine.reciterId();
+    var rec = (window.qdReciters || []).filter(function (r) {
+      return r.id === id;
+    })[0];
+    return (rec && rec.name) || "Choose reciter";
+  };
+
   Panel.prototype.render = function (st) {
-    // A torn-down panel can still be called back into: pausing its audio
-    // emits `pause` after the host was emptied, and the play() promise
-    // settles later still.
     if (!this.el("play")) return;
     var item = st.item;
     this.el("now").textContent = item
@@ -159,11 +181,31 @@
     speed.textContent = st.rate + "×";
     speed.setAttribute("aria-label", "Playback speed " + st.rate + "×");
     var mode = this.el("mode");
-    if (mode) {
-      var label = modeLabel(st.mode);
-      mode.textContent = label;
-      mode.setAttribute("aria-label", "Audio mode: " + label + ". Activate to change.");
+    if (mode) mode.value = st.mode;
+    var reciter = this.el("reciter");
+    if (reciter) {
+      reciter.textContent = "🎤 " + this.reciterName();
+      reciter.disabled = st.mode === "en";
+      reciter.title = st.mode === "en" ? "Arabic reciter applies to Arabic audio modes" : "Change Arabic reciter";
     }
+    var status = this.el("status");
+    if (status) {
+      status.textContent = this._error;
+      status.hidden = !this._error;
+    }
+  };
+
+  Panel.prototype.refreshLayout = function () {
+    var nav = document.querySelector("nav.primary");
+    var navHeight = nav && nav.getClientRects().length
+      ? Math.ceil(nav.getBoundingClientRect().height)
+      : 0;
+    document.documentElement.style.setProperty("--qd-listen-nav-offset", navHeight + "px");
+    var panelHeight = Math.ceil(this.host.getBoundingClientRect().height);
+    document.documentElement.style.setProperty(
+      "--qd-listen-scroll-offset",
+      navHeight + panelHeight + 12 + "px",
+    );
   };
 
   Panel.prototype.highlight = function (st) {
@@ -175,66 +217,65 @@
       if (on) items[i].el.setAttribute("aria-current", "true");
       else items[i].el.removeAttribute("aria-current");
     }
-    // Scroll only when the POSITION moves. Every state change emits
-    // (speed, repeat, pause, the English control appearing), and a reader
-    // who scrolled ahead to read must not be dragged back by any of them.
     var cur = items[st.idx];
     var key = st.idx + ":" + st.leg;
     if (cur && st.armed && key !== this._scrolledTo) {
       this._scrolledTo = key;
-      try {
-        cur.el.scrollIntoView({
-          block: "center",
+      this.refreshLayout();
+      var nav = document.querySelector("nav.primary");
+      var navHeight = nav && nav.getClientRects().length
+        ? nav.getBoundingClientRect().height
+        : 0;
+      var inset = navHeight + this.host.getBoundingClientRect().height + 12;
+      var rect = cur.el.getBoundingClientRect();
+      if (rect.top < inset || rect.bottom > window.innerHeight - 12) {
+        window.scrollTo({
+          top: Math.max(0, window.scrollY + rect.top - inset),
           behavior: reducedMotion() ? "auto" : "smooth",
         });
-      } catch (e) {
-        cur.el.scrollIntoView();
       }
     }
   };
 
-  // Added only after a clip from the English edition has actually loaded,
-  // so the reader is never shown a mode that cannot do anything.
   Panel.prototype.addEnglishControl = function () {
-    var row = this.host.querySelector(".listen-controls");
+    var row = this.host.querySelector(".listen-options");
     if (!row || row.querySelector("[data-listen-mode]")) return;
     var self = this;
-    var btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "button secondary listen-btn";
-    btn.setAttribute("data-listen-mode", "");
-    btn.textContent = "Arabic";
-    btn.addEventListener("click", function () {
-      var next = self.engine.mode === "ar" ? "en" : self.engine.mode === "en" ? "ar-en" : "ar";
-      self.engine.setMode(next);
+    var label = document.createElement("label");
+    label.className = "listen-mode-label";
+    label.textContent = "Audio ";
+    var select = document.createElement("select");
+    select.className = "listen-mode-select";
+    select.setAttribute("data-listen-mode", "");
+    select.setAttribute("aria-label", "Audio language");
+    select.innerHTML =
+      '<option value="ar">Arabic</option>' +
+      '<option value="en">English</option>' +
+      '<option value="ar-en">Arabic + English</option>';
+    select.addEventListener("change", function () {
+      self.engine.setMode(select.value);
+      saveMode(self.engine.mode);
     });
-    row.appendChild(btn);
-    // The engine may already carry a restored mode by the time the probe
-    // lets this control exist: paint it from state, never from a default.
+    label.appendChild(select);
+    row.appendChild(label);
     this.render(this.engine.state());
-
-    // The reader may hear one fixed English rendering while reading a
-    // different translation. Naming which translation is recited would be
-    // a claim this project has not verified, so this says what IS known.
-    var note = document.createElement("p");
-    note.className = "caption-note listen-en-note";
-    note.innerHTML =
-      "English audio is a single fixed recording — the edition " +
-      "alquran.cloud's registry names <code>en.walk</code> · Ibrahim Walk, " +
-      "read verse by verse. The English you see is whichever translation " +
-      "you have chosen, so the spoken and written wording are two " +
-      "different renderings and will not match word for word. Who holds " +
-      "this recording, and under what license, is stated by neither the " +
-      'registry nor the CDN, so <a href="/sources">Sources</a> carries it ' +
-      '<span class="badge pending" data-source-ids="islamic-network-audio-en" aria-label="Pending" tabindex="0" title="Pending · awaiting triangulation from a second independent source">○</span> Pending.';
-    this.host.appendChild(note);
-    if (window.qdCiteEnhance) window.qdCiteEnhance(this.host);
+    this.refreshLayout();
   };
 
-  // Compatibility seam for the existing browser audit, which previously
-  // exercised the binary English toggle by name. Production uses the
-  // three-state addEnglishControl() path above; this shim does not run in
-  // normal use and can disappear when that audit assertion is migrated.
+  Panel.prototype.showEnglishStatus = function () {
+    var note = this.support && this.support.querySelector("[data-listen-english-status]");
+    if (!note) return;
+    note.innerHTML =
+      "English audio is the fixed verse-by-verse edition alquran.cloud names " +
+      "<code>en.walk</code> · Ibrahim Walk. It may differ from the written translation you selected. " +
+      "The recording's rights holder and license are not established by the registry or CDN; " +
+      '<a href="/sources#english-audio-source">source details</a> ' +
+      '<span class="badge pending" data-source-ids="islamic-network-audio-en" aria-label="Pending" tabindex="0" title="Pending · recording rights unresolved">○</span>.';
+    if (window.qdCiteEnhance) window.qdCiteEnhance(this.support);
+  };
+
+  // Temporary test seam retained until the existing browser audit is moved
+  // from the old binary-toggle method name to the explicit three-choice control.
   Panel.prototype.addEnglishToggle = function () {
     this.addEnglishControl();
     var mode = this.el("mode");
@@ -250,22 +291,36 @@
       '<p class="listen-now" data-listen-now>—</p>' +
       '<p class="listen-pos t-annotation" data-listen-pos></p>' +
       "</div>" +
+      '<div class="listen-options">' +
+      '<button type="button" class="button secondary listen-reciter-btn" data-listen-reciter aria-label="Change Arabic reciter">🎤 Choose reciter</button>' +
+      "</div>" +
       '<div class="listen-controls" role="group" aria-label="Recitation transport">' +
-      '<button type="button" class="button secondary listen-btn" data-listen-prev aria-label="Previous verse">‹ Verse</button>' +
+      '<button type="button" class="button secondary listen-btn" data-listen-prev aria-label="Previous verse">‹</button>' +
       '<button type="button" class="button btn-primary listen-btn" data-listen-play aria-label="Play">▶ Play</button>' +
-      '<button type="button" class="button secondary listen-btn" data-listen-next aria-label="Next verse">Verse ›</button>' +
+      '<button type="button" class="button secondary listen-btn" data-listen-next aria-label="Next verse">›</button>' +
       '<button type="button" class="button secondary listen-btn" data-listen-repeat aria-pressed="false" aria-label="Repeat this verse">↻ Repeat</button>' +
       '<button type="button" class="button secondary listen-btn" data-listen-speed aria-label="Playback speed">1×</button>' +
+      '<button type="button" class="button secondary listen-btn" data-listen-reflect>Reflect</button>' +
       "</div>" +
-      '<p class="caption-note listen-keys">Keys <kbd>Space</kbd> play/pause, ' +
-      "<kbd>[</kbd> <kbd>]</kbd> previous/next verse, <kbd>R</kbd> repeat. " +
-      "The verse being recited is highlighted and scrolled into view, so " +
-      "you can follow the text while it plays.</p>" +
-      '<p class="caption-note">Recitation audio streams per verse from ' +
-      "cdn.islamic.network as it plays, which receives normal connection " +
-      "data. Nothing about what you listen to is stored or sent anywhere " +
-      'else. <a href="/about#privacy">Privacy and offline details</a>.</p>'
+      '<p class="listen-status" data-listen-status role="status" aria-live="polite" hidden></p>'
     );
+  };
+
+  Panel.prototype.mountSupport = function () {
+    var old = document.querySelector(".listen-support[data-listen-support]");
+    if (old) old.remove();
+    var box = document.createElement("div");
+    box.className = "listen-support";
+    box.setAttribute("data-listen-support", "");
+    box.innerHTML =
+      '<details class="method-note"><summary>Audio details and shortcuts</summary>' +
+      '<p class="caption-note listen-keys">Keys <kbd>Space</kbd> play/pause, ' +
+      '<kbd>[</kbd> <kbd>]</kbd> previous/next verse, <kbd>R</kbd> repeat.</p>' +
+      '<p class="caption-note">Recitation streams per verse from cdn.islamic.network, which receives normal connection data. Your listening preferences remain in this browser. <a href="/about#privacy">Privacy and offline details</a>.</p>' +
+      '<p class="caption-note listen-en-note" data-listen-english-status role="status" aria-live="polite">English audio choices appear after the page confirms the fixed English recording is available.</p>' +
+      "</details>";
+    this.host.insertAdjacentElement("afterend", box);
+    this.support = box;
   };
 
   Panel.prototype.wire = function () {
@@ -285,18 +340,26 @@
     this.el("speed").addEventListener("click", function () {
       self.engine.cycleSpeed();
     });
+    this.el("reciter").addEventListener("click", function () {
+      var existing = document.querySelector("#verseContainer .reciter-open-btn");
+      if (existing) existing.click();
+    });
+    this.el("reflect").addEventListener("click", function () {
+      if (self.engine.playing) self.engine.toggle();
+      var item = self.engine.current();
+      if (!item) return;
+      document.dispatchEvent(
+        new CustomEvent("qd:note-verse", {
+          detail: { s: item.surah, a: item.ayah, focus: true },
+        }),
+      );
+    });
 
-    // Shortcuts, in the same shape read.html's existing ones use (see
-    // assets/app.js initFocusMode): ignored inside a field or a modal,
-    // and Space only once the reader has actually started listening, so
-    // it keeps scrolling the page for everyone who has not.
     this._onKey = function (e) {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
       if (e.target && e.target.matches && e.target.matches("input,select,textarea"))
         return;
       if (document.querySelector('[aria-modal="true"]')) return;
-      // The panel HOST is reused across passages, so its connectedness
-      // cannot retire a superseded panel. Identity can.
       if (window.qdListenPanel !== self) return;
       if (e.key === " " || e.key === "Spacebar") {
         if (!self.engine.armed) return;
@@ -317,10 +380,6 @@
     document.addEventListener("keydown", this._onKey);
   };
 
-  // Each verse gets a button that starts the transport AT that verse,
-  // replacing the native <audio controls> read.html used to render per
-  // verse — 286 of them on al-Baqarah, none of which knew about any
-  // other verse.
   Panel.prototype.wireVerseButtons = function () {
     var self = this;
     this.items.forEach(function (item, i) {
@@ -348,7 +407,7 @@
   };
 
   Panel.prototype.restore = function (snap) {
-    if (!snap || snap.sig !== signature(this.items)) return;
+    if (!snap || snap.sig !== signature(this.items)) return false;
     var e = this.engine;
     e.idx = Math.min(snap.idx, this.items.length - 1);
     e.mode = snap.mode;
@@ -362,27 +421,34 @@
       if (snap.mode === "en" && !e.english) this._resumeEnglish = true;
       else e.playCurrent();
     }
+    return true;
+  };
+
+  Panel.prototype.applyStoredMode = function () {
+    var mode = storedMode();
+    if (mode === "en" && !this.engine.english) {
+      this._storedEnglish = true;
+      return;
+    }
+    this.engine.setMode(mode);
   };
 
   Panel.prototype.destroy = function () {
-    // The document-level shortcut handler closes over this panel and,
-    // through it, every verse node of the passage; left registered it
-    // would keep all of that alive across every re-render.
     if (this._onKey) document.removeEventListener("keydown", this._onKey);
     this._onKey = null;
+    this.engine.audio.removeEventListener("error", this._onAudioError);
+    this.engine.audio.removeEventListener("playing", this._onAudioPlaying);
+    this._onAudioError = null;
+    this._onAudioPlaying = null;
     this.engine.destroy();
+    if (this.support) this.support.remove();
+    this.support = null;
     this.items.forEach(function (it) {
       it.el.classList.remove("is-listening", "is-listening-en");
       it.el.removeAttribute("aria-current");
     });
   };
 
-  // read.html calls this after every passage render, with the juz number
-  // when the passage is a juz and null otherwise. Any rendered passage
-  // gets a transport; an empty one tears the transport down.
-  // Called by read.html BEFORE it replaces the rendered verses: at that
-  // moment the old verse nodes are still in the DOM, so a sync would
-  // happily rebuild a transport for a passage that is about to vanish.
   window.qdListenTeardown = function () {
     var host = document.getElementById("listenPanel");
     if (player) {
@@ -419,27 +485,17 @@
     host.hidden = false;
     player = new Panel(host, items, juz || null);
     host.innerHTML = player.markup();
+    player.mountSupport();
     player.wire();
     player.wireVerseButtons();
     player.render(player.engine.state());
-    // Test seam and debugging handle. scripts/verify-site.mjs drives the
-    // transport through this: headless Chromium decodes no recitation, so
-    // the sequencing is asserted against the state machine directly
-    // rather than against audio that never plays.
     window.qdListenPanel = player;
     window.qdListenPlayer = player.engine;
-    // The language control arrives through onEnglish, which the probe fires
-    // for every engine — a promise already settled still resolves its new
-    // .then — so nothing needs asking here.
     if (window.qdCiteEnhance) window.qdCiteEnhance(host);
-    // Put the reader back where they were if this is the same passage
-    // re-rendered (a depth or translation change), and nowhere otherwise.
-    player.restore(carry);
+    var restored = player.restore(carry);
     carry = null;
-    // A link ending in #listen (the homepage's "Listen to this surah")
-    // lands on the transport, once, with Play focused so one keypress
-    // starts the sitting. Autoplay is never attempted: browsers require a
-    // gesture and the reader supplies it.
+    if (!restored) player.applyStoredMode();
+    player.refreshLayout();
     if (location.hash === "#listen" && !window.__qdListenLanded) {
       window.__qdListenLanded = true;
       try {
