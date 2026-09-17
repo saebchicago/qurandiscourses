@@ -1069,7 +1069,8 @@ label {
   box-shadow: var(--elev);
   z-index: 30;
 }
-.replay-transport button {
+.replay-transport button,
+.replay-transport select {
   min-width: 44px;
   min-height: 44px;
   border: 1px solid var(--line);
@@ -1078,6 +1079,10 @@ label {
   color: var(--ink);
   font-size: 1rem;
   cursor: pointer;
+}
+.replay-lang select {
+  max-width: 15rem;
+  padding: 0 0.5rem;
 }
 .replay-transport button.primary {
   background: var(--accent);
@@ -3745,15 +3750,19 @@ html[data-focus] .ar.xl {
    time rather than however far back up the page it started. */
 .listen-panel {
   position: sticky;
-  top: 0;
-  z-index: 5;
-  margin-bottom: 1rem;
+  top: var(--qd-listen-nav-offset, 0px);
+  z-index: 19;
+  margin-bottom: 0.55rem;
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--ink) 8%, transparent);
 }
 .listen-panel[hidden] {
   display: none;
 }
 .listen-head {
-  margin-bottom: 0.6rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0 0.75rem;
+  margin-bottom: 0.35rem;
 }
 .listen-title {
   margin: 0 0 0.25rem;
@@ -3771,6 +3780,41 @@ html[data-focus] .ar.xl {
   margin: 0.1rem 0 0;
   color: var(--muted);
   font-size: 0.82rem;
+}
+.listen-head .listen-now,
+.listen-head .listen-pos {
+  grid-column: 2;
+}
+.listen-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  margin-bottom: 0.45rem;
+}
+.listen-reciter-btn,
+.listen-mode-select {
+  min-height: 44px;
+}
+.listen-reciter-btn {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.listen-mode-label {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+.listen-mode-select {
+  max-width: min(100%, 17rem);
+  margin-inline-start: 0.25rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--card);
+  color: var(--ink);
+  padding: 0.4rem;
+  font: inherit;
 }
 .listen-controls {
   display: flex;
@@ -3791,6 +3835,23 @@ html[data-focus] .ar.xl {
 }
 .listen-keys {
   margin-top: 0.6rem;
+}
+.listen-support {
+  margin: 0 0 1rem;
+}
+.listen-support .method-note {
+  margin-top: 0;
+}
+.listen-status {
+  margin: 0.45rem 0 0;
+  color: var(--danger, #8a2c2c);
+  font-size: 0.85rem;
+}
+.verse {
+  scroll-margin-top: var(--qd-listen-scroll-offset, 5rem);
+}
+html[data-focus] .listen-panel {
+  top: 0;
 }
 
 /* Per-verse entry into the transport, in place of the native <audio>
@@ -3830,8 +3891,52 @@ html[data-focus] .ar.xl {
   font-weight: 600;
 }
 .listen-en-note {
-  border-top: 1px solid var(--line);
-  padding-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+@media (max-width: 620px) {
+  .listen-panel {
+    padding: 0.7rem;
+  }
+  .listen-head {
+    grid-template-columns: 1fr;
+  }
+  .listen-head .listen-now,
+  .listen-head .listen-pos {
+    grid-column: 1;
+  }
+  .listen-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .listen-options {
+    flex-wrap: nowrap;
+  }
+  .listen-reciter-btn {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .listen-mode-label {
+    flex: 1 1 0;
+    min-width: 0;
+    font-size: 0;
+  }
+  .listen-mode-select {
+    width: 100%;
+    margin: 0;
+    font-size: 0.82rem;
+  }
+  .listen-controls {
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .listen-controls .listen-btn {
+    flex: 1 1 auto;
+    min-width: 44px;
+    padding-inline: 0.45rem;
+    font-size: 0.82rem;
+  }
 }
 
 /* The verse being recited. A left rule plus a tinted ground, not a
