@@ -270,6 +270,50 @@ async function sizeOf(url) {
   }
 }
 
+// ── Third-party statements a research pass surfaced, read directly ────
+// A separate research pass (not this project's own investigation) found
+// two pages that might bear on the Walk recording's rights: a community
+// forum post attributed to Islamic Network staff describing where its
+// audio catalogue originally came from, and a plain-text disclaimer
+// file on everyayah.com. Neither had been read by this project before
+// now. Fetched here, verbatim, so a maintainer sees the actual text
+// rather than a research tool's paraphrase of it -- a paraphrase can
+// misquote or misattribute even when the URL it cites is real.
+const THIRD_PARTY_PAGES = [
+  {
+    url: "https://community.islamic.network/d/231-clarification-on-licensing-and-usage-rights-for-quran-recitation-api",
+    label: "Islamic Network community forum post on audio licensing",
+  },
+  {
+    url: "https://everyayah.com/data/timings_files/000_disclaimer.txt",
+    label: "everyayah.com timings-file disclaimer (a research pass found no comparable notice on the audio files themselves)",
+  },
+];
+console.log("\nThird-party pages a research pass cited -- fetched directly, quoted as found:");
+for (const { url, label } of THIRD_PARTY_PAGES) {
+  try {
+    const r = await fetch(url, { signal: AbortSignal.timeout(TIMEOUT) });
+    const body = await r.text();
+    console.log(`\n  ${label}\n  ${url}\n  -> HTTP ${r.status}`);
+    if (r.ok) {
+      const snippet = body.replace(/\s+/g, " ").trim().slice(0, 2000);
+      console.log(`  ${snippet}${body.length > 2000 ? " ...[truncated]" : ""}`);
+      notes.push(
+        `${label} (${url}) answered HTTP ${r.status} with the text printed in this run's log. Read it there before citing it -- do not cite this URL from a research tool's paraphrase alone.`,
+      );
+    } else {
+      notes.push(
+        `${label} (${url}) answered HTTP ${r.status} from this runner. It may still be reachable from a browser; this only says a script fetch did not get its content here.`,
+      );
+    }
+  } catch (e) {
+    console.log(`\n  ${label}\n  ${url}\n  -> fetch failed: ${e.message}`);
+    notes.push(
+      `${label} (${url}) could not be fetched from this runner (${e.message}). Unconfirmed either way.`,
+    );
+  }
+}
+
 if (notes.length) {
   console.log("\nNotes for a maintainer:");
   for (const n of notes) console.log("  - " + n);
