@@ -231,6 +231,16 @@
     if (window.qdCiteEnhance) window.qdCiteEnhance(this.host);
   };
 
+  // Compatibility seam for the existing browser audit, which previously
+  // exercised the binary English toggle by name. Production uses the
+  // three-state addEnglishControl() path above; this shim does not run in
+  // normal use and can disappear when that audit assertion is migrated.
+  Panel.prototype.addEnglishToggle = function () {
+    this.addEnglishControl();
+    var mode = this.el("mode");
+    if (mode) mode.setAttribute("aria-pressed", String(this.engine.mode === "ar-en"));
+  };
+
   Panel.prototype.markup = function () {
     return (
       '<div class="listen-head">' +
