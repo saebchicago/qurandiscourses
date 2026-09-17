@@ -1006,6 +1006,23 @@ if (runCheck("replay") && (!PAGE_FILTER || PAGE_FILTER === "replay.html") && !LI
     `${roots.marked} recurring-root words marked; root strip shown=${roots.strip}; provenance badge present=${roots.prov}`,
   );
 
+  // Play must start at the verse THIS page highlights. Before the fix,
+  // Play went straight to engine.toggle() and the engine, never told
+  // about ?v= or the stepping above, played from its own index and
+  // snapped the highlight back to it. The CDN is aborted here, so the
+  // observable is the highlight after Play: it must stay put.
+  await page.click("#btnNext");
+  await page.click("#btnNext");
+  const atThree = await read();
+  await page.click("#btnPlay").catch(() => {});
+  await page.waitForTimeout(400);
+  const afterPlay = await read();
+  report(
+    "replay-play-at-verse", "replay.html",
+    /Verse 3 of 3/.test(atThree.pos) && /Verse 3 of 3/.test(afterPlay.pos),
+    `stepped to "${atThree.pos.trim()}", pressed Play -> "${afterPlay.pos.trim()}" (must not snap back to verse 1)`,
+  );
+
   // With the CDN aborted, play must fall back to manual stepping rather
   // than leaving a dead button.
   await page.click("#btnPlay").catch(() => {});
@@ -1520,6 +1537,47 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
         : `ar=${seq.arUrl.split("/").slice(-2).join("/")} en=${seq.enUrl.split("/").slice(-2).join("/")}; ar-only next=${JSON.stringify(seq.arOnlyNext)}; ar+en next=${JSON.stringify(seq.arEnNext)} then ${JSON.stringify(seq.afterEnglish)}; end=${JSON.stringify(seq.atEnd)}; repeat ar->${JSON.stringify(seq.repeatAfterAr)} en->${JSON.stringify(seq.repeatAfterEn)}; speed ${seq.rate}x applied=${seq.audioRate}; idx next/prev/clamped=${seq.idxAfterNext}/${seq.idxAfterPrev}/${seq.idxClampedLow}; highlighted=${JSON.stringify(seq.highlighted)}`,
     );
 
+    // What a failed clip does to a sitting. A clip that never LOADED
+    // must stop the transport where it is (advancing on every load error
+    // walks the whole passage in silence, one verse per 403); a clip
+    // that failed MID-sitting is skipped so one dead file does not end
+    // the sitting. And the last step played out must be reported as
+    // ended, distinctly from a pause, so a page can mark the passage
+    // finished — a bug found by review: /replay never learned a surah
+    // had completed once the engine took over its `ended` event.
+    const fail = await page.evaluate(() => {
+      const pl = window.qdListenPlayer;
+      if (!pl) return null;
+      const out = {};
+      pl.mode = "ar"; pl.english = null; pl.repeat = false;
+      pl.seek(0);
+      pl.playing = true; pl._started = false;
+      pl.audio.dispatchEvent(new Event("error"));
+      out.loadFail = { idx: pl.idx, playing: pl.playing };
+      pl.playing = true; pl._started = true;
+      pl.audio.dispatchEvent(new Event("error"));
+      out.midFail = { idx: pl.idx, playing: pl.playing };
+      pl.playing = false;
+      pl.seek(pl.items.length - 1);
+      out.endedBefore = pl.state().ended;
+      pl.advance();
+      out.endedAfter = pl.state().ended;
+      out.playingAfterEnd = pl.playing;
+      pl.seek(0);
+      out.endedCleared = pl.state().ended;
+      return out;
+    });
+    report(
+      "listen-failure-semantics", "read.html",
+      !!fail && fail.loadFail.idx === 0 && fail.loadFail.playing === false &&
+        fail.midFail.idx === 1 && fail.midFail.playing === true &&
+        fail.endedBefore === false && fail.endedAfter === true &&
+        fail.playingAfterEnd === false && fail.endedCleared === false,
+      fail === null
+        ? "no seam"
+        : `load failure: idx ${fail.loadFail.idx}, playing=${fail.loadFail.playing} (want 0, false); mid-sitting failure: idx ${fail.midFail.idx}, playing=${fail.midFail.playing} (want 1, true); ended ${fail.endedBefore}->${fail.endedAfter} after the last step (want false->true), playing=${fail.playingAfterEnd}; seek clears ended=${!fail.endedCleared}`,
+    );
+
     // Leaving the juz for a verse range must REBIND the transport, not
     // retire it: the reader's unit of listening is whatever they asked to
     // read. (This check asserted the opposite while Listen mode was
@@ -1620,18 +1678,34 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
         idx: window.qdListenPlayer.idx,
         rate: window.qdListenPlayer.rate,
         repeat: window.qdListenPlayer.repeat,
+        audio: window.qdListenPlayer.audio,
+        engine: window.qdListenPlayer,
       };
       document.dispatchEvent(new CustomEvent("qd:translations-changed"));
       await new Promise((r) => setTimeout(r, 1200));
+      const pl = window.qdListenPlayer;
+      let toggle = null;
+      if (pl) {
+        // The English toggle can only appear once the probe resolves,
+        // which may be after a restored sitting already set ar-en: the
+        // control must paint from state, not from its default.
+        pl.english = { edition: "en.walk", bitrate: 192 };
+        pl.mode = "ar-en";
+        window.qdListenPanel.addEnglishToggle();
+        const b = document.querySelector("#listenPanel [data-listen-mode]");
+        toggle = b ? { pressed: b.getAttribute("aria-pressed"), text: b.textContent } : null;
+      }
       return {
-        before,
-        after: window.qdListenPlayer
-          ? {
-              idx: window.qdListenPlayer.idx,
-              rate: window.qdListenPlayer.rate,
-              repeat: window.qdListenPlayer.repeat,
-              verses: window.qdListenPlayer.items.length,
-            }
+        before: { idx: before.idx, rate: before.rate, repeat: before.repeat },
+        // One media element for the page session: a re-render must reuse
+        // it (iOS keeps its gesture grant on the element, never on a new
+        // one), and the retired engine must be dead, not merely dropped.
+        sameElement: !!pl && pl.audio === before.audio,
+        oldEngineDead: before.engine.dead === true,
+        newEngine: !!pl && pl !== before.engine,
+        toggle,
+        after: pl
+          ? { idx: pl.idx, rate: pl.rate, repeat: pl.repeat, verses: pl.items.length }
           : null,
       };
     });
@@ -1643,6 +1717,18 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
       c === null
         ? "the transport did not survive a translation change at all"
         : `across a translation re-render: idx ${carried.before.idx}->${c.idx}, speed ${carried.before.rate}->${c.rate}, repeat ${carried.before.repeat}->${c.repeat}, ${c.verses} verses still bound`,
+    );
+    report(
+      "listen-shared-element", "read.html",
+      carried.sameElement && carried.oldEngineDead && carried.newEngine,
+      `re-render reused the page's one <audio>=${carried.sameElement}; retired engine dead=${carried.oldEngineDead}; fresh engine bound=${carried.newEngine}`,
+    );
+    report(
+      "listen-mode-toggle-sync", "read.html",
+      !!carried.toggle && carried.toggle.pressed === "true" && /English/.test(carried.toggle.text),
+      carried.toggle
+        ? `English toggle added while the engine was already in ar-en: aria-pressed=${carried.toggle.pressed}, label="${carried.toggle.text}" (want true, Arabic + English)`
+        : "no toggle was added",
     );
     report("listen-passages-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
     await rctx.close();
