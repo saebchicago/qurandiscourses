@@ -245,6 +245,10 @@
 
   function togglePlay() {
     if (manualMode || !engine) return;
+    // Starting (as opposed to pausing) must begin at the verse THIS page
+    // highlights, which the engine only learns through seek: ?v=, a
+    // surah switch and Restart all move idx without touching it.
+    if (!engine.playing) return playCurrent();
     engine.toggle();
   }
 
@@ -278,6 +282,9 @@
       idx = st.idx + 1;
       activate();
     }
+    // The engine ends a sitting silently; this page marks it finished
+    // (restart affordance, last-read bookkeeping) exactly once.
+    if (st.ended && !$("btnPlay").dataset.restart) finish();
     var play = $("btnPlay");
     if (play && !play.dataset.restart)
       play.textContent = playing ? "⏸ Pause" : "▶ Play";
@@ -438,6 +445,10 @@
         );
         idx = Math.min(Math.max(isNaN(startV) ? 1 : startV, 1), surah.verseCount);
         activate();
+        // Aim the transport here without loading a clip: nothing plays
+        // until the reader asks, and the engine’s own idx must not sit on
+        // the previous surah’s verse (setItems keeps it if it still fits).
+        if (engine && !manualMode) engine.point(idx - 1);
         if (offline) {
           var note = document.createElement("p");
           note.className = "caption-note";
@@ -496,7 +507,13 @@
     });
     // An autoplay refusal or a dead clip drops to manual stepping, the
     // same as before; the highlighting is the point and it still works.
-    engine.audio.addEventListener("error", enterManualMode);
+    // The engine’s own listener runs first: a clip that failed MID-sitting
+    // has already been skipped and the next is playing, which is not
+    // “audio unavailable”. One that never loaded left the engine stopped.
+    engine.audio.addEventListener("error", function () {
+      if (engine.playing) return;
+      enterManualMode();
+    });
 
     $("btnPlay").addEventListener("click", function () {
       if (this.dataset.restart) {
@@ -515,7 +532,10 @@
     $("btnRestart").addEventListener("click", function () {
       idx = 1;
       activate();
-      if (playing) playCurrent();
+      // seek keeps playing if it was playing, and otherwise just points
+      // the engine here so the next Play starts at verse 1, not wherever
+      // the engine last was.
+      if (engine && !manualMode) engine.seek(0);
     });
     var speedBtn = $("btnSpeed");
     if (speedBtn)

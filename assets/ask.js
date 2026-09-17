@@ -478,10 +478,18 @@
   // ran before window.qdPassage existed, the passage mode was never
   // offered, and a typed chapter name fell through to plain routing.
   // DOMContentLoaded fires only after every deferred script, which is the
-  // moment this UI can actually see its dependencies.
-  if (document.readyState !== "complete") {
-    document.addEventListener("DOMContentLoaded", initAskUi);
-  } else {
+  // moment this UI can actually see its dependencies. But a script that
+  // runs AFTER that event (injected, or loaded late) would wait for it
+  // forever: navigation timing says whether it has already fired, and
+  // readyState alone cannot.
+  var navEntry =
+    (performance.getEntriesByType && performance.getEntriesByType("navigation")[0]) || null;
+  var domReady =
+    document.readyState === "complete" ||
+    (navEntry && navEntry.domContentLoadedEventEnd > 0);
+  if (domReady) {
     initAskUi();
+  } else {
+    document.addEventListener("DOMContentLoaded", initAskUi);
   }
 })();

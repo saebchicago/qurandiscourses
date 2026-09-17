@@ -127,6 +127,32 @@
     return probePromise;
   }
 
+  // ONE pair of media elements for the whole page session, shared by
+  // every engine ever created on it. iOS grants an element permission to
+  // play on a user gesture and keeps that grant across later src changes
+  // on the SAME element; an element built inside an async callback (a
+  // passage re-render restoring a sitting that was playing) has no grant
+  // and its play() is refused. So engines come and go; the elements stay.
+  // Each engine attaches its own listeners and removes them in destroy(),
+  // so a retired engine never hears the element it no longer owns.
+  var sharedAudio = null;
+  var sharedPreload = null;
+  var sharedOwner = null;
+  function claimElements(engine) {
+    if (!sharedAudio) {
+      sharedAudio = new Audio();
+      sharedAudio.preload = "auto";
+      sharedPreload = new Audio();
+      sharedPreload.preload = "auto";
+      sharedPreload.muted = true;
+    }
+    // Only one passage is ever on screen; a live owner that was not torn
+    // down is a leak, not a second listener.
+    if (sharedOwner && sharedOwner !== engine && !sharedOwner.dead) sharedOwner.destroy();
+    sharedOwner = engine;
+    return [sharedAudio, sharedPreload];
+  }
+
   function Engine(opts) {
     opts = opts || {};
     this.onState = opts.onState || function () {};
@@ -144,13 +170,14 @@
     this.playing = false;
     this.armed = false; // a user has pressed play at least once
     this.dead = false;
+    this.ended = false; // the last step of the passage played out
     this._switching = false;
+    this._started = false; // the CURRENT clip reached "playing"
+    this._handlers = null;
 
-    this.audio = new Audio();
-    this.audio.preload = "auto";
-    this.preloadEl = new Audio();
-    this.preloadEl.preload = "auto";
-    this.preloadEl.muted = true;
+    var els = claimElements(this);
+    this.audio = els[0];
+    this.preloadEl = els[1];
 
     this._wire();
     var self = this;
@@ -187,6 +214,7 @@
       rate: this.rate,
       playing: this.playing,
       armed: this.armed,
+      ended: this.ended,
       hasEnglish: !!this.english,
     };
   };
@@ -280,8 +308,10 @@
       // flag the pause handler reads that as the reader pausing and
       // repaints the transport mid-sitting.
       this._switching = true;
+      this._started = false;
       this.audio.src = url;
     }
+    this.ended = false;
     this.audio.playbackRate = this.rate;
     var p = this.audio.play();
     if (p && p.catch)
@@ -315,6 +345,10 @@
     }
     var step = this.nextStep(this.idx, this.leg);
     if (!step) {
+      // The sitting played out. Callers that mark a passage finished
+      // (‘replay from start’, last-read bookkeeping) read this off
+      // state(); a mere pause never sets it.
+      this.ended = true;
       this.playing = false;
       this.audio.pause();
       this.emit();
@@ -335,10 +369,22 @@
     }
   };
 
+  // Aim the transport at a verse WITHOUT loading its clip: what a page
+  // does on first paint or when the reader picks a verse before pressing
+  // play. seek() loads the clip so play is instant; this costs nothing.
+  Engine.prototype.point = function (i) {
+    if (!this.items.length) return;
+    this.idx = Math.min(Math.max(i, 0), this.items.length - 1);
+    this.leg = "ar";
+    this.ended = false;
+    this.emit();
+  };
+
   Engine.prototype.seek = function (i) {
     if (!this.items.length) return;
     this.idx = Math.min(Math.max(i, 0), this.items.length - 1);
     this.leg = "ar";
+    this.ended = false;
     this.armed = true;
     if (this.playing) this.playCurrent();
     else {
@@ -378,25 +424,37 @@
 
   Engine.prototype._wire = function () {
     var self = this;
-    this.audio.addEventListener("ended", function () {
-      self.advance();
+    var h = (this._handlers = {
+      ended: function () {
+        self.advance();
+      },
+      pause: function () {
+        if (self._switching || self.audio.ended) return;
+        self.playing = false;
+        self.emit();
+      },
+      play: function () {
+        self._switching = false;
+        self.playing = true;
+        self.emit();
+      },
+      playing: function () {
+        self._switching = false;
+        self._started = true;
+      },
+      error: function () {
+        // A clip that fails MID-sitting must not end the sitting: skip
+        // it. A clip that never loaded must not skip either — the next
+        // is as likely to fail, and advancing on every load error walks
+        // the whole passage in silence, one verse per error. Stop, and
+        // say so through state; the reader presses play again.
+        if (self._started && self.playing) return self.advance();
+        self.playing = false;
+        self.emit();
+      },
     });
-    this.audio.addEventListener("pause", function () {
-      if (self._switching || self.audio.ended) return;
-      self.playing = false;
-      self.emit();
-    });
-    this.audio.addEventListener("play", function () {
-      self._switching = false;
-      self.playing = true;
-      self.emit();
-    });
-    this.audio.addEventListener("playing", function () {
-      self._switching = false;
-    });
-    // A clip that fails mid-sitting must not end the sitting.
-    this.audio.addEventListener("error", function () {
-      if (self.playing) self.advance();
+    Object.keys(h).forEach(function (ev) {
+      self.audio.addEventListener(ev, h[ev]);
     });
 
     // Lock screen, headset, car stereo. Registered per engine; the last
@@ -405,16 +463,16 @@
     if ("mediaSession" in navigator) {
       var handlers = {
         play: function () {
-          if (!self.playing) self.toggle();
+          if (!self.dead && !self.playing) self.toggle();
         },
         pause: function () {
-          if (self.playing) self.toggle();
+          if (!self.dead && self.playing) self.toggle();
         },
         previoustrack: function () {
-          self.go(-1);
+          if (!self.dead) self.go(-1);
         },
         nexttrack: function () {
-          self.go(1);
+          if (!self.dead) self.go(1);
         },
       };
       Object.keys(handlers).forEach(function (action) {
@@ -426,10 +484,18 @@
   };
 
   Engine.prototype.destroy = function () {
+    var self = this;
     this.dead = true;
     this._switching = false;
     this.playing = false;
     this.armed = false;
+    // Detach first: the pause below would otherwise reach this engine's
+    // own pause handler, and the element outlives the engine.
+    Object.keys(this._handlers || {}).forEach(function (ev) {
+      self.audio.removeEventListener(ev, self._handlers[ev]);
+    });
+    this._handlers = null;
+    if (sharedOwner === this) sharedOwner = null;
     this.audio.pause();
     this.audio.removeAttribute("src");
     this.preloadEl.removeAttribute("src");

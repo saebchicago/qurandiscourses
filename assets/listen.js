@@ -160,8 +160,13 @@
       if (on) items[i].el.setAttribute("aria-current", "true");
       else items[i].el.removeAttribute("aria-current");
     }
+    // Scroll only when the POSITION moves. Every state change emits
+    // (speed, repeat, pause, the English toggle appearing), and a reader
+    // who scrolled ahead to read must not be dragged back by any of them.
     var cur = items[st.idx];
-    if (cur && st.armed) {
+    var key = st.idx + ":" + st.leg;
+    if (cur && st.armed && key !== this._scrolledTo) {
+      this._scrolledTo = key;
       try {
         cur.el.scrollIntoView({
           block: "center",
@@ -189,6 +194,10 @@
       self.engine.setMode(self.engine.mode === "ar-en" ? "ar" : "ar-en");
     });
     row.appendChild(btn);
+    // The engine may already be in Arabic+English (a restored sitting)
+    // by the time the probe lets this control exist: paint it from
+    // state, never from a default.
+    this.render(this.engine.state());
 
     // The reader is about to hear one English rendering while reading
     // another, and nothing on the page would otherwise say so. The spoken
@@ -259,7 +268,7 @@
     // assets/app.js initFocusMode): ignored inside a field or a modal,
     // and Space only once the reader has actually started listening, so
     // it keeps scrolling the page for everyone who has not.
-    document.addEventListener("keydown", function (e) {
+    this._onKey = function (e) {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
       if (e.target && e.target.matches && e.target.matches("input,select,textarea"))
         return;
@@ -282,7 +291,8 @@
         e.preventDefault();
         self.engine.setRepeat(!self.engine.repeat);
       }
-    });
+    };
+    document.addEventListener("keydown", this._onKey);
   };
 
   // Each verse gets a button that starts the transport AT that verse,
@@ -328,6 +338,11 @@
   };
 
   Panel.prototype.destroy = function () {
+    // The document-level shortcut handler closes over this panel and,
+    // through it, every verse node of the passage; left registered it
+    // would keep all of that alive across every re-render.
+    if (this._onKey) document.removeEventListener("keydown", this._onKey);
+    this._onKey = null;
     this.engine.destroy();
     this.items.forEach(function (it) {
       it.el.classList.remove("is-listening", "is-listening-en");
@@ -386,9 +401,9 @@
     // rather than against audio that never plays.
     window.qdListenPanel = player;
     window.qdListenPlayer = player.engine;
-    // A probe that already resolved earlier in this page session will not
-    // re-fire onEnglish for this panel, so ask once on build.
-    if (player.engine.english) player.addEnglishToggle();
+    // The English toggle arrives through onEnglish, which the probe fires
+    // for every engine — a promise already settled still resolves its
+    // new .then — so nothing needs asking here.
     if (window.qdCiteEnhance) window.qdCiteEnhance(host);
     // Put the reader back where they were if this is the same passage
     // re-rendered (a depth or translation change), and nowhere otherwise.

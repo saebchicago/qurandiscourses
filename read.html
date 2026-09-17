@@ -1344,7 +1344,19 @@
                 qdState.reciter = opt.getAttribute("data-reciter");
                 qdSaveState();
                 close();
-                load();
+                // The transport resolves the reciter when it builds each
+                // clip's URL, so nothing about the passage needs refetching
+                // or re-rendering (which used to tear the sitting down):
+                // update the captions in place and re-point the transport
+                // at its verse so the clip it holds is the new reciter's.
+                const rname =
+                  qdReciters.find((r) => r.id === qdState.reciter)?.name ||
+                  "Reciter";
+                container.querySelectorAll(".verse-reciter-name").forEach((el) => {
+                  el.textContent = rname;
+                });
+                const pl = window.qdListenPlayer;
+                if (pl && !pl.dead && pl.items.length) pl.seek(pl.idx);
               });
             });
           }
