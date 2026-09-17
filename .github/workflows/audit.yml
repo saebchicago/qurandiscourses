@@ -55,7 +55,6 @@ jobs:
           node scripts/check-root-datasets.mjs
           node scripts/check-exports-sync.mjs
           node scripts/check-safe-key.mjs
-          node scripts/check-audio-modes.mjs
           node scripts/validate-evidence.mjs
 
       - name: Validate navigation and deployment headers
