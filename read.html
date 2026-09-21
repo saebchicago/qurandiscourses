@@ -152,44 +152,84 @@
         <div class="card" id="pickerEntry" hidden>
           <div class="picker-entry-row">
             <button type="button" class="button btn-primary" id="openPicker">
-              Choose a surah
+              Choose surah or juz
             </button>
             <p class="picker-entry-current t-annotation" id="pickerCurrent"></p>
           </div>
           <div id="pickerRange"></div>
         </div>
         <div class="card">
-          <div
-            style="
-              display: flex;
-              gap: 0.8rem;
-              flex-wrap: wrap;
-              align-items: end;
-            "
-          >
-            <label for="surahInput">Surah:</label>
-            <input
-              type="text"
-              id="surahInput"
-              list="surah-list"
-              autocomplete="off"
-              placeholder="e.g. Fatihah or 1"
-              style="width: 220px"
-            />
-            <datalist id="surah-list"></datalist>
-          </div>
-          <span
-            id="surahError"
-            role="alert"
-            aria-live="polite"
-            style="
-              display: none;
-              font-size: 0.85rem;
-              color: var(--nuanced);
-              margin-top: 0.4rem;
-              min-height: 1.2em;
-            "
-          ></span>
+          <!-- The typed reference is the no-JS baseline and keeps every
+               id and behaviour it had. With the picker live it is the
+               second way to do the same thing, so assets/read-picker.js
+               folds it shut: two selection controls stacked on a phone
+               made the reader scroll past the better one to reach a
+               Load button that looked equally primary. Open by default
+               in the markup, so without JavaScript it is simply the
+               whole interface, as before. -->
+          <details id="typeRef" class="type-ref" open>
+            <summary>Type a reference instead</summary>
+            <div
+              style="
+                display: flex;
+                gap: 0.8rem;
+                flex-wrap: wrap;
+                align-items: end;
+              "
+            >
+              <label for="surahInput">Surah:</label>
+              <input
+                type="text"
+                id="surahInput"
+                list="surah-list"
+                autocomplete="off"
+                placeholder="e.g. Fatihah or 1"
+                style="width: 220px"
+              />
+              <datalist id="surah-list"></datalist>
+            </div>
+            <span
+              id="surahError"
+              role="alert"
+              aria-live="polite"
+              style="
+                display: none;
+                font-size: 0.85rem;
+                color: var(--nuanced);
+                margin-top: 0.4rem;
+                min-height: 1.2em;
+              "
+            ></span>
+            <div
+              style="
+                display: flex;
+                gap: 0.8rem;
+                flex-wrap: wrap;
+                align-items: end;
+                margin-top: 0.5rem;
+              "
+            >
+              <label
+                >Verse:
+                <input
+                  type="text"
+                  id="ayahInput"
+                  value=""
+                  placeholder="whole surah"
+                  aria-describedby="ayahHint"
+                  style="width: 150px"
+              /></label>
+              <button class="button" id="loadBtn">Load</button>
+            </div>
+            <!-- The reader who does not know where a surah ends should
+                 not have to guess: this names the length of whatever
+                 surah the box currently resolves to, and says what an
+                 empty box means. assets/read-picker.js keeps it live. -->
+            <p class="caption-note" id="ayahHint">
+              Leave the verse box empty to read the whole surah. A single
+              verse (5) or a range (1-7) also work.
+            </p>
+          </details>
           <div
             style="
               display: flex;
@@ -199,16 +239,6 @@
               margin-top: 0.5rem;
             "
           >
-            <label
-              >Verse:
-              <input
-                type="text"
-                id="ayahInput"
-                value="1"
-                placeholder="e.g. 5, 1-7, or 1-end"
-                style="width: 120px"
-            /></label>
-            <button class="button" id="loadBtn">Load</button>
             <button
               class="button secondary"
               id="prevBtn"
@@ -902,7 +932,15 @@
         const rangeMatch = rawA.match(/^(\d+)\s*[-–—]\s*(\d+|end)?$/i);
         const singleMatch = rawA.match(/^(\d+)$/);
         let ayahStart, ayahEnd;
-        if (rangeMatch) {
+        if (rawA === "") {
+          // An empty verse box is a request for the SURAH, not an error
+          // and not verse 1. The box used to arrive holding "1", so a
+          // reader who typed a surah name and pressed Load was given a
+          // single verse of it — the opposite of what the picker beside
+          // it committed to for the same surah.
+          ayahStart = 1;
+          ayahEnd = Infinity;
+        } else if (rangeMatch) {
           ayahStart = parseInt(rangeMatch[1]);
           const tail = rangeMatch[2];
           ayahEnd = tail && /^\d+$/.test(tail) ? parseInt(tail) : Infinity;
