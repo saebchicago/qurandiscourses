@@ -424,13 +424,23 @@
             '<div class="qd-juz-grid">' +
             d.juz
               .map(function (j) {
+                // Named, not numbered. navigate.html's own juz grid
+                // says "Juz 1 / al-Fatihah 1:1 to 2:141"; this one said
+                // "1 / 1:1 to 2:141", which asks a reader to know the
+                // surah numbers by heart to tell one cell from another.
+                var startName = surahById(j.startSurah);
+                var endName = surahById(j.endSurah);
+                var span =
+                  esc(startName ? startName.translit : String(j.startSurah)) +
+                  " " + j.startSurah + ":" + j.startAyah + " to " +
+                  (j.endSurah === j.startSurah
+                    ? j.endAyah
+                    : esc(endName ? endName.translit : String(j.endSurah)) +
+                      " " + j.endSurah + ":" + j.endAyah);
                 return (
                   '<button type="button" class="qd-juz" data-juz="' + j.juz + '">' +
-                  '<span class="qd-juz-n">' + j.juz + "</span>" +
-                  '<span class="qd-juz-span">' +
-                  j.startSurah + ":" + j.startAyah + " to " +
-                  j.endSurah + ":" + j.endAyah +
-                  "</span></button>"
+                  '<span class="qd-juz-n">Juz ' + j.juz + "</span>" +
+                  '<span class="qd-juz-span">' + span + "</span></button>"
                 );
               })
               .join("") +

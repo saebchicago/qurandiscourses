@@ -33,6 +33,10 @@
     if (!window.qdPicker || !window.qdRange || !window.SURAHS) return;
 
     entry.hidden = false;
+    // Open in the markup so a no-JS reader gets the full typed form;
+    // closed here, where the picker above it is known to work.
+    var typed = document.getElementById("typeRef");
+    if (typed) typed.open = false;
 
     function surahById(id) {
       return window.SURAHS.find(function (s) {
@@ -84,9 +88,13 @@
       // open range typed in the box was silently rewritten to a single
       // verse before load() ever saw it.
       var m = a.match(/^(\d+)\s*[-–—]\s*(\d+|end)?$/i);
-      var from = m ? Number(m[1]) : parseInt(a, 10) || 1;
-      var openEnded = Boolean(m) && !(m[2] && /^\d+$/.test(m[2]));
-      var to = m ? (openEnded ? NaN : Number(m[2])) : from;
+      // An EMPTY box means the whole surah, the same as it does in
+      // read.html's own parser. Reading it as verse 1 here would make
+      // this control disagree with the page it writes into.
+      var blank = a === "";
+      var from = blank ? 1 : m ? Number(m[1]) : parseInt(a, 10) || 1;
+      var openEnded = blank || (Boolean(m) && !(m[2] && /^\d+$/.test(m[2])));
+      var to = blank ? NaN : m ? (openEnded ? NaN : Number(m[2])) : from;
       // clampRange turns a non-numeric `to` into the surah's last verse
       // — the one place "to end" is defined.
       var c = window.qdPicker.clampRange(id || 1, from, to);
@@ -102,7 +110,30 @@
     function label(id, from, to) {
       var s = surahById(id);
       var ref = window.qdPicker.refLabel(id, from, to);
-      return s ? s.translit + ", " + ref : ref;
+      if (!s) return ref;
+      // The verse count belongs HERE, not two taps deep in the dialog:
+      // a reader choosing a range cannot judge one without knowing where
+      // the surah ends, and nothing else on the page said.
+      var whole = from === 1 && to === s.verseCount;
+      return (
+        s.translit + ", " + ref + " \u00b7 " +
+        (whole
+          ? "the whole surah, " + s.verseCount +
+            (s.verseCount === 1 ? " verse" : " verses")
+          : s.verseCount + (s.verseCount === 1 ? " verse" : " verses") + " in all")
+      );
+    }
+
+    // The hint under the verse box names the surah the box resolves to
+    // right now, so the length is on screen while the range is typed.
+    function paintHint(id) {
+      var hint = document.getElementById("ayahHint");
+      var s = surahById(id);
+      if (!hint || !s) return;
+      hint.textContent =
+        s.translit + " has " + s.verseCount +
+        (s.verseCount === 1 ? " verse" : " verses") +
+        ". Leave the verse box empty to read all of it; a single verse (5) or a range (1-7) also work.";
     }
 
     var rangeCtl = null;
@@ -115,6 +146,7 @@
 
     function paint(id, from, to) {
       current.textContent = label(id, from, to);
+      paintHint(id);
       if (!rangeCtl) {
         rangeCtl = window.qdRange.create(rangeHost, {
           surah: id,
@@ -123,6 +155,7 @@
           onChange: function (v) {
             if (writeBack) writeForm(v.surah, v.from, v.to);
             current.textContent = label(v.surah, v.from, v.to);
+            paintHint(v.surah);
           },
         });
       } else {

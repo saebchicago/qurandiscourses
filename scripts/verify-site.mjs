@@ -2097,6 +2097,114 @@ if (runCheck("transpicker") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && 
   await tctx.close();
 }
 
+// ── read.html: the navigation a reader who knows no verse counts uses ─
+if (runCheck("readnav") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) {
+  const nctx = await newContext({ apiMode: "stub" });
+  const page = await nctx.newPage();
+  const errors = [];
+  attachConsoleCollector(page, errors);
+  await page.goto(`${BASE}/read.html`, { waitUntil: "load" });
+  await page.waitForSelector("#pickerEntry:not([hidden])", { timeout: 15000 }).catch(() => {});
+  await page.waitForTimeout(400);
+
+  // The entry button has to name juz. It used to read "Choose a surah",
+  // which is the only label a reader sees before the dialog opens, so
+  // the juz half of the dialog was unreachable by anyone not already
+  // guessing it was in there.
+  const entryLabel = ((await page.locator("#openPicker").textContent()) || "").trim();
+  report(
+    "read-nav-entry-names-juz",
+    "read.html",
+    /juz/i.test(entryLabel),
+    `entry button reads "${entryLabel}"`,
+  );
+
+  // The verse count belongs on screen, not in the reader's memory: the
+  // typed form asks for a verse number and no page told them how many
+  // the surah has.
+  const hint = ((await page.locator("#ayahHint").textContent()) || "").trim();
+  report(
+    "read-nav-shows-verse-count",
+    "read.html",
+    /\b7\b/.test(hint) && /verse/i.test(hint),
+    `hint reads "${hint}"`,
+  );
+
+  // With the picker proven live the typed form folds, so the two
+  // selection controls do not stack and push the better one off a
+  // phone screen. Prev/Next stay out of the fold.
+  const typedFolded = await page.evaluate(() => {
+    const d = document.getElementById("typeRef");
+    return d ? !d.open : null;
+  });
+  const prevVisible = await page.locator("#prevBtn").isVisible().catch(() => false);
+  report(
+    "read-nav-typed-folded-with-js",
+    "read.html",
+    typedFolded === true && prevVisible,
+    `#typeRef open=${!typedFolded} prevVisible=${prevVisible}`,
+  );
+
+  // An empty verse box means the whole surah. It used to arrive holding
+  // "1", so Load handed back a single verse of whatever surah the
+  // reader named -- the opposite of what the picker beside it does.
+  await page.evaluate(() => {
+    const d = document.getElementById("typeRef");
+    if (d) d.open = true;
+  });
+  await page.fill("#surahInput", "103");
+  await page.fill("#ayahInput", "");
+  await page.click("#loadBtn");
+  await page.waitForTimeout(500);
+  const loadedRange = new URL(page.url()).searchParams.get("a");
+  report(
+    "read-nav-empty-verse-box-is-whole-surah",
+    "read.html",
+    loadedRange === "1-3",
+    `surah 103 with an empty verse box loaded ?a=${loadedRange} (al-ʿAsr has 3 verses)`,
+  );
+
+  // Juz cells carry the surah names. They read "1 / 1:1 to 2:141",
+  // which asks the reader to know the surah numbers by heart to tell
+  // one cell from the next.
+  await page.click("#openPicker");
+  await page.waitForSelector(".qd-picker-overlay", { timeout: 5000 }).catch(() => {});
+  await page.click('.qd-picker-overlay .qd-chip[data-filter="juz"]');
+  await page.waitForSelector(".qd-picker-overlay .qd-juz", { timeout: 5000 }).catch(() => {});
+  const firstJuz = await page.locator(".qd-picker-overlay .qd-juz").first().innerText().catch(() => "");
+  report(
+    "read-nav-juz-cells-named",
+    "read.html",
+    /Juz\s*1/i.test(firstJuz) && /fatihah/i.test(firstJuz) && /baqarah/i.test(firstJuz),
+    `first juz cell reads ${JSON.stringify(firstJuz.replace(/\s+/g, " ").trim())}`,
+  );
+  await page.keyboard.press("Escape");
+  report("read-nav-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+  await nctx.close();
+
+  // Without JavaScript the typed form is the whole interface, so it
+  // must arrive open and the picker entry must stay hidden.
+  const nojs = await newContext({ apiMode: "stub", javaScript: false });
+  const plain = await nojs.newPage();
+  await plain.goto(`${BASE}/read.html`, { waitUntil: "load" });
+  const typedOpenNoJs = await plain.evaluate(() => {
+    const d = document.getElementById("typeRef");
+    return d ? d.open : null;
+  }).catch(() => null);
+  const surahVisible = await plain.locator("#surahInput").isVisible().catch(() => false);
+  const entryHidden = await plain.evaluate(() => {
+    const e = document.getElementById("pickerEntry");
+    return e ? e.hidden : null;
+  }).catch(() => null);
+  report(
+    "read-nav-typed-open-without-js",
+    "read.html",
+    typedOpenNoJs === true && surahVisible && entryHidden === true,
+    `#typeRef open=${typedOpenNoJs} surahInputVisible=${surahVisible} #pickerEntry hidden=${entryHidden}`,
+  );
+  await nojs.close();
+}
+
 // ── read.html: ?t= URL parameter selects translations on load ───────
 if (runCheck("transurl") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) {
   // Seeded as a RETURNING visitor whose own saved selection differs from

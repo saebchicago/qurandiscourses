@@ -4298,3 +4298,18 @@ input[type="checkbox"] {
   height: 24px;
   flex-shrink: 0;
 }
+
+/* The typed reference, folded once the picker is live (read.html).
+   Same 44px target rule the site's other disclosures follow. */
+.type-ref > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+.type-ref[open] > summary {
+  margin-bottom: 0.4rem;
+}
