@@ -16,5 +16,5 @@ import { startStaticServer } from "./lib/static-server.mjs";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const port = Number(process.argv[2] || 8000);
 
-const { base } = await startStaticServer(ROOT, port);
+const { base } = await startStaticServer(ROOT, port, "0.0.0.0");
 console.log(`Serving ${ROOT}\n  ${base}\nCtrl-C to stop.`);

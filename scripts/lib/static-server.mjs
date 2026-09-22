@@ -12,6 +12,12 @@ import { createServer } from "node:http";
 import { readFileSync, existsSync } from "node:fs";
 import { join, normalize, extname } from "node:path";
 
+const PUBLIC_DIRECTORIES = new Set(["assets", "data", "js", "s", ".well-known"]);
+const PUBLIC_ROOT_EXTENSIONS = new Set([
+  ".html", ".xml", ".txt", ".webmanifest",
+]);
+const PUBLIC_ROOT_FILES = new Set(["sw.js"]);
+
 export const MIME = {
   ".html": "text/html", ".css": "text/css", ".js": "text/javascript",
   ".mjs": "text/javascript", ".json": "application/json",
@@ -34,11 +40,20 @@ export const MIME = {
 // `port` defaults to 0, meaning any free port: the browser-driving
 // scripts want a port that is always free, scripts/serve.mjs wants a
 // fixed one you can bookmark.
-export async function startStaticServer(root, port = 0) {
+export async function startStaticServer(root, port = 0, host = "127.0.0.1") {
   const server = createServer((req, res) => {
     try {
       let path = decodeURIComponent(new URL(req.url, "http://x").pathname);
       if (path.endsWith("/")) path += "index.html";
+      const segments = path.split("/").filter(Boolean);
+      const isPublicRootFile = segments.length === 1
+        && (PUBLIC_ROOT_EXTENSIONS.has(extname(segments[0]))
+          || PUBLIC_ROOT_FILES.has(segments[0])
+          || (!extname(segments[0]) && existsSync(join(root, path + ".html"))));
+      const isPublicDirectory = segments.length > 1
+        && PUBLIC_DIRECTORIES.has(segments[0])
+        && !segments.slice(1).some((segment) => segment.startsWith("."));
+      if (!isPublicRootFile && !isPublicDirectory) throw new Error("private path");
       let file = normalize(join(root, path));
       if (!file.startsWith(root)) throw new Error("traversal");
       if (!extname(file) && existsSync(file + ".html")) file += ".html";
@@ -52,6 +67,6 @@ export async function startStaticServer(root, port = 0) {
       res.end("not found");
     }
   });
-  await new Promise((r) => server.listen(port, "127.0.0.1", r));
-  return { server, base: `http://127.0.0.1:${server.address().port}` };
+  await new Promise((r) => server.listen(port, host, r));
+  return { server, base: `http://${host}:${server.address().port}` };
 }
