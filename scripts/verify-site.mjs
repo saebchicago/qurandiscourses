@@ -2097,6 +2097,136 @@ if (runCheck("transpicker") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && 
   await tctx.close();
 }
 
+// ── read.html: the Listen experience a first-time visitor meets ──────
+// Everything here was found by walking the page at 375px with the audio
+// CDN unreachable, which is also the state of every offline reader and
+// of this audit itself.
+if (runCheck("listennav") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) {
+  // sessionStorage pre-seeded with a RESOLVED MISS: the probe walks four
+  // candidates at 8s each, so waiting it out would add half a minute to
+  // the suite to reach the state every offline reader reaches anyway.
+  const seedMiss = (ctx, mode) =>
+    ctx.addInitScript(([m]) => {
+      try {
+        sessionStorage.setItem("qd_listen_en_v1", JSON.stringify({ edition: null }));
+        if (m) localStorage.setItem("qd_listen_mode_v2", m);
+      } catch (e) {}
+    }, [mode]);
+
+  for (const mode of ["ar", "en", "ar-en"]) {
+    const lctx = await newContext({ apiMode: "stub" });
+    await seedMiss(lctx, mode);
+    const page = await lctx.newPage();
+    const errors = [];
+    attachConsoleCollector(page, errors);
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto(`${BASE}/read.html?s=1&a=1-7`, { waitUntil: "load" });
+    await page.waitForSelector("#listenPanel [data-listen-play]", { timeout: 15000 }).catch(() => {});
+    await page.waitForTimeout(600);
+
+    // A probe that has finished and found nothing must SAY so. The note
+    // shipped in the markup promises the choices are still coming, which
+    // is true only while the probe runs; it used to stand forever,
+    // leaving an offline reader unable to tell waiting from absent.
+    const note = ((await page.locator("[data-listen-english-status]").textContent()) || "").trim();
+    const namesFallback =
+      mode === "ar" ||
+      (mode === "en" && /plays Arabic instead/i.test(note)) ||
+      (mode === "ar-en" && /Arabic legs only/i.test(note));
+    report(
+      `listen-english-miss-${mode}`,
+      "read.html",
+      /unavailable/i.test(note) && !/appear after/i.test(note) && namesFallback,
+      `saved mode "${mode}" sees: "${note}"`,
+    );
+    if (mode === "ar") {
+      // The transport sits ~1,200px down a phone screen. Nothing above
+      // it said the passage could be heard, so the reader had to scroll
+      // to a control they had no reason to believe existed.
+      const jump = page.locator("#listenJump");
+      const box = await jump.boundingBox();
+      const inFirstScreen = box !== null && box.y < 812;
+      report(
+        "listen-entry-in-first-screen",
+        "read.html",
+        (await jump.isVisible()) && inFirstScreen && box.height >= 44,
+        box === null
+          ? "#listenJump has no box"
+          : `#listenJump at y=${Math.round(box.y)} (viewport 812), ${Math.round(box.height)}px tall`,
+      );
+      // It jumps to the one transport rather than becoming a second one.
+      await jump.click();
+      await page.waitForTimeout(700);
+      const landed = await page.evaluate(() => {
+        const r = document.getElementById("listenPanel").getBoundingClientRect();
+        return {
+          visible: r.top >= -2 && r.top < window.innerHeight,
+          onPlay: !!(document.activeElement && document.activeElement.hasAttribute("data-listen-play")),
+          transports: document.querySelectorAll("[data-listen-play]").length,
+        };
+      });
+      report(
+        "listen-entry-jumps-to-transport",
+        "read.html",
+        landed.visible && landed.onPlay && landed.transports === 1,
+        `panel in view=${landed.visible} focus on Play=${landed.onPlay} transports on the page=${landed.transports} (want 1)`,
+      );
+      // Reflect is not transport: in the transport row it was the only
+      // control that wrapped, taking a full-width line while Play had
+      // 72px, inside a group a screen reader calls "Recitation
+      // transport".
+      const shape = await page.evaluate(() => {
+        const r = document.querySelector("[data-listen-reflect]");
+        const p = document.querySelector("[data-listen-play]");
+        return {
+          inTransport: !!document.querySelector(".listen-controls [data-listen-reflect]"),
+          inOptions: !!document.querySelector(".listen-options [data-listen-reflect]"),
+          reflectW: r ? Math.round(r.getBoundingClientRect().width) : 0,
+          playW: p ? Math.round(p.getBoundingClientRect().width) : 0,
+          reflectH: r ? Math.round(r.getBoundingClientRect().height) : 0,
+        };
+      });
+      report(
+        "listen-reflect-out-of-transport",
+        "read.html",
+        !shape.inTransport && shape.inOptions && shape.reflectH >= 44 &&
+          shape.reflectW < 375,
+        `Reflect in .listen-controls=${shape.inTransport}, in .listen-options=${shape.inOptions}, ${shape.reflectW}px wide vs Play ${shape.playW}px`,
+      );
+    }
+    report(`listen-nav-console-${mode}`, "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+    await lctx.close();
+  }
+
+  // The entry button must never promise audio the page will not give:
+  // hidden with the audio feature switched off, and hidden before any
+  // passage has been loaded.
+  const offctx = await newContext({ apiMode: "stub" });
+  await offctx.addInitScript(() => {
+    try {
+      localStorage.setItem("qd_state", JSON.stringify({ seen: true, features: { showAudio: false } }));
+    } catch (e) {}
+  });
+  const off = await offctx.newPage();
+  await off.goto(`${BASE}/read.html?s=1&a=1-7`, { waitUntil: "load" });
+  await off.waitForTimeout(1200);
+  const audioOff = await off.evaluate(() => ({
+    jump: (document.getElementById("listenJump") || {}).hidden,
+    panel: document.getElementById("listenPanel").hidden,
+    verses: document.querySelectorAll("#verseContainer .verse").length,
+  }));
+  await off.goto(`${BASE}/read.html`, { waitUntil: "load" });
+  await off.waitForTimeout(1000);
+  const noPassage = await off.evaluate(() => (document.getElementById("listenJump") || {}).hidden);
+  report(
+    "listen-entry-hidden-without-audio",
+    "read.html",
+    audioOff.jump === true && audioOff.panel === true && audioOff.verses > 0 && noPassage === true,
+    `audio off: #listenJump hidden=${audioOff.jump}, panel hidden=${audioOff.panel} over ${audioOff.verses} rendered verses; no passage: hidden=${noPassage}`,
+  );
+  await offctx.close();
+}
+
 // ── read.html: the navigation a reader who knows no verse counts uses ─
 if (runCheck("readnav") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) {
   const nctx = await newContext({ apiMode: "stub" });
