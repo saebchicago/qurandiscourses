@@ -157,6 +157,13 @@
     opts = opts || {};
     this.onState = opts.onState || function () {};
     this.onEnglish = opts.onEnglish || function () {};
+    // Called once the probe SETTLES, with the edition or with null.
+    // onEnglish fires only on a hit, so a UI built on it alone can never
+    // tell "still probing" from "probed and absent" -- which is how the
+    // Read page came to show "English audio choices appear after the
+    // page confirms the recording is available" forever on any session
+    // where the CDN was unreachable.
+    this.onEnglishResolved = opts.onEnglishResolved || function () {};
     this.labelFor = opts.labelFor || null;
     this.album = opts.album || "Divine Discourses";
 
@@ -184,9 +191,10 @@
     // Non-blocking on purpose: the caller's UI must render and be usable
     // before this settles. A miss can cost a timeout per candidate.
     probeEnglish().then(function (english) {
-      if (!english || self.dead) return;
-      self.english = english;
-      self.onEnglish(english);
+      if (self.dead) return;
+      self.english = english || null;
+      if (english) self.onEnglish(english);
+      self.onEnglishResolved(self.english);
     });
   }
 

@@ -122,6 +122,13 @@
         self.render(st);
         self.highlight(st);
       },
+      onEnglishResolved: function (english) {
+        if (english) return;
+        // The probe has finished and found nothing. Say so: the note
+        // that ships with the panel promises the choices will appear,
+        // which is only true while the probe is still running.
+        self.showEnglishUnavailable();
+      },
       onEnglish: function () {
         self.addEnglishControl();
         self.showEnglishStatus();
@@ -274,6 +281,21 @@
     if (window.qdCiteEnhance) window.qdCiteEnhance(this.support);
   };
 
+  Panel.prototype.showEnglishUnavailable = function () {
+    var note = this.support && this.support.querySelector("[data-listen-english-status]");
+    if (!note) return;
+    var wanted = storedMode();
+    note.textContent =
+      "English audio is unavailable right now, so only the Arabic " +
+      "recitation will play." +
+      (wanted === "ar"
+        ? ""
+        : wanted === "en"
+          ? " You last chose English audio; this sitting plays Arabic instead."
+          : " You last chose Arabic and English; this sitting plays the Arabic legs only.") +
+      " The written translations on this page are unaffected.";
+  };
+
   // Temporary test seam retained until the existing browser audit is moved
   // from the old binary-toggle method name to the explicit three-choice control.
   Panel.prototype.addEnglishToggle = function () {
@@ -293,6 +315,12 @@
       "</div>" +
       '<div class="listen-options">' +
       '<button type="button" class="button secondary listen-reciter-btn" data-listen-reciter aria-label="Change Arabic reciter">🎤 Choose reciter</button>' +
+      // Reflect is not transport. In the transport row it was the only
+      // control that wrapped, so it took a full 319px line of its own on
+      // a phone while Play had 72px -- a note-taking button reading as
+      // the panel's primary action, inside a group labelled "Recitation
+      // transport" for a screen reader.
+      '<button type="button" class="button secondary listen-btn listen-reflect-btn" data-listen-reflect>✎ Reflect on this verse</button>' +
       "</div>" +
       '<div class="listen-controls" role="group" aria-label="Recitation transport">' +
       '<button type="button" class="button secondary listen-btn" data-listen-prev aria-label="Previous verse">‹</button>' +
@@ -300,7 +328,6 @@
       '<button type="button" class="button secondary listen-btn" data-listen-next aria-label="Next verse">›</button>' +
       '<button type="button" class="button secondary listen-btn" data-listen-repeat aria-pressed="false" aria-label="Repeat this verse">↻ Repeat</button>' +
       '<button type="button" class="button secondary listen-btn" data-listen-speed aria-label="Playback speed">1×</button>' +
-      '<button type="button" class="button secondary listen-btn" data-listen-reflect>Reflect</button>' +
       "</div>" +
       '<p class="listen-status" data-listen-status role="status" aria-live="polite" hidden></p>'
     );
@@ -433,6 +460,22 @@
     this.engine.setMode(mode);
   };
 
+  // Scroll the transport into view and put the keyboard on Play. Used
+  // by the #listen deep link and by the Listen button in the entry card:
+  // on a phone the panel sits about 1,200px down the page, below the
+  // entry form, so a reader who has not scrolled has no way of knowing
+  // the passage can be heard at all.
+  Panel.prototype.jumpTo = function () {
+    try {
+      this.host.scrollIntoView({
+        block: "start",
+        behavior: reducedMotion() ? "auto" : "smooth",
+      });
+      var play = this.el("play");
+      if (play) play.focus({ preventScroll: true });
+    } catch (e) {}
+  };
+
   Panel.prototype.destroy = function () {
     if (this._onKey) document.removeEventListener("keydown", this._onKey);
     this._onKey = null;
@@ -449,6 +492,26 @@
     });
   };
 
+  // The entry card's Listen button. It exists in read.html's markup and
+  // stays hidden until a panel is actually mounted, so it never promises
+  // audio that is switched off in settings or has no verses to play.
+  function showJump(panel) {
+    var jump = document.getElementById("listenJump");
+    if (!jump) return;
+    jump.hidden = false;
+    if (!jump._qdWired) {
+      jump._qdWired = true;
+      jump.addEventListener("click", function () {
+        if (window.qdListenPanel) window.qdListenPanel.jumpTo();
+      });
+    }
+  }
+
+  function hideJump() {
+    var jump = document.getElementById("listenJump");
+    if (jump) jump.hidden = true;
+  }
+
   window.qdListenTeardown = function () {
     var host = document.getElementById("listenPanel");
     if (player) {
@@ -458,6 +521,7 @@
     }
     window.qdListenPanel = null;
     window.qdListenPlayer = null;
+    hideJump();
     if (host) {
       host.innerHTML = "";
       host.hidden = true;
@@ -496,13 +560,10 @@
     carry = null;
     if (!restored) player.applyStoredMode();
     player.refreshLayout();
+    showJump(player);
     if (location.hash === "#listen" && !window.__qdListenLanded) {
       window.__qdListenLanded = true;
-      try {
-        host.scrollIntoView({ block: "start", behavior: reducedMotion() ? "auto" : "smooth" });
-        var play = player.el("play");
-        if (play) play.focus({ preventScroll: true });
-      } catch (e) {}
+      player.jumpTo();
     }
   };
 })();

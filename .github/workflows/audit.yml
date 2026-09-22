@@ -131,6 +131,12 @@ jobs:
         with:
           node-version: 22
 
+      # First, so a run where the runner itself cannot reach these hosts
+      # is legible as that, rather than as four third parties being down
+      # at once. Advisory: never fails the job.
+      - name: Check the runner can reach the third-party hosts
+        run: node scripts/check-egress.mjs
+
       - name: Check citation links
         run: node scripts/check-source-links.mjs --timeout 20000
 

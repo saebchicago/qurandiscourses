@@ -154,6 +154,21 @@
             <button type="button" class="button btn-primary" id="openPicker">
               Choose surah or juz
             </button>
+            <!-- The transport sits about 1,200px down a phone screen,
+                 below this card and the typed form, so nothing a reader
+                 saw before scrolling said the passage could be heard.
+                 assets/listen.js unhides this only once a panel is
+                 actually mounted, and it jumps to that one transport
+                 rather than duplicating it. -->
+            <button
+              type="button"
+              class="button secondary"
+              id="listenJump"
+              title="Jump to the recitation transport for this passage"
+              hidden
+            >
+              🎧 Listen
+            </button>
             <p class="picker-entry-current t-annotation" id="pickerCurrent"></p>
           </div>
           <div id="pickerRange"></div>
