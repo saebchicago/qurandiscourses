@@ -220,6 +220,7 @@
       localStorage.removeItem("qd_state");
       localStorage.removeItem("qd_apicache");
       localStorage.removeItem("qd_wbwcache");
+      localStorage.removeItem("qd_install_dismissed");
       // Older builds mistakenly mirrored qd_state into sessionStorage;
       // sweep that up too so "clear" means clear.
       sessionStorage.removeItem("qd_state");
@@ -944,6 +945,7 @@
     initFocusMode();
     enhanceTrustLinks();
     applyDepth();
+    initInstallExperience();
   });
 
   // Offline shell + bundled-data caching. Feature-detected; a browser
@@ -983,6 +985,89 @@
     window.addEventListener("online", hide);
     if (navigator.onLine === false) show();
   }
+
+  // Installation is an enhancement, not a prerequisite. The explanation is
+  // present in index.html without JavaScript; this adds the native prompt
+  // where the browser offers one, and platform-specific guidance elsewhere.
+  // The only remembered value is a local dismissal, never an analytics event.
+  function initInstallExperience() {
+    const section = document.getElementById("installSection");
+    if (!section) return;
+
+    const dismiss = document.getElementById("installDismiss");
+    const installButton = document.getElementById("installAppButton");
+    const browserNote = document.getElementById("installBrowserNote");
+    const dismissedKey = "qd_install_dismissed";
+    let deferredPrompt = null;
+
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone === true;
+    if (isStandalone) {
+      section.hidden = true;
+      return;
+    }
+
+    try {
+      if (localStorage.getItem(dismissedKey) === "1") {
+        section.hidden = true;
+        return;
+      }
+    } catch (e) {}
+
+    const isIOS =
+      /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    if (isIOS && browserNote) {
+      browserNote.innerHTML =
+        "In Safari, tap <strong>Share</strong>, then choose " +
+        "<strong>Add to Home Screen</strong>. Other iPhone browsers may " +
+        "offer installation from their own menu.";
+    }
+
+    function showNativeInstall() {
+      if (!installButton) return;
+      installButton.hidden = false;
+      installButton.textContent = "Install Divine Discourses";
+    }
+
+    window.addEventListener("beforeinstallprompt", function (event) {
+      event.preventDefault();
+      deferredPrompt = event;
+      showNativeInstall();
+    });
+
+    if (dismiss) {
+      dismiss.addEventListener("click", function () {
+        try {
+          localStorage.setItem(dismissedKey, "1");
+        } catch (e) {}
+        section.hidden = true;
+      });
+    }
+
+    if (installButton) {
+      installButton.addEventListener("click", async function () {
+        if (!deferredPrompt) return;
+        installButton.disabled = true;
+        deferredPrompt.prompt();
+        const choice = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        installButton.disabled = false;
+        if (choice && choice.outcome === "accepted") {
+          section.hidden = true;
+        } else {
+          installButton.hidden = true;
+        }
+      });
+    }
+
+    window.addEventListener("appinstalled", function () {
+      section.hidden = true;
+      deferredPrompt = null;
+    });
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initOfflineIndicator);
   } else {
