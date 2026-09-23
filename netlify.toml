@@ -734,3 +734,10 @@
   to = "/"
   status = 301
   force = true
+
+# Replit agent notes are repo-only; never serve them publicly.
+[[redirects]]
+  from = "/replit.md"
+  to = "/404"
+  status = 404
+  force = true
