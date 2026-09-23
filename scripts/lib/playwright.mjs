@@ -41,7 +41,11 @@ export async function resolveChromium(caller = "this script") {
 // Launch options that prefer the sandbox's prebuilt Chromium when it is
 // there and let Playwright pick otherwise.
 export function launchOptions() {
-  return existsSync("/opt/pw-browsers/chromium")
-    ? { executablePath: "/opt/pw-browsers/chromium" }
-    : {};
+  for (const executablePath of [
+    "/opt/pw-browsers/chromium",
+    "/repl/tools/bin/chromium",
+  ]) {
+    if (existsSync(executablePath)) return { executablePath };
+  }
+  return {};
 }

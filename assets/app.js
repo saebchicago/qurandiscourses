@@ -961,7 +961,7 @@
   // lazily, toggled by the online/offline events; no storage involved.
   function initOfflineIndicator() {
     if (!("onLine" in navigator)) return;
-    var strip = null;
+    var strip = document.querySelector(".offline-banner");
     function show() {
       if (!strip) {
         var main = document.querySelector("main");

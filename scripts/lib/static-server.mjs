@@ -12,17 +12,20 @@ import { createServer } from "node:http";
 import { readFileSync, existsSync } from "node:fs";
 import { join, normalize, extname } from "node:path";
 
-const PUBLIC_DIRECTORIES = new Set(["assets", "data", "js", "s", ".well-known"]);
+const PUBLIC_DIRECTORIES = new Set([
+  "assets", "data", "docs", "js", "s", ".well-known",
+]);
 const PUBLIC_ROOT_EXTENSIONS = new Set([
   ".html", ".xml", ".txt", ".webmanifest",
 ]);
-const PUBLIC_ROOT_FILES = new Set(["sw.js"]);
+const PUBLIC_ROOT_FILES = new Set(["CONTRIBUTING.md", "sw.js"]);
 
 export const MIME = {
   ".html": "text/html", ".css": "text/css", ".js": "text/javascript",
   ".mjs": "text/javascript", ".json": "application/json",
   ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg",
-  ".xml": "application/xml", ".txt": "text/plain", ".woff2": "font/woff2",
+  ".xml": "application/xml", ".md": "text/markdown", ".txt": "text/plain",
+  ".woff2": "font/woff2",
   ".mp3": "audio/mpeg", ".mp4": "video/mp4", ".vtt": "text/vtt",
   ".ico": "image/x-icon", ".webmanifest": "application/manifest+json",
 };
