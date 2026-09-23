@@ -83,7 +83,27 @@ async function networkFirstHtml(request) {
     return response;
   } catch (err) {
     const cached = await cache.match(cacheKey);
-    if (cached) return cached;
+    if (cached) {
+      // A navigation served from the shell cache can report navigator.onLine
+      // as true again after the document swap in some Chromium versions.
+      // Put the status in the cached HTML itself so the reader still knows
+      // this is an offline copy, regardless of that browser quirk.
+      const html = await cached.text();
+      const banner =
+        '<div class="banner note offline-banner" role="status" ' +
+        'aria-live="polite">Offline. Showing your saved copy; live text, ' +
+        'audio, and forms resume with the connection.</div>';
+      const body = html.replace(/<main(\s[^>]*)?>/i, (opening) =>
+        opening + banner,
+      );
+      const headers = new Headers(cached.headers);
+      headers.delete("content-length");
+      return new Response(body, {
+        status: cached.status,
+        statusText: cached.statusText,
+        headers,
+      });
+    }
     throw err;
   }
 }
