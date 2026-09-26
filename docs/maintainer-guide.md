@@ -172,7 +172,8 @@ them only when their inputs change; commit their outputs.
 | build-recitation-pace.mjs | data/recitation/durations.json, morphology, chronology, juz.json | data/recitation/pace.json, data/recitation/verse-seconds/{reciter}.json | numbers.html "Recitation pace" (listening time, median seconds per verse, word-units per minute overall and per period); read.html's listening sheet, which fetches the chosen reciter's verse-seconds file when it opens and shows how long the passage takes |
 | build-juz.mjs | Tanzil standard division + surah-meta | data/juz.json | navigate.html juz grid, read.html `?j=` |
 | build-csp.mjs | every page's inline `<script>` and `<style>` blocks | netlify.toml `script-src` + `style-src-elem` hashes | CSP authorizes inline scripts/styles without `'unsafe-inline'` (`--check` guards staleness) |
-| build-canonicals.mjs | `scripts/lib/site.mjs` (origin + clean-path rule) | every page's canonical/og:url, every internal link, sitemap.xml `<loc>`, robots.txt | one address per page. `--check` fails on a canonical that is missing, duplicated, points elsewhere, disagrees with og:url, or names a `.html` address; also on an internal link that still ends in `.html` |
+| build-page-dates.mjs | every page's `<main>` (scripts and whitespace runs removed), hashed | data/page-dates.json | when each page's content last changed: sitemap.xml `<lastmod>` (build-canonicals) and each page's JSON-LD `dateModified` (build-jsonld). The date moves only when the hash does, so it is stable in a one-commit-deep CI checkout; `--check` fails when a page's content changed without a new date. Run it before build-canonicals and build-jsonld |
+| build-canonicals.mjs | `scripts/lib/site.mjs` (origin + clean-path rule), data/page-dates.json | every page's canonical/og:url, every internal link, sitemap.xml `<loc>` and `<lastmod>`, robots.txt | one address per page. `--check` fails on a canonical that is missing, duplicated, points elsewhere, disagrees with og:url, or names a `.html` address; also on an internal link that still ends in `.html` |
 | build-surah-profiles.mjs | morphology, chronology | data/surah-profiles.json | navigate.html profiles; also `formDiversityRatio`/`lemmaDiversityRatio` (type-token ratio at the surface-form and lemma level, alongside the existing root-level ratio), surfaced on dossier.html's Vocab section |
 | build-themes.mjs | morphology, roots-summary, surah-profiles | data/themes.json, data/theme-surah-index.json | themes.html (each theme's `topSurahs` = where its root-family vocabulary clusters, tokens per 1,000 normalized by surah length); the reverse index feeds dossier.html's "themes touching this surah" line. Absence from a theme's top-8 means "not among its densest", not "vocabulary absent" — the `_method` strings state this |
 | build-rhetorical-features.mjs | morphology | data/rhetorical-features.json | patterns.html direct-address list, numbers.html fawatih list |
@@ -655,7 +656,7 @@ plus a `[[redirects]]` rule 301ing the first to the second with
 matches headers on the request path, so a clean path without its own
 block ships with no CSP. Then run
 `node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs
-&& node scripts/build-canonicals.mjs && node scripts/build-jsonld.mjs
+&& node scripts/build-page-dates.mjs && node scripts/build-canonicals.mjs && node scripts/build-jsonld.mjs
 && node scripts/build-csp.mjs`.
 
 **`netlify.toml` is a hybrid file, and that makes its merge conflicts
@@ -679,8 +680,8 @@ so add new ones to its `REQUIRED_BLOCKS` table when they matter.
 
 That ordering is a contract, not a habit: build-canonicals fixes the
 URLs that build-jsonld embeds, and build-jsonld rewrites head regions on
-pages whose real inline scripts build-csp then hashes. Canonicals, then
-jsonld, then csp, always. (ld+json blocks themselves are data, never
+pages whose real inline scripts build-csp then hashes. Page dates, then
+canonicals, then jsonld, then csp, always. (ld+json blocks themselves are data, never
 hashed; build-csp documents why.) `build-sw-manifest.mjs` runs after
 all of them — it fingerprints the settled page bytes and data files
 into the service worker's precache manifest.

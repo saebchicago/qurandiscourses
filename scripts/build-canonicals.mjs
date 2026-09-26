@@ -10,7 +10,9 @@
 //               internal link, so a reader clicking through the site
 //               never pays for the .html -> clean 301
 //   assets/*.js the same internal links, built at runtime
-//   sitemap.xml every <loc>, keeping lastmod/changefreq/priority
+//   sitemap.xml every <loc>, and every <lastmod> from data/page-dates.json
+//               (scripts/build-page-dates.mjs); changefreq/priority stay
+//               editorial
 //   robots.txt  the Sitemap: line
 //
 // --check additionally asserts the invariants that make the canonical
@@ -144,21 +146,37 @@ const noindex = new Set(
   pages.filter((f) => /<meta name="robots" content="noindex/.test(readFileSync(join(ROOT, f), "utf8"))),
 );
 
+const pageDates = JSON.parse(readFileSync(join(ROOT, "data", "page-dates.json"), "utf8")).pages;
+
 function rewriteSitemap() {
   const abs = join(ROOT, "sitemap.xml");
   const before = readFileSync(abs, "utf8");
-  // Rewrite each <loc> to the canonical form of the page it names,
-  // leaving lastmod/changefreq/priority alone: those are editorial.
-  const after = before.replace(/<loc>([^<]*)<\/loc>/g, (m, loc) => {
-    const path = loc.replace(ORIGIN_RE, "").replace(/^\//, "") || "index.html";
+  // Rewrite each <loc> to the canonical form of the page it names, and
+  // its <lastmod> to the date that page's content last changed
+  // (data/page-dates.json). changefreq/priority stay editorial.
+  const after = before.replace(/<url>[\s\S]*?<\/url>/g, (block) => {
+    const loc = /<loc>([^<]*)<\/loc>/.exec(block);
+    if (!loc) return block;
+    const path = loc[1].replace(ORIGIN_RE, "").replace(/^\//, "") || "index.html";
     const file = path.endsWith(".html") ? path : path + ".html";
-    return `<loc>${url(file)}</loc>`;
+    let out = block.replace(loc[0], `<loc>${url(file)}</loc>`);
+    const d = pageDates[file] && pageDates[file].lastmod;
+    if (d) out = out.replace(/<lastmod>[^<]*<\/lastmod>/, `<lastmod>${d}</lastmod>`);
+    return out;
   });
   if (after !== before) writes.push([abs, after]);
   return after;
 }
 
 function checkSitemap(xml) {
+  for (const [block] of xml.matchAll(/<url>[\s\S]*?<\/url>/g)) {
+    const loc = (/<loc>([^<]*)<\/loc>/.exec(block) || [])[1];
+    if (!loc) continue;
+    const have = (/<lastmod>([^<]*)<\/lastmod>/.exec(block) || [])[1];
+    const file = (loc.replace(SITE, "").replace(/^\//, "") || "index") + ".html";
+    const want = pageDates[file] && pageDates[file].lastmod;
+    if (want && have !== want) failures.push(`sitemap.xml: ${loc} lastmod ${have || "missing"}, page content last changed ${want}`);
+  }
   const locs = [...xml.matchAll(/<loc>([^<]*)<\/loc>/g)].map((m) => m[1]);
   const seen = new Set();
   for (const loc of locs) {
