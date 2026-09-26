@@ -458,9 +458,9 @@
       '<div class="listen-progress" aria-hidden="true"><span data-listen-progress></span></div>' +
       '<div class="listen-bar">' +
       '<div class="listen-controls" role="group" aria-label="Recitation transport">' +
-      '<button type="button" class="button secondary listen-btn" data-listen-prev aria-label="Previous verse">‹</button>' +
+      '<button type="button" class="button secondary listen-btn" data-listen-prev aria-label="Previous verse">⏮</button>' +
       '<button type="button" class="button btn-primary listen-btn listen-play" data-listen-play aria-label="Play">▶</button>' +
-      '<button type="button" class="button secondary listen-btn" data-listen-next aria-label="Next verse">›</button>' +
+      '<button type="button" class="button secondary listen-btn" data-listen-next aria-label="Next verse">⏭</button>' +
       "</div>" +
       '<div class="listen-where">' +
       '<p class="listen-now" data-listen-now>—</p>' +
@@ -588,6 +588,8 @@
     });
     this.el("reflect").addEventListener("click", function () {
       if (self.engine.playing) self.engine.toggle();
+      // The editor opens under the verse; the sheet would cover it.
+      self.toggleSheet(false);
       var item = self.engine.current();
       if (!item) return;
       document.dispatchEvent(

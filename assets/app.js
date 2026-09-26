@@ -247,6 +247,15 @@
   // Called by read.html after a verse/range successfully loads. Also
   // announces the loaded reference so decoupled features (the notes
   // panel) can follow along without patching read.html's load flow.
+  // A whole juz, recorded as the place to come back to. Kept apart from
+  // qdSaveLastRead, which also tells the notes panel a verse reference
+  // loaded; a juz is not a single reference to attach a note to.
+  window.qdSaveLastJuz = function (j) {
+    if (!state.progress) state.progress = { lastRead: null, exercises: {}, paths: {} };
+    state.progress.lastRead = { j: Number(j) };
+    save();
+  };
+
   window.qdSaveLastRead = function (s, a) {
     if (!state.progress) state.progress = { lastRead: null, exercises: {}, paths: {} };
     state.progress.lastRead = { s: s, a: String(a) };

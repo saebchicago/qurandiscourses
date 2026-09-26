@@ -246,11 +246,6 @@
         // every reader app: tap the title, get the chooser. That saves a
         // separate "Change" button in a bar that has to fit 375px.
         '<button type="button" class="read-context-ref" data-ctx="change" aria-label="Change passage"></button>' +
-        // The one translations control for the passage. It was repeated
-        // at the head of every verse; .trans-open-btn keeps the picker's
-        // focus-restore contract, and this bar survives the re-render
-        // that a translation change triggers, so focus has a home.
-        '<button type="button" class="read-context-trans trans-open-btn" data-ctx="translations"></button>' +
         '<span class="read-context-actions">' +
         '<button type="button" class="btn-utility" data-ctx="options" aria-expanded="false" aria-controls="readSetup">Options</button>' +
         '<button type="button" class="btn-utility" data-ctx="prev" aria-label="Previous verse">&lsaquo;</button>' +
@@ -279,6 +274,26 @@
         if (which === "next" && nextBtn) nextBtn.click();
       });
       container.parentNode.insertBefore(ctxBar, container);
+
+      // The one translations control for the passage, inside Options.
+      // It was a second row of this bar: 48px of a phone's reading band
+      // held for a setting chosen once per sitting. .trans-open-btn keeps
+      // the picker's focus-restore contract, and #readSetup survives the
+      // re-render a translation change triggers, so focus has a home.
+      var entry = document.getElementById("pickerEntry");
+      if (entry && !document.getElementById("setupTrans")) {
+        var row = document.createElement("div");
+        row.className = "read-trans-row";
+        row.innerHTML =
+          '<span class="read-trans-label t-annotation">Translations</span>' +
+          '<button type="button" class="button secondary trans-open-btn" id="setupTrans"></button>';
+        row.querySelector("button").addEventListener("click", function (e) {
+          if (window.qdOpenTransPicker) window.qdOpenTransPicker(e.currentTarget);
+        });
+        var entryRow = entry.querySelector(".picker-entry-row");
+        if (entryRow) entryRow.insertAdjacentElement("afterend", row);
+        else entry.appendChild(row);
+      }
     }
 
     // Reading state. With a passage on screen, the controls that choose
@@ -298,6 +313,10 @@
     }
 
     function paintContext() {
+      var transEl = document.getElementById("setupTrans");
+      if (transEl && window.qdTransPickerSummary) {
+        transEl.textContent = window.qdTransPickerSummary() + " ▾";
+      }
       if (!ctxBar) return;
       var verses = container.querySelectorAll(".verse");
       var s = parseInt(
@@ -325,12 +344,6 @@
       var refEl = ctxBar.querySelector(".read-context-ref");
       refEl.textContent = (su ? su.translit + ", " : "") + ref + " ▾";
       refEl.setAttribute("aria-label", "Change passage (now " + (su ? su.translit + ", " : "") + ref + ")");
-      var transEl = ctxBar.querySelector(".read-context-trans");
-      if (transEl) {
-        transEl.textContent = window.qdTransPickerSummary
-          ? window.qdTransPickerSummary()
-          : "";
-      }
       // Prev at surah 1 verse 1 and next at 114's end are the page's own
       // to decide; mirror whatever it has done with its buttons.
       ctxBar.querySelector('[data-ctx="prev"]').disabled = !!(
@@ -374,6 +387,90 @@
     }
     new MutationObserver(onRender).observe(container, { childList: true, subtree: true });
     onRender();
+
+    // ── 7. Where the reader is ──────────────────────────────────────
+    // The verse at the top of the reading band, saved as the reader
+    // scrolls (or as Listen scrolls for them), so coming back lands on
+    // it rather than on verse 1 of the passage.
+    function progressState() {
+      var st = S();
+      if (!st) return null;
+      if (!st.progress) st.progress = { lastRead: null, exercises: {}, paths: {} };
+      return st.progress;
+    }
+    function topVerse() {
+      var inset = ctxBar && !ctxBar.hidden ? ctxBar.getBoundingClientRect().bottom : 0;
+      var verses = container.querySelectorAll(".verse");
+      for (var i = 0; i < verses.length; i++) {
+        if (verses[i].getBoundingClientRect().bottom > inset + 24) return verses[i];
+      }
+      return null;
+    }
+    var posTimer = null;
+    window.addEventListener(
+      "scroll",
+      function () {
+        if (posTimer) return;
+        posTimer = setTimeout(function () {
+          posTimer = null;
+          if (resumePending) return;
+          var v = topVerse();
+          var p = progressState();
+          if (!v || !p) return;
+          var at = {
+            s: Number(v.getAttribute("data-surah")),
+            a: Number(v.getAttribute("data-ayah")),
+          };
+          if (!(at.s >= 1) || !(at.a >= 1)) return;
+          if (p.lastVerse && p.lastVerse.s === at.s && p.lastVerse.a === at.a) return;
+          p.lastVerse = at;
+          save();
+        }, 800);
+      },
+      { passive: true },
+    );
+
+    // Resume: read.html sets __qdResume on a bare /read (it has already
+    // put the last passage in the form) or on a "#resume" link. The page
+    // can render a passage twice on arrival, and the second render
+    // passes through a short loading card that drops the scroll back to
+    // the top, so the saved verse is re-applied on every render until
+    // the reader takes over (touch, wheel, key) or 15 seconds pass.
+    var resumePending = !!window.__qdResume;
+    var resumeToasted = false;
+    // Read from storage, not qdState: app.js may not have hydrated the
+    // state object yet when the first render lands.
+    var resumeAt = null;
+    try {
+      var savedState = JSON.parse(localStorage.getItem("qd_state") || "{}");
+      resumeAt = (savedState.progress && savedState.progress.lastVerse) || null;
+    } catch (e) {}
+    function endResume() {
+      resumePending = false;
+    }
+    ["touchstart", "wheel", "keydown", "mousedown"].forEach(function (t) {
+      window.addEventListener(t, endResume, { once: true, passive: true });
+    });
+    setTimeout(endResume, 15000);
+    function tryResume() {
+      if (!resumePending) return;
+      var at = resumeAt;
+      if (!at) return endResume();
+      var v = container.querySelector(
+        '.verse[data-surah="' + at.s + '"][data-ayah="' + at.a + '"]',
+      );
+      if (!v || v === container.querySelector(".verse")) return;
+      try {
+        v.scrollIntoView({ block: "start" });
+      } catch (e) {}
+      if (!resumeToasted && window.qdToast) {
+        resumeToasted = true;
+        var su = surahById(at.s);
+        window.qdToast("Back at " + (su ? su.translit + " " : "") + at.s + ":" + at.a);
+      }
+    }
+    new MutationObserver(tryResume).observe(container, { childList: true });
+    tryResume();
 
     // ── 5. Keyboard ─────────────────────────────────────────────────
     document.addEventListener("keydown", function (e) {

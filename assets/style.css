@@ -1442,14 +1442,19 @@ details.chart-fallback table.data {
    right-click / long-press to copy, click to land on the single-verse
    URL. Styled to sit quietly in the muted meta row. */
 .verse .meta .vref {
+  /* The verse's permalink was a 16x17px target on a phone. */
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  min-width: 44px;
   color: inherit;
-  text-decoration: none;
-  border-bottom: 1px dotted var(--muted);
+  text-decoration: underline dotted var(--muted);
+  text-underline-offset: 3px;
 }
 .verse .meta .vref:hover,
 .verse .meta .vref:focus-visible {
   color: var(--link);
-  border-bottom-color: var(--link);
+  text-decoration-color: var(--link);
 }
 .verse .translation {
   margin: 0.6rem 0;
@@ -1920,6 +1925,59 @@ html[data-depth="encyclopedic"] li.encyclopedic-only {
     /* Keep the tap area at the platform minimum even as the text
        shrinks; the Menu toggle already honors 44px. */
     min-height: 44px;
+  }
+}
+
+/* ── Compact site chrome on phones ─────────────────────────────────
+   Measured before this block at 375x667: header 139px + nav 110px =
+   249px of chrome on every page, 37% of an iPhone SE screen, so the
+   first verse of any passage began a full screen down. Header becomes
+   one row (crest beside the title); the five nav chips become one row.
+   Markup is untouched, so the nav stays byte-identical across pages
+   (scripts/check-nav-sync.mjs) and still works with JavaScript off. */
+@media (max-width: 600px) {
+  header.site {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0 0.55rem;
+    padding: 0.45rem 1rem 0.4rem;
+  }
+  header.site .crest {
+    font-size: 1.35rem;
+    margin: 0;
+  }
+  header.site h1 {
+    font-size: 1.3rem;
+    margin: 0;
+    line-height: 1.2;
+  }
+  header.site .tag-khitab {
+    flex-basis: 100%;
+    margin: 0.2rem 0 0;
+  }
+  nav.primary {
+    padding: 0.3rem 0.35rem;
+  }
+  nav.primary .nav-groups {
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 0.25rem;
+    /* A safety net for the narrowest phones: the chips scroll rather
+       than wrap. The open menu is positioned against nav.primary (see
+       the 768px block), an ancestor of this box, so it is not clipped. */
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav.primary .nav-groups::-webkit-scrollbar {
+    display: none;
+  }
+  nav.primary .nav-group-btn {
+    padding: 0.3rem 0.55rem;
+    gap: 0.25rem;
+    font-size: 0.82rem;
+    white-space: nowrap;
   }
 }
 
@@ -4050,6 +4108,96 @@ html.qd-has-listen .qd-toast {
   bottom: calc(4.5rem + var(--qd-listen-bar-h, 64px) + env(safe-area-inset-bottom, 0px));
 }
 
+/* Reflection in place (assets/notes.js): the editor opens under the
+   verse it is about, and a verse with a note carries a mark. */
+.verse-note-mark {
+  flex-shrink: 0;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--accent);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.verse-note {
+  margin: 0.75rem 0 0.25rem;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-inline-start: 3px solid var(--accent);
+  border-radius: 6px;
+  background: var(--bg);
+}
+.verse-note-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.verse-note textarea {
+  display: block;
+  width: 100%;
+  min-height: 5.5rem;
+  padding: 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  /* 16px or larger, or iOS Safari zooms the page when it takes focus. */
+  font-size: 1rem;
+  resize: vertical;
+}
+.verse-note-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.45rem;
+}
+.verse-note-status {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.verse-note-done {
+  min-height: 44px;
+}
+
+/* Translations, inside Options (#readSetup). */
+.read-trans-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.75rem;
+  margin-top: 0.8rem;
+}
+.read-trans-row .trans-open-btn {
+  min-height: 44px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* An inline link inside running text cannot grow its box without
+   breaking the line, but its padding widens what a finger can hit. */
+#methodStrip a {
+  padding-block: 0.75rem;
+}
+
+/* Landscape phones: keep the transport clear of the notch. */
+.listen-bar,
+.listen-sheet,
+.listen-status {
+  padding-inline-start: max(0.75rem, env(safe-area-inset-left, 0px));
+  padding-inline-end: max(0.75rem, env(safe-area-inset-right, 0px));
+}
+
 /* Reading state (assets/read-polish.js). With a passage on screen the
    passage's own context bar is the sticky header; the site nav scrolls
    away with the page instead of holding 110px of a phone screen. */
@@ -4259,31 +4407,6 @@ html.qd-reading nav.primary {
 }
 .read-context-ref:hover,
 .read-context-ref:focus-visible {
-  color: var(--link);
-}
-.read-context-trans {
-  grid-row: 2;
-  grid-column: 1 / -1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  border: 0;
-  border-top: 1px solid var(--line);
-  background: none;
-  color: var(--muted);
-  font: inherit;
-  font-size: 0.82rem;
-  text-align: start;
-  cursor: pointer;
-  min-height: 44px;
-  padding: 0 0.25rem;
-}
-.read-context-trans::after {
-  content: " ▾";
-}
-.read-context-trans:hover,
-.read-context-trans:focus-visible {
   color: var(--link);
 }
 .read-context-actions {
