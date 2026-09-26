@@ -2,7 +2,7 @@
  "_generated": "scripts/build-exports.mjs",
  "_source": "Dukes, Kais. The Quranic Arabic Corpus, version 0.4. Leeds: Language Research Group, University of Leeds, 2009-2017. https://corpus.quran.com/. GNU GPL.",
  "_chronologySource": "Egyptian Standard (Cairo 1924) revelation order, four-period classification following the Nöldeke-Bell tradition (Watt, \"Bell's Introduction to the Qur'an\", 1970).",
- "_computed": "2026-08-09",
+ "_computed": "2026-09-26",
  "tables": {
   "root-frequencies": {
    "description": "Every one of the 1,642 roots: raw occurrence count, overall normalized frequency, and per-period count and normalized frequency.",
@@ -957,6 +957,62 @@
      "type": "string",
      "unit": null,
      "description": "First occurrence, as surah:verse."
+    }
+   ]
+  },
+  "verse-durations": {
+   "description": "Every verse with its length in word-units and how long its recitation lasts in each recording the Read page plays, one column per reciter.",
+   "rowCount": 6236,
+   "countingRule": "Duration read from the header of each verse's audio file (cdn.islamic.network, the files /read plays): exact frame count from a Xing/Info or VBRI header when present, otherwise audio bytes x 8 / bitrate. Seconds, rounded to 0.1. tokens = Leeds word-units in the verse, as in verse-lengths. Method and per-reciter header counts in data/recitation/durations.json.",
+   "verification": "Verified as measurements of those files. Nuanced as analysis: a duration is one recording's performance, not a property of the text, and verse-1 files may include the basmala.",
+   "fields": [
+    {
+     "name": "surah",
+     "type": "integer",
+     "unit": null,
+     "description": "Surah number."
+    },
+    {
+     "name": "verse",
+     "type": "integer",
+     "unit": null,
+     "description": "Verse number."
+    },
+    {
+     "name": "tokens",
+     "type": "integer",
+     "unit": "tokens",
+     "description": "Word-units in the verse."
+    },
+    {
+     "name": "seconds_husary",
+     "type": "number",
+     "unit": "seconds",
+     "description": "Recitation length, Mahmoud al-Husary (ar.husary)."
+    },
+    {
+     "name": "seconds_minshawi",
+     "type": "number",
+     "unit": "seconds",
+     "description": "Recitation length, Mohamed al-Minshawi (ar.minshawi)."
+    },
+    {
+     "name": "seconds_abdulbasitmurattal",
+     "type": "number",
+     "unit": "seconds",
+     "description": "Recitation length, Abdul Basit (ar.abdulbasitmurattal)."
+    },
+    {
+     "name": "seconds_abdurrahmaansudais",
+     "type": "number",
+     "unit": "seconds",
+     "description": "Recitation length, Sudais (ar.abdurrahmaansudais)."
+    },
+    {
+     "name": "seconds_saoodshuraym",
+     "type": "number",
+     "unit": "seconds",
+     "description": "Recitation length, Shuraim (ar.saoodshuraym)."
     }
    ]
   },

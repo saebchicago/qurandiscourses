@@ -9,22 +9,28 @@
   <updated>2026-09-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
-    <title>Version 1.3.0: three more tables to download</title>
-    <id>https://divinediscourses.org/changelog#2026-09-v130-three-new-tables</id>
-    <link href="https://divinediscourses.org/changelog#2026-09-v130-three-new-tables"/>
+    <title>Version 1.3.0: four more tables to download, and how long a recitation takes</title>
+    <id>https://divinediscourses.org/changelog#2026-09-v130-new-tables-and-recitation-pace</id>
+    <link href="https://divinediscourses.org/changelog#2026-09-v130-new-tables-and-recitation-pace"/>
     <updated>2026-09-01T00:00:00Z</updated>
-    <content type="html">&lt;strong&gt;Version 1.3.0: three more tables to download.&lt;/strong&gt;
+    <content type="html">&lt;strong&gt;Version 1.3.0: four more tables to download, and how long a
+              recitation takes.&lt;/strong&gt;
               &lt;a href="/export"&gt;Export&lt;/a&gt; adds &lt;em&gt;roots by surah&lt;/em&gt; (every
               root's count and rate in every surah it appears in, 17,496 rows),
               &lt;em&gt;lemma frequencies&lt;/em&gt; (all 4,832 lemmas with part of speech,
-              root, most common form, and spread across verses and surahs), and
+              root, most common form, and spread across verses and surahs),
               &lt;em&gt;direct address&lt;/em&gt; (the 89 verses with &amp;ldquo;O you who
-              believe&amp;rdquo;). All three were already computed for the Roots and
-              Patterns pages but could not be downloaded. Each is checked against
-              files computed separately: root counts by surah sum to each root's
-              total and match its surah spread, and the lemma list matches the
-              lemma total on Numbers. The v1.3.0 archive holds all seventeen
-              tables; earlier archives are unchanged.</content>
+              believe&amp;rdquo;), and &lt;em&gt;verse durations&lt;/em&gt; (how long each verse's
+              recitation lasts in each recording Read plays). The first three were
+              already computed for the Roots and Patterns pages but could not be
+              downloaded; each is checked against files computed separately.
+              Durations are measured from the audio files' own headers, without
+              downloading the audio. &lt;a href="/numbers#recitation-pace"&gt;Numbers&lt;/a&gt;
+              now shows each reciter's listening time and pace, overall and by
+              period, and Read's listening options show how long the passage takes
+              with the chosen reciter. A duration describes a recording, not the
+              text. The v1.3.0 archive holds all eighteen tables; earlier archives
+              are unchanged.</content>
   </entry>
   <entry>
     <title>The Arabic text now ships with the site</title>

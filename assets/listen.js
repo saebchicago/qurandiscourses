@@ -230,6 +230,12 @@
     speed.setAttribute("aria-label", "Playback speed " + st.rate + "×");
     var mode = this.el("mode");
     if (mode) mode.value = st.mode;
+    var sheetEl = this.el("sheet");
+    var timeKey = this.engine.reciterId() + "|" + st.mode;
+    if (sheetEl && !sheetEl.hidden && timeKey !== this._timeKey) {
+      this._timeKey = timeKey;
+      this.paintTime();
+    }
     var reciter = this.el("reciter");
     if (reciter) {
       reciter.textContent = "🎤 " + this.reciterName();
@@ -442,6 +448,7 @@
       "</h3>" +
       '<button type="button" class="button secondary listen-btn listen-sheet-close" data-listen-close aria-label="Close listening options">✕</button>' +
       "</div>" +
+      '<p class="listen-time t-annotation" data-listen-time hidden></p>' +
       '<div class="listen-options">' +
       '<button type="button" class="button secondary listen-reciter-btn" data-listen-reciter aria-label="Change Arabic reciter">🎤 Choose reciter</button>' +
       this.voiceMarkup() +
@@ -494,11 +501,70 @@
     sheet.hidden = !next;
     more.setAttribute("aria-expanded", String(next));
     if (next) {
+      this._timeKey = this.engine.reciterId() + "|" + this.engine.mode;
+      this.paintTime();
+    }
+    if (next) {
       var close = this.el("close");
       if (close) close.focus({ preventScroll: true });
     } else if (open === false) {
       more.focus({ preventScroll: true });
     }
+  };
+
+  // How long the Arabic recitation of this passage takes with the chosen
+  // reciter: the sum of each verse's measured duration
+  // (data/recitation/verse-seconds/, scripts/build-recitation-pace.mjs).
+  // Fetched only when the sheet opens, once per reciter. Hidden when the
+  // timing is unavailable or only the translation is playing.
+  var verseSeconds = {};
+  Panel.prototype.paintTime = function () {
+    var line = this.el("time");
+    if (!line) return;
+    var self = this;
+    var id = this.engine.reciterId();
+    if (this.engine.mode === "en" || !this.items.length) {
+      line.hidden = true;
+      return;
+    }
+    if (!verseSeconds[id]) {
+      verseSeconds[id] = fetch("/data/recitation/verse-seconds/" + encodeURIComponent(id) + ".json").then(function (r) {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      });
+      verseSeconds[id].catch(function () {
+        delete verseSeconds[id];
+      });
+    }
+    verseSeconds[id].then(
+      function (secs) {
+        if (self.engine.reciterId() !== id) return;
+        var total = 0;
+        for (var i = 0; i < self.items.length; i++) {
+          var v = secs[self.items[i].arNumber - 1];
+          if (typeof v !== "number") {
+            line.hidden = true;
+            return;
+          }
+          total += v;
+        }
+        var mins = total / 60;
+        var text =
+          mins < 1
+            ? "under a minute"
+            : mins < 90
+              ? "about " + Math.round(mins) + " min"
+              : "about " + Math.floor(mins / 60) + " h " + Math.round(mins % 60) + " min";
+        line.textContent =
+          "Arabic recitation: " + text + " with " + self.reciterName() +
+          (self.engine.mode === "ar-en" ? ", plus the translation" : "") +
+          " at normal speed.";
+        line.hidden = false;
+      },
+      function () {
+        line.hidden = true;
+      },
+    );
   };
 
   // Sleep timer: off, 15, 30, 60 minutes. It pauses; it never unloads,

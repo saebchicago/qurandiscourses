@@ -320,6 +320,23 @@ for (const [table, src, count] of SINGLE_SOURCE) {
     fail("sources", `direct-address: ${n(rows["direct-address"])} rows vs count ${n(da.count)} in data/rhetorical-features.json`);
 }
 
+{
+  const vd = readJson("data/exports/verse-durations.json");
+  const vl = readJson("data/exports/verse-lengths.json");
+  const rec = readJson("data/recitation/durations.json");
+  if (vd.length !== vl.length) fail("sources", `verse-durations: ${n(vd.length)} rows vs ${n(vl.length)} in verse-lengths`);
+  let off = 0;
+  vd.forEach((r, i) => {
+    const l = vl[i];
+    if (!l || l.surah !== r.surah || l.verse !== r.verse || l.tokens !== r.tokens) off++;
+    for (const c of rec.reciters) {
+      const col = `seconds_${c.id.replace(/^ar\./, "")}`;
+      if (r[col] !== Math.round(rec.durations[c.id][i] / 100) / 10) off++;
+    }
+  });
+  if (off) fail("sources", `verse-durations: ${n(off)} cells disagree with verse-lengths or data/recitation/durations.json`);
+}
+
 // ── Report ───────────────────────────────────────────────────────────
 // Named, never silently dropped: a report that quietly skipped a figure
 // would read as "everything checked".

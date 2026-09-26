@@ -233,6 +233,7 @@
             <li class="encyclopedic-only"><a href="#fawatih-opening-particles">Fawatih (opening particles)</a></li>
             <li><a href="#num-periods">Across revelation</a></li>
             <li><a href="#verse-length-by-band">Verse length by band</a></li>
+            <li><a href="#recitation-pace">Recitation pace</a></li>
             <li class="study-only"><a href="#vocabulary-growth-across-revelation">Vocabulary growth across revelation</a></li>
             <li class="study-only"><a href="#roots-unique-to-one-period">Roots unique to one period</a></li>
             <li class="encyclopedic-only"><a href="#distinctive-vocabulary-by-period-keyness-g2">Distinctive vocabulary by period (keyness, G2)</a></li>
@@ -820,6 +821,40 @@
               pattern across periods is widely observed in academic literature.</p>
             </details>
           </div>
+          <div class="card">
+            <h3 id="recitation-pace">
+              Recitation pace
+              <span
+                class="badge nuanced"
+                data-source-ids="islamic-network-audio leeds-corpus-v0.4 cairo-1924"
+                aria-label="Nuanced"
+                tabindex="0"
+                title="Nuanced · a reciter's performance, not a property of the text"
+                >~</span
+              >
+            </h3>
+            <p>
+              How long each recording on <a href="/read">Read</a> takes, and
+              how many word-units each reciter covers per minute, overall and
+              by revelation period. Measured from the audio files the site
+              plays. This describes one recording's performance, not the
+              text: another recitation by the same reciter would differ.
+            </p>
+            <div id="recitationPace"></div>
+            <details class="method-note">
+              <summary>ℹ How this is measured</summary>
+              <p><span class="badge ok" data-source-ids="islamic-network-audio" aria-label="Verified" tabindex="0" title="Verified · measured from the cited files">●</span>
+              Each verse's duration is read from the header of its audio file
+              (<code>scripts/build-recitation-durations.mjs</code>): the exact
+              frame count when the file records one, otherwise its size and
+              bitrate. Pace is Leeds word-units divided by minutes of
+              recitation (<code>scripts/build-recitation-pace.mjs</code>).
+              <span class="badge nuanced" data-source-ids="cairo-1924" aria-label="Nuanced" tabindex="0" title="Nuanced · periodization varies across scholarly chronologies">~</span>
+              on the period split (Cairo 1924). Verse-1 files may include the
+              basmala. Per-verse durations (CSV/JSON):
+              <a href="/export">Export</a>.</p>
+            </details>
+          </div>
           <div class="card study-only">
             <h3 id="vocabulary-growth-across-revelation">Vocabulary growth across revelation</h3>
             <p>
@@ -1101,6 +1136,7 @@
 
           renderKeyness();
           renderDispersion();
+          renderRecitationPace();
 
           renderVerseLengthSvg(data.verseLengthHistogram);
           loadAndRenderHeatmap();
@@ -1160,6 +1196,53 @@
         // by scripts/compute-association-stats.mjs) — top 15 roots per
         // revelation period by Dunning's G2. Fetched separately since it
         // is a new, larger dataset, not folded into data/numbers.json.
+        // Listening time and pace per reciter (data/recitation/pace.json,
+        // scripts/build-recitation-pace.mjs), from durations measured on
+        // the audio files /read plays.
+        function renderRecitationPace() {
+          var host = document.getElementById("recitationPace");
+          if (!host) return;
+          fetch("data/recitation/pace.json")
+            .then(function (r) {
+              if (!r.ok) throw new Error("HTTP " + r.status);
+              return r.json();
+            })
+            .then(function (data) {
+              var periods = ["meccan-early", "meccan-middle", "meccan-late", "medinan"];
+              var hm = function (sec) {
+                var h = Math.floor(sec / 3600);
+                var m = Math.round((sec % 3600) / 60);
+                if (m === 60) { h += 1; m = 0; }
+                return h + ":" + (m < 10 ? "0" : "") + m;
+              };
+              var rows = (data.reciters || [])
+                .map(function (r) {
+                  var by = r.wordUnitsPerMinuteByPeriod || {};
+                  return (
+                    "<tr><td>" + qdEsc(r.name) + "</td>" +
+                    '<td class="count">' + hm(r.totalSeconds) + "</td>" +
+                    '<td class="count">' + r.medianVerseSeconds.toFixed(1) + "</td>" +
+                    '<td class="count">' + r.wordUnitsPerMinute.toFixed(1) + "</td>" +
+                    periods.map(function (p) {
+                      return '<td class="count">' + (by[p] != null ? by[p].toFixed(1) : "") + "</td>";
+                    }).join("") +
+                    "</tr>"
+                  );
+                })
+                .join("");
+              host.innerHTML =
+                '<div class="table-scroll"><table class="data" id="recitationPaceTable"><thead><tr>' +
+                "<th>Reciter</th><th>Whole Qur'an (h:mm)</th><th>Median s/verse</th><th>Word-units/min</th>" +
+                "<th>Early Meccan</th><th>Middle Meccan</th><th>Late Meccan</th><th>Medinan</th>" +
+                "</tr></thead><tbody>" + rows + "</tbody></table></div>" +
+                '<p class="caption-note">The four period columns are word-units per minute within that period.</p>';
+            })
+            .catch(function () {
+              host.innerHTML =
+                '<p style="color:var(--muted);font-size:0.85rem">Recitation timing unavailable.</p>';
+            });
+        }
+
         function renderKeyness() {
           var grid = document.getElementById("keynessGrid");
           if (!grid) return;

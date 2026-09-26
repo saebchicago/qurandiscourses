@@ -11,12 +11,12 @@
 // statistics itself, and it does not modify any of those inputs. It only
 // writes new files under data/exports/.
 //
-// Output: 17 tables, each as both a CSV and a JSON array of the same
+// Output: 18 tables, each as both a CSV and a JSON array of the same
 // rows — root-frequencies, association-pairs, surah-stats,
 // verse-lengths, formulas, centrality, rhyme-summary, fawatih,
 // discursive-pivots, structure, structure-tests, theme-surah-density,
 // formulaic-density, dispersion, root-surah-counts, lemma-frequencies,
-// direct-address — plus
+// direct-address, verse-durations — plus
 //   data/exports/schema.json: machine-readable field-level schema for
 //     every table, and the ONE declaration the rest of the data hub is
 //     checked against (see check-exports-sync.mjs).
@@ -577,6 +577,22 @@ if (directAddressRows.length !== da.count)
   throw new Error(`direct-address: ${directAddressRows.length} verses listed, count says ${da.count}. STOPPING.`);
 writeTable("direct-address", directAddressRows, ["surah", "verse", "phrase", "translation"]);
 
+// ── Table 18: verse-durations (data/recitation/durations.json) ─────────
+
+console.log("\nBuilding verse-durations…");
+const recitation = JSON.parse(readFileSync(join(DATA, "recitation", "durations.json"), "utf8"));
+const reciterCols = recitation.reciters.map((r) => ({ id: r.id, name: r.name, col: `seconds_${r.id.replace(/^ar\./, "")}` }));
+const durationRows = verseRows.map((v, i) => {
+  const row = { surah: v.surah, verse: v.verse, tokens: v.tokens };
+  for (const c of reciterCols) {
+    const ms = recitation.durations[c.id][i];
+    if (typeof ms !== "number") throw new Error(`verse-durations: no duration for ${c.id} at verse ${i + 1}. STOPPING.`);
+    row[c.col] = Math.round(ms / 100) / 10;
+  }
+  return row;
+});
+writeTable("verse-durations", durationRows, ["surah", "verse", "tokens", ...reciterCols.map((c) => c.col)]);
+
 // ── schema.json ──────────────────────────────────────────────────────
 
 console.log("\nWriting schema.json and DATA-DICTIONARY.md…");
@@ -855,6 +871,18 @@ const schema = {
         { name: "firstVerse", type: "string", unit: null, description: "First occurrence, as surah:verse." },
       ],
     },
+    "verse-durations": {
+      description: "Every verse with its length in word-units and how long its recitation lasts in each recording the Read page plays, one column per reciter.",
+      rowCount: durationRows.length,
+      countingRule: "Duration read from the header of each verse's audio file (cdn.islamic.network, the files /read plays): exact frame count from a Xing/Info or VBRI header when present, otherwise audio bytes x 8 / bitrate. Seconds, rounded to 0.1. tokens = Leeds word-units in the verse, as in verse-lengths. Method and per-reciter header counts in data/recitation/durations.json.",
+      verification: "Verified as measurements of those files. Nuanced as analysis: a duration is one recording's performance, not a property of the text, and verse-1 files may include the basmala.",
+      fields: [
+        { name: "surah", type: "integer", unit: null, description: "Surah number." },
+        { name: "verse", type: "integer", unit: null, description: "Verse number." },
+        { name: "tokens", type: "integer", unit: "tokens", description: "Word-units in the verse." },
+        ...reciterCols.map((c) => ({ name: c.col, type: "number", unit: "seconds", description: `Recitation length, ${c.name} (${c.id}).` })),
+      ],
+    },
     "direct-address": {
       description: "Every verse containing the believers' vocative ya ayyuha al-ladhina amanu ('O you who believe').",
       rowCount: directAddressRows.length,
@@ -894,7 +922,7 @@ for (const [name, t] of Object.entries(schema.tables)) {
   md += fieldTable(t.fields) + "\n\n";
 }
 md += `## Files\n\nEach table above ships as both \`{name}.csv\` and \`{name}.json\` (a flat JSON array of the same rows) under \`data/exports/\`. CSV values are comma-separated, UTF-8, header row first; fields containing a comma, quote, or newline are quoted per RFC 4180.\n\n`;
-md += `## License\n\nData derived from the Leeds Quranic Arabic Corpus is GPL-licensed, per \`NOTICE.md\`. Surah names and the Cairo 1924 chronology are factual/public-domain reference data. Site code (this script included) is MIT-licensed.\n`;
+md += `## License\n\nData derived from the Leeds Quranic Arabic Corpus is GPL-licensed, per \`NOTICE.md\`. Surah names and the Cairo 1924 chronology are factual/public-domain reference data. Recitation durations are measurements of Islamic Network's per-verse audio files; no audio is included, and the recordings remain their reciters' and publishers'. Site code (this script included) is MIT-licensed.\n`;
 
 writeFileSync(join(OUT, "DATA-DICTIONARY.md"), md);
 

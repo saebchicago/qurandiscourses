@@ -923,6 +923,59 @@
    }
   },
   {
+   "name": "verse-durations",
+   "title": "Divine Discourses: verse-durations",
+   "description": "Every verse with its length in word-units and how long its recitation lasts in each recording the Read page plays, one column per reciter.",
+   "path": "verse-durations.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "surah",
+      "type": "integer",
+      "description": "Surah number."
+     },
+     {
+      "name": "verse",
+      "type": "integer",
+      "description": "Verse number."
+     },
+     {
+      "name": "tokens",
+      "type": "integer",
+      "description": "Word-units in the verse. Unit: tokens."
+     },
+     {
+      "name": "seconds_husary",
+      "type": "number",
+      "description": "Recitation length, Mahmoud al-Husary (ar.husary). Unit: seconds."
+     },
+     {
+      "name": "seconds_minshawi",
+      "type": "number",
+      "description": "Recitation length, Mohamed al-Minshawi (ar.minshawi). Unit: seconds."
+     },
+     {
+      "name": "seconds_abdulbasitmurattal",
+      "type": "number",
+      "description": "Recitation length, Abdul Basit (ar.abdulbasitmurattal). Unit: seconds."
+     },
+     {
+      "name": "seconds_abdurrahmaansudais",
+      "type": "number",
+      "description": "Recitation length, Sudais (ar.abdurrahmaansudais). Unit: seconds."
+     },
+     {
+      "name": "seconds_saoodshuraym",
+      "type": "number",
+      "description": "Recitation length, Shuraim (ar.saoodshuraym). Unit: seconds."
+     }
+    ]
+   }
+  },
+  {
    "name": "verse-lengths",
    "title": "Divine Discourses: verse-lengths",
    "description": "Every verse in the corpus (6,236 rows) with its token length and revelation period.",

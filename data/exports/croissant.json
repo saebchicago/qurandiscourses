@@ -140,6 +140,13 @@
   },
   {
    "@type": "cr:FileObject",
+   "@id": "verse-durations.csv",
+   "name": "verse-durations.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/verse-durations.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
    "@id": "verse-lengths.csv",
    "name": "verse-lengths.csv",
    "contentUrl": "https://divinediscourses.org/data/exports/verse-lengths.csv",
@@ -2340,6 +2347,134 @@
       },
       "extract": {
        "column": "perThousand"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "verse-durations",
+   "name": "verse-durations",
+   "description": "Every verse with its length in word-units and how long its recitation lasts in each recording the Read page plays, one column per reciter.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "verse-durations/surah",
+     "name": "surah",
+     "description": "Surah number.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "verse-durations.csv"
+      },
+      "extract": {
+       "column": "surah"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "verse-durations/verse",
+     "name": "verse",
+     "description": "Verse number.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "verse-durations.csv"
+      },
+      "extract": {
+       "column": "verse"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "verse-durations/tokens",
+     "name": "tokens",
+     "description": "Word-units in the verse.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "verse-durations.csv"
+      },
+      "extract": {
+       "column": "tokens"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "verse-durations/seconds_husary",
+     "name": "seconds_husary",
+     "description": "Recitation length, Mahmoud al-Husary (ar.husary).",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "verse-durations.csv"
+      },
+      "extract": {
+       "column": "seconds_husary"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "verse-durations/seconds_minshawi",
+     "name": "seconds_minshawi",
+     "description": "Recitation length, Mohamed al-Minshawi (ar.minshawi).",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "verse-durations.csv"
+      },
+      "extract": {
+       "column": "seconds_minshawi"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "verse-durations/seconds_abdulbasitmurattal",
+     "name": "seconds_abdulbasitmurattal",
+     "description": "Recitation length, Abdul Basit (ar.abdulbasitmurattal).",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "verse-durations.csv"
+      },
+      "extract": {
+       "column": "seconds_abdulbasitmurattal"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "verse-durations/seconds_abdurrahmaansudais",
+     "name": "seconds_abdurrahmaansudais",
+     "description": "Recitation length, Sudais (ar.abdurrahmaansudais).",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "verse-durations.csv"
+      },
+      "extract": {
+       "column": "seconds_abdurrahmaansudais"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "verse-durations/seconds_saoodshuraym",
+     "name": "seconds_saoodshuraym",
+     "description": "Recitation length, Shuraim (ar.saoodshuraym).",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "verse-durations.csv"
+      },
+      "extract": {
+       "column": "seconds_saoodshuraym"
       }
      }
     }

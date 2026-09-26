@@ -2260,6 +2260,30 @@ if (runCheck("listennav") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !L
         expanded: document.querySelector("[data-listen-more]").getAttribute("aria-expanded"),
         focusInSheet: !!(document.activeElement && document.activeElement.closest("[data-listen-sheet]")),
       }));
+      // Listening time: the sheet names how long the passage's Arabic
+      // takes with the chosen reciter, summed from the measured verse
+      // durations for exactly the verses on the page.
+      await page.waitForSelector("[data-listen-time]:not([hidden])", { timeout: 5000 }).catch(() => {});
+      const lt = await page.evaluate(async () => {
+        const line = document.querySelector("[data-listen-time]");
+        const pl = window.qdListenPlayer;
+        const id = (window.qdState && window.qdState.reciter) || "ar.husary";
+        let expected = null;
+        try {
+          const secs = await (await fetch("/data/recitation/verse-seconds/" + id + ".json")).json();
+          expected = pl.items.reduce((a, it) => a + secs[it.arNumber - 1], 0);
+        } catch (e) {}
+        return { shown: !!line && !line.hidden, text: line ? line.textContent : "", expected };
+      });
+      const mins = lt.expected == null ? null : lt.expected / 60;
+      const want = mins == null ? null : mins < 1 ? "under a minute" : `about ${Math.round(mins)} min`;
+      report(
+        "listen-time",
+        "read.html",
+        lt.shown && want != null && lt.text.includes(want) && /Arabic recitation/.test(lt.text),
+        `"${lt.text}" (measured sum ${lt.expected == null ? "unavailable" : lt.expected.toFixed(1) + " s"}, want "${want}")`,
+      );
+
       // Reflect is not transport: it lives in the sheet's options, not
       // the group a screen reader announces as "Recitation transport".
       const shape = await page.evaluate(() => {
@@ -3434,6 +3458,26 @@ if (runCheck("refretry") && (!PAGE_FILTER || PAGE_FILTER === "numbers.html")) {
 // row and column indices. Nothing here re-derives the page's column
 // sort — the surah is read out of the sentence and looked up — so the
 // check cannot pass by repeating the renderer's own mistake.
+// Recitation pace: one row per reciter the reader can choose on /read,
+// each with a listening time and pace, matching data/recitation/pace.json.
+if (runCheck("pace") && (!PAGE_FILTER || PAGE_FILTER === "numbers.html")) {
+  const pace = JSON.parse(readFileSync(join(ROOT, "data/recitation/pace.json"), "utf8"));
+  const pctx = await newContext();
+  const page = await pctx.newPage();
+  await page.goto(`${BASE}/numbers.html#recitation-pace`, { waitUntil: "load" });
+  await page.waitForSelector("#recitationPaceTable tbody tr", { timeout: 15000 }).catch(() => {});
+  const rows = await page.evaluate(() =>
+    [...document.querySelectorAll("#recitationPaceTable tbody tr")].map((tr) =>
+      [...tr.children].map((td) => td.textContent.trim()),
+    ),
+  );
+  const ok =
+    rows.length === pace.reciters.length &&
+    rows.every((r, i) => r[0] === pace.reciters[i].name && r[3] === pace.reciters[i].wordUnitsPerMinute.toFixed(1) && /^\d+:\d{2}$/.test(r[1]));
+  report("recitation-pace", "numbers.html", ok, `${rows.length} rows (want ${pace.reciters.length}); first: ${JSON.stringify(rows[0] || [])}`);
+  await pctx.close();
+}
+
 if (runCheck("heatmap") && (!PAGE_FILTER || PAGE_FILTER === "numbers.html")) {
   const heat = JSON.parse(readFileSync(join(ROOT, "data/network/heatmap.json"), "utf8"));
   const hctx = await newContext();
