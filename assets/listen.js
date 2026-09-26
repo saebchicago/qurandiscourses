@@ -32,6 +32,31 @@
     } catch (e) {}
   }
 
+  // Which language the translation leg speaks. Any edition the engine
+  // registers; English (Ibrahim Walk) otherwise.
+  var VOICE_KEY = "qd_listen_voice_v1";
+  function voices() {
+    return (window.qdAudioEngine && window.qdAudioEngine.translations) || [];
+  }
+  function voiceById(id) {
+    return window.qdAudioEngine && window.qdAudioEngine.translationById
+      ? window.qdAudioEngine.translationById(id)
+      : null;
+  }
+  function storedVoice() {
+    try {
+      var v = localStorage.getItem(VOICE_KEY);
+      return voiceById(v) ? v : "en.walk";
+    } catch (e) {
+      return "en.walk";
+    }
+  }
+  function saveVoice(id) {
+    try {
+      localStorage.setItem(VOICE_KEY, id);
+    } catch (e) {}
+  }
+
   function signature(items) {
     return items.length
       ? items[0].arNumber + "-" + items[items.length - 1].arNumber
@@ -47,12 +72,6 @@
     } catch (e) {
       return false;
     }
-  }
-
-  function modeLabel(mode) {
-    if (mode === "en") return "English";
-    if (mode === "ar-en") return "Arabic + English";
-    return "Arabic";
   }
 
   function surahNameFor(n) {
@@ -110,7 +129,9 @@
     this._storedEnglish = false;
     this._error = "";
     var self = this;
+    this._voiceChosen = false;
     this.engine = window.qdAudioEngine.create({
+      translation: storedVoice(),
       album: (juz ? "Juz " + juz : this.title) + " · Divine Discourses",
       labelFor: function (item) {
         return (
@@ -127,11 +148,19 @@
         // The probe has finished and found nothing. Say so: the note
         // that ships with the panel promises the choices will appear,
         // which is only true while the probe is still running.
+        self.removeModeControl();
         self.showEnglishUnavailable();
       },
       onEnglish: function () {
         self.addEnglishControl();
         self.showEnglishStatus();
+        // A reader who picks a voice while listening to Arabic alone
+        // wants to hear it: Arabic, then that language, verse by verse.
+        if (self._voiceChosen && self.engine.mode === "ar") {
+          self._voiceChosen = false;
+          self.engine.setMode("ar-en");
+          saveMode("ar-en");
+        }
         if (self._storedEnglish && !self.engine.armed) {
           self._storedEnglish = false;
           self.engine.setMode("en");
@@ -175,7 +204,7 @@
     this.el("now").textContent = item
       ? (item.surahName ? item.surahName + " " : "") +
         item.surah + ":" + item.ayah +
-        (st.leg === "en" && st.armed ? " · English" : "")
+        (st.leg === "en" && st.armed ? " · " + this.voiceLanguage() : "")
       : "—";
     this.el("pos").textContent = st.total
       ? "Verse " + (st.idx + 1) + " of " + st.total
@@ -288,55 +317,108 @@
     }
   };
 
+  Panel.prototype.voiceLanguage = function () {
+    var v = voiceById(this.engine.translationId);
+    return v ? v.language : "Translation";
+  };
+
+  // The audio-mode choice (Arabic / <language> / Arabic + <language>),
+  // offered only once the chosen language's recording is confirmed.
   Panel.prototype.addEnglishControl = function () {
     var row = this.host.querySelector(".listen-options");
-    if (!row || row.querySelector("[data-listen-mode]")) return;
+    if (!row) return;
     var self = this;
-    var label = document.createElement("label");
-    label.className = "listen-mode-label";
-    label.textContent = "Audio ";
-    var select = document.createElement("select");
-    select.className = "listen-mode-select";
-    select.setAttribute("data-listen-mode", "");
-    select.setAttribute("aria-label", "Audio language");
+    var select = row.querySelector("[data-listen-mode]");
+    if (!select) {
+      var label = document.createElement("label");
+      label.className = "listen-mode-label";
+      label.textContent = "Audio ";
+      select = document.createElement("select");
+      select.className = "listen-mode-select";
+      select.setAttribute("data-listen-mode", "");
+      select.setAttribute("aria-label", "What to hear");
+      select.addEventListener("change", function () {
+        self.engine.setMode(select.value);
+        saveMode(self.engine.mode);
+      });
+      label.appendChild(select);
+      var voice = row.querySelector("[data-listen-voice]");
+      row.insertBefore(label, voice ? voice.parentNode : null);
+    }
+    var lang = window.qdEsc(this.voiceLanguage());
     select.innerHTML =
       '<option value="ar">Arabic</option>' +
-      '<option value="en">English</option>' +
-      '<option value="ar-en">Arabic + English</option>';
-    select.addEventListener("change", function () {
-      self.engine.setMode(select.value);
-      saveMode(self.engine.mode);
-    });
-    label.appendChild(select);
-    row.appendChild(label);
+      '<option value="en">' + lang + " only</option>" +
+      '<option value="ar-en">Arabic + ' + lang + "</option>";
     this.render(this.engine.state());
     this.refreshLayout();
+  };
+
+  Panel.prototype.removeModeControl = function () {
+    var select = this.host.querySelector("[data-listen-mode]");
+    if (select && select.parentNode) select.parentNode.remove();
+  };
+
+  Panel.prototype.voiceMarkup = function () {
+    var cur = this.engine.translationId;
+    return (
+      '<label class="listen-mode-label">Translation voice ' +
+      '<select class="listen-mode-select" data-listen-voice aria-label="Translation voice, heard after each verse\'s Arabic">' +
+      voices()
+        .map(function (v) {
+          return (
+            '<option value="' + window.qdEsc(v.edition) + '"' +
+            (v.edition === cur ? " selected" : "") + ">" +
+            window.qdEsc(v.language + (v.reader && v.reader !== v.language ? " · " + v.reader : "")) +
+            "</option>"
+          );
+        })
+        .join("") +
+      "</select></label>"
+    );
+  };
+
+  Panel.prototype.chooseVoice = function (id) {
+    if (!voiceById(id) || id === this.engine.translationId) return;
+    saveVoice(id);
+    this._voiceChosen = true;
+    this.removeModeControl();
+    var note = this.support && this.support.querySelector("[data-listen-english-status]");
+    if (note) note.textContent = "Checking the " + voiceById(id).language + " recording…";
+    this.engine.setTranslation(id);
   };
 
   Panel.prototype.showEnglishStatus = function () {
     var note = this.support && this.support.querySelector("[data-listen-english-status]");
     if (!note) return;
+    var v = voiceById(this.engine.translationId) || voiceById("en.walk");
+    var english = v.edition === "en.walk";
     note.innerHTML =
-      "English audio is the fixed verse-by-verse edition alquran.cloud names " +
-      "<code>en.walk</code> · Ibrahim Walk. It may differ from the written translation you selected. " +
+      window.qdEsc(v.language) + " audio is the fixed verse-by-verse edition alquran.cloud names " +
+      "<code>" + window.qdEsc(v.edition) + "</code>" +
+      (v.reader && v.reader !== v.language ? " · " + window.qdEsc(v.reader) : "") +
+      ". It may differ from the written translation you selected. " +
       "The recording's rights holder and license are not established by the registry or CDN; " +
-      '<a href="/sources#english-audio-source">source details</a> ' +
-      '<span class="badge pending" data-source-ids="islamic-network-audio-en" aria-label="Pending" tabindex="0" title="Pending · recording rights unresolved">○</span>.';
+      '<a href="/sources#' + (english ? "english-audio-source" : "translation-audio-source") + '">source details</a> ' +
+      '<span class="badge pending" data-source-ids="' +
+      (english ? "islamic-network-audio-en" : "islamic-network-audio-translations") +
+      '" aria-label="Pending" tabindex="0" title="Pending · recording rights unresolved">○</span>.';
     if (window.qdCiteEnhance) window.qdCiteEnhance(this.support);
   };
 
   Panel.prototype.showEnglishUnavailable = function () {
     var note = this.support && this.support.querySelector("[data-listen-english-status]");
     if (!note) return;
+    var lang = this.voiceLanguage();
     var wanted = storedMode();
     note.textContent =
-      "English audio is unavailable right now, so only the Arabic " +
+      lang + " audio is unavailable right now, so only the Arabic " +
       "recitation will play." +
       (wanted === "ar"
         ? ""
         : wanted === "en"
-          ? " You last chose English audio; this sitting plays Arabic instead."
-          : " You last chose Arabic and English; this sitting plays the Arabic legs only.") +
+          ? " You last chose " + lang + " audio; this sitting plays Arabic instead."
+          : " You last chose Arabic and " + lang + "; this sitting plays the Arabic legs only.") +
       " The written translations on this page are unaffected.";
   };
 
@@ -362,6 +444,7 @@
       "</div>" +
       '<div class="listen-options">' +
       '<button type="button" class="button secondary listen-reciter-btn" data-listen-reciter aria-label="Change Arabic reciter">🎤 Choose reciter</button>' +
+      this.voiceMarkup() +
       // Reflect is not transport, so it is not in the transport group.
       '<button type="button" class="button secondary listen-btn listen-reflect-btn" data-listen-reflect>✎ Reflect on this verse</button>' +
       "</div>" +
@@ -462,7 +545,7 @@
       '<p class="caption-note listen-keys">Keys <kbd>Space</kbd> play/pause, ' +
       '<kbd>[</kbd> <kbd>]</kbd> previous/next verse, <kbd>R</kbd> repeat (off, verse, passage), <kbd>Escape</kbd> closes this panel.</p>' +
       '<p class="caption-note">Recitation streams per verse from cdn.islamic.network, which receives normal connection data. Your listening preferences remain in this browser. <a href="/about#privacy">Privacy and offline details</a>.</p>' +
-      '<p class="caption-note listen-en-note" data-listen-english-status role="status" aria-live="polite">English audio choices appear after the page confirms the fixed English recording is available.</p>' +
+      '<p class="caption-note listen-en-note" data-listen-english-status role="status" aria-live="polite">Translation audio choices appear after the page confirms the chosen recording is available.</p>' +
       "</details>";
     var slot = this.host.querySelector("[data-listen-support-slot]");
     if (slot) slot.appendChild(box);
@@ -499,6 +582,9 @@
     });
     this.el("reciter").addEventListener("click", function () {
       if (window.qdOpenReciter) window.qdOpenReciter();
+    });
+    this.el("voice").addEventListener("change", function (e) {
+      self.chooseVoice(e.target.value);
     });
     this.el("reflect").addEventListener("click", function () {
       if (self.engine.playing) self.engine.toggle();

@@ -2122,7 +2122,7 @@ if (runCheck("listennav") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !L
   const seedMiss = (ctx, mode) =>
     ctx.addInitScript(([m]) => {
       try {
-        sessionStorage.setItem("qd_listen_en_v1", JSON.stringify({ edition: null }));
+        sessionStorage.setItem("qd_listen_tr_v1:en.walk", JSON.stringify({ edition: null }));
         if (m) localStorage.setItem("qd_listen_mode_v2", m);
       } catch (e) {}
     }, [mode]);
@@ -2355,6 +2355,106 @@ if (runCheck("listennav") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !L
     `audio off over ${audioOff.verses} verses: bar hidden=${audioOff.panel}, per-verse play buttons=${audioOff.playFrom} (want 0), foot reserved=${audioOff.reserved} (want false)`,
   );
   await offctx.close();
+}
+
+// ── read.html: translation voices ─────────────────────────────────────
+// Listen mode's translation leg in any language the engine registers.
+// Probe results are seeded in sessionStorage (the CDN is aborted here):
+// Urdu as found at its CI-observed bitrate, Kazakh as absent.
+if (runCheck("voices") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) {
+  const vctx = await newContext({ apiMode: "stub" });
+  await vctx.addInitScript(() => {
+    try {
+      sessionStorage.setItem("qd_listen_tr_v1:en.walk", JSON.stringify({ edition: null }));
+      sessionStorage.setItem("qd_listen_tr_v1:ur.khan", JSON.stringify({ edition: "ur.khan", bitrate: 64 }));
+      sessionStorage.setItem("qd_listen_tr_v1:kk.khalifahaltai-audio", JSON.stringify({ edition: null }));
+    } catch (e) {}
+  });
+  const page = await vctx.newPage();
+  const errors = [];
+  attachConsoleCollector(page, errors);
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto(`${BASE}/read.html?s=1&a=1-7`, { waitUntil: "load" });
+  await page.waitForSelector("#listenPanel [data-listen-voice]", { timeout: 15000 }).catch(() => {});
+  await page.waitForTimeout(500);
+  const list = await page.evaluate(() => {
+    const sel = document.querySelector("#listenPanel [data-listen-voice]");
+    return sel
+      ? { values: [...sel.options].map((o) => o.value), selected: sel.value }
+      : null;
+  });
+  const expected = ["en.walk", "ur.khan", "fr.leclerc", "ru.kuliev-audio", "zh.chinese", "kk.khalifahaltai-audio", "uz.sodik-audio"];
+  report(
+    "voices-offered",
+    "read.html",
+    !!list && list.values.join(",") === expected.join(",") && list.selected === "en.walk",
+    list ? `${list.values.length} voices: ${list.values.join(", ")}; default ${list.selected}` : "no voice picker",
+  );
+
+  // Choosing Urdu while listening to Arabic alone: the Urdu recording is
+  // confirmed, the sitting becomes Arabic then Urdu, and the choice
+  // persists.
+  await page.click("#listenPanel [data-listen-more]");
+  await page.selectOption("#listenPanel [data-listen-voice]", "ur.khan");
+  await page.waitForTimeout(400);
+  const urdu = await page.evaluate(() => {
+    const pl = window.qdListenPlayer;
+    const mode = document.querySelector("#listenPanel [data-listen-mode]");
+    return {
+      mode: pl.mode,
+      modeOptions: mode ? [...mode.options].map((o) => o.textContent) : [],
+      url: pl.urlFor(pl.items[0], "en"),
+      note: (document.querySelector("[data-listen-english-status]") || {}).textContent || "",
+      link: (document.querySelector("[data-listen-english-status] a") || {}).getAttribute
+        ? document.querySelector("[data-listen-english-status] a").getAttribute("href")
+        : "",
+      saved: localStorage.getItem("qd_listen_voice_v1"),
+    };
+  });
+  report(
+    "voices-choose-urdu",
+    "read.html",
+    urdu.mode === "ar-en" && urdu.modeOptions.includes("Arabic + Urdu") &&
+      urdu.url === "https://cdn.islamic.network/quran/audio/64/ur.khan/1.mp3" &&
+      /ur\.khan/.test(urdu.note) && urdu.link === "/sources#translation-audio-source" &&
+      urdu.saved === "ur.khan",
+    `mode=${urdu.mode}; options=${urdu.modeOptions.join(" | ")}; translation clip ${urdu.url}; note names ur.khan=${/ur\.khan/.test(urdu.note)}; source link ${urdu.link}; saved=${urdu.saved}`,
+  );
+
+  // A voice whose recording cannot be confirmed: its mode choice is
+  // withdrawn and the note says so, by language.
+  await page.selectOption("#listenPanel [data-listen-voice]", "kk.khalifahaltai-audio");
+  await page.waitForTimeout(400);
+  const kazakh = await page.evaluate(() => ({
+    modeControl: !!document.querySelector("#listenPanel [data-listen-mode]"),
+    note: (document.querySelector("[data-listen-english-status]") || {}).textContent || "",
+    english: window.qdListenPlayer.english,
+  }));
+  report(
+    "voices-unavailable",
+    "read.html",
+    !kazakh.modeControl && /Kazakh audio is unavailable/.test(kazakh.note) && kazakh.english === null,
+    `mode choice offered=${kazakh.modeControl} (want false); note "${kazakh.note}"`,
+  );
+
+  // The choice survives a reload.
+  await page.selectOption("#listenPanel [data-listen-voice]", "ur.khan");
+  await page.waitForTimeout(300);
+  await page.reload({ waitUntil: "load" });
+  await page.waitForSelector("#listenPanel [data-listen-voice]", { timeout: 15000 }).catch(() => {});
+  await page.waitForTimeout(500);
+  const kept = await page.evaluate(() => ({
+    selected: (document.querySelector("#listenPanel [data-listen-voice]") || {}).value,
+    engine: window.qdListenPlayer && window.qdListenPlayer.translationId,
+  }));
+  report(
+    "voices-persist",
+    "read.html",
+    kept.selected === "ur.khan" && kept.engine === "ur.khan",
+    `after reload: picker=${kept.selected}, engine=${kept.engine}`,
+  );
+  report("voices-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+  await vctx.close();
 }
 
 // ── read.html: the reading state ──────────────────────────────────────

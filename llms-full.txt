@@ -3706,6 +3706,34 @@ CDN states who holds this recording or on what terms, so this
 entry states neither, and stays Pending until one of them does.
 ○
 
+Islamic Network. Translation audio editions in six further
+languages , verse by verse.
+https://cdn.islamic.network . Listen mode offers these as translation voices beside English:
+ur.khan (Urdu, Shamshad Ali Khan),
+fr.leclerc (French, Youssouf Leclerc),
+ru.kuliev-audio (Russian, “Elmir Kuliev by
+1MuslimApp”), zh.chinese (Chinese, no reader named),
+kk.khalifahaltai-audio (Kazakh, Khalifah Altai) and
+uz.sodik-audio (Uzbek, Muhammad Sodik Muhammad
+Yusuf). What each edition is : the names and
+languages above are the ones alquran.cloud's edition registry
+gives, read by scripts/check-audio-editions.mjs on 26
+September 2026. Whether it plays : the same run
+found the CDN serving each one across early, middle and final
+clips of the Qur'an. The registry lists four more non-Arabic
+audio editions that this site does not offer, because none can be
+played verse by verse: Persian and Turkish are registered as whole
+translations rather than per verse, a Burmese edition is one file
+per surah, and a second Russian edition is registered but served
+at no bitrate. The registry lists no Bengali audio edition.
+What each one reads : not established. A
+recording may follow a different translation from the written one
+on the page, so the Read page never pairs them. Under what
+license : neither the registry nor the CDN states who
+holds these recordings or on what terms, so this entry states
+neither, and stays Pending until one of them does.
+○
+
 Tarteel AI and Quran.com Foundation.
 Quranic Universal Library (QUL) , 2024.
 https://qul.tarteel.ai/ .
@@ -4302,8 +4330,8 @@ URL
 A source can be fully cited in data/sources.json
 and still be reachable from no badge anywhere: nothing checked
 for that until this measurement.
-37 of
-37 sources appear in at
+38 of
+38 sources appear in at
 least one data-source-ids attribute on the site,
 static or built at render time. The rest are cited in the
 bibliography on Sources but not yet

@@ -171,6 +171,44 @@ for (const { id, bitrate } of reciters) {
   }
 }
 
+// ── Translation voices registered in assets/audio-engine.js ───────────
+// Asserted, like the reciters: each voice the Read page offers must be
+// served at the bitrate it is registered at, across the sampled corpus.
+// A voice that moves or vanishes would otherwise just fail its runtime
+// probe and quietly drop out of the picker's mode choice.
+const engineJs = readFileSync(join(ROOT, "assets", "audio-engine.js"), "utf8");
+const voiceBlock = engineJs.match(/var TRANSLATION_AUDIO = \[([\s\S]*?)\n {2}\];/);
+const voices = voiceBlock
+  ? [...voiceBlock[1].matchAll(/edition:\s*"([^"]+)"[\s\S]*?bitrate:\s*(\d+)/g)].map((m) => ({
+      id: m[1],
+      bitrate: Number(m[2]),
+    }))
+  : [];
+if (!voices.length) {
+  failures.push("could not parse TRANSLATION_AUDIO from assets/audio-engine.js; the voice check did not run.");
+}
+console.log(`\nTranslation voices registered in assets/audio-engine.js (${voices.length}):`);
+for (const { id, bitrate } of voices) {
+  const at = await probe(clip(id, bitrate, PROBE_AYAH));
+  if (!at.ok) {
+    const elsewhere = await servedAt(id);
+    failures.push(
+      elsewhere
+        ? `voice "${id}": registered at ${bitrate}kbps but served at ${elsewhere.bitrate}kbps. Update its bitrate in TRANSLATION_AUDIO.`
+        : `voice "${id}": no bitrate directory serves it any more. Remove it from TRANSLATION_AUDIO and from /sources.`,
+    );
+    console.log(`  FAIL ${id} · ${elsewhere ? `served at ${elsewhere.bitrate}kbps, registered ${bitrate}` : "absent at every probed bitrate"}`);
+    continue;
+  }
+  const missing = await missingSentinels(id, bitrate);
+  if (missing.length) {
+    failures.push(`voice "${id}": sampled clips missing (${missing.map((m) => `${m.ayah}: ${m.status}`).join(", ")}).`);
+    console.log(`  FAIL ${id} · incomplete sampled corpus`);
+  } else {
+    console.log(`  OK   ${id} @ ${bitrate}kbps · ayahs ${SENTINEL_AYAHS.join(", ")} served`);
+  }
+}
+
 // ── What the API says the English audio editions are ──────────────────
 // Reported, never asserted. The point is to put a real response in front
 // of a maintainer, not to encode an expectation this project has not yet
@@ -365,6 +403,37 @@ for (const { url, label } of THIRD_PARTY_PAGES) {
     notes.push(
       `${label} (${url}) could not be fetched from this runner (${e.message}). Unconfirmed either way.`,
     );
+  }
+}
+
+// ── Bengali translation audio: where else it might exist ──────────────
+// alquran.cloud's registry (listed above) has no Bengali audio edition.
+// These are other public catalogues of Qur'an audio. Each is fetched and
+// searched for "bengali"/"bangla"; matching lines are printed verbatim
+// and nothing is asserted. A hit is a lead, not a source: its licence,
+// URL scheme and verse-by-verse shape still have to be read off it.
+const BENGALI_LEADS = [
+  { label: "Quran.com API v4 recitations", url: "https://api.quran.com/api/v4/resources/recitations?language=en" },
+  { label: "Quran.com API v4 chapter reciters", url: "https://api.quran.com/api/v4/resources/chapter_reciters?language=en" },
+  { label: "everyayah.com data directory", url: "https://everyayah.com/data/" },
+  { label: "everyayah.com recitations page", url: "https://everyayah.com/recitations_ayat.html" },
+  { label: "QUL recitation resources", url: "https://qul.tarteel.ai/resources/recitation" },
+];
+console.log("\nBengali translation audio, searched outside alquran.cloud (reported, never asserted):");
+const bengaliRx = /bengal|bangla|\bbn\b/i;
+for (const { label, url } of BENGALI_LEADS) {
+  try {
+    const r = await fetch(url, { signal: AbortSignal.timeout(TIMEOUT) });
+    const body = await r.text();
+    const hits = body
+      .split(/\n|(?<=[}>])\s*(?=[{<])/)
+      .map((line) => line.replace(/\s+/g, " ").trim())
+      .filter((line) => bengaliRx.test(line))
+      .slice(0, 12);
+    console.log(`\n  ${label}\n  ${url}\n  -> HTTP ${r.status}, ${body.length} bytes, ${hits.length} matching line(s)`);
+    for (const h of hits) console.log(`     ${h.slice(0, 300)}`);
+  } catch (e) {
+    console.log(`\n  ${label}\n  ${url}\n  -> fetch failed: ${e.message}`);
   }
 }
 
