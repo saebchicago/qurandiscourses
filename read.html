@@ -128,9 +128,15 @@
     <main id="main">
       <section>
         <h2>Read</h2>
-        <p class="lede">
-          Enter any surah and verse. Audio uses your chosen reciter.
+        <p class="lede" id="readLede">
+          Choose a surah or juz to read, listen, study and reflect.
         </p>
+        <!-- Everything used to CHOOSE and SET UP a passage. Once one is
+             on screen, assets/read-polish.js folds this away behind the
+             passage's context bar ("Options"), because on a phone it was
+             35 controls and 1,858px of scrolling before the first verse.
+             Open in the markup: without JavaScript it is the interface. -->
+        <div id="readSetup">
         <div class="depth-row">
           <span>Depth:</span>
           <div
@@ -153,21 +159,6 @@
           <div class="picker-entry-row">
             <button type="button" class="button btn-primary" id="openPicker">
               Choose surah or juz
-            </button>
-            <!-- The transport sits about 1,200px down a phone screen,
-                 below this card and the typed form, so nothing a reader
-                 saw before scrolling said the passage could be heard.
-                 assets/listen.js unhides this only once a panel is
-                 actually mounted, and it jumps to that one transport
-                 rather than duplicating it. -->
-            <button
-              type="button"
-              class="button secondary"
-              id="listenJump"
-              title="Jump to the recitation transport for this passage"
-              hidden
-            >
-              🎧 Listen
             </button>
             <p class="picker-entry-current t-annotation" id="pickerCurrent"></p>
           </div>
@@ -293,12 +284,15 @@
             <a href="/about#privacy">Privacy and offline details</a>.
           </p>
         </div>
+        </div>
         <!-- Listen mode. One transport for whatever passage is on
              screen — a verse, a range, a surah, or a juz — filled by
              assets/listen.js over assets/audio-engine.js whenever audio
              is enabled in settings and at least one verse rendered.
-             Empty and hidden otherwise. -->
-        <div class="card listen-panel" id="listenPanel" hidden></div>
+             Rendered as a bar fixed to the foot of the viewport, with a
+             sheet above it for reciter, language, repeat, speed and the
+             sleep timer. Empty and hidden otherwise. -->
+        <div class="listen-panel" id="listenPanel" hidden></div>
         <div id="verseContainer">
           <div class="card" id="readWelcome">
             <h3 style="margin-top: 0">Start reading</h3>
@@ -1132,15 +1126,6 @@
           }
           const vocabPanelEl = document.getElementById("vocabPanel");
           if (vocabPanelEl) vocabPanelEl.innerHTML = "";
-          // Requested (qdState.translations) vs rendered (what actually
-          // came back per verse) can disagree on the juz path, where a
-          // failed per-edition fetch is silently dropped rather than
-          // shown as an "unavailable" placeholder the way the surah
-          // path does -- so the button always names the requested set,
-          // never a rendered count that can quietly undercount it.
-          const transSummary = window.qdTransPickerSummary
-            ? window.qdTransPickerSummary()
-            : `${qdState.translations.length} selected`;
           let allHtml = "";
           let lastSurah = null;
           verses.forEach(
@@ -1199,25 +1184,22 @@
               // juz's first surah, so building links and pins from `s` sent every
               // al-Kahf verse in juz 15 to surah 17 and pinned it there.
               const vs = thisSurah || s;
-              let html = `<div class="verse" data-ayah="${ayahNum}" data-surah="${vs}" data-ar-number="${arNumber}"><div class="meta"><strong><a class="vref" href="/read?s=${vs}&a=${ayahNum}" title="Link to this verse">${vs}:${ayahNum}</a></strong><span>${surahName} · ${surahNameTranslation}</span><button type="button" class="notebook-pin-btn" data-notebook-type="verse" data-notebook-ref="${vs}:${ayahNum}" data-notebook-label="${qdEsc(vs + ":" + ayahNum + " · " + surahName)}" title="Pin this verse to your workspace" aria-label="Pin verse ${vs}:${ayahNum} to your workspace">📌</button></div><div style="display:flex;gap:0.5rem;margin:.3rem 0 .8rem;flex-wrap:wrap;align-items:center"><span style="font-size:0.82rem;color:var(--muted)">Translations:</span><button type="button" class="trans-open-btn" style="min-height:44px;padding:0.5rem 0.75rem;border:1px solid var(--line);border-radius:4px;background:var(--card);cursor:pointer;font-size:0.85rem;max-width:min(100%,22rem);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${qdEsc(transSummary)} ▾</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arHtml}</p>`;
+              // One control per verse for audio: start the passage's single
+              // transport here. It used to be a full-width "Listen from
+              // here" row, a reciter button and the reciter's name on
+              // every verse (286 reciter buttons on al-Baqarah for one
+              // setting); the reciter now lives in the transport's sheet,
+              // and translations in the passage's context bar.
+              const playFrom = qdState.features.showAudio
+                ? `<button type="button" class="verse-listen-btn" data-listen-from="${arNumber}" aria-label="Play from verse ${vs}:${ayahNum}" title="Play from this verse">▶</button>`
+                : "";
+              let html = `<div class="verse" data-ayah="${ayahNum}" data-surah="${vs}" data-ar-number="${arNumber}"><div class="meta"><strong><a class="vref" href="/read?s=${vs}&a=${ayahNum}" title="Link to this verse">${vs}:${ayahNum}</a></strong><span class="meta-surah">${surahName} · ${surahNameTranslation}</span>${playFrom}<button type="button" class="notebook-pin-btn" data-notebook-type="verse" data-notebook-ref="${vs}:${ayahNum}" data-notebook-label="${qdEsc(vs + ":" + ayahNum + " · " + surahName)}" title="Pin this verse to your workspace" aria-label="Pin verse ${vs}:${ayahNum} to your workspace">📌</button></div><p class="ar xl notranslate" translate="no" lang="ar" dir="rtl">${arHtml}</p>`;
               // Word-by-word meanings (assets/wordbw.js) render at every
               // depth: knowing what the words say is reading, not
               // analysis. Filled after the passage paints; stays hidden
               // if the request fails.
               if (qdState.features.showWords !== false) {
                 html += `<div class="wbw-strip" data-vk="${s}:${ayahNum}" dir="rtl" hidden></div>`;
-              }
-              if (qdState.features.showAudio) {
-                const reciterName =
-                  qdReciters.find((r) => r.id === qdState.reciter)?.name ||
-                  "Reciter";
-                // One transport for the whole passage (the Listen panel above),
-                // not one native <audio> per verse. A 286-verse surah used
-                // to render 286 independent players, none of which knew
-                // about any other verse, so "listen to this surah" meant
-                // pressing play 286 times. This button starts the transport
-                // AT this verse instead; assets/listen.js wires it.
-                html += `<div class="verse-audio-row"><button type="button" class="button secondary verse-listen-btn" data-listen-from="${arNumber}" aria-label="Play from verse ${vs}:${ayahNum}">▶ Listen from here</button><button type="button" class="reciter-open-btn" title="Change reciter" aria-label="Change reciter">\uD83C\uDFA4</button></div><div id="reciterName-${ayahNum}" class="verse-reciter-name">${reciterName}</div>`;
               }
               translations.forEach((t) => {
                 if (t._mismatchOf) {
@@ -1337,10 +1319,19 @@
                   html += `<div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)"><h4 style="font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent);margin:.3rem 0 .5rem">Patterns in this verse</h4><p style="font-size:.9rem;color:var(--muted)">Pattern-level data is pending — see the <a href="/patterns">Patterns page</a> for the methodology.</p></div>`;
                 }
               }
-              html += `<p class="prov"><span class="badge ok" data-source-ids="tanzil alquran-cloud-api" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Arabic from Tanzil Uthmani via alquran.cloud; translations rendered as published.</p></div>`;
+              // Per verse only where the reader asked to verify; everywhere
+              // else it is said once for the passage (below), because the
+              // same line on 286 consecutive verses trains the eye to skip it.
+              if (depth === "encyclopedic") {
+                html += `<p class="prov"><span class="badge ok" data-source-ids="tanzil alquran-cloud-api" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Arabic from Tanzil Uthmani via alquran.cloud; translations rendered as published.</p>`;
+              }
+              html += `</div>`;
               allHtml += html;
             },
           );
+          if (depth !== "encyclopedic") {
+            allHtml += `<p class="prov passage-prov"><span class="badge ok" data-source-ids="tanzil alquran-cloud-api" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Arabic from Tanzil Uthmani via alquran.cloud; translations rendered as published. Switch to Encyclopedic depth for a source line on every verse.</p>`;
+          }
           container.innerHTML = allHtml;
           // The transport binds to the verse nodes that were just
           // written, so it goes after the paint, not before it.
@@ -1377,19 +1368,19 @@
           // close over. One listener instead of one per verse, and the
           // reciter list is built once per open rather than being
           // rebuilt inside each of 286 separate closures.
-          if (!container.__reciterDelegated) {
-            container.__reciterDelegated = true;
-            container.addEventListener("click", (e) => {
-              const btn =
-                e.target.closest && e.target.closest(".reciter-open-btn");
-              if (!btn) return;
+          // The reciter dialog, opened from the transport's sheet. It was
+          // opened from a button on every verse, one setting behind 286
+          // identical controls on al-Baqarah; the transport is the only
+          // thing the reciter affects, so that is where it lives now.
+          if (!window.qdOpenReciter) {
+            window.qdOpenReciter = () => {
               const reciterList = qdReciters
                 .map(
                   (r) =>
-                    `<button type="button" class="reciter-option" data-reciter="${r.id}" style="display:block;width:100%;text-align:left;font-family:inherit;font-size:inherit;color:inherit;background:none;border:none;border-bottom:1px solid var(--line);padding:0.75rem;cursor:pointer">${r.name}</button>`,
+                    `<button type="button" class="reciter-option" data-reciter="${r.id}"${r.id === qdState.reciter ? ' aria-current="true"' : ""} style="display:block;width:100%;min-height:44px;text-align:left;font-family:inherit;font-size:inherit;color:inherit;background:none;border:none;border-bottom:1px solid var(--line);padding:0.75rem;cursor:pointer">${r.id === qdState.reciter ? "✓ " : ""}${r.name}</button>`,
                 )
                 .join("");
-              const { modal, close } = qdOpenModal("Choose Reciter", reciterList);
+              const { modal, close } = qdOpenModal("Choose reciter", reciterList);
               modal.addEventListener("click", (ev) => {
                 const opt =
                   ev.target.closest && ev.target.closest(".reciter-option");
@@ -1400,18 +1391,12 @@
                 // The transport resolves the reciter when it builds each
                 // clip's URL, so nothing about the passage needs refetching
                 // or re-rendering (which used to tear the sitting down):
-                // update the captions in place and re-point the transport
-                // at its verse so the clip it holds is the new reciter's.
-                const rname =
-                  qdReciters.find((r) => r.id === qdState.reciter)?.name ||
-                  "Reciter";
-                container.querySelectorAll(".verse-reciter-name").forEach((el) => {
-                  el.textContent = rname;
-                });
+                // re-point the transport at its verse so the clip it holds
+                // is the new reciter's.
                 const pl = window.qdListenPlayer;
                 if (pl && !pl.dead && pl.items.length) pl.seek(pl.idx);
               });
-            });
+            };
           }
 
           // Root detail handlers — delegated. This was one async closure

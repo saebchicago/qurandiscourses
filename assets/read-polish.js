@@ -5,9 +5,11 @@
    already owns:
 
      1. Text size, with a separate larger-Arabic step
-     2. One verse of audio at a time, with a visible stop state
-     3. Per-verse actions: copy reference, copy text, dossier, corpus
-     4. A slim sticky context header with Change and prev/next
+     2. Reading state: fold the setup controls once a passage is shown
+     3. Per-verse actions behind one "more" button: copy reference,
+        copy text, reflect, dossier, corpus
+     4. A slim sticky context header: the passage, its translations,
+        Options, Change and prev/next
      5. Keyboard: left/right for prev/next verse, "/" to search
      6. Error recovery: a way out of a failed fetch
 
@@ -134,36 +136,6 @@
       paintSizeButtons();
     }, 0);
 
-    // ── 2. One verse of audio at a time ─────────────────────────────
-    // The page renders a plain <audio controls> per verse, so several
-    // could play over each other. Pausing the others on play is the
-    // whole fix; the browser's own controls remain the stop state, and
-    // the playing verse is marked so it is findable on a long page.
-    container.addEventListener(
-      "play",
-      function (e) {
-        var el = e.target;
-        if (!el || el.tagName !== "AUDIO") return;
-        container.querySelectorAll("audio").forEach(function (other) {
-          if (other !== el && !other.paused) other.pause();
-        });
-        container.querySelectorAll(".verse.is-playing").forEach(function (v) {
-          v.classList.remove("is-playing");
-        });
-        var verse = el.closest(".verse");
-        if (verse) verse.classList.add("is-playing");
-      },
-      true,
-    );
-    container.addEventListener(
-      "pause",
-      function (e) {
-        var verse = e.target.closest && e.target.closest(".verse");
-        if (verse) verse.classList.remove("is-playing");
-      },
-      true,
-    );
-
     // ── 3. Per-verse actions ────────────────────────────────────────
     function verseText(verse) {
       var ar = verse.querySelector(".ar.xl");
@@ -181,18 +153,31 @@
       return out.join("\n");
     }
 
+    var actionSeq = 0;
     function addActions(verse) {
       if (verse.querySelector(".verse-actions")) return;
       var ayah = verse.getAttribute("data-ayah");
-      var s = parseInt(surahInput && surahInput.value, 10);
+      // The verse's own surah, not the form's: in a juz the form holds
+      // the juz's first surah, so "Copy reference" on an al-Kahf verse
+      // in juz 15 used to copy a surah-17 reference.
+      var s = parseInt(
+        verse.getAttribute("data-surah") || (surahInput && surahInput.value),
+        10,
+      );
       if (!(s >= 1 && s <= 114) || !ayah) return;
       var ref = s + ":" + ayah;
 
+      // Four utility links on every verse were 154px of a 912px card,
+      // repeated 286 times on al-Baqarah. They stay one tap away behind
+      // a single button in the verse's header row.
       var row = document.createElement("p");
       row.className = "verse-actions";
+      row.id = "va-" + ++actionSeq;
+      row.hidden = true;
       row.innerHTML =
         '<button type="button" class="btn-utility" data-act="ref">Copy reference</button>' +
         '<button type="button" class="btn-utility" data-act="text">Copy text</button>' +
+        '<button type="button" class="btn-utility" data-act="reflect">Reflect</button>' +
         '<a class="btn-utility" href="/dossier?s=' + s + '">Open in Dossier</a>' +
         // Verse-level only: chapter and verse params, never a root-level
         // corpus link (the Buckwalter mapping for those is unresolved).
@@ -204,6 +189,14 @@
         if (!b || !window.qdCopyText) return;
         var act = b.getAttribute("data-act");
         var su = surahById(s);
+        if (act === "reflect") {
+          document.dispatchEvent(
+            new CustomEvent("qd:note-verse", {
+              detail: { s: s, a: Number(ayah), focus: true },
+            }),
+          );
+          return;
+        }
         if (act === "ref") {
           window.qdCopyText(
             (su ? su.translit + " " : "") + ref,
@@ -224,6 +217,21 @@
         }
       });
       verse.appendChild(row);
+      var meta = verse.querySelector(".meta");
+      if (meta && !meta.querySelector(".verse-more-btn")) {
+        var more = document.createElement("button");
+        more.type = "button";
+        more.className = "verse-more-btn";
+        more.textContent = "⋯";
+        more.setAttribute("aria-expanded", "false");
+        more.setAttribute("aria-controls", row.id);
+        more.setAttribute("aria-label", "More for " + ref + ": copy, reflect, dossier");
+        more.addEventListener("click", function () {
+          row.hidden = !row.hidden;
+          more.setAttribute("aria-expanded", String(!row.hidden));
+        });
+        meta.appendChild(more);
+      }
     }
 
     // ── 4. Sticky context header ────────────────────────────────────
@@ -234,10 +242,17 @@
       ctxBar.className = "read-context";
       ctxBar.hidden = true;
       ctxBar.innerHTML =
-        '<span class="read-context-ref"></span>' +
-        '<button type="button" class="read-context-trans" data-ctx="translations"></button>' +
+        // The passage's name IS the way to change it, the convention of
+        // every reader app: tap the title, get the chooser. That saves a
+        // separate "Change" button in a bar that has to fit 375px.
+        '<button type="button" class="read-context-ref" data-ctx="change" aria-label="Change passage"></button>' +
+        // The one translations control for the passage. It was repeated
+        // at the head of every verse; .trans-open-btn keeps the picker's
+        // focus-restore contract, and this bar survives the re-render
+        // that a translation change triggers, so focus has a home.
+        '<button type="button" class="read-context-trans trans-open-btn" data-ctx="translations"></button>' +
         '<span class="read-context-actions">' +
-        '<button type="button" class="btn-utility" data-ctx="change">Change</button>' +
+        '<button type="button" class="btn-utility" data-ctx="options" aria-expanded="false" aria-controls="readSetup">Options</button>' +
         '<button type="button" class="btn-utility" data-ctx="prev" aria-label="Previous verse">&lsaquo;</button>' +
         '<button type="button" class="btn-utility" data-ctx="next" aria-label="Next verse">&rsaquo;</button>' +
         "</span>";
@@ -249,6 +264,14 @@
           var open = document.getElementById("openPicker");
           if (open) open.click();
         }
+        if (which === "options") {
+          setupOpen = !setupOpen;
+          paintSetup();
+          if (setupOpen) {
+            var setup = document.getElementById("readSetup");
+            if (setup) setup.scrollIntoView({ block: "start" });
+          }
+        }
         if (which === "translations" && window.qdOpenTransPicker) {
           window.qdOpenTransPicker(b);
         }
@@ -258,20 +281,50 @@
       container.parentNode.insertBefore(ctxBar, container);
     }
 
+    // Reading state. With a passage on screen, the controls that choose
+    // and set one up fold behind "Options" in the context bar, and the
+    // site nav stops being sticky, so the text gets the screen. Folded
+    // only by script: without it #readSetup is the whole interface.
+    var setupOpen = false;
+    function paintSetup() {
+      var setup = document.getElementById("readSetup");
+      var reading = !!container.querySelector(".verse");
+      document.documentElement.classList.toggle("qd-reading", reading);
+      if (setup) setup.hidden = reading && !setupOpen;
+      if (ctxBar) {
+        var opt = ctxBar.querySelector('[data-ctx="options"]');
+        if (opt) opt.setAttribute("aria-expanded", String(!!setup && !setup.hidden));
+      }
+    }
+
     function paintContext() {
       if (!ctxBar) return;
-      var s = parseInt(surahInput && surahInput.value, 10);
       var verses = container.querySelectorAll(".verse");
+      var s = parseInt(
+        (verses[0] && verses[0].getAttribute("data-surah")) ||
+          (surahInput && surahInput.value),
+        10,
+      );
       if (!(s >= 1 && s <= 114) || !verses.length) {
         ctxBar.hidden = true;
         return;
       }
       var su = surahById(s);
       var first = verses[0].getAttribute("data-ayah");
-      var last = verses[verses.length - 1].getAttribute("data-ayah");
-      var ref = s + ":" + (first === last ? first : first + "-" + last);
-      ctxBar.querySelector(".read-context-ref").textContent =
-        (su ? su.translit + ", " : "") + ref;
+      var lastEl = verses[verses.length - 1];
+      var last = lastEl.getAttribute("data-ayah");
+      var lastS = parseInt(lastEl.getAttribute("data-surah"), 10) || s;
+      var ref;
+      if (lastS !== s) {
+        // A juz, or any passage crossing a surah boundary.
+        var lsu = surahById(lastS);
+        ref = s + ":" + first + " to " + (lsu ? lsu.translit + " " : "") + lastS + ":" + last;
+      } else {
+        ref = s + ":" + (first === last ? first : first + "-" + last);
+      }
+      var refEl = ctxBar.querySelector(".read-context-ref");
+      refEl.textContent = (su ? su.translit + ", " : "") + ref + " ▾";
+      refEl.setAttribute("aria-label", "Change passage (now " + (su ? su.translit + ", " : "") + ref + ")");
       var transEl = ctxBar.querySelector(".read-context-trans");
       if (transEl) {
         transEl.textContent = window.qdTransPickerSummary
@@ -302,15 +355,25 @@
     }
 
     // One observer drives everything that depends on rendered verses.
-    new MutationObserver(function () {
-      container.querySelectorAll(".verse").forEach(addActions);
+    // A DIFFERENT passage folds Options again: the reader asked for
+    // text, and the text is what should be on screen. A re-render of the
+    // same passage (a translation or depth change made from inside
+    // Options) leaves it as the reader left it.
+    var lastSig = "";
+    function onRender() {
+      var verses = container.querySelectorAll(".verse");
+      verses.forEach(addActions);
+      var sig = verses.length
+        ? verses[0].getAttribute("data-ar-number") + "+" + verses.length
+        : "";
+      if (sig && sig !== lastSig) setupOpen = false;
+      lastSig = sig;
       paintContext();
+      paintSetup();
       addRecovery();
-    }).observe(container, { childList: true, subtree: true });
-
-    container.querySelectorAll(".verse").forEach(addActions);
-    paintContext();
-    addRecovery();
+    }
+    new MutationObserver(onRender).observe(container, { childList: true, subtree: true });
+    onRender();
 
     // ── 5. Keyboard ─────────────────────────────────────────────────
     document.addEventListener("keydown", function (e) {

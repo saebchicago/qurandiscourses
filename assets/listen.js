@@ -181,9 +181,21 @@
       ? "Verse " + (st.idx + 1) + " of " + st.total
       : "No verses to play";
     var play = this.el("play");
-    play.textContent = st.playing ? "⏸ Pause" : "▶ Play";
+    play.textContent = st.playing ? "⏸" : "▶";
     play.setAttribute("aria-label", st.playing ? "Pause" : "Play");
-    this.el("repeat").setAttribute("aria-pressed", String(st.repeat));
+    var bar = this.el("progress");
+    if (bar) bar.style.width = st.total ? ((st.idx + 1) / st.total) * 100 + "%" : "0";
+    var repeat = this.el("repeat");
+    var rmode = st.repeat ? "verse" : st.loop ? "passage" : "off";
+    repeat.textContent =
+      rmode === "verse" ? "↻ Repeat verse" : rmode === "passage" ? "↻ Repeat passage" : "↻ Repeat off";
+    repeat.setAttribute("aria-pressed", String(rmode !== "off"));
+    repeat.setAttribute(
+      "aria-label",
+      "Repeat: " + rmode + ". Press to change to " +
+        (rmode === "off" ? "verse" : rmode === "verse" ? "passage" : "off"),
+    );
+    this.paintSleep();
     var speed = this.el("speed");
     speed.textContent = st.rate + "×";
     speed.setAttribute("aria-label", "Playback speed " + st.rate + "×");
@@ -197,21 +209,53 @@
     }
     var status = this.el("status");
     if (status) {
+      var was = status.hidden;
       status.textContent = this._error;
       status.hidden = !this._error;
+      // The status line changes the bar's height; the page's reserved
+      // foot and the floating corner buttons follow it.
+      if (was !== status.hidden) this.refreshLayout();
     }
   };
 
-  Panel.prototype.refreshLayout = function () {
+  // The transport is a bar fixed to the BOTTOM of the viewport, the
+  // shape every listening app has converged on. It used to be a 207px
+  // card pinned to the top under a 110px sticky nav: 39% of a phone
+  // screen, leaving a 445px band in which a verse card (900px+) could
+  // never fit, so the translation being recited was always off-screen.
+  // The page reserves the bar's height at its foot so the last verse
+  // is never underneath it.
+  // Everything the panel keeps on screen except the sheet, which opens
+  // OVER the page rather than pushing it: progress line, bar, and any
+  // status line beneath the bar.
+  Panel.prototype.barHeight = function () {
+    var h = this.host.getBoundingClientRect().height;
+    var sheet = this.el("sheet");
+    if (sheet && !sheet.hidden) h -= sheet.getBoundingClientRect().height;
+    return Math.max(0, Math.ceil(h));
+  };
+
+  // Height of whatever is stuck to the top while reading: the passage's
+  // context bar, plus the site nav where it is still sticky.
+  function topInset() {
+    var inset = 0;
     var nav = document.querySelector("nav.primary");
-    var navHeight = nav && nav.getClientRects().length
-      ? Math.ceil(nav.getBoundingClientRect().height)
-      : 0;
-    document.documentElement.style.setProperty("--qd-listen-nav-offset", navHeight + "px");
-    var panelHeight = Math.ceil(this.host.getBoundingClientRect().height);
+    if (nav && nav.getClientRects().length && getComputedStyle(nav).position === "sticky")
+      inset += nav.getBoundingClientRect().height;
+    var ctx = document.querySelector(".read-context");
+    if (ctx && !ctx.hidden && ctx.getClientRects().length)
+      inset += ctx.getBoundingClientRect().height;
+    return inset;
+  }
+
+  Panel.prototype.refreshLayout = function () {
+    document.documentElement.style.setProperty(
+      "--qd-listen-bar-h",
+      this.barHeight() + "px",
+    );
     document.documentElement.style.setProperty(
       "--qd-listen-scroll-offset",
-      navHeight + panelHeight + 12 + "px",
+      Math.ceil(topInset()) + 12 + "px",
     );
   };
 
@@ -229,13 +273,13 @@
     if (cur && st.armed && key !== this._scrolledTo) {
       this._scrolledTo = key;
       this.refreshLayout();
-      var nav = document.querySelector("nav.primary");
-      var navHeight = nav && nav.getClientRects().length
-        ? nav.getBoundingClientRect().height
-        : 0;
-      var inset = navHeight + this.host.getBoundingClientRect().height + 12;
+      var inset = topInset() + 12;
+      var floor = window.innerHeight - this.barHeight() - 12;
       var rect = cur.el.getBoundingClientRect();
-      if (rect.top < inset || rect.bottom > window.innerHeight - 12) {
+      // A verse taller than the band is aligned to its top (the Arabic,
+      // then the translation below it); a shorter one only moves when
+      // any part of it is hidden under the header or the bar.
+      if (rect.top < inset || rect.bottom > floor) {
         window.scrollTo({
           top: Math.max(0, window.scrollY + rect.top - inset),
           behavior: reducedMotion() ? "auto" : "smooth",
@@ -306,30 +350,104 @@
 
   Panel.prototype.markup = function () {
     return (
-      '<div class="listen-head">' +
+      // Everything a reader sets once per sitting lives in this sheet,
+      // opened from the bar. The bar itself carries only what is pressed
+      // repeatedly: previous, play, next, and where you are.
+      '<div class="listen-sheet" id="listenSheet" data-listen-sheet hidden>' +
+      '<div class="listen-sheet-head">' +
       '<h3 class="listen-title">Listen to ' +
       window.qdEsc(this.title) +
       "</h3>" +
-      '<p class="listen-now" data-listen-now>—</p>' +
-      '<p class="listen-pos t-annotation" data-listen-pos></p>' +
+      '<button type="button" class="button secondary listen-btn listen-sheet-close" data-listen-close aria-label="Close listening options">✕</button>' +
       "</div>" +
       '<div class="listen-options">' +
       '<button type="button" class="button secondary listen-reciter-btn" data-listen-reciter aria-label="Change Arabic reciter">🎤 Choose reciter</button>' +
-      // Reflect is not transport. In the transport row it was the only
-      // control that wrapped, so it took a full 319px line of its own on
-      // a phone while Play had 72px -- a note-taking button reading as
-      // the panel's primary action, inside a group labelled "Recitation
-      // transport" for a screen reader.
+      // Reflect is not transport, so it is not in the transport group.
       '<button type="button" class="button secondary listen-btn listen-reflect-btn" data-listen-reflect>✎ Reflect on this verse</button>' +
       "</div>" +
+      '<div class="listen-extra" role="group" aria-label="Listening options">' +
+      '<button type="button" class="button secondary listen-btn" data-listen-repeat aria-pressed="false">↻ Repeat off</button>' +
+      '<button type="button" class="button secondary listen-btn" data-listen-speed aria-label="Playback speed">1×</button>' +
+      '<button type="button" class="button secondary listen-btn" data-listen-sleep aria-pressed="false">☾ Sleep timer off</button>' +
+      "</div>" +
+      '<div data-listen-support-slot></div>' +
+      "</div>" +
+      '<div class="listen-progress" aria-hidden="true"><span data-listen-progress></span></div>' +
+      '<div class="listen-bar">' +
       '<div class="listen-controls" role="group" aria-label="Recitation transport">' +
       '<button type="button" class="button secondary listen-btn" data-listen-prev aria-label="Previous verse">‹</button>' +
-      '<button type="button" class="button btn-primary listen-btn" data-listen-play aria-label="Play">▶ Play</button>' +
+      '<button type="button" class="button btn-primary listen-btn listen-play" data-listen-play aria-label="Play">▶</button>' +
       '<button type="button" class="button secondary listen-btn" data-listen-next aria-label="Next verse">›</button>' +
-      '<button type="button" class="button secondary listen-btn" data-listen-repeat aria-pressed="false" aria-label="Repeat this verse">↻ Repeat</button>' +
-      '<button type="button" class="button secondary listen-btn" data-listen-speed aria-label="Playback speed">1×</button>' +
+      "</div>" +
+      '<div class="listen-where">' +
+      '<p class="listen-now" data-listen-now>—</p>' +
+      '<p class="listen-pos t-annotation" data-listen-pos></p>' +
+      "</div>" +
+      '<button type="button" class="button secondary listen-btn listen-more" data-listen-more aria-expanded="false" aria-controls="listenSheet" aria-label="Listening options: reciter, language, repeat, speed, sleep timer">⋯</button>' +
       "</div>" +
       '<p class="listen-status" data-listen-status role="status" aria-live="polite" hidden></p>'
+    );
+  };
+
+  Panel.prototype.toggleSheet = function (open) {
+    var sheet = this.el("sheet");
+    var more = this.el("more");
+    if (!sheet || !more) return;
+    var next = typeof open === "boolean" ? open : sheet.hidden;
+    sheet.hidden = !next;
+    more.setAttribute("aria-expanded", String(next));
+    if (next) {
+      var close = this.el("close");
+      if (close) close.focus({ preventScroll: true });
+    } else if (open === false) {
+      more.focus({ preventScroll: true });
+    }
+  };
+
+  // Sleep timer: off, 15, 30, 60 minutes. It pauses; it never unloads,
+  // so a reader who wakes to silence presses play and resumes where
+  // the recitation stopped.
+  var SLEEP_STEPS = [0, 15, 30, 60];
+
+  Panel.prototype.cycleSleep = function () {
+    var cur = this._sleepMins || 0;
+    var next = SLEEP_STEPS[(SLEEP_STEPS.indexOf(cur) + 1) % SLEEP_STEPS.length];
+    this.setSleep(next ? Date.now() + next * 60000 : 0, next);
+  };
+
+  Panel.prototype.setSleep = function (deadline, mins) {
+    var self = this;
+    clearTimeout(this._sleepTimer);
+    clearInterval(this._sleepTick);
+    this._sleepAt = deadline || 0;
+    this._sleepMins = deadline ? mins || Math.ceil((deadline - Date.now()) / 60000) : 0;
+    if (this._sleepAt) {
+      this._sleepTimer = setTimeout(function () {
+        if (self.engine.playing) self.engine.toggle();
+        self._sleepAt = 0;
+        self._sleepMins = 0;
+        clearInterval(self._sleepTick);
+        self._error = "Paused by the sleep timer. Press play to continue.";
+        self.render(self.engine.state());
+      }, Math.max(0, this._sleepAt - Date.now()));
+      this._sleepTick = setInterval(function () {
+        self.paintSleep();
+      }, 30000);
+    }
+    this.paintSleep();
+  };
+
+  Panel.prototype.paintSleep = function () {
+    var b = this.el("sleep");
+    if (!b) return;
+    var left = this._sleepAt ? Math.max(1, Math.ceil((this._sleepAt - Date.now()) / 60000)) : 0;
+    b.textContent = left ? "☾ Sleep in " + left + " min" : "☾ Sleep timer off";
+    b.setAttribute("aria-pressed", String(!!left));
+    b.setAttribute(
+      "aria-label",
+      left
+        ? "Sleep timer: pauses in " + left + " minutes. Press to change."
+        : "Sleep timer off. Press for 15 minutes.",
     );
   };
 
@@ -342,11 +460,13 @@
     box.innerHTML =
       '<details class="method-note"><summary>Audio details and shortcuts</summary>' +
       '<p class="caption-note listen-keys">Keys <kbd>Space</kbd> play/pause, ' +
-      '<kbd>[</kbd> <kbd>]</kbd> previous/next verse, <kbd>R</kbd> repeat.</p>' +
+      '<kbd>[</kbd> <kbd>]</kbd> previous/next verse, <kbd>R</kbd> repeat (off, verse, passage), <kbd>Escape</kbd> closes this panel.</p>' +
       '<p class="caption-note">Recitation streams per verse from cdn.islamic.network, which receives normal connection data. Your listening preferences remain in this browser. <a href="/about#privacy">Privacy and offline details</a>.</p>' +
       '<p class="caption-note listen-en-note" data-listen-english-status role="status" aria-live="polite">English audio choices appear after the page confirms the fixed English recording is available.</p>' +
       "</details>";
-    this.host.insertAdjacentElement("afterend", box);
+    var slot = this.host.querySelector("[data-listen-support-slot]");
+    if (slot) slot.appendChild(box);
+    else this.host.insertAdjacentElement("afterend", box);
     this.support = box;
   };
 
@@ -362,14 +482,23 @@
       self.engine.go(1);
     });
     this.el("repeat").addEventListener("click", function () {
-      self.engine.setRepeat(!self.engine.repeat);
+      self.cycleRepeat();
+    });
+    this.el("sleep").addEventListener("click", function () {
+      self.cycleSleep();
+    });
+    this.el("more").addEventListener("click", function () {
+      self.toggleSheet();
+      self.refreshLayout();
+    });
+    this.el("close").addEventListener("click", function () {
+      self.toggleSheet(false);
     });
     this.el("speed").addEventListener("click", function () {
       self.engine.cycleSpeed();
     });
     this.el("reciter").addEventListener("click", function () {
-      var existing = document.querySelector("#verseContainer .reciter-open-btn");
-      if (existing) existing.click();
+      if (window.qdOpenReciter) window.qdOpenReciter();
     });
     this.el("reflect").addEventListener("click", function () {
       if (self.engine.playing) self.engine.toggle();
@@ -401,10 +530,31 @@
       } else if (e.key === "r" || e.key === "R") {
         if (!self.engine.armed) return;
         e.preventDefault();
-        self.engine.setRepeat(!self.engine.repeat);
+        self.cycleRepeat();
+      } else if (e.key === "Escape") {
+        var sheet = self.el("sheet");
+        if (sheet && !sheet.hidden) {
+          e.preventDefault();
+          self.toggleSheet(false);
+        }
       }
     };
     document.addEventListener("keydown", this._onKey);
+  };
+
+  // Off, then this verse, then the whole passage, then off.
+  Panel.prototype.cycleRepeat = function () {
+    var e = this.engine;
+    if (!e.repeat && !e.loop) {
+      e.loop = false;
+      e.setRepeat(true);
+    } else if (e.repeat) {
+      e.repeat = false;
+      e.setLoop(true);
+    } else {
+      e.repeat = false;
+      e.setLoop(false);
+    }
   };
 
   Panel.prototype.wireVerseButtons = function () {
@@ -428,6 +578,8 @@
       mode: e.mode,
       rate: e.rate,
       repeat: e.repeat,
+      loop: e.loop,
+      sleepAt: this._sleepAt || 0,
       armed: e.armed,
       playing: e.playing,
     };
@@ -441,7 +593,9 @@
     e.leg = snap.leg || (snap.mode === "en" ? "en" : "ar");
     e.rate = snap.rate;
     e.repeat = snap.repeat;
+    e.loop = !!snap.loop;
     e.armed = snap.armed;
+    if (snap.sleepAt && snap.sleepAt > Date.now()) this.setSleep(snap.sleepAt);
     e.audio.playbackRate = e.rate;
     e.emit();
     if (snap.playing) {
@@ -460,23 +614,18 @@
     this.engine.setMode(mode);
   };
 
-  // Scroll the transport into view and put the keyboard on Play. Used
-  // by the #listen deep link and by the Listen button in the entry card:
-  // on a phone the panel sits about 1,200px down the page, below the
-  // entry form, so a reader who has not scrolled has no way of knowing
-  // the passage can be heard at all.
+  // The #listen deep link: the bar is always on screen, so this only
+  // puts the keyboard on Play.
   Panel.prototype.jumpTo = function () {
     try {
-      this.host.scrollIntoView({
-        block: "start",
-        behavior: reducedMotion() ? "auto" : "smooth",
-      });
       var play = this.el("play");
       if (play) play.focus({ preventScroll: true });
     } catch (e) {}
   };
 
   Panel.prototype.destroy = function () {
+    clearTimeout(this._sleepTimer);
+    clearInterval(this._sleepTick);
     if (this._onKey) document.removeEventListener("keydown", this._onKey);
     this._onKey = null;
     this.engine.audio.removeEventListener("error", this._onAudioError);
@@ -492,26 +641,6 @@
     });
   };
 
-  // The entry card's Listen button. It exists in read.html's markup and
-  // stays hidden until a panel is actually mounted, so it never promises
-  // audio that is switched off in settings or has no verses to play.
-  function showJump(panel) {
-    var jump = document.getElementById("listenJump");
-    if (!jump) return;
-    jump.hidden = false;
-    if (!jump._qdWired) {
-      jump._qdWired = true;
-      jump.addEventListener("click", function () {
-        if (window.qdListenPanel) window.qdListenPanel.jumpTo();
-      });
-    }
-  }
-
-  function hideJump() {
-    var jump = document.getElementById("listenJump");
-    if (jump) jump.hidden = true;
-  }
-
   window.qdListenTeardown = function () {
     var host = document.getElementById("listenPanel");
     if (player) {
@@ -521,7 +650,7 @@
     }
     window.qdListenPanel = null;
     window.qdListenPlayer = null;
-    hideJump();
+    document.documentElement.classList.remove("qd-has-listen");
     if (host) {
       host.innerHTML = "";
       host.hidden = true;
@@ -560,7 +689,8 @@
     carry = null;
     if (!restored) player.applyStoredMode();
     player.refreshLayout();
-    showJump(player);
+    document.documentElement.classList.add("qd-has-listen");
+    player.refreshLayout();
     if (location.hash === "#listen" && !window.__qdListenLanded) {
       window.__qdListenLanded = true;
       player.jumpTo();

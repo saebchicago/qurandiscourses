@@ -3795,54 +3795,142 @@ html[data-focus] .ar.xl {
   margin: 0 0 0.9rem;
 }
 
-/* ── Listen mode (assets/listen.js, read.html juz reads) ────────────
-   A juz is a 100-to-250-verse sitting, so the transport sticks to the
-   top of the viewport: the passage scrolls itself under the reader as
-   each verse is recited, and pause has to stay one tap away the whole
-   time rather than however far back up the page it started. */
+/* ── Listen mode (assets/listen.js) ─────────────────────────────────
+   A bar fixed to the foot of the viewport, with a sheet above it for
+   the settings a reader chooses once per sitting. It used to be a 207px
+   card stuck to the top under the sticky nav: 39% of a phone screen,
+   and a 445px reading band that no verse card fitted in, so the
+   translation being recited was always below the fold. The page
+   reserves the bar's height at its foot (--qd-listen-bar-h, measured by
+   listen.js) so the last verse is never underneath it. */
 .listen-panel {
-  position: sticky;
-  top: var(--qd-listen-nav-offset, 0px);
-  z-index: 19;
-  margin-bottom: 0.55rem;
-  box-shadow: 0 6px 18px color-mix(in srgb, var(--ink) 8%, transparent);
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 30;
+  margin: 0;
+  padding: 0 0 env(safe-area-inset-bottom, 0);
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--card);
+  box-shadow: 0 -6px 18px color-mix(in srgb, var(--ink) 8%, transparent);
 }
 .listen-panel[hidden] {
   display: none;
 }
-.listen-head {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 0 0.75rem;
-  margin-bottom: 0.35rem;
+html.qd-has-listen body {
+  padding-bottom: calc(var(--qd-listen-bar-h, 64px) + env(safe-area-inset-bottom, 0px));
 }
-.listen-title {
-  margin: 0 0 0.25rem;
-  font-family: var(--serif);
-  font-size: 1.05rem;
+.listen-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 0.45rem 0.75rem;
+}
+.listen-controls {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+/* 44px minimum on every transport control: these are pressed repeatedly,
+   one-handed, on a phone, which is the whole point of the mode. */
+.listen-btn {
+  min-height: 44px;
+  min-width: 44px;
+}
+.listen-controls .listen-btn {
+  padding-inline: 0.5rem;
+  font-size: 1.15rem;
+  line-height: 1;
+}
+.listen-controls .listen-play {
+  min-width: 52px;
+  min-height: 48px;
+  border-radius: 999px;
+}
+.listen-btn[aria-pressed="true"] {
+  border-color: var(--accent);
   color: var(--accent);
+  font-weight: 600;
+}
+.listen-where {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 .listen-now {
   margin: 0;
   font-family: var(--serif);
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .listen-pos {
-  margin: 0.1rem 0 0;
+  margin: 0;
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
+  white-space: nowrap;
 }
-.listen-head .listen-now,
-.listen-head .listen-pos {
-  grid-column: 2;
+.listen-more {
+  flex-shrink: 0;
+  font-size: 1.2rem;
+  line-height: 1;
 }
-.listen-options {
+.listen-progress {
+  height: 3px;
+  background: color-mix(in srgb, var(--line) 70%, transparent);
+}
+.listen-progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .listen-progress span {
+    transition: width 0.3s ease;
+  }
+}
+.listen-sheet {
+  max-width: 60rem;
+  max-height: min(70vh, 32rem);
+  overflow-y: auto;
+  margin: 0 auto;
+  padding: 0.75rem 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.listen-sheet[hidden] {
+  display: none;
+}
+.listen-sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.listen-title {
+  margin: 0;
+  min-width: 0;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: var(--accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.listen-options,
+.listen-extra {
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
   align-items: center;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.5rem;
 }
 .listen-reciter-btn,
 .listen-mode-select {
@@ -3868,73 +3956,72 @@ html[data-focus] .ar.xl {
   padding: 0.4rem;
   font: inherit;
 }
-.listen-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: center;
-}
-/* 44px minimum on every transport control: these are pressed repeatedly,
-   one-handed, on a phone, which is the whole point of the mode. */
-.listen-btn {
-  min-height: 44px;
-  min-width: 44px;
-}
-.listen-btn[aria-pressed="true"] {
-  border-color: var(--accent);
-  color: var(--accent);
-  font-weight: 600;
-}
 .listen-keys {
   margin-top: 0.6rem;
 }
-.listen-support {
-  margin: 0 0 1rem;
-}
 .listen-support .method-note {
-  margin-top: 0;
+  margin: 0;
 }
 .listen-status {
-  margin: 0.45rem 0 0;
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 0 0.75rem 0.45rem;
   color: var(--danger, #8a2c2c);
   font-size: 0.85rem;
+}
+.listen-en-note {
+  margin-bottom: 0;
 }
 .verse {
   scroll-margin-top: var(--qd-listen-scroll-offset, 5rem);
 }
-html[data-focus] .listen-panel {
-  top: 0;
+@media print {
+  .listen-panel {
+    display: none;
+  }
+  html.qd-has-listen body {
+    padding-bottom: 0;
+  }
 }
 
-/* Per-verse entry into the transport, in place of the native <audio>
-   controls this page used to render once per verse — 286 of them on
-   al-Baqarah, each an independent player that knew about no other verse.
-   One row, two 44px targets: start the sitting here, or change reciter. */
-.verse-audio-row {
-  display: flex;
+/* Per-verse entry into the transport: one 44px play button in the
+   verse's header row. It used to be a full-width "Listen from here" row
+   plus a reciter button and the reciter's name, on every verse. */
+.verse .meta {
   gap: 0.5rem;
-  align-items: center;
-  margin: 0.5rem 0;
 }
-.verse-listen-btn {
-  min-height: 44px;
-  flex: 1;
-  text-align: start;
+.verse .meta .meta-surah {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.verse-audio-row .reciter-open-btn {
+.verse-listen-btn,
+.verse-more-btn {
+  flex-shrink: 0;
   min-width: 44px;
   min-height: 44px;
-  padding: 0.5rem;
+  padding: 0;
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: 999px;
   background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1;
   cursor: pointer;
-  font-size: 0.85rem;
 }
-.verse-reciter-name {
-  margin-bottom: 0.5rem;
-  color: var(--muted);
-  font-size: 0.82rem;
+.verse-listen-btn:hover,
+.verse-listen-btn:focus-visible,
+.verse-more-btn:hover,
+.verse-more-btn:focus-visible {
+  border-color: var(--link);
+  color: var(--link);
+}
+.verse-more-btn[aria-expanded="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 /* The verse already playing does not offer to start playing. */
 .verse.is-listening .verse-listen-btn {
@@ -3942,53 +4029,32 @@ html[data-focus] .listen-panel {
   color: var(--accent);
   font-weight: 600;
 }
-.listen-en-note {
-  margin-bottom: 0;
+.passage-prov {
+  margin: 0.5rem 0 1.5rem;
 }
 
-@media (max-width: 620px) {
-  .listen-panel {
-    padding: 0.7rem;
-  }
-  .listen-head {
-    grid-template-columns: 1fr;
-  }
-  .listen-head .listen-now,
-  .listen-head .listen-pos {
-    grid-column: 1;
-  }
-  .listen-title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .listen-options {
-    flex-wrap: nowrap;
-  }
-  .listen-reciter-btn {
-    flex: 1 1 0;
-    min-width: 0;
-  }
-  .listen-mode-label {
-    flex: 1 1 0;
-    min-width: 0;
-    font-size: 0;
-  }
-  .listen-mode-select {
-    width: 100%;
-    margin: 0;
-    font-size: 0.82rem;
-  }
-  .listen-controls {
-    flex-wrap: wrap;
-    gap: 0.35rem;
-  }
-  .listen-controls .listen-btn {
-    flex: 1 1 auto;
-    min-width: 44px;
-    padding-inline: 0.45rem;
-    font-size: 0.82rem;
-  }
+/* The page's floating controls (settings and share, back-to-top, the
+   notebook, their panels, the toast) sit in the bottom corners. With the
+   transport bar at the foot of the screen they would cover its buttons,
+   so while a bar is mounted they ride above it by exactly its height. */
+html.qd-has-listen .settings,
+html.qd-has-listen .back-to-top,
+html.qd-has-listen .notebook-toggle {
+  bottom: calc(1rem + var(--qd-listen-bar-h, 64px) + env(safe-area-inset-bottom, 0px));
+}
+html.qd-has-listen .panel,
+html.qd-has-listen .notebook-panel {
+  bottom: calc(5.2rem + var(--qd-listen-bar-h, 64px) + env(safe-area-inset-bottom, 0px));
+}
+html.qd-has-listen .qd-toast {
+  bottom: calc(4.5rem + var(--qd-listen-bar-h, 64px) + env(safe-area-inset-bottom, 0px));
+}
+
+/* Reading state (assets/read-polish.js). With a passage on screen the
+   passage's own context bar is the sticky header; the site nav scrolls
+   away with the page instead of holding 110px of a phone screen. */
+html.qd-reading nav.primary {
+  position: static;
 }
 
 /* The verse being recited. A left rule plus a tinted ground, not a
@@ -4152,6 +4218,11 @@ html[data-focus] .listen-panel {
   padding-top: 0.7rem;
   border-top: 1px solid var(--line);
 }
+.verse-actions[hidden],
+.read-context[hidden],
+#readSetup[hidden] {
+  display: none;
+}
 .verse-actions .btn-utility {
   display: inline-flex;
   align-items: center;
@@ -4161,47 +4232,75 @@ html[data-focus] .listen-panel {
   position: sticky;
   top: 0;
   z-index: 15;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem 1rem;
+  gap: 0 0.5rem;
   margin: 0 0 0.8rem;
-  padding: 0.5rem 0.75rem;
+  padding: 0.2rem 0.5rem;
   border: 1px solid var(--line);
   border-radius: 10px;
   background: var(--card);
 }
 .read-context-ref {
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 0.25rem;
+  border: 0;
+  background: none;
   font-family: var(--serif);
   font-size: 1.05rem;
   color: var(--ink);
-  flex-shrink: 0;
+  text-align: start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+.read-context-ref:hover,
+.read-context-ref:focus-visible {
+  color: var(--link);
 }
 .read-context-trans {
-  flex: 1;
+  grid-row: 2;
+  grid-column: 1 / -1;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   border: 0;
+  border-top: 1px solid var(--line);
   background: none;
   color: var(--muted);
   font: inherit;
   font-size: 0.82rem;
-  text-align: left;
+  text-align: start;
   cursor: pointer;
   min-height: 44px;
-  padding: 0;
+  padding: 0 0.25rem;
+}
+.read-context-trans::after {
+  content: " ▾";
 }
 .read-context-trans:hover,
 .read-context-trans:focus-visible {
   color: var(--link);
 }
 .read-context-actions {
+  grid-row: 1;
+  grid-column: 2;
   display: flex;
   gap: 0.3rem;
   flex-shrink: 0;
+}
+.read-context-actions .btn-utility {
+  min-width: 44px;
+  min-height: 44px;
+}
+/* Setup instructions, not reading content: hidden while a passage is
+   on screen, with the rest of the setup behind "Options". */
+html.qd-reading #readLede {
+  display: none;
 }
 .read-context button[disabled] {
   opacity: 0.45;

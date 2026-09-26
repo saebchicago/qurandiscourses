@@ -173,6 +173,11 @@
     this.mode = "ar"; // "ar" | "en" | "ar-en"
     this.english = null; // {edition, bitrate} once probed and found
     this.repeat = false;
+    // Loop the whole passage: after its last step, start again at its
+    // first verse. Independent of `repeat`, which holds one verse; a
+    // reader memorising a short surah wants the surah on a loop, not
+    // one verse forever or one pass and silence.
+    this.loop = false;
     this.rate = 1;
     this.playing = false;
     this.armed = false; // a user has pressed play at least once
@@ -219,6 +224,7 @@
       leg: this.leg,
       mode: this.mode,
       repeat: this.repeat,
+      loop: this.loop,
       rate: this.rate,
       playing: this.playing,
       armed: this.armed,
@@ -359,6 +365,11 @@
       return this.playCurrent();
     }
     var step = this.nextStep(this.idx, this.leg);
+    if (!step && this.loop && this.items.length) {
+      this.idx = 0;
+      this.leg = this.startLeg();
+      return this.playCurrent();
+    }
     if (!step) {
       // The sitting played out. Callers that mark a passage finished
       // (‘replay from start’, last-read bookkeeping) read this off
@@ -417,6 +428,11 @@
 
   Engine.prototype.setRepeat = function (on) {
     this.repeat = !!on;
+    this.emit();
+  };
+
+  Engine.prototype.setLoop = function (on) {
+    this.loop = !!on;
     this.emit();
   };
 

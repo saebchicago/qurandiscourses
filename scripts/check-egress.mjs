@@ -34,7 +34,11 @@ const HOSTS = [
     ok: async (r) => {
       if (!r.ok) return `HTTP ${r.status}`;
       const j = await r.json();
-      return j && j.code === 200 && j.data && j.data.ayahs && j.data.ayahs.length === 7
+      // The /editions/ endpoint answers with an ARRAY of editions, even
+      // for one; its first run in CI read that as "wrong shape" while
+      // the same job's juz check reached this host fine.
+      const d = j && Array.isArray(j.data) ? j.data[0] : j && j.data;
+      return j && j.code === 200 && d && d.ayahs && d.ayahs.length === 7
         ? true
         : "answered, but not the al-Fatihah shape the Read page parses";
     },

@@ -1448,6 +1448,12 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
       `?juz=15 normalised to "${passage.search}" (want j=15, no juz=)`,
     );
 
+    // Repeat and speed live in the transport's sheet, opened from the
+    // bar; open it so their tap targets are measured as a reader meets them.
+    await page.evaluate(() => {
+      const more = document.querySelector("#listenPanel [data-listen-more]");
+      if (more && more.getAttribute("aria-expanded") !== "true") more.click();
+    });
     const panel = await page.evaluate(() => {
       const p = document.getElementById("listenPanel");
       const btn = (n) => p.querySelector(`[data-listen-${n}]`);
@@ -1851,22 +1857,30 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
     const m = await page.evaluate(() => {
       const p = document.getElementById("listenPanel");
       const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
-      const sticky = getComputedStyle(p).position;
-      return { overflow, sticky, wide: p.getBoundingClientRect().width };
+      // Fixed to the foot of the viewport (see the note on .listen-panel
+      // in assets/style.css): it was sticky at the top, where it held 39%
+      // of a phone screen.
+      const pos = getComputedStyle(p).position;
+      const r = p.getBoundingClientRect();
+      return { overflow, pos, atFoot: Math.abs(r.bottom - window.innerHeight) <= 1, wide: r.width };
     });
     // Focus mode hides the page chrome; the transport is not chrome.
     await page.keyboard.press("f");
     const focused = await page.evaluate(() => ({
       on: document.documentElement.hasAttribute("data-focus"),
-      panelVisible: document.getElementById("listenPanel").offsetParent !== null,
+      // offsetParent is always null for a fixed element; measure instead.
+      panelVisible: (() => {
+        const r = document.getElementById("listenPanel").getBoundingClientRect();
+        return r.height > 0 && r.top < window.innerHeight && r.bottom > 0;
+      })(),
       playVisible: !!document
         .querySelector("#listenPanel [data-listen-play]")
         ?.getBoundingClientRect().height,
     }));
     report(
       "listen-mobile", "read.html",
-      m.overflow <= 0 && m.sticky === "sticky" && focused.on && focused.panelVisible && focused.playVisible,
-      `375px horizontal overflow=${m.overflow}px (want 0); panel ${Math.round(m.wide)}px, position=${m.sticky}; in Focus mode panel visible=${focused.panelVisible} play reachable=${focused.playVisible}`,
+      m.overflow <= 0 && m.pos === "fixed" && m.atFoot && focused.on && focused.panelVisible && focused.playVisible,
+      `375px horizontal overflow=${m.overflow}px (want 0); panel ${Math.round(m.wide)}px, position=${m.pos}, at the foot of the viewport=${m.atFoot}; in Focus mode panel visible=${focused.panelVisible} play reachable=${focused.playVisible}`,
     );
     await rctx.close();
   }
@@ -2140,67 +2154,185 @@ if (runCheck("listennav") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !L
       `saved mode "${mode}" sees: "${note}"`,
     );
     if (mode === "ar") {
-      // The transport sits ~1,200px down a phone screen. Nothing above
-      // it said the passage could be heard, so the reader had to scroll
-      // to a control they had no reason to believe existed.
-      const jump = page.locator("#listenJump");
-      const box = await jump.boundingBox();
-      const inFirstScreen = box !== null && box.y < 812;
-      report(
-        "listen-entry-in-first-screen",
-        "read.html",
-        (await jump.isVisible()) && inFirstScreen && box.height >= 44,
-        box === null
-          ? "#listenJump has no box"
-          : `#listenJump at y=${Math.round(box.y)} (viewport 812), ${Math.round(box.height)}px tall`,
-      );
-      // It jumps to the one transport rather than becoming a second one.
-      await jump.click();
-      await page.waitForTimeout(700);
-      const landed = await page.evaluate(() => {
-        const r = document.getElementById("listenPanel").getBoundingClientRect();
+      // The transport is a bar fixed to the foot of the viewport. As a
+      // card it sat ~1,200px down a phone screen with nothing above it
+      // saying the passage could be heard; then, stuck to the top under
+      // the nav, it took 39% of the screen.
+      const bar = await page.evaluate(() => {
+        const play = document.querySelector("#listenPanel [data-listen-play]").getBoundingClientRect();
+        const host = document.getElementById("listenPanel").getBoundingClientRect();
         return {
-          visible: r.top >= -2 && r.top < window.innerHeight,
-          onPlay: !!(document.activeElement && document.activeElement.hasAttribute("data-listen-play")),
+          playTop: Math.round(play.top),
+          playBottom: Math.round(play.bottom),
+          playH: Math.round(play.height),
+          hostBottom: Math.round(host.bottom),
+          hostH: Math.round(host.height),
+          vh: window.innerHeight,
           transports: document.querySelectorAll("[data-listen-play]").length,
         };
       });
       report(
-        "listen-entry-jumps-to-transport",
+        "listen-bar-in-first-screen",
         "read.html",
-        landed.visible && landed.onPlay && landed.transports === 1,
-        `panel in view=${landed.visible} focus on Play=${landed.onPlay} transports on the page=${landed.transports} (want 1)`,
+        bar.playBottom <= bar.vh && bar.playTop > bar.vh / 2 && bar.playH >= 44 &&
+          Math.abs(bar.hostBottom - bar.vh) <= 1 && bar.transports === 1,
+        `Play at y=${bar.playTop}-${bar.playBottom} of ${bar.vh}, ${bar.playH}px; bar ${bar.hostH}px tall, bottom at ${bar.hostBottom}; transports=${bar.transports} (want 1)`,
       );
-      // Reflect is not transport: in the transport row it was the only
-      // control that wrapped, taking a full-width line while Play had
-      // 72px, inside a group a screen reader calls "Recitation
-      // transport".
+
+      // The recited verse must fit between the passage's sticky context
+      // bar and the transport. With the old top panel the band was 445px
+      // and no verse card fitted, so the translation being recited was
+      // always off-screen.
+      const band = await page.evaluate(async () => {
+        const pl = window.qdListenPlayer;
+        const out = [];
+        pl.armed = true;
+        for (const i of [1, pl.items.length - 1]) {
+          pl.point ? pl.point(i) : (pl.idx = i);
+          pl.emit();
+          await new Promise((r) => setTimeout(r, 700));
+          const v = pl.items[i].el.getBoundingClientRect();
+          const ctx = document.querySelector(".read-context").getBoundingClientRect();
+          const barTop = document.querySelector("#listenPanel").getBoundingClientRect().top;
+          out.push({ i, top: Math.round(v.top), bottom: Math.round(v.bottom), ctxBottom: Math.round(ctx.bottom), barTop: Math.round(barTop) });
+        }
+        pl.armed = false;
+        pl.emit();
+        return out;
+      });
+      report(
+        "listen-verse-fits-band",
+        "read.html",
+        band.every((b) => b.top >= b.ctxBottom - 1 && b.bottom <= b.barTop + 1),
+        band.map((b) => `verse ${b.i + 1}: ${b.top}-${b.bottom} within ${b.ctxBottom}-${b.barTop}`).join("; "),
+      );
+
+      // Nothing floating in the corners may cover the bar.
+      const cover = await page.evaluate(() => {
+        const barTop = document.querySelector("#listenPanel").getBoundingClientRect().top;
+        return [".settings", ".back-to-top", "#notebookToggle"]
+          .map((sel) => {
+            const el = document.querySelector(sel);
+            if (!el || !el.getClientRects().length) return null;
+            const r = el.getBoundingClientRect();
+            return { sel, bottom: Math.round(r.bottom), barTop: Math.round(barTop) };
+          })
+          .filter(Boolean);
+      });
+      report(
+        "listen-bar-uncovered",
+        "read.html",
+        cover.every((c) => c.bottom <= c.barTop + 1),
+        cover.map((c) => `${c.sel} bottom ${c.bottom} vs bar top ${c.barTop}`).join("; ") || "no floating controls",
+      );
+
+      // The sheet: opened from the bar, focus into it, Escape closes it
+      // and returns focus to the button that opened it.
+      await page.click("#listenPanel [data-listen-more]");
+      await page.waitForTimeout(250);
+      const opened = await page.evaluate(() => ({
+        visible: !document.querySelector("[data-listen-sheet]").hidden,
+        expanded: document.querySelector("[data-listen-more]").getAttribute("aria-expanded"),
+        focusInSheet: !!(document.activeElement && document.activeElement.closest("[data-listen-sheet]")),
+      }));
+      // Reflect is not transport: it lives in the sheet's options, not
+      // the group a screen reader announces as "Recitation transport".
       const shape = await page.evaluate(() => {
         const r = document.querySelector("[data-listen-reflect]");
-        const p = document.querySelector("[data-listen-play]");
         return {
           inTransport: !!document.querySelector(".listen-controls [data-listen-reflect]"),
           inOptions: !!document.querySelector(".listen-options [data-listen-reflect]"),
-          reflectW: r ? Math.round(r.getBoundingClientRect().width) : 0,
-          playW: p ? Math.round(p.getBoundingClientRect().width) : 0,
           reflectH: r ? Math.round(r.getBoundingClientRect().height) : 0,
+          reflectW: r ? Math.round(r.getBoundingClientRect().width) : 0,
         };
       });
       report(
         "listen-reflect-out-of-transport",
         "read.html",
-        !shape.inTransport && shape.inOptions && shape.reflectH >= 44 &&
-          shape.reflectW < 375,
-        `Reflect in .listen-controls=${shape.inTransport}, in .listen-options=${shape.inOptions}, ${shape.reflectW}px wide vs Play ${shape.playW}px`,
+        !shape.inTransport && shape.inOptions && shape.reflectH >= 44 && shape.reflectW < 375,
+        `Reflect in .listen-controls=${shape.inTransport}, in .listen-options=${shape.inOptions}, ${shape.reflectW}x${shape.reflectH}px`,
+      );
+
+      // Repeat cycles off -> verse -> passage -> off, and a looped
+      // passage starts again at its first verse instead of ending.
+      const rep = await page.evaluate(() => {
+        const btn = document.querySelector("[data-listen-repeat]");
+        const pl = window.qdListenPlayer;
+        const seen = [];
+        for (let k = 0; k < 4; k++) {
+          seen.push((pl.repeat ? "verse" : pl.loop ? "passage" : "off") + "/" + btn.getAttribute("aria-pressed"));
+          btn.click();
+        }
+        pl.repeat = false;
+        pl.setLoop(true);
+        pl.seek(pl.items.length - 1);
+        pl.leg = "ar";
+        pl.mode = "ar";
+        pl.playing = true;
+        pl.advance();
+        const wrapped = { idx: pl.idx, ended: pl.ended };
+        pl.setLoop(false);
+        pl.seek(pl.items.length - 1);
+        pl.playing = true;
+        pl.advance();
+        const stopped = { ended: pl.ended };
+        pl.playing = false;
+        return { seen, wrapped, stopped };
+      });
+      report(
+        "listen-repeat-cycles",
+        "read.html",
+        rep.seen.join(",") === "off/false,verse/true,passage/true,off/false" &&
+          rep.wrapped.idx === 0 && rep.wrapped.ended === false && rep.stopped.ended === true,
+        `states ${rep.seen.join(" -> ")}; looped passage after its last verse: idx ${rep.wrapped.idx}, ended=${rep.wrapped.ended} (want 0, false); unlooped: ended=${rep.stopped.ended} (want true)`,
+      );
+
+      // Sleep timer: one press arms 15 minutes; when it fires, playback
+      // pauses and the bar says why.
+      const sleep = await page.evaluate(async () => {
+        const btn = document.querySelector("[data-listen-sleep]");
+        btn.click();
+        const armed = { pressed: btn.getAttribute("aria-pressed"), label: btn.textContent };
+        const panel = window.qdListenPanel;
+        const pl = window.qdListenPlayer;
+        pl.playing = true;
+        panel.setSleep(Date.now() + 60);
+        await new Promise((r) => setTimeout(r, 300));
+        const status = document.querySelector("[data-listen-status]");
+        return {
+          armed,
+          playingAfter: pl.playing,
+          said: status && !status.hidden ? status.textContent : "",
+          pressedAfter: btn.getAttribute("aria-pressed"),
+        };
+      });
+      report(
+        "listen-sleep-timer",
+        "read.html",
+        sleep.armed.pressed === "true" && /15 min/.test(sleep.armed.label) &&
+          sleep.playingAfter === false && /sleep timer/i.test(sleep.said) && sleep.pressedAfter === "false",
+        `armed: "${sleep.armed.label}" pressed=${sleep.armed.pressed}; on expiry playing=${sleep.playingAfter}, status "${sleep.said}", pressed=${sleep.pressedAfter}`,
+      );
+
+      await page.keyboard.press("Escape");
+      await page.waitForTimeout(200);
+      const closed = await page.evaluate(() => ({
+        hidden: document.querySelector("[data-listen-sheet]").hidden,
+        focusOnMore: !!(document.activeElement && document.activeElement.hasAttribute("data-listen-more")),
+      }));
+      report(
+        "listen-sheet",
+        "read.html",
+        opened.visible && opened.expanded === "true" && opened.focusInSheet && closed.hidden && closed.focusOnMore,
+        `open: visible=${opened.visible} aria-expanded=${opened.expanded} focus inside=${opened.focusInSheet}; Escape: closed=${closed.hidden} focus back on the button=${closed.focusOnMore}`,
       );
     }
     report(`listen-nav-console-${mode}`, "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
     await lctx.close();
   }
 
-  // The entry button must never promise audio the page will not give:
-  // hidden with the audio feature switched off, and hidden before any
-  // passage has been loaded.
+  // With the audio feature switched off there is no bar, no per-verse
+  // play button, and no space reserved at the foot of the page.
   const offctx = await newContext({ apiMode: "stub" });
   await offctx.addInitScript(() => {
     try {
@@ -2211,20 +2343,127 @@ if (runCheck("listennav") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !L
   await off.goto(`${BASE}/read.html?s=1&a=1-7`, { waitUntil: "load" });
   await off.waitForTimeout(1200);
   const audioOff = await off.evaluate(() => ({
-    jump: (document.getElementById("listenJump") || {}).hidden,
     panel: document.getElementById("listenPanel").hidden,
+    playFrom: document.querySelectorAll("[data-listen-from]").length,
+    reserved: document.documentElement.classList.contains("qd-has-listen"),
     verses: document.querySelectorAll("#verseContainer .verse").length,
   }));
-  await off.goto(`${BASE}/read.html`, { waitUntil: "load" });
-  await off.waitForTimeout(1000);
-  const noPassage = await off.evaluate(() => (document.getElementById("listenJump") || {}).hidden);
   report(
-    "listen-entry-hidden-without-audio",
+    "listen-absent-without-audio",
     "read.html",
-    audioOff.jump === true && audioOff.panel === true && audioOff.verses > 0 && noPassage === true,
-    `audio off: #listenJump hidden=${audioOff.jump}, panel hidden=${audioOff.panel} over ${audioOff.verses} rendered verses; no passage: hidden=${noPassage}`,
+    audioOff.panel === true && audioOff.playFrom === 0 && audioOff.reserved === false && audioOff.verses > 0,
+    `audio off over ${audioOff.verses} verses: bar hidden=${audioOff.panel}, per-verse play buttons=${audioOff.playFrom} (want 0), foot reserved=${audioOff.reserved} (want false)`,
   );
   await offctx.close();
+}
+
+// ── read.html: the reading state ──────────────────────────────────────
+// With a passage on screen: setup folds behind "Options", the passage's
+// context bar carries the ONE translations control, and each verse
+// carries one play button and one "more" button instead of the
+// translations row, reciter row, reciter name, provenance line and four
+// utility links it used to repeat 286 times on al-Baqarah.
+if (runCheck("reading") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) {
+  const rctx = await newContext({ apiMode: "stub" });
+  const page = await rctx.newPage();
+  const errors = [];
+  attachConsoleCollector(page, errors);
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto(`${BASE}/read.html?s=1&a=1-7`, { waitUntil: "load" });
+  await page.waitForSelector("#verseContainer .verse", { timeout: 15000 }).catch(() => {});
+  await page.waitForTimeout(700);
+  const st = await page.evaluate(() => {
+    const verses = [...document.querySelectorAll("#verseContainer .verse")];
+    const v0 = verses[0];
+    const nav = document.querySelector("nav.primary");
+    return {
+      verses: verses.length,
+      setupHidden: document.getElementById("readSetup").hidden,
+      navSticky: getComputedStyle(nav).position === "sticky",
+      firstVerseTop: Math.round(v0.getBoundingClientRect().top + window.scrollY),
+      vh: window.innerHeight,
+      transInVerses: document.querySelectorAll("#verseContainer .trans-open-btn").length,
+      transInBar: document.querySelectorAll(".read-context .trans-open-btn").length,
+      reciterInVerses: document.querySelectorAll("#verseContainer .reciter-open-btn, #verseContainer .verse-reciter-name").length,
+      playPerVerse: verses.every((v) => v.querySelectorAll("[data-listen-from]").length === 1),
+      morePerVerse: verses.every((v) => v.querySelectorAll(".verse-more-btn").length === 1),
+      actionsFolded: verses.every((v) => { const a = v.querySelector(".verse-actions"); return a && a.hidden; }),
+      provPerVerse: document.querySelectorAll("#verseContainer .verse .prov").length,
+      provOnce: document.querySelectorAll("#verseContainer .passage-prov").length,
+    };
+  });
+  report(
+    "reading-setup-folded",
+    "read.html",
+    st.verses > 0 && st.setupHidden && !st.navSticky && st.firstVerseTop < st.vh,
+    `setup hidden=${st.setupHidden}, nav sticky=${st.navSticky} (want false), first verse at y=${st.firstVerseTop} of a ${st.vh}px screen`,
+  );
+  report(
+    "reading-verse-card-light",
+    "read.html",
+    st.transInVerses === 0 && st.transInBar === 1 && st.reciterInVerses === 0 &&
+      st.playPerVerse && st.morePerVerse && st.actionsFolded && st.provPerVerse === 0 && st.provOnce === 1,
+    `translations buttons in verses=${st.transInVerses} (want 0), in the context bar=${st.transInBar} (want 1); reciter controls in verses=${st.reciterInVerses} (want 0); one play and one more button per verse=${st.playPerVerse && st.morePerVerse}; actions folded=${st.actionsFolded}; provenance lines per verse=${st.provPerVerse}, per passage=${st.provOnce} (want 0, 1)`,
+  );
+
+  // The more button opens that verse's actions, including Reflect.
+  const more = await page.evaluate(() => {
+    const v = document.querySelector("#verseContainer .verse");
+    const b = v.querySelector(".verse-more-btn");
+    b.click();
+    const row = v.querySelector(".verse-actions");
+    return {
+      open: !row.hidden,
+      expanded: b.getAttribute("aria-expanded"),
+      controls: b.getAttribute("aria-controls") === row.id,
+      acts: [...row.querySelectorAll("[data-act], a")].map((a) => a.getAttribute("data-act") || "link"),
+    };
+  });
+  report(
+    "reading-verse-more",
+    "read.html",
+    more.open && more.expanded === "true" && more.controls && more.acts.includes("reflect") && more.acts.includes("ref"),
+    `open=${more.open} aria-expanded=${more.expanded} aria-controls wired=${more.controls} actions=${more.acts.join(",")}`,
+  );
+
+  // Options reopens setup; the passage name opens the chooser.
+  await page.click('.read-context [data-ctx="options"]');
+  await page.waitForTimeout(250);
+  const opt = await page.evaluate(() => ({
+    open: !document.getElementById("readSetup").hidden,
+    expanded: document.querySelector('.read-context [data-ctx="options"]').getAttribute("aria-expanded"),
+  }));
+  await page.click('.read-context [data-ctx="options"]');
+  await page.click(".read-context-ref");
+  await page.waitForSelector(".qd-picker-overlay", { timeout: 5000 }).catch(() => {});
+  const chooser = (await page.locator(".qd-picker-overlay").count()) > 0;
+  await page.keyboard.press("Escape");
+  report(
+    "reading-options-and-change",
+    "read.html",
+    opt.open && opt.expanded === "true" && chooser,
+    `Options opened setup=${opt.open} aria-expanded=${opt.expanded}; passage name opened the chooser=${chooser}`,
+  );
+
+  // The reciter is chosen once, from the transport's sheet.
+  await page.click("#listenPanel [data-listen-more]");
+  await page.click("#listenPanel [data-listen-reciter]");
+  await page.waitForSelector(".reciter-option", { timeout: 5000 }).catch(() => {});
+  const options = await page.locator(".reciter-option").count();
+  if (options) await page.locator('.reciter-option[data-reciter="ar.minshawi"]').click();
+  await page.waitForTimeout(300);
+  const reciter = await page.evaluate(() => ({
+    saved: (JSON.parse(localStorage.getItem("qd_state") || "{}") || {}).reciter,
+    label: (document.querySelector("#listenPanel [data-listen-reciter]") || {}).textContent || "",
+  }));
+  report(
+    "reading-reciter-from-sheet",
+    "read.html",
+    options >= 5 && reciter.saved === "ar.minshawi" && /Minshawi/.test(reciter.label),
+    `${options} reciters offered; saved=${reciter.saved}; sheet button reads "${reciter.label.trim()}"`,
+  );
+  report("reading-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+  await rctx.close();
 }
 
 // ── read.html: the navigation a reader who knows no verse counts uses ─
@@ -2267,7 +2506,11 @@ if (runCheck("readnav") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIV
     const d = document.getElementById("typeRef");
     return d ? !d.open : null;
   });
-  const prevVisible = await page.locator("#prevBtn").isVisible().catch(() => false);
+  // /read opens on al-Fatihah, so setup has folded behind the context
+  // bar; previous/next stay one tap away there.
+  const prevVisible =
+    (await page.locator("#prevBtn").isVisible().catch(() => false)) ||
+    (await page.locator('.read-context [data-ctx="prev"]').isVisible().catch(() => false));
   report(
     "read-nav-typed-folded-with-js",
     "read.html",
@@ -2278,6 +2521,8 @@ if (runCheck("readnav") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIV
   // An empty verse box means the whole surah. It used to arrive holding
   // "1", so Load handed back a single verse of whatever surah the
   // reader named -- the opposite of what the picker beside it does.
+  if (await page.locator('.read-context [data-ctx="options"]').isVisible().catch(() => false))
+    await page.click('.read-context [data-ctx="options"]');
   await page.evaluate(() => {
     const d = document.getElementById("typeRef");
     if (d) d.open = true;
@@ -2297,7 +2542,9 @@ if (runCheck("readnav") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIV
   // Juz cells carry the surah names. They read "1 / 1:1 to 2:141",
   // which asks the reader to know the surah numbers by heart to tell
   // one cell from the next.
-  await page.click("#openPicker");
+  // A passage is on screen now, so setup has folded; the chooser opens
+  // from the passage's name in the context bar, as a reader reaches it.
+  await page.click(".read-context-ref");
   await page.waitForSelector(".qd-picker-overlay", { timeout: 5000 }).catch(() => {});
   await page.click('.qd-picker-overlay .qd-chip[data-filter="juz"]');
   await page.waitForSelector(".qd-picker-overlay .qd-juz", { timeout: 5000 }).catch(() => {});
