@@ -50,10 +50,20 @@ const OUT = join(ROOT, "data", "quran-text");
 const CHECK = process.argv.includes("--check");
 
 const ALQURAN_URL = "https://api.alquran.cloud/v1/quran/quran-uthmani";
-// Tanzil's download form. The mark options (marks, sajdah, rub, alef) were
-// tried in all 16 combinations on the first run and every one returned the
-// same file, so none are sent.
-const TANZIL_URL = "https://tanzil.net/pub/download/index.php?quranType=uthmani&outType=txt-2&agree=true";
+// Tanzil's download form, with all four mark options on: pause marks,
+// sajdah signs, rub-el-hizb signs, superscript alef. Observed on GitHub's
+// runners (2026-09-26): with the four options present, every true/false
+// combination returned the same file, pause marks included; with none
+// present, the file had no pause marks (2:2 lost its two U+06DB marks).
+// So an option appears to count as on whenever it is sent. Sending all
+// four as true asks for exactly the file observed, which is also the set
+// of marks alquran.cloud's copy carries.
+const TANZIL_URL =
+  "https://tanzil.net/pub/download/index.php?marks=true&sajdah=true&rub=true&alef=true&quranType=uthmani&outType=txt-2&agree=true";
+
+// Pause marks must be present: a download without them is a different
+// text for a reader, and is refused rather than bundled.
+const PAUSE_MARKS = /[\u06D6-\u06DC]/;
 
 const EXPECTED_SURAHS = 114;
 const EXPECTED_AYAHS = 6236;
@@ -172,6 +182,8 @@ async function main() {
   if (tz.verses.size !== EXPECTED_AYAHS) throw new Error(`Tanzil: ${tz.verses.size} verses, expected 6236`);
   if (!tz.notice.length) throw new Error("Tanzil's file carried no copyright notice; refusing to bundle without it");
   for (const [ref, text] of tz.verses) if (!text.trim()) throw new Error(`Tanzil: ${ref} is empty`);
+  if (!PAUSE_MARKS.test(tz.verses.get("2:2")))
+    throw new Error("Tanzil's file has no pause marks at 2:2; the mark options were not applied");
 
   console.log(`Fetching ${ALQURAN_URL}`);
   const apiJson = await get(ALQURAN_URL, "json");
