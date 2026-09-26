@@ -41,7 +41,7 @@
     <meta name="theme-color" content="#2b1d0e" />
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/changelog","url":"https://divinediscourses.org/changelog","name":"Changelog: every correction logged · Divine Discourses","description":"Every correction and material change to Divine Discourses since launch. A public record of accountability.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.2.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Changelog: every correction logged","item":"https://divinediscourses.org/changelog"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/changelog","url":"https://divinediscourses.org/changelog","name":"Changelog: every correction logged · Divine Discourses","description":"Every correction and material change to Divine Discourses since launch. A public record of accountability.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.3.0"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Changelog: every correction logged","item":"https://divinediscourses.org/changelog"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -135,6 +135,33 @@
           <h3>2026</h3>
           <h4>September</h4>
           <ul>
+            <li id="2026-09-v130-three-new-tables">
+              <strong>Version 1.3.0: three more tables to download.</strong>
+              <a href="/export">Export</a> adds <em>roots by surah</em> (every
+              root's count and rate in every surah it appears in, 17,496 rows),
+              <em>lemma frequencies</em> (all 4,832 lemmas with part of speech,
+              root, most common form, and spread across verses and surahs), and
+              <em>direct address</em> (the 89 verses with &ldquo;O you who
+              believe&rdquo;). All three were already computed for the Roots and
+              Patterns pages but could not be downloaded. Each is checked against
+              files computed separately: root counts by surah sum to each root's
+              total and match its surah spread, and the lemma list matches the
+              lemma total on Numbers. The v1.3.0 archive holds all seventeen
+              tables; earlier archives are unchanged.
+            <a class="claim-anchor" href="#2026-09-v130-three-new-tables" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-09-arabic-text-bundled">
+              <strong>The Arabic text now ships with the site.</strong> Read and
+              Compare take the Arabic from Tanzil's own Uthmani file (Version
+              1.1), bundled unchanged with Tanzil's notice, and fetch only the
+              translations. If the translation service is down, the Arabic still
+              shows, with a note. Before this, the Arabic came from alquran.cloud,
+              whose copy matched Tanzil's current file in 2,619 of 6,236 verses:
+              the differences are small marks (the small meem written for some
+              tanwin, the form of some hamzas, a small yeh), not words. Readers
+              will see those marks change. Also corrected: the site described
+              Tanzil's license as CC BY-ND 3.0; Tanzil's file states Creative
+              Commons Attribution 3.0, verbatim copies only, notice retained.
+            <a class="claim-anchor" href="#2026-09-arabic-text-bundled" aria-label="Link to this entry">&sect;</a></li>
             <li id="2026-09-cross-references-removed">
               <strong>The cross-reference dataset and every feature built on it are
               removed.</strong> The verse-to-verse cross-references bundled since

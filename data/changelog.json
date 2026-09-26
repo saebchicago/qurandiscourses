@@ -2,6 +2,18 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-09-v130-three-new-tables",
+   "year": "2026",
+   "month": "September",
+   "html": "\n              <strong>Version 1.3.0: three more tables to download.</strong>\n              <a href=\"/export\">Export</a> adds <em>roots by surah</em> (every\n              root's count and rate in every surah it appears in, 17,496 rows),\n              <em>lemma frequencies</em> (all 4,832 lemmas with part of speech,\n              root, most common form, and spread across verses and surahs), and\n              <em>direct address</em> (the 89 verses with &ldquo;O you who\n              believe&rdquo;). All three were already computed for the Roots and\n              Patterns pages but could not be downloaded. Each is checked against\n              files computed separately: root counts by surah sum to each root's\n              total and match its surah spread, and the lemma list matches the\n              lemma total on Numbers. The v1.3.0 archive holds all seventeen\n              tables; earlier archives are unchanged.\n            "
+  },
+  {
+   "id": "2026-09-arabic-text-bundled",
+   "year": "2026",
+   "month": "September",
+   "html": "\n              <strong>The Arabic text now ships with the site.</strong> Read and\n              Compare take the Arabic from Tanzil's own Uthmani file (Version\n              1.1), bundled unchanged with Tanzil's notice, and fetch only the\n              translations. If the translation service is down, the Arabic still\n              shows, with a note. Before this, the Arabic came from alquran.cloud,\n              whose copy matched Tanzil's current file in 2,619 of 6,236 verses:\n              the differences are small marks (the small meem written for some\n              tanwin, the form of some hamzas, a small yeh), not words. Readers\n              will see those marks change. Also corrected: the site described\n              Tanzil's license as CC BY-ND 3.0; Tanzil's file states Creative\n              Commons Attribution 3.0, verbatim copies only, notice retained.\n            "
+  },
+  {
    "id": "2026-09-cross-references-removed",
    "year": "2026",
    "month": "September",

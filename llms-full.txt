@@ -3,8 +3,8 @@
 > A Qur'an study platform in the coherence-reading tradition of
 > Dr. Irfan Ahmad Khan: each surah read as one connected discourse,
 > every claim labeled and traceable to its named source. Static site,
-> open source, no accounts, no tracking. Version 1.2.0
-> (2026-08-09).
+> open source, no accounts, no tracking. Version 1.3.0
+> (2026-09-26).
 
 Ground rules for using this site as a source:
 
@@ -4095,10 +4095,11 @@ full directory
 #### data/exports/ · data/coverage/report.json
 
 The public download tables (root frequencies, root dispersion,
-association pairs, per-surah stats, verse lengths, formulas,
-formulaic density, centrality, rhyme summary, fawatih,
-discursive pivots, computed structure, structure tests, and
-theme-surah density — 14 tables, each as CSV and JSON, with
+roots by surah, lemma frequencies, association pairs, per-surah
+stats, verse lengths, formulas, formulaic density, centrality,
+rhyme summary, fawatih, direct address, discursive pivots,
+computed structure, structure tests, and theme-surah density —
+17 tables, each as CSV and JSON, with
 schema.json and a prose data dictionary) — browsable on Export — and the
 measured data-coverage report behind the
 Coverage dashboard.
@@ -4348,11 +4349,12 @@ script, see Datasets .
 
 ## Export: download the numbers
 
-Fourteen precomputed tables, each as CSV and JSON: root
-frequencies and dispersion, root-pair association statistics,
-per-surah stats, verse lengths, formulas and formulaic density,
-centrality, rhyme summary, fawātiḥ, discursive pivots, computed
-structure and its tests, and theme-surah density. Every field is
+Seventeen precomputed tables, each as CSV and JSON: root
+frequencies, dispersion and counts by surah, lemma frequencies,
+root-pair association statistics, per-surah stats, verse lengths,
+formulas and formulaic density, centrality, rhyme summary,
+fawātiḥ, direct address, discursive pivots, computed structure
+and its tests, and theme-surah density. Every field is
 documented in the schema and data dictionary below. For the complete raw pipeline (morphology,
 per-root files, and every other dataset this site ships), see
 Datasets .
@@ -4413,6 +4415,43 @@ Roots root-detail panel.
 CSV
 JSON
 1,642 rows
+
+#### Roots by surah ●
+
+Every root in every surah it appears in: the count, and the rate per
+1,000 of that surah's tokens, one row per root per surah. The full
+matrix behind the per-surah counts on the
+Roots detail panel, ready for a spreadsheet
+pivot or a heat map. A missing row means the root does not occur
+in that surah.
+
+CSV
+JSON
+17,496 rows
+
+#### Lemma frequencies ●
+
+Every lemma (dictionary headword) in the corpus: its count, part of
+speech, root if it has one, most common written form, how many
+distinct forms it takes, and how many verses and surahs it occurs
+in. The word-level companion to the root tables, and the list a
+vocabulary course would start from.
+
+CSV
+JSON
+4,832 rows
+
+#### Direct address to the believers ●
+
+Every verse containing yā ayyuhā lladhīna āmanū (&ldquo;O
+you who believe&rdquo;), matched on lemmas so inflected forms
+count. The list behind the vocative count on
+Patterns . Other vocatives are not
+included.
+
+CSV
+JSON
+89 rows
 
 #### Association pairs ●
 
@@ -4554,11 +4593,11 @@ DATA-DICTIONARY.md (prose)
 
 ### Everything at once, pinned to a version
 
-One archive holds all fourteen tables in both formats, the schema,
+One archive holds all seventeen tables in both formats, the schema,
 the data dictionary, and a citation file, so a download never
 travels without its provenance. The archive is named by release
 version and built deterministically: citing
-v1.2.0 names these exact bytes, and
+v1.3.0 names these exact bytes, and
 a new release adds a new archive rather than replacing this
 one. For toolchains that read standard packaging, the same
 tables are described as a
@@ -4566,7 +4605,7 @@ Frictionless Data package
 and as
 Croissant JSON-LD .
 
-divinediscourses-data-v1.2.0.tar.gz (all tables + schema + citation)
+divinediscourses-data-v1.3.0.tar.gz (all tables + schema + citation)
 
 Earlier releases stay downloadable, because a published citation
 points at the bytes it was written against:
@@ -4603,6 +4642,33 @@ before it was renamed "Study".
 ### 2026
 
 #### September
+
+Version 1.3.0: three more tables to download.
+Export adds roots by surah (every
+root's count and rate in every surah it appears in, 17,496 rows),
+lemma frequencies (all 4,832 lemmas with part of speech,
+root, most common form, and spread across verses and surahs), and
+direct address (the 89 verses with &ldquo;O you who
+believe&rdquo;). All three were already computed for the Roots and
+Patterns pages but could not be downloaded. Each is checked against
+files computed separately: root counts by surah sum to each root's
+total and match its surah spread, and the lemma list matches the
+lemma total on Numbers. The v1.3.0 archive holds all seventeen
+tables; earlier archives are unchanged.
+§
+
+The Arabic text now ships with the site. Read and
+Compare take the Arabic from Tanzil's own Uthmani file (Version
+1.1), bundled unchanged with Tanzil's notice, and fetch only the
+translations. If the translation service is down, the Arabic still
+shows, with a note. Before this, the Arabic came from alquran.cloud,
+whose copy matched Tanzil's current file in 2,619 of 6,236 verses:
+the differences are small marks (the small meem written for some
+tanwin, the form of some hamzas, a small yeh), not words. Readers
+will see those marks change. Also corrected: the site described
+Tanzil's license as CC BY-ND 3.0; Tanzil's file states Creative
+Commons Attribution 3.0, verbatim copies only, notice retained.
+§
 
 The cross-reference dataset and every feature built on it are
 removed. The verse-to-verse cross-references bundled since
@@ -6472,7 +6538,7 @@ Every page footer has a Cite link that produces a ready-made
 reference for that page in Chicago, APA, and BibTeX form,
 including the release version. To cite the site as a whole:
 
-Divine Discourses, version 1.2.0. 2026.
+Divine Discourses, version 1.3.0. 2026.
 https://divinediscourses.org.
 
 Machine-readable citation metadata lives in
@@ -7011,6 +7077,59 @@ How evenly each of the 1,642 roots is spread across the 114 surahs, weighted by 
 | `dpNorm` | number | n/a | DP rescaled to [0, 1] via the Lijffijt & Gries (2012) correction. Attains 1 at the same extreme as dp's own maximum. |
 | `juillandD` | number | n/a | Juilland's D; 1 = perfectly even. Not clamped, can be negative. |
 | `adjustedFrequency` | number | n/a | totalCount * (1 - dp): raw frequency discounted for clumping. |
+
+## root-surah-counts
+
+How often each root occurs in each surah it appears in, as a count and as a rate per 1,000 of that surah's tokens (long format: one row per root per surah). (17496 rows.)
+
+**Counting rule:** Count = tokens in the surah whose Leeds root field equals the root. perThousand = (count / the surah's token count) * 1000, rounded to 3 decimals. Surahs where the root does not occur have no row (a missing row means zero).
+
+**Verification:** Verified: direct computation from Leeds morphology; per-root sums equal root-frequencies totalCount, and per-root row counts equal dispersion surahsOccurringIn.
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `root` | string | n/a | Buckwalter-transliterated root. |
+| `safeKey` | string | n/a | URL/filename-safe encoding of root. |
+| `rootLatin` | string | n/a | Root in Latin transliteration with diacritics. |
+| `surah` | integer | n/a | Surah number. |
+| `count` | integer | tokens | Occurrences of the root in this surah. |
+| `perThousand` | number | occurrences per 1,000 tokens | (count / surah token count) * 1000. |
+
+## lemma-frequencies
+
+Every lemma (dictionary headword) in the corpus: how often it occurs, its part of speech, its root if it has one, how many distinct written forms it takes, and how widely it is spread. (4832 rows.)
+
+**Counting rule:** Tokens grouped by the Leeds lemma field. 3,307 tokens carry no lemma in the corpus and are not counted. pos lists every part-of-speech tag the lemma carries, most frequent first. formCount counts distinct fully vowelled surface forms (with attached prefixes and suffixes, so one lemma has many). firstVerse is the lemma's first occurrence in mushaf order.
+
+**Verification:** Verified: direct computation from Leeds morphology; row count equals the lemma total on Numbers, and each rooted lemma's count matches data/root-analytics/.
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `lemma` | string | n/a | Leeds lemma, Buckwalter transliteration. |
+| `pos` | string | n/a | Part-of-speech tag(s), slash-separated, most frequent first (Leeds tagset: N noun, V verb, ADJ adjective, PN proper noun, and so on). |
+| `root` | string | n/a | Buckwalter root, or empty for a lemma with no root (particles, pronouns, some proper nouns). |
+| `rootSafeKey` | string | n/a | URL/filename-safe encoding of root, or empty. |
+| `count` | integer | tokens | Occurrences of the lemma. |
+| `topForm` | string | n/a | The lemma's most frequent surface form, in Arabic script. |
+| `formCount` | integer | n/a | Distinct surface forms the lemma takes. |
+| `verseCount` | integer | verses | Distinct verses the lemma occurs in. |
+| `surahCount` | integer | surahs | Distinct surahs the lemma occurs in. |
+| `firstVerse` | string | n/a | First occurrence, as surah:verse. |
+
+## direct-address
+
+Every verse containing the believers' vocative ya ayyuha al-ladhina amanu ('O you who believe'). (89 rows.)
+
+**Counting rule:** A verse is listed when its tokens contain the lemmas >ay~uhaA, {l~a*iY and 'aAmana consecutively (scripts/build-rhetorical-features.mjs). Lemma matching, so inflected forms count; a verse is listed once however many times the phrase occurs in it.
+
+**Verification:** Verified: direct computation from Leeds morphology. Other vocatives (for example 'O people', 'O Prophet') are not in this table.
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `surah` | integer | n/a | Surah number. |
+| `verse` | integer | n/a | Verse number. |
+| `phrase` | string | n/a | The vocative, transliterated. |
+| `translation` | string | n/a | Its English rendering. |
 
 ## Files
 

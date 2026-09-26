@@ -282,6 +282,59 @@ How evenly each of the 1,642 roots is spread across the 114 surahs, weighted by 
 | `juillandD` | number | n/a | Juilland's D; 1 = perfectly even. Not clamped, can be negative. |
 | `adjustedFrequency` | number | n/a | totalCount * (1 - dp): raw frequency discounted for clumping. |
 
+## root-surah-counts
+
+How often each root occurs in each surah it appears in, as a count and as a rate per 1,000 of that surah's tokens (long format: one row per root per surah). (17496 rows.)
+
+**Counting rule:** Count = tokens in the surah whose Leeds root field equals the root. perThousand = (count / the surah's token count) * 1000, rounded to 3 decimals. Surahs where the root does not occur have no row (a missing row means zero).
+
+**Verification:** Verified: direct computation from Leeds morphology; per-root sums equal root-frequencies totalCount, and per-root row counts equal dispersion surahsOccurringIn.
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `root` | string | n/a | Buckwalter-transliterated root. |
+| `safeKey` | string | n/a | URL/filename-safe encoding of root. |
+| `rootLatin` | string | n/a | Root in Latin transliteration with diacritics. |
+| `surah` | integer | n/a | Surah number. |
+| `count` | integer | tokens | Occurrences of the root in this surah. |
+| `perThousand` | number | occurrences per 1,000 tokens | (count / surah token count) * 1000. |
+
+## lemma-frequencies
+
+Every lemma (dictionary headword) in the corpus: how often it occurs, its part of speech, its root if it has one, how many distinct written forms it takes, and how widely it is spread. (4832 rows.)
+
+**Counting rule:** Tokens grouped by the Leeds lemma field. 3,307 tokens carry no lemma in the corpus and are not counted. pos lists every part-of-speech tag the lemma carries, most frequent first. formCount counts distinct fully vowelled surface forms (with attached prefixes and suffixes, so one lemma has many). firstVerse is the lemma's first occurrence in mushaf order.
+
+**Verification:** Verified: direct computation from Leeds morphology; row count equals the lemma total on Numbers, and each rooted lemma's count matches data/root-analytics/.
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `lemma` | string | n/a | Leeds lemma, Buckwalter transliteration. |
+| `pos` | string | n/a | Part-of-speech tag(s), slash-separated, most frequent first (Leeds tagset: N noun, V verb, ADJ adjective, PN proper noun, and so on). |
+| `root` | string | n/a | Buckwalter root, or empty for a lemma with no root (particles, pronouns, some proper nouns). |
+| `rootSafeKey` | string | n/a | URL/filename-safe encoding of root, or empty. |
+| `count` | integer | tokens | Occurrences of the lemma. |
+| `topForm` | string | n/a | The lemma's most frequent surface form, in Arabic script. |
+| `formCount` | integer | n/a | Distinct surface forms the lemma takes. |
+| `verseCount` | integer | verses | Distinct verses the lemma occurs in. |
+| `surahCount` | integer | surahs | Distinct surahs the lemma occurs in. |
+| `firstVerse` | string | n/a | First occurrence, as surah:verse. |
+
+## direct-address
+
+Every verse containing the believers' vocative ya ayyuha al-ladhina amanu ('O you who believe'). (89 rows.)
+
+**Counting rule:** A verse is listed when its tokens contain the lemmas >ay~uhaA, {l~a*iY and 'aAmana consecutively (scripts/build-rhetorical-features.mjs). Lemma matching, so inflected forms count; a verse is listed once however many times the phrase occurs in it.
+
+**Verification:** Verified: direct computation from Leeds morphology. Other vocatives (for example 'O people', 'O Prophet') are not in this table.
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `surah` | integer | n/a | Surah number. |
+| `verse` | integer | n/a | Verse number. |
+| `phrase` | string | n/a | The vocative, transliterated. |
+| `translation` | string | n/a | Its English rendering. |
+
 ## Files
 
 Each table above ships as both `{name}.csv` and `{name}.json` (a flat JSON array of the same rows) under `data/exports/`. CSV values are comma-separated, UTF-8, header row first; fields containing a comma, quote, or newline are quoted per RFC 4180.
