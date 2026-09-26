@@ -120,6 +120,9 @@
         <nav class="page-toc" aria-label="On this page">
           <p class="t-annotation">On this page:</p>
           <ul>
+            <li><a href="#published-figures-reproduced">Published figures, reproduced here</a></li>
+            <li><a href="#rep-leeds-word-count-title">How many words the Leeds corpus analyzes</a></li>
+            <li><a href="#rep-leeds-treebank-coverage-title">How much of the Qur'an the Leeds treebank covers</a></li>
             <li><a href="#how-we-verify-worked-examples">How we verify: worked examples</a></li>
             <li><a href="#triangulation-prompts">Triangulation prompts</a></li>
             <li><a href="#prompt-1-verify-a-root-count">Prompt 1: Verify a root count</a></li>
@@ -142,6 +145,37 @@
           <div><strong>Reproduction</strong><span>Can the result be rerun from named inputs and code?</span></div>
           <div><strong>Dependency</strong><span>Would another corpus, counting rule, or chronology change it?</span></div>
           <div><strong>Limits</strong><span>What does this evidence not establish?</span></div>
+        </div>
+      </section>
+      <section>
+        <h2 id="published-figures-reproduced">Published figures, reproduced here</h2>
+        <p>
+          Each card quotes a source's own words, as read from the page named,
+          and sets the figure it states beside the same figure computed from
+          this site's data. A figure that does not match is shown as a
+          mismatch, not left out.
+        </p>
+        <div class="verify-block">
+            <!-- static:replications -->
+          <div class="verify-example replication" id="rep-leeds-word-count">
+            <h3 id="rep-leeds-word-count-title"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Reproduced" tabindex="0" title="Reproduced · our figure equals the source's">●</span> How many words the Leeds corpus analyzes</h3>
+            <blockquote class="claim">
+              <p>“Version 0.4 of the treebank covers 40% of the Quran by word count (30,895 out of 77,429 words).”</p>
+              <footer class="t-annotation">Dukes, Kais, <cite>The Quranic Arabic Corpus</cite>, version 0.4: <a href="https://corpus.quran.com/releasenotes.jsp" rel="noopener">corpus.quran.com/releasenotes.jsp</a>, read 2026-09-26 (SHA-256 1f5321711aaa…)</footer>
+            </blockquote>
+            <p><strong>Stated:</strong> 77,429 · <strong>Here:</strong> 77,429 · <strong>Reproduced</strong></p>
+            <p class="trace"><strong>Check it yourself.</strong> Sum the tokens column of the <a href="/export">verse-lengths</a> table. A word here is a written word; our bundled copy of the corpus has one entry per written word, and the count matches exactly.</p>
+          </div>
+          <div class="verify-example replication" id="rep-leeds-treebank-coverage">
+            <h3 id="rep-leeds-treebank-coverage-title"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Reproduced" tabindex="0" title="Reproduced · our figure equals the source's">●</span> How much of the Qur'an the Leeds treebank covers</h3>
+            <blockquote class="claim">
+              <p>“Version 0.4 of the treebank covers 40% of the Quran by word count (30,895 out of 77,429 words).” … “grammar for chapters 1-8 and 59-114 of the Quran.”</p>
+              <footer class="t-annotation">Dukes, Kais, <cite>The Quranic Arabic Corpus</cite>, version 0.4: <a href="https://corpus.quran.com/releasenotes.jsp" rel="noopener">corpus.quran.com/releasenotes.jsp</a>, read 2026-09-26 (SHA-256 1f5321711aaa…)</footer>
+            </blockquote>
+            <p><strong>Stated:</strong> 30,895 · <strong>Here:</strong> 30,895 · <strong>Reproduced</strong></p>
+            <p class="trace"><strong>Check it yourself.</strong> Sum the tokens column of the <a href="/export">verse-lengths</a> table for surahs 1 to 8 and 59 to 114. The release notes say which chapters the treebank covers; counting the words in exactly those chapters here gives the figure they state.</p>
+          </div>
+            <!-- /static:replications -->
         </div>
       </section>
       <section>

@@ -6131,6 +6131,33 @@ Dependency Would another corpus, counting rule, or chronology change it?
 
 Limits What does this evidence not establish?
 
+## Published figures, reproduced here
+
+Each card quotes a source's own words, as read from the page named,
+and sets the figure it states beside the same figure computed from
+this site's data. A figure that does not match is shown as a
+mismatch, not left out.
+
+### ● How many words the Leeds corpus analyzes
+
+“Version 0.4 of the treebank covers 40% of the Quran by word count (30,895 out of 77,429 words).”
+
+Dukes, Kais, The Quranic Arabic Corpus , version 0.4: corpus.quran.com/releasenotes.jsp , read 2026-09-26 (SHA-256 1f5321711aaa…)
+
+Stated: 77,429 · Here: 77,429 · Reproduced
+
+Check it yourself. Sum the tokens column of the verse-lengths table. A word here is a written word; our bundled copy of the corpus has one entry per written word, and the count matches exactly.
+
+### ● How much of the Qur'an the Leeds treebank covers
+
+“Version 0.4 of the treebank covers 40% of the Quran by word count (30,895 out of 77,429 words).” … “grammar for chapters 1-8 and 59-114 of the Quran.”
+
+Dukes, Kais, The Quranic Arabic Corpus , version 0.4: corpus.quran.com/releasenotes.jsp , read 2026-09-26 (SHA-256 1f5321711aaa…)
+
+Stated: 30,895 · Here: 30,895 · Reproduced
+
+Check it yourself. Sum the tokens column of the verse-lengths table for surahs 1 to 8 and 59 to 114. The release notes say which chapters the treebank covers; counting the words in exactly those chapters here gives the figure they state.
+
 ## How we verify: worked examples
 
 Each example is joined to a canonical claim record. Open a record to

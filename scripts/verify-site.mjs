@@ -3561,6 +3561,20 @@ if (runCheck("surahpages") && !LIVE) {
   await jctx.close();
 }
 
+// ── Reproduced figures (validation.html) ────────────────────────────
+if (runCheck("replications") && !LIVE) {
+  const reps = JSON.parse(readFileSync(join(ROOT, "data/replications.json"), "utf8")).cards;
+  const rctx = await newContext({ javaScript: false, seenState: false });
+  const page = await rctx.newPage();
+  await page.goto(`${BASE}/validation`, { waitUntil: "load" });
+  const got = await page.evaluate(() =>
+    [...document.querySelectorAll(".replication")].map((el) => ({ id: el.id, text: el.textContent.replace(/\s+/g, " ") })),
+  );
+  const ok = got.length === reps.length && reps.every((c) => got.some((g) => g.id === `rep-${c.id}` && g.text.includes(c.quote)));
+  report("replication-cards", "validation.html", ok, `JS off: ${got.length} cards (want ${reps.length}), each quote present ${ok}; ${got.filter((g) => /Reproduced/.test(g.text)).length} reproduced`);
+  await rctx.close();
+}
+
 // ── Core vocabulary (vocabulary.html) ───────────────────────────────
 // The list is static; the practice cards fetch one word's meaning from
 // api.quran.com. Stubbed here from our own morphology: the served

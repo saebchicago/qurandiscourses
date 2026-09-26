@@ -1,11 +1,58 @@
 {
   "_comment": "Pages scripts/fetch-evidence.mjs reads in CI and excerpts to the job log, so a finding can be quoted exactly as the source states it. Nothing fetched is committed. Each entry: url, what it is, and the patterns whose matching lines are printed (case-insensitive).",
   "pages": [
-    { "id": "leeds-home", "url": "https://corpus.quran.com/", "patterns": ["\\d[\\d,]* (words|segments|tokens|roots|lemmas|verses|chapters)", "licen[cs]e|GNU"] },
-    { "id": "leeds-release-notes", "url": "https://corpus.quran.com/releasenotes.jsp", "patterns": ["\\d[\\d,]*", "version"] },
-    { "id": "leeds-download", "url": "https://corpus.quran.com/download/", "patterns": ["licen[cs]e|GNU|GPL", "\\d[\\d,]* (words|segments|tokens)"] },
-    { "id": "tanzil-metadata", "url": "https://tanzil.net/docs/quran_metadata", "patterns": ["\\d[\\d,]* (verses|ayas|ayahs|suras|words|letters)"] },
-    { "id": "quran-align-readme", "url": "https://raw.githubusercontent.com/cpfair/quran-align/master/README.md", "patterns": ["licen[cs]e|CC[- ]BY|Creative Commons", "accura|error|ms\\b|millisecond|everyayah|recitation", "segments|word_start|format"] },
-    { "id": "dukes-thesis", "url": "https://arxiv.org/pdf/1510.07193", "pdf": true, "patterns": ["\\d[\\d,]{3,} (words|segments|tokens|roots|lemmas)", "accuracy of|accuracy is|% accura"] }
+    {
+      "id": "leeds-home",
+      "url": "https://corpus.quran.com/",
+      "patterns": [
+        "77,4\\d\\d|\\d[\\d,]* (words|segments|tokens|roots|lemmas|verses|chapters)",
+        "licen[cs]e|GNU"
+      ],
+      "context": 2
+    },
+    {
+      "id": "leeds-release-notes",
+      "url": "https://corpus.quran.com/releasenotes.jsp",
+      "patterns": [
+        "\\d[\\d,]*",
+        "version"
+      ],
+      "context": 2
+    },
+    {
+      "id": "leeds-download",
+      "url": "https://corpus.quran.com/download/",
+      "patterns": [
+        "licen[cs]e|GNU|GPL",
+        "\\d[\\d,]* (words|segments|tokens)"
+      ]
+    },
+    {
+      "id": "tanzil-metadata",
+      "url": "https://tanzil.net/docs/quran_metadata",
+      "patterns": [
+        "\\d[\\d,]* (verses|ayas|ayahs|suras|words|letters)"
+      ]
+    },
+    {
+      "id": "quran-align-readme",
+      "url": "https://raw.githubusercontent.com/cpfair/quran-align/master/README.md",
+      "patterns": [
+        "licen[cs]e|CC[- ]BY|Creative Commons",
+        "accura|error|ms\\b|millisecond|everyayah|recitation",
+        "segments|word_start|format"
+      ]
+    },
+    {
+      "id": "dukes-thesis",
+      "url": "https://arxiv.org/pdf/1510.07193",
+      "pdf": true,
+      "patterns": [
+        "77,4\\d\\d",
+        "\\d[\\d,]{3,} (segments|roots|lemmas)"
+      ],
+      "head": 30,
+      "context": 3
+    }
   ]
 }

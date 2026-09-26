@@ -86,6 +86,7 @@ const ORDER = [
   "build-root-pages",
   // Reads lemma-frequencies too.
   "build-vocabulary",
+  "build-replications",
 ];
 
 // Named and reported, never silently dropped: a run that skipped these

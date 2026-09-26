@@ -1,0 +1,38 @@
+{
+ "_comment": "Published figures this site reproduces from its own data. Each quote is copied from the text scripts/fetch-evidence.mjs printed from the named URL in CI (audit.yml external-evidence job), on the date and with the SHA-256 given; fetch-evidence.mjs --verify re-checks that each quote still appears there. `ours` names the computation scripts/build-replications.mjs runs; no figure on our side is typed by hand. Rendered into validation.html's static:replications region.",
+ "cards": [
+  {
+   "id": "leeds-word-count",
+   "title": "How many words the Leeds corpus analyzes",
+   "source": "leeds-corpus-v0.4",
+   "url": "https://corpus.quran.com/releasenotes.jsp",
+   "fetched": "2026-09-26",
+   "sha256": "1f5321711aaa2643da018dd67f304a53e3a3a48e98b188b2f45c70f983fcbd18",
+   "quote": "Version 0.4 of the treebank covers 40% of the Quran by word count (30,895 out of 77,429 words).",
+   "stated": 77429,
+   "ours": {
+    "kind": "words",
+    "surahs": "1-114"
+   },
+   "check": "Sum the tokens column of the <a href=\"/export\">verse-lengths</a> table.",
+   "note": "A word here is a written word; our bundled copy of the corpus has one entry per written word, and the count matches exactly."
+  },
+  {
+   "id": "leeds-treebank-coverage",
+   "title": "How much of the Qur'an the Leeds treebank covers",
+   "source": "leeds-corpus-v0.4",
+   "url": "https://corpus.quran.com/releasenotes.jsp",
+   "fetched": "2026-09-26",
+   "sha256": "1f5321711aaa2643da018dd67f304a53e3a3a48e98b188b2f45c70f983fcbd18",
+   "quote": "Version 0.4 of the treebank covers 40% of the Quran by word count (30,895 out of 77,429 words).",
+   "quote2": "grammar for chapters 1-8 and 59-114 of the Quran.",
+   "stated": 30895,
+   "ours": {
+    "kind": "words",
+    "surahs": "1-8,59-114"
+   },
+   "check": "Sum the tokens column of the <a href=\"/export\">verse-lengths</a> table for surahs 1 to 8 and 59 to 114.",
+   "note": "The release notes say which chapters the treebank covers; counting the words in exactly those chapters here gives the figure they state."
+  }
+ ]
+}
