@@ -137,6 +137,66 @@ function compare(api, tz) {
   return { exact, prefixed, mismatches, tanzilVerses: tz.verses.size };
 }
 
+// What differs, by code point, summed over every mismatched verse: a
+// multiset difference per verse, so a mark present on one side only is
+// counted once per occurrence. Printed for a person to read; decides
+// nothing.
+function diagnose(api, tz) {
+  const onlyApi = new Map();
+  const onlyTz = new Map();
+  let verses = 0;
+  const bump = (m, k, n) => m.set(k, (m.get(k) || 0) + n);
+  for (const s of api.surahs)
+    for (const a of s.ayahs) {
+      const want = tz.verses.get(`${s.number}:${a.numberInSurah}`);
+      const basmala = tz.verses.get("1:1");
+      const got =
+        a.numberInSurah === 1 && s.number !== 1 && s.number !== 9 && basmala && a.text.startsWith(basmala)
+          ? a.text.slice(basmala.length).trim()
+          : a.text;
+      if (want === undefined || want === got) continue;
+      verses++;
+      const count = (t) => {
+        const m = new Map();
+        for (const ch of t) bump(m, ch, 1);
+        return m;
+      };
+      const ca = count(got);
+      const ct = count(want);
+      for (const [ch, n] of ca) if (n > (ct.get(ch) || 0)) bump(onlyApi, ch, n - (ct.get(ch) || 0));
+      for (const [ch, n] of ct) if (n > (ca.get(ch) || 0)) bump(onlyTz, ch, n - (ca.get(ch) || 0));
+    }
+  const fmt = (m) =>
+    [...m]
+      .sort((x, y) => y[1] - x[1])
+      .slice(0, 12)
+      .map(([ch, n]) => `U+${ch.codePointAt(0).toString(16).toUpperCase().padStart(4, "0")} x${n}`)
+      .join(", ");
+  console.log(`\nDiagnosis over ${verses} differing verses (code points in one text more often than the other):`);
+  console.log(`  alquran.cloud has more: ${fmt(onlyApi) || "none"}`);
+  console.log(`  Tanzil has more:        ${fmt(onlyTz) || "none"}`);
+  for (const ref of ["2:1", "2:2", "114:1"]) {
+    const [sn, an] = ref.split(":").map(Number);
+    const a = api.surahs[sn - 1].ayahs[an - 1].text;
+    console.log(`  ${ref} alquran.cloud: ${JSON.stringify(a)}`);
+    console.log(`  ${ref} Tanzil:        ${JSON.stringify(tz.verses.get(ref))}`);
+  }
+}
+
+// Tanzil keeps earlier releases under /pub/download/v1.0/. If the served
+// copy is an older release, it is listed there.
+async function listArchive() {
+  const url = "https://tanzil.net/pub/download/v1.0/";
+  try {
+    const html = await get(url, "text");
+    const links = [...html.matchAll(/href="([^"]+)"/g)].map((m) => m[1]).filter((h) => !h.startsWith("?"));
+    console.log(`\n${url} lists ${links.length} links:`);
+    for (const h of links.slice(0, 60)) console.log(`  ${h}`);
+  } catch (e) {
+    console.log(`\n${url}: ${e.message}`);
+  }
+}
+
 function hashText(api) {
   const h = createHash("sha256");
   for (const s of api.surahs) for (const a of s.ayahs) h.update(`${s.number}|${a.numberInSurah}|${a.text}\n`);
@@ -181,6 +241,10 @@ async function main() {
   const ayahCount = api.surahs.reduce((n, s) => n + s.ayahs.length, 0);
   if (api.surahs.length !== EXPECTED_SURAHS || ayahCount !== EXPECTED_AYAHS)
     throw new Error(`alquran.cloud: ${api.surahs.length} surahs / ${ayahCount} verses, expected 114 / 6236`);
+  // alquran.cloud's 1:1 begins with U+FEFF, a byte-order mark left over
+  // from a file boundary. It is not part of the text (Tanzil's 1:1 has
+  // none) and renders as nothing, so it is removed before any comparison.
+  for (const s of api.surahs) for (const a of s.ayahs) a.text = a.text.replace(/^\uFEFF/, "");
   api.surahs.forEach((s, i) => {
     if (s.number !== i + 1) throw new Error(`alquran.cloud: surah ${i + 1} is numbered ${s.number}`);
     s.ayahs.forEach((a, j) => {
@@ -190,10 +254,20 @@ async function main() {
 
   let match = null;
   const tried = [];
+  const seen = new Set();
+  let lastTz = null;
   for (const opts of TANZIL_OPTION_SETS) {
     const url = tanzilUrl(opts);
     console.log(`Fetching ${url}`);
-    const tz = parseTanzil(await get(url, "text"));
+    const raw = await get(url, "text");
+    const rawHash = createHash("sha256").update(raw).digest("hex");
+    if (seen.has(rawHash)) {
+      console.log("  identical to a file already compared; skipped");
+      continue;
+    }
+    seen.add(rawHash);
+    const tz = parseTanzil(raw);
+    lastTz = tz;
     const result = compare(api, tz);
     tried.push({ opts, exact: result.exact, prefixed: result.prefixed, mismatched: result.mismatches.length });
     console.log(
@@ -209,6 +283,8 @@ async function main() {
     console.error("\nNo Tanzil option set matches alquran.cloud's quran-uthmani verse for verse.");
     console.error("Nothing written: bundling a text that differs from Tanzil's would break its no-modification term.");
     console.table(tried.map((t) => ({ ...t.opts, exact: t.exact, prefixed: t.prefixed, mismatched: t.mismatched })));
+    if (lastTz) diagnose(api, lastTz);
+    await listArchive();
     process.exit(1);
   }
   if (!match.tz.notice.length) {
