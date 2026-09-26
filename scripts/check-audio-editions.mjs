@@ -231,6 +231,32 @@ if (audioEditions) {
           : `${e.identifier} is registered by the API as "${e.englishName || e.name}" (${e.language}, verse-by-verse) but NO probed bitrate directory (${BITRATES.join(", ")}) serves it. The identity is evidenced; the availability is not. Listen mode's runtime probe will fail and it will offer Arabic only — which is the designed behaviour, not a regression.`,
     );
   }
+  // Every translation-audio edition in EVERY language, reported and
+  // never asserted. Listen mode's "Arabic, then the translation" sitting
+  // is not English-specific: it needs a verse-by-verse recording and a
+  // CDN that serves it, nothing more. This is the evidence for which
+  // other languages could be offered, read off the API and the CDN
+  // rather than recalled from anyone's memory of what exists.
+  const others = audioEditions.filter((e) => {
+    const lang = (e.language || "").toLowerCase();
+    return lang !== "ar" && lang !== "en";
+  });
+  console.log(`\nNon-Arabic, non-English audio editions the API reports: ${others.length}`);
+  for (const e of others) {
+    const perVerseEd = (e.type || "") === "versebyverse";
+    const at = perVerseEd ? await servedAt(e.identifier) : null;
+    const missing = at ? await missingSentinels(e.identifier, at.bitrate) : [];
+    const verdict = !perVerseEd
+      ? "not verse-by-verse, cannot be sequenced"
+      : at && !missing.length
+        ? `SERVES @ ${at.bitrate}kbps · sampled corpus complete`
+        : at
+          ? `served @ ${at.bitrate}kbps but sampled corpus incomplete`
+          : "absent at every probed bitrate";
+    console.log(
+      `  ${e.identifier} · ${e.language} · ${e.englishName || e.name || "?"} · type=${e.type || "?"} · ${verdict}`,
+    );
+  }
   const surahOnly = english.filter((e) => (e.type || "") !== "versebyverse");
   if (surahOnly.length)
     notes.push(
