@@ -40,7 +40,8 @@ them: Creative Commons Attribution 3.0; verbatim copies may be copied and
 distributed, but changing the text is not allowed; the source must be
 indicated with a link to tanzil.net; and the copyright notice must be
 included in every copy. The notice is reproduced verbatim in
-`data/quran-text/index.json` (`notice`), and below. This site does not
+`data/quran-text/index.json` (`notice`), in every generated surah page
+(`surah/<n>.html`, which carry the text), and below. This site does not
 modify the text and attributes Tanzil on every passage and in
 sources.html. Surah names and each verse's juz, page, ruku, hizb and
 sajda fields in those files come from the alquran.cloud API.

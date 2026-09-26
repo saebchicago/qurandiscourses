@@ -90,14 +90,15 @@ for (const p of pages) {
     failures.push(`/${p}: CSP differs between "${a.path}" and "${b.path}"`);
 }
 
-// no CSP on catch-alls other than /s/*
+// no CSP on catch-alls other than the two generated page families
+const WILDCARD_CSP = new Set(["/s/*", "/surah/*"]);
 for (const b of cspBlocks) {
-  if (b.path.includes("*") && b.path !== "/s/*")
-    failures.push(`${b.path}: CSP on a wildcard path other than /s/*`);
+  if (b.path.includes("*") && !WILDCARD_CSP.has(b.path))
+    failures.push(`${b.path}: CSP on a wildcard path other than ${[...WILDCARD_CSP].join(" or ")}`);
 }
 
-// 2. /s/* exists
-if (!cspByPath.has("/s/*")) failures.push("missing /s/* CSP block");
+// 2. /s/* and /surah/* exist
+for (const p of WILDCARD_CSP) if (!cspByPath.has(p)) failures.push(`missing ${p} CSP block`);
 
 // 3. frame-ancestors: * only on /embed.html
 for (const b of cspBlocks) {

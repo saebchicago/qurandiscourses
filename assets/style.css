@@ -4593,3 +4593,105 @@ input[type="checkbox"] {
 .type-ref[open] > summary {
   margin-bottom: 0.4rem;
 }
+
+/* ── Surah reference pages (surah/<n>.html, build-surah-pages.mjs) ──
+   Static pages, so every rule lives here: their CSP allows no <style>. */
+.surah-page-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+}
+.surah-page-list a {
+  display: block;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 0.88rem;
+  min-height: 44px;
+  box-sizing: border-box;
+}
+.surah-page-list a:hover {
+  border-color: var(--accent);
+  background: var(--card);
+}
+.surah-page-list .n {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  margin-right: 0.35rem;
+}
+.surah-crumbs {
+  margin: 0 0 0.5rem;
+}
+.surah-crumbs a {
+  display: inline-block;
+  min-height: 24px;
+  padding: 2px 0;
+}
+.surah-title .ar-inline {
+  margin-left: 0.4rem;
+}
+.surah-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.75rem 0 1.25rem;
+}
+.surah-facts th {
+  text-align: left;
+  font-weight: 600;
+  padding-right: 0.75rem;
+}
+.surah-roots,
+.surah-sections,
+.surah-themes,
+.surah-patterns {
+  margin: 0.25rem 0 0.5rem;
+  padding-left: 1.25rem;
+}
+.surah-roots li,
+.surah-sections li,
+.surah-themes li {
+  padding: 0.3rem 0;
+}
+.surah-roots a,
+.surah-sections a,
+.surah-themes a {
+  display: inline-block;
+  min-height: 24px;
+}
+.surah-text-card {
+  margin-top: 1.25rem;
+}
+.surah-text {
+  font-size: 1.45rem;
+  line-height: 2.4;
+  text-align: justify;
+  margin: 0.5rem 0 1rem;
+}
+.surah-verse-num {
+  text-decoration: none;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.surah-pager {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1.5rem 0 0.5rem;
+}
+.surah-pager a {
+  display: inline-block;
+  min-height: 44px;
+  padding: 0.6rem 0;
+}
+.tanzil-notice {
+  white-space: pre-wrap;
+  font-size: 0.78rem;
+  overflow-wrap: anywhere;
+}

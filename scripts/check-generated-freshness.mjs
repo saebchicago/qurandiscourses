@@ -77,6 +77,7 @@ const ORDER = [
   "compute-network-layout",
   "compute-dispersion",
   "build-share-pages",
+  "build-surah-pages",
   "build-exports",
 ];
 
@@ -93,7 +94,7 @@ const EXCLUDED = [
 // Only these trees are compared. Everything a generator writes lands in
 // one of them; anything outside is reported as unattributed rather than
 // ignored, so a generator that starts writing somewhere new shows up.
-const WATCHED = ["data", "assets", "s"];
+const WATCHED = ["data", "assets", "s", "surah"];
 
 // ── Comparison, ignoring the date stamp ──────────────────────────────
 const STAMP_LINE = /^.*\b\d{4}-\d{2}-\d{2}\b.*$/;
