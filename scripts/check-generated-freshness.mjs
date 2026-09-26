@@ -83,6 +83,7 @@ const ORDER = [
 const EXCLUDED = [
   ["build-og-images", "needs a browser"],
   ["build-surah-meta", "needs the network"],
+  ["build-quran-text", "needs the network; run by .github/workflows/quran-text.yml"],
   ["build-gloss", "manual utility, takes a raw-dump argument"],
 ];
 
