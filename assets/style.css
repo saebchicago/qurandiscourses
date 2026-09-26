@@ -4785,3 +4785,10 @@ input[type="checkbox"] {
 .vocab-table tbody tr:target {
   outline: 2px solid var(--accent);
 }
+
+/* Word being recited (assets/word-follow.js, CSS Custom Highlight API) */
+::highlight(qd-word) {
+  background-color: rgba(122, 90, 43, 0.28);
+  background-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  color: inherit;
+}

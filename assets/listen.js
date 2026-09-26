@@ -184,6 +184,9 @@
     this.engine.audio.addEventListener("error", this._onAudioError);
     this.engine.audio.addEventListener("playing", this._onAudioPlaying);
     this.engine.setItems(items);
+    // Word highlighting (assets/word-follow.js), for reciters whose
+    // timings were measured to fit the recordings.
+    if (window.qdWordFollow) window.qdWordFollow.attach(this.engine);
   }
 
   Panel.prototype.el = function (name) {
@@ -449,6 +452,7 @@
       '<button type="button" class="button secondary listen-btn listen-sheet-close" data-listen-close aria-label="Close listening options">✕</button>' +
       "</div>" +
       '<p class="listen-time t-annotation" data-listen-time hidden></p>' +
+      '<p class="listen-follow t-annotation" data-listen-follow hidden></p>' +
       '<div class="listen-options">' +
       '<button type="button" class="button secondary listen-reciter-btn" data-listen-reciter aria-label="Change Arabic reciter">🎤 Choose reciter</button>' +
       this.voiceMarkup() +
@@ -519,6 +523,7 @@
   // timing is unavailable or only the translation is playing.
   var verseSeconds = {};
   Panel.prototype.paintTime = function () {
+    this.paintFollow();
     var line = this.el("time");
     if (!line) return;
     var self = this;
@@ -565,6 +570,19 @@
         line.hidden = true;
       },
     );
+  };
+
+  // Whether this reciter's words are highlighted, and why not.
+  Panel.prototype.paintFollow = function () {
+    var line = this.el("follow");
+    if (!line || !window.qdWordFollow) return;
+    var id = this.engine.reciterId();
+    var self = this;
+    window.qdWordFollow.describe(id).then(function (text) {
+      if (self.engine.reciterId() !== id) return;
+      line.textContent = text;
+      line.hidden = !text || self.engine.mode === "en";
+    });
   };
 
   // Sleep timer: off, 15, 30, 60 minutes. It pauses; it never unloads,

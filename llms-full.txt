@@ -6683,8 +6683,8 @@ URL
 A source can be fully cited in data/sources.json
 and still be reachable from no badge anywhere: nothing checked
 for that until this measurement.
-38 of
-38 sources appear in at
+39 of
+39 sources appear in at
 least one data-source-ids attribute on the site,
 static or built at render time. The rest are cited in the
 bibliography on Sources but not yet
@@ -7007,6 +7007,18 @@ before it was renamed "Study".
 ### 2026
 
 #### September
+
+Words highlighted as they are recited, and published
+figures reproduced. On Read , with
+Mohamed al-Minshawi, Abdul Basit or Shuraim, the word being
+recited is highlighted. The timings are quran-align's (Collin
+Fair, CC BY 4.0), made for other copies of these recordings; each
+reciter was tested against the files Read plays, and only those
+that fit are used (Husary's did not). Validation
+now quotes published figures and sets this site's own count beside
+each: the Leeds corpus's 77,429 words, and the 30,895 words its
+treebank covers, both reproduced exactly.
+§
 
 Core vocabulary, and a corrected definition.
 Core vocabulary lists the 475 lemmas
@@ -9031,6 +9043,16 @@ al-Husary, Mohamed al-Minshawi, Abdul Basit, Sudais, and Shuraim
 — chosen from the microphone button beside any verse. The
 recordings' own licensing is the CDN's to state, not this
 project's; see Sources .
+
+Word timings.
+~
+The word highlighted as a verse is
+recited on Read comes from
+quran-align
+by Collin Fair, whose data files are licensed CC BY 4.0. They were
+made for the everyayah.com recordings, so they are used only for
+the reciters whose timings were measured to fit the recordings
+Read plays: Mohamed al-Minshawi, Abdul Basit and Shuraim.
 
 English translation audio. The English leg of
 Listen mode on the Read page. The edition is
