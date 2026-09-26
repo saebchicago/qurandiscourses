@@ -1,0 +1,142 @@
+{
+ "_generated": "scripts/build-page-dates.mjs",
+ "_method": "lastmod = the date a page's <main> content (scripts and whitespace runs removed) last changed, detected by hash. Seeded from each page's last commit on first run.",
+ "pages": {
+  "404.html": {
+   "hash": "08ec1480bbed7e4b",
+   "lastmod": "2026-09-26"
+  },
+  "about.html": {
+   "hash": "d9ddfc0341639cf6",
+   "lastmod": "2026-09-26"
+  },
+  "changelog.html": {
+   "hash": "86479c1d4978c701",
+   "lastmod": "2026-09-26"
+  },
+  "compare.html": {
+   "hash": "5ff76c615685257f",
+   "lastmod": "2026-09-26"
+  },
+  "contribute.html": {
+   "hash": "580a4f077ee34177",
+   "lastmod": "2026-09-26"
+  },
+  "coverage.html": {
+   "hash": "3a8b6bd95f4273d9",
+   "lastmod": "2026-09-26"
+  },
+  "credits.html": {
+   "hash": "8cd7bb5d3aded837",
+   "lastmod": "2026-09-26"
+  },
+  "datasets.html": {
+   "hash": "079050ab2744a445",
+   "lastmod": "2026-09-26"
+  },
+  "dossier.html": {
+   "hash": "02802d77b51a70e6",
+   "lastmod": "2026-09-26"
+  },
+  "embed.html": {
+   "hash": "9ef7442661ca8774",
+   "lastmod": "2026-09-26"
+  },
+  "exercise-asr.html": {
+   "hash": "0d3186a7c69c1cde",
+   "lastmod": "2026-09-26"
+  },
+  "exercise-roots.html": {
+   "hash": "ba1e7d2a80352067",
+   "lastmod": "2026-09-26"
+  },
+  "exercise.html": {
+   "hash": "cb85e240be3fd49c",
+   "lastmod": "2026-09-26"
+  },
+  "exercises.html": {
+   "hash": "91094410ac36d6be",
+   "lastmod": "2026-09-26"
+  },
+  "export.html": {
+   "hash": "3bfacb666aba6843",
+   "lastmod": "2026-09-26"
+  },
+  "formulas.html": {
+   "hash": "a56d7e21d3e9f943",
+   "lastmod": "2026-09-26"
+  },
+  "glossary.html": {
+   "hash": "9574248cb21ca1d8",
+   "lastmod": "2026-09-26"
+  },
+  "how-it-works.html": {
+   "hash": "bac44acbc113c0b0",
+   "lastmod": "2026-09-26"
+  },
+  "how-to-use.html": {
+   "hash": "8ec815b3075473e8",
+   "lastmod": "2026-09-26"
+  },
+  "index.html": {
+   "hash": "4dd7def66f91a6f1",
+   "lastmod": "2026-09-26"
+  },
+  "navigate.html": {
+   "hash": "bf46fd1098dcc272",
+   "lastmod": "2026-09-26"
+  },
+  "numbers.html": {
+   "hash": "797b5bfc7e42e676",
+   "lastmod": "2026-09-26"
+  },
+  "open-questions.html": {
+   "hash": "b24912a622cad74f",
+   "lastmod": "2026-09-26"
+  },
+  "paths.html": {
+   "hash": "62de80b74c906401",
+   "lastmod": "2026-09-26"
+  },
+  "patterns.html": {
+   "hash": "fbb0770305412b78",
+   "lastmod": "2026-09-26"
+  },
+  "read.html": {
+   "hash": "f4eb6ec989318d03",
+   "lastmod": "2026-09-26"
+  },
+  "replay.html": {
+   "hash": "28095bde1a70cf68",
+   "lastmod": "2026-09-26"
+  },
+  "roots.html": {
+   "hash": "1b1b9873a1bfc232",
+   "lastmod": "2026-09-26"
+  },
+  "search.html": {
+   "hash": "f7864409201e8035",
+   "lastmod": "2026-09-26"
+  },
+  "sources.html": {
+   "hash": "bd886f4500d8712e",
+   "lastmod": "2026-09-26"
+  },
+  "themes.html": {
+   "hash": "205e034eec42577d",
+   "lastmod": "2026-09-26"
+  },
+  "validation.html": {
+   "hash": "74d3e4a6e7305720",
+   "lastmod": "2026-09-26"
+  },
+  "watch.html": {
+   "hash": "6b4da8f7f1f7e8dd",
+   "lastmod": "2026-09-26"
+  },
+  "words.html": {
+   "hash": "95165fc6ac9e4a4a",
+   "lastmod": "2026-09-26"
+  }
+ }
+}

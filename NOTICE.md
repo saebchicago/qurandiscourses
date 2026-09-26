@@ -183,7 +183,8 @@ licenses, listed above): `ask-routes.json` (the Ask box routing tables),
 `case-studies.json`, `citations.bib` (generated
 citation metadata for the site, its export tables, and its cited
 sources), `changelog.json` (the changelog entry registry behind changelog.html
-and feed.xml), `claims.json`, `contributors.json` (the contributor
+and feed.xml), `claims.json`, `page-dates.json` (when each page's content
+last changed, behind sitemap.xml and each page's dateModified), `contributors.json` (the contributor
 roster behind credits.html), `exercises.json`, `glossary.json` (the term
 registry behind assets/glossary.js and glossary.html), `juz.json`,
 `lenses.json` (the reading-lens registry behind assets/lenses.js:

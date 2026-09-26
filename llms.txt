@@ -26,10 +26,10 @@ Ground rules for using this site as a source:
 
 ## Pages
 
-- [Divine Discourses: Read the Qur'an One Surah at a Time](https://divinediscourses.org/): Study the Qur'an surah by surah in a coherence-reading tradition: structure first, every claim sourced and citable, no intermediary interpretation. Roots, words, patterns, and verification on every claim.
+- [Divine Discourses: Read the Qur'an One Surah at a Time](https://divinediscourses.org/): Read the Qur'an one surah at a time as a connected discourse: Arabic, translations, recitation, roots and structure, with every claim sourced and citable.
 - [Read a surah with parallel translations](https://divinediscourses.org/read): Open any surah or verse range of the Qur'an with the Arabic, parallel translations, word-by-word meanings, and recitation.
 - [Browse all 114 surahs](https://divinediscourses.org/navigate): All 114 surahs in mushaf or revelation order, filtered by length, period, and structure, with a juz grid for finding your place.
-- [Surah dossier: one profile per surah](https://divinediscourses.org/dossier): One synthesized profile per surah: identity and chronology, vocabulary and root profile, verse-ending sound patterns, recurring phrases, and structure — every claim badged and traceable to its source.
+- [Surah dossier: one profile per surah](https://divinediscourses.org/dossier): One profile per surah: chronology, vocabulary and roots, verse-ending sounds, recurring phrases and structure, every claim badged and traceable.
 - [Themes across the Qur'an](https://divinediscourses.org/themes): 33 theme gateways into the Qur'an, from forgiveness and gratitude to death and paradise: root families and computed key passages for self-study.
 - [Compare passages and roots](https://divinediscourses.org/compare): Put passages side by side to see the vocabulary they share, or compare roots by how they distribute across the chronology.
 - [Replay a surah with recitation](https://divinediscourses.org/replay): Watch a surah unfold: recitation plays verse by verse while recurring roots light up and, where transcribed, Khan's outline appears at each pivot.
@@ -37,21 +37,21 @@ Ground rules for using this site as a source:
 - [Outline a discourse](https://divinediscourses.org/exercise): An interactive exercise in coherence-based reading. Propose where a surah pivots verse by verse, then compare your reading against a published outline.
 - [Exercise: Spot the roots](https://divinediscourses.org/exercise-roots): An interactive exercise: spot the recurring roots in a short surah, then check your reading against the Leeds corpus morphology data.
 - [Qur'anic roots and where they occur](https://divinediscourses.org/roots): The 1,642 triliteral roots of the Qur'an with frequency, derived forms, surah distribution, Makki/Madani split, and co-occurrence data from the Leeds Corpus.
-- [Search Qur'anic Arabic word forms](https://divinediscourses.org/words): Search all 4,832 dictionary forms of Qur'anic Arabic by Arabic, transliteration, or root — with frequency, part of speech, and first occurrences from the Leeds Corpus.
+- [Search Qur'anic Arabic word forms](https://divinediscourses.org/words): Search all 4,832 dictionary forms of Qur'anic Arabic by Arabic, transliteration or root, with frequency, part of speech and first occurrence.
 - [Structural and rhetorical patterns](https://divinediscourses.org/patterns): Structural and rhetorical patterns in the Qur'an: iltifat, mutashabihat.
-- [Recurring phrases in the Qur'an](https://divinediscourses.org/formulas): Every recurring 3-5 word sequence in the Qur'an, counted mechanically two ways: by root sequence and by surface form. Browse each phrase and every place it occurs.
-- [The numbers behind the text, and how each was counted](https://divinediscourses.org/numbers): Counted figures from the Qur'anic corpus: root frequency, verse length, lexical diversity by period, and the method behind each number.
+- [Recurring phrases in the Qur'an](https://divinediscourses.org/formulas): Every recurring 3-5 word sequence in the Qur'an, counted two ways, by root sequence and by surface form, with every place each phrase occurs.
+- [Corpus numbers and how each was counted](https://divinediscourses.org/numbers): Counted figures from the Qur'anic corpus: root frequency, verse length, lexical diversity by period, and the method behind each number.
 - [How to use this site](https://divinediscourses.org/how-to-use): How to use Divine Discourses: four ways to start, depth levels, the method Dr. Khan taught, and what the labels mean.
 - [How the method works](https://divinediscourses.org/how-it-works): The method behind Divine Discourses: coherence-based reading, depth levels, verification labels, and sources.
 - [Guided study paths](https://divinediscourses.org/paths): Guided walkthroughs chaining the site's tools: follow a root through the corpus, profile a surah before reading, trace a claim to its source.
-- [Glossary of terms used here](https://divinediscourses.org/glossary): Definitions of specialist terms used across the Divine Discourses site: nazm, iltifat, basmala, hapax, lemma, Buckwalter, and the claim labels Verified, Nuanced, and Pending.
+- [Glossary of terms used here](https://divinediscourses.org/glossary): Definitions of the specialist terms used on this site, from nazm, iltifat and basmala to hapax and lemma, plus the Verified, Nuanced and Pending labels.
 - [Search this site](https://divinediscourses.org/search): Search every page, glossary term, source, and theme on Divine Discourses.
 - [Watch short walkthroughs](https://divinediscourses.org/watch): Short walkthroughs of Divine Discourses: real screen recordings with human narration, always captioned.
 - [Sources, cited in full](https://divinediscourses.org/sources): Every dataset, translation, scholarly work, and API that Divine Discourses draws on, cited in Chicago style.
 - [How each claim is validated](https://divinediscourses.org/validation): Inspect source checks, reproduction methods, dependencies, and known limits behind published research claims.
 - [Datasets, documented for reuse](https://divinediscourses.org/datasets): Every dataset this site is built on, documented for reuse: schema, generator script, license, and direct download. Recompute any number yourself.
 - [Data coverage, measured](https://divinediscourses.org/coverage): Measured data coverage: morphology fields, root glosses, counting-rule sensitivity, and the dataset source registry.
-- [Download the data](https://divinediscourses.org/export): Download precomputed root frequencies, association statistics, per-surah stats, verse lengths, formulas, centrality, rhyme, and structure data as CSV or JSON, with a machine-readable schema and data dictionary.
+- [Download the data](https://divinediscourses.org/export): Download the Qur'an corpus data behind this site: root frequencies, lemmas, verse lengths and durations, formulas and more, as CSV or JSON with a schema.
 - [Changelog: every correction logged](https://divinediscourses.org/changelog): Every correction and material change to Divine Discourses since launch. A public record of accountability.
 - [Contribute to this project](https://divinediscourses.org/contribute): How to contribute to Divine Discourses: corrections, structural hypotheses, outline transcription, translation, and review.
 - [Open questions](https://divinediscourses.org/open-questions): Statements about Dr. Irfan Ahmad Khan that this site has not been able to trace to a stated source, published unresolved rather than repeated as fact.

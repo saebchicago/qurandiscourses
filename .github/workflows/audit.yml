@@ -79,6 +79,7 @@ jobs:
         # This catches stale generated artifacts in seconds without downloading
         # or installing Playwright/Chromium first.
         run: |
+          node scripts/build-page-dates.mjs --check
           node scripts/build-canonicals.mjs --check
           node scripts/build-static-fallbacks.mjs --check
           node scripts/build-page-toc.mjs --check

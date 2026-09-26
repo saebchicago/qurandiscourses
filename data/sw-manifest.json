@@ -63,6 +63,7 @@
   "data/name-mentions.json": "7583039eb03c10a48bed1b18f0b98fdce9dd7369e7692b4aa7c9633ddfec13a2",
   "data/names.json": "a5b42e8cbddb92d58a90968ba9a33212690582709353e3f7da16e5d1c01b3f50",
   "data/numbers.json": "da90637377a660f16cfc89d4cbbf6f14567d94c605a05d8d5fe5de45951cb0a3",
+  "data/page-dates.json": "9e814eadba2400a0962bca80be30b18dc453e7d1d052bec58c304dffb76aeb74",
   "data/paths.json": "4c856e51bfa683da92b1534018640344c55dd9e242fc3b2f3d324c90a19c291f",
   "data/related.json": "28c9fb28bcc473030cff5045879cb5bf34f046ea0d1f6dd2d757dc2cf4d11f9d",
   "data/rhetorical-features.json": "dcc8dce6b1a78254f9aa2ca7e45fd5340bf750cf9acea6b4dcd9deed19b63605",
@@ -70,7 +71,7 @@
   "data/roots-index.json": "ede890265ea2ab92cf2355f546e261d341a40a66b66f33b10ad70528a216bbdd",
   "data/roots-list.json": "477cff50fa62cb1067125ba01b1a8ffc223b09b55daf4cb1d8d983c2ea2f8af3",
   "data/roots-summary.json": "c75bb05f6429f11483e470fce9579407cbbf6622e058846273a27afd8f6a5dc4",
-  "data/search-index.json": "f16994f12ad17f2adfe74a0d72fbc6bb56dea428b415235ece4932cf3db1d830",
+  "data/search-index.json": "a1e9f5f226ad397adaea664312915e950b6a770005a41042b3e300728e8583ed",
   "data/sources.json": "ab1a47fe34db7c3fc293e5f4ab3d742ef2bf69680ccb886c700d76a680ec1a10",
   "data/structure-tests.json": "0993bdd2e10cb073478b9cd544ec2d9e3f1afe3e11a80e6531a48ed008667193",
   "data/surah-meta.json": "a3448191e3bfea6c15069ac2485478942e7cab6423216d772802b9cae4cb6454",
@@ -82,10 +83,10 @@
   "data/version.json": "f158f2128f55e6b227f00c9001deae501addb355b9796b5a94a7e870885703b5",
   "data/videos.json": "9017e1153b2020d3623c5a3863f09533a8c85a755d19976764ecd0151d85c186",
   "data/word-index.json": "42e17793956d2db3e5ce4126953b9a4289a8173d876ab601b07239aa0c240901",
-  "index.html": "15fc0dfe3ab27aaabdccceb3374fae24af20bf2d047ab1dccb98a40b830a1ff6",
-  "navigate.html": "1c7242e821bccd3080c1af86026542e2c6ed8ddd279a0b383f0ee761707c4789",
-  "paths.html": "fee6410acc2fbae1e374ed0f2c514a8678b094801081a0b5e52c0e8e95492019",
-  "read.html": "b4df1c75cd9d8ba7111fc8bbaa7447c3f3d605e641c63448a88b6dd1a72a7f21",
-  "search.html": "2af1ef10aae79a3e21443addd0da5f910193d5ce22d691751a6640fdf56aefeb"
+  "index.html": "51b50745ebb3934e543d9a2fdf9ac310bea59c44c2c41387502aacaa2265cdb0",
+  "navigate.html": "167ccd8e82c0e135a2bb6318c520ac52d8f6488d345daf32b5cb91a7e868b409",
+  "paths.html": "9f453b112de9812f32deed4aedba6316c80d9ebda39019001ced60721f3699ad",
+  "read.html": "879aed292c393a5388a715b2eb5a0e6d11027ee57f5a4fef908d189253e731fc",
+  "search.html": "a5ff933b2880177c58bb76885bb00be9f7d95dcc5805af05aa599fe1e7ffa602"
  }
 }
