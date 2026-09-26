@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-09-core-vocabulary",
+   "year": "2026",
+   "month": "September",
+   "html": "\n              <strong>Core vocabulary, and a corrected definition.</strong>\n              <a href=\"/vocabulary\">Core vocabulary</a> lists the 475 lemmas\n              that account for 80% of the Qur'an's 74,122 lemmatized word-units\n              (Leeds corpus), most frequent first, each with its root, count and\n              first occurrence. A practice mode shows one word at a time and,\n              on request, the Quran.com word-by-word English for it at that\n              verse; progress stays in your browser. Also corrected: the\n              glossary said a word-unit is a piece smaller than a written word\n              (bismi as two). It is one written word, as the Leeds corpus lists\n              them; the 77,429 figure counts written words.\n            "
+  },
+  {
    "id": "2026-09-juz-root-pages",
    "year": "2026",
    "month": "September",

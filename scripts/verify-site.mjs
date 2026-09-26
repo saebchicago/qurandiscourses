@@ -1174,7 +1174,7 @@ if (runCheck("renders") && !PAGE_FILTER && !LIVE) {
 // — buttons, transport, nav entries, form fields, disclosures — hold to
 // 44, which is what the maintainer guide already asks of them.
 if (runCheck("targets") && !PAGE_FILTER && !LIVE) {
-  const TARGET_PAGES = ["index", "read", "navigate", "dossier", "roots", "numbers", "glossary", "search", "sources", "paths", "exercises", "replay", "surah/36", "juz/4", "root/qwl"];
+  const TARGET_PAGES = ["index", "read", "navigate", "dossier", "roots", "numbers", "glossary", "search", "sources", "paths", "exercises", "replay", "surah/36", "juz/4", "root/qwl", "vocabulary"];
   const CONTROL_44 = ".button, .btn-primary, .btn-secondary, .btn-utility, nav.primary .nav-menu a, .nav-group-btn, .listen-btn, .verse-listen-btn, .verse-more-btn, .verse-note-mark, .verse .meta .vref, .read-context-ref, .verse-count-btn, .depth-toggle button, .qd-chip, .method-note summary, input[type=text], input[type=search], input[type=number], select, .replay-transport button";
   for (const p of TARGET_PAGES) {
     const tctx = await newContext({ apiMode: "stub" });
@@ -3559,6 +3559,82 @@ if (runCheck("surahpages") && !LIVE) {
   await pr.close();
   report("surah-pages-linked", "navigate.html", listed === 114, `${listed} links to /surah/<n> on Navigate (want 114)`);
   await jctx.close();
+}
+
+// ── Core vocabulary (vocabulary.html) ───────────────────────────────
+// The list is static; the practice cards fetch one word's meaning from
+// api.quran.com. Stubbed here from our own morphology: the served
+// Arabic at the example position is our form (a match) or, in the
+// second pass, a different word (the page must then show no meaning).
+if (runCheck("vocab") && !LIVE) {
+  const vocab = JSON.parse(readFileSync(join(ROOT, "data/vocabulary.json"), "utf8"));
+  const col = Object.fromEntries(vocab.columns.map((c, i) => [c, i]));
+  const first = vocab.lemmas[0];
+  const nctx = await newContext({ javaScript: false, seenState: false });
+  const npage = await nctx.newPage();
+  await npage.goto(`${BASE}/vocabulary`, { waitUntil: "load" });
+  const nojs = await npage.evaluate(() => ({
+    rows: document.querySelectorAll(".vocab-table tbody tr").length,
+    lede: (document.querySelector(".lede") || {}).textContent || "",
+    practiceHidden: document.getElementById("vocabPractice").hidden,
+  }));
+  report(
+    "vocab-static", "vocabulary.html",
+    nojs.rows === vocab.lemmas.length && nojs.lede.includes(vocab.lemmatized.toLocaleString("en-US")) && nojs.practiceHidden,
+    `JS off: ${nojs.rows} list rows (want ${vocab.lemmas.length}), lede names ${vocab.lemmatized.toLocaleString("en-US")}: ${nojs.lede.includes(vocab.lemmatized.toLocaleString("en-US"))}, practice hidden ${nojs.practiceHidden}`,
+  );
+  await nctx.close();
+
+  for (const match of [true, false]) {
+    const vctx = await newContext();
+    await vctx.route(/api\.quran\.com/, (route) => {
+      const url = new URL(route.request().url());
+      const surah = +url.pathname.split("/").pop();
+      const pageNo = +url.searchParams.get("page");
+      const m = JSON.parse(readFileSync(join(ROOT, `data/morphology/${surah}.json`), "utf8"));
+      const verses = Object.keys(m)
+        .filter((k) => /^\d+$/.test(k) && Math.ceil(+k / 50) === pageNo)
+        .map((a) => ({
+          verse_key: `${surah}:${a}`,
+          words: m[a]
+            .map((w) => ({ char_type_name: "word", text_uthmani: match ? w.ar : "كلمة", translation: { text: `gloss-${surah}-${a}-${w.w}` } }))
+            .concat([{ char_type_name: "end", text_uthmani: "", translation: { text: "" } }]),
+        }));
+      return route.fulfill({ contentType: "application/json", body: JSON.stringify({ verses }) });
+    });
+    const errors = [];
+    const page = await vctx.newPage();
+    attachConsoleCollector(page, errors);
+    await page.goto(`${BASE}/vocabulary`, { waitUntil: "load" });
+    await page.waitForSelector("#vocabPractice:not([hidden])", { timeout: 5000 }).catch(() => {});
+    const form = await page.evaluate(() => document.getElementById("vocabForm").textContent);
+    const gradeHidden = await page.evaluate(() => ["vocabKnew", "vocabAgain"].every((id) => getComputedStyle(document.getElementById(id)).display === "none"));
+    await page.click("#vocabShow");
+    const [s, a, w] = first[col.at].split(":");
+    const want = match ? `gloss-${s}-${a}-${w}` : "No meaning shown";
+    await page.waitForFunction((t) => document.getElementById("vocabMeaning").textContent.includes(t), want, { timeout: 5000 }).catch(() => {});
+    const meaning = await page.evaluate(() => document.getElementById("vocabMeaning").textContent);
+    if (match) {
+      await page.click("#vocabKnew");
+      const after = await page.evaluate(() => ({
+        form: document.getElementById("vocabForm").textContent,
+        progress: document.getElementById("vocabProgress").textContent,
+      }));
+      await page.reload({ waitUntil: "load" });
+      await page.waitForSelector("#vocabPractice:not([hidden])", { timeout: 5000 }).catch(() => {});
+      const kept = await page.evaluate(() => document.getElementById("vocabProgress").textContent);
+      report(
+        "vocab-practice", "vocabulary.html",
+        gradeHidden && form === first[col.form] && meaning.includes(want) && after.form === vocab.lemmas[1][col.form] &&
+          /Marked known: 1 of 475/.test(after.progress) && /Marked known: 1 of 475/.test(kept),
+        `grade buttons hidden before reveal ${gradeHidden}, card 1 ${form === first[col.form]}, meaning "${meaning.trim().slice(0, 60)}", next card ${after.form === vocab.lemmas[1][col.form]}, progress "${after.progress}", after reload "${kept}"`,
+      );
+    } else {
+      report("vocab-mismatch", "vocabulary.html", meaning.includes(want), `mismatched Arabic at the example position: "${meaning.trim().slice(0, 80)}"`);
+    }
+    report(`vocab-console${match ? "" : "-mismatch"}`, "vocabulary.html", errors.length === 0, errors.length ? errors.join(" | ") : "clean");
+    await vctx.close();
+  }
 }
 
 // Recitation pace: one row per reciter the reader can choose on /read,

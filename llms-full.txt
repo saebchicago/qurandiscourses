@@ -45,6 +45,7 @@ Ground rules for using this site as a source:
 - [How the method works](https://divinediscourses.org/how-it-works): The method behind Divine Discourses: coherence-based reading, depth levels, verification labels, and sources.
 - [Guided study paths](https://divinediscourses.org/paths): Guided walkthroughs chaining the site's tools: follow a root through the corpus, profile a surah before reading, trace a claim to its source.
 - [Glossary of terms used here](https://divinediscourses.org/glossary): Definitions of the specialist terms used on this site, from nazm, iltifat and basmala to hapax and lemma, plus the Verified, Nuanced and Pending labels.
+- [Core Qur'an vocabulary: 475 lemmas, 80% of lemmatized words](https://divinediscourses.org/vocabulary): The 475 most frequent lemmas account for 80% of the Qur'an's lemmatized words (Leeds corpus). The full ranked list, with roots, counts and a practice mode.
 - [Search this site](https://divinediscourses.org/search): Search every page, glossary term, source, and theme on Divine Discourses.
 - [Watch short walkthroughs](https://divinediscourses.org/watch): Short walkthroughs of Divine Discourses: real screen recordings with human narration, always captioned.
 - [Sources, cited in full](https://divinediscourses.org/sources): Every dataset, translation, scholarly work, and API that Divine Discourses draws on, cited in Chicago style.
@@ -4205,14 +4206,16 @@ the earliest generations of Islam.
 
 Token (word-unit)
 
-The smallest piece the corpus counts — this site calls it a
-word-unit in plain language. Arabic often writes
-several tokens as a single word: bismi ("in the name
-of") is one written word but two tokens ( bi +
-ism ). That is why the Qur'an has 77,429 word-units but
-far fewer written words. Counts of nouns, verbs, and verse length
-on Numbers are measured in word-units,
-not written words.
+One word as the Leeds corpus lists it; this site calls it a
+word-unit in plain language. The corpus follows
+the written words of the Uthmani text, so bismi ("in the
+name of") is one word-unit, and the Qur'an has 77,429 of them.
+The corpus also splits each word into morphological segments
+( bi + ism , 130,030 segments in all); this site
+takes a word's root, lemma and part of speech from its stem
+segment and does not count segments. Counts of nouns, verbs, and
+verse length on Numbers are measured in
+word-units.
 
 Triangulate
 
@@ -4233,9 +4236,10 @@ or peer-reviewed scholarship. The strongest confidence label.
 Word-unit
 
 This site's plain-language name for a corpus
-token — the smallest counted
-piece of the text. Used in place of "word" wherever a count could
-otherwise be mistaken for written words.
+token : one written word of the
+Uthmani text as the Leeds corpus lists it. Used in place of
+"word" so a count is not mistaken for dictionary words or for
+morphological segments.
 
 Fāṣila
 
@@ -4324,10 +4328,11 @@ Meccan and Medinan periods, can be compared directly.
 
 Tokenization
 
-Splitting text into the smallest countable units (tokens). The Leeds corpus
-tokenizes Arabic below the level of the written word: a single written word
-like bismi splits into two tokens (bi + ism), which is why token counts run
-higher than word counts on this site.
+Splitting text into countable units (tokens). The Leeds corpus
+lists the Qur'an's written words and splits each into
+morphological segments ( bismi into bi +
+ism ). This site counts the words, 77,429 of them, not
+the segments.
 
 Discursive pivot
 
@@ -4419,6 +4424,1017 @@ mutashabihat, iltifat, triangulate). Structure (surah, ayah, basmala).
 Data (root, morphology, lemma, token / word-unit, corpus, hapax,
 Buckwalter, period distribution). Claim labels (Verified, Nuanced,
 Pending).
+
+===== Core Qur'an vocabulary: 475 lemmas, 80% of lemmatized words (https://divinediscourses.org/vocabulary) =====
+
+## Core vocabulary
+
+A small set of words carries most of the Qur'an. Of its
+77,429 word-units in the Leeds corpus,
+74,122 carry a lemma (a dictionary headword); the other
+3,307 are standalone pronouns and the disconnected letters
+that open 29 surahs. The 475 most frequent lemmas account for
+80% of those 74,122.
+●
+
+### How many lemmas cover how much
+
+Share of lemmatized word-units Lemmas needed Word-units they cover
+
+50% 61 37,108
+
+70% 239 51,931
+
+80% 475 59,316
+
+90% 1,119 66,712
+
+Counted from the Leeds Quranic Arabic Corpus v0.4 lemma field,
+most frequent first. Coverage by lemma counts every form of a
+word as the same word, so knowing a lemma is not the same as
+recognizing each of its forms in context.
+
+### Practice
+
+Words to practice
+
+Show meaning
+I knew it
+Not yet
+
+Progress stays in this browser only.
+Reset
+
+The meaning shown is one contextual rendering: the Quran.com
+word-by-word English for this form at its first occurrence,
+fetched when you ask for it and not stored on this site.
+~
+A word can mean something different elsewhere; follow the verse
+link to see it in context.
+
+### The 475 lemmas, most frequent first
+
+Each row shows the lemma's most common written form (with any
+attached prefix or suffix), its part of speech, its root, how often
+it occurs, the running share of lemmatized word-units, and the
+first verse where that form appears. A lemma the corpus tags more
+than one way shows its most frequent tag.
+
+# Most common form Part of speech Root Count Running total First seen
+
+1 مِن preposition none 3,226 4.4% 2:4
+
+2 ٱللَّهِ proper noun a-l-h 2,699 8% 1:1
+
+3 مَا relative pronoun and 5 other tags none 2,177 10.9% 2:17
+
+4 فِى preposition none 1,701 13.2% 2:10
+
+5 لَا negative particle and 1 other tag none 1,691 15.5% 2:2
+
+6 إِنَّ accusative particle none 1,682 17.8% 2:6
+
+7 قَالَ verb q-w-l 1,618 20% 2:30
+
+8 ٱلَّذِينَ relative pronoun and 1 other tag none 1,464 21.9% 1:7
+
+9 عَلَىٰ preposition none 1,445 23.9% 2:5
+
+10 كَانَ verb k-w-n 1,358 25.7% 2:75
+
+11 رَبِّ noun r-b-b 975 27% 1:2
+
+12 مَن relative pronoun and 2 other tags none 824 28.1% 2:8
+
+13 إِلَىٰ preposition none 742 29.1% 2:14
+
+14 إِن conditional particle and 2 other tags none 697 30.1% 2:23
+
+15 إِلَّا restriction particle and 2 other tags none 663 31% 2:26
+
+16 أَن subordinating conjunction and 1 other tag none 625 31.8% 2:26
+
+17 ءَامَنُوا۟ verb a-m-n 537 32.5% 2:9
+
+18 ذَٰلِكَ demonstrative none 520 33.2% 2:2
+
+19 عَن preposition none 465 33.9% 2:48
+
+20 ٱلْأَرْضِ noun a-r-ḍ 461 34.5% 2:11
+
+21 إِذَا time adverb and 2 other tags none 409 35% 2:177
+
+22 وَلَقَدْ particle of certainty none 406 35.6% 2:65
+
+23 يَوْمَ noun and 1 other tag y-w-m 405 36.1% 2:113
+
+24 يَٰقَوْمِ noun q-w-m 383 36.7% 2:54
+
+25 بِـَٔايَٰتِنَا noun a-y-y 382 37.2% 3:11
+
+26 يَعْلَمُونَ verb ʿ-l-m 382 37.7% 2:13
+
+27 أَنَّ accusative particle none 362 38.2% 2:25
+
+28 كُلِّ noun and 1 other tag k-l-l 359 38.7% 2:20
+
+29 لَمْ negative particle none 353 39.1% 2:6
+
+30 جَعَلَ verb j-ʿ-l 340 39.6% 2:22
+
+31 ثُمَّ conjunction none 338 40.1% 2:28
+
+32 وَرَسُولَهُۥ noun r-s-l 332 40.5% 4:13
+
+33 عَذَابٌ noun ʿ-dh-b 322 40.9% 2:7
+
+34 هَٰذَا demonstrative and 1 other tag none 318 41.4% 2:25
+
+35 ٱلسَّمَٰوَٰتِ noun s-m-w 310 41.8% 2:33
+
+36 أَنفُسَهُمْ noun n-f-s 295 42.2% 2:9
+
+37 كَفَرُوا۟ verb k-f-r 289 42.6% 2:6
+
+38 شَىْءٍ noun sh-y-a 283 43% 2:20
+
+39 أَوْ conjunction none 280 43.3% 2:19
+
+40 جَآءَ verb j-y-a 278 43.7% 4:43
+
+41 تَعْمَلُونَ verb ʿ-m-l 276 44.1% 2:74
+
+42 أُوتُوا۟ verb a-t-y 271 44.4% 2:101
+
+43 تَرَ verb r-a-y 271 44.8% 2:243
+
+44 بَيْنَ location adverb and 1 other tag b-y-n 266 45.2% 2:66
+
+45 يَأْتِىَ verb a-t-y 264 45.5% 2:109
+
+46 ٱلْكِتَٰبَ noun k-t-b 260 45.9% 2:44
+
+47 بِٱلْحَقِّ noun and 1 other tag ḥ-q-q 247 46.2% 2:71
+
+48 قَبْلُ noun and 1 other tag q-b-l 242 46.5% 2:25
+
+49 ٱلنَّاسِ noun n-w-s 241 46.9% 2:8
+
+50 إِذْ time adverb none 239 47.2% 2:131
+
+51 يَشَآءُ verb sh-y-a 236 47.5% 2:90
+
+52 أُو۟لَٰٓئِكَ demonstrative none 204 47.8% 2:5
+
+53 ٱلْمُؤْمِنِينَ noun and 1 other tag a-m-n 202 48% 2:223
+
+54 وَلَوْ conditional particle and 1 other tag none 200 48.3% 2:20
+
+55 بَعْدِ noun and 1 other tag b-ʿ-d 199 48.6% 2:27
+
+56 عِندَ location adverb and 1 other tag ʿ-n-d 197 48.9% 2:54
+
+57 خَلَقَ verb kh-l-q 184 49.1% 2:29
+
+58 أَنزَلَ verb n-z-l 183 49.3% 2:90
+
+59 خَيْرٌ noun and 1 other tag kh-y-r 178 49.6% 2:54
+
+60 كَذَّبُوا۟ verb k-dh-b 176 49.8% 3:11
+
+61 سَبِيلِ noun s-b-l 176 50.1% 2:154
+
+62 يَدْعُونَ verb d-ʿ-w 170 50.3% 2:221
+
+63 أَمْرًا noun a-m-r 166 50.5% 2:117
+
+64 وَٱتَّقُوا۟ verb w-q-y 166 50.7% 2:48
+
+65 عَلِيمٌ adjective and 1 other tag ʿ-l-m 163 51% 2:29
+
+66 مَعَ location adverb none 159 51.2% 2:153
+
+67 بَعْضٍ noun b-ʿ-ḍ 157 51.4% 2:76
+
+68 فَلَمَّا time adverb none 156 51.6% 2:89
+
+69 ٱلْءَاخِرَةِ noun and 2 other tags a-kh-r 155 51.8% 2:102
+
+70 يَٰٓأَيُّهَا noun none 153 52% 2:21
+
+71 إِلَٰهَ noun a-l-h 147 52.2% 2:163
+
+72 بِغَيْرِ noun and 1 other tag gh-y-r 147 52.4% 2:61
+
+73 جَنَّٰتٍ noun and 1 other tag j-n-n 147 52.6% 2:25
+
+74 ٱلنَّارِ noun n-w-r 145 52.8% 2:39
+
+75 دُونِ noun and 1 other tag d-w-n 144 53% 2:23
+
+76 يَهْدِى verb h-d-y 144 53.2% 2:142
+
+77 حَتَّىٰ preposition and 1 other tag none 142 53.4% 2:55
+
+78 يُرِيدُ verb r-w-d 139 53.6% 2:185
+
+79 أَمْ conjunction none 137 53.8% 2:6
+
+80 مُوسَىٰ proper noun none 136 53.9% 2:54
+
+81 يَتَّبِعُونَ verb t-b-ʿ 136 54.1% 4:27
+
+82 قُلُوبِهِمْ noun q-l-b 132 54.3% 2:7
+
+83 عِبَادِهِۦ noun ʿ-b-d 131 54.5% 2:90
+
+84 أَرْسَلْنَا verb r-s-l 130 54.7% 2:151
+
+85 ٱلظَّٰلِمِينَ noun and 1 other tag ẓ-l-m 129 54.8% 2:35
+
+86 ٱلْكَٰفِرِينَ noun and 1 other tag k-f-r 129 55% 2:34
+
+87 أَهْلِ noun a-h-l 127 55.2% 2:105
+
+88 أَخَذَ verb a-kh-dh 127 55.3% 3:81
+
+89 بَلْ retraction particle and 2 other tags none 127 55.5% 2:100
+
+90 ٱتَّخَذُوا۟ verb a-kh-dh 124 55.7% 4:153
+
+91 لَعَلَّكُمْ accusative particle none 123 55.8% 2:21
+
+92 تَعْبُدُونَ verb ʿ-b-d 122 56% 2:83
+
+93 عَظِيمٌ adjective and 1 other tag ʿ-ẓ-m 120 56.2% 2:7
+
+94 أَيْدِيهِمْ noun y-d-y 120 56.3% 2:79
+
+95 مُّبِينٌ noun and 1 other tag b-y-n 119 56.5% 2:168
+
+96 رَّحِيمٌ adjective and 1 other tag r-ḥ-m 116 56.7% 2:143
+
+97 ٱلدُّنْيَا adjective and 1 other tag d-n-w 115 56.8% 2:85
+
+98 رَحْمَةً noun r-ḥ-m 114 57% 3:8
+
+99 ظَلَمُوا۟ verb ẓ-l-m 110 57.1% 2:59
+
+100 أَسْـَٔلُكُمْ verb s-a-l 106 57.3% 6:90
+
+101 تَجِدَ verb w-j-d 106 57.4% 4:52
+
+102 أَجْرًا noun a-j-r 105 57.5% 4:40
+
+103 عِلْمٍ noun ʿ-l-m 105 57.7% 4:157
+
+104 لَن negative particle none 104 57.8% 2:55
+
+105 ٱلْعَزِيزُ noun and 1 other tag ʿ-z-z 101 58% 2:129
+
+106 أَخْرَجَ verb kh-r-j 99 58.1% 7:27
+
+107 حَكِيمٌ adjective and 1 other tag ḥ-k-m 97 58.2% 2:209
+
+108 ذُو noun and 2 other tags none 93 58.3% 2:105
+
+109 كُلُوا۟ verb a-k-l 93 58.5% 2:57
+
+110 هَلْ interrogative particle none 93 58.6% 2:210
+
+111 ٱلدِّينِ noun d-y-n 92 58.7% 1:4
+
+112 قَوْلًا noun q-w-l 92 58.8% 2:59
+
+113 غَفُورٌ noun and 1 other tag gh-f-r 91 59% 2:173
+
+114 لَيْسَ verb l-y-s 89 59.1% 2:198
+
+115 ٱلشَّيْطَٰنُ proper noun and 1 other tag sh-ṭ-n 88 59.2% 2:36
+
+116 يَفْعَلُونَ verb f-ʿ-l 88 59.3% 2:71
+
+117 ٱلْمَلَٰٓئِكَةُ noun m-l-k 88 59.4% 2:248
+
+118 مَثَلًا noun and 1 other tag m-th-l 88 59.6% 2:26
+
+119 يَنظُرُونَ verb n-ẓ-r 87 59.7% 2:210
+
+120 أَمْوَٰلَهُمْ noun m-w-l 86 59.8% 2:261
+
+121 أَوْلِيَآءَ noun w-l-y 86 59.9% 3:28
+
+122 هُدًى noun h-d-y 85 60% 2:2
+
+123 وَٱذْكُرْ verb dh-k-r 84 60.1% 19:16
+
+124 فَضْلِهِۦ noun f-ḍ-l 84 60.3% 2:90
+
+125 ٱلَّيْلِ noun and 1 other tag l-y-l 84 60.4% 2:164
+
+126 ٱلصَّلَوٰةَ noun ṣ-l-w 83 60.5% 2:3
+
+127 كَيْفَ interrogative particle and 1 other tag k-y-f 83 60.6% 2:28
+
+128 قُتِلَ verb q-t-l 83 60.7% 3:144
+
+129 أَخَافُ verb kh-w-f 83 60.8% 5:28
+
+130 ٱلْأَوَّلِينَ noun and 2 other tags a-w-l 82 60.9% 6:25
+
+131 أَكْثَرَ noun and 1 other tag k-th-r 80 61% 2:243
+
+132 بَنِىٓ noun b-n-y 80 61.1% 2:83
+
+133 تُرْجَعُونَ verb r-j-ʿ 79 61.2% 2:28
+
+134 أَصْحَٰبُ noun ṣ-ḥ-b 78 61.4% 2:39
+
+135 يَسْمَعُونَ verb s-m-ʿ 78 61.5% 2:75
+
+136 تَوَلَّوْا۟ verb w-l-y 78 61.6% 2:137
+
+137 أَمَرَ verb a-m-r 77 61.7% 2:27
+
+138 جَهَنَّمَ proper noun none 77 61.8% 3:12
+
+139 ذِكْرًا noun dh-k-r 76 61.9% 2:200
+
+140 ٱلْحَيَوٰةِ noun ḥ-y-y 76 62% 2:85
+
+141 ٱدْخُلُوا۟ verb d-kh-l 76 62.1% 2:58
+
+142 أَزْوَٰجًا noun z-w-j 76 62.2% 2:234
+
+143 أَخِيهِ noun a-kh-w 75 62.3% 2:178
+
+144 لَوْلَآ exhortation particle and 1 other tag none 75 62.4% 4:77
+
+145 مِثْلَ noun m-th-l 75 62.5% 2:113
+
+146 ٱلنَّبِىُّ noun n-b-a 75 62.6% 3:68
+
+147 أَحَدًا noun a-ḥ-d 74 62.7% 5:20
+
+148 فِرْعَوْنَ proper noun none 74 62.8% 2:49
+
+149 خَٰلِدِينَ noun kh-l-d 74 62.9% 2:162
+
+150 ٱلْعَٰلَمِينَ noun ʿ-l-m 73 63% 1:2
+
+151 نَجْزِى verb j-z-y 73 63.1% 6:84
+
+152 وَلَٰكِن amendment particle and 1 other tag none 73 63.2% 2:12
+
+153 وَأَطِيعُوا۟ verb ṭ-w-ʿ 72 63.3% 3:132
+
+154 أَلِيمٌ adjective a-l-m 72 63.4% 2:104
+
+155 أَوْحَيْنَآ verb w-ḥ-y 72 63.5% 4:163
+
+156 وَجْهَكَ noun and 1 other tag w-j-h 72 63.6% 2:144
+
+157 ٱلْإِنسَٰنَ noun a-n-s 71 63.7% 10:12
+
+158 يُشْرِكُونَ verb sh-r-k 71 63.8% 7:190
+
+159 أَلْقُوا۟ verb l-q-y 71 63.9% 7:116
+
+160 أَعْمَٰلَهُمْ noun ʿ-m-l 71 64% 2:167
+
+161 بِٱلْبَيِّنَٰتِ noun and 1 other tag b-y-n 71 64% 2:92
+
+162 أُخْرَىٰ noun and 1 other tag a-kh-r 70 64.1% 4:102
+
+163 قَلِيلًا noun and 1 other tag q-l-l 70 64.2% 2:41
+
+164 ٱلْقِيَٰمَةِ noun q-w-m 70 64.3% 2:85
+
+165 ٱلْقُرْءَانَ proper noun and 1 other tag q-r-a 70 64.4% 4:82
+
+166 تُوعَدُونَ verb w-ʿ-d 70 64.5% 6:134
+
+167 يَوْمَئِذٍ time adverb none 70 64.6% 3:167
+
+168 إِبْرَٰهِيمَ proper noun none 69 64.7% 3:33
+
+169 يُنفِقُونَ verb n-f-q 68 64.8% 2:3
+
+170 صَٰلِحًا noun and 1 other tag ṣ-l-ḥ 65 64.9% 2:62
+
+171 بُيُوتًا noun b-y-t 65 65% 7:74
+
+172 يَغْفِرُ verb gh-f-r 65 65.1% 3:129
+
+173 ٱلْيَمِينِ noun y-m-n 65 65.2% 16:48
+
+174 يُضِلُّ verb ḍ-l-l 64 65.2% 2:26
+
+175 يُحِبُّ verb ḥ-b-b 64 65.3% 2:190
+
+176 أَصَابَ verb ṣ-w-b 64 65.4% 11:89
+
+177 أُمَّةٍ noun a-m-m 64 65.5% 3:110
+
+178 ءَابَآءَنَا noun a-b-w 64 65.6% 7:28
+
+179 كَثِيرًا noun and 1 other tag k-th-r 63 65.7% 2:26
+
+180 مَآءً noun m-w-h 63 65.8% 2:22
+
+181 تَابَ verb t-w-b 63 65.8% 5:39
+
+182 ٱبْنُ noun b-n-y 63 65.9% 3:45
+
+183 ٱلصَّٰلِحَٰتِ noun ṣ-l-ḥ 62 66% 2:25
+
+184 كَسَبَتْ verb k-s-b 62 66.1% 2:134
+
+185 نَزَّلَ verb n-z-l 62 66.2% 2:176
+
+186 رَزَقْنَٰهُمْ verb r-z-q 61 66.3% 2:3
+
+187 تُتْلَىٰ verb t-l-w 61 66.3% 3:101
+
+188 فَبِأَىِّ interrogative particle and 2 other tags none 60 66.4% 7:185
+
+189 صَٰدِقِينَ noun ṣ-d-q 59 66.5% 2:23
+
+190 يُنصَرُونَ verb n-ṣ-r 59 66.6% 2:48
+
+191 ٱلنِّسَآءِ noun n-s-w 59 66.7% 2:235
+
+192 قُضِىَ verb q-ḍ-y 59 66.7% 10:47
+
+193 صَبَرُوا۟ verb ṣ-b-r 58 66.8% 7:137
+
+194 نَذِيرٌ noun n-dh-r 58 66.9% 7:184
+
+195 وَعُيُونٍ noun ʿ-y-n 57 67% 15:45
+
+196 تَجْرِى verb j-r-y 57 67% 2:25
+
+197 وَلَٰكِنَّ accusative particle none 57 67.1% 2:102
+
+198 وَٱلنَّهَارِ noun and 1 other tag n-h-r 57 67.2% 2:164
+
+199 قَرْيَةٍ noun q-r-y 57 67.3% 2:259
+
+200 ٱلرَّحْمَٰنُ noun and 1 other tag r-ḥ-m 57 67.4% 2:163
+
+201 شَدِيدُ adjective and 1 other tag sh-d-d 56 67.4% 2:165
+
+202 شَهِيدًا noun and 1 other tag sh-h-d 56 67.5% 2:143
+
+203 مَسَّ verb m-s-s 56 67.6% 3:140
+
+204 وَلَدًا noun w-l-d 56 67.7% 2:116
+
+205 وَأَمَّا explanation particle and 1 other tag none 55 67.7% 2:26
+
+206 ضَرَبَ verb ḍ-r-b 55 67.8% 14:24
+
+207 رِزْقًا noun r-z-q 55 67.9% 2:22
+
+208 وَأَقِيمُوا۟ verb q-w-m 54 68% 2:43
+
+209 ٱلْأَنْهَٰرُ noun n-h-r 54 68% 2:25
+
+210 يُقَٰتِلُوكُمْ verb q-t-l 54 68.1% 2:191
+
+211 ضَلَّ verb ḍ-l-l 53 68.2% 2:108
+
+212 جَمِيعًا noun j-m-ʿ 53 68.2% 2:29
+
+213 يَخْرُجُ verb kh-r-j 53 68.3% 7:58
+
+214 أَجَلٍ noun a-j-l 52 68.4% 2:282
+
+215 يُبْعَثُونَ verb b-ʿ-th 52 68.5% 7:14
+
+216 ٱلْمُجْرِمِينَ noun and 1 other tag j-r-m 52 68.5% 6:55
+
+217 ٱلْخَلْقَ noun kh-l-q 52 68.6% 10:4
+
+218 يُحْىِۦ verb ḥ-y-y 51 68.7% 2:258
+
+219 أَهْلَكْنَا verb h-l-k 51 68.7% 6:6
+
+220 بَصِيرٌ noun and 1 other tag b-ṣ-r 51 68.8% 2:110
+
+221 تَذَكَّرُونَ verb dh-k-r 51 68.9% 6:152
+
+222 تَحْتِهَا noun and 1 other tag t-ḥ-t 51 68.9% 2:25
+
+223 عَدُوٌّ noun and 1 other tag ʿ-d-w 50 69% 2:36
+
+224 ٱلْمَوْتِ noun m-w-t 50 69.1% 2:19
+
+225 نِعْمَتَ noun n-ʿ-m 50 69.1% 2:231
+
+226 سُوٓءُ noun s-w-a 50 69.2% 9:37
+
+227 يَفْتَرُونَ verb f-r-y 50 69.3% 3:24
+
+228 أَعْلَمُ noun and 1 other tag ʿ-l-m 49 69.3% 2:140
+
+229 تَعْقِلُونَ verb ʿ-q-l 49 69.4% 2:44
+
+230 ٱلْغَيْبِ noun gh-y-b 49 69.5% 3:44
+
+231 كُتِبَ verb k-t-b 49 69.5% 2:178
+
+232 ٱلْمُتَّقِينَ noun w-q-y 49 69.6% 2:180
+
+233 وَعْدَ noun w-ʿ-d 49 69.7% 4:122
+
+234 يَزِيدُ verb z-y-d 49 69.7% 17:82
+
+235 أَبْصَٰرُهُمْ noun b-ṣ-r 48 69.8% 7:47
+
+236 ٱلدَّارِ noun d-w-r 48 69.9% 6:135
+
+237 مُلْكُ noun m-l-k 48 69.9% 2:107
+
+238 ٱلسَّاعَةُ noun and 1 other tag s-w-ʿ 48 70% 6:31
+
+239 وَظَنُّوٓا۟ verb ẓ-n-n 47 70.1% 7:171
+
+240 ٱلسَّمِيعُ noun and 1 other tag s-m-ʿ 47 70.1% 2:127
+
+241 تَشْكُرُونَ verb sh-k-r 46 70.2% 2:52
+
+242 لِأَبِيهِ noun a-b-w 46 70.2% 6:74
+
+243 فَيُنَبِّئُكُم verb n-b-a 46 70.3% 5:48
+
+244 إِيمَٰنًا noun a-m-n 45 70.4% 3:173
+
+245 أُو۟لُوا۟ noun a-w-l 45 70.4% 2:269
+
+246 يَحْكُمُ verb ḥ-k-m 45 70.5% 2:113
+
+247 صِرَٰطٍ noun ṣ-r-ṭ 45 70.6% 2:142
+
+248 قَدِيرٌ noun and 1 other tag q-d-r 45 70.6% 2:20
+
+249 خَبِيرٌ adjective and 1 other tag kh-b-r 45 70.7% 2:234
+
+250 فَذَرْهُمْ verb w-dh-r 45 70.7% 6:112
+
+251 شَهِدَ verb sh-h-d 44 70.8% 2:185
+
+252 لِتُنذِرَ verb n-dh-r 44 70.9% 7:2
+
+253 تَحْسَبَنَّ verb ḥ-s-b 44 70.9% 3:169
+
+254 ٱلصُّدُورِ noun ṣ-d-r 44 71% 3:119
+
+255 مَلَكَتْ verb m-l-k 44 71% 4:3
+
+256 ٱلْمُشْرِكِينَ noun sh-r-k 44 71.1% 2:105
+
+257 نَادَىٰ verb n-d-w 44 71.2% 19:3
+
+258 إِسْرَٰٓءِيلَ proper noun none 43 71.2% 2:40
+
+259 ٱلْحَمْدُ noun ḥ-m-d 43 71.3% 1:2
+
+260 نُوحٍ proper noun none 43 71.3% 4:163
+
+261 نُورًا noun n-w-r 43 71.4% 4:174
+
+262 يُدْخِلُ verb d-kh-l 42 71.4% 22:14
+
+263 جَزَآءُ noun j-z-y 42 71.5% 2:85
+
+264 فَسَبِّحْ verb s-b-ḥ 42 71.6% 15:98
+
+265 سَلَٰمٌ noun and 1 other tag s-l-m 42 71.6% 6:54
+
+266 فَسَوْفَ future particle none 42 71.7% 4:30
+
+267 يَسْتَطِيعُونَ verb ṭ-w-ʿ 42 71.7% 2:273
+
+268 وَيُعَذِّبُ verb ʿ-dh-b 41 71.8% 2:284
+
+269 عَلَّمَ verb ʿ-l-m 41 71.8% 55:2
+
+270 تَحْمِلُ verb ḥ-m-l 41 71.9% 13:8
+
+271 ٱلْبَحْرِ noun b-ḥ-r 41 71.9% 2:164
+
+272 فَوْقَ noun and 1 other tag f-w-q 41 72% 3:55
+
+273 سُبْحَٰنَ noun s-b-ḥ 41 72.1% 17:1
+
+274 شُرَكَآءَ noun sh-r-k 40 72.1% 6:100
+
+275 نُرِيَنَّكَ verb r-a-y 40 72.2% 10:46
+
+276 بَلَغَ verb b-l-gh 40 72.2% 6:19
+
+277 وَبِئْسَ verb b-a-s 40 72.3% 2:126
+
+278 كَبِيرًا adjective and 1 other tag k-b-r 40 72.3% 2:282
+
+279 تَرَكَ verb t-r-k 40 72.4% 2:180
+
+280 فَلْيَتَوَكَّلِ verb w-k-l 40 72.4% 3:122
+
+281 وَيْلٌ noun none 40 72.5% 45:7
+
+282 يَخْشَوْنَ verb kh-sh-y 40 72.5% 4:77
+
+283 يَهْتَدُونَ verb h-d-y 40 72.6% 2:170
+
+284 وَٱسْتَغْفِرْ verb gh-f-r 40 72.6% 3:159
+
+285 يَسْتَكْبِرُونَ verb k-b-r 40 72.7% 5:82
+
+286 بِإِذْنِ noun a-dh-n 39 72.8% 2:97
+
+287 أَلَآ inceptive particle none 39 72.8% 2:12
+
+288 حَرَّمَ verb ḥ-r-m 39 72.9% 2:173
+
+289 ٱلْحِسَابِ noun and 1 other tag ḥ-s-b 39 72.9% 2:202
+
+290 ٱلْجِبَالُ noun j-b-l 39 73% 13:31
+
+291 ٱلْمُسْلِمِينَ noun and 2 other tags s-l-m 39 73% 6:163
+
+292 مِتْنَا verb m-w-t 39 73.1% 23:82
+
+293 ٱسْمَ noun s-m-w 39 73.1% 5:4
+
+294 ضَلَٰلٍ noun ḍ-l-l 38 73.2% 3:164
+
+295 وَبَشِّرِ verb b-sh-r 38 73.2% 2:25
+
+296 ٱلْمُحْسِنِينَ noun ḥ-s-n 38 73.3% 2:58
+
+297 بِٱلْمَعْرُوفِ noun and 1 other tag ʿ-r-f 38 73.3% 2:178
+
+298 ٱلْمَوْتَىٰ noun and 1 other tag m-w-t 38 73.4% 2:73
+
+299 وَرَضُوا۟ verb r-ḍ-w 38 73.4% 5:119
+
+300 بِذُنُوبِهِمْ noun dh-n-b 37 73.5% 3:11
+
+301 تُحْشَرُونَ verb ḥ-sh-r 37 73.5% 2:203
+
+302 وَصَدُّوا۟ verb ṣ-d-d 37 73.6% 4:167
+
+303 بَشَرٌ noun b-sh-r 37 73.6% 3:47
+
+304 ٱلْفَٰسِقِينَ noun and 1 other tag f-s-q 37 73.7% 2:26
+
+305 ٱلْكُفْرَ noun k-f-r 37 73.7% 2:108
+
+306 مُّسْتَقِيمٍ noun and 1 other tag q-w-m 37 73.8% 2:142
+
+307 نَجَّيْنَا verb n-j-w 37 73.8% 11:58
+
+308 سُلْطَٰنًا noun s-l-ṭ 37 73.9% 3:151
+
+309 يَحْزَنُونَ verb ḥ-z-n 37 73.9% 2:38
+
+310 فَذُوقُوا۟ verb dh-w-q 36 74% 3:106
+
+311 أَحْسَنُ noun and 1 other tag ḥ-s-n 36 74% 2:138
+
+312 يُرَدُّ verb r-d-d 36 74.1% 6:147
+
+313 ٱلسَّيِّـَٔاتِ noun s-w-a 36 74.1% 4:18
+
+314 ذَهَبَ verb dh-h-b 35 74.2% 2:17
+
+315 إِثْمًا noun a-th-m 35 74.2% 2:182
+
+316 حِينٍ noun and 1 other tag ḥ-y-n 35 74.3% 2:36
+
+317 يُبَيِّنُ verb b-y-n 35 74.3% 2:187
+
+318 مَتَٰعٌ noun m-t-ʿ 35 74.4% 3:197
+
+319 ٱلْمُرْسَلِينَ noun and 1 other tag r-s-l 35 74.4% 2:252
+
+320 نَصِيرًا noun and 1 other tag n-ṣ-r 35 74.5% 4:45
+
+321 نَسُوا۟ verb n-s-y 35 74.5% 6:44
+
+322 ٱسْجُدُوا۟ verb s-j-d 35 74.6% 2:34
+
+323 يَسْتَوِى verb s-w-y 35 74.6% 4:95
+
+324 يَخْتَلِفُونَ verb kh-l-f 35 74.6% 2:113
+
+325 ءَالَآءِ noun a-l-w 34 74.7% 53:55
+
+326 أُمَّهَٰتِكُمْ noun a-m-m 34 74.7% 16:78
+
+327 فِتْنَةٌ noun f-t-n 34 74.8% 2:102
+
+328 مَرْيَمَ proper noun none 34 74.8% 2:87
+
+329 يَبْتَغُونَ verb b-gh-y 34 74.9% 5:2
+
+330 ٱلشَّمْسَ noun sh-m-s 33 74.9% 6:78
+
+331 ٱلْحَرَامِ adjective and 1 other tag ḥ-r-m 33 75% 2:144
+
+332 فَرِيقٌ noun f-r-q 33 75% 2:75
+
+333 كَذِبًا noun k-dh-b 33 75.1% 6:21
+
+334 كَلَّا aversion particle none 33 75.1% 19:79
+
+335 ٱلْأَنْعَٰمِ noun n-ʿ-m 33 75.1% 4:119
+
+336 تَقُومُ verb q-w-m 33 75.2% 26:218
+
+337 أَعْرَضَ verb ʿ-r-ḍ 32 75.2% 17:83
+
+338 عَٰقِبَةُ noun ʿ-q-b 32 75.3% 3:137
+
+339 ٱلْكَٰذِبِينَ noun and 1 other tag k-dh-b 32 75.3% 3:61
+
+340 وَكَفَىٰ verb k-f-y 32 75.4% 4:6
+
+341 نُهُوا۟ verb n-h-y 32 75.4% 4:161
+
+342 ٱلْخَٰسِرِينَ noun kh-s-r 32 75.4% 2:64
+
+343 ٱلزَّكَوٰةَ noun z-k-w 32 75.5% 2:43
+
+344 إِذًا surprise particle and 1 other tag none 31 75.5% 2:145
+
+345 أَشَدُّ noun and 1 other tag sh-d-d 31 75.6% 2:74
+
+346 يَنفَعُ verb n-f-ʿ 31 75.6% 2:164
+
+347 وَٰحِدَةً noun and 1 other tag w-ḥ-d 31 75.7% 2:213
+
+348 شَرٌّ noun sh-r-r 30 75.7% 2:216
+
+349 عَسَىٰٓ verb ʿ-s-y 30 75.7% 7:185
+
+350 حُكْمًا noun ḥ-k-m 30 75.8% 5:50
+
+351 كَرِيمٌ adjective and 1 other tag k-r-m 30 75.8% 8:4
+
+352 لَبِثْتُمْ verb l-b-th 30 75.9% 18:19
+
+353 ٱلْمَلَأُ noun m-l-a 30 75.9% 7:60
+
+354 قُوَّةً noun q-w-y 30 75.9% 9:69
+
+355 سَآءَ verb s-w-a 30 76% 5:66
+
+356 وَٰحِدٌ adjective and 1 other tag w-ḥ-d 30 76% 2:163
+
+357 وَلَّوْا۟ verb w-l-y 30 76.1% 17:46
+
+358 يُبْصِرُونَ verb b-ṣ-r 29 76.1% 2:17
+
+359 بِعَهْدِ noun ʿ-h-d 29 76.1% 3:77
+
+360 ٱلْعَرْشِ noun ʿ-r-sh 29 76.2% 7:54
+
+361 حَيْثُ noun and 1 other tag ḥ-y-th 29 76.2% 2:35
+
+362 جُندٌ noun j-n-d 29 76.3% 36:75
+
+363 كَأَنَّهُمْ accusative particle none 29 76.3% 2:101
+
+364 أَنۢبَآءِ noun n-b-a 29 76.3% 3:44
+
+365 رَجُلٌ noun r-j-l 29 76.4% 4:12
+
+366 ٱلرِّيَٰحَ noun r-w-ḥ 29 76.4% 7:57
+
+367 ذُرِّيَّةً noun dh-r-r 28 76.4% 3:38
+
+368 فَأَصْبَحُوا۟ verb ṣ-b-ḥ 28 76.5% 5:53
+
+369 وَأَصْلَحَ verb ṣ-l-ḥ 28 76.5% 5:39
+
+370 أَبَدًا time adverb a-b-d 28 76.6% 4:57
+
+371 يُغْنِى verb gh-n-y 28 76.6% 10:36
+
+372 أَنَّىٰ interrogative particle and 1 other tag a-n-y 28 76.6% 2:223
+
+373 ٱلْحَدِيثِ noun ḥ-d-th 28 76.7% 18:6
+
+374 حَسَنَةً noun and 1 other tag ḥ-s-n 28 76.7% 2:201
+
+375 كَلِمَةٌ noun k-l-m 28 76.8% 10:19
+
+376 ٱلْمَصِيرُ noun ṣ-y-r 28 76.8% 2:126
+
+377 ٱلْمَسْجِدِ noun s-j-d 28 76.8% 2:144
+
+378 مَّغْفِرَةٌ noun gh-f-r 28 76.9% 3:136
+
+379 رِجَالًا noun r-j-l 28 76.9% 4:1
+
+380 تُرْحَمُونَ verb r-ḥ-m 28 76.9% 3:132
+
+381 سِحْرٌ noun s-ḥ-r 28 77% 5:110
+
+382 يَسْتَجِيبُوا۟ verb j-w-b 28 77% 11:14
+
+383 تُفْلِحُونَ verb f-l-ḥ 27 77.1% 2:189
+
+384 عَصَوا۟ verb ʿ-ṣ-y 27 77.1% 2:61
+
+385 عَفَا verb ʿ-f-w 27 77.1% 3:152
+
+386 أَبْوَٰبَ noun b-w-b 27 77.2% 6:44
+
+387 بِغَٰفِلٍ noun gh-f-l 27 77.2% 2:74
+
+388 وَجَٰهَدُوا۟ verb j-h-d 27 77.2% 2:218
+
+389 ٱلْكُفَّارَ noun k-f-r 27 77.3% 9:73
+
+390 لُوطٍ proper noun none 27 77.3% 11:70
+
+391 ٱلْمُنَٰفِقِينَ noun n-f-q 27 77.3% 4:61
+
+392 مَكَانًا noun and 1 other tag k-w-n 27 77.4% 19:16
+
+393 قَدَّمَتْ verb q-d-m 27 77.4% 2:95
+
+394 وَٱلْقَمَرَ noun q-m-r 27 77.5% 6:96
+
+395 سَوَآءٌ noun and 1 other tag s-w-y 27 77.5% 2:6
+
+396 يُوسُفَ proper noun none 27 77.5% 12:7
+
+397 ءَالَ noun a-w-l 26 77.6% 2:50
+
+398 أَجْمَعِينَ noun j-m-ʿ 26 77.6% 2:161
+
+399 بِٱلْبَٰطِلِ noun b-ṭ-l 26 77.6% 2:42
+
+400 ٱلْجَحِيمِ noun j-ḥ-m 26 77.7% 2:119
+
+401 كَيْدًا noun k-y-d 26 77.7% 12:5
+
+402 مَاذَا interrogative particle none 26 77.7% 2:215
+
+403 قَرِيبًا adjective and 1 other tag q-r-b 26 77.8% 9:42
+
+404 ثَمُودُ proper noun none 26 77.8% 11:95
+
+405 خَوْفٌ noun kh-w-f 26 77.8% 2:38
+
+406 زُيِّنَ verb z-y-n 26 77.9% 2:212
+
+407 ٱمْرَأَتَهُۥ noun m-r-a 26 77.9% 7:83
+
+408 ءَادَمَ proper noun none 25 77.9% 2:31
+
+409 عِيسَى proper noun none 25 78% 2:87
+
+410 بَأْسُنَا noun b-a-s 25 78% 6:43
+
+411 بَعِيدٍ adjective and 1 other tag b-ʿ-d 25 78% 2:176
+
+412 يَبْغُونَ verb b-gh-y 25 78.1% 3:83
+
+413 يُجَٰدِلُ verb j-d-l 25 78.1% 4:109
+
+414 جُنَاحَ noun j-n-ḥ 25 78.1% 2:158
+
+415 بِلِسَانِكَ noun l-s-n 25 78.2% 19:97
+
+416 مِيثَٰقَ noun w-th-q 25 78.2% 2:83
+
+417 وَيَقْدِرُ verb q-d-r 25 78.2% 13:26
+
+418 خَلَتْ verb kh-l-w 25 78.3% 2:134
+
+419 يَشْعُرُونَ verb sh-ʿ-r 25 78.3% 2:9
+
+420 إِيَّاهُ pronoun none 24 78.3% 2:172
+
+421 أَكْبَرُ noun and 1 other tag k-b-r 24 78.4% 2:217
+
+422 أُنثَىٰ noun a-n-th 24 78.4% 3:36
+
+423 عَادٍ proper noun ʿ-w-d 24 78.4% 7:65
+
+424 حَيًّا noun and 1 other tag ḥ-y-y 24 78.5% 19:15
+
+425 طَآئِفَةٌ noun and 1 other tag ṭ-w-f 24 78.5% 4:81
+
+426 ٱلطَّعَامَ noun ṭ-ʿ-m 24 78.5% 5:75
+
+427 ٱلْغَنِىُّ noun and 1 other tag gh-n-y 24 78.6% 6:133
+
+428 يَكَادُ verb k-w-d 24 78.6% 2:20
+
+429 لِقَآءَ noun l-q-y 24 78.6% 6:130
+
+430 نَتَوَفَّيَنَّكَ verb w-f-y 24 78.7% 10:46
+
+431 وَكِيلًا noun w-k-l 24 78.7% 4:81
+
+432 وَرَآءَ location adverb and 1 other tag w-r-y 24 78.7% 2:101
+
+433 وَٱلشَّهَٰدَةِ noun sh-h-d 23 78.8% 6:73
+
+434 ذَا noun and 1 other tag none 23 78.8% 2:245
+
+435 وَذِكْرَىٰ noun dh-k-r 23 78.8% 7:2
+
+436 وَإِمَّا explanation particle and 1 other tag none 23 78.9% 9:106
+
+437 أَذِنَ verb a-dh-n 23 78.9% 10:59
+
+438 فَأَنجَيْنَٰهُ verb n-j-w 23 78.9% 7:64
+
+439 ٱلظُّلُمَٰتِ noun and 1 other tag ẓ-l-m 23 79% 2:257
+
+440 بَدَّلُوا۟ verb b-d-l 23 79% 14:28
+
+441 فَتَنَّا verb f-t-n 23 79% 6:53
+
+442 ٱلْفُلْكِ noun f-l-k 23 79% 7:64
+
+443 لَعَنَهُمُ verb l-ʿ-n 23 79.1% 4:52
+
+444 وَٱلْمَسَٰكِينِ noun and 1 other tag s-k-n 23 79.1% 2:83
+
+445 ٱلْقُرُونِ noun q-r-n 23 79.1% 11:116
+
+446 سُجَّدًا noun and 1 other tag s-j-d 23 79.2% 2:58
+
+447 سَبْعَ noun and 1 other tag s-b-ʿ 23 79.2% 2:29
+
+448 وَٱلْيَتَٰمَىٰ noun and 1 other tag y-t-m 23 79.2% 2:83
+
+449 أَذَقْنَا verb dh-w-q 22 79.3% 10:21
+
+450 أَسْلَمَ verb s-l-m 22 79.3% 2:112
+
+451 بَلَىٰ answer particle none 22 79.3% 2:81
+
+452 ٱلْبَرِّ noun and 1 other tag b-r-r 22 79.4% 5:96
+
+453 ٱلدُّعَآءَ noun d-ʿ-w 22 79.4% 21:45
+
+454 يَجْمَعُ verb j-m-ʿ 22 79.4% 5:109
+
+455 ٱلْجِنِّ noun j-n-n 22 79.4% 6:128
+
+456 وَمَأْوَىٰهُمْ noun a-w-y 22 79.5% 9:73
+
+457 يَمْكُرُونَ verb m-k-r 22 79.5% 6:123
+
+458 وَٱلْمُؤْمِنَٰتِ noun and 1 other tag a-m-n 22 79.5% 9:72
+
+459 بِنَصْرِهِۦ noun n-ṣ-r 22 79.6% 3:13
+
+460 وَرَفَعْنَا verb r-f-ʿ 22 79.6% 2:63
+
+461 ٱلسَّحَرَةُ noun s-ḥ-r 22 79.6% 7:113
+
+462 ٱلسَّمْعَ noun s-m-ʿ 22 79.6% 10:31
+
+463 وَسَخَّرَ verb s-kh-r 22 79.7% 13:2
+
+464 بِٱلسَّيِّئَةِ noun and 1 other tag s-w-a 22 79.7% 6:160
+
+465 وَوَهَبْنَا verb w-h-b 22 79.7% 6:84
+
+466 خَلْفَهُمْ noun and 1 other tag kh-l-f 22 79.8% 2:255
+
+467 يَرْجُونَ verb r-j-w 22 79.8% 2:218
+
+468 ٱلشَّٰهِدِينَ noun and 1 other tag sh-h-d 21 79.8% 3:53
+
+469 أَشْهُرٍ noun sh-h-r 21 79.9% 2:226
+
+470 ٱلْأَعْمَىٰ noun and 1 other tag ʿ-m-y 21 79.9% 6:50
+
+471 أَحْسَنَ verb ḥ-s-n 21 79.9% 6:154
+
+472 وَيُمِيتُ verb m-w-t 21 79.9% 2:258
+
+473 حَسَنًا adjective and 1 other tag ḥ-s-n 21 80% 2:245
+
+474 ٱلطَّيِّبَٰتِ noun ṭ-y-b 21 80% 7:157
+
+475 ٱلظَّنَّ noun ẓ-n-n 21 80% 6:116
+
+●
+Leeds Quranic Arabic Corpus v0.4. Every lemma, not only these, is
+in the lemma-frequencies table.
 
 ===== Search this site (https://divinediscourses.org/search) =====
 
@@ -5964,6 +6980,18 @@ before it was renamed "Study".
 ### 2026
 
 #### September
+
+Core vocabulary, and a corrected definition.
+Core vocabulary lists the 475 lemmas
+that account for 80% of the Qur'an's 74,122 lemmatized word-units
+(Leeds corpus), most frequent first, each with its root, count and
+first occurrence. A practice mode shows one word at a time and,
+on request, the Quran.com word-by-word English for it at that
+verse; progress stays in your browser. Also corrected: the
+glossary said a word-unit is a piece smaller than a written word
+(bismi as two). It is one written word, as the Leeds corpus lists
+them; the 77,429 figure counts written words.
+§
 
 A page for every juz, and for every common root.
 Each of the 30 juz has a page at /juz/<number>
@@ -8121,11 +9149,11 @@ surah: A chapter of the Qur'an. There are 114, varying in length from 3 verses t
 surface-form: A distinct written form of a word as it actually appears in the text, before it is reduced to its dictionary form. The same lemma can appear as several surface forms (singular, plural, with attached prefixes). The Qur'an has 18,993 distinct surface forms across its 77,429 word-units.
 tafaseer: Plural of tafsir.
 tafsir: Qur'anic exegesis or commentary. A scholarly genre going back to the earliest generations of Islam.
-token: The smallest piece the corpus counts — this site calls it a word-unit in plain language. Arabic often writes several tokens as a single word: bismi ("in the name of") is one written word but two tokens (bi + ism). That is why the Qur'an has 77,429 word-units but far fewer written words. Counts of nouns, verbs, and verse length on Numbers are measured in word-units, not written words.
+token: One word as the Leeds corpus lists it; this site calls it a word-unit in plain language. The corpus follows the written words of the Uthmani text, so bismi ("in the name of") is one word-unit, and the Qur'an has 77,429 of them. The corpus also splits each word into morphological segments (bi + ism, 130,030 segments in all); this site takes a word's root, lemma and part of speech from its stem segment and does not count segments. Counts of nouns, verbs, and verse length on Numbers are measured in word-units.
 triangulate: To cross-check a claim against two or more independent sources. Agreement moves a claim from Pending to Verified; disagreement keeps it Nuanced with the disagreement recorded.
 ttr: Type-token ratio: distinct word forms divided by total words, a measure of vocabulary variety. Smaller samples score higher mechanically, so the trend matters more than the absolute values.
 verified: A claim on this site backed by direct corpus data, primary text, or peer-reviewed scholarship. The strongest confidence label.
-word-unit: This site's plain-language name for a corpus token — the smallest counted piece of the text. Used in place of "word" wherever a count could otherwise be mistaken for written words.
+word-unit: This site's plain-language name for a corpus token: one written word of the Uthmani text as the Leeds corpus lists it. Used in place of "word" so a count is not mistaken for dictionary words or for morphological segments.
 fasila: The word or syllable a verse ends on. When the same ending recurs across consecutive verses it produces the rhyme or assonance pattern (fawāṣil, plural) scholars read structure from.
 qasam: An oath opening: a surah or passage that begins by swearing on something (time, the sun, the fig tree) before making its claim. Surahs al-'Asr, al-Shams, and al-Tin open this way.
 parallelism: Balanced clause or phrase structures, where successive units echo each other's grammar or meaning. Concentric parallelism, where the echo runs from a text's edges toward its centre, is one specific case; see Ring composition.
@@ -8138,7 +9166,7 @@ noldeke-bell: A four-period chronological classification of the surahs (three Me
 revelation-order: The sequence the surahs are traditionally held to have been revealed in, distinct from their fixed position in the mushaf (the standard printed Qur'an). This site follows the Egyptian Standard (Cairo 1924) revelation order, a convention rather than a documented historical record.
 uthmani: The standard Arabic script and verse divisions used in nearly all printed and digital copies of the Qur'an today, following the consonantal skeleton fixed under the caliph Uthman. The Arabic text on this site is the Tanzil Uthmani edition.
 normalized-frequency: An occurrence count divided by the size of the text it is drawn from (here, per 1,000 tokens), so counts from different-sized samples, such as the Meccan and Medinan periods, can be compared directly.
-tokenization: Splitting text into the smallest countable units (tokens). The Leeds corpus tokenizes Arabic below the level of the written word: a single written word like bismi splits into two tokens (bi + ism), which is why token counts run higher than word counts on this site.
+tokenization: Splitting text into countable units (tokens). The Leeds corpus lists the Qur'an's written words and splits each into morphological segments (bismi into bi + ism). This site counts the words, 77,429 of them, not the segments.
 discursive-pivot: A verse mechanically flagged for opening with a temporal particle (like idh or idha) while sharing vocabulary with what precedes it, a candidate marker of where a passage turns. Detected by pattern matching, not by a scholar's reading; see Patterns.
 centrality: A family of statistical measures of a node's position in a network, such as this site's root co-occurrence graph. This site reports degree, betweenness, and eigenvector centrality; none of them indicate a root's importance, only its structural position.
 tadabbur: Reflective, contemplative study of the Qur'an, read as a connected discourse rather than isolated verses. The term names the reading approach behind Islahi's Tadabbur-i Qur'an and this site's discovery-worksheet exercises.

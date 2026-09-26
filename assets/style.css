@@ -4758,3 +4758,30 @@ input[type="checkbox"] {
     color: #555;
   }
 }
+
+/* Core vocabulary (vocabulary.html) */
+.vocab-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  margin: 0.5rem 0 1rem;
+}
+.vocab-form .ar {
+  font-size: 2.4rem;
+  line-height: 1.6;
+}
+.vocab-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.vocab-actions [hidden] {
+  display: none;
+}
+.vocab-table td .ar-inline {
+  font-size: 1.25rem;
+}
+.vocab-table tbody tr:target {
+  outline: 2px solid var(--accent);
+}

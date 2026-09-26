@@ -84,6 +84,8 @@ const ORDER = [
   "build-surah-pages",
   "build-juz-pages",
   "build-root-pages",
+  // Reads lemma-frequencies too.
+  "build-vocabulary",
 ];
 
 // Named and reported, never silently dropped: a run that skipped these

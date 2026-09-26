@@ -18,6 +18,10 @@ export const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 export const esc = (v) =>
   String(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 export const n0 = (x) => Number(x).toLocaleString("en-US");
+// Roots with at least this many occurrences get a page under root/
+// (build-root-pages.mjs); every other link to a root goes to the explorer.
+export const ROOT_PAGE_MIN = 20;
+
 export const PERIOD = {
   "meccan-early": "Early Meccan",
   "meccan-middle": "Middle Meccan",

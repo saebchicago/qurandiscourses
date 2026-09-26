@@ -27,9 +27,9 @@ import { SITE } from "./lib/site.mjs";
 import { safeKey } from "./lib/safe-key.mjs";
 import { ordinal } from "./lib/ordinal.mjs";
 import { readJson } from "./lib/io.mjs";
-import { ROOT, esc, n0, PERIOD, badge, ar, posLabel, renderPage, replaceRegion, sitemapRegion, writeFamily } from "./lib/page-shell.mjs";
+import { ROOT, ROOT_PAGE_MIN, esc, n0, PERIOD, badge, ar, posLabel, renderPage, replaceRegion, sitemapRegion, writeFamily } from "./lib/page-shell.mjs";
 
-export const MIN = 20;
+const MIN = ROOT_PAGE_MIN;
 const CHECK = process.argv.includes("--check");
 
 const summary = readJson("data/roots-summary.json");

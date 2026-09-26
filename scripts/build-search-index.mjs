@@ -104,7 +104,7 @@ const PAGES = [
   "compare.html", "replay.html", "exercises.html", "exercise.html",
   "exercise-roots.html", "roots.html", "words.html", "patterns.html",
   "formulas.html", "numbers.html", "how-to-use.html", "how-it-works.html",
-  "paths.html", "glossary.html", "watch.html", "sources.html",
+  "paths.html", "glossary.html", "vocabulary.html", "watch.html", "sources.html",
   "validation.html", "datasets.html", "coverage.html", "export.html",
   "changelog.html", "about.html", "credits.html",
 ];

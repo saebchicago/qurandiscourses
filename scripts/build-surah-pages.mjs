@@ -37,7 +37,7 @@ import { SITE } from "./lib/site.mjs";
 import { safeKey } from "./lib/safe-key.mjs";
 import { ordinal } from "./lib/ordinal.mjs";
 import { readJson } from "./lib/io.mjs";
-import { ROOT, esc, n0, PERIOD, badge, hm, range, renderPage, replaceRegion, sitemapRegion, writeFamily } from "./lib/page-shell.mjs";
+import { ROOT, ROOT_PAGE_MIN, esc, n0, PERIOD, badge, hm, range, renderPage, replaceRegion, sitemapRegion, writeFamily } from "./lib/page-shell.mjs";
 
 const CHECK = process.argv.includes("--check");
 
@@ -56,7 +56,7 @@ const textIndex = readJson("data/quran-text/index.json");
 const rootTotals = readJson("data/roots-summary.json");
 // Roots with a reference page (build-root-pages.mjs, 20+ occurrences) link
 // there; the rest open in the Roots explorer.
-const rootHref = (bw) => (rootTotals[bw] && rootTotals[bw].totalCount >= 20 ? `/root/${safeKey(bw)}` : `/roots?root=${safeKey(bw)}`);
+const rootHref = (bw) => (rootTotals[bw] && rootTotals[bw].totalCount >= ROOT_PAGE_MIN ? `/root/${safeKey(bw)}` : `/roots?root=${safeKey(bw)}`);
 
 // ── Per-surah content ────────────────────────────────────────────────
 function pageFor(n) {

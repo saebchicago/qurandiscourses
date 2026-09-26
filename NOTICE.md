@@ -211,7 +211,8 @@ reading lens), `numbers.json`,
 `rhetorical-features.json`, `rhyme-summary.json`, `roots-index.json`,
 `roots-list.json`, `surah-profiles.json`, `structure-tests.json`,
 `symmetry-test.json`, `theme-surah-index.json`, `themes.json`,
-`word-index.json`. Each
+`vocabulary.json` (the core-vocabulary list behind vocabulary.html;
+no meanings are bundled), `word-index.json`. Each
 generator script under
 `scripts/` names its inputs in its header. One of these additionally
 draws on another output: `data/exports/` republishes Leeds-derived

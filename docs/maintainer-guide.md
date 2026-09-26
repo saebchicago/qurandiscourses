@@ -53,13 +53,13 @@ historical record. Statistical results lead with plain phrasing (what
 held up, what chance predicts) and keep the exact figures in
 parentheses; nothing is hidden, but the jargon never leads.
 
-## 2. Site map (34 pages)
+## 2. Site map (35 pages)
 
 | Group | Pages | Notes |
 |---|---|---|
 | Study | read, navigate, dossier, compare, themes, replay | API-backed reading; local-data everything else. dossier.html?s=N is the per-surah synthesis page (roots.html-style client-side param; invalid/absent ?s= renders a 114-surah picker); its recurring-phrases section reads data/formula-summary.json, and s/surah/{n}.html share pages bounce to it |
 | Analyze | words, roots, patterns, numbers, formulas | fully local data |
-| Learn | how-to-use, how-it-works, exercises (hub), exercise, exercise-roots, paths, glossary, watch | exercises are data-driven or book-cited; exercise-asr.html is a redirect stub |
+| Learn | how-to-use, how-it-works, exercises (hub), exercise, exercise-roots, paths, glossary, vocabulary, watch | exercises are data-driven or book-cited; exercise-asr.html is a redirect stub. vocabulary.html is the core-vocabulary list (static) plus practice cards that fetch word-by-word meanings from api.quran.com |
 | About | index, about, sources, datasets, validation, credits, changelog | credibility pages |
 | Off-nav, in sitemap | export (CSV/JSON downloads + schema), coverage (measured data-coverage dashboard), contribute (what the project wants and how to send it), open-questions (statements about Dr. Khan that no registered source settles, and records that conflict — generated from data/provenance/claims.json by build-provenance.mjs) | reachable via contextual links (roots.html, numbers.html, datasets.html), not the primary nav — adding them to nav means editing EVERY page's nav block (check-nav-sync.mjs enforces byte-identical navs) |
 | Unlisted | embed (iframe card, the one frameable page), exercise-asr (redirect stub), 404 (Netlify's not-found page: search box, wayfinding cards, correction form) | outside nav and sitemap by design; 404.html carries no canonical and no JSON-LD because Netlify serves it at whatever address failed |
@@ -175,6 +175,7 @@ them only when their inputs change; commit their outputs.
 | build-surah-pages.mjs | surah-names, chronology, surah-meta, surah-profiles, structure/, theme-surah-index, formula-summary, rhyme-summary, recitation/pace.json, rhetorical-features (fawatih), exercises, khan-interpretations (existence only), quran-text/, and navigate.html's page chrome | surah/{1-114}.html, navigate.html's static:surah-pages list, sitemap.xml's surah-pages entries | one static, indexable reference page per surah at `/surah/<n>`: counts, classification, revelation order, juz and pages, listening time, top roots, computed sections, themes, recurring phrases, verse endings, and the full Tanzil text with Tanzil's notice. Chrome (header, nav, footer, settings) is copied from navigate.html so the nav stays identical; no inline scripts or `<style>` (the `/surah/*` CSP block allows none). `--check` fails on any stale page, list or sitemap entry. Run before build-page-dates |
 | build-juz-pages.mjs | juz.json, quran-text/ (verses, pages), exports/verse-lengths.json, recitation/pace.json | juz/{1-30}.html, navigate.html's static:juz-pages list, sitemap.xml's juz-pages entries | one static reference page per juz at `/juz/<n>`: boundaries, verses, word-units, surahs spanned (whole or part), mushaf pages, listening time per reciter. No Arabic text (it lives on the surah pages). Fails if the text metadata disagrees with juz.json about any verse's juz. Frame from scripts/lib/page-shell.mjs |
 | build-root-pages.mjs | roots-summary, root-analytics/, dispersion/, association/, exports (root-frequencies, lemma-frequencies, root-surah-counts) | root/<safeKey>.html for every root with 20+ occurrences, roots.html's static:root-pages list, sitemap.xml's root-pages entries | one static reference page per frequent root at `/root/<key>`: count and rank, verses and surahs, period and Meccan/Medinan splits (labeled), lemmas, written forms, where it concentrates, companion roots, first verses. Below 20 occurrences a page would be thin, so those stay in the explorer only. Surah pages link their top roots here when a page exists |
+| build-vocabulary.mjs | exports/lemma-frequencies, morphology/, roots-summary, exports/root-frequencies | data/vocabulary.json, vocabulary.html's static:vocab-milestones and static:vocab-list regions | the core-vocabulary track at `/vocabulary`: the fewest lemmas that cover 80% of lemmatized word-units (475 of 74,122's lemmas), ranked, each with its most common written form and first occurrence (surah:verse:word). Throws if its totals drift from the export or from TOTAL_TOKENS. No meanings bundled: the practice cards fetch the Quran.com word-by-word English at runtime (assets/vocabulary.js) |
 | build-page-dates.mjs | every page's `<main>` (scripts and whitespace runs removed), hashed | data/page-dates.json | when each page's content last changed: sitemap.xml `<lastmod>` (build-canonicals) and each page's JSON-LD `dateModified` (build-jsonld). The date moves only when the hash does, so it is stable in a one-commit-deep CI checkout; `--check` fails when a page's content changed without a new date. Run it before build-canonicals and build-jsonld |
 | build-canonicals.mjs | `scripts/lib/site.mjs` (origin + clean-path rule), data/page-dates.json | every page's canonical/og:url, every internal link, sitemap.xml `<loc>` and `<lastmod>`, robots.txt | one address per page. `--check` fails on a canonical that is missing, duplicated, points elsewhere, disagrees with og:url, or names a `.html` address; also on an internal link that still ends in `.html` |
 | build-surah-profiles.mjs | morphology, chronology | data/surah-profiles.json | navigate.html profiles; also `formDiversityRatio`/`lemmaDiversityRatio` (type-token ratio at the surface-form and lemma level, alongside the existing root-level ratio), surfaced on dossier.html's Vocab section |
@@ -662,7 +663,7 @@ plus a `[[redirects]]` rule 301ing the first to the second with
 matches headers on the request path, so a clean path without its own
 block ships with no CSP. Then run
 `node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs
-&& node scripts/build-surah-pages.mjs && node scripts/build-juz-pages.mjs && node scripts/build-root-pages.mjs && node scripts/build-page-dates.mjs && node scripts/build-canonicals.mjs && node scripts/build-jsonld.mjs
+&& node scripts/build-surah-pages.mjs && node scripts/build-juz-pages.mjs && node scripts/build-root-pages.mjs && node scripts/build-vocabulary.mjs && node scripts/build-page-dates.mjs && node scripts/build-canonicals.mjs && node scripts/build-jsonld.mjs
 && node scripts/build-csp.mjs`.
 
 **`netlify.toml` is a hybrid file, and that makes its merge conflicts
@@ -761,6 +762,13 @@ of three verdicts:
 
 Only a contradiction exits non-zero, so the weekly scheduled run of
 this check stays quiet unless the endpoint's attribution really changed.
+
+The vocabulary practice cards (assets/vocabulary.js) use the same
+endpoint for one word per lemma, and show a meaning only when the Arabic
+served at that position matches ours. `node scripts/check-vocab-wbw.mjs`
+measures how many of the 475 cards line up (it parses the endpoint and
+the comparison out of the page's script) and fails under 90%; it runs in
+the external-evidence job.
 
 ### Publish a video (watch.html)
 1. Record from the entry's script in `docs/video-scripts/` — real screen

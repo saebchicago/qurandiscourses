@@ -304,8 +304,8 @@
     "token",
     "tokens"
    ],
-   "def": "The smallest piece the corpus counts — this site calls it a word-unit in plain language. Arabic often writes several tokens as a single word: bismi (\"in the name of\") is one written word but two tokens (bi + ism). That is why the Qur'an has 77,429 word-units but far fewer written words. Counts of nouns, verbs, and verse length on Numbers are measured in word-units, not written words.",
-   "ddHtml": "              The smallest piece the corpus counts — this site calls it a\n              <strong>word-unit</strong> in plain language. Arabic often writes\n              several tokens as a single word: <em>bismi</em> (\"in the name\n              of\") is one written word but two tokens (<em>bi</em> +\n              <em>ism</em>). That is why the Qur'an has 77,429 word-units but\n              far fewer written words. Counts of nouns, verbs, and verse length\n              on <a href=\"/numbers\">Numbers</a> are measured in word-units,\n              not written words."
+   "def": "One word as the Leeds corpus lists it; this site calls it a word-unit in plain language. The corpus follows the written words of the Uthmani text, so bismi (\"in the name of\") is one word-unit, and the Qur'an has 77,429 of them. The corpus also splits each word into morphological segments (bi + ism, 130,030 segments in all); this site takes a word's root, lemma and part of speech from its stem segment and does not count segments. Counts of nouns, verbs, and verse length on Numbers are measured in word-units.",
+   "ddHtml": "              One word as the Leeds corpus lists it; this site calls it a\n              <strong>word-unit</strong> in plain language. The corpus follows\n              the written words of the Uthmani text, so <em>bismi</em> (\"in the\n              name of\") is one word-unit, and the Qur'an has 77,429 of them.\n              The corpus also splits each word into morphological segments\n              (<em>bi</em> + <em>ism</em>, 130,030 segments in all); this site\n              takes a word's root, lemma and part of speech from its stem\n              segment and does not count segments. Counts of nouns, verbs, and\n              verse length on <a href=\"/numbers\">Numbers</a> are measured in\n              word-units."
   },
   {
    "id": "triangulate",
@@ -341,8 +341,8 @@
     "word-unit",
     "word-units"
    ],
-   "def": "This site's plain-language name for a corpus token — the smallest counted piece of the text. Used in place of \"word\" wherever a count could otherwise be mistaken for written words.",
-   "ddHtml": "              This site's plain-language name for a corpus\n              <a href=\"/glossary#token\">token</a> — the smallest counted\n              piece of the text. Used in place of \"word\" wherever a count could\n              otherwise be mistaken for written words."
+   "def": "This site's plain-language name for a corpus token: one written word of the Uthmani text as the Leeds corpus lists it. Used in place of \"word\" so a count is not mistaken for dictionary words or for morphological segments.",
+   "ddHtml": "              This site's plain-language name for a corpus\n              <a href=\"/glossary#token\">token</a>: one written word of the\n              Uthmani text as the Leeds corpus lists it. Used in place of\n              \"word\" so a count is not mistaken for dictionary words or for\n              morphological segments."
   },
   {
    "id": "fasila",
@@ -465,8 +465,8 @@
    "matchKeys": [
     "tokenization"
    ],
-   "def": "Splitting text into the smallest countable units (tokens). The Leeds corpus tokenizes Arabic below the level of the written word: a single written word like bismi splits into two tokens (bi + ism), which is why token counts run higher than word counts on this site.",
-   "ddHtml": "              Splitting text into the smallest countable units (tokens). The Leeds corpus\n              tokenizes Arabic below the level of the written word: a single written word\n              like bismi splits into two tokens (bi + ism), which is why token counts run\n              higher than word counts on this site."
+   "def": "Splitting text into countable units (tokens). The Leeds corpus lists the Qur'an's written words and splits each into morphological segments (bismi into bi + ism). This site counts the words, 77,429 of them, not the segments.",
+   "ddHtml": "              Splitting text into countable units (tokens). The Leeds corpus\n              lists the Qur'an's written words and splits each into\n              morphological segments (<em>bismi</em> into <em>bi</em> +\n              <em>ism</em>). This site counts the words, 77,429 of them, not\n              the segments."
   },
   {
    "id": "discursive-pivot",

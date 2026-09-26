@@ -82,6 +82,7 @@ jobs:
           node scripts/build-surah-pages.mjs --check
           node scripts/build-juz-pages.mjs --check
           node scripts/build-root-pages.mjs --check
+          node scripts/build-vocabulary.mjs --check
           node scripts/build-page-dates.mjs --check
           node scripts/build-canonicals.mjs --check
           node scripts/build-static-fallbacks.mjs --check
@@ -159,3 +160,7 @@ jobs:
       - name: Check the word-by-word translator credit
         if: ${{ !cancelled() }}
         run: node scripts/check-wbw-credit.mjs
+
+      - name: Check the word-by-word source lines up with the vocabulary cards
+        if: ${{ !cancelled() }}
+        run: node scripts/check-vocab-wbw.mjs
