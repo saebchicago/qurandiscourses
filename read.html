@@ -997,9 +997,13 @@
           const needsMorph =
             !juzMode && (depth === "study" || depth === "encyclopedic");
           let verses;
+          // Set when the Arabic (bundled) loaded but the translations
+          // (alquran.cloud) did not; named above the passage below.
+          let translationError = null;
 
           if (juzMode) {
             const juzData = await qdFetchJuz(juzMode);
+            translationError = juzData.translationError || null;
             const arEd = juzData.find(
               (d) => d.edition.identifier === "quran-uthmani",
             );
@@ -1050,6 +1054,7 @@
             }
             if (needsMorph) fetches.push(fetchGloss(s));
             const [data] = await Promise.all(fetches);
+            translationError = data.translationError || null;
             const ar = data.find(
               (d) => d.edition.identifier === "quran-uthmani",
             );
@@ -1081,6 +1086,7 @@
             }
             if (needsMorph) fetches.push(fetchGloss(s));
             const [surahData] = await Promise.all(fetches);
+            translationError = surahData.translationError || null;
             const arEd = surahData.find(
               (d) => d.edition.identifier === "quran-uthmani",
             );
@@ -1121,7 +1127,9 @@
           }
           const vocabPanelEl = document.getElementById("vocabPanel");
           if (vocabPanelEl) vocabPanelEl.innerHTML = "";
-          let allHtml = "";
+          let allHtml = translationError
+            ? `<p class="prov" role="status" data-translation-error>Translations could not be loaded from the text service (api.alquran.cloud), so this shows the Arabic only. The Arabic ships with this site; reload to try the translations again.</p>`
+            : "";
           let lastSurah = null;
           verses.forEach(
             (
@@ -1318,14 +1326,14 @@
               // else it is said once for the passage (below), because the
               // same line on 286 consecutive verses trains the eye to skip it.
               if (depth === "encyclopedic") {
-                html += `<p class="prov"><span class="badge ok" data-source-ids="tanzil alquran-cloud-api" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Arabic from Tanzil Uthmani via alquran.cloud; translations rendered as published.</p>`;
+                html += `<p class="prov"><span class="badge ok" data-source-ids="tanzil alquran-cloud-api" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Arabic from Tanzil Uthmani, bundled with this site; translations from alquran.cloud, rendered as published.</p>`;
               }
               html += `</div>`;
               allHtml += html;
             },
           );
           if (depth !== "encyclopedic") {
-            allHtml += `<p class="prov passage-prov"><span class="badge ok" data-source-ids="tanzil alquran-cloud-api" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Arabic from Tanzil Uthmani via alquran.cloud; translations rendered as published. Switch to Encyclopedic depth for a source line on every verse.</p>`;
+            allHtml += `<p class="prov passage-prov"><span class="badge ok" data-source-ids="tanzil alquran-cloud-api" aria-label="Verified" tabindex="0" title="Verified · confirmed from a primary source">●</span> Arabic from Tanzil Uthmani, bundled with this site; translations from alquran.cloud, rendered as published. Switch to Encyclopedic depth for a source line on every verse.</p>`;
           }
           container.innerHTML = allHtml;
           // The transport binds to the verse nodes that were just

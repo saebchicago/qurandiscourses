@@ -100,9 +100,10 @@ governance, privacy, learning, reach, and operational resilience is in the
   `data/network/`, `data/centrality/`, `data/coverage/`,
   `data/exports/`): GPL, per the Leeds corpus — see
   [NOTICE.md](NOTICE.md)
-- Tanzil verse text and the translation editions: fetched at runtime,
-  never bundled; Tanzil is CC BY-ND 3.0, translations keep their own
-  copyrights — see NOTICE.md
+- `data/quran-text/`: Tanzil Uthmani verse text, a verbatim copy under
+  Tanzil's terms (CC BY 3.0, no changes allowed, notice retained)
+- Translation editions: fetched at runtime, never bundled; each keeps
+  its own copyright — see NOTICE.md
 - `data/gloss/` and `data/khan-interpretations.json`: quoted from
   Khan (2011), © Association for Qur'anic Understanding — see NOTICE.md
 - `assets/fonts/`: SIL Open Font License 1.1, license texts bundled

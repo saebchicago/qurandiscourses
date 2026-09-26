@@ -756,7 +756,73 @@
     return editions;
   }
 
+  // The Arabic ships with the site (data/quran-text/, Tanzil's Uthmani
+  // file verbatim, built by scripts/build-quran-text.mjs), so only the
+  // translations go to alquran.cloud. The Arabic entry is shaped exactly
+  // like the API's quran-uthmani entry, so every caller reads it
+  // unchanged. If the bundled file cannot be read, each loader falls back
+  // to the old all-editions request. If the translations cannot be read,
+  // the Arabic still renders and the result carries `translationError`.
+  const localText = new Map();
+  function localSurah(n) {
+    if (!localText.has(n)) {
+      const p = fetch(`/data/quran-text/${n}.json`).then((r) => {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      });
+      p.catch(() => localText.delete(n));
+      localText.set(n, p);
+    }
+    return localText.get(n);
+  }
+  function surahHeader(sd) {
+    return {
+      number: sd.number,
+      name: sd.name,
+      englishName: sd.englishName,
+      englishNameTranslation: sd.englishNameTranslation,
+      revelationType: sd.revelationType,
+      numberOfAyahs: sd.numberOfAyahs,
+    };
+  }
+  // Arabic from the bundle, translations from the API, both at once.
+  // Resolves null when the bundle is unavailable (caller falls back).
+  async function withLocalArabic(surah, trUrl, pickArabic) {
+    const editions = editionList();
+    const tr = editions.slice(1);
+    const [local, trResult] = await Promise.all([
+      localSurah(surah).catch(() => null),
+      tr.length
+        ? apiCachedFetch(trUrl(tr.join(","))).then(
+            (d) => ({ data: d }),
+            (e) => ({ error: e }),
+          )
+        : Promise.resolve({ data: [] }),
+    ]);
+    if (!local) return null;
+    const arabic = pickArabic(local);
+    const trData = trResult.data || [];
+    const out = qdMarkEditionMismatches([arabic, ...trData], editions.slice(0, 1 + trData.length));
+    if (trResult.error) out.translationError = trResult.error;
+    return out;
+  }
+
   window.qdFetchVerse = async function (surah, ayah) {
+    const local = await withLocalArabic(
+      surah,
+      (eds) => `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/editions/${eds}`,
+      (sd) => {
+        const a = sd.ayahs[ayah - 1];
+        if (!a) {
+          // Same signal the API gives for a verse that does not exist.
+          const err = new Error("HTTP 404");
+          err.status = 404;
+          throw err;
+        }
+        return Object.assign({}, a, { edition: sd.edition, surah: surahHeader(sd) });
+      },
+    );
+    if (local) return local;
     const editions = editionList();
     const data = await apiCachedFetch(
       `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/editions/${editions.join(",")}`,
@@ -765,6 +831,12 @@
   };
 
   window.qdFetchSurah = async function (surah) {
+    const local = await withLocalArabic(
+      surah,
+      (eds) => `https://api.alquran.cloud/v1/surah/${surah}/editions/${eds}`,
+      (sd) => sd,
+    );
+    if (local) return local;
     const editions = editionList();
     const data = await apiCachedFetch(
       `https://api.alquran.cloud/v1/surah/${surah}/editions/${editions.join(",")}`,
@@ -781,13 +853,45 @@
   // matter how many surahs the juz spans, so juz 30 (37 surahs) is as
   // cheap as juz 2 (one). scripts/check-juz-endpoint.mjs guards the
   // contract this depends on.
+  // The juz's Arabic is assembled from the bundled surah files, bounded
+  // by data/juz.json (the same Tanzil division navigate.html shows), in
+  // the API's juz shape: each verse carries its `surah`.
+  let juzIndex = null;
+  async function localJuzArabic(juz) {
+    if (!juzIndex) {
+      juzIndex = fetch("/data/juz.json").then((r) => {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      });
+      juzIndex.catch(() => (juzIndex = null));
+    }
+    const b = (await juzIndex).juz.find((x) => x.juz === Number(juz));
+    if (!b) throw new Error("no juz " + juz);
+    const nums = [];
+    for (let n = b.startSurah; n <= b.endSurah; n++) nums.push(n);
+    const surahs = await Promise.all(nums.map(localSurah));
+    const ayahs = [];
+    surahs.forEach((sd) => {
+      const surah = surahHeader(sd);
+      sd.ayahs.forEach((a) => {
+        if (sd.number === b.startSurah && a.numberInSurah < b.startAyah) return;
+        if (sd.number === b.endSurah && a.numberInSurah > b.endAyah) return;
+        ayahs.push(Object.assign({}, a, { surah }));
+      });
+    });
+    return { edition: surahs[0].edition, ayahs };
+  }
+
   window.qdFetchJuz = async function (juz) {
     const editions = editionList();
     const parts = await Promise.all(
-      editions.map((ed) =>
-        apiCachedFetch(`https://api.alquran.cloud/v1/juz/${juz}/${ed}`).then(
+      editions.map((ed, i) =>
+        (i === 0
+          ? localJuzArabic(juz).catch(() => apiCachedFetch(`https://api.alquran.cloud/v1/juz/${juz}/${ed}`))
+          : apiCachedFetch(`https://api.alquran.cloud/v1/juz/${juz}/${ed}`)
+        ).then(
           (d) => ({ edition: ed, payload: d }),
-          () => ({ edition: ed, payload: null }),
+          (e) => ({ edition: ed, payload: null, error: e }),
         ),
       ),
     );
@@ -804,10 +908,13 @@
       edition: p.payload.edition || { identifier: p.edition },
       ayahs: p.payload.ayahs,
     }));
-    return qdMarkEditionMismatches(
+    const out = qdMarkEditionMismatches(
       data,
       kept.map((p) => p.edition),
     );
+    const trFailed = parts.slice(1).find((p) => p.error);
+    if (trFailed) out.translationError = trFailed.error;
+    return out;
   };
 
   const TOOLTIPS = {

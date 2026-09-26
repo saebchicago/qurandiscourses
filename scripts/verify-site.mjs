@@ -1221,7 +1221,18 @@ if (runCheck("targets") && !PAGE_FILTER && !LIVE) {
           const inline = /^inline/.test(cs.display) && around > own + 3;
           const cx = b.left + b.width / 2, cy = b.top + b.height / 2;
           const box = { left: cx - 12, right: cx + 12, top: cy - 12, bottom: cy + 12 };
-          const crowded = rects.some((o) => o.el !== el && !el.contains(o.el) && !o.el.contains(el) && intersects(box, o.b));
+          // A target in the page and one in a fixed overlay (the listening
+          // bar) only meet at one scroll offset; scrolling separates them,
+          // so they are not neighbours in the criterion's sense. Which
+          // content happens to sit under the bar at load depends on text
+          // length, not on spacing.
+          const fixedHost = (n) => {
+            for (let a = n; a && a !== document.body; a = a.parentElement)
+              if (getComputedStyle(a).position === "fixed") return a;
+            return null;
+          };
+          const fx = fixedHost(el);
+          const crowded = rects.some((o) => o.el !== el && !el.contains(o.el) && !o.el.contains(el) && fixedHost(o.el) === fx && intersects(box, o.b));
           if (!inline && crowded) under24[key(el)] = (under24[key(el)] || 0) + 1;
         }
         if (el.matches(CONTROL_44) && (b.height < 44 || b.width < 44)) under44[key(el)] = (under44[key(el)] || 0) + 1;
@@ -1300,10 +1311,20 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
     const state = await page.evaluate(() => ({
       retry: !!document.querySelector("#verseContainer #retryLoad"),
       offlineNote: /Offline view/.test(document.getElementById("verseContainer").innerText),
-      arCards: document.querySelectorAll("#verseContainer .ar").length,
+      translationNote: !!document.querySelector("#verseContainer [data-translation-error]"),
+      arCards: document.querySelectorAll("#verseContainer .verse .ar").length,
+      arText: (document.querySelector("#verseContainer .verse .ar") || {}).textContent || "",
     }));
-    const ok = (state.retry || state.offlineNote) && state.arCards >= 1;
-    report("read-offline", "read.html", ok, `retry=${state.retry} offlineNote=${state.offlineNote} arabicCards=${state.arCards}`);
+    // The Arabic ships with the site (data/quran-text/), so with the text
+    // service unreachable the passage still renders all three verses from
+    // the bundle, and says the translations are missing.
+    const ok = (state.retry || state.offlineNote || state.translationNote) && state.arCards >= 1;
+    report("read-offline", "read.html", ok, `retry=${state.retry} offlineNote=${state.offlineNote} translationNote=${state.translationNote} arabicCards=${state.arCards}`);
+    report(
+      "read-bundled-arabic", "read.html",
+      state.translationNote && state.arCards === 3 && /[\u0600-\u06FF]/.test(state.arText),
+      `API unreachable: ${state.arCards} verses rendered from data/quran-text/, translation note ${state.translationNote}`,
+    );
     report("read-offline-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
     await rctx.close();
   }

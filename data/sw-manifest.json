@@ -2,7 +2,7 @@
  "_generated": "scripts/build-sw-manifest.mjs — the service worker's precache list and content fingerprint. A hash diff here alongside an unchanged version is the reviewer's cue to consider a SW_VERSION bump (see docs/maintainer-guide.md).",
  "version": "v19",
  "hashes": {
-  "assets/app.js": "bc4dcfef3c5a6c2ee10c199a9a96ca049014acb111b601a484bb2e37a1e5425f",
+  "assets/app.js": "9e0574425cfd3292acefe202829736565d1314c6a3893ed24b19845fdaf0f9cd",
   "assets/ask-routes.js": "722afe4f7437f8bf8c8930a79d242f408b8f7158ed78fead1cd6676587fc482d",
   "assets/ask.js": "096eb8174d6bd72765c4b096ae3d670d20483a1a3a1aa538e5ce02f5e353ce69",
   "assets/audio-engine.js": "c6a281979cbf9484e441174cd17a4aa3b36b8cff2b3ff7e746555b61fb2a0784",
@@ -70,8 +70,8 @@
   "data/roots-index.json": "ede890265ea2ab92cf2355f546e261d341a40a66b66f33b10ad70528a216bbdd",
   "data/roots-list.json": "477cff50fa62cb1067125ba01b1a8ffc223b09b55daf4cb1d8d983c2ea2f8af3",
   "data/roots-summary.json": "c75bb05f6429f11483e470fce9579407cbbf6622e058846273a27afd8f6a5dc4",
-  "data/search-index.json": "fbc16c37b99594fb2b1b2481ac3134bb55844bef16c08735533f6fd19907166e",
-  "data/sources.json": "9e4b303bd18fd6ebd1630b95a50a148bfcdd5c4ed9e2d69daa42fa696b63775a",
+  "data/search-index.json": "1f343b7ef0502cb9f3707ac176b368de8e2af4f28d795c32f0a317e2365e5f94",
+  "data/sources.json": "ab1a47fe34db7c3fc293e5f4ab3d742ef2bf69680ccb886c700d76a680ec1a10",
   "data/structure-tests.json": "0993bdd2e10cb073478b9cd544ec2d9e3f1afe3e11a80e6531a48ed008667193",
   "data/surah-meta.json": "a3448191e3bfea6c15069ac2485478942e7cab6423216d772802b9cae4cb6454",
   "data/surah-names.json": "3be086be0718bc14568e7e2b5f4fb3217d7b80900ec5e5b38dd11d8763b27480",
@@ -85,7 +85,7 @@
   "index.html": "40993f7c3f109fe953ef14f438da949b2d5933a5dd46ac586a4e744a95583b7e",
   "navigate.html": "28a75dd0a0b60f1977a76e666f232d50100d8bee0878048b13aeebaaaf2edb2c",
   "paths.html": "ce0c6f8d9981a343e0daf56b4c7e0cadebde6d5028fcf10878891d6a31e385e8",
-  "read.html": "324861553d0978e11a926e77ac354693be68fd3fbe61ab639234d95f02ae2e49",
+  "read.html": "4b06ec79e87124f4606d7a7608f05e1639507169d76841a253fba7a0b10946cf",
   "search.html": "04832d10906503ccafaaef3ca36e7b8c545090be8e73746181fdf6c3bb04724f"
  }
 }
