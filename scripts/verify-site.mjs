@@ -1221,7 +1221,18 @@ if (runCheck("targets") && !PAGE_FILTER && !LIVE) {
           const inline = /^inline/.test(cs.display) && around > own + 3;
           const cx = b.left + b.width / 2, cy = b.top + b.height / 2;
           const box = { left: cx - 12, right: cx + 12, top: cy - 12, bottom: cy + 12 };
-          const crowded = rects.some((o) => o.el !== el && !el.contains(o.el) && !o.el.contains(el) && intersects(box, o.b));
+          // A target in the page and one in a fixed overlay (the listening
+          // bar) only meet at one scroll offset; scrolling separates them,
+          // so they are not neighbours in the criterion's sense. Which
+          // content happens to sit under the bar at load depends on text
+          // length, not on spacing.
+          const fixedHost = (n) => {
+            for (let a = n; a && a !== document.body; a = a.parentElement)
+              if (getComputedStyle(a).position === "fixed") return a;
+            return null;
+          };
+          const fx = fixedHost(el);
+          const crowded = rects.some((o) => o.el !== el && !el.contains(o.el) && !o.el.contains(el) && fixedHost(o.el) === fx && intersects(box, o.b));
           if (!inline && crowded) under24[key(el)] = (under24[key(el)] || 0) + 1;
         }
         if (el.matches(CONTROL_44) && (b.height < 44 || b.width < 44)) under44[key(el)] = (under44[key(el)] || 0) + 1;
@@ -1300,10 +1311,20 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
     const state = await page.evaluate(() => ({
       retry: !!document.querySelector("#verseContainer #retryLoad"),
       offlineNote: /Offline view/.test(document.getElementById("verseContainer").innerText),
-      arCards: document.querySelectorAll("#verseContainer .ar").length,
+      translationNote: !!document.querySelector("#verseContainer [data-translation-error]"),
+      arCards: document.querySelectorAll("#verseContainer .verse .ar").length,
+      arText: (document.querySelector("#verseContainer .verse .ar") || {}).textContent || "",
     }));
-    const ok = (state.retry || state.offlineNote) && state.arCards >= 1;
-    report("read-offline", "read.html", ok, `retry=${state.retry} offlineNote=${state.offlineNote} arabicCards=${state.arCards}`);
+    // The Arabic ships with the site (data/quran-text/), so with the text
+    // service unreachable the passage still renders all three verses from
+    // the bundle, and says the translations are missing.
+    const ok = (state.retry || state.offlineNote || state.translationNote) && state.arCards >= 1;
+    report("read-offline", "read.html", ok, `retry=${state.retry} offlineNote=${state.offlineNote} translationNote=${state.translationNote} arabicCards=${state.arCards}`);
+    report(
+      "read-bundled-arabic", "read.html",
+      state.translationNote && state.arCards === 3 && /[\u0600-\u06FF]/.test(state.arText),
+      `API unreachable: ${state.arCards} verses rendered from data/quran-text/, translation note ${state.translationNote}`,
+    );
     report("read-offline-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
     await rctx.close();
   }
@@ -2533,6 +2554,132 @@ if (runCheck("mobile") && !PAGE_FILTER && !LIVE) {
   const juzBack = await jp.evaluate(() => location.search);
   report("mobile-resume-juz", "read.html", /[?&]j=15\b/.test(juzBack), `bare /read with a juz last read opened ${juzBack}`);
   await jctx.close();
+}
+
+// ── Remaining audit items: load order, keeping data, Replay, home ────
+if (runCheck("finish") && !PAGE_FILTER && !LIVE) {
+  // /read loads its study-only scripts after the page has finished, so
+  // the first verse does not wait for them (~5.7s -> ~4.1s on a
+  // throttled phone when this landed). They must still arrive and work.
+  const LAZY = ["ask-routes", "ask", "glossary", "lenses", "discovery-worksheet", "cite-page", "feedback", "path-data", "path-ribbon", "issue-url"];
+  const readSrc = readFileSync(join(ROOT, "read.html"), "utf8");
+  const eager = LAZY.filter((n) => new RegExp(`<script src="assets/${n}\\.js"`).test(readSrc));
+  const fctx = await newContext({ apiMode: "stub" });
+  const page = await fctx.newPage();
+  const errors = [];
+  attachConsoleCollector(page, errors);
+  await page.goto(`${BASE}/read.html?s=103&a=1-3`, { waitUntil: "load" });
+  await page.waitForSelector("#verseContainer .verse", { timeout: 15000 }).catch(() => {});
+  await page.waitForTimeout(1500);
+  const late = await page.evaluate((names) => ({
+    loaded: names.filter((n) => [...document.scripts].some((s) => (s.getAttribute("src") || "") === `assets/${n}.js`)),
+    lensMounted: !!(document.getElementById("lensSection") || {}).firstChild,
+    worksheetMounted: !!(document.getElementById("discoveryWorksheetSection") || {}).firstChild,
+  }), LAZY);
+  report(
+    "lazy-study-scripts",
+    "read.html",
+    eager.length === 0 && late.loaded.length === LAZY.length && late.lensMounted && late.worksheetMounted,
+    `in the page's own markup: ${eager.join(", ") || "none"} (want none); loaded after the page: ${late.loaded.length}/${LAZY.length}; lens panel mounted=${late.lensMounted}, worksheet mounted=${late.worksheetMounted} (both catch up on the passage that loaded before them)`,
+  );
+
+  // Read's listening sheet links to Replay for the passage's surah.
+  const replayHref = await page.evaluate(() => (document.querySelector("#listenPanel [data-listen-replay]") || {}).getAttribute
+    ? document.querySelector("#listenPanel [data-listen-replay]").getAttribute("href") : null);
+  report("read-links-replay", "read.html", replayHref === "/replay?s=103&v=1", `sheet link: ${replayHref} (want /replay?s=103&v=1)`);
+
+  // One file out, and back in.
+  await page.evaluate(() => {
+    localStorage.setItem("qd_notes", JSON.stringify({ "103:2": { text: "Kept across devices", updated: "2026-09-26T00:00:00Z" } }));
+    localStorage.setItem("qd_listen_voice_v1", "fr.leclerc");
+  });
+  await page.click("#gearBtn");
+  const [download] = await Promise.all([
+    page.waitForEvent("download", { timeout: 5000 }).catch(() => null),
+    page.click("#exportData"),
+  ]);
+  let backup = null;
+  if (download) {
+    const path = await download.path();
+    try { backup = JSON.parse(readFileSync(path, "utf8")); } catch (e) {}
+  }
+  const exported = !!backup && backup.format === "divine-discourses-backup" &&
+    typeof backup.data.qd_notes === "string" && backup.data.qd_listen_voice_v1 === "fr.leclerc" &&
+    !("qd_apicache" in backup.data);
+  report(
+    "data-export",
+    "read.html",
+    exported,
+    backup ? `format=${backup.format}; keys ${Object.keys(backup.data).join(", ")}` : "no download",
+  );
+  if (backup) {
+    await page.evaluate(() => {
+      localStorage.removeItem("qd_notes");
+      localStorage.removeItem("qd_listen_voice_v1");
+    });
+    backup.data.evil_key = "x";
+    page.once("dialog", (d) => d.accept());
+    const reloaded = page.waitForNavigation({ waitUntil: "load", timeout: 10000 }).catch(() => null);
+    await page.setInputFiles("#importData", {
+      name: "divine-discourses-backup.json",
+      mimeType: "application/json",
+      buffer: Buffer.from(JSON.stringify(backup)),
+    });
+    await reloaded;
+    await page.waitForTimeout(800);
+  }
+  const restored = await page.evaluate(() => ({
+    note: (JSON.parse(localStorage.getItem("qd_notes") || "{}")["103:2"] || {}).text || "",
+    voice: localStorage.getItem("qd_listen_voice_v1"),
+    evil: localStorage.getItem("evil_key"),
+  }));
+  report(
+    "data-import",
+    "read.html",
+    restored.note === "Kept across devices" && restored.voice === "fr.leclerc" && restored.evil === null,
+    `restored note "${restored.note}", voice ${restored.voice}; unknown key written=${restored.evil !== null} (want false)`,
+  );
+  report("finish-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+  await fctx.close();
+
+  // Replay uses the voice chosen on Read.
+  const rctx = await newContext({ apiMode: "stub" });
+  await rctx.addInitScript(() => {
+    try {
+      localStorage.setItem("qd_listen_voice_v1", "ur.khan");
+      sessionStorage.setItem("qd_listen_tr_v1:ur.khan", JSON.stringify({ edition: "ur.khan", bitrate: 64 }));
+    } catch (e) {}
+  });
+  const rp = await rctx.newPage();
+  await rp.goto(`${BASE}/replay.html?s=103`, { waitUntil: "load" });
+  await rp.waitForTimeout(2000);
+  const rv = await rp.evaluate(() => ({
+    note: (document.getElementById("englishAudioNote") || {}).textContent || "",
+    lang: (document.getElementById("btnLang") || {}).textContent || "",
+  }));
+  report(
+    "replay-shares-voice",
+    "replay.html",
+    /ur\.khan/.test(rv.note) && /Arabic|Urdu/.test(rv.lang),
+    `note names ur.khan=${/ur\.khan/.test(rv.note)}; mode button "${rv.lang}"`,
+  );
+  await rctx.close();
+
+  // Home: the install offer follows the reading, not the other way round.
+  const hctx = await newContext({ apiMode: "stub" });
+  const hp = await hctx.newPage();
+  await hp.goto(`${BASE}/index.html`, { waitUntil: "load" });
+  const order = await hp.evaluate(() => {
+    const top = (id) => { const e = document.getElementById(id); return e ? Math.round(e.getBoundingClientRect().top + window.scrollY) : null; };
+    return { begin: top("beginSection"), daily: top("dailySection"), install: top("installSection") };
+  });
+  report(
+    "home-install-after-begin",
+    "index.html",
+    order.install > order.begin && order.begin > order.daily,
+    `Today's discourse at ${order.daily}, Begin at ${order.begin}, install at ${order.install}`,
+  );
+  await hctx.close();
 }
 
 // ── read.html: translation voices ─────────────────────────────────────

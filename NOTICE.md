@@ -20,14 +20,32 @@ order, four-period classification following the Nöldeke-Bell tradition as
 documented in Watt, "Bell's Introduction to the Qur'an" (1970). This is
 public-domain reference data.
 
-## Tanzil Quran text (runtime)
+## Tanzil Quran text (bundled)
 
 Verse text rendered on the Read and Compare pages is the Tanzil Uthmani
-text, served at runtime through the alquran.cloud API and cached in the
-visitor's browser. Tanzil distributes its text under **CC BY-ND 3.0**
-(attribution, no derivatives). This site does not modify the text and
-attributes Tanzil on every verse footer and in sources.html. No Tanzil
-text is bundled in this repository.
+text (Version 1.1), bundled in `data/quran-text/` as a verbatim copy of
+Tanzil's own download. `scripts/build-quran-text.mjs` writes it, run by
+`.github/workflows/quran-text.yml`. Tanzil's terms, as its file states
+them: Creative Commons Attribution 3.0; verbatim copies may be copied and
+distributed, but changing the text is not allowed; the source must be
+indicated with a link to tanzil.net; and the copyright notice must be
+included in every copy. The notice is reproduced verbatim in
+`data/quran-text/index.json` (`notice`), and below. This site does not
+modify the text and attributes Tanzil on every passage and in
+sources.html. Surah names and each verse's juz, page, ruku, hizb and
+sajda fields in those files come from the alquran.cloud API.
+
+```
+#  Tanzil Quran Text (Uthmani, Version 1.1)
+#  Copyright (C) 2007-2026 Tanzil Project
+#  License: Creative Commons Attribution 3.0
+```
+
+The full notice, including the terms of use, is in
+`data/quran-text/index.json`. Until September 2026 the text was fetched
+at runtime from alquran.cloud instead; that copy differed from Tanzil's
+current file in marks (not words) in 3,617 verses, recorded in the
+index as `servedCopyComparison`.
 
 The translation editions registered in `assets/app.js` (Saheeh
 International, Pickthall, Yusuf Ali, Muhammad Asad, and others across

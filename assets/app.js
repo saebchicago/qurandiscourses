@@ -260,6 +260,10 @@
     if (!state.progress) state.progress = { lastRead: null, exercises: {}, paths: {} };
     state.progress.lastRead = { s: s, a: String(a) };
     save();
+    // Kept for listeners that load after the passage does (/read loads
+    // its study panels late): they read this instead of waiting for the
+    // next qd:verse-loaded.
+    window.qdLastVerseLoaded = { s: s, a: String(a) };
     document.dispatchEvent(
       new CustomEvent("qd:verse-loaded", { detail: { s: s, a: String(a) } }),
     );
@@ -380,6 +384,13 @@
         <button id="clearPrefs">Clear preferences &amp; reading history</button>
       </div>
       <p class="small">This clears display choices, reading progress, and the passage cache from this browser. It does not delete study notes. <a href="/about#privacy">Privacy and data controls</a>.</p>
+      <h4>Your data</h4>
+      <div class="actions">
+        <button id="exportData">Save a copy of my data</button>
+        <label class="button secondary" for="importData" style="display:inline-flex;align-items:center;min-height:44px;cursor:pointer">Restore from a copy</label>
+        <input type="file" id="importData" accept="application/json,.json" hidden>
+      </div>
+      <p class="small">One file with your notes, pinned items, where you were reading, and your reading and listening choices, to move to another device or keep safe. Nothing leaves this browser unless you move the file yourself.</p>
     `;
 
     const transBtn = document.getElementById("openTransPicker");
@@ -415,6 +426,103 @@
         state.theme = themeSel.value;
         save();
         applyTheme();
+      });
+    // One file for everything the reader keeps in this browser, and a
+    // way back. Notes had their own Markdown export; reading place,
+    // pinned items, lens and worksheet entries and listening choices had
+    // none, so changing phones lost them. Only these keys are written or
+    // restored: never the passage cache, never anything a file adds.
+    const BACKUP_KEYS = [
+      "qd_state",
+      "qd_notes",
+      "qd_notebook_v1",
+      "qd_lenses_v1",
+      "qd_discovery_v1",
+      "qd_listen_mode_v2",
+      "qd_listen_voice_v1",
+    ];
+    const exportBtn = document.getElementById("exportData");
+    if (exportBtn)
+      exportBtn.addEventListener("click", () => {
+        const data = {};
+        BACKUP_KEYS.forEach((k) => {
+          try {
+            const v = localStorage.getItem(k);
+            if (v != null) data[k] = v;
+          } catch (e) {}
+        });
+        const blob = new Blob(
+          [
+            JSON.stringify(
+              {
+                format: "divine-discourses-backup",
+                version: 1,
+                exported: new Date().toISOString(),
+                data: data,
+              },
+              null,
+              1,
+            ),
+          ],
+          { type: "application/json" },
+        );
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "divine-discourses-backup.json";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+        if (window.qdToast) window.qdToast("Copy saved");
+      });
+    const importInput = document.getElementById("importData");
+    if (importInput)
+      importInput.addEventListener("change", () => {
+        const file = importInput.files && importInput.files[0];
+        importInput.value = "";
+        if (!file) return;
+        if (file.size > 5 * 1024 * 1024) {
+          if (window.qdToast) window.qdToast("That file is too large to be a copy from this site");
+          return;
+        }
+        file.text().then((text) => {
+          let parsed = null;
+          try {
+            parsed = JSON.parse(text);
+          } catch (e) {}
+          const data = parsed && parsed.format === "divine-discourses-backup" && parsed.data;
+          if (!data || typeof data !== "object") {
+            if (window.qdToast) window.qdToast("That file is not a copy saved from this site");
+            return;
+          }
+          const entries = BACKUP_KEYS.filter(
+            (k) => typeof data[k] === "string",
+          ).filter((k) => {
+            try {
+              JSON.parse(data[k]);
+              return true;
+            } catch (e) {
+              // The two listening choices are plain strings.
+              return k === "qd_listen_mode_v2" || k === "qd_listen_voice_v1";
+            }
+          });
+          if (!entries.length) {
+            if (window.qdToast) window.qdToast("That copy holds nothing to restore");
+            return;
+          }
+          if (
+            !window.confirm(
+              "Replace the notes, pinned items, reading place and choices in this browser with the ones in this copy?",
+            )
+          )
+            return;
+          entries.forEach((k) => {
+            try {
+              localStorage.setItem(k, data[k]);
+            } catch (e) {}
+          });
+          location.reload();
+        });
       });
     const clearBtn = document.getElementById("clearPrefs");
     if (clearBtn)
@@ -648,7 +756,73 @@
     return editions;
   }
 
+  // The Arabic ships with the site (data/quran-text/, Tanzil's Uthmani
+  // file verbatim, built by scripts/build-quran-text.mjs), so only the
+  // translations go to alquran.cloud. The Arabic entry is shaped exactly
+  // like the API's quran-uthmani entry, so every caller reads it
+  // unchanged. If the bundled file cannot be read, each loader falls back
+  // to the old all-editions request. If the translations cannot be read,
+  // the Arabic still renders and the result carries `translationError`.
+  const localText = new Map();
+  function localSurah(n) {
+    if (!localText.has(n)) {
+      const p = fetch(`/data/quran-text/${n}.json`).then((r) => {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      });
+      p.catch(() => localText.delete(n));
+      localText.set(n, p);
+    }
+    return localText.get(n);
+  }
+  function surahHeader(sd) {
+    return {
+      number: sd.number,
+      name: sd.name,
+      englishName: sd.englishName,
+      englishNameTranslation: sd.englishNameTranslation,
+      revelationType: sd.revelationType,
+      numberOfAyahs: sd.numberOfAyahs,
+    };
+  }
+  // Arabic from the bundle, translations from the API, both at once.
+  // Resolves null when the bundle is unavailable (caller falls back).
+  async function withLocalArabic(surah, trUrl, pickArabic) {
+    const editions = editionList();
+    const tr = editions.slice(1);
+    const [local, trResult] = await Promise.all([
+      localSurah(surah).catch(() => null),
+      tr.length
+        ? apiCachedFetch(trUrl(tr.join(","))).then(
+            (d) => ({ data: d }),
+            (e) => ({ error: e }),
+          )
+        : Promise.resolve({ data: [] }),
+    ]);
+    if (!local) return null;
+    const arabic = pickArabic(local);
+    const trData = trResult.data || [];
+    const out = qdMarkEditionMismatches([arabic, ...trData], editions.slice(0, 1 + trData.length));
+    if (trResult.error) out.translationError = trResult.error;
+    return out;
+  }
+
   window.qdFetchVerse = async function (surah, ayah) {
+    const local = await withLocalArabic(
+      surah,
+      (eds) => `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/editions/${eds}`,
+      (sd) => {
+        const a = sd.ayahs[ayah - 1];
+        if (!a) {
+          // Same signal the API gives for a verse that does not exist.
+          const err = new Error("HTTP 404");
+          err.status = 404;
+          throw err;
+        }
+        return Object.assign({}, a, { edition: sd.edition, surah: surahHeader(sd) });
+      },
+    );
+    if (local) return local;
     const editions = editionList();
     const data = await apiCachedFetch(
       `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/editions/${editions.join(",")}`,
@@ -657,6 +831,12 @@
   };
 
   window.qdFetchSurah = async function (surah) {
+    const local = await withLocalArabic(
+      surah,
+      (eds) => `https://api.alquran.cloud/v1/surah/${surah}/editions/${eds}`,
+      (sd) => sd,
+    );
+    if (local) return local;
     const editions = editionList();
     const data = await apiCachedFetch(
       `https://api.alquran.cloud/v1/surah/${surah}/editions/${editions.join(",")}`,
@@ -673,13 +853,45 @@
   // matter how many surahs the juz spans, so juz 30 (37 surahs) is as
   // cheap as juz 2 (one). scripts/check-juz-endpoint.mjs guards the
   // contract this depends on.
+  // The juz's Arabic is assembled from the bundled surah files, bounded
+  // by data/juz.json (the same Tanzil division navigate.html shows), in
+  // the API's juz shape: each verse carries its `surah`.
+  let juzIndex = null;
+  async function localJuzArabic(juz) {
+    if (!juzIndex) {
+      juzIndex = fetch("/data/juz.json").then((r) => {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      });
+      juzIndex.catch(() => (juzIndex = null));
+    }
+    const b = (await juzIndex).juz.find((x) => x.juz === Number(juz));
+    if (!b) throw new Error("no juz " + juz);
+    const nums = [];
+    for (let n = b.startSurah; n <= b.endSurah; n++) nums.push(n);
+    const surahs = await Promise.all(nums.map(localSurah));
+    const ayahs = [];
+    surahs.forEach((sd) => {
+      const surah = surahHeader(sd);
+      sd.ayahs.forEach((a) => {
+        if (sd.number === b.startSurah && a.numberInSurah < b.startAyah) return;
+        if (sd.number === b.endSurah && a.numberInSurah > b.endAyah) return;
+        ayahs.push(Object.assign({}, a, { surah }));
+      });
+    });
+    return { edition: surahs[0].edition, ayahs };
+  }
+
   window.qdFetchJuz = async function (juz) {
     const editions = editionList();
     const parts = await Promise.all(
-      editions.map((ed) =>
-        apiCachedFetch(`https://api.alquran.cloud/v1/juz/${juz}/${ed}`).then(
+      editions.map((ed, i) =>
+        (i === 0
+          ? localJuzArabic(juz).catch(() => apiCachedFetch(`https://api.alquran.cloud/v1/juz/${juz}/${ed}`))
+          : apiCachedFetch(`https://api.alquran.cloud/v1/juz/${juz}/${ed}`)
+        ).then(
           (d) => ({ edition: ed, payload: d }),
-          () => ({ edition: ed, payload: null }),
+          (e) => ({ edition: ed, payload: null, error: e }),
         ),
       ),
     );
@@ -696,10 +908,13 @@
       edition: p.payload.edition || { identifier: p.edition },
       ayahs: p.payload.ayahs,
     }));
-    return qdMarkEditionMismatches(
+    const out = qdMarkEditionMismatches(
       data,
       kept.map((p) => p.edition),
     );
+    const trFailed = parts.slice(1).find((p) => p.error);
+    if (trFailed) out.translationError = trFailed.error;
+    return out;
   };
 
   const TOOLTIPS = {

@@ -1,0 +1,549 @@
+{
+  "_computed": "2026-09-26",
+  "_method": "Verse text copied verbatim from Tanzil's Uthmani download (txt-2), leading byte-order mark removed. Surah names and each verse's juz, manzil, page, ruku, hizb-quarter and sajda fields from alquran.cloud's quran-uthmani edition, whose surah and verse numbering matched Tanzil's exactly.",
+  "sources": {
+    "text": {
+      "name": "Tanzil Quran Text (Uthmani)",
+      "url": "https://tanzil.net",
+      "download": "https://tanzil.net/pub/download/index.php?marks=true&sajdah=true&rub=true&alef=true&quranType=uthmani&outType=txt-2&agree=true"
+    },
+    "structure": {
+      "name": "alquran.cloud",
+      "url": "https://api.alquran.cloud/v1/quran/quran-uthmani"
+    }
+  },
+  "license": "Creative Commons Attribution 3.0; verbatim copies only, changing the text is not allowed (Tanzil terms of use).",
+  "notice": [
+    "# PLEASE DO NOT REMOVE OR CHANGE THIS COPYRIGHT BLOCK",
+    "#====================================================================",
+    "#",
+    "#  Tanzil Quran Text (Uthmani, Version 1.1)",
+    "#  Copyright (C) 2007-2026 Tanzil Project",
+    "#  License: Creative Commons Attribution 3.0",
+    "#",
+    "#  This copy of the Quran text is carefully produced, highly ",
+    "#  verified and continuously monitored by a group of specialists ",
+    "#  at Tanzil Project.",
+    "#",
+    "#  TERMS OF USE:",
+    "#",
+    "#  - Permission is granted to copy and distribute verbatim copies ",
+    "#    of this text, but CHANGING IT IS NOT ALLOWED.",
+    "#",
+    "#  - This Quran text can be used in any website or application, ",
+    "#    provided that its source (Tanzil Project) is clearly indicated, ",
+    "#    and a link is made to tanzil.net to enable users to keep",
+    "#    track of changes.",
+    "#",
+    "#  - This copyright notice shall be included in all verbatim copies ",
+    "#    of the text, and shall be reproduced appropriately in all files ",
+    "#    derived from or containing substantial portion of this text.",
+    "#",
+    "#  Please check updates at: http://tanzil.net/updates/",
+    "#",
+    "#===================================================================="
+  ],
+  "servedCopyComparison": {
+    "identical": 2619,
+    "differing": 3617,
+    "moreInServedCopy": [
+      {
+        "codePoint": "U+06ED",
+        "count": 4708
+      },
+      {
+        "codePoint": "U+06E2",
+        "count": 1935
+      },
+      {
+        "codePoint": "U+0621",
+        "count": 277
+      },
+      {
+        "codePoint": "U+06E6",
+        "count": 38
+      },
+      {
+        "codePoint": "U+0649",
+        "count": 2
+      }
+    ],
+    "moreInTanzil": [
+      {
+        "codePoint": "U+0640",
+        "count": 317
+      },
+      {
+        "codePoint": "U+0654",
+        "count": 277
+      },
+      {
+        "codePoint": "U+06E7",
+        "count": 38
+      },
+      {
+        "codePoint": "U+0020",
+        "count": 3
+      }
+    ]
+  },
+  "sha256": "f502f34512db57fca04ece7dbb76123aaa3cc515ac849137684f976682089254",
+  "surahs": [
+    {
+      "number": 1,
+      "numberOfAyahs": 7
+    },
+    {
+      "number": 2,
+      "numberOfAyahs": 286
+    },
+    {
+      "number": 3,
+      "numberOfAyahs": 200
+    },
+    {
+      "number": 4,
+      "numberOfAyahs": 176
+    },
+    {
+      "number": 5,
+      "numberOfAyahs": 120
+    },
+    {
+      "number": 6,
+      "numberOfAyahs": 165
+    },
+    {
+      "number": 7,
+      "numberOfAyahs": 206
+    },
+    {
+      "number": 8,
+      "numberOfAyahs": 75
+    },
+    {
+      "number": 9,
+      "numberOfAyahs": 129
+    },
+    {
+      "number": 10,
+      "numberOfAyahs": 109
+    },
+    {
+      "number": 11,
+      "numberOfAyahs": 123
+    },
+    {
+      "number": 12,
+      "numberOfAyahs": 111
+    },
+    {
+      "number": 13,
+      "numberOfAyahs": 43
+    },
+    {
+      "number": 14,
+      "numberOfAyahs": 52
+    },
+    {
+      "number": 15,
+      "numberOfAyahs": 99
+    },
+    {
+      "number": 16,
+      "numberOfAyahs": 128
+    },
+    {
+      "number": 17,
+      "numberOfAyahs": 111
+    },
+    {
+      "number": 18,
+      "numberOfAyahs": 110
+    },
+    {
+      "number": 19,
+      "numberOfAyahs": 98
+    },
+    {
+      "number": 20,
+      "numberOfAyahs": 135
+    },
+    {
+      "number": 21,
+      "numberOfAyahs": 112
+    },
+    {
+      "number": 22,
+      "numberOfAyahs": 78
+    },
+    {
+      "number": 23,
+      "numberOfAyahs": 118
+    },
+    {
+      "number": 24,
+      "numberOfAyahs": 64
+    },
+    {
+      "number": 25,
+      "numberOfAyahs": 77
+    },
+    {
+      "number": 26,
+      "numberOfAyahs": 227
+    },
+    {
+      "number": 27,
+      "numberOfAyahs": 93
+    },
+    {
+      "number": 28,
+      "numberOfAyahs": 88
+    },
+    {
+      "number": 29,
+      "numberOfAyahs": 69
+    },
+    {
+      "number": 30,
+      "numberOfAyahs": 60
+    },
+    {
+      "number": 31,
+      "numberOfAyahs": 34
+    },
+    {
+      "number": 32,
+      "numberOfAyahs": 30
+    },
+    {
+      "number": 33,
+      "numberOfAyahs": 73
+    },
+    {
+      "number": 34,
+      "numberOfAyahs": 54
+    },
+    {
+      "number": 35,
+      "numberOfAyahs": 45
+    },
+    {
+      "number": 36,
+      "numberOfAyahs": 83
+    },
+    {
+      "number": 37,
+      "numberOfAyahs": 182
+    },
+    {
+      "number": 38,
+      "numberOfAyahs": 88
+    },
+    {
+      "number": 39,
+      "numberOfAyahs": 75
+    },
+    {
+      "number": 40,
+      "numberOfAyahs": 85
+    },
+    {
+      "number": 41,
+      "numberOfAyahs": 54
+    },
+    {
+      "number": 42,
+      "numberOfAyahs": 53
+    },
+    {
+      "number": 43,
+      "numberOfAyahs": 89
+    },
+    {
+      "number": 44,
+      "numberOfAyahs": 59
+    },
+    {
+      "number": 45,
+      "numberOfAyahs": 37
+    },
+    {
+      "number": 46,
+      "numberOfAyahs": 35
+    },
+    {
+      "number": 47,
+      "numberOfAyahs": 38
+    },
+    {
+      "number": 48,
+      "numberOfAyahs": 29
+    },
+    {
+      "number": 49,
+      "numberOfAyahs": 18
+    },
+    {
+      "number": 50,
+      "numberOfAyahs": 45
+    },
+    {
+      "number": 51,
+      "numberOfAyahs": 60
+    },
+    {
+      "number": 52,
+      "numberOfAyahs": 49
+    },
+    {
+      "number": 53,
+      "numberOfAyahs": 62
+    },
+    {
+      "number": 54,
+      "numberOfAyahs": 55
+    },
+    {
+      "number": 55,
+      "numberOfAyahs": 78
+    },
+    {
+      "number": 56,
+      "numberOfAyahs": 96
+    },
+    {
+      "number": 57,
+      "numberOfAyahs": 29
+    },
+    {
+      "number": 58,
+      "numberOfAyahs": 22
+    },
+    {
+      "number": 59,
+      "numberOfAyahs": 24
+    },
+    {
+      "number": 60,
+      "numberOfAyahs": 13
+    },
+    {
+      "number": 61,
+      "numberOfAyahs": 14
+    },
+    {
+      "number": 62,
+      "numberOfAyahs": 11
+    },
+    {
+      "number": 63,
+      "numberOfAyahs": 11
+    },
+    {
+      "number": 64,
+      "numberOfAyahs": 18
+    },
+    {
+      "number": 65,
+      "numberOfAyahs": 12
+    },
+    {
+      "number": 66,
+      "numberOfAyahs": 12
+    },
+    {
+      "number": 67,
+      "numberOfAyahs": 30
+    },
+    {
+      "number": 68,
+      "numberOfAyahs": 52
+    },
+    {
+      "number": 69,
+      "numberOfAyahs": 52
+    },
+    {
+      "number": 70,
+      "numberOfAyahs": 44
+    },
+    {
+      "number": 71,
+      "numberOfAyahs": 28
+    },
+    {
+      "number": 72,
+      "numberOfAyahs": 28
+    },
+    {
+      "number": 73,
+      "numberOfAyahs": 20
+    },
+    {
+      "number": 74,
+      "numberOfAyahs": 56
+    },
+    {
+      "number": 75,
+      "numberOfAyahs": 40
+    },
+    {
+      "number": 76,
+      "numberOfAyahs": 31
+    },
+    {
+      "number": 77,
+      "numberOfAyahs": 50
+    },
+    {
+      "number": 78,
+      "numberOfAyahs": 40
+    },
+    {
+      "number": 79,
+      "numberOfAyahs": 46
+    },
+    {
+      "number": 80,
+      "numberOfAyahs": 42
+    },
+    {
+      "number": 81,
+      "numberOfAyahs": 29
+    },
+    {
+      "number": 82,
+      "numberOfAyahs": 19
+    },
+    {
+      "number": 83,
+      "numberOfAyahs": 36
+    },
+    {
+      "number": 84,
+      "numberOfAyahs": 25
+    },
+    {
+      "number": 85,
+      "numberOfAyahs": 22
+    },
+    {
+      "number": 86,
+      "numberOfAyahs": 17
+    },
+    {
+      "number": 87,
+      "numberOfAyahs": 19
+    },
+    {
+      "number": 88,
+      "numberOfAyahs": 26
+    },
+    {
+      "number": 89,
+      "numberOfAyahs": 30
+    },
+    {
+      "number": 90,
+      "numberOfAyahs": 20
+    },
+    {
+      "number": 91,
+      "numberOfAyahs": 15
+    },
+    {
+      "number": 92,
+      "numberOfAyahs": 21
+    },
+    {
+      "number": 93,
+      "numberOfAyahs": 11
+    },
+    {
+      "number": 94,
+      "numberOfAyahs": 8
+    },
+    {
+      "number": 95,
+      "numberOfAyahs": 8
+    },
+    {
+      "number": 96,
+      "numberOfAyahs": 19
+    },
+    {
+      "number": 97,
+      "numberOfAyahs": 5
+    },
+    {
+      "number": 98,
+      "numberOfAyahs": 8
+    },
+    {
+      "number": 99,
+      "numberOfAyahs": 8
+    },
+    {
+      "number": 100,
+      "numberOfAyahs": 11
+    },
+    {
+      "number": 101,
+      "numberOfAyahs": 11
+    },
+    {
+      "number": 102,
+      "numberOfAyahs": 8
+    },
+    {
+      "number": 103,
+      "numberOfAyahs": 3
+    },
+    {
+      "number": 104,
+      "numberOfAyahs": 9
+    },
+    {
+      "number": 105,
+      "numberOfAyahs": 5
+    },
+    {
+      "number": 106,
+      "numberOfAyahs": 4
+    },
+    {
+      "number": 107,
+      "numberOfAyahs": 7
+    },
+    {
+      "number": 108,
+      "numberOfAyahs": 3
+    },
+    {
+      "number": 109,
+      "numberOfAyahs": 6
+    },
+    {
+      "number": 110,
+      "numberOfAyahs": 3
+    },
+    {
+      "number": 111,
+      "numberOfAyahs": 5
+    },
+    {
+      "number": 112,
+      "numberOfAyahs": 4
+    },
+    {
+      "number": 113,
+      "numberOfAyahs": 5
+    },
+    {
+      "number": 114,
+      "numberOfAyahs": 6
+    }
+  ]
+}

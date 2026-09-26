@@ -392,6 +392,11 @@
       currentSurah = e.detail.s;
       render();
     });
+    // Loaded after the passage (as /read does): catch up on it.
+    if (window.qdLastVerseLoaded) {
+      currentSurah = window.qdLastVerseLoaded.s;
+      render();
+    }
   }
 
   if (document.readyState === "loading") {

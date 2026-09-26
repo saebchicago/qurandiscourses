@@ -39,9 +39,26 @@
     return document.getElementById(id);
   }
 
+  // The listening choices the Read page saves: which translation voice,
+  // and Arabic / translation / both. Replay reads and writes the same
+  // keys, so a reader sets them once for the whole site.
+  var MODE_KEY = "qd_listen_mode_v2";
+  var VOICE_KEY = "qd_listen_voice_v1";
+  function stored(key) {
+    try {
+      return localStorage.getItem(key);
+    } catch (e) {
+      return null;
+    }
+  }
+  function voice() {
+    var byId = window.qdAudioEngine && window.qdAudioEngine.translationById;
+    return (byId && (byId(engine ? engine.translationId : stored(VOICE_KEY)) || byId("en.walk"))) || null;
+  }
   function modeLabel(mode) {
-    if (mode === "en") return "English";
-    if (mode === "ar-en") return "Arabic + English";
+    var lang = voice() ? voice().language : "English";
+    if (mode === "en") return lang;
+    if (mode === "ar-en") return "Arabic + " + lang;
     return "Arabic";
   }
 
@@ -287,11 +304,20 @@
     var note = document.createElement("p");
     note.id = "englishAudioNote";
     note.className = "caption-note";
+    var v = voice();
+    var english = !v || v.edition === "en.walk";
     note.innerHTML =
-      "English audio is the fixed verse-by-verse edition alquran.cloud names " +
-      "<code>en.walk</code> · Ibrahim Walk. Its rights holder and license are " +
-      'not established by the registry or CDN, so <a href="/sources">Sources</a> marks it ' +
-      '<span class="badge pending" data-source-ids="islamic-network-audio-en" aria-label="Pending" tabindex="0" title="Pending · awaiting triangulation from a second independent source">○</span> Pending.';
+      window.qdEsc(v ? v.language : "English") +
+      " audio is the fixed verse-by-verse edition alquran.cloud names " +
+      "<code>" + window.qdEsc(v ? v.edition : "en.walk") + "</code>" +
+      (v && v.reader && v.reader !== v.language ? " · " + window.qdEsc(v.reader) : "") +
+      ". Its rights holder and license are " +
+      'not established by the registry or CDN, so <a href="/sources#' +
+      (english ? "english-audio-source" : "translation-audio-source") +
+      '">Sources</a> marks it ' +
+      '<span class="badge pending" data-source-ids="' +
+      (english ? "islamic-network-audio-en" : "islamic-network-audio-translations") +
+      '" aria-label="Pending" tabindex="0" title="Pending · recording rights unresolved">○</span> Pending.';
     transport.insertAdjacentElement("afterend", note);
     if (window.qdCiteEnhance) window.qdCiteEnhance(note);
   }
@@ -521,7 +547,12 @@
     // own hard-coded 128kbps path — which is why three of the five
     // reciters were silent here too. It now gains, for free, all three
     // language modes, speed, repeat, preloading and lock-screen control.
+    var savedVoice = stored(VOICE_KEY);
     engine = window.qdAudioEngine.create({
+      translation:
+        window.qdAudioEngine.translationById && window.qdAudioEngine.translationById(savedVoice)
+          ? savedVoice
+          : "en.walk",
       album: "Replay · Divine Discourses",
       labelFor: function (item) {
         return item.surahName + " " + item.surah + ":" + item.ayah;
@@ -532,8 +563,10 @@
         if (btn) {
           btn.removeAttribute("aria-pressed");
           btn.hidden = false;
-          onEngineState(engine.state());
         }
+        var savedMode = stored(MODE_KEY);
+        if (!engine.armed && (savedMode === "en" || savedMode === "ar-en")) engine.setMode(savedMode);
+        onEngineState(engine.state());
         ensureEnglishNote();
       },
     });
@@ -585,6 +618,9 @@
         if (!engine) return;
         var next = engine.mode === "ar" ? "en" : engine.mode === "en" ? "ar-en" : "ar";
         engine.setMode(next);
+        try {
+          localStorage.setItem(MODE_KEY, engine.mode);
+        } catch (e) {}
       });
     $("reciterBtn").addEventListener("click", openReciterModal);
     $("reciterName").textContent = reciterLabel();

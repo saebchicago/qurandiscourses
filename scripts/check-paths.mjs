@@ -158,8 +158,14 @@ const ribbonPages = new Set(
    "roots", "search", "sources", "themes", "validation", "watch", "words"]
     .filter((n) => {
       try {
-        return readFileSync(join(ROOT, n + ".html"), "utf8").includes(
-          'src="assets/path-ribbon.js"',
+        // Directly, or through assets/lazy.js's data-lazy list (read.html
+        // loads its study scripts after the page has finished).
+        const html = readFileSync(join(ROOT, n + ".html"), "utf8");
+        return (
+          html.includes('src="assets/path-ribbon.js"') ||
+          [...html.matchAll(/data-lazy="([^"]*)"/g)].some((m) =>
+            m[1].split(/\s+/).includes("assets/path-ribbon.js"),
+          )
         );
       } catch {
         return false;
