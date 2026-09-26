@@ -48,11 +48,10 @@
       "url": "https://arxiv.org/pdf/1510.07193",
       "pdf": true,
       "patterns": [
-        "77,4\\d\\d",
-        "\\d[\\d,]{3,} (segments|roots|lemmas)"
+        "77,4\\d\\d"
       ],
-      "head": 30,
-      "context": 3
+      "head": 8,
+      "context": 2
     }
   ]
 }

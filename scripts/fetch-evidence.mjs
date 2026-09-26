@@ -134,7 +134,19 @@ for (const p of list.pages) {
         .replace(/<[^>]+>/g, " "),
     );
   }
-  const lines = text.split(/\n/).map((l) => l.replace(/\s+/g, " ").trim()).filter(Boolean);
+  // pdftotext separates pages with a form feed; keep each line's PDF page
+  // (the page's position in the file, which may differ from the number
+  // printed on it) so a quote can be cited to its page.
+  const lines = [];
+  const pageOf = [];
+  text.split("\f").forEach((pg, pi) => {
+    for (const raw of pg.split(/\n/)) {
+      const l = raw.replace(/\s+/g, " ").trim();
+      if (!l) continue;
+      lines.push(l);
+      pageOf.push(pi + 1);
+    }
+  });
   const res = p.patterns.map((s) => new RegExp(s, "i"));
   const ctx = p.context || 0;
   for (let i = 0; i < Math.min(p.head || 0, lines.length); i++) console.log(`    [head ${i + 1}] ${lines[i].slice(0, 400)}`);
@@ -144,7 +156,7 @@ for (const p of list.pages) {
     if (shown >= MAX_LINES || !res.some((r) => r.test(l))) return;
     shown++;
     for (let j = Math.max(last + 1, i - ctx); j <= Math.min(lines.length - 1, i + ctx); j++) {
-      console.log(`    [line ${j + 1}]${j === i ? "*" : " "} ${lines[j].slice(0, 400)}`);
+      console.log(`    [line ${j + 1}${p.pdf ? `, pdf p. ${pageOf[j]}` : ""}]${j === i ? "*" : " "} ${lines[j].slice(0, 400)}`);
       last = j;
     }
   });
