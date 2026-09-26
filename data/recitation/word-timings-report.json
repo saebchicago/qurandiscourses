@@ -1,0 +1,24 @@
+{
+ "_computed": "2026-09-26",
+ "_source": "github.com/cpfair/quran-align, release release-2016-11-24",
+ "_method": "Each candidate's last-word end time per verse compared with data/recitation/durations.json; pass criteria in scripts/build-word-timings.mjs, fixed before the data was seen.",
+ "criteria": {
+  "coverage": 0.99,
+  "fit": 0.98,
+  "fitLo": -150,
+  "fitHi": 3000,
+  "r": 0.99
+ },
+ "licence": {
+  "path": "LICENSE",
+  "excerpt": "Copyright (c) 2016 Collin Fair\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SO"
+ },
+ "assets": [
+  {
+   "name": "quran-align-data-2016-11-24.zip",
+   "size": 5807871
+  }
+ ],
+ "candidates": [],
+ "bundled": []
+}
