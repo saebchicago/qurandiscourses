@@ -106,6 +106,7 @@ for (const path of ["LICENSE", "README.md"]) {
 }
 
 const work = mkdtempSync(join(tmpdir(), "qalign-"));
+const unreadable = [];
 function readAsset(buf, name) {
   const out = [];
   if (/\.zip$/i.test(name)) {
@@ -115,7 +116,16 @@ function readAsset(buf, name) {
     mkdirSync(dir, { recursive: true });
     execFileSync("unzip", ["-q", "-o", zip, "-d", dir]);
     const walk = (d) => readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(join(d, e.name)) : [join(d, e.name)]));
-    for (const f of walk(dir)) if (/\.json$/i.test(f)) out.push({ file: f.slice(dir.length + 1), data: JSON.parse(readFileSync(f, "utf8")) });
+    for (const f of walk(dir)) {
+      if (!/\.json$/i.test(f)) continue;
+      const file = f.slice(dir.length + 1);
+      // One unreadable file must not hide the rest of the archive.
+      try {
+        out.push({ file, data: JSON.parse(readFileSync(f, "utf8")) });
+      } catch (e) {
+        unreadable.push({ file: `${name}/${file}`, error: e.message.slice(0, 120) });
+      }
+    }
   } else if (/\.json$/i.test(name)) {
     out.push({ file: name, data: JSON.parse(buf.toString("utf8")) });
   }
@@ -160,6 +170,8 @@ for (const asset of assets) {
   }
 }
 report.files = [...assetFiles].flatMap(([a, fs]) => fs.map((f) => `${a}/${f.file}`));
+report.unreadable = unreadable;
+for (const u of unreadable) console.log(`Unreadable: ${u.file} (${u.error})`);
 for (const [reciter, re] of Object.entries(CANDIDATES)) {
   const ours = durations.durations[reciter];
   if (!ours) continue;
