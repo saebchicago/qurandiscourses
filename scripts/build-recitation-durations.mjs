@@ -89,6 +89,25 @@ function parseFrame(buf, off) {
     const sampleRate = RATES[ver][srIdx];
     const mono = ((buf[i + 3] >> 6) & 3) === 3;
     const samples = layer === 1 ? 384 : layer === 2 ? 1152 : ver === 3 ? 1152 : 576;
+    // A lone 0xFFE bit pattern can occur inside tag data. Accept a header
+    // only if the next frame starts exactly where this one ends and agrees
+    // on version, layer and sample rate (or the buffer ends first).
+    const pad = (buf[i + 2] >> 1) & 1;
+    const len =
+      layer === 1
+        ? (Math.floor((12000 * kbps) / sampleRate) + pad) * 4
+        : Math.floor(((layer === 3 && ver !== 3 ? 72000 : 144000) * kbps) / sampleRate) + pad;
+    const j = i + len;
+    if (len < 24) continue;
+    if (j + 4 <= buf.length) {
+      const nextOk =
+        buf[j] === 0xff &&
+        (buf[j + 1] & 0xe0) === 0xe0 &&
+        ((buf[j + 1] >> 3) & 3) === ver &&
+        ((buf[j + 1] >> 1) & 3) === layerBits &&
+        ((buf[j + 2] >> 2) & 3) === srIdx;
+      if (!nextOk) continue;
+    }
     return { at: i, ver, layer, kbps, sampleRate, mono, samples };
   }
   return null;
@@ -147,9 +166,9 @@ async function measure(url) {
   const f = parseFrame(head, offset === 0 ? audioStart : 0);
   if (!f) throw new Error(`${url}: no MPEG frame found`);
   const fc = frameCount(head, f);
-  if (fc) return { ms: Math.round((fc.frames * f.samples * 1000) / f.sampleRate), kind: fc.kind, kbps: f.kbps };
+  if (fc) return { ms: Math.round((fc.frames * f.samples * 1000) / f.sampleRate), kind: fc.kind, kbps: f.kbps, total };
   const audioBytes = total - (offset === 0 ? f.at : audioStart + f.at);
-  return { ms: Math.round((audioBytes * 8) / f.kbps), kind: "CBR", kbps: f.kbps };
+  return { ms: Math.round((audioBytes * 8) / f.kbps), kind: "CBR", kbps: f.kbps, total };
 }
 
 async function pool(items, fn) {
@@ -193,6 +212,20 @@ async function main() {
       console.error(`${r.id}: ${bad.length} implausible durations, e.g. ${bad.slice(0, 5).map((b) => `${b.n}=${b.m.ms}ms`).join(", ")}`);
       process.exit(1);
     }
+    // Report, for a person to read: files whose first frame's bitrate is
+    // not the directory's, and verses whose pace is far from this
+    // reciter's own median (seconds per byte of the file, which does not
+    // depend on the header parse).
+    const odd = res.map((m, i) => ({ m, n: i + 1 })).filter(({ m }) => m.kbps !== r.bitrate);
+    if (odd.length)
+      console.log(`  ${odd.length} files whose frame bitrate differs from ${r.bitrate}: ` +
+        odd.slice(0, 12).map(({ m, n }) => `${n} (${m.kind} ${m.kbps} kbps, ${m.ms} ms, ${m.total} B)`).join("; "));
+    const msPerByte = res.map((m) => m.ms / m.total);
+    const med = [...msPerByte].sort((a, b) => a - b)[msPerByte.length >> 1];
+    const far = msPerByte.map((x, i) => ({ x, n: i + 1 })).filter(({ x }) => x > med * 1.5 || x < med / 1.5);
+    if (far.length)
+      console.log(`  ${far.length} files whose ms per byte is more than 1.5x off this reciter's median: ` +
+        far.slice(0, 12).map(({ x, n }) => `${n} (${res[n - 1].kind} ${res[n - 1].kbps} kbps, ${res[n - 1].ms} ms)`).join("; "));
     durations[r.id] = res.map((m) => m.ms);
     const kinds = {};
     const rates = {};
