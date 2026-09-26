@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-09-surah-reference-pages",
+   "year": "2026",
+   "month": "September",
+   "html": "\n              <strong>A reference page for every surah.</strong> Each of the 114\n              surahs now has a plain page at <code>/surah/&lt;number&gt;</code>\n              (for example <a href=\"/surah/36\">/surah/36</a>): verse and\n              word-unit counts, classification and revelation order, juz and\n              mushaf pages, listening time for each reciter, most frequent\n              roots, the computed sections, themes whose vocabulary clusters\n              there, recurring phrases, verse endings, and the full Arabic text\n              from Tanzil with its notice. Everything is read from the site's\n              own data files and readable with JavaScript off, so search and\n              answer engines can find and cite it. <a href=\"/navigate\">Navigate</a>\n              links to all of them. Also: the sitemap's dates now follow each\n              page's real changes, and one uncited appeal to \"academic\n              literature\" on Numbers is gone.\n            "
+  },
+  {
    "id": "2026-09-v130-new-tables-and-recitation-pace",
    "year": "2026",
    "month": "September",

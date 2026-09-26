@@ -13,7 +13,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { join, normalize, extname } from "node:path";
 
 const PUBLIC_DIRECTORIES = new Set([
-  "assets", "data", "docs", "js", "s", ".well-known",
+  "assets", "data", "docs", "js", "s", "surah", ".well-known",
 ]);
 const PUBLIC_ROOT_EXTENSIONS = new Set([
   ".html", ".xml", ".txt", ".webmanifest",

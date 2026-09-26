@@ -45,6 +45,11 @@ const PAGES = [
   "about.html", "credits.html",
 ];
 
+// The generated surah reference pages, in mushaf order, and the export
+// tables as schema.json declares them.
+const SURAH_PAGES = Array.from({ length: 114 }, (_, i) => `surah/${i + 1}.html`);
+const exportTables = readJson("data/exports/schema.json").tables;
+
 const meta = (file) => {
   const html = readText(file);
   const title = (html.match(/<title>([\s\S]*?)<\/title>/) || [, file])[1]
@@ -94,14 +99,23 @@ function indexBody() {
     "",
     "## Data",
     "",
-    `- [Export tables](${SITE}/export): root-frequencies, association-pairs, surah-stats, verse-lengths as CSV and JSON, with schema.json and DATA-DICTIONARY.md alongside`,
+    `- [Export tables](${SITE}/export): ${Object.keys(exportTables).length} tables (${Object.keys(exportTables).sort().join(", ")}) as CSV and JSON, with schema.json and DATA-DICTIONARY.md alongside`,
     `- [Dataset documentation](${SITE}/datasets): every bundled dataset with its generator script and license`,
     `- [Coverage report](${SITE}/coverage): measured completeness and counting-rule sensitivity`,
     `- [Claims ledger](${SITE}/validation): per-claim evidence records with permalinks`,
     "",
     `Full page text for grounding: ${SITE}/llms-full.txt`,
     "",
+    "## Surahs",
+    "",
+    "One static reference page per surah (scripts/build-surah-pages.mjs): verse and word-unit counts, classification, revelation order, juz and pages, listening time per reciter, top roots, computed sections, and the Arabic text.",
+    "",
   );
+  for (const f of SURAH_PAGES) {
+    const { title, desc } = meta(f);
+    lines.push(`- [${title.replace(/\s*·\s*Divine Discourses\s*$/, "")}](${SITE}/${f.replace(/\.html$/, "")}): ${desc}`);
+  }
+  lines.push("");
   return lines.join("\n");
 }
 

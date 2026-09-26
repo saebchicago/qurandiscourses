@@ -159,6 +159,8 @@ if (runCheck("sitemap") && !PAGE_FILTER) {
     }
   }
   for (const loc of sitemapLocs) {
+    // Generated surah reference pages live one directory down.
+    if (/^\/surah\/\d+$/.test(loc) && existsSync(join(ROOT, loc.slice(1) + ".html"))) continue;
     if (!pathOf.has(loc)) {
       report("sitemap", loc, false, "sitemap entry has no file on disk");
     }
@@ -1172,7 +1174,7 @@ if (runCheck("renders") && !PAGE_FILTER && !LIVE) {
 // — buttons, transport, nav entries, form fields, disclosures — hold to
 // 44, which is what the maintainer guide already asks of them.
 if (runCheck("targets") && !PAGE_FILTER && !LIVE) {
-  const TARGET_PAGES = ["index", "read", "navigate", "dossier", "roots", "numbers", "glossary", "search", "sources", "paths", "exercises", "replay"];
+  const TARGET_PAGES = ["index", "read", "navigate", "dossier", "roots", "numbers", "glossary", "search", "sources", "paths", "exercises", "replay", "surah/36"];
   const CONTROL_44 = ".button, .btn-primary, .btn-secondary, .btn-utility, nav.primary .nav-menu a, .nav-group-btn, .listen-btn, .verse-listen-btn, .verse-more-btn, .verse-note-mark, .verse .meta .vref, .read-context-ref, .verse-count-btn, .depth-toggle button, .qd-chip, .method-note summary, input[type=text], input[type=search], input[type=number], select, .replay-transport button";
   for (const p of TARGET_PAGES) {
     const tctx = await newContext({ apiMode: "stub" });
@@ -3458,6 +3460,59 @@ if (runCheck("refretry") && (!PAGE_FILTER || PAGE_FILTER === "numbers.html")) {
 // row and column indices. Nothing here re-derives the page's column
 // sort — the surah is read out of the sentence and looked up — so the
 // check cannot pass by repeating the renderer's own mistake.
+// Surah reference pages (surah/<n>.html, build-surah-pages.mjs): the
+// facts a crawler or answer engine reads must be in the HTML itself,
+// match the data files, and survive with JavaScript off; the page must
+// run clean under its script-free CSP.
+if (runCheck("surahpages") && !LIVE) {
+  const prof = JSON.parse(readFileSync(join(ROOT, "data/surah-profiles.json"), "utf8")).surahs;
+  const paceData = JSON.parse(readFileSync(join(ROOT, "data/recitation/pace.json"), "utf8"));
+  for (const n of [1, 36, 114]) {
+    const html = readFileSync(join(ROOT, `surah/${n}.html`), "utf8");
+    const inline = [...html.matchAll(/<script(?![^>]*\bsrc=)(?![^>]*application\/ld\+json)[^>]*>/g)].length;
+    const styleEls = (html.match(/<style\b/g) || []).length;
+    const verses = (html.match(/class="surah-verse"/g) || []).length;
+    const ok =
+      inline === 0 && styleEls === 0 &&
+      verses === prof[String(n)].verseCount &&
+      html.includes(`<link rel="canonical" href="https://divinediscourses.org/surah/${n}" />`) &&
+      new RegExp(`It has\\s+${prof[String(n)].verseCount.toLocaleString("en-US")} verses`).test(html);
+    report("surah-page-static", `surah/${n}.html`, ok, `inline scripts ${inline}, <style> ${styleEls}, verses in HTML ${verses} (want ${prof[String(n)].verseCount})`);
+  }
+  const sctx = await newContext({ javaScript: false });
+  const page = await sctx.newPage();
+  await page.goto(`${BASE}/surah/36`, { waitUntil: "load" });
+  const nojs = await page.evaluate(() => ({
+    title: (document.querySelector(".surah-title") || {}).textContent || "",
+    reciters: document.querySelectorAll("#listening ~ table tbody tr").length,
+    facts: document.querySelectorAll(".surah-facts tr").length,
+    prev: !!document.querySelector('.surah-pager a[rel="prev"][href="/surah/35"]'),
+    next: !!document.querySelector('.surah-pager a[rel="next"][href="/surah/37"]'),
+  }));
+  report(
+    "surah-page-nojs", "surah/36.html",
+    /Yasin/.test(nojs.title) && nojs.reciters === paceData.reciters.length && nojs.facts >= 10 && nojs.prev && nojs.next,
+    `JS off: title "${nojs.title.trim()}", ${nojs.reciters} reciter rows (want ${paceData.reciters.length}), ${nojs.facts} fact rows, pager ${nojs.prev && nojs.next}`,
+  );
+  await sctx.close();
+  const jctx = await newContext();
+  const jp = await jctx.newPage();
+  const errs = [];
+  attachConsoleCollector(jp, errs);
+  await jp.goto(`${BASE}/surah/36`, { waitUntil: "load" });
+  await jp.waitForTimeout(400);
+  const listed = await (async () => {
+    const nav = await jctx.newPage();
+    await nav.goto(`${BASE}/navigate`, { waitUntil: "load" });
+    const c = await nav.evaluate(() => document.querySelectorAll('.surah-page-list a[href^="/surah/"]').length);
+    await nav.close();
+    return c;
+  })();
+  report("surah-page-console", "surah/36.html", errs.length === 0, errs.slice(0, 3).join(" | ") || "clean");
+  report("surah-pages-linked", "navigate.html", listed === 114, `${listed} links to /surah/<n> on Navigate (want 114)`);
+  await jctx.close();
+}
+
 // Recitation pace: one row per reciter the reader can choose on /read,
 // each with a listening time and pace, matching data/recitation/pace.json.
 if (runCheck("pace") && (!PAGE_FILTER || PAGE_FILTER === "numbers.html")) {

@@ -40,7 +40,8 @@ them: Creative Commons Attribution 3.0; verbatim copies may be copied and
 distributed, but changing the text is not allowed; the source must be
 indicated with a link to tanzil.net; and the copyright notice must be
 included in every copy. The notice is reproduced verbatim in
-`data/quran-text/index.json` (`notice`), and below. This site does not
+`data/quran-text/index.json` (`notice`), in every generated surah page
+(`surah/<n>.html`, which carry the text), and below. This site does not
 modify the text and attributes Tanzil on every passage and in
 sources.html. Surah names and each verse's juz, page, ruku, hizb and
 sajda fields in those files come from the alquran.cloud API.
@@ -183,7 +184,8 @@ licenses, listed above): `ask-routes.json` (the Ask box routing tables),
 `case-studies.json`, `citations.bib` (generated
 citation metadata for the site, its export tables, and its cited
 sources), `changelog.json` (the changelog entry registry behind changelog.html
-and feed.xml), `claims.json`, `contributors.json` (the contributor
+and feed.xml), `claims.json`, `page-dates.json` (when each page's content
+last changed, behind sitemap.xml and each page's dateModified), `contributors.json` (the contributor
 roster behind credits.html), `exercises.json`, `glossary.json` (the term
 registry behind assets/glossary.js and glossary.html), `juz.json`,
 `lenses.json` (the reading-lens registry behind assets/lenses.js:

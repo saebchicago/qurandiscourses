@@ -39,6 +39,25 @@ const sources = readJson("data/sources.json").sources;
 const glossary = readJson("data/glossary.json").terms;
 const paths = readJson("data/paths.json").paths;
 const claims = readJson("data/claims.json").claims;
+// When each page's content last changed (scripts/build-page-dates.mjs),
+// published as the WebPage's dateModified, the same date sitemap.xml
+// gives as <lastmod>.
+const pageDates = readJson("data/page-dates.json").pages;
+
+// The scholar whose method the site follows. Only facts stated on
+// about.html are carried here, so structured data never says more than
+// the page does.
+const KHAN = {
+  "@type": "Person",
+  "@id": `${SITE}/about#about-dr-khan`,
+  name: "Irfan Ahmad Khan",
+  honorificPrefix: "Dr.",
+  birthDate: "1931",
+  deathDate: "2018",
+  url: `${SITE}/about#about-dr-khan`,
+  description:
+    "Scholar of the Qur'an whose weekly tafsir lessons and published writings at the Association of Quranic Understanding developed the coherence-based reading this site follows.",
+};
 const schema = readJson("data/exports/schema.json");
 
 const OPEN = "<!-- JSONLD (build-jsonld.mjs) -->";
@@ -97,6 +116,13 @@ function datasetNodes() {
         creator: { "@type": "Organization", name: "Divine Discourses project", url: `${SITE}/about` },
         isBasedOn: "https://corpus.quran.com",
         license: "https://www.gnu.org/licenses/gpl-3.0.html",
+        citation: `${SITE}/about#cite`,
+        variableMeasured: t.fields.map((f) => ({
+          "@type": "PropertyValue",
+          name: f.name,
+          description: f.description,
+          ...(f.unit ? { unitText: f.unit } : {}),
+        })),
         distribution: ["csv", "json"].map((ext) => ({
           "@type": "DataDownload",
           encodingFormat: ext === "csv" ? "text/csv" : "application/json",
@@ -126,6 +152,7 @@ function perPageNodes(file) {
     nodes.push({ ...SITE_NODE });
   }
   if (file === "datasets.html" || file === "export.html") nodes.push(...datasetNodes());
+  if (file === "about.html") nodes.push(KHAN);
   if (file === "glossary.html") {
     nodes.push({
       "@type": "DefinedTermSet",
@@ -193,6 +220,8 @@ function graphFor(file, meta) {
       inLanguage: "en",
       isPartOf: { "@id": `${SITE}/#website` },
       version,
+      ...(pageDates[file] ? { dateModified: pageDates[file].lastmod } : {}),
+      ...(file === "about.html" || file === "how-it-works.html" ? { about: { "@id": KHAN["@id"] } } : {}),
     },
     { "@type": "BreadcrumbList", itemListElement: crumbs },
     ...perPageNodes(file),

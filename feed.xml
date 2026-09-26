@@ -9,6 +9,25 @@
   <updated>2026-09-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>A reference page for every surah</title>
+    <id>https://divinediscourses.org/changelog#2026-09-surah-reference-pages</id>
+    <link href="https://divinediscourses.org/changelog#2026-09-surah-reference-pages"/>
+    <updated>2026-09-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;A reference page for every surah.&lt;/strong&gt; Each of the 114
+              surahs now has a plain page at &lt;code&gt;/surah/&amp;lt;number&amp;gt;&lt;/code&gt;
+              (for example &lt;a href="/surah/36"&gt;/surah/36&lt;/a&gt;): verse and
+              word-unit counts, classification and revelation order, juz and
+              mushaf pages, listening time for each reciter, most frequent
+              roots, the computed sections, themes whose vocabulary clusters
+              there, recurring phrases, verse endings, and the full Arabic text
+              from Tanzil with its notice. Everything is read from the site's
+              own data files and readable with JavaScript off, so search and
+              answer engines can find and cite it. &lt;a href="/navigate"&gt;Navigate&lt;/a&gt;
+              links to all of them. Also: the sitemap's dates now follow each
+              page's real changes, and one uncited appeal to "academic
+              literature" on Numbers is gone.</content>
+  </entry>
+  <entry>
     <title>Version 1.3.0: four more tables to download, and how long a recitation takes</title>
     <id>https://divinediscourses.org/changelog#2026-09-v130-new-tables-and-recitation-pace</id>
     <link href="https://divinediscourses.org/changelog#2026-09-v130-new-tables-and-recitation-pace"/>
