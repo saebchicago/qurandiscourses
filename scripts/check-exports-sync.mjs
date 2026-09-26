@@ -260,6 +260,83 @@ for (const [table, src, count] of SINGLE_SOURCE) {
     fail("sources", `formulas: ${n(rows.formulas)} rows vs ${n(streams[0])} root + ${n(streams[1])} surface = ${n(total)}`);
 }
 
+// root-surah-counts and lemma-frequencies come from build-exports' own
+// morphology scan; hold them against files computed by other generators.
+{
+  const rsc = readJson("data/exports/root-surah-counts.json");
+  const perRoot = new Map();
+  for (const r of rsc) {
+    const t = perRoot.get(r.root) || { sum: 0, surahs: 0 };
+    t.sum += r.count;
+    t.surahs++;
+    perRoot.set(r.root, t);
+  }
+  let off = 0;
+  for (const r of readJson("data/exports/root-frequencies.json")) {
+    const t = perRoot.get(r.root);
+    if (!t || t.sum !== r.totalCount) off++;
+  }
+  if (off) fail("sources", `root-surah-counts: ${n(off)} roots whose surah counts do not sum to root-frequencies totalCount`);
+  let spread = 0;
+  for (const d of readJson("data/exports/dispersion.json")) {
+    const t = perRoot.get(d.root);
+    if (!t || t.surahs !== d.surahsOccurringIn) spread++;
+  }
+  if (spread) fail("sources", `root-surah-counts: ${n(spread)} roots whose surah rows differ from dispersion surahsOccurringIn`);
+  const cell = new Map(rsc.map((r) => [`${r.root}|${r.surah}`, r.count]));
+  let analytics = 0;
+  let cells = 0;
+  for (const f of readdirSync(join(ROOT, "data", "root-analytics")).filter((x) => x.endsWith(".json"))) {
+    const a = readJson(`data/root-analytics/${f}`);
+    for (const [s, c] of Object.entries(a.bySurah)) {
+      cells++;
+      if (cell.get(`${a.bw}|${s}`) !== c) analytics++;
+    }
+  }
+  if (cells !== rsc.length) analytics += Math.abs(cells - rsc.length);
+  if (analytics) fail("sources", `root-surah-counts: ${n(analytics)} root/surah counts disagree with data/root-analytics/ bySurah`);
+}
+{
+  const lemmas = readJson("data/exports/lemma-frequencies.json");
+  const total = readJson("data/numbers.json").totals.lemmas;
+  if (lemmas.length !== total)
+    fail("sources", `lemma-frequencies: ${n(lemmas.length)} rows vs ${n(total)} lemmas in data/numbers.json totals`);
+  const byLemma = new Map(lemmas.map((l) => [l.lemma, l]));
+  let off = 0;
+  for (const f of readdirSync(join(ROOT, "data", "root-analytics")).filter((x) => x.endsWith(".json"))) {
+    const a = readJson(`data/root-analytics/${f}`);
+    const sums = new Map();
+    for (const fam of a.lemmaFamilies) sums.set(fam.lemma, (sums.get(fam.lemma) || 0) + fam.count);
+    for (const [lemma, c] of sums) {
+      const l = byLemma.get(lemma);
+      if (!l || l.count !== c || l.root !== a.bw) off++;
+    }
+  }
+  if (off) fail("sources", `lemma-frequencies: ${n(off)} rooted lemmas disagree with data/root-analytics/ lemmaFamilies`);
+}
+{
+  const da = readJson("data/rhetorical-features.json").directAddress;
+  if (rows["direct-address"] !== da.count)
+    fail("sources", `direct-address: ${n(rows["direct-address"])} rows vs count ${n(da.count)} in data/rhetorical-features.json`);
+}
+
+{
+  const vd = readJson("data/exports/verse-durations.json");
+  const vl = readJson("data/exports/verse-lengths.json");
+  const rec = readJson("data/recitation/durations.json");
+  if (vd.length !== vl.length) fail("sources", `verse-durations: ${n(vd.length)} rows vs ${n(vl.length)} in verse-lengths`);
+  let off = 0;
+  vd.forEach((r, i) => {
+    const l = vl[i];
+    if (!l || l.surah !== r.surah || l.verse !== r.verse || l.tokens !== r.tokens) off++;
+    for (const c of rec.reciters) {
+      const col = `seconds_${c.id.replace(/^ar\./, "")}`;
+      if (r[col] !== Math.round(rec.durations[c.id][i] / 100) / 10) off++;
+    }
+  });
+  if (off) fail("sources", `verse-durations: ${n(off)} cells disagree with verse-lengths or data/recitation/durations.json`);
+}
+
 // ── Report ───────────────────────────────────────────────────────────
 // Named, never silently dropped: a report that quietly skipped a figure
 // would read as "everything checked".

@@ -2,6 +2,18 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-09-v130-new-tables-and-recitation-pace",
+   "year": "2026",
+   "month": "September",
+   "html": "\n              <strong>Version 1.3.0: four more tables to download, and how long a\n              recitation takes.</strong>\n              <a href=\"/export\">Export</a> adds <em>roots by surah</em> (every\n              root's count and rate in every surah it appears in, 17,496 rows),\n              <em>lemma frequencies</em> (all 4,832 lemmas with part of speech,\n              root, most common form, and spread across verses and surahs),\n              <em>direct address</em> (the 89 verses with &ldquo;O you who\n              believe&rdquo;), and <em>verse durations</em> (how long each verse's\n              recitation lasts in each recording Read plays). The first three were\n              already computed for the Roots and Patterns pages but could not be\n              downloaded; each is checked against files computed separately.\n              Durations are measured from the audio files' own headers, without\n              downloading the audio. <a href=\"/numbers#recitation-pace\">Numbers</a>\n              now shows each reciter's listening time and pace, overall and by\n              period, and Read's listening options show how long the passage takes\n              with the chosen reciter. A duration describes a recording, not the\n              text. The v1.3.0 archive holds all eighteen tables; earlier archives\n              are unchanged.\n            "
+  },
+  {
+   "id": "2026-09-arabic-text-bundled",
+   "year": "2026",
+   "month": "September",
+   "html": "\n              <strong>The Arabic text now ships with the site.</strong> Read and\n              Compare take the Arabic from Tanzil's own Uthmani file (Version\n              1.1), bundled unchanged with Tanzil's notice, and fetch only the\n              translations. If the translation service is down, the Arabic still\n              shows, with a note. Before this, the Arabic came from alquran.cloud,\n              whose copy matched Tanzil's current file in 2,619 of 6,236 verses:\n              the differences are small marks (the small meem written for some\n              tanwin, the form of some hamzas, a small yeh), not words. Readers\n              will see those marks change. Also corrected: the site described\n              Tanzil's license as CC BY-ND 3.0; Tanzil's file states Creative\n              Commons Attribution 3.0, verbatim copies only, notice retained.\n            "
+  },
+  {
    "id": "2026-09-cross-references-removed",
    "year": "2026",
    "month": "September",

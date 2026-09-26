@@ -11,11 +11,12 @@
 // statistics itself, and it does not modify any of those inputs. It only
 // writes new files under data/exports/.
 //
-// Output: 14 tables, each as both a CSV and a JSON array of the same
+// Output: 18 tables, each as both a CSV and a JSON array of the same
 // rows — root-frequencies, association-pairs, surah-stats,
 // verse-lengths, formulas, centrality, rhyme-summary, fawatih,
 // discursive-pivots, structure, structure-tests, theme-surah-density,
-// formulaic-density, dispersion — plus
+// formulaic-density, dispersion, root-surah-counts, lemma-frequencies,
+// direct-address, verse-durations — plus
 //   data/exports/schema.json: machine-readable field-level schema for
 //     every table, and the ONE declaration the rest of the data hub is
 //     checked against (see check-exports-sync.mjs).
@@ -487,6 +488,111 @@ const dispersionColumns = [
 ];
 writeTable("dispersion", dispersionRows, dispersionColumns);
 
+// ── Tables 15-16: root-surah-counts and lemma-frequencies ───────────────
+// Both from one scan of the morphology, not from data/root-analytics/
+// (whose lemma lists keep only the first 10 verses and top 5 forms).
+// check-exports-sync cross-checks them against root-analytics, dispersion
+// and numbers.json, which were computed separately.
+
+console.log("\nBuilding root-surah-counts and lemma-frequencies…");
+const surahTokens = {};
+for (let s = 1; s <= 114; s++) surahTokens[s] = surahProfiles.surahs[String(s)].tokenCount;
+const rootSurah = new Map(); // root -> Map(surah -> count)
+const lemmas = new Map(); // lemma -> tally
+let unlemmatized = 0;
+for (let s = 1; s <= 114; s++) {
+  const morph = JSON.parse(readFileSync(join(DATA, "morphology", `${s}.json`), "utf8"));
+  const verses = Object.keys(morph).map(Number).sort((a, b) => a - b);
+  for (const v of verses) {
+    for (const w of morph[String(v)]) {
+      if (w.root) {
+        if (!rootSurah.has(w.root)) rootSurah.set(w.root, new Map());
+        const m = rootSurah.get(w.root);
+        m.set(s, (m.get(s) || 0) + 1);
+      }
+      if (!w.lemma) {
+        unlemmatized++;
+        continue;
+      }
+      if (!lemmas.has(w.lemma))
+        lemmas.set(w.lemma, { root: w.root || "", count: 0, pos: new Map(), forms: new Map(), verses: new Set(), surahs: new Set(), first: `${s}:${v}` });
+      const L = lemmas.get(w.lemma);
+      if ((w.root || "") !== L.root) throw new Error(`Lemma ${w.lemma} carries two roots. STOPPING.`);
+      L.count++;
+      L.pos.set(w.pos, (L.pos.get(w.pos) || 0) + 1);
+      L.forms.set(w.ar, (L.forms.get(w.ar) || 0) + 1);
+      L.verses.add(`${s}:${v}`);
+      L.surahs.add(s);
+    }
+  }
+}
+
+const rootSurahRows = [];
+for (const bw of Object.keys(rootsSummary).sort()) {
+  const m = rootSurah.get(bw);
+  if (!m) throw new Error(`Root ${bw} not found in morphology. STOPPING.`);
+  const meta = rootsSummary[bw];
+  for (const s of [...m.keys()].sort((a, b) => a - b)) {
+    rootSurahRows.push({
+      root: bw,
+      safeKey: safeKey(bw),
+      rootLatin: meta.rootLatin,
+      surah: s,
+      count: m.get(s),
+      perThousand: Math.round((m.get(s) / surahTokens[s]) * 1000 * 1000) / 1000,
+    });
+  }
+}
+if (rootSurah.size !== TOTAL_ROOTS)
+  throw new Error(`Morphology holds ${rootSurah.size} roots, expected ${TOTAL_ROOTS}. STOPPING.`);
+writeTable("root-surah-counts", rootSurahRows, ["root", "safeKey", "rootLatin", "surah", "count", "perThousand"]);
+
+const byCount = (m) => [...m].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
+const lemmaRows = [...lemmas].map(([lemma, L]) => ({
+  lemma,
+  pos: byCount(L.pos).map(([p]) => p).join("/"),
+  root: L.root,
+  rootSafeKey: L.root ? safeKey(L.root) : "",
+  count: L.count,
+  topForm: byCount(L.forms)[0][0],
+  formCount: L.forms.size,
+  verseCount: L.verses.size,
+  surahCount: L.surahs.size,
+  firstVerse: L.first,
+}));
+lemmaRows.sort((a, b) => b.count - a.count || (a.lemma < b.lemma ? -1 : a.lemma > b.lemma ? 1 : 0));
+writeTable("lemma-frequencies", lemmaRows, [
+  "lemma", "pos", "root", "rootSafeKey", "count", "topForm", "formCount", "verseCount", "surahCount", "firstVerse",
+]);
+
+// ── Table 17: direct-address (data/rhetorical-features.json .directAddress) ──
+
+console.log("\nBuilding direct-address…");
+const rhetorical = JSON.parse(readFileSync(join(DATA, "rhetorical-features.json"), "utf8"));
+const da = rhetorical.directAddress;
+const directAddressRows = da.verses
+  .map((r) => ({ surah: r.s, verse: r.a, phrase: da.phrase, translation: da.translation }))
+  .sort((a, b) => a.surah - b.surah || a.verse - b.verse);
+if (directAddressRows.length !== da.count)
+  throw new Error(`direct-address: ${directAddressRows.length} verses listed, count says ${da.count}. STOPPING.`);
+writeTable("direct-address", directAddressRows, ["surah", "verse", "phrase", "translation"]);
+
+// ── Table 18: verse-durations (data/recitation/durations.json) ─────────
+
+console.log("\nBuilding verse-durations…");
+const recitation = JSON.parse(readFileSync(join(DATA, "recitation", "durations.json"), "utf8"));
+const reciterCols = recitation.reciters.map((r) => ({ id: r.id, name: r.name, col: `seconds_${r.id.replace(/^ar\./, "")}` }));
+const durationRows = verseRows.map((v, i) => {
+  const row = { surah: v.surah, verse: v.verse, tokens: v.tokens };
+  for (const c of reciterCols) {
+    const ms = recitation.durations[c.id][i];
+    if (typeof ms !== "number") throw new Error(`verse-durations: no duration for ${c.id} at verse ${i + 1}. STOPPING.`);
+    row[c.col] = Math.round(ms / 100) / 10;
+  }
+  return row;
+});
+writeTable("verse-durations", durationRows, ["surah", "verse", "tokens", ...reciterCols.map((c) => c.col)]);
+
 // ── schema.json ──────────────────────────────────────────────────────
 
 console.log("\nWriting schema.json and DATA-DICTIONARY.md…");
@@ -733,6 +839,62 @@ const schema = {
         { name: "adjustedFrequency", type: "number", unit: null, description: "totalCount * (1 - dp): raw frequency discounted for clumping." },
       ],
     },
+    "root-surah-counts": {
+      description: "How often each root occurs in each surah it appears in, as a count and as a rate per 1,000 of that surah's tokens (long format: one row per root per surah).",
+      rowCount: rootSurahRows.length,
+      countingRule: "Count = tokens in the surah whose Leeds root field equals the root. perThousand = (count / the surah's token count) * 1000, rounded to 3 decimals. Surahs where the root does not occur have no row (a missing row means zero).",
+      verification: "Verified: direct computation from Leeds morphology; per-root sums equal root-frequencies totalCount, and per-root row counts equal dispersion surahsOccurringIn.",
+      fields: [
+        { name: "root", type: "string", unit: null, description: "Buckwalter-transliterated root." },
+        { name: "safeKey", type: "string", unit: null, description: "URL/filename-safe encoding of root." },
+        { name: "rootLatin", type: "string", unit: null, description: "Root in Latin transliteration with diacritics." },
+        { name: "surah", type: "integer", unit: null, description: "Surah number." },
+        { name: "count", type: "integer", unit: "tokens", description: "Occurrences of the root in this surah." },
+        { name: "perThousand", type: "number", unit: "occurrences per 1,000 tokens", description: "(count / surah token count) * 1000." },
+      ],
+    },
+    "lemma-frequencies": {
+      description: "Every lemma (dictionary headword) in the corpus: how often it occurs, its part of speech, its root if it has one, how many distinct written forms it takes, and how widely it is spread.",
+      rowCount: lemmaRows.length,
+      countingRule: `Tokens grouped by the Leeds lemma field. ${unlemmatized.toLocaleString("en-US")} tokens carry no lemma in the corpus and are not counted. pos lists every part-of-speech tag the lemma carries, most frequent first. formCount counts distinct fully vowelled surface forms (with attached prefixes and suffixes, so one lemma has many). firstVerse is the lemma's first occurrence in mushaf order.`,
+      verification: "Verified: direct computation from Leeds morphology; row count equals the lemma total on Numbers, and each rooted lemma's count matches data/root-analytics/.",
+      fields: [
+        { name: "lemma", type: "string", unit: null, description: "Leeds lemma, Buckwalter transliteration." },
+        { name: "pos", type: "string", unit: null, description: "Part-of-speech tag(s), slash-separated, most frequent first (Leeds tagset: N noun, V verb, ADJ adjective, PN proper noun, and so on)." },
+        { name: "root", type: "string", unit: null, description: "Buckwalter root, or empty for a lemma with no root (particles, pronouns, some proper nouns)." },
+        { name: "rootSafeKey", type: "string", unit: null, description: "URL/filename-safe encoding of root, or empty." },
+        { name: "count", type: "integer", unit: "tokens", description: "Occurrences of the lemma." },
+        { name: "topForm", type: "string", unit: null, description: "The lemma's most frequent surface form, in Arabic script." },
+        { name: "formCount", type: "integer", unit: null, description: "Distinct surface forms the lemma takes." },
+        { name: "verseCount", type: "integer", unit: "verses", description: "Distinct verses the lemma occurs in." },
+        { name: "surahCount", type: "integer", unit: "surahs", description: "Distinct surahs the lemma occurs in." },
+        { name: "firstVerse", type: "string", unit: null, description: "First occurrence, as surah:verse." },
+      ],
+    },
+    "verse-durations": {
+      description: "Every verse with its length in word-units and how long its recitation lasts in each recording the Read page plays, one column per reciter.",
+      rowCount: durationRows.length,
+      countingRule: "Duration read from the header of each verse's audio file (cdn.islamic.network, the files /read plays): exact frame count from a Xing/Info or VBRI header when present, otherwise audio bytes x 8 / bitrate. Seconds, rounded to 0.1. tokens = Leeds word-units in the verse, as in verse-lengths. Method and per-reciter header counts in data/recitation/durations.json.",
+      verification: "Verified as measurements of those files. Nuanced as analysis: a duration is one recording's performance, not a property of the text, and verse-1 files may include the basmala.",
+      fields: [
+        { name: "surah", type: "integer", unit: null, description: "Surah number." },
+        { name: "verse", type: "integer", unit: null, description: "Verse number." },
+        { name: "tokens", type: "integer", unit: "tokens", description: "Word-units in the verse." },
+        ...reciterCols.map((c) => ({ name: c.col, type: "number", unit: "seconds", description: `Recitation length, ${c.name} (${c.id}).` })),
+      ],
+    },
+    "direct-address": {
+      description: "Every verse containing the believers' vocative ya ayyuha al-ladhina amanu ('O you who believe').",
+      rowCount: directAddressRows.length,
+      countingRule: "A verse is listed when its tokens contain the lemmas >ay~uhaA, {l~a*iY and 'aAmana consecutively (scripts/build-rhetorical-features.mjs). Lemma matching, so inflected forms count; a verse is listed once however many times the phrase occurs in it.",
+      verification: "Verified: direct computation from Leeds morphology. Other vocatives (for example 'O people', 'O Prophet') are not in this table.",
+      fields: [
+        { name: "surah", type: "integer", unit: null, description: "Surah number." },
+        { name: "verse", type: "integer", unit: null, description: "Verse number." },
+        { name: "phrase", type: "string", unit: null, description: "The vocative, transliterated." },
+        { name: "translation", type: "string", unit: null, description: "Its English rendering." },
+      ],
+    },
   },
 };
 
@@ -760,7 +922,7 @@ for (const [name, t] of Object.entries(schema.tables)) {
   md += fieldTable(t.fields) + "\n\n";
 }
 md += `## Files\n\nEach table above ships as both \`{name}.csv\` and \`{name}.json\` (a flat JSON array of the same rows) under \`data/exports/\`. CSV values are comma-separated, UTF-8, header row first; fields containing a comma, quote, or newline are quoted per RFC 4180.\n\n`;
-md += `## License\n\nData derived from the Leeds Quranic Arabic Corpus is GPL-licensed, per \`NOTICE.md\`. Surah names and the Cairo 1924 chronology are factual/public-domain reference data. Site code (this script included) is MIT-licensed.\n`;
+md += `## License\n\nData derived from the Leeds Quranic Arabic Corpus is GPL-licensed, per \`NOTICE.md\`. Surah names and the Cairo 1924 chronology are factual/public-domain reference data. Recitation durations are measurements of Islamic Network's per-verse audio files; no audio is included, and the recordings remain their reciters' and publishers'. Site code (this script included) is MIT-licensed.\n`;
 
 writeFileSync(join(OUT, "DATA-DICTIONARY.md"), md);
 

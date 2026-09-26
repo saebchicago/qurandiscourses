@@ -2,7 +2,7 @@
  "_generated": "scripts/build-exports.mjs",
  "_source": "Dukes, Kais. The Quranic Arabic Corpus, version 0.4. Leeds: Language Research Group, University of Leeds, 2009-2017. https://corpus.quran.com/. GNU GPL.",
  "_chronologySource": "Egyptian Standard (Cairo 1924) revelation order, four-period classification following the Nöldeke-Bell tradition (Watt, \"Bell's Introduction to the Qur'an\", 1970).",
- "_computed": "2026-08-09",
+ "_computed": "2026-09-26",
  "tables": {
   "root-frequencies": {
    "description": "Every one of the 1,642 roots: raw occurrence count, overall normalized frequency, and per-period count and normalized frequency.",
@@ -845,6 +845,206 @@
      "type": "number",
      "unit": null,
      "description": "totalCount * (1 - dp): raw frequency discounted for clumping."
+    }
+   ]
+  },
+  "root-surah-counts": {
+   "description": "How often each root occurs in each surah it appears in, as a count and as a rate per 1,000 of that surah's tokens (long format: one row per root per surah).",
+   "rowCount": 17496,
+   "countingRule": "Count = tokens in the surah whose Leeds root field equals the root. perThousand = (count / the surah's token count) * 1000, rounded to 3 decimals. Surahs where the root does not occur have no row (a missing row means zero).",
+   "verification": "Verified: direct computation from Leeds morphology; per-root sums equal root-frequencies totalCount, and per-root row counts equal dispersion surahsOccurringIn.",
+   "fields": [
+    {
+     "name": "root",
+     "type": "string",
+     "unit": null,
+     "description": "Buckwalter-transliterated root."
+    },
+    {
+     "name": "safeKey",
+     "type": "string",
+     "unit": null,
+     "description": "URL/filename-safe encoding of root."
+    },
+    {
+     "name": "rootLatin",
+     "type": "string",
+     "unit": null,
+     "description": "Root in Latin transliteration with diacritics."
+    },
+    {
+     "name": "surah",
+     "type": "integer",
+     "unit": null,
+     "description": "Surah number."
+    },
+    {
+     "name": "count",
+     "type": "integer",
+     "unit": "tokens",
+     "description": "Occurrences of the root in this surah."
+    },
+    {
+     "name": "perThousand",
+     "type": "number",
+     "unit": "occurrences per 1,000 tokens",
+     "description": "(count / surah token count) * 1000."
+    }
+   ]
+  },
+  "lemma-frequencies": {
+   "description": "Every lemma (dictionary headword) in the corpus: how often it occurs, its part of speech, its root if it has one, how many distinct written forms it takes, and how widely it is spread.",
+   "rowCount": 4832,
+   "countingRule": "Tokens grouped by the Leeds lemma field. 3,307 tokens carry no lemma in the corpus and are not counted. pos lists every part-of-speech tag the lemma carries, most frequent first. formCount counts distinct fully vowelled surface forms (with attached prefixes and suffixes, so one lemma has many). firstVerse is the lemma's first occurrence in mushaf order.",
+   "verification": "Verified: direct computation from Leeds morphology; row count equals the lemma total on Numbers, and each rooted lemma's count matches data/root-analytics/.",
+   "fields": [
+    {
+     "name": "lemma",
+     "type": "string",
+     "unit": null,
+     "description": "Leeds lemma, Buckwalter transliteration."
+    },
+    {
+     "name": "pos",
+     "type": "string",
+     "unit": null,
+     "description": "Part-of-speech tag(s), slash-separated, most frequent first (Leeds tagset: N noun, V verb, ADJ adjective, PN proper noun, and so on)."
+    },
+    {
+     "name": "root",
+     "type": "string",
+     "unit": null,
+     "description": "Buckwalter root, or empty for a lemma with no root (particles, pronouns, some proper nouns)."
+    },
+    {
+     "name": "rootSafeKey",
+     "type": "string",
+     "unit": null,
+     "description": "URL/filename-safe encoding of root, or empty."
+    },
+    {
+     "name": "count",
+     "type": "integer",
+     "unit": "tokens",
+     "description": "Occurrences of the lemma."
+    },
+    {
+     "name": "topForm",
+     "type": "string",
+     "unit": null,
+     "description": "The lemma's most frequent surface form, in Arabic script."
+    },
+    {
+     "name": "formCount",
+     "type": "integer",
+     "unit": null,
+     "description": "Distinct surface forms the lemma takes."
+    },
+    {
+     "name": "verseCount",
+     "type": "integer",
+     "unit": "verses",
+     "description": "Distinct verses the lemma occurs in."
+    },
+    {
+     "name": "surahCount",
+     "type": "integer",
+     "unit": "surahs",
+     "description": "Distinct surahs the lemma occurs in."
+    },
+    {
+     "name": "firstVerse",
+     "type": "string",
+     "unit": null,
+     "description": "First occurrence, as surah:verse."
+    }
+   ]
+  },
+  "verse-durations": {
+   "description": "Every verse with its length in word-units and how long its recitation lasts in each recording the Read page plays, one column per reciter.",
+   "rowCount": 6236,
+   "countingRule": "Duration read from the header of each verse's audio file (cdn.islamic.network, the files /read plays): exact frame count from a Xing/Info or VBRI header when present, otherwise audio bytes x 8 / bitrate. Seconds, rounded to 0.1. tokens = Leeds word-units in the verse, as in verse-lengths. Method and per-reciter header counts in data/recitation/durations.json.",
+   "verification": "Verified as measurements of those files. Nuanced as analysis: a duration is one recording's performance, not a property of the text, and verse-1 files may include the basmala.",
+   "fields": [
+    {
+     "name": "surah",
+     "type": "integer",
+     "unit": null,
+     "description": "Surah number."
+    },
+    {
+     "name": "verse",
+     "type": "integer",
+     "unit": null,
+     "description": "Verse number."
+    },
+    {
+     "name": "tokens",
+     "type": "integer",
+     "unit": "tokens",
+     "description": "Word-units in the verse."
+    },
+    {
+     "name": "seconds_husary",
+     "type": "number",
+     "unit": "seconds",
+     "description": "Recitation length, Mahmoud al-Husary (ar.husary)."
+    },
+    {
+     "name": "seconds_minshawi",
+     "type": "number",
+     "unit": "seconds",
+     "description": "Recitation length, Mohamed al-Minshawi (ar.minshawi)."
+    },
+    {
+     "name": "seconds_abdulbasitmurattal",
+     "type": "number",
+     "unit": "seconds",
+     "description": "Recitation length, Abdul Basit (ar.abdulbasitmurattal)."
+    },
+    {
+     "name": "seconds_abdurrahmaansudais",
+     "type": "number",
+     "unit": "seconds",
+     "description": "Recitation length, Sudais (ar.abdurrahmaansudais)."
+    },
+    {
+     "name": "seconds_saoodshuraym",
+     "type": "number",
+     "unit": "seconds",
+     "description": "Recitation length, Shuraim (ar.saoodshuraym)."
+    }
+   ]
+  },
+  "direct-address": {
+   "description": "Every verse containing the believers' vocative ya ayyuha al-ladhina amanu ('O you who believe').",
+   "rowCount": 89,
+   "countingRule": "A verse is listed when its tokens contain the lemmas >ay~uhaA, {l~a*iY and 'aAmana consecutively (scripts/build-rhetorical-features.mjs). Lemma matching, so inflected forms count; a verse is listed once however many times the phrase occurs in it.",
+   "verification": "Verified: direct computation from Leeds morphology. Other vocatives (for example 'O people', 'O Prophet') are not in this table.",
+   "fields": [
+    {
+     "name": "surah",
+     "type": "integer",
+     "unit": null,
+     "description": "Surah number."
+    },
+    {
+     "name": "verse",
+     "type": "integer",
+     "unit": null,
+     "description": "Verse number."
+    },
+    {
+     "name": "phrase",
+     "type": "string",
+     "unit": null,
+     "description": "The vocative, transliterated."
+    },
+    {
+     "name": "translation",
+     "type": "string",
+     "unit": null,
+     "description": "Its English rendering."
     }
    ]
   }

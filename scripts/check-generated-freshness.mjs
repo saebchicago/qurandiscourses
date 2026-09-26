@@ -49,7 +49,8 @@ const ONLY = (args.find((a) => a.startsWith("--only=")) || "")
 // centrality feeds dispersion; formulas feeds formula-summary,
 // formulaic-density and structure; rhyme-map feeds structure; structure
 // feeds structure-tests; surah-profiles feeds surahs-js and share-pages;
-// build-exports reads nearly everything, so it runs last.
+// juz feeds recitation-pace; build-exports reads nearly everything, so
+// it runs last.
 const ORDER = [
   "build-formulas",
   "build-rhyme-map",
@@ -57,6 +58,7 @@ const ORDER = [
   "build-discursive-pivots",
   "build-rhetorical-features",
   "build-juz",
+  "build-recitation-pace",
   "build-numbers",
   "build-themes",
   "build-word-index",
@@ -84,6 +86,7 @@ const EXCLUDED = [
   ["build-og-images", "needs a browser"],
   ["build-surah-meta", "needs the network"],
   ["build-quran-text", "needs the network; run by .github/workflows/quran-text.yml"],
+  ["build-recitation-durations", "needs the network; run by .github/workflows/recitation-durations.yml"],
   ["build-gloss", "manual utility, takes a raw-dump argument"],
 ];
 

@@ -20,6 +20,16 @@ order, four-period classification following the Nöldeke-Bell tradition as
 documented in Watt, "Bell's Introduction to the Qur'an" (1970). This is
 public-domain reference data.
 
+## Recitation durations (measured)
+
+`data/recitation/` holds how long each verse's recitation lasts, per
+reciter, in milliseconds. The figures are measurements read from the
+headers of the per-verse audio files served by Islamic Network
+(cdn.islamic.network), the same files the Read page plays; see
+`scripts/build-recitation-durations.mjs`. No audio is bundled or
+redistributed. The recordings remain the property of their reciters and
+publishers.
+
 ## Tanzil Quran text (bundled)
 
 Verse text rendered on the Read and Compare pages is the Tanzil Uthmani

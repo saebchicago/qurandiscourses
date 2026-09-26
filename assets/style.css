@@ -3965,6 +3965,12 @@ html.qd-has-listen body {
 .listen-sheet[hidden] {
   display: none;
 }
+.listen-time {
+  margin: -0.25rem 0 0.5rem;
+}
+.listen-time[hidden] {
+  display: none;
+}
 .listen-sheet-head {
   display: flex;
   align-items: center;
