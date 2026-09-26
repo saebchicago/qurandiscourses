@@ -29,29 +29,55 @@
 //   BITRATES ARE DISCOVERED, NOT ASSUMED. Arabic URLs come from
 //   assets/app.js's qdReciteUrl, which carries each reciter's registered
 //   bitrate. The English edition's bitrate is not registered anywhere, so
-//   it is probed. See the note on EN_CANDIDATES.
+//   it is probed. See the note on TRANSLATION_AUDIO.
 (function () {
   "use strict";
 
   var CDN = "https://cdn.islamic.network/quran/audio";
 
-  // en.walk is the ONE English edition alquran.cloud registers as
-  // type=versebyverse; the other three are surah-by-surah, a single file
-  // per surah, which cannot be sequenced against a verse whatever the CDN
-  // serves. 192 leads because that is the directory the CDN actually
-  // serves it from — confirmed by scripts/check-audio-editions.mjs on a
-  // networked runner, 2026-09-16, after 128 and 64 both answered 403. The
-  // rest stay as fallbacks in case the CDN reorganises.
-  var EN_CANDIDATES = [
-    { edition: "en.walk", bitrate: 192 },
-    { edition: "en.walk", bitrate: 128 },
-    { edition: "en.walk", bitrate: 64 },
-    { edition: "en.walk", bitrate: 32 },
+  // Translation audio: every edition alquran.cloud registers as
+  // type=versebyverse in a language other than Arabic AND that
+  // cdn.islamic.network actually serves, read off the API and the CDN by
+  // scripts/check-audio-editions.mjs on a networked runner, 2026-09-26
+  // (early, middle and final clips sampled). Surah-by-surah editions
+  // (one file per surah: three in English, one Burmese) and "translation"
+  // editions (Persian, Turkish) cannot be sequenced verse by verse, and
+  // ru.kuliev-audio-2 is registered but served at no bitrate, so none of
+  // those are here. `bitrate` is the directory the CDN served it from;
+  // the others stay as fallbacks in case the CDN reorganises. `reader`
+  // is the name the registry gives, verbatim.
+  //
+  // Mode names still say "en" ("en", "ar-en", the leg "en") because
+  // English came first and the names are stored in readers' browsers;
+  // read them as "the translation leg".
+  var TRANSLATION_AUDIO = [
+    { edition: "en.walk", lang: "en", language: "English", reader: "Ibrahim Walk", bitrate: 192 },
+    { edition: "ur.khan", lang: "ur", language: "Urdu", reader: "Shamshad Ali Khan", bitrate: 64 },
+    { edition: "fr.leclerc", lang: "fr", language: "French", reader: "Youssouf Leclerc", bitrate: 128 },
+    { edition: "ru.kuliev-audio", lang: "ru", language: "Russian", reader: "Elmir Kuliev by 1MuslimApp", bitrate: 128 },
+    { edition: "zh.chinese", lang: "zh", language: "Chinese", reader: "Chinese", bitrate: 128 },
+    { edition: "kk.khalifahaltai-audio", lang: "kk", language: "Kazakh", reader: "Khalifah Altai", bitrate: 128 },
+    { edition: "uz.sodik-audio", lang: "uz", language: "Uzbek", reader: "Muhammad Sodik Muhammad Yusuf", bitrate: 128 },
   ];
+  var DEFAULT_TRANSLATION = "en.walk";
+  var BITRATES = [192, 128, 64, 32];
   var PROBE_AYAH = 1;
   var PROBE_TIMEOUT_MS = 8000;
-  var PROBE_KEY = "qd_listen_en_v1";
+  var PROBE_KEY = "qd_listen_tr_v1:";
   var SPEEDS = [0.75, 1, 1.25, 1.5];
+
+  function translationById(id) {
+    for (var i = 0; i < TRANSLATION_AUDIO.length; i++)
+      if (TRANSLATION_AUDIO[i].edition === id) return TRANSLATION_AUDIO[i];
+    return null;
+  }
+
+  function candidatesFor(id) {
+    var t = translationById(id) || translationById(DEFAULT_TRANSLATION);
+    return [t.bitrate]
+      .concat(BITRATES.filter(function (b) { return b !== t.bitrate; }))
+      .map(function (b) { return { edition: t.edition, bitrate: b }; });
+  }
 
   function enUrl(cand, arNumber) {
     return CDN + "/" + cand.bitrate + "/" + cand.edition + "/" + arNumber + ".mp3";
@@ -62,28 +88,30 @@
   // HEAD or GET here would be blocked by the browser and read as "the
   // edition is missing" on a site where it is present.
   //
-  // One probe per page session, shared by every engine instance and
-  // remembered in sessionStorage, so switching passage does not re-walk
-  // the candidate list.
-  var probePromise = null;
-  function probeEnglish() {
-    if (probePromise) return probePromise;
+  // One probe per edition per page session, shared by every engine
+  // instance and remembered in sessionStorage, so switching passage does
+  // not re-walk the candidate list.
+  var probes = {};
+  function probeEdition(id) {
+    if (!translationById(id)) id = DEFAULT_TRANSLATION;
+    if (probes[id]) return probes[id];
+    var key = PROBE_KEY + id;
     var cached = null;
     try {
-      cached = sessionStorage.getItem(PROBE_KEY);
+      cached = sessionStorage.getItem(key);
     } catch (e) {}
     if (cached) {
       try {
         var parsed = JSON.parse(cached);
-        probePromise = Promise.resolve(parsed && parsed.edition ? parsed : null);
-        return probePromise;
+        probes[id] = Promise.resolve(parsed && parsed.edition ? parsed : null);
+        return probes[id];
       } catch (e) {}
     }
-    var remaining = EN_CANDIDATES.slice();
+    var remaining = candidatesFor(id);
     function attempt() {
       if (!remaining.length) {
         try {
-          sessionStorage.setItem(PROBE_KEY, JSON.stringify({ edition: null }));
+          sessionStorage.setItem(key, JSON.stringify({ edition: null }));
         } catch (e) {}
         return Promise.resolve(null);
       }
@@ -118,13 +146,17 @@
       }).then(function (ok) {
         if (!ok) return attempt();
         try {
-          sessionStorage.setItem(PROBE_KEY, JSON.stringify(cand));
+          sessionStorage.setItem(key, JSON.stringify(cand));
         } catch (e) {}
         return cand;
       });
     }
-    probePromise = attempt();
-    return probePromise;
+    probes[id] = attempt();
+    return probes[id];
+  }
+
+  function probeEnglish() {
+    return probeEdition(DEFAULT_TRANSLATION);
   }
 
   // ONE pair of media elements for the whole page session, shared by
@@ -171,8 +203,19 @@
     this.idx = 0;
     this.leg = "ar";
     this.mode = "ar"; // "ar" | "en" | "ar-en"
-    this.english = null; // {edition, bitrate} once probed and found
+    // The translation leg's edition: {edition, bitrate} once probed and
+    // found. Named `english` because English came first; it holds
+    // whichever language translationId names.
+    this.english = null;
+    this.translationId = translationById(opts.translation)
+      ? opts.translation
+      : DEFAULT_TRANSLATION;
     this.repeat = false;
+    // Loop the whole passage: after its last step, start again at its
+    // first verse. Independent of `repeat`, which holds one verse; a
+    // reader memorising a short surah wants the surah on a loop, not
+    // one verse forever or one pass and silence.
+    this.loop = false;
     this.rate = 1;
     this.playing = false;
     this.armed = false; // a user has pressed play at least once
@@ -190,13 +233,42 @@
     var self = this;
     // Non-blocking on purpose: the caller's UI must render and be usable
     // before this settles. A miss can cost a timeout per candidate.
-    probeEnglish().then(function (english) {
-      if (self.dead) return;
-      self.english = english || null;
-      if (english) self.onEnglish(english);
-      self.onEnglishResolved(self.english);
-    });
+    this._resolveTranslation(false);
   }
+
+  Engine.prototype._resolveTranslation = function (resume) {
+    var self = this;
+    var id = this.translationId;
+    probeEdition(id).then(function (found) {
+      // A later choice supersedes this one; its own probe reports.
+      if (self.dead || self.translationId !== id) return;
+      self.english = found || null;
+      if (found) self.onEnglish(found);
+      self.onEnglishResolved(self.english);
+      if (resume && found) self.playCurrent();
+      else self.emit();
+    });
+  };
+
+  // Change the language of the translation leg. The sitting holds its
+  // verse; if a translation clip was playing it pauses, and resumes in
+  // the new language once that edition is confirmed.
+  Engine.prototype.setTranslation = function (id) {
+    if (!translationById(id) || id === this.translationId) return;
+    var resume = this.playing && this.leg === "en";
+    if (resume) {
+      this.audio.pause();
+      this.playing = false;
+    }
+    this.translationId = id;
+    this.english = null;
+    this.emit();
+    this._resolveTranslation(resume);
+  };
+
+  Engine.prototype.translation = function () {
+    return translationById(this.translationId);
+  };
 
   Engine.prototype.setItems = function (items) {
     this.items = (items || []).filter(function (it) {
@@ -219,11 +291,13 @@
       leg: this.leg,
       mode: this.mode,
       repeat: this.repeat,
+      loop: this.loop,
       rate: this.rate,
       playing: this.playing,
       armed: this.armed,
       ended: this.ended,
       hasEnglish: !!this.english,
+      translation: this.translationId,
     };
   };
 
@@ -296,7 +370,7 @@
         title: this.label(),
         artist:
           this.leg === "en"
-            ? "English translation audio"
+            ? (this.translation() ? this.translation().language : "Translation") + " translation audio"
             : (reciter && reciter.name) || "Recitation",
         album: this.album,
       });
@@ -359,6 +433,11 @@
       return this.playCurrent();
     }
     var step = this.nextStep(this.idx, this.leg);
+    if (!step && this.loop && this.items.length) {
+      this.idx = 0;
+      this.leg = this.startLeg();
+      return this.playCurrent();
+    }
     if (!step) {
       // The sitting played out. Callers that mark a passage finished
       // (‘replay from start’, last-read bookkeeping) read this off
@@ -417,6 +496,11 @@
 
   Engine.prototype.setRepeat = function (on) {
     this.repeat = !!on;
+    this.emit();
+  };
+
+  Engine.prototype.setLoop = function (on) {
+    this.loop = !!on;
     this.emit();
   };
 
@@ -541,5 +625,7 @@
     // directly: headless Chromium decodes no recitation, so the state
     // machine is asserted rather than the audio.
     _probeEnglish: probeEnglish,
+    translations: TRANSLATION_AUDIO,
+    translationById: translationById,
   };
 })();

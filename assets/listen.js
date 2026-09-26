@@ -32,6 +32,31 @@
     } catch (e) {}
   }
 
+  // Which language the translation leg speaks. Any edition the engine
+  // registers; English (Ibrahim Walk) otherwise.
+  var VOICE_KEY = "qd_listen_voice_v1";
+  function voices() {
+    return (window.qdAudioEngine && window.qdAudioEngine.translations) || [];
+  }
+  function voiceById(id) {
+    return window.qdAudioEngine && window.qdAudioEngine.translationById
+      ? window.qdAudioEngine.translationById(id)
+      : null;
+  }
+  function storedVoice() {
+    try {
+      var v = localStorage.getItem(VOICE_KEY);
+      return voiceById(v) ? v : "en.walk";
+    } catch (e) {
+      return "en.walk";
+    }
+  }
+  function saveVoice(id) {
+    try {
+      localStorage.setItem(VOICE_KEY, id);
+    } catch (e) {}
+  }
+
   function signature(items) {
     return items.length
       ? items[0].arNumber + "-" + items[items.length - 1].arNumber
@@ -47,12 +72,6 @@
     } catch (e) {
       return false;
     }
-  }
-
-  function modeLabel(mode) {
-    if (mode === "en") return "English";
-    if (mode === "ar-en") return "Arabic + English";
-    return "Arabic";
   }
 
   function surahNameFor(n) {
@@ -110,7 +129,9 @@
     this._storedEnglish = false;
     this._error = "";
     var self = this;
+    this._voiceChosen = false;
     this.engine = window.qdAudioEngine.create({
+      translation: storedVoice(),
       album: (juz ? "Juz " + juz : this.title) + " · Divine Discourses",
       labelFor: function (item) {
         return (
@@ -127,11 +148,19 @@
         // The probe has finished and found nothing. Say so: the note
         // that ships with the panel promises the choices will appear,
         // which is only true while the probe is still running.
+        self.removeModeControl();
         self.showEnglishUnavailable();
       },
       onEnglish: function () {
         self.addEnglishControl();
         self.showEnglishStatus();
+        // A reader who picks a voice while listening to Arabic alone
+        // wants to hear it: Arabic, then that language, verse by verse.
+        if (self._voiceChosen && self.engine.mode === "ar") {
+          self._voiceChosen = false;
+          self.engine.setMode("ar-en");
+          saveMode("ar-en");
+        }
         if (self._storedEnglish && !self.engine.armed) {
           self._storedEnglish = false;
           self.engine.setMode("en");
@@ -175,15 +204,27 @@
     this.el("now").textContent = item
       ? (item.surahName ? item.surahName + " " : "") +
         item.surah + ":" + item.ayah +
-        (st.leg === "en" && st.armed ? " · English" : "")
+        (st.leg === "en" && st.armed ? " · " + this.voiceLanguage() : "")
       : "—";
     this.el("pos").textContent = st.total
       ? "Verse " + (st.idx + 1) + " of " + st.total
       : "No verses to play";
     var play = this.el("play");
-    play.textContent = st.playing ? "⏸ Pause" : "▶ Play";
+    play.textContent = st.playing ? "⏸" : "▶";
     play.setAttribute("aria-label", st.playing ? "Pause" : "Play");
-    this.el("repeat").setAttribute("aria-pressed", String(st.repeat));
+    var bar = this.el("progress");
+    if (bar) bar.style.width = st.total ? ((st.idx + 1) / st.total) * 100 + "%" : "0";
+    var repeat = this.el("repeat");
+    var rmode = st.repeat ? "verse" : st.loop ? "passage" : "off";
+    repeat.textContent =
+      rmode === "verse" ? "↻ Repeat verse" : rmode === "passage" ? "↻ Repeat passage" : "↻ Repeat off";
+    repeat.setAttribute("aria-pressed", String(rmode !== "off"));
+    repeat.setAttribute(
+      "aria-label",
+      "Repeat: " + rmode + ". Press to change to " +
+        (rmode === "off" ? "verse" : rmode === "verse" ? "passage" : "off"),
+    );
+    this.paintSleep();
     var speed = this.el("speed");
     speed.textContent = st.rate + "×";
     speed.setAttribute("aria-label", "Playback speed " + st.rate + "×");
@@ -197,21 +238,53 @@
     }
     var status = this.el("status");
     if (status) {
+      var was = status.hidden;
       status.textContent = this._error;
       status.hidden = !this._error;
+      // The status line changes the bar's height; the page's reserved
+      // foot and the floating corner buttons follow it.
+      if (was !== status.hidden) this.refreshLayout();
     }
   };
 
-  Panel.prototype.refreshLayout = function () {
+  // The transport is a bar fixed to the BOTTOM of the viewport, the
+  // shape every listening app has converged on. It used to be a 207px
+  // card pinned to the top under a 110px sticky nav: 39% of a phone
+  // screen, leaving a 445px band in which a verse card (900px+) could
+  // never fit, so the translation being recited was always off-screen.
+  // The page reserves the bar's height at its foot so the last verse
+  // is never underneath it.
+  // Everything the panel keeps on screen except the sheet, which opens
+  // OVER the page rather than pushing it: progress line, bar, and any
+  // status line beneath the bar.
+  Panel.prototype.barHeight = function () {
+    var h = this.host.getBoundingClientRect().height;
+    var sheet = this.el("sheet");
+    if (sheet && !sheet.hidden) h -= sheet.getBoundingClientRect().height;
+    return Math.max(0, Math.ceil(h));
+  };
+
+  // Height of whatever is stuck to the top while reading: the passage's
+  // context bar, plus the site nav where it is still sticky.
+  function topInset() {
+    var inset = 0;
     var nav = document.querySelector("nav.primary");
-    var navHeight = nav && nav.getClientRects().length
-      ? Math.ceil(nav.getBoundingClientRect().height)
-      : 0;
-    document.documentElement.style.setProperty("--qd-listen-nav-offset", navHeight + "px");
-    var panelHeight = Math.ceil(this.host.getBoundingClientRect().height);
+    if (nav && nav.getClientRects().length && getComputedStyle(nav).position === "sticky")
+      inset += nav.getBoundingClientRect().height;
+    var ctx = document.querySelector(".read-context");
+    if (ctx && !ctx.hidden && ctx.getClientRects().length)
+      inset += ctx.getBoundingClientRect().height;
+    return inset;
+  }
+
+  Panel.prototype.refreshLayout = function () {
+    document.documentElement.style.setProperty(
+      "--qd-listen-bar-h",
+      this.barHeight() + "px",
+    );
     document.documentElement.style.setProperty(
       "--qd-listen-scroll-offset",
-      navHeight + panelHeight + 12 + "px",
+      Math.ceil(topInset()) + 12 + "px",
     );
   };
 
@@ -229,13 +302,13 @@
     if (cur && st.armed && key !== this._scrolledTo) {
       this._scrolledTo = key;
       this.refreshLayout();
-      var nav = document.querySelector("nav.primary");
-      var navHeight = nav && nav.getClientRects().length
-        ? nav.getBoundingClientRect().height
-        : 0;
-      var inset = navHeight + this.host.getBoundingClientRect().height + 12;
+      var inset = topInset() + 12;
+      var floor = window.innerHeight - this.barHeight() - 12;
       var rect = cur.el.getBoundingClientRect();
-      if (rect.top < inset || rect.bottom > window.innerHeight - 12) {
+      // A verse taller than the band is aligned to its top (the Arabic,
+      // then the translation below it); a shorter one only moves when
+      // any part of it is hidden under the header or the bar.
+      if (rect.top < inset || rect.bottom > floor) {
         window.scrollTo({
           top: Math.max(0, window.scrollY + rect.top - inset),
           behavior: reducedMotion() ? "auto" : "smooth",
@@ -244,55 +317,108 @@
     }
   };
 
+  Panel.prototype.voiceLanguage = function () {
+    var v = voiceById(this.engine.translationId);
+    return v ? v.language : "Translation";
+  };
+
+  // The audio-mode choice (Arabic / <language> / Arabic + <language>),
+  // offered only once the chosen language's recording is confirmed.
   Panel.prototype.addEnglishControl = function () {
     var row = this.host.querySelector(".listen-options");
-    if (!row || row.querySelector("[data-listen-mode]")) return;
+    if (!row) return;
     var self = this;
-    var label = document.createElement("label");
-    label.className = "listen-mode-label";
-    label.textContent = "Audio ";
-    var select = document.createElement("select");
-    select.className = "listen-mode-select";
-    select.setAttribute("data-listen-mode", "");
-    select.setAttribute("aria-label", "Audio language");
+    var select = row.querySelector("[data-listen-mode]");
+    if (!select) {
+      var label = document.createElement("label");
+      label.className = "listen-mode-label";
+      label.textContent = "Audio ";
+      select = document.createElement("select");
+      select.className = "listen-mode-select";
+      select.setAttribute("data-listen-mode", "");
+      select.setAttribute("aria-label", "What to hear");
+      select.addEventListener("change", function () {
+        self.engine.setMode(select.value);
+        saveMode(self.engine.mode);
+      });
+      label.appendChild(select);
+      var voice = row.querySelector("[data-listen-voice]");
+      row.insertBefore(label, voice ? voice.parentNode : null);
+    }
+    var lang = window.qdEsc(this.voiceLanguage());
     select.innerHTML =
       '<option value="ar">Arabic</option>' +
-      '<option value="en">English</option>' +
-      '<option value="ar-en">Arabic + English</option>';
-    select.addEventListener("change", function () {
-      self.engine.setMode(select.value);
-      saveMode(self.engine.mode);
-    });
-    label.appendChild(select);
-    row.appendChild(label);
+      '<option value="en">' + lang + " only</option>" +
+      '<option value="ar-en">Arabic + ' + lang + "</option>";
     this.render(this.engine.state());
     this.refreshLayout();
+  };
+
+  Panel.prototype.removeModeControl = function () {
+    var select = this.host.querySelector("[data-listen-mode]");
+    if (select && select.parentNode) select.parentNode.remove();
+  };
+
+  Panel.prototype.voiceMarkup = function () {
+    var cur = this.engine.translationId;
+    return (
+      '<label class="listen-mode-label">Translation voice ' +
+      '<select class="listen-mode-select" data-listen-voice aria-label="Translation voice, heard after each verse\'s Arabic">' +
+      voices()
+        .map(function (v) {
+          return (
+            '<option value="' + window.qdEsc(v.edition) + '"' +
+            (v.edition === cur ? " selected" : "") + ">" +
+            window.qdEsc(v.language + (v.reader && v.reader !== v.language ? " · " + v.reader : "")) +
+            "</option>"
+          );
+        })
+        .join("") +
+      "</select></label>"
+    );
+  };
+
+  Panel.prototype.chooseVoice = function (id) {
+    if (!voiceById(id) || id === this.engine.translationId) return;
+    saveVoice(id);
+    this._voiceChosen = true;
+    this.removeModeControl();
+    var note = this.support && this.support.querySelector("[data-listen-english-status]");
+    if (note) note.textContent = "Checking the " + voiceById(id).language + " recording…";
+    this.engine.setTranslation(id);
   };
 
   Panel.prototype.showEnglishStatus = function () {
     var note = this.support && this.support.querySelector("[data-listen-english-status]");
     if (!note) return;
+    var v = voiceById(this.engine.translationId) || voiceById("en.walk");
+    var english = v.edition === "en.walk";
     note.innerHTML =
-      "English audio is the fixed verse-by-verse edition alquran.cloud names " +
-      "<code>en.walk</code> · Ibrahim Walk. It may differ from the written translation you selected. " +
+      window.qdEsc(v.language) + " audio is the fixed verse-by-verse edition alquran.cloud names " +
+      "<code>" + window.qdEsc(v.edition) + "</code>" +
+      (v.reader && v.reader !== v.language ? " · " + window.qdEsc(v.reader) : "") +
+      ". It may differ from the written translation you selected. " +
       "The recording's rights holder and license are not established by the registry or CDN; " +
-      '<a href="/sources#english-audio-source">source details</a> ' +
-      '<span class="badge pending" data-source-ids="islamic-network-audio-en" aria-label="Pending" tabindex="0" title="Pending · recording rights unresolved">○</span>.';
+      '<a href="/sources#' + (english ? "english-audio-source" : "translation-audio-source") + '">source details</a> ' +
+      '<span class="badge pending" data-source-ids="' +
+      (english ? "islamic-network-audio-en" : "islamic-network-audio-translations") +
+      '" aria-label="Pending" tabindex="0" title="Pending · recording rights unresolved">○</span>.';
     if (window.qdCiteEnhance) window.qdCiteEnhance(this.support);
   };
 
   Panel.prototype.showEnglishUnavailable = function () {
     var note = this.support && this.support.querySelector("[data-listen-english-status]");
     if (!note) return;
+    var lang = this.voiceLanguage();
     var wanted = storedMode();
     note.textContent =
-      "English audio is unavailable right now, so only the Arabic " +
+      lang + " audio is unavailable right now, so only the Arabic " +
       "recitation will play." +
       (wanted === "ar"
         ? ""
         : wanted === "en"
-          ? " You last chose English audio; this sitting plays Arabic instead."
-          : " You last chose Arabic and English; this sitting plays the Arabic legs only.") +
+          ? " You last chose " + lang + " audio; this sitting plays Arabic instead."
+          : " You last chose Arabic and " + lang + "; this sitting plays the Arabic legs only.") +
       " The written translations on this page are unaffected.";
   };
 
@@ -306,30 +432,105 @@
 
   Panel.prototype.markup = function () {
     return (
-      '<div class="listen-head">' +
+      // Everything a reader sets once per sitting lives in this sheet,
+      // opened from the bar. The bar itself carries only what is pressed
+      // repeatedly: previous, play, next, and where you are.
+      '<div class="listen-sheet" id="listenSheet" data-listen-sheet hidden>' +
+      '<div class="listen-sheet-head">' +
       '<h3 class="listen-title">Listen to ' +
       window.qdEsc(this.title) +
       "</h3>" +
-      '<p class="listen-now" data-listen-now>—</p>' +
-      '<p class="listen-pos t-annotation" data-listen-pos></p>' +
+      '<button type="button" class="button secondary listen-btn listen-sheet-close" data-listen-close aria-label="Close listening options">✕</button>' +
       "</div>" +
       '<div class="listen-options">' +
       '<button type="button" class="button secondary listen-reciter-btn" data-listen-reciter aria-label="Change Arabic reciter">🎤 Choose reciter</button>' +
-      // Reflect is not transport. In the transport row it was the only
-      // control that wrapped, so it took a full 319px line of its own on
-      // a phone while Play had 72px -- a note-taking button reading as
-      // the panel's primary action, inside a group labelled "Recitation
-      // transport" for a screen reader.
+      this.voiceMarkup() +
+      // Reflect is not transport, so it is not in the transport group.
       '<button type="button" class="button secondary listen-btn listen-reflect-btn" data-listen-reflect>✎ Reflect on this verse</button>' +
       "</div>" +
+      '<div class="listen-extra" role="group" aria-label="Listening options">' +
+      '<button type="button" class="button secondary listen-btn" data-listen-repeat aria-pressed="false">↻ Repeat off</button>' +
+      '<button type="button" class="button secondary listen-btn" data-listen-speed aria-label="Playback speed">1×</button>' +
+      '<button type="button" class="button secondary listen-btn" data-listen-sleep aria-pressed="false">☾ Sleep timer off</button>' +
+      "</div>" +
+      '<div data-listen-support-slot></div>' +
+      "</div>" +
+      '<div class="listen-progress" aria-hidden="true"><span data-listen-progress></span></div>' +
+      '<div class="listen-bar">' +
       '<div class="listen-controls" role="group" aria-label="Recitation transport">' +
       '<button type="button" class="button secondary listen-btn" data-listen-prev aria-label="Previous verse">‹</button>' +
-      '<button type="button" class="button btn-primary listen-btn" data-listen-play aria-label="Play">▶ Play</button>' +
+      '<button type="button" class="button btn-primary listen-btn listen-play" data-listen-play aria-label="Play">▶</button>' +
       '<button type="button" class="button secondary listen-btn" data-listen-next aria-label="Next verse">›</button>' +
-      '<button type="button" class="button secondary listen-btn" data-listen-repeat aria-pressed="false" aria-label="Repeat this verse">↻ Repeat</button>' +
-      '<button type="button" class="button secondary listen-btn" data-listen-speed aria-label="Playback speed">1×</button>' +
+      "</div>" +
+      '<div class="listen-where">' +
+      '<p class="listen-now" data-listen-now>—</p>' +
+      '<p class="listen-pos t-annotation" data-listen-pos></p>' +
+      "</div>" +
+      '<button type="button" class="button secondary listen-btn listen-more" data-listen-more aria-expanded="false" aria-controls="listenSheet" aria-label="Listening options: reciter, language, repeat, speed, sleep timer">⋯</button>' +
       "</div>" +
       '<p class="listen-status" data-listen-status role="status" aria-live="polite" hidden></p>'
+    );
+  };
+
+  Panel.prototype.toggleSheet = function (open) {
+    var sheet = this.el("sheet");
+    var more = this.el("more");
+    if (!sheet || !more) return;
+    var next = typeof open === "boolean" ? open : sheet.hidden;
+    sheet.hidden = !next;
+    more.setAttribute("aria-expanded", String(next));
+    if (next) {
+      var close = this.el("close");
+      if (close) close.focus({ preventScroll: true });
+    } else if (open === false) {
+      more.focus({ preventScroll: true });
+    }
+  };
+
+  // Sleep timer: off, 15, 30, 60 minutes. It pauses; it never unloads,
+  // so a reader who wakes to silence presses play and resumes where
+  // the recitation stopped.
+  var SLEEP_STEPS = [0, 15, 30, 60];
+
+  Panel.prototype.cycleSleep = function () {
+    var cur = this._sleepMins || 0;
+    var next = SLEEP_STEPS[(SLEEP_STEPS.indexOf(cur) + 1) % SLEEP_STEPS.length];
+    this.setSleep(next ? Date.now() + next * 60000 : 0, next);
+  };
+
+  Panel.prototype.setSleep = function (deadline, mins) {
+    var self = this;
+    clearTimeout(this._sleepTimer);
+    clearInterval(this._sleepTick);
+    this._sleepAt = deadline || 0;
+    this._sleepMins = deadline ? mins || Math.ceil((deadline - Date.now()) / 60000) : 0;
+    if (this._sleepAt) {
+      this._sleepTimer = setTimeout(function () {
+        if (self.engine.playing) self.engine.toggle();
+        self._sleepAt = 0;
+        self._sleepMins = 0;
+        clearInterval(self._sleepTick);
+        self._error = "Paused by the sleep timer. Press play to continue.";
+        self.render(self.engine.state());
+      }, Math.max(0, this._sleepAt - Date.now()));
+      this._sleepTick = setInterval(function () {
+        self.paintSleep();
+      }, 30000);
+    }
+    this.paintSleep();
+  };
+
+  Panel.prototype.paintSleep = function () {
+    var b = this.el("sleep");
+    if (!b) return;
+    var left = this._sleepAt ? Math.max(1, Math.ceil((this._sleepAt - Date.now()) / 60000)) : 0;
+    b.textContent = left ? "☾ Sleep in " + left + " min" : "☾ Sleep timer off";
+    b.setAttribute("aria-pressed", String(!!left));
+    b.setAttribute(
+      "aria-label",
+      left
+        ? "Sleep timer: pauses in " + left + " minutes. Press to change."
+        : "Sleep timer off. Press for 15 minutes.",
     );
   };
 
@@ -342,11 +543,13 @@
     box.innerHTML =
       '<details class="method-note"><summary>Audio details and shortcuts</summary>' +
       '<p class="caption-note listen-keys">Keys <kbd>Space</kbd> play/pause, ' +
-      '<kbd>[</kbd> <kbd>]</kbd> previous/next verse, <kbd>R</kbd> repeat.</p>' +
+      '<kbd>[</kbd> <kbd>]</kbd> previous/next verse, <kbd>R</kbd> repeat (off, verse, passage), <kbd>Escape</kbd> closes this panel.</p>' +
       '<p class="caption-note">Recitation streams per verse from cdn.islamic.network, which receives normal connection data. Your listening preferences remain in this browser. <a href="/about#privacy">Privacy and offline details</a>.</p>' +
-      '<p class="caption-note listen-en-note" data-listen-english-status role="status" aria-live="polite">English audio choices appear after the page confirms the fixed English recording is available.</p>' +
+      '<p class="caption-note listen-en-note" data-listen-english-status role="status" aria-live="polite">Translation audio choices appear after the page confirms the chosen recording is available.</p>' +
       "</details>";
-    this.host.insertAdjacentElement("afterend", box);
+    var slot = this.host.querySelector("[data-listen-support-slot]");
+    if (slot) slot.appendChild(box);
+    else this.host.insertAdjacentElement("afterend", box);
     this.support = box;
   };
 
@@ -362,14 +565,26 @@
       self.engine.go(1);
     });
     this.el("repeat").addEventListener("click", function () {
-      self.engine.setRepeat(!self.engine.repeat);
+      self.cycleRepeat();
+    });
+    this.el("sleep").addEventListener("click", function () {
+      self.cycleSleep();
+    });
+    this.el("more").addEventListener("click", function () {
+      self.toggleSheet();
+      self.refreshLayout();
+    });
+    this.el("close").addEventListener("click", function () {
+      self.toggleSheet(false);
     });
     this.el("speed").addEventListener("click", function () {
       self.engine.cycleSpeed();
     });
     this.el("reciter").addEventListener("click", function () {
-      var existing = document.querySelector("#verseContainer .reciter-open-btn");
-      if (existing) existing.click();
+      if (window.qdOpenReciter) window.qdOpenReciter();
+    });
+    this.el("voice").addEventListener("change", function (e) {
+      self.chooseVoice(e.target.value);
     });
     this.el("reflect").addEventListener("click", function () {
       if (self.engine.playing) self.engine.toggle();
@@ -401,10 +616,31 @@
       } else if (e.key === "r" || e.key === "R") {
         if (!self.engine.armed) return;
         e.preventDefault();
-        self.engine.setRepeat(!self.engine.repeat);
+        self.cycleRepeat();
+      } else if (e.key === "Escape") {
+        var sheet = self.el("sheet");
+        if (sheet && !sheet.hidden) {
+          e.preventDefault();
+          self.toggleSheet(false);
+        }
       }
     };
     document.addEventListener("keydown", this._onKey);
+  };
+
+  // Off, then this verse, then the whole passage, then off.
+  Panel.prototype.cycleRepeat = function () {
+    var e = this.engine;
+    if (!e.repeat && !e.loop) {
+      e.loop = false;
+      e.setRepeat(true);
+    } else if (e.repeat) {
+      e.repeat = false;
+      e.setLoop(true);
+    } else {
+      e.repeat = false;
+      e.setLoop(false);
+    }
   };
 
   Panel.prototype.wireVerseButtons = function () {
@@ -428,6 +664,8 @@
       mode: e.mode,
       rate: e.rate,
       repeat: e.repeat,
+      loop: e.loop,
+      sleepAt: this._sleepAt || 0,
       armed: e.armed,
       playing: e.playing,
     };
@@ -441,7 +679,9 @@
     e.leg = snap.leg || (snap.mode === "en" ? "en" : "ar");
     e.rate = snap.rate;
     e.repeat = snap.repeat;
+    e.loop = !!snap.loop;
     e.armed = snap.armed;
+    if (snap.sleepAt && snap.sleepAt > Date.now()) this.setSleep(snap.sleepAt);
     e.audio.playbackRate = e.rate;
     e.emit();
     if (snap.playing) {
@@ -460,23 +700,18 @@
     this.engine.setMode(mode);
   };
 
-  // Scroll the transport into view and put the keyboard on Play. Used
-  // by the #listen deep link and by the Listen button in the entry card:
-  // on a phone the panel sits about 1,200px down the page, below the
-  // entry form, so a reader who has not scrolled has no way of knowing
-  // the passage can be heard at all.
+  // The #listen deep link: the bar is always on screen, so this only
+  // puts the keyboard on Play.
   Panel.prototype.jumpTo = function () {
     try {
-      this.host.scrollIntoView({
-        block: "start",
-        behavior: reducedMotion() ? "auto" : "smooth",
-      });
       var play = this.el("play");
       if (play) play.focus({ preventScroll: true });
     } catch (e) {}
   };
 
   Panel.prototype.destroy = function () {
+    clearTimeout(this._sleepTimer);
+    clearInterval(this._sleepTick);
     if (this._onKey) document.removeEventListener("keydown", this._onKey);
     this._onKey = null;
     this.engine.audio.removeEventListener("error", this._onAudioError);
@@ -492,26 +727,6 @@
     });
   };
 
-  // The entry card's Listen button. It exists in read.html's markup and
-  // stays hidden until a panel is actually mounted, so it never promises
-  // audio that is switched off in settings or has no verses to play.
-  function showJump(panel) {
-    var jump = document.getElementById("listenJump");
-    if (!jump) return;
-    jump.hidden = false;
-    if (!jump._qdWired) {
-      jump._qdWired = true;
-      jump.addEventListener("click", function () {
-        if (window.qdListenPanel) window.qdListenPanel.jumpTo();
-      });
-    }
-  }
-
-  function hideJump() {
-    var jump = document.getElementById("listenJump");
-    if (jump) jump.hidden = true;
-  }
-
   window.qdListenTeardown = function () {
     var host = document.getElementById("listenPanel");
     if (player) {
@@ -521,7 +736,7 @@
     }
     window.qdListenPanel = null;
     window.qdListenPlayer = null;
-    hideJump();
+    document.documentElement.classList.remove("qd-has-listen");
     if (host) {
       host.innerHTML = "";
       host.hidden = true;
@@ -560,7 +775,8 @@
     carry = null;
     if (!restored) player.applyStoredMode();
     player.refreshLayout();
-    showJump(player);
+    document.documentElement.classList.add("qd-has-listen");
+    player.refreshLayout();
     if (location.hash === "#listen" && !window.__qdListenLanded) {
       window.__qdListenLanded = true;
       player.jumpTo();
