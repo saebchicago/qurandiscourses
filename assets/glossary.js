@@ -118,7 +118,14 @@ window.GLOSSARY = {
     return false;
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
+  // Runs whenever this file loads: at DOMContentLoaded on most pages,
+  // or after the page has finished on /read, which loads it late so the
+  // first verse does not wait for it.
+  function whenReady(fn) {
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn);
+    else fn();
+  }
+  whenReady(function () {
     var main = document.getElementById("main");
     if (!main) return;
 

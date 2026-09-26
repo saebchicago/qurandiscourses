@@ -447,6 +447,7 @@
       this.voiceMarkup() +
       // Reflect is not transport, so it is not in the transport group.
       '<button type="button" class="button secondary listen-btn listen-reflect-btn" data-listen-reflect>✎ Reflect on this verse</button>' +
+      this.replayLink() +
       "</div>" +
       '<div class="listen-extra" role="group" aria-label="Listening options">' +
       '<button type="button" class="button secondary listen-btn" data-listen-repeat aria-pressed="false">↻ Repeat off</button>' +
@@ -469,6 +470,19 @@
       '<button type="button" class="button secondary listen-btn listen-more" data-listen-more aria-expanded="false" aria-controls="listenSheet" aria-label="Listening options: reciter, language, repeat, speed, sleep timer">⋯</button>' +
       "</div>" +
       '<p class="listen-status" data-listen-status role="status" aria-live="polite" hidden></p>'
+    );
+  };
+
+  // Replay is the same recitation shown as it unfolds: recurring roots
+  // light up verse by verse and a transcribed outline's sections appear
+  // at their pivots. It shares these listening choices, so it is one
+  // step from here rather than a second player to learn.
+  Panel.prototype.replayLink = function () {
+    var first = this.items[0];
+    if (!first) return "";
+    return (
+      '<a class="button secondary listen-btn" data-listen-replay href="/replay?s=' +
+      first.surah + '&v=' + first.ayah + '">Watch it unfold</a>'
     );
   };
 

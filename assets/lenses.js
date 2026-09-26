@@ -741,7 +741,7 @@
       });
 
     // read.html: app.js dispatches qd:verse-loaded with the loaded surah.
-    document.addEventListener("qd:verse-loaded", function (e) {
+    function onVerseLoaded(e) {
       var s = e.detail.s;
       // Same surah and the card is already up: leave the DOM alone — a
       // re-render here would drop focus and any not-yet-flushed typing.
@@ -749,7 +749,10 @@
       flushPending();
       currentSurah = s;
       render();
-    });
+    }
+    document.addEventListener("qd:verse-loaded", onVerseLoaded);
+    // Loaded after the passage (as /read does): catch up on it.
+    if (window.qdLastVerseLoaded) onVerseLoaded({ detail: window.qdLastVerseLoaded });
 
     // dossier.html / replay.html: the surah lives in ?s= and there is no
     // qd:verse-loaded. On replay the select re-points ?s= via

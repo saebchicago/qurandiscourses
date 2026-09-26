@@ -38,8 +38,6 @@
     <script src="assets/surahs.js"></script>
     <script src="assets/nav.js" defer></script>
     <script src="assets/root-meanings.js" defer></script>
-    <script src="assets/ask-routes.js" defer></script>
-    <script src="assets/ask.js" defer></script>
     <link
       rel="icon"
       type="image/svg+xml"
@@ -464,9 +462,6 @@
     <script src="assets/wordbw.js"></script>
     <script src="assets/share.js" defer></script>
     <script src="assets/notes.js" defer></script>
-    <script src="assets/issue-url.js" defer></script>
-    <script src="assets/discovery-worksheet.js" defer></script>
-    <script src="assets/lenses.js" defer></script>
     <script>
       const BW_TO_DISPLAY = {
         A: "a",
@@ -1881,12 +1876,14 @@
     <script src="assets/audio-engine.js" defer></script>
     <script src="assets/listen.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
-    <script src="assets/glossary.js" defer></script>
     <script src="assets/notebook.js" defer></script>
     <script src="assets/version.js" defer></script>
-    <script src="assets/cite-page.js" defer></script>
-    <script src="assets/feedback.js" defer></script>
-    <script src="assets/path-data.js" defer></script>
-    <script src="assets/path-ribbon.js" defer></script>
+    <!-- Study-only scripts, loaded after the page has finished so the
+         first verse does not wait for them; see assets/lazy.js. -->
+    <script
+      src="assets/lazy.js"
+      data-lazy="assets/issue-url.js assets/ask-routes.js assets/ask.js assets/glossary.js assets/lenses.js assets/discovery-worksheet.js assets/cite-page.js assets/feedback.js assets/path-data.js assets/path-ribbon.js"
+      defer
+    ></script>
   </body>
 </html>

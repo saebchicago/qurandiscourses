@@ -260,6 +260,10 @@
     if (!state.progress) state.progress = { lastRead: null, exercises: {}, paths: {} };
     state.progress.lastRead = { s: s, a: String(a) };
     save();
+    // Kept for listeners that load after the passage does (/read loads
+    // its study panels late): they read this instead of waiting for the
+    // next qd:verse-loaded.
+    window.qdLastVerseLoaded = { s: s, a: String(a) };
     document.dispatchEvent(
       new CustomEvent("qd:verse-loaded", { detail: { s: s, a: String(a) } }),
     );
@@ -380,6 +384,13 @@
         <button id="clearPrefs">Clear preferences &amp; reading history</button>
       </div>
       <p class="small">This clears display choices, reading progress, and the passage cache from this browser. It does not delete study notes. <a href="/about#privacy">Privacy and data controls</a>.</p>
+      <h4>Your data</h4>
+      <div class="actions">
+        <button id="exportData">Save a copy of my data</button>
+        <label class="button secondary" for="importData" style="display:inline-flex;align-items:center;min-height:44px;cursor:pointer">Restore from a copy</label>
+        <input type="file" id="importData" accept="application/json,.json" hidden>
+      </div>
+      <p class="small">One file with your notes, pinned items, where you were reading, and your reading and listening choices, to move to another device or keep safe. Nothing leaves this browser unless you move the file yourself.</p>
     `;
 
     const transBtn = document.getElementById("openTransPicker");
@@ -415,6 +426,103 @@
         state.theme = themeSel.value;
         save();
         applyTheme();
+      });
+    // One file for everything the reader keeps in this browser, and a
+    // way back. Notes had their own Markdown export; reading place,
+    // pinned items, lens and worksheet entries and listening choices had
+    // none, so changing phones lost them. Only these keys are written or
+    // restored: never the passage cache, never anything a file adds.
+    const BACKUP_KEYS = [
+      "qd_state",
+      "qd_notes",
+      "qd_notebook_v1",
+      "qd_lenses_v1",
+      "qd_discovery_v1",
+      "qd_listen_mode_v2",
+      "qd_listen_voice_v1",
+    ];
+    const exportBtn = document.getElementById("exportData");
+    if (exportBtn)
+      exportBtn.addEventListener("click", () => {
+        const data = {};
+        BACKUP_KEYS.forEach((k) => {
+          try {
+            const v = localStorage.getItem(k);
+            if (v != null) data[k] = v;
+          } catch (e) {}
+        });
+        const blob = new Blob(
+          [
+            JSON.stringify(
+              {
+                format: "divine-discourses-backup",
+                version: 1,
+                exported: new Date().toISOString(),
+                data: data,
+              },
+              null,
+              1,
+            ),
+          ],
+          { type: "application/json" },
+        );
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "divine-discourses-backup.json";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+        if (window.qdToast) window.qdToast("Copy saved");
+      });
+    const importInput = document.getElementById("importData");
+    if (importInput)
+      importInput.addEventListener("change", () => {
+        const file = importInput.files && importInput.files[0];
+        importInput.value = "";
+        if (!file) return;
+        if (file.size > 5 * 1024 * 1024) {
+          if (window.qdToast) window.qdToast("That file is too large to be a copy from this site");
+          return;
+        }
+        file.text().then((text) => {
+          let parsed = null;
+          try {
+            parsed = JSON.parse(text);
+          } catch (e) {}
+          const data = parsed && parsed.format === "divine-discourses-backup" && parsed.data;
+          if (!data || typeof data !== "object") {
+            if (window.qdToast) window.qdToast("That file is not a copy saved from this site");
+            return;
+          }
+          const entries = BACKUP_KEYS.filter(
+            (k) => typeof data[k] === "string",
+          ).filter((k) => {
+            try {
+              JSON.parse(data[k]);
+              return true;
+            } catch (e) {
+              // The two listening choices are plain strings.
+              return k === "qd_listen_mode_v2" || k === "qd_listen_voice_v1";
+            }
+          });
+          if (!entries.length) {
+            if (window.qdToast) window.qdToast("That copy holds nothing to restore");
+            return;
+          }
+          if (
+            !window.confirm(
+              "Replace the notes, pinned items, reading place and choices in this browser with the ones in this copy?",
+            )
+          )
+            return;
+          entries.forEach((k) => {
+            try {
+              localStorage.setItem(k, data[k]);
+            } catch (e) {}
+          });
+          location.reload();
+        });
       });
     const clearBtn = document.getElementById("clearPrefs");
     if (clearBtn)

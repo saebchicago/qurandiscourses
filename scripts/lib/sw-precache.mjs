@@ -59,8 +59,15 @@ export function computeSwArtifacts(ROOT) {
   const assets = new Set(EXTRA_ASSETS);
   for (const page of PRECACHE_PAGES) {
     const html = readFileSync(join(ROOT, fileForPath(page)), "utf8");
-    for (const m of html.matchAll(/<script src="(assets\/[^"]+\.js)"/g))
+    // \s+ rather than one space: a <script> whose attributes are laid
+    // out across lines (as read.html's lazy loader is) must still count.
+    for (const m of html.matchAll(/<script\s+src="(assets\/[^"]+\.js)"/g))
       assets.add("/" + m[1]);
+    // Scripts assets/lazy.js loads after the page has finished are part
+    // of what the page needs offline too.
+    for (const m of html.matchAll(/data-lazy="([^"]*)"/g))
+      for (const src of m[1].split(/\s+/).filter((x) => /^assets\/[^"]+\.js$/.test(x)))
+        assets.add("/" + src);
     for (const m of html.matchAll(/<link rel="stylesheet" href="(assets\/[^"]+\.css)"/g))
       assets.add("/" + m[1]);
   }
