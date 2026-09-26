@@ -186,7 +186,9 @@ citation metadata for the site, its export tables, and its cited
 sources), `changelog.json` (the changelog entry registry behind changelog.html
 and feed.xml), `claims.json`, `page-dates.json` (when each page's content
 last changed, behind sitemap.xml and each page's dateModified), `contributors.json` (the contributor
-roster behind credits.html), `exercises.json`, `glossary.json` (the term
+roster behind credits.html), `evidence/` (the list of source pages
+scripts/fetch-evidence.mjs excerpts in CI; URLs and patterns only, no
+third-party text), `exercises.json`, `glossary.json` (the term
 registry behind assets/glossary.js and glossary.html), `juz.json`,
 `lenses.json` (the reading-lens registry behind assets/lenses.js:
 site-authored descriptions of published coherence methods; no source
