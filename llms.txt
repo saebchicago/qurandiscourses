@@ -185,3 +185,42 @@ One static reference page per surah (scripts/build-surah-pages.mjs): verse and w
 - [Surah al-Ikhlas (الإخلاص), 4 verses](https://divinediscourses.org/surah/112): Surah al-Ikhlas (الإخلاص), surah 112 of the Qur'an: 4 verses, Meccan, 22nd in revelation order. Arabic text, roots, structure and listening time.
 - [Surah al-Falaq (الفلق), 5 verses](https://divinediscourses.org/surah/113): Surah al-Falaq (الفلق), surah 113 of the Qur'an: 5 verses, Meccan, 20th in revelation order. Arabic text, roots, structure and listening time.
 - [Surah al-Nas (الناس), 6 verses](https://divinediscourses.org/surah/114): Surah al-Nas (الناس), surah 114 of the Qur'an: 6 verses, Meccan, 21st in revelation order. Arabic text, roots, structure and listening time.
+
+## Juz
+
+One static reference page per juz (scripts/build-juz-pages.mjs): boundaries, surahs spanned, mushaf pages, and listening time per reciter.
+
+- [Juz 1: al-Fatihah 1:1 to 2:141](https://divinediscourses.org/juz/1): Juz 1 of 30 runs from al-Fatihah 1:1 to al-Baqarah 2:141: 148 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 2: al-Baqarah 2:142 to 2:252](https://divinediscourses.org/juz/2): Juz 2 of 30 runs from al-Baqarah 2:142 to al-Baqarah 2:252: 111 verses in 1 surah. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 3: al-Baqarah 2:253 to 3:92](https://divinediscourses.org/juz/3): Juz 3 of 30 runs from al-Baqarah 2:253 to Al ʿImran 3:92: 126 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 4: Al ʿImran 3:93 to 4:23](https://divinediscourses.org/juz/4): Juz 4 of 30 runs from Al ʿImran 3:93 to al-Nisa' 4:23: 131 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 5: al-Nisa' 4:24 to 4:147](https://divinediscourses.org/juz/5): Juz 5 of 30 runs from al-Nisa' 4:24 to al-Nisa' 4:147: 124 verses in 1 surah. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 6: al-Nisa' 4:148 to 5:81](https://divinediscourses.org/juz/6): Juz 6 of 30 runs from al-Nisa' 4:148 to al-Ma'idah 5:81: 110 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 7: al-Ma'idah 5:82 to 6:110](https://divinediscourses.org/juz/7): Juz 7 of 30 runs from al-Ma'idah 5:82 to al-An'am 6:110: 149 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 8: al-An'am 6:111 to 7:87](https://divinediscourses.org/juz/8): Juz 8 of 30 runs from al-An'am 6:111 to al-A'raf 7:87: 142 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 9: al-A'raf 7:88 to 8:40](https://divinediscourses.org/juz/9): Juz 9 of 30 runs from al-A'raf 7:88 to al-Anfal 8:40: 159 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 10: al-Anfal 8:41 to 9:92](https://divinediscourses.org/juz/10): Juz 10 of 30 runs from al-Anfal 8:41 to al-Tawbah 9:92: 127 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 11: al-Tawbah 9:93 to 11:5](https://divinediscourses.org/juz/11): Juz 11 of 30 runs from al-Tawbah 9:93 to Hud 11:5: 151 verses in 3 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 12: Hud 11:6 to 12:52](https://divinediscourses.org/juz/12): Juz 12 of 30 runs from Hud 11:6 to Yusuf 12:52: 170 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 13: Yusuf 12:53 to 14:52](https://divinediscourses.org/juz/13): Juz 13 of 30 runs from Yusuf 12:53 to Ibrahim 14:52: 154 verses in 3 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 14: al-Hijr 15:1 to 16:128](https://divinediscourses.org/juz/14): Juz 14 of 30 runs from al-Hijr 15:1 to al-Nahl 16:128: 227 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 15: al-Isra 17:1 to 18:74](https://divinediscourses.org/juz/15): Juz 15 of 30 runs from al-Isra 17:1 to al-Kahf 18:74: 185 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 16: al-Kahf 18:75 to 20:135](https://divinediscourses.org/juz/16): Juz 16 of 30 runs from al-Kahf 18:75 to Taha 20:135: 269 verses in 3 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 17: al-Anbiya 21:1 to 22:78](https://divinediscourses.org/juz/17): Juz 17 of 30 runs from al-Anbiya 21:1 to al-Hajj 22:78: 190 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 18: al-Mu'minun 23:1 to 25:20](https://divinediscourses.org/juz/18): Juz 18 of 30 runs from al-Mu'minun 23:1 to al-Furqan 25:20: 202 verses in 3 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 19: al-Furqan 25:21 to 27:55](https://divinediscourses.org/juz/19): Juz 19 of 30 runs from al-Furqan 25:21 to al-Naml 27:55: 339 verses in 3 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 20: al-Naml 27:56 to 29:45](https://divinediscourses.org/juz/20): Juz 20 of 30 runs from al-Naml 27:56 to al-'Ankabut 29:45: 171 verses in 3 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 21: al-'Ankabut 29:46 to 33:30](https://divinediscourses.org/juz/21): Juz 21 of 30 runs from al-'Ankabut 29:46 to al-Ahzab 33:30: 178 verses in 5 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 22: al-Ahzab 33:31 to 36:27](https://divinediscourses.org/juz/22): Juz 22 of 30 runs from al-Ahzab 33:31 to Yasin 36:27: 169 verses in 4 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 23: Yasin 36:28 to 39:31](https://divinediscourses.org/juz/23): Juz 23 of 30 runs from Yasin 36:28 to al-Zumar 39:31: 357 verses in 4 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 24: al-Zumar 39:32 to 41:46](https://divinediscourses.org/juz/24): Juz 24 of 30 runs from al-Zumar 39:32 to Fussilat 41:46: 175 verses in 3 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 25: Fussilat 41:47 to 45:37](https://divinediscourses.org/juz/25): Juz 25 of 30 runs from Fussilat 41:47 to al-Jathiyah 45:37: 246 verses in 5 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 26: al-Ahqaf 46:1 to 51:30](https://divinediscourses.org/juz/26): Juz 26 of 30 runs from al-Ahqaf 46:1 to al-Dhariyat 51:30: 195 verses in 6 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 27: al-Dhariyat 51:31 to 57:29](https://divinediscourses.org/juz/27): Juz 27 of 30 runs from al-Dhariyat 51:31 to al-Hadid 57:29: 399 verses in 7 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 28: al-Mujadilah 58:1 to 66:12](https://divinediscourses.org/juz/28): Juz 28 of 30 runs from al-Mujadilah 58:1 to al-Tahrim 66:12: 137 verses in 9 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 29: al-Mulk 67:1 to 77:50](https://divinediscourses.org/juz/29): Juz 29 of 30 runs from al-Mulk 67:1 to al-Mursalat 77:50: 431 verses in 11 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 30: al-Naba' 78:1 to 114:6](https://divinediscourses.org/juz/30): Juz 30 of 30 runs from al-Naba' 78:1 to al-Nas 114:6: 564 verses in 37 surahs. Listening time per reciter, mushaf pages, read and listen links.
+
+## Roots
+
+One static reference page for each root occurring 20 or more times (scripts/build-root-pages.mjs), at https://divinediscourses.org/root/<key>; the full list is on https://divinediscourses.org/roots. Every root, frequent or not, is in the Roots explorer and the root-frequencies export.

@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-09-juz-root-pages",
+   "year": "2026",
+   "month": "September",
+   "html": "\n              <strong>A page for every juz, and for every common root.</strong>\n              Each of the 30 juz has a page at <code>/juz/&lt;number&gt;</code>\n              (for example <a href=\"/juz/1\">/juz/1</a>): where it starts and\n              ends, its verses, word-units and mushaf pages, the surahs it\n              spans, and how long it takes with each reciter. Each of the 411\n              roots that occurs 20 or more times has a page at\n              <code>/root/&lt;key&gt;</code> (for example\n              <a href=\"/root/qwl\">/root/qwl</a>): its count and rank, lemmas,\n              written forms, the surahs where it concentrates and the roots it\n              keeps company with. Surah pages now print cleanly. Two fixes:\n              juz 4 now starts at 3:93, as the Tanzil metadata marks it, not\n              3:92; and three part-of-speech labels on Roots (exceptive,\n              explanation, exhortation particles) now match the corpus's tags.\n            "
+  },
+  {
    "id": "2026-09-surah-reference-pages",
    "year": "2026",
    "month": "September",

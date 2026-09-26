@@ -173,6 +173,8 @@ them only when their inputs change; commit their outputs.
 | build-juz.mjs | Tanzil standard division + surah-meta | data/juz.json | navigate.html juz grid, read.html `?j=` |
 | build-csp.mjs | every page's inline `<script>` and `<style>` blocks | netlify.toml `script-src` + `style-src-elem` hashes | CSP authorizes inline scripts/styles without `'unsafe-inline'` (`--check` guards staleness) |
 | build-surah-pages.mjs | surah-names, chronology, surah-meta, surah-profiles, structure/, theme-surah-index, formula-summary, rhyme-summary, recitation/pace.json, rhetorical-features (fawatih), exercises, khan-interpretations (existence only), quran-text/, and navigate.html's page chrome | surah/{1-114}.html, navigate.html's static:surah-pages list, sitemap.xml's surah-pages entries | one static, indexable reference page per surah at `/surah/<n>`: counts, classification, revelation order, juz and pages, listening time, top roots, computed sections, themes, recurring phrases, verse endings, and the full Tanzil text with Tanzil's notice. Chrome (header, nav, footer, settings) is copied from navigate.html so the nav stays identical; no inline scripts or `<style>` (the `/surah/*` CSP block allows none). `--check` fails on any stale page, list or sitemap entry. Run before build-page-dates |
+| build-juz-pages.mjs | juz.json, quran-text/ (verses, pages), exports/verse-lengths.json, recitation/pace.json | juz/{1-30}.html, navigate.html's static:juz-pages list, sitemap.xml's juz-pages entries | one static reference page per juz at `/juz/<n>`: boundaries, verses, word-units, surahs spanned (whole or part), mushaf pages, listening time per reciter. No Arabic text (it lives on the surah pages). Fails if the text metadata disagrees with juz.json about any verse's juz. Frame from scripts/lib/page-shell.mjs |
+| build-root-pages.mjs | roots-summary, root-analytics/, dispersion/, association/, exports (root-frequencies, lemma-frequencies, root-surah-counts) | root/<safeKey>.html for every root with 20+ occurrences, roots.html's static:root-pages list, sitemap.xml's root-pages entries | one static reference page per frequent root at `/root/<key>`: count and rank, verses and surahs, period and Meccan/Medinan splits (labeled), lemmas, written forms, where it concentrates, companion roots, first verses. Below 20 occurrences a page would be thin, so those stay in the explorer only. Surah pages link their top roots here when a page exists |
 | build-page-dates.mjs | every page's `<main>` (scripts and whitespace runs removed), hashed | data/page-dates.json | when each page's content last changed: sitemap.xml `<lastmod>` (build-canonicals) and each page's JSON-LD `dateModified` (build-jsonld). The date moves only when the hash does, so it is stable in a one-commit-deep CI checkout; `--check` fails when a page's content changed without a new date. Run it before build-canonicals and build-jsonld |
 | build-canonicals.mjs | `scripts/lib/site.mjs` (origin + clean-path rule), data/page-dates.json | every page's canonical/og:url, every internal link, sitemap.xml `<loc>` and `<lastmod>`, robots.txt | one address per page. `--check` fails on a canonical that is missing, duplicated, points elsewhere, disagrees with og:url, or names a `.html` address; also on an internal link that still ends in `.html` |
 | build-surah-profiles.mjs | morphology, chronology | data/surah-profiles.json | navigate.html profiles; also `formDiversityRatio`/`lemmaDiversityRatio` (type-token ratio at the surface-form and lemma level, alongside the existing root-level ratio), surfaced on dossier.html's Vocab section |
@@ -247,6 +249,7 @@ so every one is listed here, not only the ones with a recent story.
 | static-server.mjs | the ONE local static server the browser-driving scripts point Chromium at. Serving over http:// rather than file:// matters — fetch, the SW and CSP all behave differently |
 | playwright.mjs | the ONE way this repo resolves Playwright, degrading with a clear message rather than a module-not-found stack. Playwright is a dev-machine tool; nothing it needs ever ships |
 | ordinal.mjs | English ordinal suffix ("13th") |
+| page-shell.mjs | the ONE frame for the generated reference-page families (surah/, juz/, root/): chrome copied from navigate.html with absolute asset paths, the head, badges, the Leeds part-of-speech labels, the static-region and sitemap-region writers, and the write-or-check loop. The three generators share it so none can drift from the others or from the root pages |
 
 `scripts/lib/corpus.mjs` holds the corpus totals — `TOTAL_VERSES`,
 `TOTAL_TOKENS`, `TOTAL_ROOTS`, `TOTAL_SURAHS` — that eight of these
@@ -296,7 +299,9 @@ tighten: numbers.html builds 6,668 DOM nodes and roots.html 2,910, both
 from rendering every row of their tables up front, and a dossier pulls
 1.6 MB of per-surah data on open. The 1 MB of self-hosted fonts is the
 bulk of every other page's weight and is cached stale-while-revalidate
-after the first visit.
+after the first visit. Since 2026-09-26 roots.html also carries the
+static list of 411 root-page links (about 1,650 nodes, 4,566 in all),
+so its node budget is 5,000.
 
 | Script | Guards |
 |---|---|
@@ -657,7 +662,7 @@ plus a `[[redirects]]` rule 301ing the first to the second with
 matches headers on the request path, so a clean path without its own
 block ships with no CSP. Then run
 `node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs
-&& node scripts/build-surah-pages.mjs && node scripts/build-page-dates.mjs && node scripts/build-canonicals.mjs && node scripts/build-jsonld.mjs
+&& node scripts/build-surah-pages.mjs && node scripts/build-juz-pages.mjs && node scripts/build-root-pages.mjs && node scripts/build-page-dates.mjs && node scripts/build-canonicals.mjs && node scripts/build-jsonld.mjs
 && node scripts/build-csp.mjs`.
 
 **`netlify.toml` is a hybrid file, and that makes its merge conflicts

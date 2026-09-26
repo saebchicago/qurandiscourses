@@ -4695,3 +4695,66 @@ input[type="checkbox"] {
   font-size: 0.78rem;
   overflow-wrap: anywhere;
 }
+
+/* Reference pages on paper (surah/, juz/, root/): the facts, the text
+   and the sources, without the site's controls. A study-circle handout. */
+@media print {
+  .surah-page ~ footer.site,
+  body:has(.surah-page) header.site,
+  body:has(.surah-page) nav.primary,
+  body:has(.surah-page) .settings,
+  body:has(.surah-page) .skip,
+  body:has(.surah-page) #listenPanel,
+  .surah-page .surah-actions,
+  .surah-page .surah-pager,
+  .surah-page .surah-crumbs {
+    display: none !important;
+  }
+  body:has(.surah-page) {
+    background: #fff;
+    color: #000;
+  }
+  .surah-page .grid {
+    display: block;
+  }
+  .surah-page .card {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0 0 1rem;
+    break-inside: avoid;
+    background: none;
+  }
+  .surah-page .surah-text-card {
+    break-inside: auto;
+  }
+  .surah-page .surah-text {
+    font-size: 16pt;
+    line-height: 2.1;
+  }
+  .surah-page a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .surah-page .badge {
+    border: none;
+    background: none;
+    padding: 0;
+  }
+  /* The notice must travel with the text, so it prints even while its
+     <details> is closed on screen. */
+  .surah-page details::details-content {
+    content-visibility: visible;
+    display: block;
+  }
+  .surah-page details > summary {
+    font-weight: 600;
+  }
+  .surah-page::after {
+    content: "divinediscourses.org";
+    display: block;
+    margin-top: 1rem;
+    font-size: 9pt;
+    color: #555;
+  }
+}

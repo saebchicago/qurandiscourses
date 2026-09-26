@@ -160,7 +160,7 @@ if (runCheck("sitemap") && !PAGE_FILTER) {
   }
   for (const loc of sitemapLocs) {
     // Generated surah reference pages live one directory down.
-    if (/^\/surah\/\d+$/.test(loc) && existsSync(join(ROOT, loc.slice(1) + ".html"))) continue;
+    if (/^\/(surah|juz|root)\/[^/]+$/.test(loc) && existsSync(join(ROOT, loc.slice(1) + ".html"))) continue;
     if (!pathOf.has(loc)) {
       report("sitemap", loc, false, "sitemap entry has no file on disk");
     }
@@ -1174,7 +1174,7 @@ if (runCheck("renders") && !PAGE_FILTER && !LIVE) {
 // — buttons, transport, nav entries, form fields, disclosures — hold to
 // 44, which is what the maintainer guide already asks of them.
 if (runCheck("targets") && !PAGE_FILTER && !LIVE) {
-  const TARGET_PAGES = ["index", "read", "navigate", "dossier", "roots", "numbers", "glossary", "search", "sources", "paths", "exercises", "replay", "surah/36"];
+  const TARGET_PAGES = ["index", "read", "navigate", "dossier", "roots", "numbers", "glossary", "search", "sources", "paths", "exercises", "replay", "surah/36", "juz/4", "root/qwl"];
   const CONTROL_44 = ".button, .btn-primary, .btn-secondary, .btn-utility, nav.primary .nav-menu a, .nav-group-btn, .listen-btn, .verse-listen-btn, .verse-more-btn, .verse-note-mark, .verse .meta .vref, .read-context-ref, .verse-count-btn, .depth-toggle button, .qd-chip, .method-note summary, input[type=text], input[type=search], input[type=number], select, .replay-transport button";
   for (const p of TARGET_PAGES) {
     const tctx = await newContext({ apiMode: "stub" });
@@ -1267,9 +1267,11 @@ if (runCheck("budgets") && !PAGE_FILTER && !LIVE) {
     // dossier(103) 1638 / 42 / 371. The DOM counts on numbers and roots and
     // the weight of a dossier are the findings here; the budgets hold the
     // line at them rather than pretending they are smaller.
+    // 2026-09-26: roots gained the static list of 411 root pages (about
+    // 1,650 nodes, links a crawler needs without JavaScript): 4566 nodes.
     { path: "/index.html", bytesKB: 1250, requests: 40, domNodes: 800 },
     { path: "/read.html?s=103&a=1-3", bytesKB: 1000, requests: 45, domNodes: 1200 },
-    { path: "/roots.html", bytesKB: 1400, requests: 45, domNodes: 3500 },
+    { path: "/roots.html", bytesKB: 1400, requests: 45, domNodes: 5000 },
     { path: "/numbers.html", bytesKB: 950, requests: 40, domNodes: 8000 },
     { path: "/navigate.html", bytesKB: 1050, requests: 40, domNodes: 2500 },
     { path: "/dossier.html?s=103", bytesKB: 2000, requests: 52, domNodes: 1000 },
@@ -3509,6 +3511,52 @@ if (runCheck("surahpages") && !LIVE) {
     return c;
   })();
   report("surah-page-console", "surah/36.html", errs.length === 0, errs.slice(0, 3).join(" | ") || "clean");
+
+  // Juz and root families: content in the HTML, clean console, linked
+  // from their index pages.
+  const juzData = JSON.parse(readFileSync(join(ROOT, "data/juz.json"), "utf8")).juz;
+  const j4 = juzData[3];
+  const juzHtml = readFileSync(join(ROOT, "juz/4.html"), "utf8");
+  report(
+    "juz-page-static", "juz/4.html",
+    juzHtml.includes(`${j4.startSurah}:${j4.startAyah} to`) && (juzHtml.match(/<tr><td>/g) || []).length >= paceData.reciters.length && !/<script(?![^>]*\bsrc=)(?![^>]*application\/ld\+json)[^>]*>/.test(juzHtml),
+    `juz 4 starts ${j4.startSurah}:${j4.startAyah} in data/juz.json and on the page; reciter rows present; no inline script`,
+  );
+  const rootHtml = readFileSync(join(ROOT, "root/qwl.html"), "utf8");
+  report(
+    "root-page-static", "root/qwl.html",
+    /occurs 1,722 times in the Qur'an/.test(rootHtml) && /href="\/surah\/\d+"/.test(rootHtml) && !/<script(?![^>]*\bsrc=)(?![^>]*application\/ld\+json)[^>]*>/.test(rootHtml),
+    "q-w-l count, surah links, no inline script",
+  );
+  for (const path of ["/juz/4", "/root/qwl"]) {
+    const e2 = [];
+    const pg = await jctx.newPage();
+    attachConsoleCollector(pg, e2);
+    await pg.goto(`${BASE}${path}`, { waitUntil: "load" });
+    await pg.waitForTimeout(300);
+    report("family-page-console", path.slice(1) + ".html", e2.length === 0, e2.slice(0, 3).join(" | ") || "clean");
+    await pg.close();
+  }
+  const idx = await jctx.newPage();
+  await idx.goto(`${BASE}/navigate`, { waitUntil: "load" });
+  const juzLinks = await idx.evaluate(() => document.querySelectorAll('.surah-page-list a[href^="/juz/"]').length);
+  await idx.goto(`${BASE}/roots`, { waitUntil: "load" });
+  const rootLinks = await idx.evaluate(() => document.querySelectorAll('.root-page-list a[href^="/root/"]').length);
+  const rootFiles = readdirSync(join(ROOT, "root")).filter((f) => f.endsWith(".html")).length;
+  report("family-pages-linked", "navigate.html + roots.html", juzLinks === 30 && rootLinks === rootFiles, `${juzLinks} juz links (want 30), ${rootLinks} root links (want ${rootFiles})`);
+  await idx.close();
+
+  // On paper: chrome gone, facts and the Tanzil notice present.
+  const pr = await jctx.newPage();
+  await pr.emulateMedia({ media: "print" });
+  await pr.goto(`${BASE}/surah/112`, { waitUntil: "load" });
+  const printed = await pr.evaluate(() => {
+    const vis = (sel) => { const el = document.querySelector(sel); return !!el && el.getClientRects().length > 0 && getComputedStyle(el).display !== "none"; };
+    const notice = document.querySelector(".tanzil-notice");
+    return { nav: vis("nav.primary"), footer: vis("footer.site"), facts: vis(".surah-facts"), notice: !!notice && notice.getBoundingClientRect().height > 20 };
+  });
+  report("surah-page-print", "surah/112.html", !printed.nav && !printed.footer && printed.facts && printed.notice, `print: nav ${printed.nav}, footer ${printed.footer}, facts ${printed.facts}, Tanzil notice shown ${printed.notice}`);
+  await pr.close();
   report("surah-pages-linked", "navigate.html", listed === 114, `${listed} links to /surah/<n> on Navigate (want 114)`);
   await jctx.close();
 }

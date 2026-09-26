@@ -32,16 +32,20 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "data", "page-dates.json");
 const CHECK = process.argv.includes("--check");
 
-// Root pages, plus the generated surah reference pages (surah/<n>.html),
-// which are in the sitemap too.
+// Root pages, plus the generated reference-page families (surah/, juz/,
+// root/), which are in the sitemap too.
+const family = (dir) =>
+  existsSync(join(ROOT, dir))
+    ? readdirSync(join(ROOT, dir))
+        .filter((f) => f.endsWith(".html"))
+        .sort((a, b) => parseInt(a, 10) - parseInt(b, 10) || (a < b ? -1 : a > b ? 1 : 0))
+        .map((f) => `${dir}/${f}`)
+    : [];
 const pages = [
   ...readdirSync(ROOT).filter((f) => f.endsWith(".html")).sort(),
-  ...(existsSync(join(ROOT, "surah"))
-    ? readdirSync(join(ROOT, "surah"))
-        .filter((f) => f.endsWith(".html"))
-        .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))
-        .map((f) => `surah/${f}`)
-    : []),
+  ...family("surah"),
+  ...family("juz"),
+  ...family("root"),
 ];
 
 function contentHash(html) {

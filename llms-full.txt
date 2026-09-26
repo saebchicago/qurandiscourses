@@ -186,6 +186,45 @@ One static reference page per surah (scripts/build-surah-pages.mjs): verse and w
 - [Surah al-Falaq (الفلق), 5 verses](https://divinediscourses.org/surah/113): Surah al-Falaq (الفلق), surah 113 of the Qur'an: 5 verses, Meccan, 20th in revelation order. Arabic text, roots, structure and listening time.
 - [Surah al-Nas (الناس), 6 verses](https://divinediscourses.org/surah/114): Surah al-Nas (الناس), surah 114 of the Qur'an: 6 verses, Meccan, 21st in revelation order. Arabic text, roots, structure and listening time.
 
+## Juz
+
+One static reference page per juz (scripts/build-juz-pages.mjs): boundaries, surahs spanned, mushaf pages, and listening time per reciter.
+
+- [Juz 1: al-Fatihah 1:1 to 2:141](https://divinediscourses.org/juz/1): Juz 1 of 30 runs from al-Fatihah 1:1 to al-Baqarah 2:141: 148 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 2: al-Baqarah 2:142 to 2:252](https://divinediscourses.org/juz/2): Juz 2 of 30 runs from al-Baqarah 2:142 to al-Baqarah 2:252: 111 verses in 1 surah. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 3: al-Baqarah 2:253 to 3:92](https://divinediscourses.org/juz/3): Juz 3 of 30 runs from al-Baqarah 2:253 to Al ʿImran 3:92: 126 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 4: Al ʿImran 3:93 to 4:23](https://divinediscourses.org/juz/4): Juz 4 of 30 runs from Al ʿImran 3:93 to al-Nisa' 4:23: 131 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 5: al-Nisa' 4:24 to 4:147](https://divinediscourses.org/juz/5): Juz 5 of 30 runs from al-Nisa' 4:24 to al-Nisa' 4:147: 124 verses in 1 surah. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 6: al-Nisa' 4:148 to 5:81](https://divinediscourses.org/juz/6): Juz 6 of 30 runs from al-Nisa' 4:148 to al-Ma'idah 5:81: 110 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 7: al-Ma'idah 5:82 to 6:110](https://divinediscourses.org/juz/7): Juz 7 of 30 runs from al-Ma'idah 5:82 to al-An'am 6:110: 149 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 8: al-An'am 6:111 to 7:87](https://divinediscourses.org/juz/8): Juz 8 of 30 runs from al-An'am 6:111 to al-A'raf 7:87: 142 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 9: al-A'raf 7:88 to 8:40](https://divinediscourses.org/juz/9): Juz 9 of 30 runs from al-A'raf 7:88 to al-Anfal 8:40: 159 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 10: al-Anfal 8:41 to 9:92](https://divinediscourses.org/juz/10): Juz 10 of 30 runs from al-Anfal 8:41 to al-Tawbah 9:92: 127 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 11: al-Tawbah 9:93 to 11:5](https://divinediscourses.org/juz/11): Juz 11 of 30 runs from al-Tawbah 9:93 to Hud 11:5: 151 verses in 3 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 12: Hud 11:6 to 12:52](https://divinediscourses.org/juz/12): Juz 12 of 30 runs from Hud 11:6 to Yusuf 12:52: 170 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 13: Yusuf 12:53 to 14:52](https://divinediscourses.org/juz/13): Juz 13 of 30 runs from Yusuf 12:53 to Ibrahim 14:52: 154 verses in 3 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 14: al-Hijr 15:1 to 16:128](https://divinediscourses.org/juz/14): Juz 14 of 30 runs from al-Hijr 15:1 to al-Nahl 16:128: 227 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 15: al-Isra 17:1 to 18:74](https://divinediscourses.org/juz/15): Juz 15 of 30 runs from al-Isra 17:1 to al-Kahf 18:74: 185 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 16: al-Kahf 18:75 to 20:135](https://divinediscourses.org/juz/16): Juz 16 of 30 runs from al-Kahf 18:75 to Taha 20:135: 269 verses in 3 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 17: al-Anbiya 21:1 to 22:78](https://divinediscourses.org/juz/17): Juz 17 of 30 runs from al-Anbiya 21:1 to al-Hajj 22:78: 190 verses in 2 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 18: al-Mu'minun 23:1 to 25:20](https://divinediscourses.org/juz/18): Juz 18 of 30 runs from al-Mu'minun 23:1 to al-Furqan 25:20: 202 verses in 3 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 19: al-Furqan 25:21 to 27:55](https://divinediscourses.org/juz/19): Juz 19 of 30 runs from al-Furqan 25:21 to al-Naml 27:55: 339 verses in 3 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 20: al-Naml 27:56 to 29:45](https://divinediscourses.org/juz/20): Juz 20 of 30 runs from al-Naml 27:56 to al-'Ankabut 29:45: 171 verses in 3 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 21: al-'Ankabut 29:46 to 33:30](https://divinediscourses.org/juz/21): Juz 21 of 30 runs from al-'Ankabut 29:46 to al-Ahzab 33:30: 178 verses in 5 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 22: al-Ahzab 33:31 to 36:27](https://divinediscourses.org/juz/22): Juz 22 of 30 runs from al-Ahzab 33:31 to Yasin 36:27: 169 verses in 4 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 23: Yasin 36:28 to 39:31](https://divinediscourses.org/juz/23): Juz 23 of 30 runs from Yasin 36:28 to al-Zumar 39:31: 357 verses in 4 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 24: al-Zumar 39:32 to 41:46](https://divinediscourses.org/juz/24): Juz 24 of 30 runs from al-Zumar 39:32 to Fussilat 41:46: 175 verses in 3 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 25: Fussilat 41:47 to 45:37](https://divinediscourses.org/juz/25): Juz 25 of 30 runs from Fussilat 41:47 to al-Jathiyah 45:37: 246 verses in 5 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 26: al-Ahqaf 46:1 to 51:30](https://divinediscourses.org/juz/26): Juz 26 of 30 runs from al-Ahqaf 46:1 to al-Dhariyat 51:30: 195 verses in 6 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 27: al-Dhariyat 51:31 to 57:29](https://divinediscourses.org/juz/27): Juz 27 of 30 runs from al-Dhariyat 51:31 to al-Hadid 57:29: 399 verses in 7 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 28: al-Mujadilah 58:1 to 66:12](https://divinediscourses.org/juz/28): Juz 28 of 30 runs from al-Mujadilah 58:1 to al-Tahrim 66:12: 137 verses in 9 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 29: al-Mulk 67:1 to 77:50](https://divinediscourses.org/juz/29): Juz 29 of 30 runs from al-Mulk 67:1 to al-Mursalat 77:50: 431 verses in 11 surahs. Listening time per reciter, mushaf pages, read and listen links.
+- [Juz 30: al-Naba' 78:1 to 114:6](https://divinediscourses.org/juz/30): Juz 30 of 30 runs from al-Naba' 78:1 to al-Nas 114:6: 564 verses in 37 surahs. Listening time per reciter, mushaf pages, read and listen links.
+
+## Roots
+
+One static reference page for each root occurring 20 or more times (scripts/build-root-pages.mjs), at https://divinediscourses.org/root/<key>; the full list is on https://divinediscourses.org/roots. Every root, frequent or not, is in the Roots explorer and the root-frequencies export.
+
 
 ===== Divine Discourses: Read the Qur'an One Surah at a Time (https://divinediscourses.org/) =====
 
@@ -503,8 +542,8 @@ surah. Click one to start reading from its first verse.
 
 Juz 1 al-Fatihah 1:1 → 2:141
 Juz 2 al-Baqarah 2:142–252
-Juz 3 al-Baqarah 2:253 → 3:91
-Juz 4 Al ʿImran 3:92 → 4:23
+Juz 3 al-Baqarah 2:253 → 3:92
+Juz 4 Al ʿImran 3:93 → 4:23
 Juz 5 al-Nisa' 4:24–147
 Juz 6 al-Nisa' 4:148 → 5:81
 Juz 7 al-Ma'idah 5:82 → 6:110
@@ -775,6 +814,71 @@ and the Arabic text.
 113 al-Falaq
 
 114 al-Nas
+
+### A reference page for every juz
+
+Where each juz starts and ends, the surahs it spans, its mushaf
+pages, and how long it takes with each reciter.
+
+1 al-Fatihah 1:1
+
+2 al-Baqarah 2:142
+
+3 al-Baqarah 2:253
+
+4 Al ʿImran 3:93
+
+5 al-Nisa' 4:24
+
+6 al-Nisa' 4:148
+
+7 al-Ma'idah 5:82
+
+8 al-An'am 6:111
+
+9 al-A'raf 7:88
+
+10 al-Anfal 8:41
+
+11 al-Tawbah 9:93
+
+12 Hud 11:6
+
+13 Yusuf 12:53
+
+14 al-Hijr 15:1
+
+15 al-Isra 17:1
+
+16 al-Kahf 18:75
+
+17 al-Anbiya 21:1
+
+18 al-Mu'minun 23:1
+
+19 al-Furqan 25:21
+
+20 al-Naml 27:56
+
+21 al-'Ankabut 29:46
+
+22 al-Ahzab 33:31
+
+23 Yasin 36:28
+
+24 al-Zumar 39:32
+
+25 Fussilat 41:47
+
+26 al-Ahqaf 46:1
+
+27 al-Dhariyat 51:31
+
+28 al-Mujadilah 58:1
+
+29 al-Mulk 67:1
+
+30 al-Naba' 78:1
 
 ===== Surah dossier: one profile per surah (https://divinediscourses.org/dossier) =====
 
@@ -1633,6 +1737,834 @@ Lane's Arabic-English Lexicon (see
 Sources ), and the morphology browser
 at
 corpus.quran.com .
+
+### A reference page for each frequent root
+
+Every root that occurs 20 or more times has its own plain page:
+count and rank, spread, lemmas and forms, where it concentrates,
+and the roots it keeps company with. The number is its count.
+
+ا ل ه a-l-h 2,851
+
+ق و ل q-w-l 1,722
+
+ك و ن k-w-n 1,390
+
+ر ب ب r-b-b 980
+
+ا م ن a-m-n 879
+
+ع ل م ʿ-l-m 854
+
+ق و م q-w-m 660
+
+ا ت ي a-t-y 549
+
+ك ف ر k-f-r 525
+
+ب ي ن b-y-n 523
+
+ش ي ا sh-y-a 519
+
+ر س ل r-s-l 513
+
+ا ر ض a-r-ḍ 461
+
+ي و م y-w-m 405
+
+ا ي ي a-y-y 382
+
+س م و s-m-w 381
+
+ك ل ل k-l-l 377
+
+ع ذ ب ʿ-dh-b 373
+
+ع م ل ʿ-m-l 360
+
+ج ع ل j-ʿ-l 346
+
+ر ح م r-ḥ-m 339
+
+ر ا ي r-a-y 328
+
+ك ت ب k-t-b 319
+
+ه د ي h-d-y 316
+
+ظ ل م ẓ-l-m 315
+
+ن ف س n-f-s 298
+
+ق ب ل q-b-l 294
+
+ن ز ل n-z-l 293
+
+ذ ك ر dh-k-r 292
+
+ح ق ق ḥ-q-q 287
+
+ك ذ ب k-dh-b 282
+
+ج ي ا j-y-a 278
+
+ع ب د ʿ-b-d 275
+
+ا خ ذ a-kh-dh 273
+
+خ ل ق kh-l-q 261
+
+و ق ي w-q-y 258
+
+ا خ ر a-kh-r 250
+
+ا م ر a-m-r 248
+
+ن و س n-w-s 241
+
+ب ع د b-ʿ-d 235
+
+غ ف ر gh-f-r 234
+
+و ل ي w-l-y 232
+
+د ع و d-ʿ-w 212
+
+ح ك م ḥ-k-m 210
+
+م ل ك m-l-k 206
+
+ع ن د ʿ-n-d 201
+
+ج ن ن j-n-n 201
+
+خ ي ر kh-y-r 196
+
+ح س ن ḥ-s-n 194
+
+ن و ر n-w-r 194
+
+ض ل ل ḍ-l-l 191
+
+س م ع s-m-ʿ 185
+
+ب ن ي b-n-y 184
+
+ح ي ي ḥ-y-y 184
+
+خ ر ج kh-r-j 182
+
+ص ل ح ṣ-l-ḥ 180
+
+س ب ل s-b-l 176
+
+ت ب ع t-b-ʿ 172
+
+ا و ل a-w-l 170
+
+ق ت ل q-t-l 170
+
+م ث ل m-th-l 169
+
+ش ر ك sh-r-k 168
+
+ق ل ب q-l-b 168
+
+ك ث ر k-th-r 167
+
+س و ا s-w-a 167
+
+م و ت m-w-t 165
+
+ك ب ر k-b-r 161
+
+ش ه د sh-h-d 160
+
+ن ب ا n-b-a 160
+
+ب ع ض b-ʿ-ḍ 158
+
+ن ص ر n-ṣ-r 158
+
+ص د ق ṣ-d-q 155
+
+غ ي ر gh-y-r 154
+
+و ع د w-ʿ-d 151
+
+ب ص ر b-ṣ-r 148
+
+ر و د r-w-d 148
+
+ل ق ي l-q-y 146
+
+د و ن d-w-n 144
+
+ن ع م n-ʿ-m 140
+
+س ل م s-l-m 140
+
+د ن و d-n-w 133
+
+ق د ر q-d-r 132
+
+ن ذ ر n-dh-r 130
+
+ج م ع j-m-ʿ 129
+
+ن ظ ر n-ẓ-r 129
+
+س ا ل s-a-l 129
+
+ط و ع ṭ-w-ʿ 129
+
+ع ظ م ʿ-ẓ-m 128
+
+ا ه ل a-h-l 127
+
+خ ل ف kh-l-f 127
+
+د خ ل d-kh-l 126
+
+خ و ف kh-w-f 124
+
+ب ش ر b-sh-r 123
+
+ر ز ق r-z-q 123
+
+ي د ي y-d-y 120
+
+ع ز ز ʿ-z-z 119
+
+ا م م a-m-m 118
+
+ج ز ي j-z-y 118
+
+ا ب و a-b-w 117
+
+ن ه ر n-h-r 113
+
+ن ف ق n-f-q 111
+
+ا ك ل a-k-l 109
+
+ح س ب ḥ-s-b 109
+
+ا ج ر a-j-r 108
+
+ف ع ل f-ʿ-l 108
+
+و ج د w-j-d 107
+
+ع د و ʿ-d-w 106
+
+ف ض ل f-ḍ-l 104
+
+ر ج ع r-j-ʿ 104
+
+ص ب ر ṣ-b-r 103
+
+ش د د sh-d-d 102
+
+ا ذ ن a-dh-n 102
+
+و ل د w-l-d 102
+
+د ي ن d-y-n 101
+
+ص ل و ṣ-l-w 99
+
+ا ن س a-n-s 97
+
+ص ح ب ṣ-ḥ-b 97
+
+ا خ و a-kh-w 96
+
+ب غ ي b-gh-y 96
+
+ق ر ب q-r-b 96
+
+ح ب ب ḥ-b-b 95
+
+ل ي ل l-y-l 92
+
+س ب ح s-b-ḥ 92
+
+س ج د s-j-d 92
+
+ل ي س l-y-s 89
+
+ش ط ن sh-ṭ-n 88
+
+ق ر ا q-r-a 88
+
+ت و ب t-w-b 87
+
+خ ل د kh-l-d 87
+
+م و ل m-w-l 86
+
+ا ح د a-ḥ-d 85
+
+ن ج و n-j-w 84
+
+ح ر م ḥ-r-m 83
+
+ك ي ف k-y-f 83
+
+س و ي s-w-y 83
+
+ز و ج z-w-j 81
+
+ع ق ب ʿ-q-b 80
+
+ع ر ض ʿ-r-ḍ 79
+
+و ح ي w-ḥ-y 78
+
+و ج ه w-j-h 78
+
+ب ل غ b-l-gh 77
+
+ص و ب ṣ-w-b 77
+
+ق ل ل q-l-l 76
+
+ش ك ر sh-k-r 75
+
+ا ل م a-l-m 75
+
+ك ل م k-l-m 75
+
+ض ر ر ḍ-r-r 74
+
+ب ا س b-a-s 73
+
+ب ي ت b-y-t 73
+
+غ ن ي gh-n-y 73
+
+ر ض و r-ḍ-w 73
+
+ر ج ل r-j-l 73
+
+ف ر ق f-r-q 72
+
+ي م ن y-m-n 71
+
+ع ل و ʿ-l-w 70
+
+ع ر ف ʿ-r-f 70
+
+م ت ع m-t-ʿ 70
+
+و ك ل w-k-l 70
+
+س ك ن s-k-n 69
+
+ظ ن ن ẓ-n-n 69
+
+ه ل ك h-l-k 68
+
+و ح د w-ḥ-d 68
+
+ب ع ث b-ʿ-th 67
+
+ك س ب k-s-b 67
+
+ج ر م j-r-m 66
+
+و ف ي w-f-y 66
+
+ع ي ن ʿ-y-n 65
+
+خ س ر kh-s-r 65
+
+ح م ل ḥ-m-l 64
+
+ج ر ي j-r-y 64
+
+ذ و ق dh-w-q 63
+
+ع و د ʿ-w-d 63
+
+ح م د ḥ-m-d 63
+
+م و ه m-w-h 63
+
+ق ض ي q-ḍ-y 63
+
+س ح ر s-ḥ-r 63
+
+ت ل و t-l-w 63
+
+م س س m-s-s 61
+
+ز ي د z-y-d 61
+
+ف ر ي f-r-y 60
+
+ف ت ن f-t-n 60
+
+غ ي ب gh-y-b 60
+
+ن س و n-s-w 59
+
+ر د د r-d-d 59
+
+ظ ه ر ẓ-h-r 59
+
+ز ك و z-k-w 59
+
+ض ر ب ḍ-r-b 58
+
+ع د د ʿ-d-d 57
+
+ق ر ي q-r-y 57
+
+ر و ح r-w-ḥ 57
+
+ذ ه ب dh-h-b 56
+
+ا ج ل a-j-l 56
+
+ن ه ي n-h-y 56
+
+د و ر d-w-r 55
+
+ف س ق f-s-q 54
+
+ن د و n-d-w 53
+
+ض ع ف ḍ-ʿ-f 52
+
+خ ب ر kh-b-r 52
+
+ح ل ل ḥ-l-l 51
+
+ت ح ت t-ḥ-t 51
+
+ف س د f-s-d 50
+
+ن ف ع n-f-ʿ 50
+
+ط ي ب ṭ-y-b 50
+
+ع ق ل ʿ-q-l 49
+
+س و ع s-w-ʿ 49
+
+ا ث م a-th-m 48
+
+ق د م q-d-m 48
+
+ط ع م ṭ-ʿ-m 48
+
+خ ش ي kh-sh-y 48
+
+ع ج ل ʿ-j-l 47
+
+ك ر م k-r-m 47
+
+ع ه د ʿ-h-d 46
+
+ص د ر ṣ-d-r 46
+
+ز ي ن z-y-n 46
+
+ن س ي n-s-y 45
+
+ص ب ح ṣ-b-ḥ 45
+
+ص ر ط ṣ-r-ṭ 45
+
+و ذ ر w-dh-r 45
+
+ب د ل b-d-l 44
+
+د ب ر d-b-r 44
+
+ح ف ظ ḥ-f-ẓ 44
+
+س ر ر s-r-r 44
+
+ي س ر y-s-r 44
+
+ف ص ل f-ṣ-l 43
+
+ف و ق f-w-q 43
+
+ح ش ر ḥ-sh-r 43
+
+ج و ب j-w-b 43
+
+م ك ر m-k-r 43
+
+ت ر ك t-r-k 43
+
+ب ح ر b-ḥ-r 42
+
+ح ز ن ḥ-z-n 42
+
+ق و ي q-w-y 42
+
+ص د د ṣ-d-d 42
+
+س خ ر s-kh-r 42
+
+ج ب ل j-b-l 41
+
+ج ه د j-h-d 41
+
+ك ر ه k-r-h 41
+
+ل ع ن l-ʿ-n 41
+
+ط و ف ṭ-w-f 41
+
+ش ع ر sh-ʿ-r 40
+
+ف ل ح f-l-ḥ 40
+
+م ل ا m-l-a 40
+
+ذ ن ب dh-n-b 39
+
+ش ر ب sh-r-b 39
+
+س ل ط s-l-ṭ 39
+
+ط غ ي ṭ-gh-y 39
+
+ذ ر ر dh-r-r 38
+
+ب ل و b-l-w 38
+
+ف ت ح f-t-ḥ 38
+
+ه و ي h-w-y 38
+
+م ر ا m-r-a 38
+
+ق ر ر q-r-r 38
+
+ا ل و a-l-w 37
+
+ن ك ر n-k-r 37
+
+س ب ق s-b-q 37
+
+ا ن ي a-n-y 36
+
+ا و ي a-w-y 36
+
+ب ط ل b-ṭ-l 36
+
+ح د ث ḥ-d-th 36
+
+ق ر ن q-r-n 36
+
+ق ط ع q-ṭ-ʿ 36
+
+ر ي ب r-y-b 36
+
+ع ف و ʿ-f-w 35
+
+غ ف ل gh-f-l 35
+
+ح ي ن ḥ-y-n 35
+
+ك ي د k-y-d 35
+
+م ر ر m-r-r 35
+
+و ر ث w-r-th 35
+
+ه ز ا h-z-a 34
+
+ج ن ح j-n-ḥ 34
+
+و ث ق w-th-q 34
+
+خ ف ي kh-f-y 34
+
+ش م س sh-m-s 33
+
+ع م ي ʿ-m-y 33
+
+ع ر ش ʿ-r-sh 33
+
+ح ج ج ḥ-j-j 33
+
+ج ن ب j-n-b 33
+
+ك ف ي k-f-y 33
+
+ق س م q-s-m 33
+
+ظ ل ل ẓ-l-l 33
+
+ب ر ك b-r-k 32
+
+ب ر ر b-r-r 32
+
+ع ص ي ʿ-ṣ-y 32
+
+م د د m-d-d 32
+
+ن ص ب n-ṣ-b 32
+
+ث ل ث th-l-th 32
+
+و ر ي w-r-y 32
+
+و س ع w-s-ʿ 32
+
+و ص ي w-ṣ-y 32
+
+ش ف ع sh-f-ʿ 31
+
+ش ر ر sh-r-r 31
+
+ب د و b-d-w 31
+
+ب ر ا b-r-a 31
+
+غ ل ب gh-l-b 31
+
+ه ج ر h-j-r 31
+
+ح ي ث ḥ-y-th 31
+
+ل ب ث l-b-th 31
+
+ق ع د q-ʿ-d 31
+
+ط ه ر ṭ-h-r 31
+
+خ ل ص kh-l-ṣ 31
+
+ا ف ك a-f-k 30
+
+ا ن ث a-n-th 30
+
+ع س ي ʿ-s-y 30
+
+ق ص ص q-ṣ-ṣ 30
+
+س ع ي s-ʿ-y 30
+
+ص ر ف ṣ-r-f 30
+
+د ر ي d-r-y 29
+
+ف و ز f-w-z 29
+
+غ ش و gh-sh-w 29
+
+ج د ل j-d-l 29
+
+ج ن د j-n-d 29
+
+ر ف ع r-f-ʿ 29
+
+ص ي ر ṣ-y-r 29
+
+ط ي ر ṭ-y-r 29
+
+ث ن ي th-n-y 29
+
+و د د w-d-d 29
+
+ش ق ق sh-q-q 28
+
+ا ب د a-b-d 28
+
+ع د ل ʿ-d-l 28
+
+ح و ط ḥ-w-ṭ 28
+
+ن ش ا n-sh-a 28
+
+ر ج و r-j-w 28
+
+س ب ع s-b-ʿ 28
+
+ث ق ل th-q-l 28
+
+ث و ب th-w-b 28
+
+خ ل و kh-l-w 28
+
+ي ق ن y-q-n 28
+
+ش ج ر sh-j-r 27
+
+ب و ب b-w-b 27
+
+ع ش ر ʿ-sh-r 27
+
+ع ج ب ʿ-j-b 27
+
+غ ر ر gh-r-r 27
+
+م ن ن m-n-n 27
+
+م س ك m-s-k 27
+
+ق م ر q-m-r 27
+
+س ي ر s-y-r 27
+
+و ز ر w-z-r 27
+
+ع ج ز ʿ-j-z 26
+
+ه و ن h-w-n 26
+
+ج ح م j-ḥ-m 26
+
+ن ب ت n-b-t 26
+
+و ض ع w-ḍ-ʿ 26
+
+خ ز ي kh-z-y 26
+
+ش ر ي sh-r-y 25
+
+ب س ط b-s-ṭ 25
+
+ب ط ن b-ṭ-n 25
+
+ف ل ك f-l-k 25
+
+ح د د ḥ-d-d 25
+
+ح ض ر ḥ-ḍ-r 25
+
+ح و ل ḥ-w-l 25
+
+ل س ن l-s-n 25
+
+ق س ط q-s-ṭ 25
+
+ص ل ي ṣ-l-y 25
+
+س ق ي s-q-y 25
+
+و ع ظ w-ʿ-ẓ 25
+
+و ه ب w-h-b 25
+
+ذ ل ل dh-l-l 24
+
+ا ذ ي a-dh-y 24
+
+ع م ر ʿ-m-r 24
+
+ف ح ش f-ḥ-sh 24
+
+ف ج ر f-j-r 24
+
+غ ض ب gh-ḍ-b 24
+
+ج ه ل j-h-l 24
+
+ك و د k-w-d 24
+
+م ر ض m-r-ḍ 24
+
+ر ق ب r-q-b 24
+
+ث م ر th-m-r 24
+
+و ق ع w-q-ʿ 24
+
+غ ر ق gh-r-q 23
+
+ل ب س l-b-s 23
+
+م ش ي m-sh-y 23
+
+ن ك ح n-k-ḥ 23
+
+س ر ع s-r-ʿ 23
+
+س ر ف s-r-f 23
+
+ط ل ق ṭ-l-q 23
+
+و ز ن w-z-n 23
+
+ي ت م y-t-m 23
+
+ا ل ف a-l-f 22
+
+ع ر ب ʿ-r-b 22
+
+ف ر ح f-r-ḥ 22
+
+غ و ي gh-w-y 22
+
+ر ب ع r-b-ʿ 22
+
+ت م م t-m-m 22
+
+ت ر ب t-r-b 22
+
+خ ط ا kh-ṭ-a 22
+
+ش ه ر sh-h-r 21
+
+ا ث ر a-th-r 21
+
+ب ق ي b-q-y 21
+
+ف ت ي f-t-y 21
+
+ح ذ ر ḥ-dh-r 21
+
+ح ج ر ḥ-j-r 21
+
+ح ل م ḥ-l-m 21
+
+ح م م ḥ-m-m 21
+
+ه و د h-w-d 21
+
+ك ت م k-t-m 21
+
+م ن ي m-n-y 21
+
+ن ش ر n-sh-r 21
+
+س ن ن s-n-n 21
+
+د ر ج d-r-j 20
+
+ف ق ه f-q-h 20
+
+ف ط ر f-ṭ-r 20
+
+ح ز ب ḥ-z-b 20
+
+ك ش ف k-sh-f 20
+
+ل ع ب l-ʿ-b 20
+
+م ر ي m-r-y 20
+
+ن ف خ n-f-kh 20
+
+ن خ ل n-kh-l 20
+
+ن ز ع n-z-ʿ 20
+
+ر ب و r-b-w 20
+
+ص ن ع ṣ-n-ʿ 20
+
+س ن و s-n-w 20
 
 ===== Search Qur'anic Arabic word forms (https://divinediscourses.org/words) =====
 
@@ -5032,6 +5964,21 @@ before it was renamed "Study".
 ### 2026
 
 #### September
+
+A page for every juz, and for every common root.
+Each of the 30 juz has a page at /juz/<number>
+(for example /juz/1 ): where it starts and
+ends, its verses, word-units and mushaf pages, the surahs it
+spans, and how long it takes with each reciter. Each of the 411
+roots that occurs 20 or more times has a page at
+/root/<key> (for example
+/root/qwl ): its count and rank, lemmas,
+written forms, the surahs where it concentrates and the roots it
+keeps company with. Surah pages now print cleanly. Two fixes:
+juz 4 now starts at 3:93, as the Tanzil metadata marks it, not
+3:92; and three part-of-speech labels on Roots (exceptive,
+explanation, exhortation particles) now match the corpus's tags.
+§
 
 A reference page for every surah. Each of the 114
 surahs now has a plain page at /surah/<number>

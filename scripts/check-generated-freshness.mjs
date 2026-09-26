@@ -77,8 +77,13 @@ const ORDER = [
   "compute-network-layout",
   "compute-dispersion",
   "build-share-pages",
-  "build-surah-pages",
   "build-exports",
+  // The reference-page families read the exports (verse-lengths,
+  // root-frequencies, lemma-frequencies, root-surah-counts), so they run
+  // after them.
+  "build-surah-pages",
+  "build-juz-pages",
+  "build-root-pages",
 ];
 
 // Named and reported, never silently dropped: a run that skipped these
@@ -94,7 +99,7 @@ const EXCLUDED = [
 // Only these trees are compared. Everything a generator writes lands in
 // one of them; anything outside is reported as unattributed rather than
 // ignored, so a generator that starts writing somewhere new shows up.
-const WATCHED = ["data", "assets", "s", "surah"];
+const WATCHED = ["data", "assets", "s", "surah", "juz", "root"];
 
 // ── Comparison, ignoring the date stamp ──────────────────────────────
 const STAMP_LINE = /^.*\b\d{4}-\d{2}-\d{2}\b.*$/;
