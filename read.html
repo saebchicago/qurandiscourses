@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr" data-depth="simple">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
     <title>Read a surah with parallel translations · Divine Discourses</title>
     <meta
       name="description"
@@ -1490,6 +1490,7 @@
           url.searchParams.set("t", qdState.translations.join(","));
           history.replaceState({}, "", url);
           if (window.qdSaveLastRead && !juzMode) window.qdSaveLastRead(s, aParam);
+          else if (juzMode && window.qdSaveLastJuz) window.qdSaveLastJuz(juzMode);
           maybeShowMethodStrip();
           // Whole-surah views (starting at verse 1) share via the surah's
           // link-preview page; specific-verse views keep the live URL so
@@ -1695,6 +1696,27 @@
       // the juz; it is normalised to ?j= on the first render.
       const juzParam = params.get("j") || params.get("juz");
       const hasParams = !!(params.get("s") || params.get("a") || juzParam);
+      // Return to where the reader was. A bare /read used to open
+      // al-Fatihah every time, whatever had been read last; it now opens
+      // the last passage, and read-polish.js scrolls to the verse the
+      // reader had reached (progress.lastVerse). "#resume" asks for the
+      // same on a deep link, which is what the home page's Continue uses.
+      // Read straight from storage: this runs mid-parse, before app.js
+      // has hydrated qdState.
+      if (location.hash === "#resume") window.__qdResume = true;
+      if (!hasParams) {
+        try {
+          const saved = JSON.parse(localStorage.getItem("qd_state") || "{}");
+          const lr = saved && saved.progress && saved.progress.lastRead;
+          if (lr && lr.j >= 1 && lr.j <= 30) {
+            location.replace("/read?j=" + lr.j + "#resume");
+          } else if (lr && Number(lr.s) >= 1 && Number(lr.s) <= 114 && lr.a) {
+            document.getElementById("surahInput").value = String(lr.s);
+            document.getElementById("ayahInput").value = String(lr.a);
+            window.__qdResume = true;
+          }
+        } catch (e) {}
+      }
       if (params.get("s"))
         document.getElementById("surahInput").value = params.get("s");
       if (params.get("a"))

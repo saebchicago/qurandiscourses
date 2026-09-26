@@ -1173,7 +1173,7 @@ if (runCheck("renders") && !PAGE_FILTER && !LIVE) {
 // 44, which is what the maintainer guide already asks of them.
 if (runCheck("targets") && !PAGE_FILTER && !LIVE) {
   const TARGET_PAGES = ["index", "read", "navigate", "dossier", "roots", "numbers", "glossary", "search", "sources", "paths", "exercises", "replay"];
-  const CONTROL_44 = ".button, .btn-primary, .btn-secondary, .btn-utility, nav.primary .nav-menu a, .nav-group-btn, .listen-btn, .verse-listen-btn, .verse-count-btn, .depth-toggle button, .qd-chip, .method-note summary, input[type=text], input[type=search], input[type=number], select, .replay-transport button";
+  const CONTROL_44 = ".button, .btn-primary, .btn-secondary, .btn-utility, nav.primary .nav-menu a, .nav-group-btn, .listen-btn, .verse-listen-btn, .verse-more-btn, .verse-note-mark, .verse .meta .vref, .read-context-ref, .verse-count-btn, .depth-toggle button, .qd-chip, .method-note summary, input[type=text], input[type=search], input[type=number], select, .replay-transport button";
   for (const p of TARGET_PAGES) {
     const tctx = await newContext({ apiMode: "stub" });
     const page = await tctx.newPage();
@@ -2048,6 +2048,10 @@ if (runCheck("transpicker") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && 
   // the picker; settling past it here tests the picker in the steady
   // state a reader actually interacts in, not that unrelated race.
   await page.waitForTimeout(500);
+  // The translations control lives in Options now; with a passage on
+  // screen that is folded behind the context bar, as a reader finds it.
+  const optionsBtn = page.locator('.read-context [data-ctx="options"]');
+  if (await optionsBtn.isVisible().catch(() => false)) await optionsBtn.click();
   const trigger = page.locator(".trans-open-btn").first();
   const before = await trigger.textContent().catch(() => null);
   await trigger.click();
@@ -2357,6 +2361,180 @@ if (runCheck("listennav") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !L
   await offctx.close();
 }
 
+// ── Phones: chrome, reflection in place, and coming back ─────────────
+// Measured before this work at 375x667: header + nav 249px on every
+// page, first verse at y=670 (a full iPhone SE screen down), a two-row
+// context bar, verse permalinks 16x17px, Reflect sending the reader
+// ~6,700px away from the verse, a saved note leaving no trace on it,
+// and a bare /read opening al-Fatihah whatever was read last.
+if (runCheck("mobile") && !PAGE_FILTER && !LIVE) {
+  // Every page asks iOS to draw under the home indicator, which is what
+  // makes env(safe-area-inset-*) mean anything.
+  const noFit = readdirSync(ROOT)
+    .filter((f) => f.endsWith(".html"))
+    .filter((f) => {
+      const html = readFileSync(join(ROOT, f), "utf8");
+      const m = html.match(/<meta\s+name="viewport"\s+content="([^"]*)"/);
+      return m && !/viewport-fit=cover/.test(m[1]);
+    });
+  report("mobile-viewport-fit", "all pages", noFit.length === 0, noFit.length ? `missing viewport-fit=cover: ${noFit.join(", ")}` : "every page's viewport meta has viewport-fit=cover");
+
+  const mctx = await newContext({ apiMode: "stub" });
+  const page = await mctx.newPage();
+  const errors = [];
+  attachConsoleCollector(page, errors);
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto(`${BASE}/read.html?s=1&a=1-7`, { waitUntil: "load" });
+  await page.waitForSelector("#verseContainer .verse", { timeout: 15000 }).catch(() => {});
+  await page.waitForTimeout(700);
+  const chrome = await page.evaluate(() => {
+    const h = (sel) => Math.round(document.querySelector(sel).getBoundingClientRect().height);
+    const rows = new Set([...document.querySelectorAll("nav.primary .nav-group-btn")].map((b) => Math.round(b.getBoundingClientRect().top)));
+    const v = document.querySelector("#verseContainer .verse").getBoundingClientRect();
+    return {
+      header: h("header.site"),
+      nav: h("nav.primary"),
+      navRows: rows.size,
+      ctx: h(".read-context"),
+      firstVerse: Math.round(v.top + window.scrollY),
+      vh: window.innerHeight,
+      overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    };
+  });
+  report(
+    "mobile-chrome-compact",
+    "read.html",
+    chrome.header + chrome.nav <= 130 && chrome.navRows === 1 && chrome.ctx <= 60 && chrome.firstVerse < chrome.vh && chrome.overflow <= 0,
+    `header ${chrome.header}px + nav ${chrome.nav}px (want <=130), nav rows=${chrome.navRows}, context bar ${chrome.ctx}px (want <=60), first verse at y=${chrome.firstVerse} of ${chrome.vh}, overflow ${chrome.overflow}px`,
+  );
+
+  // Reflection opens under the verse, keeps both on screen, and leaves
+  // a mark that survives a reload and reopens the note.
+  const v3 = page.locator("#verseContainer .verse").nth(2);
+  await v3.locator(".verse-more-btn").click();
+  await v3.locator('[data-act="reflect"]').click();
+  await page.waitForTimeout(500);
+  const inPlace = await page.evaluate(() => {
+    const ed = document.querySelector(".verse-note");
+    const v = ed && ed.closest(".verse");
+    const er = ed && ed.getBoundingClientRect();
+    // On a 667px screen a full verse card plus the editor does not fit,
+    // so what has to stay visible is the verse's own text (Arabic or its
+    // translation) directly above the editor, not all of it.
+    const texts = v ? [...v.querySelectorAll(".ar, .translation .text")] : [];
+    const onScreen = texts.some((t) => {
+      const r = t.getBoundingClientRect();
+      return r.bottom > 0 && r.top < window.innerHeight && r.height > 0;
+    });
+    const area = document.getElementById("verseNoteArea");
+    return {
+      verse: v && v.getAttribute("data-ayah"),
+      focused: document.activeElement === area,
+      editorOnScreen: !!er && er.top >= 0 && er.bottom <= window.innerHeight,
+      verseOnScreen: onScreen,
+      font: area ? parseFloat(getComputedStyle(area).fontSize) : 0,
+      editors: document.querySelectorAll(".verse-note").length,
+    };
+  });
+  report(
+    "mobile-reflect-in-place",
+    "read.html",
+    inPlace.verse === "3" && inPlace.focused && inPlace.editorOnScreen && inPlace.verseOnScreen && inPlace.font >= 16 && inPlace.editors === 1,
+    `editor under verse ${inPlace.verse} (want 3), focused=${inPlace.focused}, editor on screen=${inPlace.editorOnScreen}, verse text on screen beside it=${inPlace.verseOnScreen}, textarea ${inPlace.font}px (want >=16, or iOS zooms), editors on page=${inPlace.editors}`,
+  );
+  await page.fill("#verseNoteArea", "A reflection on this verse");
+  await page.waitForTimeout(600);
+  await page.click(".verse-note-done");
+  await page.waitForTimeout(300);
+  const marked = await page.evaluate(() => !!document.querySelector('#verseContainer .verse[data-ayah="3"] .verse-note-mark'));
+  await page.reload({ waitUntil: "load" });
+  await page.waitForSelector("#verseContainer .verse", { timeout: 15000 }).catch(() => {});
+  await page.waitForTimeout(800);
+  const markAfter = await page.evaluate(() => !!document.querySelector('#verseContainer .verse[data-ayah="3"] .verse-note-mark'));
+  if (markAfter) await page.click('#verseContainer .verse[data-ayah="3"] .verse-note-mark');
+  await page.waitForTimeout(300);
+  const reopened = await page.evaluate(() => (document.getElementById("verseNoteArea") || {}).value || "");
+  report(
+    "mobile-note-mark",
+    "read.html",
+    marked && markAfter && reopened === "A reflection on this verse",
+    `mark after Done=${marked}, after reload=${markAfter}, reopened with "${reopened}"`,
+  );
+  report("mobile-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
+  await mctx.close();
+
+  // Coming back: a bare /read reopens the last passage at the verse the
+  // reader had reached, and the home page offers that first.
+  const rctx = await newContext({ apiMode: "stub", seenState: false });
+  await rctx.addInitScript(() => {
+    try {
+      localStorage.setItem(
+        "qd_state",
+        JSON.stringify({
+          seen: true,
+          progress: { lastRead: { s: 2, a: "1-5" }, lastVerse: { s: 2, a: 4 }, methodStripDismissed: true, exercises: {}, paths: {} },
+        }),
+      );
+    } catch (e) {}
+  });
+  const rp = await rctx.newPage();
+  await rp.setViewportSize({ width: 375, height: 667 });
+  await rp.goto(`${BASE}/read.html`, { waitUntil: "load" });
+  await rp.waitForSelector("#verseContainer .verse", { timeout: 15000 }).catch(() => {});
+  await rp.waitForTimeout(1200);
+  const back = await rp.evaluate(() => {
+    const v = document.querySelector('#verseContainer .verse[data-ayah="4"]');
+    const r = v && v.getBoundingClientRect();
+    return {
+      search: location.search,
+      scrolled: window.scrollY > 0,
+      verseOnScreen: !!r && r.top < window.innerHeight && r.bottom > 0,
+    };
+  });
+  report(
+    "mobile-resume",
+    "read.html",
+    /[?&]s=2(&|$)/.test(back.search) && back.scrolled && back.verseOnScreen,
+    `bare /read opened ${back.search}; scrolled=${back.scrolled}; saved verse 2:4 on screen=${back.verseOnScreen}`,
+  );
+  await rp.goto(`${BASE}/index.html`, { waitUntil: "load" });
+  await rp.waitForTimeout(800);
+  const home = await rp.evaluate(() => {
+    const main = document.getElementById("main");
+    const first = [...main.children].find((c) => c.getClientRects().length && c.getBoundingClientRect().height > 0);
+    const link = document.getElementById("continueLink");
+    return {
+      firstId: first && first.id,
+      text: (document.getElementById("continueText") || {}).textContent || "",
+      href: link && link.getAttribute("href"),
+    };
+  });
+  report(
+    "mobile-continue-first",
+    "index.html",
+    home.firstId === "continueSection" && /al-Baqarah 2:4/.test(home.text) && /#resume$/.test(home.href || ""),
+    `first visible block #${home.firstId}; "${home.text}"; link ${home.href}`,
+  );
+  await rctx.close();
+
+  // A juz is remembered too.
+  const jctx = await newContext({ apiMode: "stub", seenState: false });
+  await jctx.addInitScript(() => {
+    try {
+      if (!sessionStorage.getItem("jseeded")) {
+        sessionStorage.setItem("jseeded", "1");
+        localStorage.setItem("qd_state", JSON.stringify({ seen: true, progress: { lastRead: { j: 15 }, exercises: {}, paths: {} } }));
+      }
+    } catch (e) {}
+  });
+  const jp = await jctx.newPage();
+  await jp.goto(`${BASE}/read.html`, { waitUntil: "load" });
+  await jp.waitForTimeout(1500);
+  const juzBack = await jp.evaluate(() => location.search);
+  report("mobile-resume-juz", "read.html", /[?&]j=15\b/.test(juzBack), `bare /read with a juz last read opened ${juzBack}`);
+  await jctx.close();
+}
+
 // ── read.html: translation voices ─────────────────────────────────────
 // Listen mode's translation leg in any language the engine registers.
 // Probe results are seeded in sessionStorage (the CDN is aborted here):
@@ -2483,7 +2661,7 @@ if (runCheck("reading") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIV
       firstVerseTop: Math.round(v0.getBoundingClientRect().top + window.scrollY),
       vh: window.innerHeight,
       transInVerses: document.querySelectorAll("#verseContainer .trans-open-btn").length,
-      transInBar: document.querySelectorAll(".read-context .trans-open-btn").length,
+      transInBar: document.querySelectorAll("#readSetup .trans-open-btn").length,
       reciterInVerses: document.querySelectorAll("#verseContainer .reciter-open-btn, #verseContainer .verse-reciter-name").length,
       playPerVerse: verses.every((v) => v.querySelectorAll("[data-listen-from]").length === 1),
       morePerVerse: verses.every((v) => v.querySelectorAll(".verse-more-btn").length === 1),
@@ -2503,7 +2681,7 @@ if (runCheck("reading") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIV
     "read.html",
     st.transInVerses === 0 && st.transInBar === 1 && st.reciterInVerses === 0 &&
       st.playPerVerse && st.morePerVerse && st.actionsFolded && st.provPerVerse === 0 && st.provOnce === 1,
-    `translations buttons in verses=${st.transInVerses} (want 0), in the context bar=${st.transInBar} (want 1); reciter controls in verses=${st.reciterInVerses} (want 0); one play and one more button per verse=${st.playPerVerse && st.morePerVerse}; actions folded=${st.actionsFolded}; provenance lines per verse=${st.provPerVerse}, per passage=${st.provOnce} (want 0, 1)`,
+    `translations buttons in verses=${st.transInVerses} (want 0), in Options=${st.transInBar} (want 1); reciter controls in verses=${st.reciterInVerses} (want 0); one play and one more button per verse=${st.playPerVerse && st.morePerVerse}; actions folded=${st.actionsFolded}; provenance lines per verse=${st.provPerVerse}, per passage=${st.provOnce} (want 0, 1)`,
   );
 
   // The more button opens that verse's actions, including Reflect.

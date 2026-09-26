@@ -158,6 +158,35 @@
       </ul>
     </nav>
     <main id="main">
+      <!-- A returning reader's first action is to carry on, so Continue
+           comes before everything else on the page. Hidden until there
+           is something to continue. -->
+      <section id="continueSection" hidden aria-live="polite">
+        <div
+          class="banner soft"
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem 1.25rem;
+            flex-wrap: wrap;
+          "
+        >
+          <p id="continueText" style="margin: 0"></p>
+          <div style="display: flex; gap: 0.5rem; align-items: center; flex-shrink: 0">
+            <a id="continueLink" class="button" href="#">Continue</a>
+            <button
+              type="button"
+              id="continueDismiss"
+              class="button secondary"
+              aria-label="Dismiss"
+              title="Dismiss"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      </section>
       <section class="landing-hero" aria-labelledby="hero-title">
         <h2 id="hero-title" class="t-display">Read the Qur'an one discourse at a time.</h2>
         <p class="hero-lede t-intro">
@@ -246,32 +275,6 @@
         })();
       </script>
 
-      <section id="continueSection" hidden aria-live="polite">
-        <div
-          class="banner soft"
-          style="
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0.75rem 1.25rem;
-            flex-wrap: wrap;
-          "
-        >
-          <p id="continueText" style="margin: 0"></p>
-          <div style="display: flex; gap: 0.5rem; align-items: center; flex-shrink: 0">
-            <a id="continueLink" class="button" href="#">Continue</a>
-            <button
-              type="button"
-              id="continueDismiss"
-              class="button secondary"
-              aria-label="Dismiss"
-              title="Dismiss"
-            >
-              ×
-            </button>
-          </div>
-        </div>
-      </section>
 
       <section id="installSection" class="install-section" aria-labelledby="installTitle">
         <div class="banner soft install-banner">
@@ -610,7 +613,7 @@
             window.SURAHS.find(function (x) {
               return x.id === n;
             });
-          return s ? "Surah " + n + " (" + s.en + ")" : "Surah " + n;
+          return s ? s.translit : "Surah " + n;
         }
 
         function ready(fn) {
@@ -645,12 +648,23 @@
           var pathNote = pathsInProgress
             ? " A study path is in progress."
             : "";
-          if (lastRead) {
+          var at = progress.lastVerse;
+          if (lastRead && lastRead.j) {
+            text.textContent =
+              "Continue juz " + lastRead.j +
+              (at ? ", at " + surahLabel(Number(at.s)) + " " + at.s + ":" + at.a : "") +
+              "." + pathNote;
+            link.textContent = "Resume reading";
+            link.href = "/read?j=" + lastRead.j + "#resume";
+          } else if (lastRead) {
+            var here =
+              at && Number(at.s) === Number(lastRead.s)
+                ? " " + at.s + ":" + at.a
+                : " " + lastRead.s + ":" + lastRead.a;
             text.textContent =
               "Continue " +
               surahLabel(Number(lastRead.s)) +
-              ", verse " +
-              lastRead.a +
+              here +
               (doneCount
                 ? ". You've tried " +
                   doneCount +
@@ -660,7 +674,7 @@
                 : ".") +
               pathNote;
             link.textContent = "Resume reading";
-            link.href = "/read?s=" + lastRead.s + "&a=" + lastRead.a;
+            link.href = "/read?s=" + lastRead.s + "&a=" + lastRead.a + "#resume";
           } else if (pathsInProgress) {
             text.textContent =
               "You're partway through " +

@@ -228,6 +228,142 @@
     }, 1000);
   }
 
+  // ── Reflection in place ──────────────────────────────────────────
+  // Reflect used to scroll the reader to the notes card at the foot of
+  // the page, about 6,700px below a verse on a phone, where the verse
+  // was no longer on screen while they wrote about it. A saved note then
+  // left no trace on the verse, so it was never seen again unless the
+  // reader went looking. Now the editor opens directly under the verse,
+  // and a verse with a note carries a mark that reopens it. One editor
+  // at a time, moved to whichever verse asked, so 286 verses do not
+  // carry 286 textareas. Same storage, same keys ("s:a").
+  var inlineEl = null;
+  var inlineRef = null;
+
+  function verseEl(s, a) {
+    var box = document.getElementById("verseContainer");
+    return box
+      ? box.querySelector('.verse[data-surah="' + s + '"][data-ayah="' + a + '"]')
+      : null;
+  }
+
+  function closeInline(returnFocus) {
+    flushPendingSave();
+    if (!inlineEl) return;
+    var ref = inlineRef;
+    inlineEl.remove();
+    inlineEl = null;
+    inlineRef = null;
+    paintMarks();
+    if (returnFocus && ref) {
+      var v = verseEl(ref.split(":")[0], ref.split(":")[1]);
+      var mark = v && (v.querySelector(".verse-note-mark") || v.querySelector(".verse-more-btn"));
+      if (mark) mark.focus({ preventScroll: true });
+    }
+  }
+
+  function openInline(ref, verse, focus) {
+    closeInline(false);
+    inlineRef = ref;
+    var note = loadNotes()[ref];
+    var el = document.createElement("div");
+    el.className = "verse-note";
+    el.innerHTML =
+      '<label class="verse-note-label" for="verseNoteArea">Your reflection on ' +
+      escapeHtml(refLabel(ref)) +
+      "</label>" +
+      '<textarea id="verseNoteArea" rows="3" placeholder="What do you notice? What does this verse ask of you?">' +
+      (note ? escapeHtml(note.text) : "") +
+      "</textarea>" +
+      '<div class="verse-note-row">' +
+      '<span class="verse-note-status" aria-live="polite">' +
+      (note ? "Saved on this device." : "Saves as you type, on this device only.") +
+      "</span>" +
+      '<button type="button" class="button secondary verse-note-done">Done</button>' +
+      "</div>";
+    var actions = verse.querySelector(".verse-actions");
+    verse.insertBefore(el, actions || null);
+    inlineEl = el;
+
+    var area = el.querySelector("textarea");
+    var status = el.querySelector(".verse-note-status");
+    area.addEventListener("input", function () {
+      if (saveTimer) clearTimeout(saveTimer);
+      var persist = function () {
+        var all = loadNotes();
+        if (area.value.trim()) {
+          all[ref] = { text: area.value, updated: new Date().toISOString() };
+        } else {
+          delete all[ref];
+        }
+        saveNotes(all);
+        if (inlineRef === ref) status.textContent = area.value.trim() ? "Saved on this device." : "Empty notes are not kept.";
+        paintMarks();
+      };
+      pendingSave = persist;
+      saveTimer = setTimeout(function () {
+        saveTimer = null;
+        if (pendingSave === persist) pendingSave = null;
+        persist();
+      }, 400);
+    });
+    area.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        e.stopPropagation();
+        closeInline(true);
+      }
+    });
+    el.querySelector(".verse-note-done").addEventListener("click", function () {
+      closeInline(true);
+      render();
+    });
+    if (focus) {
+      try {
+        area.focus({ preventScroll: true });
+      } catch (e) {
+        area.focus();
+      }
+    }
+    // Keep the verse and the editor on screen together: the verse's top
+    // edge under the context bar, or the editor's bottom above the
+    // transport, whichever the screen allows.
+    try {
+      el.scrollIntoView({ block: "nearest" });
+    } catch (e) {}
+  }
+
+  // A mark on every verse that has a note, in the verse's header row.
+  function paintMarks() {
+    var box = document.getElementById("verseContainer");
+    if (!box) return;
+    var notes = loadNotes();
+    box.querySelectorAll(".verse[data-surah][data-ayah]").forEach(function (v) {
+      var ref = v.getAttribute("data-surah") + ":" + v.getAttribute("data-ayah");
+      var has = !!(notes[ref] && notes[ref].text && notes[ref].text.trim());
+      var mark = v.querySelector(".verse-note-mark");
+      if (has && !mark) {
+        var meta = v.querySelector(".meta");
+        if (!meta) return;
+        mark = document.createElement("button");
+        mark.type = "button";
+        mark.className = "verse-note-mark";
+        mark.textContent = "✎";
+        mark.setAttribute("aria-label", "Your reflection on " + refLabel(ref) + ": open");
+        mark.title = "Your reflection on this verse";
+        mark.addEventListener("click", function () {
+          if (inlineRef === ref) closeInline(true);
+          else openInline(ref, v, true);
+        });
+        var pin = meta.querySelector(".notebook-pin-btn");
+        meta.insertBefore(mark, pin || null);
+      } else if (!has && mark && inlineRef !== ref) {
+        mark.remove();
+      }
+      v.classList.toggle("has-note", has);
+    });
+  }
+
   function focusNoteFor(ref, focus) {
     flushPendingSave();
     currentRef = ref;
@@ -260,11 +396,33 @@
     });
     document.addEventListener("qd:note-verse", function (e) {
       if (!e.detail) return;
+      var ref = e.detail.s + ":" + e.detail.a;
+      var v = verseEl(e.detail.s, e.detail.a);
+      // In place, under the verse, whenever the verse is on the page;
+      // Focus mode can stay on, since the verse is what it keeps.
+      if (v) {
+        openInline(ref, v, e.detail.focus !== false);
+        return;
+      }
       document.documentElement.removeAttribute("data-focus");
       var focusButton = document.getElementById("focusToggleBtn");
       if (focusButton) focusButton.setAttribute("aria-pressed", "false");
-      focusNoteFor(e.detail.s + ":" + e.detail.a, e.detail.focus !== false);
+      focusNoteFor(ref, e.detail.focus !== false);
     });
+    // Marks follow every render of the passage; an editor whose verse
+    // was re-rendered away is closed (its text is already saved).
+    var box = document.getElementById("verseContainer");
+    if (box) {
+      new MutationObserver(function () {
+        if (inlineEl && !box.contains(inlineEl)) {
+          flushPendingSave();
+          inlineEl = null;
+          inlineRef = null;
+        }
+        paintMarks();
+      }).observe(box, { childList: true });
+      paintMarks();
+    }
     // The card's default open/closed state follows depth. Flush first so a
     // depth change cannot replace a textarea while its save still points
     // at mutable currentRef.
