@@ -5,7 +5,7 @@
     "text": {
       "name": "Tanzil Quran Text (Uthmani)",
       "url": "https://tanzil.net",
-      "download": "https://tanzil.net/pub/download/index.php?quranType=uthmani&outType=txt-2&agree=true"
+      "download": "https://tanzil.net/pub/download/index.php?marks=true&sajdah=true&rub=true&alef=true&quranType=uthmani&outType=txt-2&agree=true"
     },
     "structure": {
       "name": "alquran.cloud",
@@ -44,64 +44,24 @@
     "#===================================================================="
   ],
   "servedCopyComparison": {
-    "identical": 1877,
-    "differing": 4359,
+    "identical": 2619,
+    "differing": 3617,
     "moreInServedCopy": [
       {
         "codePoint": "U+06ED",
         "count": 4708
       },
       {
-        "codePoint": "U+0020",
-        "count": 4576
-      },
-      {
-        "codePoint": "U+06DA",
-        "count": 1972
-      },
-      {
         "codePoint": "U+06E2",
         "count": 1935
-      },
-      {
-        "codePoint": "U+06D6",
-        "count": 1682
-      },
-      {
-        "codePoint": "U+06D7",
-        "count": 603
       },
       {
         "codePoint": "U+0621",
         "count": 277
       },
       {
-        "codePoint": "U+06DE",
-        "count": 199
-      },
-      {
-        "codePoint": "U+06D9",
-        "count": 68
-      },
-      {
         "codePoint": "U+06E6",
         "count": 38
-      },
-      {
-        "codePoint": "U+06D8",
-        "count": 22
-      },
-      {
-        "codePoint": "U+06E9",
-        "count": 15
-      },
-      {
-        "codePoint": "U+06DB",
-        "count": 12
-      },
-      {
-        "codePoint": "U+06DC",
-        "count": 5
       },
       {
         "codePoint": "U+0649",
@@ -123,11 +83,11 @@
       },
       {
         "codePoint": "U+0020",
-        "count": 1
+        "count": 3
       }
     ]
   },
-  "sha256": "2428748515905cf87f3dbb84afc702e58755b38678cf84da7b66e3879ad2fa20",
+  "sha256": "f502f34512db57fca04ece7dbb76123aaa3cc515ac849137684f976682089254",
   "surahs": [
     {
       "number": 1,
