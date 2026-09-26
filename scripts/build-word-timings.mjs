@@ -93,13 +93,16 @@ const assets = release.assets.map((a) => ({ name: a.name, size: a.size, url: a.b
 console.log(`Release ${release.tag_name}: ${assets.length} assets`);
 for (const a of assets) console.log(`  ${a.name} (${a.size} bytes)`);
 
-let licence = null;
-for (const path of ["LICENSE", "LICENSE.md", "LICENSE.txt", "README.md"]) {
+// Both, as fetched: the repository's LICENSE may cover the code only,
+// and the README may state separate terms for the data.
+const licence = {};
+for (const path of ["LICENSE", "README.md"]) {
   try {
     const text = await get(`https://raw.githubusercontent.com/${REPO}/master/${path}`, "text");
-    licence = { path, excerpt: path.startsWith("README") ? (text.match(/[^\n]*(licen[cs]e|CC[- ]BY|Creative Commons)[^\n]*/gi) || []).slice(0, 5) : text.slice(0, 600) };
-    break;
-  } catch {}
+    licence[path] = path === "README.md" ? (text.match(/[^\n]*(licen[cs]e|CC[- ]BY|Creative Commons|attribution)[^\n]*/gi) || []).slice(0, 8) : text.slice(0, 600);
+  } catch (e) {
+    licence[path] = `not fetched: ${e.message}`;
+  }
 }
 
 const work = mkdtempSync(join(tmpdir(), "qalign-"));
@@ -146,18 +149,23 @@ const report = {
   candidates: [],
 };
 
+// A release may ship one archive per recording or one archive holding
+// them all, so candidates are matched on the file names inside.
+const assetFiles = new Map();
+for (const asset of assets) {
+  try {
+    assetFiles.set(asset.name, readAsset(await get(asset.url, "buffer"), asset.name));
+  } catch (e) {
+    report.candidates.push({ asset: asset.name, error: e.message });
+  }
+}
+report.files = [...assetFiles].flatMap(([a, fs]) => fs.map((f) => `${a}/${f.file}`));
 for (const [reciter, re] of Object.entries(CANDIDATES)) {
   const ours = durations.durations[reciter];
   if (!ours) continue;
-  for (const asset of assets.filter((a) => re.test(a.name))) {
-    let files;
-    try {
-      files = readAsset(await get(asset.url, "buffer"), asset.name);
-    } catch (e) {
-      report.candidates.push({ reciter, asset: asset.name, error: e.message });
-      continue;
-    }
-    for (const { file, data } of files) {
+  for (const [assetName, files] of assetFiles) {
+    const asset = { name: assetName };
+    for (const { file, data } of files.filter((f) => re.test(f.file.split("/").pop()))) {
       const rows = Array.isArray(data) ? data : Object.values(data);
       const byKey = new Map();
       for (const r of rows) if (r && r.surah && r.ayah && Array.isArray(r.segments)) byKey.set(`${r.surah}:${r.ayah}`, r.segments);
@@ -209,6 +217,7 @@ for (const [reciter, re] of Object.entries(CANDIDATES)) {
     }
   }
 }
+console.log(`Files in the release: ${report.files.join(", ")}`);
 
 // Bundle the best passing file per reciter (highest fit share).
 const outDir = join(ROOT, "data/recitation/words");
@@ -216,8 +225,7 @@ if (existsSync(outDir)) rmSync(outDir, { recursive: true });
 const best = new Map();
 for (const c of report.candidates) if (c.pass && (!best.has(c.reciter) || c.fitShare > best.get(c.reciter).fitShare)) best.set(c.reciter, c);
 for (const [reciter, c] of best) {
-  const files = readAsset(await get(assets.find((a) => a.name === c.asset).url, "buffer"), c.asset);
-  const { data } = files.find((f) => f.file === c.file);
+  const { data } = assetFiles.get(c.asset).find((f) => f.file === c.file);
   const rows = Array.isArray(data) ? data : Object.values(data);
   const bySurah = new Map();
   for (const r of rows) {
