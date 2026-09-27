@@ -1,13 +1,30 @@
 {
- "_computed": "2026-09-26",
+ "_computed": "2026-09-27",
  "_source": "github.com/cpfair/quran-align, release release-2016-11-24",
- "_method": "Each candidate's last-word end time per verse compared with data/recitation/durations.json; pass criteria in scripts/build-word-timings.mjs, fixed before the data was seen.",
+ "_method": "v2: coverage and agreement (last-word-end vs our measured verse length, both from data/recitation/durations.json) gate as in v1; speed fit (regression of that gap against verse length) and onset fit (the audio's own first non-silent moment, via ffmpeg, against quran-align's first-word start) replace v1's single fit-window proxy. All thresholds fixed in scripts/build-word-timings.mjs before this version ran; see that file's header for the full methodology and why it changed.",
+ "criteriaVersion": 2,
  "criteria": {
   "coverage": 0.99,
   "fit": 0.98,
   "fitLo": -150,
   "fitHi": 3000,
-  "r": 0.99
+  "r": 0.99,
+  "speedSlopeMax": 0.001,
+  "onsetToleranceMs": 150,
+  "onsetMinSample": 50,
+  "onsetMatchShare": 0.95,
+  "onsetSampleTarget": 100
+ },
+ "previousCriteria": {
+  "version": 1,
+  "criteria": {
+   "coverage": 0.99,
+   "fit": 0.98,
+   "fitLo": -150,
+   "fitHi": 3000,
+   "r": 0.99
+  },
+  "note": "fit (the -150..3,000 ms window) no longer gates; kept below as legacyFit for continuity."
  },
  "licence": {
   "LICENSE": "Copyright (c) 2016 Collin Fair\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SO",
@@ -28,8 +45,15 @@
    "file": "Husary_64kbps.json",
    "verses": 6236,
    "coverage": 1,
-   "fitShare": 0.8457,
    "r": 0.99853,
+   "legacyFit": {
+    "fitShare": 0.8457,
+    "pass_v1": false
+   },
+   "speedFit": {
+    "slopeMsPerMs": 0.014777,
+    "r": 0.2663
+   },
    "diffMs": {
     "p5": 880,
     "median": 1732,
@@ -45,10 +69,25 @@
    },
    "verdict": {
     "coverage": true,
-    "fit": false,
-    "agreement": true
+    "agreement": true,
+    "speedOk": false,
+    "onsetOk": false
    },
-   "pass": false
+   "pass": false,
+   "onsetFit": {
+    "sampled": 100,
+    "measured": 100,
+    "skipped": 0,
+    "skipReasons": [],
+    "matched": 91,
+    "matchShare": 0.91,
+    "toleranceMs": 150,
+    "diffMs": {
+     "p5": -35,
+     "median": -4,
+     "p95": 11882
+    }
+   }
   },
   {
    "reciter": "ar.husary",
@@ -56,8 +95,15 @@
    "file": "Husary_Muallim_128kbps.json",
    "verses": 6236,
    "coverage": 1,
-   "fitShare": 0.3372,
    "r": 0.9643,
+   "legacyFit": {
+    "fitShare": 0.3372,
+    "pass_v1": false
+   },
+   "speedFit": {
+    "slopeMsPerMs": -0.08365,
+    "r": -0.2706
+   },
    "diffMs": {
     "p5": -8526,
     "median": 2320,
@@ -73,8 +119,9 @@
    },
    "verdict": {
     "coverage": true,
-    "fit": false,
-    "agreement": false
+    "agreement": false,
+    "speedOk": false,
+    "onsetOk": false
    },
    "pass": false
   },
@@ -84,8 +131,15 @@
    "file": "Minshawy_Murattal_128kbps.json",
    "verses": 6236,
    "coverage": 1,
-   "fitShare": 0.9995,
    "r": 0.99983,
+   "legacyFit": {
+    "fitShare": 0.9995,
+    "pass_v1": true
+   },
+   "speedFit": {
+    "slopeMsPerMs": 0.007222,
+    "r": 0.3662
+   },
    "diffMs": {
     "p5": 239,
     "median": 578,
@@ -101,11 +155,25 @@
    },
    "verdict": {
     "coverage": true,
-    "fit": true,
-    "agreement": true
+    "agreement": true,
+    "speedOk": false,
+    "onsetOk": true
    },
-   "pass": true,
-   "bundled": true
+   "pass": false,
+   "onsetFit": {
+    "sampled": 100,
+    "measured": 100,
+    "skipped": 0,
+    "skipReasons": [],
+    "matched": 97,
+    "matchShare": 0.97,
+    "toleranceMs": 150,
+    "diffMs": {
+     "p5": -56,
+     "median": -25,
+     "p95": 42
+    }
+   }
   },
   {
    "reciter": "ar.abdulbasitmurattal",
@@ -113,8 +181,15 @@
    "file": "Abdul_Basit_Murattal_64kbps.json",
    "verses": 6236,
    "coverage": 1,
-   "fitShare": 0.9998,
    "r": 0.99987,
+   "legacyFit": {
+    "fitShare": 0.9998,
+    "pass_v1": true
+   },
+   "speedFit": {
+    "slopeMsPerMs": 0.007264,
+    "r": 0.411
+   },
    "diffMs": {
     "p5": 316,
     "median": 695,
@@ -130,11 +205,25 @@
    },
    "verdict": {
     "coverage": true,
-    "fit": true,
-    "agreement": true
+    "agreement": true,
+    "speedOk": false,
+    "onsetOk": true
    },
-   "pass": true,
-   "bundled": true
+   "pass": false,
+   "onsetFit": {
+    "sampled": 100,
+    "measured": 100,
+    "skipped": 0,
+    "skipReasons": [],
+    "matched": 100,
+    "matchShare": 1,
+    "toleranceMs": 150,
+    "diffMs": {
+     "p5": -55,
+     "median": -31,
+     "p95": 26
+    }
+   }
   },
   {
    "reciter": "ar.saoodshuraym",
@@ -142,8 +231,15 @@
    "file": "Saood_ash-Shuraym_128kbps.json",
    "verses": 6235,
    "coverage": 0.9998,
-   "fitShare": 0.9968,
    "r": 0.9977,
+   "legacyFit": {
+    "fitShare": 0.9968,
+    "pass_v1": true
+   },
+   "speedFit": {
+    "slopeMsPerMs": 0.01068,
+    "r": 0.1568
+   },
    "diffMs": {
     "p5": 171,
     "median": 367,
@@ -159,11 +255,25 @@
    },
    "verdict": {
     "coverage": true,
-    "fit": true,
-    "agreement": true
+    "agreement": true,
+    "speedOk": false,
+    "onsetOk": false
    },
-   "pass": true,
-   "bundled": true
+   "pass": false,
+   "onsetFit": {
+    "sampled": 100,
+    "measured": 100,
+    "skipped": 0,
+    "skipReasons": [],
+    "matched": 83,
+    "matchShare": 0.83,
+    "toleranceMs": 150,
+    "diffMs": {
+     "p5": -210,
+     "median": -60,
+     "p95": 3233
+    }
+   }
   }
  ],
  "files": [
@@ -185,9 +295,5 @@
    "error": "Unexpected token 'C', \"\nCrashed Co\"... is not valid JSON"
   }
  ],
- "bundled": [
-  "ar.minshawi",
-  "ar.abdulbasitmurattal",
-  "ar.saoodshuraym"
- ]
+ "bundled": []
 }
