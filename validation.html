@@ -123,6 +123,7 @@
             <li><a href="#published-figures-reproduced">Published figures, reproduced here</a></li>
             <li><a href="#rep-leeds-word-count-title">How many words the Leeds corpus analyzes</a></li>
             <li><a href="#rep-leeds-treebank-coverage-title">How much of the Qur'an the Leeds treebank covers</a></li>
+            <li><a href="#rep-dukes-thesis-word-count-title">The word count in the corpus author's thesis</a></li>
             <li><a href="#how-we-verify-worked-examples">How we verify: worked examples</a></li>
             <li><a href="#triangulation-prompts">Triangulation prompts</a></li>
             <li><a href="#prompt-1-verify-a-root-count">Prompt 1: Verify a root count</a></li>
@@ -174,6 +175,15 @@
             </blockquote>
             <p><strong>Stated:</strong> 30,895 · <strong>Here:</strong> 30,895 · <strong>Reproduced</strong></p>
             <p class="trace"><strong>Check it yourself.</strong> Sum the tokens column of the <a href="/export">verse-lengths</a> table for surahs 1 to 8 and 59 to 114. The release notes say which chapters the treebank covers; counting the words in exactly those chapters here gives the figure they state.</p>
+          </div>
+          <div class="verify-example replication" id="rep-dukes-thesis-word-count">
+            <h3 id="rep-dukes-thesis-word-count-title"><span class="badge nuanced" data-source-ids="dukes-thesis-2013" aria-label="Differs" tabindex="0" title="Differs · our figure does not equal the source's">~</span> The word count in the corpus author's thesis</h3>
+            <blockquote class="claim">
+              <p>“To measure the accuracy of morphological annotation by random sampling, from the 77,430 words in the Quran, three random non-overlapping samples were collected, with each 1,000 words in size.”</p>
+              <footer class="t-annotation">Dukes, Kais, <cite>Statistical Parsing by Machine Learning from a Classical Arabic Treebank</cite>, PhD thesis, School of Computing, University of Leeds (2013): <a href="https://arxiv.org/pdf/1510.07193" rel="noopener">arxiv.org/pdf/1510.07193</a>, PDF p. 176, read 2026-09-26 (SHA-256 aa387bf6b375…)</footer>
+            </blockquote>
+            <p><strong>Stated:</strong> 77,430 · <strong>Here:</strong> 77,429 · <strong>Differs</strong></p>
+            <p class="trace"><strong>Check it yourself.</strong> Sum the tokens column of the <a href="/export">verse-lengths</a> table. One word apart. The same thesis also gives 77,429 (PDF p. 75, describing Salih's 2007 analysis of &quot;each of the 77,429 words in the Quran&quot;) and reports an analysis &quot;for 67,516 out of 77,430 words&quot; (PDF p. 168); the version 0.4 release notes give 77,429. The passages read do not explain the difference, so this site does not guess at it.</p>
           </div>
             <!-- /static:replications -->
         </div>

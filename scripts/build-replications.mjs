@@ -60,7 +60,7 @@ const html = cards
             <h3 id="rep-${c.id}-title">${mark} ${esc(c.title)}</h3>
             <blockquote class="claim">
               <p>“${esc(c.quote)}”${c.quote2 ? ` … “${esc(c.quote2)}”` : ""}</p>
-              <footer class="t-annotation">${esc(src.author)}, <cite>${esc(src.name)}</cite>${src.edition ? `, ${esc(src.edition)}` : ""}: <a href="${esc(c.url)}" rel="noopener">${esc(c.url.replace(/^https?:\/\//, ""))}</a>, read ${c.fetched} (SHA-256 ${c.sha256.slice(0, 12)}…)</footer>
+              <footer class="t-annotation">${esc(src.author)}, <cite>${esc(src.name)}</cite>${src.edition ? `, ${esc(src.edition)}` : ""}${src.year && !/–/.test(src.year) ? ` (${esc(src.year)})` : ""}: <a href="${esc(c.url)}" rel="noopener">${esc(c.url.replace(/^https?:\/\//, ""))}</a>${c.page ? `, ${esc(c.page)}` : ""}, read ${c.fetched} (SHA-256 ${c.sha256.slice(0, 12)}…)</footer>
             </blockquote>
             <p><strong>Stated:</strong> ${n0(c.stated)} · <strong>Here:</strong> ${n0(ours)} · <strong>${match ? "Reproduced" : "Differs"}</strong></p>
             <p class="trace"><strong>Check it yourself.</strong> ${c.check}${c.note ? ` ${esc(c.note)}` : ""}</p>

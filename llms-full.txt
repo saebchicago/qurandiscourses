@@ -6158,6 +6158,16 @@ Stated: 30,895 · Here: 30,895 · Reproduced
 
 Check it yourself. Sum the tokens column of the verse-lengths table for surahs 1 to 8 and 59 to 114. The release notes say which chapters the treebank covers; counting the words in exactly those chapters here gives the figure they state.
 
+### ~ The word count in the corpus author's thesis
+
+“To measure the accuracy of morphological annotation by random sampling, from the 77,430 words in the Quran, three random non-overlapping samples were collected, with each 1,000 words in size.”
+
+Dukes, Kais, Statistical Parsing by Machine Learning from a Classical Arabic Treebank , PhD thesis, School of Computing, University of Leeds (2013): arxiv.org/pdf/1510.07193 , PDF p. 176, read 2026-09-26 (SHA-256 aa387bf6b375…)
+
+Stated: 77,430 · Here: 77,429 · Differs
+
+Check it yourself. Sum the tokens column of the verse-lengths table. One word apart. The same thesis also gives 77,429 (PDF p. 75, describing Salih's 2007 analysis of "each of the 77,429 words in the Quran") and reports an analysis "for 67,516 out of 77,430 words" (PDF p. 168); the version 0.4 release notes give 77,429. The passages read do not explain the difference, so this site does not guess at it.
+
 ## How we verify: worked examples
 
 Each example is joined to a canonical claim record. Open a record to
@@ -6683,8 +6693,8 @@ URL
 A source can be fully cited in data/sources.json
 and still be reachable from no badge anywhere: nothing checked
 for that until this measurement.
-39 of
-39 sources appear in at
+40 of
+40 sources appear in at
 least one data-source-ids attribute on the site,
 static or built at render time. The rest are cited in the
 bibliography on Sources but not yet
@@ -7017,7 +7027,9 @@ reciter was tested against the files Read plays, and only those
 that fit are used (Husary's did not). Validation
 now quotes published figures and sets this site's own count beside
 each: the Leeds corpus's 77,429 words, and the 30,895 words its
-treebank covers, both reproduced exactly.
+treebank covers, both reproduced exactly; and the
+corpus author's 2013 thesis, which in one passage gives 77,430,
+one word more, shown as a difference rather than left out.
 §
 
 Core vocabulary, and a corrected definition.

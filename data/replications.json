@@ -33,6 +33,23 @@
    },
    "check": "Sum the tokens column of the <a href=\"/export\">verse-lengths</a> table for surahs 1 to 8 and 59 to 114.",
    "note": "The release notes say which chapters the treebank covers; counting the words in exactly those chapters here gives the figure they state."
+  },
+  {
+   "id": "dukes-thesis-word-count",
+   "title": "The word count in the corpus author's thesis",
+   "source": "dukes-thesis-2013",
+   "url": "https://arxiv.org/pdf/1510.07193",
+   "page": "PDF p. 176",
+   "fetched": "2026-09-26",
+   "sha256": "aa387bf6b37559ed8b6754addf30f38fdc91ea8fbb73870727eaee980a837888",
+   "quote": "To measure the accuracy of morphological annotation by random sampling, from the 77,430 words in the Quran, three random non-overlapping samples were collected, with each 1,000 words in size.",
+   "stated": 77430,
+   "ours": {
+    "kind": "words",
+    "surahs": "1-114"
+   },
+   "check": "Sum the tokens column of the <a href=\"/export\">verse-lengths</a> table.",
+   "note": "One word apart. The same thesis also gives 77,429 (PDF p. 75, describing Salih's 2007 analysis of \"each of the 77,429 words in the Quran\") and reports an analysis \"for 67,516 out of 77,430 words\" (PDF p. 168); the version 0.4 release notes give 77,429. The passages read do not explain the difference, so this site does not guess at it."
   }
  ]
 }
