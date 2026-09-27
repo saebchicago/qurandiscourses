@@ -102,6 +102,37 @@
 // v1-to-v2 change above committed to, not a threshold moved to fit an
 // outcome.
 //
+// ── The corrected estimator's own result (2026-09-27): the effect is
+// real, not an artifact — no candidate passes speed fit ─────────────
+// The prediction above was that a robust slope would come out near
+// zero once the high-leverage outliers stopped dominating it. It did
+// not: Theil-Sen's slope is AS LARGE OR LARGER than OLS's for three of
+// four candidates (Husary 0.0257 vs OLS 0.0148; Minshawi 0.0116 vs
+// 0.0072; Abdul Basit 0.0121 vs 0.0073; only Shuraym is smaller, 0.0077
+// vs 0.0107) and every one is roughly 8-26x SPEED_SLOPE_MAX. A handful
+// of outliers cannot explain a MEDIAN this far from zero — Theil-Sen's
+// breakdown point means at least 29% of all pairwise slopes would have
+// to be large for the median to move this much, so the fix, while
+// still correct (OLS was measurably unreliable here, its slope not
+// even consistently in the same direction as Theil-Sen's), did not
+// vindicate any candidate. It instead confirms, more rigorously than
+// OLS did, that every candidate's audio drifts from quran-align's
+// timing by roughly 0.8-2.6% of verse length — real even for Minshawi
+// and Abdul Basit, whose FIRST word (onset fit) matches almost
+// perfectly. The most likely explanation is that quran-align's
+// everyayah-sourced master and our cdn.islamic.network master are not
+// the same take: two recordings of the same reciter can differ
+// slightly in pace even when both are labelled with his name, and nothing
+// in this pipeline can tell such a difference apart from a real editing
+// difference between the two masters. Whatever the cause, the
+// consequence for highlighting is the same: an onset-only test cannot
+// see it, because it never looks past a verse's first word, but a
+// reader would, toward the end of longer verses. No further
+// adjustment to this test was made in response to this result — the
+// estimator fix was decided and justified before it ran; a further
+// change now, aimed at this specific outcome, would be exactly the
+// discipline this file's header rules out.
+//
 // Writes:
 //   data/recitation/word-timings-report.json   always: every release asset
 //       seen, every candidate's v1 and v2 figures and verdicts, the
