@@ -2,9 +2,10 @@ name: Fetch word timings (quran-align)
 
 # Runs scripts/build-word-timings.mjs where the network is open: it
 # downloads quran-align's word timings, tests each candidate reciter
-# against data/recitation/durations.json, and commits the report (and
-# the timings of reciters that pass) back to the working branch. It
-# never commits to main; the result goes through review in its PR.
+# against data/recitation/durations.json and (v2) against the actual
+# audio Read plays via ffmpeg's silencedetect, and commits the report
+# (and the timings of reciters that pass) back to the working branch.
+# It never commits to main; the result goes through review in its PR.
 
 on:
   push:
@@ -26,7 +27,7 @@ jobs:
     name: Fetch and test word timings against the measured durations
     if: github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     permissions:
       contents: write
     steps:
@@ -38,7 +39,9 @@ jobs:
       - name: Fetch and test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node scripts/build-word-timings.mjs
+        run: |
+          command -v ffmpeg >/dev/null || sudo apt-get install -y -qq ffmpeg >/dev/null
+          node scripts/build-word-timings.mjs
 
       - name: Commit to the working branch
         run: |
