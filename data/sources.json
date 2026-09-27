@@ -13,6 +13,16 @@
    "accessed": "2026-05-19"
   },
   {
+   "id": "dukes-thesis-2013",
+   "type": "paper",
+   "author": "Dukes, Kais",
+   "name": "Statistical Parsing by Machine Learning from a Classical Arabic Treebank",
+   "edition": "PhD thesis, School of Computing, University of Leeds",
+   "year": "2013",
+   "url": "https://arxiv.org/pdf/1510.07193",
+   "accessed": "2026-09-26"
+  },
+  {
    "id": "tanzil",
    "type": "dataset",
    "author": "Tanzil Project",
@@ -99,6 +109,17 @@
    "url": "https://cdn.islamic.network",
    "accessed": "2026-09-26",
    "note": "Listen mode's translation voices beyond English. IDENTITY and AVAILABILITY are checked; LICENSE is not, which is what keeps this Pending. IDENTITY: alquran.cloud's edition registry, read by scripts/check-audio-editions.mjs on 2026-09-26, reports each as type versebyverse with the language and reader name used here: Urdu (Shamshad Ali Khan), French (Youssouf Leclerc), Russian (\"Elmir Kuliev by 1MuslimApp\"), Chinese (no reader named), Kazakh (Khalifah Altai), Uzbek (Muhammad Sodik Muhammad Yusuf). AVAILABILITY: the same run found cdn.islamic.network serving each across sampled early, middle and final clips (ur.khan at 64kbps, the rest at 128kbps). NOT OFFERED, same run: fa.hedayatfarfooladvand and tr.vakfi-audio (registered as type translation, not verse by verse), my.hashimtinmyint (surah by surah), ru.kuliev-audio-2 (registered, served at no probed bitrate). The registry lists no Bengali audio edition. WHICH TRANSLATION each reads: not established, so none is paired with a written translation. LICENSE: nothing the registry or CDN exposes states who holds these recordings or on what terms, so this entry states neither."
+  },
+  {
+   "id": "quran-align",
+   "type": "dataset",
+   "author": "Fair, Collin",
+   "name": "quran-align: word-precise segmentation of recorded Qur'anic recitation (timing data)",
+   "edition": "release-2016-11-24",
+   "year": "2016",
+   "url": "https://github.com/cpfair/quran-align",
+   "license": "CC BY 4.0 (data files, per the project README)",
+   "accessed": "2026-09-26"
   },
   {
    "id": "cairo-1924",

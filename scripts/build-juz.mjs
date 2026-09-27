@@ -1,18 +1,21 @@
 // build-juz.mjs — generate data/juz.json, the 30 traditional juz (para)
-// divisions of the Qur'an, from a single cited table of start boundaries.
+// divisions of the Qur'an.
 //
-// The 30 juz START boundaries (surah:ayah) are the standard Hafs/mushaf
-// division as published in the Tanzil Project metadata (tanzil.net,
-// quran-data.xml, "juz" section) — the same Tanzil text the rest of the
-// site cites. They are a fixed reading convention, not part of the
-// revealed text, so they are transcribed here rather than computed from
-// the morphology. Each juz END boundary is DERIVED: the verse immediately
-// before the next juz's start (the last juz ends at the last verse of the
-// Qur'an), using per-surah verse counts from data/surah-meta.json so the
-// end boundaries can never be mis-keyed by hand.
+// The START boundaries are read from the bundled Tanzil text's own
+// metadata (data/quran-text/, each verse's `juz` field, supplied by
+// alquran.cloud; see scripts/build-quran-text.mjs), so the juz Read shows,
+// the translations the text service returns for a juz, the listening
+// times, and the juz pages all use one division. They were previously a
+// hand-typed table; it agreed with the text metadata everywhere except
+// juz 4, which it started at 3:92 where the metadata starts it at 3:93.
+// On Read that left 3:92 without a translation in juz 4. The division is
+// a reading convention, not part of the revealed text.
+//
+// Each juz END boundary is DERIVED: the verse immediately before the next
+// juz's start (the last juz ends at the last verse of the Qur'an).
 //
 // Run:  node scripts/build-juz.mjs   → writes data/juz.json
-// Zero dependencies, deterministic. Re-run after editing STARTS.
+// Zero dependencies, deterministic.
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -22,15 +25,21 @@ import { computedDate } from "./lib/computed-date.mjs";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
 
-// Canonical juz start boundaries [surah, ayah] — Tanzil standard division.
-const STARTS = [
-  [1, 1],   [2, 142], [2, 253], [3, 92],  [4, 24],
-  [4, 148], [5, 82],  [6, 111], [7, 88],  [8, 41],
-  [9, 93],  [11, 6],  [12, 53], [15, 1],  [17, 1],
-  [18, 75], [21, 1],  [23, 1],  [25, 21], [27, 56],
-  [29, 46], [33, 31], [36, 28], [39, 32], [41, 47],
-  [46, 1],  [51, 31], [58, 1],  [67, 1],  [78, 1],
-];
+// Start of each juz = its first verse in the bundled text's metadata,
+// which must also be contiguous: every verse from one start to the next
+// carries the same juz number.
+const STARTS = [];
+let lastJuz = 0;
+for (let sn = 1; sn <= 114; sn++) {
+  const t = JSON.parse(readFileSync(join(ROOT, "data", "quran-text", `${sn}.json`), "utf8"));
+  for (const a of t.ayahs) {
+    if (a.juz === lastJuz) continue;
+    if (a.juz !== lastJuz + 1) throw new Error(`juz metadata jumps from ${lastJuz} to ${a.juz} at ${sn}:${a.numberInSurah}`);
+    STARTS.push([sn, a.numberInSurah]);
+    lastJuz = a.juz;
+  }
+}
+if (STARTS.length !== 30) throw new Error(`expected 30 juz starts, found ${STARTS.length}`);
 
 const meta = JSON.parse(
   readFileSync(join(ROOT, "data", "surah-meta.json"), "utf8"),
@@ -63,11 +72,11 @@ const juz = STARTS.map((start, i) => {
 const out = {
   _source: "tanzil",
   _note:
-    "The 30 traditional juz (para) divisions. START boundaries are the " +
-    "standard Hafs/mushaf division per the Tanzil Project metadata " +
-    "(tanzil.net). END boundaries derived as the verse before the next " +
-    "juz's start, using surah-meta.json verse counts. Regenerate with " +
-    "scripts/build-juz.mjs.",
+    "The 30 traditional juz (para) divisions. START boundaries are read " +
+    "from the bundled Tanzil text's metadata (data/quran-text/, each " +
+    "verse's juz field, supplied by alquran.cloud). END boundaries derived " +
+    "as the verse before the next juz's start, using surah-meta.json verse " +
+    "counts. Regenerate with scripts/build-juz.mjs.",
   _generated: computedDate(),
   count: juz.length,
   juz,

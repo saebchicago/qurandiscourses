@@ -1,6 +1,6 @@
 {
   "_source": "tanzil",
-  "_note": "The 30 traditional juz (para) divisions. START boundaries are the standard Hafs/mushaf division per the Tanzil Project metadata (tanzil.net). END boundaries derived as the verse before the next juz's start, using surah-meta.json verse counts. Regenerate with scripts/build-juz.mjs.",
+  "_note": "The 30 traditional juz (para) divisions. START boundaries are read from the bundled Tanzil text's metadata (data/quran-text/, each verse's juz field, supplied by alquran.cloud). END boundaries derived as the verse before the next juz's start, using surah-meta.json verse counts. Regenerate with scripts/build-juz.mjs.",
   "_generated": "2026-07-12",
   "count": 30,
   "juz": [
@@ -23,12 +23,12 @@
       "startSurah": 2,
       "startAyah": 253,
       "endSurah": 3,
-      "endAyah": 91
+      "endAyah": 92
     },
     {
       "juz": 4,
       "startSurah": 3,
-      "startAyah": 92,
+      "startAyah": 93,
       "endSurah": 4,
       "endAyah": 23
     },

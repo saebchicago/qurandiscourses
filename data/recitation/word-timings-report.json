@@ -1,0 +1,193 @@
+{
+ "_computed": "2026-09-26",
+ "_source": "github.com/cpfair/quran-align, release release-2016-11-24",
+ "_method": "Each candidate's last-word end time per verse compared with data/recitation/durations.json; pass criteria in scripts/build-word-timings.mjs, fixed before the data was seen.",
+ "criteria": {
+  "coverage": 0.99,
+  "fit": 0.98,
+  "fitLo": -150,
+  "fitHi": 3000,
+  "r": 0.99
+ },
+ "licence": {
+  "LICENSE": "Copyright (c) 2016 Collin Fair\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SO",
+  "README.md": [
+   "These data files are licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/). Please consider emailing me if you use this data, so I can let you know when new & revised timing data is available."
+  ]
+ },
+ "assets": [
+  {
+   "name": "quran-align-data-2016-11-24.zip",
+   "size": 5807871
+  }
+ ],
+ "candidates": [
+  {
+   "reciter": "ar.husary",
+   "asset": "quran-align-data-2016-11-24.zip",
+   "file": "Husary_64kbps.json",
+   "verses": 6236,
+   "coverage": 1,
+   "fitShare": 0.8457,
+   "r": 0.99853,
+   "diffMs": {
+    "p5": 880,
+    "median": 1732,
+    "p95": 3993,
+    "min": -20,
+    "max": 8794
+   },
+   "wordIndex": {
+    "smallestStart": 0,
+    "versesWhereLastEndEqualsTanzilWords": 3435,
+    "versesWhereLastEndEqualsTanzilWordsWithoutPauseMarks": 6121,
+    "versesWhereLastEndEqualsTanzilWordsPlusOne": 0
+   },
+   "verdict": {
+    "coverage": true,
+    "fit": false,
+    "agreement": true
+   },
+   "pass": false
+  },
+  {
+   "reciter": "ar.husary",
+   "asset": "quran-align-data-2016-11-24.zip",
+   "file": "Husary_Muallim_128kbps.json",
+   "verses": 6236,
+   "coverage": 1,
+   "fitShare": 0.3372,
+   "r": 0.9643,
+   "diffMs": {
+    "p5": -8526,
+    "median": 2320,
+    "p95": 8146,
+    "min": -73831,
+    "max": 34372
+   },
+   "wordIndex": {
+    "smallestStart": 0,
+    "versesWhereLastEndEqualsTanzilWords": 3433,
+    "versesWhereLastEndEqualsTanzilWordsWithoutPauseMarks": 6117,
+    "versesWhereLastEndEqualsTanzilWordsPlusOne": 0
+   },
+   "verdict": {
+    "coverage": true,
+    "fit": false,
+    "agreement": false
+   },
+   "pass": false
+  },
+  {
+   "reciter": "ar.minshawi",
+   "asset": "quran-align-data-2016-11-24.zip",
+   "file": "Minshawy_Murattal_128kbps.json",
+   "verses": 6236,
+   "coverage": 1,
+   "fitShare": 0.9995,
+   "r": 0.99983,
+   "diffMs": {
+    "p5": 239,
+    "median": 578,
+    "p95": 1019,
+    "min": 8,
+    "max": 5279
+   },
+   "wordIndex": {
+    "smallestStart": 0,
+    "versesWhereLastEndEqualsTanzilWords": 3432,
+    "versesWhereLastEndEqualsTanzilWordsWithoutPauseMarks": 6118,
+    "versesWhereLastEndEqualsTanzilWordsPlusOne": 0
+   },
+   "verdict": {
+    "coverage": true,
+    "fit": true,
+    "agreement": true
+   },
+   "pass": true,
+   "bundled": true
+  },
+  {
+   "reciter": "ar.abdulbasitmurattal",
+   "asset": "quran-align-data-2016-11-24.zip",
+   "file": "Abdul_Basit_Murattal_64kbps.json",
+   "verses": 6236,
+   "coverage": 1,
+   "fitShare": 0.9998,
+   "r": 0.99987,
+   "diffMs": {
+    "p5": 316,
+    "median": 695,
+    "p95": 1100,
+    "min": 50,
+    "max": 3751
+   },
+   "wordIndex": {
+    "smallestStart": 0,
+    "versesWhereLastEndEqualsTanzilWords": 3434,
+    "versesWhereLastEndEqualsTanzilWordsWithoutPauseMarks": 6119,
+    "versesWhereLastEndEqualsTanzilWordsPlusOne": 0
+   },
+   "verdict": {
+    "coverage": true,
+    "fit": true,
+    "agreement": true
+   },
+   "pass": true,
+   "bundled": true
+  },
+  {
+   "reciter": "ar.saoodshuraym",
+   "asset": "quran-align-data-2016-11-24.zip",
+   "file": "Saood_ash-Shuraym_128kbps.json",
+   "verses": 6235,
+   "coverage": 0.9998,
+   "fitShare": 0.9968,
+   "r": 0.9977,
+   "diffMs": {
+    "p5": 171,
+    "median": 367,
+    "p95": 681,
+    "min": 27,
+    "max": 19737
+   },
+   "wordIndex": {
+    "smallestStart": 0,
+    "versesWhereLastEndEqualsTanzilWords": 3434,
+    "versesWhereLastEndEqualsTanzilWordsWithoutPauseMarks": 6119,
+    "versesWhereLastEndEqualsTanzilWordsPlusOne": 0
+   },
+   "verdict": {
+    "coverage": true,
+    "fit": true,
+    "agreement": true
+   },
+   "pass": true,
+   "bundled": true
+  }
+ ],
+ "files": [
+  "quran-align-data-2016-11-24.zip/Abdul_Basit_Mujawwad_128kbps.json",
+  "quran-align-data-2016-11-24.zip/Abdul_Basit_Murattal_64kbps.json",
+  "quran-align-data-2016-11-24.zip/Abu_Bakr_Ash-Shaatree_128kbps.json",
+  "quran-align-data-2016-11-24.zip/Alafasy_128kbps.json",
+  "quran-align-data-2016-11-24.zip/Hani_Rifai_192kbps.json",
+  "quran-align-data-2016-11-24.zip/Husary_64kbps.json",
+  "quran-align-data-2016-11-24.zip/Husary_Muallim_128kbps.json",
+  "quran-align-data-2016-11-24.zip/Minshawy_Mujawwad_192kbps.json",
+  "quran-align-data-2016-11-24.zip/Minshawy_Murattal_128kbps.json",
+  "quran-align-data-2016-11-24.zip/Mohammad_al_Tablaway_128kbps.json",
+  "quran-align-data-2016-11-24.zip/Saood_ash-Shuraym_128kbps.json"
+ ],
+ "unreadable": [
+  {
+   "file": "quran-align-data-2016-11-24.zip/Abdurrahmaan_As-Sudais_192kbps.json",
+   "error": "Unexpected token 'C', \"\nCrashed Co\"... is not valid JSON"
+  }
+ ],
+ "bundled": [
+  "ar.minshawi",
+  "ar.abdulbasitmurattal",
+  "ar.saoodshuraym"
+ ]
+}

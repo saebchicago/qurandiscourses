@@ -9,6 +9,59 @@
   <updated>2026-09-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>Words highlighted as they are recited, and published figures reproduced</title>
+    <id>https://divinediscourses.org/changelog#2026-09-word-highlight-and-reproduced-figures</id>
+    <link href="https://divinediscourses.org/changelog#2026-09-word-highlight-and-reproduced-figures"/>
+    <updated>2026-09-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Words highlighted as they are recited, and published
+              figures reproduced.&lt;/strong&gt; On &lt;a href="/read"&gt;Read&lt;/a&gt;, with
+              Mohamed al-Minshawi, Abdul Basit or Shuraim, the word being
+              recited is highlighted. The timings are quran-align's (Collin
+              Fair, CC BY 4.0), made for other copies of these recordings; each
+              reciter was tested against the files Read plays, and only those
+              that fit are used (Husary's did not). &lt;a href="/validation#published-figures-reproduced"&gt;Validation&lt;/a&gt;
+              now quotes published figures and sets this site's own count beside
+              each: the Leeds corpus's 77,429 words, and the 30,895 words its
+              treebank covers, both reproduced exactly; and the
+              corpus author's 2013 thesis, which in one passage gives 77,430,
+              one word more, shown as a difference rather than left out.</content>
+  </entry>
+  <entry>
+    <title>Core vocabulary, and a corrected definition</title>
+    <id>https://divinediscourses.org/changelog#2026-09-core-vocabulary</id>
+    <link href="https://divinediscourses.org/changelog#2026-09-core-vocabulary"/>
+    <updated>2026-09-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Core vocabulary, and a corrected definition.&lt;/strong&gt;
+              &lt;a href="/vocabulary"&gt;Core vocabulary&lt;/a&gt; lists the 475 lemmas
+              that account for 80% of the Qur'an's 74,122 lemmatized word-units
+              (Leeds corpus), most frequent first, each with its root, count and
+              first occurrence. A practice mode shows one word at a time and,
+              on request, the Quran.com word-by-word English for it at that
+              verse; progress stays in your browser. Also corrected: the
+              glossary said a word-unit is a piece smaller than a written word
+              (bismi as two). It is one written word, as the Leeds corpus lists
+              them; the 77,429 figure counts written words.</content>
+  </entry>
+  <entry>
+    <title>A page for every juz, and for every common root</title>
+    <id>https://divinediscourses.org/changelog#2026-09-juz-root-pages</id>
+    <link href="https://divinediscourses.org/changelog#2026-09-juz-root-pages"/>
+    <updated>2026-09-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;A page for every juz, and for every common root.&lt;/strong&gt;
+              Each of the 30 juz has a page at &lt;code&gt;/juz/&amp;lt;number&amp;gt;&lt;/code&gt;
+              (for example &lt;a href="/juz/1"&gt;/juz/1&lt;/a&gt;): where it starts and
+              ends, its verses, word-units and mushaf pages, the surahs it
+              spans, and how long it takes with each reciter. Each of the 411
+              roots that occurs 20 or more times has a page at
+              &lt;code&gt;/root/&amp;lt;key&amp;gt;&lt;/code&gt; (for example
+              &lt;a href="/root/qwl"&gt;/root/qwl&lt;/a&gt;): its count and rank, lemmas,
+              written forms, the surahs where it concentrates and the roots it
+              keeps company with. Surah pages now print cleanly. Two fixes:
+              juz 4 now starts at 3:93, as the Tanzil metadata marks it, not
+              3:92; and three part-of-speech labels on Roots (exceptive,
+              explanation, exhortation particles) now match the corpus's tags.</content>
+  </entry>
+  <entry>
     <title>A reference page for every surah</title>
     <id>https://divinediscourses.org/changelog#2026-09-surah-reference-pages</id>
     <link href="https://divinediscourses.org/changelog#2026-09-surah-reference-pages"/>

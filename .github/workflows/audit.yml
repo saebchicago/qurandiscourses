@@ -80,6 +80,10 @@ jobs:
         # or installing Playwright/Chromium first.
         run: |
           node scripts/build-surah-pages.mjs --check
+          node scripts/build-juz-pages.mjs --check
+          node scripts/build-root-pages.mjs --check
+          node scripts/build-vocabulary.mjs --check
+          node scripts/build-replications.mjs --check
           node scripts/build-page-dates.mjs --check
           node scripts/build-canonicals.mjs --check
           node scripts/build-static-fallbacks.mjs --check
@@ -157,3 +161,20 @@ jobs:
       - name: Check the word-by-word translator credit
         if: ${{ !cancelled() }}
         run: node scripts/check-wbw-credit.mjs
+
+      - name: Check the word-by-word source lines up with the vocabulary cards
+        if: ${{ !cancelled() }}
+        run: node scripts/check-vocab-wbw.mjs
+
+      # Prints, verbatim, the lines of registered sources that state a
+      # finding, so a quote on the site is taken from what the source
+      # says and not from memory. Reporter only; writes nothing.
+      - name: Excerpt source statements for exact quotation
+        if: ${{ !cancelled() }}
+        run: |
+          command -v pdftotext >/dev/null || sudo apt-get install -y -qq poppler-utils >/dev/null
+          node scripts/fetch-evidence.mjs
+
+      - name: Check each reproduced figure's quote still appears at its source
+        if: ${{ !cancelled() }}
+        run: node scripts/fetch-evidence.mjs --verify

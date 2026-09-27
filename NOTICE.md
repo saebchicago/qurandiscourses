@@ -30,6 +30,17 @@ headers of the per-verse audio files served by Islamic Network
 redistributed. The recordings remain the property of their reciters and
 publishers.
 
+## Word timings (quran-align, CC BY 4.0)
+
+`data/recitation/words/` holds word-level timings from quran-align by
+Collin Fair (https://github.com/cpfair/quran-align, release
+release-2016-11-24), whose README states: "These data files are licensed
+under a Creative Commons Attribution 4.0 International License." The
+segments are copied verbatim, split per surah; nothing else is changed.
+Only reciters whose timings fit the audio Read plays are included; the
+test and its results are in `data/recitation/word-timings-report.json`
+(written by `scripts/build-word-timings.mjs`).
+
 ## Tanzil Quran text (bundled)
 
 Verse text rendered on the Read and Compare pages is the Tanzil Uthmani
@@ -186,7 +197,11 @@ citation metadata for the site, its export tables, and its cited
 sources), `changelog.json` (the changelog entry registry behind changelog.html
 and feed.xml), `claims.json`, `page-dates.json` (when each page's content
 last changed, behind sitemap.xml and each page's dateModified), `contributors.json` (the contributor
-roster behind credits.html), `exercises.json`, `glossary.json` (the term
+roster behind credits.html), `replications.json` (published figures
+reproduced on validation.html; each carries a short quotation from its
+cited source, with the URL it was read from), `evidence/` (the list of source pages
+scripts/fetch-evidence.mjs excerpts in CI; URLs and patterns only, no
+third-party text), `exercises.json`, `glossary.json` (the term
 registry behind assets/glossary.js and glossary.html), `juz.json`,
 `lenses.json` (the reading-lens registry behind assets/lenses.js:
 site-authored descriptions of published coherence methods; no source
@@ -211,7 +226,8 @@ reading lens), `numbers.json`,
 `rhetorical-features.json`, `rhyme-summary.json`, `roots-index.json`,
 `roots-list.json`, `surah-profiles.json`, `structure-tests.json`,
 `symmetry-test.json`, `theme-surah-index.json`, `themes.json`,
-`word-index.json`. Each
+`vocabulary.json` (the core-vocabulary list behind vocabulary.html;
+no meanings are bundled), `word-index.json`. Each
 generator script under
 `scripts/` names its inputs in its header. One of these additionally
 draws on another output: `data/exports/` republishes Leeds-derived

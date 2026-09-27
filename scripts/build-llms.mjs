@@ -39,7 +39,7 @@ const PAGES = [
   "dossier.html", "themes.html", "compare.html", "replay.html", "exercises.html",
   "exercise.html", "exercise-roots.html",
   "roots.html", "words.html", "patterns.html", "formulas.html", "numbers.html",
-  "how-to-use.html", "how-it-works.html", "paths.html", "glossary.html", "search.html", "watch.html",
+  "how-to-use.html", "how-it-works.html", "paths.html", "glossary.html", "vocabulary.html", "search.html", "watch.html",
   "sources.html", "validation.html", "datasets.html", "coverage.html",
   "export.html", "changelog.html", "contribute.html", "open-questions.html",
   "about.html", "credits.html",
@@ -115,7 +115,19 @@ function indexBody() {
     const { title, desc } = meta(f);
     lines.push(`- [${title.replace(/\s*·\s*Divine Discourses\s*$/, "")}](${SITE}/${f.replace(/\.html$/, "")}): ${desc}`);
   }
-  lines.push("");
+  lines.push("", "## Juz", "", "One static reference page per juz (scripts/build-juz-pages.mjs): boundaries, surahs spanned, mushaf pages, and listening time per reciter.", "");
+  for (let n = 1; n <= 30; n++) {
+    const f = `juz/${n}.html`;
+    const { title, desc } = meta(f);
+    lines.push(`- [${title.replace(/\s*·\s*Divine Discourses\s*$/, "")}](${SITE}/juz/${n}): ${desc}`);
+  }
+  lines.push(
+    "",
+    "## Roots",
+    "",
+    `One static reference page for each root occurring 20 or more times (scripts/build-root-pages.mjs), at ${SITE}/root/<key>; the full list is on ${SITE}/roots. Every root, frequent or not, is in the Roots explorer and the root-frequencies export.`,
+    "",
+  );
   return lines.join("\n");
 }
 

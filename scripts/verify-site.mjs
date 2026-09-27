@@ -160,7 +160,7 @@ if (runCheck("sitemap") && !PAGE_FILTER) {
   }
   for (const loc of sitemapLocs) {
     // Generated surah reference pages live one directory down.
-    if (/^\/surah\/\d+$/.test(loc) && existsSync(join(ROOT, loc.slice(1) + ".html"))) continue;
+    if (/^\/(surah|juz|root)\/[^/]+$/.test(loc) && existsSync(join(ROOT, loc.slice(1) + ".html"))) continue;
     if (!pathOf.has(loc)) {
       report("sitemap", loc, false, "sitemap entry has no file on disk");
     }
@@ -1174,7 +1174,7 @@ if (runCheck("renders") && !PAGE_FILTER && !LIVE) {
 // — buttons, transport, nav entries, form fields, disclosures — hold to
 // 44, which is what the maintainer guide already asks of them.
 if (runCheck("targets") && !PAGE_FILTER && !LIVE) {
-  const TARGET_PAGES = ["index", "read", "navigate", "dossier", "roots", "numbers", "glossary", "search", "sources", "paths", "exercises", "replay", "surah/36"];
+  const TARGET_PAGES = ["index", "read", "navigate", "dossier", "roots", "numbers", "glossary", "search", "sources", "paths", "exercises", "replay", "surah/36", "juz/4", "root/qwl", "vocabulary"];
   const CONTROL_44 = ".button, .btn-primary, .btn-secondary, .btn-utility, nav.primary .nav-menu a, .nav-group-btn, .listen-btn, .verse-listen-btn, .verse-more-btn, .verse-note-mark, .verse .meta .vref, .read-context-ref, .verse-count-btn, .depth-toggle button, .qd-chip, .method-note summary, input[type=text], input[type=search], input[type=number], select, .replay-transport button";
   for (const p of TARGET_PAGES) {
     const tctx = await newContext({ apiMode: "stub" });
@@ -1267,9 +1267,11 @@ if (runCheck("budgets") && !PAGE_FILTER && !LIVE) {
     // dossier(103) 1638 / 42 / 371. The DOM counts on numbers and roots and
     // the weight of a dossier are the findings here; the budgets hold the
     // line at them rather than pretending they are smaller.
+    // 2026-09-26: roots gained the static list of 411 root pages (about
+    // 1,650 nodes, links a crawler needs without JavaScript): 4566 nodes.
     { path: "/index.html", bytesKB: 1250, requests: 40, domNodes: 800 },
     { path: "/read.html?s=103&a=1-3", bytesKB: 1000, requests: 45, domNodes: 1200 },
-    { path: "/roots.html", bytesKB: 1400, requests: 45, domNodes: 3500 },
+    { path: "/roots.html", bytesKB: 1400, requests: 45, domNodes: 5000 },
     { path: "/numbers.html", bytesKB: 950, requests: 40, domNodes: 8000 },
     { path: "/navigate.html", bytesKB: 1050, requests: 40, domNodes: 2500 },
     { path: "/dossier.html?s=103", bytesKB: 2000, requests: 52, domNodes: 1000 },
@@ -3509,8 +3511,189 @@ if (runCheck("surahpages") && !LIVE) {
     return c;
   })();
   report("surah-page-console", "surah/36.html", errs.length === 0, errs.slice(0, 3).join(" | ") || "clean");
+
+  // Juz and root families: content in the HTML, clean console, linked
+  // from their index pages.
+  const juzData = JSON.parse(readFileSync(join(ROOT, "data/juz.json"), "utf8")).juz;
+  const j4 = juzData[3];
+  const juzHtml = readFileSync(join(ROOT, "juz/4.html"), "utf8");
+  report(
+    "juz-page-static", "juz/4.html",
+    juzHtml.includes(`${j4.startSurah}:${j4.startAyah} to`) && (juzHtml.match(/<tr><td>/g) || []).length >= paceData.reciters.length && !/<script(?![^>]*\bsrc=)(?![^>]*application\/ld\+json)[^>]*>/.test(juzHtml),
+    `juz 4 starts ${j4.startSurah}:${j4.startAyah} in data/juz.json and on the page; reciter rows present; no inline script`,
+  );
+  const rootHtml = readFileSync(join(ROOT, "root/qwl.html"), "utf8");
+  report(
+    "root-page-static", "root/qwl.html",
+    /occurs 1,722 times in the Qur'an/.test(rootHtml) && /href="\/surah\/\d+"/.test(rootHtml) && !/<script(?![^>]*\bsrc=)(?![^>]*application\/ld\+json)[^>]*>/.test(rootHtml),
+    "q-w-l count, surah links, no inline script",
+  );
+  for (const path of ["/juz/4", "/root/qwl"]) {
+    const e2 = [];
+    const pg = await jctx.newPage();
+    attachConsoleCollector(pg, e2);
+    await pg.goto(`${BASE}${path}`, { waitUntil: "load" });
+    await pg.waitForTimeout(300);
+    report("family-page-console", path.slice(1) + ".html", e2.length === 0, e2.slice(0, 3).join(" | ") || "clean");
+    await pg.close();
+  }
+  const idx = await jctx.newPage();
+  await idx.goto(`${BASE}/navigate`, { waitUntil: "load" });
+  const juzLinks = await idx.evaluate(() => document.querySelectorAll('.surah-page-list a[href^="/juz/"]').length);
+  await idx.goto(`${BASE}/roots`, { waitUntil: "load" });
+  const rootLinks = await idx.evaluate(() => document.querySelectorAll('.root-page-list a[href^="/root/"]').length);
+  const rootFiles = readdirSync(join(ROOT, "root")).filter((f) => f.endsWith(".html")).length;
+  report("family-pages-linked", "navigate.html + roots.html", juzLinks === 30 && rootLinks === rootFiles, `${juzLinks} juz links (want 30), ${rootLinks} root links (want ${rootFiles})`);
+  await idx.close();
+
+  // On paper: chrome gone, facts and the Tanzil notice present.
+  const pr = await jctx.newPage();
+  await pr.emulateMedia({ media: "print" });
+  await pr.goto(`${BASE}/surah/112`, { waitUntil: "load" });
+  const printed = await pr.evaluate(() => {
+    const vis = (sel) => { const el = document.querySelector(sel); return !!el && el.getClientRects().length > 0 && getComputedStyle(el).display !== "none"; };
+    const notice = document.querySelector(".tanzil-notice");
+    return { nav: vis("nav.primary"), footer: vis("footer.site"), facts: vis(".surah-facts"), notice: !!notice && notice.getBoundingClientRect().height > 20 };
+  });
+  report("surah-page-print", "surah/112.html", !printed.nav && !printed.footer && printed.facts && printed.notice, `print: nav ${printed.nav}, footer ${printed.footer}, facts ${printed.facts}, Tanzil notice shown ${printed.notice}`);
+  await pr.close();
   report("surah-pages-linked", "navigate.html", listed === 114, `${listed} links to /surah/<n> on Navigate (want 114)`);
   await jctx.close();
+}
+
+// ── Word highlighting during recitation (assets/word-follow.js) ─────
+// The CDN is stubbed with ten seconds of silent WAV, so the recitation
+// really plays and currentTime really advances. Minshawi passes the
+// timing test: at 1.1 s into 1:1 his timings put the second word
+// (segment [1, 2, 940, 1630]), so that word must be highlighted. Husary
+// does not pass: nothing may be highlighted, and the sheet says why.
+if (runCheck("wordfollow") && !LIVE) {
+  const rate = 8000;
+  const wav = Buffer.alloc(44 + rate * 10);
+  wav.write("RIFF", 0); wav.writeUInt32LE(36 + rate * 10, 4); wav.write("WAVEfmt ", 8);
+  wav.writeUInt32LE(16, 16); wav.writeUInt16LE(1, 20); wav.writeUInt16LE(1, 22);
+  wav.writeUInt32LE(rate, 24); wav.writeUInt32LE(rate, 28); wav.writeUInt16LE(1, 32); wav.writeUInt16LE(8, 34);
+  wav.write("data", 36); wav.writeUInt32LE(rate * 10, 40); wav.fill(128, 44);
+  const words = JSON.parse(readFileSync(join(ROOT, "data/recitation/words/ar.minshawi/1.json"), "utf8"))["1"];
+  const seg = words.find((w) => w[2] <= 1100 && 1100 < w[3]);
+  const want = readFileSync(join(ROOT, "data/quran-text/1.json"), "utf8") && JSON.parse(readFileSync(join(ROOT, "data/quran-text/1.json"), "utf8")).ayahs[0].text.split(/\s+/)[seg[0]];
+  for (const reciter of ["ar.minshawi", "ar.husary"]) {
+    const wctx = await browser.newContext({ serviceWorkers: "block" });
+    await wctx.addInitScript((r) => localStorage.setItem("qd_state", JSON.stringify({ seen: true, reciter: r })), reciter);
+    await wctx.route(/cdn\.islamic\.network/, (r) => r.fulfill({ contentType: "audio/wav", body: wav }));
+    await wctx.route(/api\.(alquran\.cloud|quran\.com)/, (r) => r.abort());
+    const errors = [];
+    const page = await wctx.newPage();
+    attachConsoleCollector(page, errors);
+    await page.goto(`${BASE}/read?s=1`, { waitUntil: "load" });
+    await page.waitForSelector("[data-listen-play]", { timeout: 15000 }).catch(() => {});
+    await page.click("[data-listen-play]").catch(() => {});
+    await page.waitForFunction(() => window.qdListenPlayer && window.qdListenPlayer.audio.currentTime >= 1.1, null, { timeout: 8000 }).catch(() => {});
+    const got = await page.evaluate(() => ({
+      t: window.qdListenPlayer ? window.qdListenPlayer.audio.currentTime : -1,
+      supported: !!(window.CSS && CSS.highlights),
+      text: window.CSS && CSS.highlights && CSS.highlights.has("qd-word") ? [...CSS.highlights.get("qd-word")][0].toString() : "",
+    }));
+    await page.click("[data-listen-more]").catch(() => {});
+    await page.waitForFunction(() => { const e = document.querySelector("[data-listen-follow]"); return e && !e.hidden && e.textContent; }, null, { timeout: 4000 }).catch(() => {});
+    const note = await page.evaluate(() => { const e = document.querySelector("[data-listen-follow]"); return e && !e.hidden ? e.textContent : ""; });
+    const ok = reciter === "ar.minshawi"
+      ? got.supported && got.text === want && /CC BY 4\.0/.test(note)
+      : got.text === "" && /did not fit/.test(note);
+    report(`word-follow-${reciter.slice(3)}`, "read.html", ok && errors.length === 0,
+      `t=${got.t.toFixed(2)}s, highlighted "${got.text}" (want "${reciter === "ar.minshawi" ? want : ""}"), note "${note.slice(0, 60)}…"${errors.length ? ", errors: " + errors.join(" | ") : ""}`);
+    await wctx.close();
+  }
+}
+
+// ── Reproduced figures (validation.html) ────────────────────────────
+if (runCheck("replications") && !LIVE) {
+  const reps = JSON.parse(readFileSync(join(ROOT, "data/replications.json"), "utf8")).cards;
+  const rctx = await newContext({ javaScript: false, seenState: false });
+  const page = await rctx.newPage();
+  await page.goto(`${BASE}/validation`, { waitUntil: "load" });
+  const got = await page.evaluate(() =>
+    [...document.querySelectorAll(".replication")].map((el) => ({ id: el.id, text: el.textContent.replace(/\s+/g, " ") })),
+  );
+  const ok = got.length === reps.length && reps.every((c) => got.some((g) => g.id === `rep-${c.id}` && g.text.includes(c.quote)));
+  report("replication-cards", "validation.html", ok, `JS off: ${got.length} cards (want ${reps.length}), each quote present ${ok}; ${got.filter((g) => /Reproduced/.test(g.text)).length} reproduced`);
+  await rctx.close();
+}
+
+// ── Core vocabulary (vocabulary.html) ───────────────────────────────
+// The list is static; the practice cards fetch one word's meaning from
+// api.quran.com. Stubbed here from our own morphology: the served
+// Arabic at the example position is our form (a match) or, in the
+// second pass, a different word (the page must then show no meaning).
+if (runCheck("vocab") && !LIVE) {
+  const vocab = JSON.parse(readFileSync(join(ROOT, "data/vocabulary.json"), "utf8"));
+  const col = Object.fromEntries(vocab.columns.map((c, i) => [c, i]));
+  const first = vocab.lemmas[0];
+  const nctx = await newContext({ javaScript: false, seenState: false });
+  const npage = await nctx.newPage();
+  await npage.goto(`${BASE}/vocabulary`, { waitUntil: "load" });
+  const nojs = await npage.evaluate(() => ({
+    rows: document.querySelectorAll(".vocab-table tbody tr").length,
+    lede: (document.querySelector(".lede") || {}).textContent || "",
+    practiceHidden: document.getElementById("vocabPractice").hidden,
+  }));
+  report(
+    "vocab-static", "vocabulary.html",
+    nojs.rows === vocab.lemmas.length && nojs.lede.includes(vocab.lemmatized.toLocaleString("en-US")) && nojs.practiceHidden,
+    `JS off: ${nojs.rows} list rows (want ${vocab.lemmas.length}), lede names ${vocab.lemmatized.toLocaleString("en-US")}: ${nojs.lede.includes(vocab.lemmatized.toLocaleString("en-US"))}, practice hidden ${nojs.practiceHidden}`,
+  );
+  await nctx.close();
+
+  for (const match of [true, false]) {
+    const vctx = await newContext();
+    await vctx.route(/api\.quran\.com/, (route) => {
+      const url = new URL(route.request().url());
+      const surah = +url.pathname.split("/").pop();
+      const pageNo = +url.searchParams.get("page");
+      const m = JSON.parse(readFileSync(join(ROOT, `data/morphology/${surah}.json`), "utf8"));
+      const verses = Object.keys(m)
+        .filter((k) => /^\d+$/.test(k) && Math.ceil(+k / 50) === pageNo)
+        .map((a) => ({
+          verse_key: `${surah}:${a}`,
+          words: m[a]
+            .map((w) => ({ char_type_name: "word", text_uthmani: match ? w.ar : "كلمة", translation: { text: `gloss-${surah}-${a}-${w.w}` } }))
+            .concat([{ char_type_name: "end", text_uthmani: "", translation: { text: "" } }]),
+        }));
+      return route.fulfill({ contentType: "application/json", body: JSON.stringify({ verses }) });
+    });
+    const errors = [];
+    const page = await vctx.newPage();
+    attachConsoleCollector(page, errors);
+    await page.goto(`${BASE}/vocabulary`, { waitUntil: "load" });
+    await page.waitForSelector("#vocabPractice:not([hidden])", { timeout: 5000 }).catch(() => {});
+    const form = await page.evaluate(() => document.getElementById("vocabForm").textContent);
+    const gradeHidden = await page.evaluate(() => ["vocabKnew", "vocabAgain"].every((id) => getComputedStyle(document.getElementById(id)).display === "none"));
+    await page.click("#vocabShow");
+    const [s, a, w] = first[col.at].split(":");
+    const want = match ? `gloss-${s}-${a}-${w}` : "No meaning shown";
+    await page.waitForFunction((t) => document.getElementById("vocabMeaning").textContent.includes(t), want, { timeout: 5000 }).catch(() => {});
+    const meaning = await page.evaluate(() => document.getElementById("vocabMeaning").textContent);
+    if (match) {
+      await page.click("#vocabKnew");
+      const after = await page.evaluate(() => ({
+        form: document.getElementById("vocabForm").textContent,
+        progress: document.getElementById("vocabProgress").textContent,
+      }));
+      await page.reload({ waitUntil: "load" });
+      await page.waitForSelector("#vocabPractice:not([hidden])", { timeout: 5000 }).catch(() => {});
+      const kept = await page.evaluate(() => document.getElementById("vocabProgress").textContent);
+      report(
+        "vocab-practice", "vocabulary.html",
+        gradeHidden && form === first[col.form] && meaning.includes(want) && after.form === vocab.lemmas[1][col.form] &&
+          /Marked known: 1 of 475/.test(after.progress) && /Marked known: 1 of 475/.test(kept),
+        `grade buttons hidden before reveal ${gradeHidden}, card 1 ${form === first[col.form]}, meaning "${meaning.trim().slice(0, 60)}", next card ${after.form === vocab.lemmas[1][col.form]}, progress "${after.progress}", after reload "${kept}"`,
+      );
+    } else {
+      report("vocab-mismatch", "vocabulary.html", meaning.includes(want), `mismatched Arabic at the example position: "${meaning.trim().slice(0, 80)}"`);
+    }
+    report(`vocab-console${match ? "" : "-mismatch"}`, "vocabulary.html", errors.length === 0, errors.length ? errors.join(" | ") : "clean");
+    await vctx.close();
+  }
 }
 
 // Recitation pace: one row per reciter the reader can choose on /read,
