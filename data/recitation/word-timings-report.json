@@ -51,8 +51,9 @@
     "pass_v1": false
    },
    "speedFit": {
-    "slopeMsPerMs": 0.014777,
-    "r": 0.2663
+    "slopeMsPerMs": 0.025659,
+    "slopeOLS": 0.014777,
+    "rOLS": 0.2663
    },
    "diffMs": {
     "p5": 880,
@@ -101,8 +102,9 @@
     "pass_v1": false
    },
    "speedFit": {
-    "slopeMsPerMs": -0.08365,
-    "r": -0.2706
+    "slopeMsPerMs": -0.039796,
+    "slopeOLS": -0.08365,
+    "rOLS": -0.2706
    },
    "diffMs": {
     "p5": -8526,
@@ -137,8 +139,9 @@
     "pass_v1": true
    },
    "speedFit": {
-    "slopeMsPerMs": 0.007222,
-    "r": 0.3662
+    "slopeMsPerMs": 0.011588,
+    "slopeOLS": 0.007222,
+    "rOLS": 0.3662
    },
    "diffMs": {
     "p5": 239,
@@ -187,8 +190,9 @@
     "pass_v1": true
    },
    "speedFit": {
-    "slopeMsPerMs": 0.007264,
-    "r": 0.411
+    "slopeMsPerMs": 0.012145,
+    "slopeOLS": 0.007264,
+    "rOLS": 0.411
    },
    "diffMs": {
     "p5": 316,
@@ -237,8 +241,9 @@
     "pass_v1": true
    },
    "speedFit": {
-    "slopeMsPerMs": 0.01068,
-    "r": 0.1568
+    "slopeMsPerMs": 0.007701,
+    "slopeOLS": 0.01068,
+    "rOLS": 0.1568
    },
    "diffMs": {
     "p5": 171,
