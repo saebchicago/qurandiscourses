@@ -72,6 +72,36 @@
 // finds — a further change needs the same discipline: name the flaw,
 // fix it for every candidate, before looking at who it moves.
 //
+// ── v2's own first run (2026-09-27): SPEED FIT's estimator was broken ──
+// Every one of the four readable candidates failed speed fit under the
+// linear-regression (OLS) slope above — including Minshawi (97% onset
+// match) and Abdul Basit (100% onset match, on an independent,
+// percentile-based, 100-verse direct test). Every OLS fit also had a
+// weak correlation (r 0.16-0.41) and a max diff 5-30x its own p95
+// (Shuraym: p95 681 ms, max 19,737 ms). That combination — an
+// independent robust test passing near-perfectly, alongside a weak,
+// outlier-dominated regression — is the textbook signature of an OLS
+// slope driven by a handful of high-leverage points, not a real
+// proportional effect: this corpus's verse lengths are extremely
+// right-skewed (every reciter's 99th-percentile verse is roughly a
+// third its longest, chiefly 2:282), and OLS weights points by squared
+// deviation, so the few extreme-length verses dominate the fit
+// regardless of how the other 99% behave.
+//
+// The fix is the estimator, not the threshold: SPEED_SLOPE_MAX stays
+// 0.001, unchanged, because it was derived from the verse-length
+// range, not from any candidate's slope. What changed is how the slope
+// is computed — Theil-Sen (the median of every pairwise slope between
+// covered verses; see theilSenSlope()), a standard robust alternative
+// to OLS specifically for outlier-heavy data, with a breakdown point
+// (~29%) far beyond anything this corpus's tail could produce. The
+// original OLS slope is kept and reported (`speedFit.slopeOLS`) for
+// transparency; it no longer gates. This is a correction to the
+// measuring instrument, applied identically to every candidate before
+// any of their Theil-Sen results were seen — the same discipline the
+// v1-to-v2 change above committed to, not a threshold moved to fit an
+// outcome.
+//
 // Writes:
 //   data/recitation/word-timings-report.json   always: every release asset
 //       seen, every candidate's v1 and v2 figures and verdicts, the
@@ -237,6 +267,38 @@ function linreg(xs, ys) {
   }
   return { slope: sxx ? sxy / sxx : 0, intercept: my - (sxx ? sxy / sxx : 0) * mx, r: sxy / Math.sqrt(sxx * syy) };
 }
+
+// Theil-Sen slope: the median of every pairwise slope (yj-yi)/(xj-xi).
+// Used for speedFit instead of OLS because verse length is extremely
+// right-skewed (a handful of verses, 2:282 chief among them, run 3x+
+// longer than the 99th percentile) and OLS's slope is dominated by
+// exactly those few high-leverage points — discovered from this
+// script's first real run (2026-09-27): every candidate "failed" speed
+// fit under OLS, including two (Minshawi, Abdul Basit) with 97-100%
+// onset alignment on an independent, percentile-based, 100-verse direct
+// test, and every OLS fit had a weak r (0.16-0.41) and a max diff 5-30x
+// its own p95 — the textbook signature of outlier-driven regression,
+// not a real proportional effect. Theil-Sen's breakdown point (~29%) is
+// far beyond anything this corpus's tail could produce. The threshold
+// (CRIT_V2.speedSlopeMax) is unchanged: it was derived from the
+// verse-length distribution's own range, not from an estimator, and
+// applies the same way to a median-based slope as a mean-based one.
+function theilSenSlope(xs, ys) {
+  const n = xs.length;
+  const slopes = new Float64Array((n * (n - 1)) / 2);
+  let k = 0;
+  for (let i = 0; i < n; i++) {
+    const xi = xs[i], yi = ys[i];
+    for (let j = i + 1; j < n; j++) {
+      const dx = xs[j] - xi;
+      if (dx !== 0) slopes[k++] = (ys[j] - yi) / dx;
+    }
+  }
+  const used = slopes.subarray(0, k);
+  used.sort(); // TypedArray#sort is numeric ascending by default
+  const mid = k >> 1;
+  return k === 0 ? 0 : k % 2 ? used[mid] : (used[mid - 1] + used[mid]) / 2;
+}
 const pct = (arr, p) => {
   const s = [...arr].sort((a, b) => a - b);
   return s[Math.min(s.length - 1, Math.floor(p * s.length))];
@@ -305,12 +367,18 @@ for (const [reciter, re] of Object.entries(CANDIDATES)) {
       });
       const covered = xs.length;
       const fitShare = covered ? diffs.filter((d) => d >= CRIT_V1.fitLo && d <= CRIT_V1.fitHi).length / covered : 0;
-      const { slope, r } = covered > 2 ? linreg(xs, diffs) : { slope: 0, r: 0 };
+      // OLS slope kept only for transparency (slopeOLS) — see
+      // theilSenSlope's comment for why it does not gate: verse length
+      // is extremely right-skewed, and OLS's slope is dominated by a
+      // handful of high-leverage long verses, not a real proportional
+      // effect. speedOk is decided from the robust slope.
+      const { slope: slopeOLS, r: rOLS } = covered > 2 ? linreg(xs, diffs) : { slope: 0, r: 0 };
+      const slopeTheilSen = covered > 2 ? theilSenSlope(xs, diffs) : 0;
       const { r: agreement } = covered > 2 ? linreg(xs, ys) : { r: 0 };
       const verdict = {
         coverage: covered / 6236 >= CRIT_V1.coverage,
         agreement: agreement >= CRIT_V1.r,
-        speedOk: Math.abs(slope) <= CRIT_V2.speedSlopeMax,
+        speedOk: Math.abs(slopeTheilSen) <= CRIT_V2.speedSlopeMax,
         // onsetOk is filled in after the audio-based step below; a
         // candidate that never reaches that step (fails coverage or
         // agreement first) stays false, not undefined-treated-as-pass.
@@ -324,7 +392,7 @@ for (const [reciter, re] of Object.entries(CANDIDATES)) {
         coverage: +(covered / 6236).toFixed(4),
         r: +agreement.toFixed(5),
         legacyFit: { fitShare: +fitShare.toFixed(4), pass_v1: fitShare >= CRIT_V1.fit },
-        speedFit: { slopeMsPerMs: +slope.toFixed(6), r: +r.toFixed(4) },
+        speedFit: { slopeMsPerMs: +slopeTheilSen.toFixed(6), slopeOLS: +slopeOLS.toFixed(6), rOLS: +rOLS.toFixed(4) },
         diffMs: covered ? { p5: pct(diffs, 0.05), median: pct(diffs, 0.5), p95: pct(diffs, 0.95), min: Math.min(...diffs), max: Math.max(...diffs) } : null,
         wordIndex: {
           smallestStart: minIdx === Infinity ? null : minIdx,
@@ -338,7 +406,7 @@ for (const [reciter, re] of Object.entries(CANDIDATES)) {
       report.candidates.push(entry);
       console.log(
         `${reciter} ← ${asset.name}/${file}: ${covered} verses, coverage ${(100 * entry.coverage).toFixed(1)}%, r ${agreement.toFixed(4)}, ` +
-          `speed slope ${slope.toFixed(6)} ms/ms (legacy fit ${(100 * fitShare).toFixed(1)}%)`,
+          `speed slope (Theil-Sen) ${slopeTheilSen.toFixed(6)} ms/ms (OLS ${slopeOLS.toFixed(6)}, r ${rOLS.toFixed(4)}) (legacy fit ${(100 * fitShare).toFixed(1)}%)`,
       );
     }
   }
