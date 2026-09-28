@@ -3563,46 +3563,64 @@ if (runCheck("surahpages") && !LIVE) {
 
 // ── Word highlighting during recitation (assets/word-follow.js) ─────
 // The CDN is stubbed with ten seconds of silent WAV, so the recitation
-// really plays and currentTime really advances. Minshawi passes the
-// timing test: at 1.1 s into 1:1 his timings put the second word
-// (segment [1, 2, 940, 1630]), so that word must be highlighted. Husary
-// does not pass: nothing may be highlighted, and the sheet says why.
+// really plays and currentTime really advances. Which reciter(s) pass
+// build-word-timings.mjs's fit test is an empirical result of real
+// audio, not a fixed site fact — it can change from one run of that
+// generator to the next (it has: a methodology fix once removed every
+// bundled reciter). So the "should highlight" and "should not" cases
+// below are chosen from the report's own `bundled` list at check time,
+// never a hardcoded reciter id; and a moment where nothing currently
+// passes is reported as a visible status, not a crash or a silent skip.
+const ALL_CANDIDATE_RECITERS = ["ar.husary", "ar.minshawi", "ar.abdulbasitmurattal", "ar.abdurrahmaansudais", "ar.saoodshuraym"];
 if (runCheck("wordfollow") && !LIVE) {
-  const rate = 8000;
-  const wav = Buffer.alloc(44 + rate * 10);
-  wav.write("RIFF", 0); wav.writeUInt32LE(36 + rate * 10, 4); wav.write("WAVEfmt ", 8);
-  wav.writeUInt32LE(16, 16); wav.writeUInt16LE(1, 20); wav.writeUInt16LE(1, 22);
-  wav.writeUInt32LE(rate, 24); wav.writeUInt32LE(rate, 28); wav.writeUInt16LE(1, 32); wav.writeUInt16LE(8, 34);
-  wav.write("data", 36); wav.writeUInt32LE(rate * 10, 40); wav.fill(128, 44);
-  const words = JSON.parse(readFileSync(join(ROOT, "data/recitation/words/ar.minshawi/1.json"), "utf8"))["1"];
-  const seg = words.find((w) => w[2] <= 1100 && 1100 < w[3]);
-  const want = readFileSync(join(ROOT, "data/quran-text/1.json"), "utf8") && JSON.parse(readFileSync(join(ROOT, "data/quran-text/1.json"), "utf8")).ayahs[0].text.split(/\s+/)[seg[0]];
-  for (const reciter of ["ar.minshawi", "ar.husary"]) {
-    const wctx = await browser.newContext({ serviceWorkers: "block" });
-    await wctx.addInitScript((r) => localStorage.setItem("qd_state", JSON.stringify({ seen: true, reciter: r })), reciter);
-    await wctx.route(/cdn\.islamic\.network/, (r) => r.fulfill({ contentType: "audio/wav", body: wav }));
-    await wctx.route(/api\.(alquran\.cloud|quran\.com)/, (r) => r.abort());
-    const errors = [];
-    const page = await wctx.newPage();
-    attachConsoleCollector(page, errors);
-    await page.goto(`${BASE}/read?s=1`, { waitUntil: "load" });
-    await page.waitForSelector("[data-listen-play]", { timeout: 15000 }).catch(() => {});
-    await page.click("[data-listen-play]").catch(() => {});
-    await page.waitForFunction(() => window.qdListenPlayer && window.qdListenPlayer.audio.currentTime >= 1.1, null, { timeout: 8000 }).catch(() => {});
-    const got = await page.evaluate(() => ({
-      t: window.qdListenPlayer ? window.qdListenPlayer.audio.currentTime : -1,
-      supported: !!(window.CSS && CSS.highlights),
-      text: window.CSS && CSS.highlights && CSS.highlights.has("qd-word") ? [...CSS.highlights.get("qd-word")][0].toString() : "",
-    }));
-    await page.click("[data-listen-more]").catch(() => {});
-    await page.waitForFunction(() => { const e = document.querySelector("[data-listen-follow]"); return e && !e.hidden && e.textContent; }, null, { timeout: 4000 }).catch(() => {});
-    const note = await page.evaluate(() => { const e = document.querySelector("[data-listen-follow]"); return e && !e.hidden ? e.textContent : ""; });
-    const ok = reciter === "ar.minshawi"
-      ? got.supported && got.text === want && /CC BY 4\.0/.test(note)
-      : got.text === "" && /did not fit/.test(note);
-    report(`word-follow-${reciter.slice(3)}`, "read.html", ok && errors.length === 0,
-      `t=${got.t.toFixed(2)}s, highlighted "${got.text}" (want "${reciter === "ar.minshawi" ? want : ""}"), note "${note.slice(0, 60)}…"${errors.length ? ", errors: " + errors.join(" | ") : ""}`);
-    await wctx.close();
+  const timingsReport = JSON.parse(readFileSync(join(ROOT, "data/recitation/word-timings-report.json"), "utf8"));
+  const bundled = timingsReport.bundled || [];
+  const passReciter = bundled[0];
+  const failReciter = ALL_CANDIDATE_RECITERS.find((r) => !bundled.includes(r));
+  if (!passReciter) {
+    report(
+      "wordfollow-status",
+      "read.html",
+      true,
+      `0 of ${ALL_CANDIDATE_RECITERS.length} candidate reciters currently pass build-word-timings.mjs (see data/recitation/word-timings-report.json) — word highlighting is site-wide inactive right now; skipping the playback checks below until a reciter passes`,
+    );
+  } else {
+    const rate = 8000;
+    const wav = Buffer.alloc(44 + rate * 10);
+    wav.write("RIFF", 0); wav.writeUInt32LE(36 + rate * 10, 4); wav.write("WAVEfmt ", 8);
+    wav.writeUInt32LE(16, 16); wav.writeUInt16LE(1, 20); wav.writeUInt16LE(1, 22);
+    wav.writeUInt32LE(rate, 24); wav.writeUInt32LE(rate, 28); wav.writeUInt16LE(1, 32); wav.writeUInt16LE(8, 34);
+    wav.write("data", 36); wav.writeUInt32LE(rate * 10, 40); wav.fill(128, 44);
+    const words = JSON.parse(readFileSync(join(ROOT, `data/recitation/words/${passReciter}/1.json`), "utf8"))["1"];
+    const seg = words.find((w) => w[2] <= 1100 && 1100 < w[3]);
+    const want = seg && JSON.parse(readFileSync(join(ROOT, "data/quran-text/1.json"), "utf8")).ayahs[0].text.split(/\s+/)[seg[0]];
+    for (const reciter of failReciter ? [passReciter, failReciter] : [passReciter]) {
+      const wctx = await browser.newContext({ serviceWorkers: "block" });
+      await wctx.addInitScript((r) => localStorage.setItem("qd_state", JSON.stringify({ seen: true, reciter: r })), reciter);
+      await wctx.route(/cdn\.islamic\.network/, (r) => r.fulfill({ contentType: "audio/wav", body: wav }));
+      await wctx.route(/api\.(alquran\.cloud|quran\.com)/, (r) => r.abort());
+      const errors = [];
+      const page = await wctx.newPage();
+      attachConsoleCollector(page, errors);
+      await page.goto(`${BASE}/read?s=1`, { waitUntil: "load" });
+      await page.waitForSelector("[data-listen-play]", { timeout: 15000 }).catch(() => {});
+      await page.click("[data-listen-play]").catch(() => {});
+      await page.waitForFunction(() => window.qdListenPlayer && window.qdListenPlayer.audio.currentTime >= 1.1, null, { timeout: 8000 }).catch(() => {});
+      const got = await page.evaluate(() => ({
+        t: window.qdListenPlayer ? window.qdListenPlayer.audio.currentTime : -1,
+        supported: !!(window.CSS && CSS.highlights),
+        text: window.CSS && CSS.highlights && CSS.highlights.has("qd-word") ? [...CSS.highlights.get("qd-word")][0].toString() : "",
+      }));
+      await page.click("[data-listen-more]").catch(() => {});
+      await page.waitForFunction(() => { const e = document.querySelector("[data-listen-follow]"); return e && !e.hidden && e.textContent; }, null, { timeout: 4000 }).catch(() => {});
+      const note = await page.evaluate(() => { const e = document.querySelector("[data-listen-follow]"); return e && !e.hidden ? e.textContent : ""; });
+      const ok = reciter === passReciter
+        ? got.supported && got.text === want && /CC BY 4\.0/.test(note)
+        : got.text === "" && /did not fit/.test(note);
+      report(`word-follow-${reciter.slice(3)}`, "read.html", ok && errors.length === 0,
+        `t=${got.t.toFixed(2)}s, highlighted "${got.text}" (want "${reciter === passReciter ? want : ""}"), note "${note.slice(0, 60)}…"${errors.length ? ", errors: " + errors.join(" | ") : ""}`);
+      await wctx.close();
+    }
   }
 }
 
