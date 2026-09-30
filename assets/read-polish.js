@@ -174,7 +174,11 @@
       row.className = "verse-actions";
       row.id = "va-" + ++actionSeq;
       row.hidden = true;
+      // On a phone the verse's 📌 moves in here (CSS shows .va-pin only
+      // there), so the header row keeps two buttons, not three.
+      var pinSrc = verse.querySelector(".notebook-pin-btn");
       row.innerHTML =
+        (pinSrc ? '<button type="button" class="btn-utility va-pin" data-act="pin">📌 Pin</button>' : "") +
         '<button type="button" class="btn-utility" data-act="ref">Copy reference</button>' +
         '<button type="button" class="btn-utility" data-act="text">Copy text</button>' +
         '<button type="button" class="btn-utility" data-act="reflect">Reflect</button>' +
@@ -186,6 +190,18 @@
 
       row.addEventListener("click", function (e) {
         var b = e.target.closest && e.target.closest("[data-act]");
+        if (b && b.getAttribute("data-act") === "pin") {
+          // Stopped like the 📌 itself, so the tray this opens is not
+          // closed again by its own outside-click handler.
+          e.stopPropagation();
+          if (window.qdNotebook && pinSrc)
+            window.qdNotebook.add({
+              type: pinSrc.dataset.notebookType,
+              ref: pinSrc.dataset.notebookRef,
+              label: pinSrc.dataset.notebookLabel || pinSrc.dataset.notebookRef,
+            });
+          return;
+        }
         if (!b || !window.qdCopyText) return;
         var act = b.getAttribute("data-act");
         var su = surahById(s);

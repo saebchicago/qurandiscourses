@@ -103,6 +103,11 @@ window.GLOSSARY = {
       var tag = el.tagName;
       if (tag === "A" || tag === "CODE" || tag === "SCRIPT" || tag === "STYLE")
         return true;
+      // A term inside a control would nest one interactive element in
+      // another, and in a flex button the split text lost its space
+      // ("Anothersurah" on the home page).
+      if (tag === "BUTTON" || tag === "SUMMARY" || tag === "LABEL" || tag === "SELECT")
+        return true;
       if (el.classList) {
         if (
           el.classList.contains("ar") ||

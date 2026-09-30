@@ -68,8 +68,10 @@ Site-wide, not pages: `manifest.webmanifest` + `sw.js` (repo root) make
 the site installable and give it an offline shell — see "Service worker
 (sw.js) and SW_VERSION" in §4.
 
-Shared building blocks every page uses: `assets/nav.js` (menus, hamburger,
-aria-current), `assets/app.js` (settings gear: depth / palette / theme /
+Shared building blocks every page uses: `assets/nav.js` (menus,
+aria-current, and below 768px the phone tab bar: Read, Listen, Search,
+Menu; the Menu sheet clones the nav's links and proxies to the corner
+buttons, which are hidden at that width), `assets/app.js` (settings gear: depth / palette / theme /
 translations, keyboard shortcuts 1/2/3, back-to-top, `qdEsc` HTML escaper,
 API fetch helpers, `qd_state.progress` — see below), `assets/cite-badge.js`
 (citation popovers, the *only* citation-popover implementation — do not
@@ -987,7 +989,8 @@ What it covers (the old manual list, for reference) and what's left:
 4. Badges: every `data-source-ids` value exists in `data/sources.json`;
    popovers open by mouse *and* Enter/Space, close on Escape —
    automated.
-5. Keyboard: hamburger, dropdown menus, settings gear, Escape — automated
+5. Keyboard: phone tab bar's Menu sheet, dropdown menus, settings gear,
+   Escape — automated
    (on index.html + read.html; nav-sync guarantees the rest). Focus-ring
    *presence* is proxy-checked; its visual quality stays human.
 6. Palette × light/dark combinations actually change the background —

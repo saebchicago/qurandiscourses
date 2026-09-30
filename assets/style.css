@@ -4190,6 +4190,47 @@ html.qd-has-listen .qd-toast {
   white-space: nowrap;
 }
 
+/* Read's one-line reading guide (read.html), dismissed once for good. */
+.method-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.75rem;
+  padding: 0.25rem 0.25rem 0.25rem 0.85rem;
+  border-left: 3px solid var(--accent);
+  background: var(--card);
+  border-radius: 0 8px 8px 0;
+}
+.method-strip p {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+.method-strip-close {
+  flex-shrink: 0;
+  min-width: 44px;
+  min-height: 44px;
+}
+/* The page title repeats the Read tab and the passage's own bar while a
+   passage is on screen; it stays for screen readers only. */
+@media (max-width: 768px) {
+  html.qd-tabs.qd-reading main > section:first-child {
+    margin-top: 0.25rem;
+  }
+  html.qd-tabs .verse .meta > strong:first-child {
+    margin-inline-end: auto;
+  }
+  html.qd-tabs.qd-reading main > section > h2:first-child {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
 /* An inline link inside running text cannot grow its box without
    breaking the line, but its padding widens what a finger can hit. */
 #methodStrip a {
@@ -4638,8 +4679,16 @@ input[type="checkbox"] {
 .surah-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.5rem 1rem;
   margin: 0.75rem 0 1.25rem;
+}
+/* One main action; the other two are links beside it, not four
+   buttons of equal weight to choose between. */
+.surah-more-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
 }
 .surah-facts th {
   text-align: left;
@@ -4791,4 +4840,247 @@ input[type="checkbox"] {
   background-color: rgba(122, 90, 43, 0.28);
   background-color: color-mix(in srgb, var(--accent) 28%, transparent);
   color: inherit;
+}
+
+/* ── Phone chrome: tab bar and menu sheet (assets/nav.js) ─────────────
+   Below 768px the page keeps one bar at its foot (Read, Listen, Search,
+   Menu) and nothing floating over the text. The corner buttons (share,
+   Display, pinned, tour, back-to-top) stay in the DOM, hidden; the Menu
+   sheet proxies to them, and their panels open above the bar. With a
+   passage playing, the Listen bar rides directly on top of the tabs as a
+   mini-player. Desktop is untouched: .qd-tabbar is display:none there. */
+.qd-tabbar,
+.qd-menu-sheet,
+.qd-sheet-backdrop,
+.verse-actions .va-pin {
+  display: none;
+}
+@media (max-width: 768px) {
+  html.qd-tabs .verse-actions .va-pin {
+    display: inline-flex;
+  }
+  html.qd-tabs {
+    --qd-tabbar-h: calc(56px + env(safe-area-inset-bottom, 0px));
+  }
+  html.qd-tabs nav.primary {
+    display: none;
+  }
+  html.qd-tabs header.site {
+    padding: 1.1rem 1rem 0.8rem;
+  }
+  html.qd-tabs .qd-tabbar {
+    display: flex;
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 36;
+    height: var(--qd-tabbar-h);
+    padding: 0 max(0.25rem, env(safe-area-inset-right, 0px))
+      env(safe-area-inset-bottom, 0px) max(0.25rem, env(safe-area-inset-left, 0px));
+    background: var(--card);
+    border-top: 1px solid var(--line);
+  }
+  .qd-tab {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    min-height: 56px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font: inherit;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .qd-tab[aria-current="page"],
+  .qd-tab[aria-expanded="true"],
+  html:has(#listenSheet:not([hidden])) .qd-tab[data-tab="listen"] {
+    color: var(--accent);
+  }
+  .qd-tab:focus-visible {
+    outline: 2px solid var(--link);
+    outline-offset: -4px;
+  }
+  html.qd-tabs body {
+    padding-bottom: var(--qd-tabbar-h);
+  }
+  /* main's deep foot padding cleared the corner buttons, gone here. */
+  html.qd-tabs main,
+  html.qd-tabs body.has-tour-fab main {
+    padding-bottom: 2rem;
+  }
+  html.qd-tabs.qd-has-listen body {
+    padding-bottom: calc(var(--qd-listen-bar-h, 64px) + var(--qd-tabbar-h));
+  }
+  html.qd-tabs .listen-panel {
+    bottom: var(--qd-tabbar-h);
+    padding-bottom: 0;
+  }
+
+  /* The corner buttons, replaced by Menu. Their panels stay. */
+  html.qd-tabs .settings .gear,
+  html.qd-tabs .settings .share-fab,
+  html.qd-tabs .settings .tour-fab,
+  html.qd-tabs .notebook-toggle,
+  html.qd-tabs .back-to-top {
+    display: none !important;
+  }
+  html.qd-tabs .panel,
+  html.qd-tabs .notebook-panel {
+    left: 0.75rem;
+    right: 0.75rem;
+    width: auto;
+    bottom: calc(var(--qd-tabbar-h) + 0.5rem);
+    max-height: calc(100dvh - var(--qd-tabbar-h) - 2rem);
+  }
+  html.qd-tabs.qd-has-listen .panel,
+  html.qd-tabs.qd-has-listen .notebook-panel {
+    bottom: calc(var(--qd-tabbar-h) + var(--qd-listen-bar-h, 64px) + 0.5rem);
+    max-height: calc(100dvh - var(--qd-tabbar-h) - var(--qd-listen-bar-h, 64px) - 2rem);
+  }
+  html.qd-tabs .qd-toast {
+    bottom: calc(var(--qd-tabbar-h) + 1rem);
+  }
+  html.qd-tabs.qd-has-listen .qd-toast {
+    bottom: calc(var(--qd-tabbar-h) + var(--qd-listen-bar-h, 64px) + 1rem);
+  }
+
+  /* A verse's header row: the reference, play, and ⋯. Pin moves into
+     ⋯ (read-polish.js adds it there); the surah's name, repeated on
+     every verse, is already in the sticky bar above and, in a juz, in
+     the divider before each surah. */
+  html.qd-tabs .verse .meta .notebook-pin-btn,
+  html.qd-tabs .verse .meta .meta-surah {
+    display: none;
+  }
+
+  /* Focus mode hides the page chrome; the tab bar is chrome, so the
+     Listen bar drops back to the foot of the screen. */
+  html.qd-tabs[data-focus] .qd-tabbar {
+    display: none;
+  }
+  html.qd-tabs[data-focus] {
+    --qd-tabbar-h: 0px;
+  }
+  html.qd-tabs[data-focus] .listen-panel {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  html.qd-tabs[data-focus].qd-has-listen body {
+    padding-bottom: calc(var(--qd-listen-bar-h, 64px) + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Menu: a sheet over the page, above the tab bar. */
+  html.qd-tabs .qd-sheet-backdrop:not([hidden]) {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 49;
+    background: color-mix(in srgb, var(--ink) 35%, transparent);
+  }
+  html.qd-tabs .qd-menu-sheet:not([hidden]) {
+    display: block;
+    position: fixed;
+    inset-inline: 0;
+    bottom: var(--qd-tabbar-h);
+    z-index: 50;
+    max-height: calc(100dvh - var(--qd-tabbar-h) - 1.5rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0.75rem 1rem 1rem;
+    background: var(--card);
+    border-top: 1px solid var(--line);
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -8px 24px color-mix(in srgb, var(--ink) 14%, transparent);
+  }
+  html.qd-menu-open {
+    overflow: hidden;
+  }
+  html.qd-menu-open .qd-tabbar {
+    z-index: 51;
+  }
+  .qd-menu-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+  .qd-menu-home {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-weight: 600;
+  }
+  .qd-menu-close {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+  }
+  .qd-menu-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.25rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .qd-menu-tools[hidden] {
+    display: none;
+  }
+  .qd-menu-tool {
+    flex: 1 1 auto;
+    min-height: 44px;
+  }
+  .qd-menu-groups {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 1rem;
+  }
+  .qd-menu-groups {
+    align-items: start;
+  }
+  .qd-menu-group {
+    margin: 0;
+  }
+  .qd-menu-group h2 {
+    margin: 0.9rem 0 0.2rem;
+    padding: 0;
+    border: 0;
+    font-size: 0.78rem;
+    font-family: inherit;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .qd-menu-group ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .qd-menu-group a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .qd-menu-group a[aria-current="page"] {
+    color: var(--accent);
+    font-weight: 600;
+  }
+}
+@media print {
+  .qd-tabbar,
+  .qd-menu-sheet,
+  .qd-sheet-backdrop {
+    display: none !important;
+  }
 }
