@@ -25,15 +25,18 @@
       title: "Every claim carries a label",
       body: "● Verified, ○ Pending, ~ Nuanced. Click any label anywhere to see the full citation of its source.",
     },
+    // On a phone the corner buttons are hidden and live under the Menu
+    // tab (assets/nav.js); a step takes the first of its targets that
+    // is on screen.
     {
-      sel: ".share-fab",
+      sel: [".share-fab", '.qd-tab[data-tab="menu"]'],
       title: "Share exactly what you see",
-      body: "Every page's address is a permalink. This button copies it — or opens your device's share sheet.",
+      body: "Every page's address is a permalink. Share copies it — or opens your device's share sheet. On a phone, Share is under Menu.",
     },
     {
-      sel: ".settings .gear",
+      sel: [".settings .gear", '.qd-tab[data-tab="menu"]'],
       title: "Depth and palette",
-      body: "The gear sets your depth (Simple / Study / Encyclopedic — or keys 1/2/3) and colors; translations and reciter are chosen on the Read page.",
+      body: "Display sets your depth (Simple / Study / Encyclopedic — or keys 1/2/3) and colors; translations and reciter are chosen on the Read page. On a phone, Display is under Menu.",
     },
   ];
 
@@ -48,7 +51,12 @@
   } catch (e) {}
 
   function targetFor(i) {
-    var el = document.querySelector(STEPS[i].sel);
+    var sels = [].concat(STEPS[i].sel);
+    var el = null;
+    for (var k = 0; k < sels.length && !el; k++) {
+      var cand = document.querySelector(sels[k]);
+      if (cand && (cand.getClientRects().length || k === sels.length - 1)) el = cand;
+    }
     if (!el) return null;
     // A target inside a closed <details> has no box to highlight or
     // scroll to; open its ancestors so the step can point at it (the

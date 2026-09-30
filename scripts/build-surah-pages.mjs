@@ -177,10 +177,8 @@ function pageFor(n) {
         With ${esc(pace.reciters[0].name)}, its recitation lasts about ${hm(pace.surahSeconds[pace.reciters[0].id][n - 1])}.
       </p>
       <p class="surah-actions">
-        <a class="button btn-primary" href="/read?s=${n}">Read with translation</a>
-        <a class="button secondary" href="/read?s=${n}#listen">Listen</a>
-        <a class="button secondary" href="/dossier?s=${n}">Full profile</a>
-        <a class="button secondary" href="/replay?s=${n}">Watch it unfold</a>
+        <a class="button btn-primary" href="/read?s=${n}">Read &amp; listen</a>
+        <span class="surah-more-links"><a href="/dossier?s=${n}">Full profile</a> · <a href="/replay?s=${n}">Watch it unfold</a></span>
       </p>
 
       <div class="grid">

@@ -1629,15 +1629,14 @@
           if (!container || !container.firstChild) return;
           const strip = document.createElement("div");
           strip.id = "methodStrip";
-          strip.className = "banner soft";
-          strip.style.margin = "0 0 1rem";
+          // One line and a close button: it used to be a four-line card
+          // with a "Got it" button that pushed the first verse below the
+          // fold on a phone.
+          strip.className = "method-strip";
           strip.innerHTML =
-            '<div style="display:flex;gap:0.75rem;align-items:baseline;justify-content:space-between;flex-wrap:wrap">' +
-            '<p style="margin:0;font-size:0.92rem"><strong>Reading a surah as one discourse:</strong> ' +
-            "read it whole. Find the central claim. Trace the words that carry it back to their roots. " +
-            '<a href="/exercise?id=asr-outline">Try it on al-\'Asr</a> — three verses, ten minutes.</p>' +
-            '<button type="button" id="methodStripClose" class="button" style="font-size:0.82rem;padding:0.25rem 0.7rem;flex-shrink:0" aria-label="Dismiss reading guide">Got it</button>' +
-            "</div>";
+            '<p><strong>Read it as one discourse:</strong> find the central claim, then trace its words to their roots. ' +
+            '<a href="/exercise?id=asr-outline">Try al-\'Asr</a></p>' +
+            '<button type="button" id="methodStripClose" class="btn-utility method-strip-close" aria-label="Dismiss reading guide">✕</button>';
           container.parentNode.insertBefore(strip, container);
           document
             .getElementById("methodStripClose")

@@ -16,6 +16,9 @@
 //             offline degradation path is what's tested by default
 //   links     §6.3 every internal href/src answers 200 from the local
 //             server; unknown #fragments are warnings
+//   phonetabs below 768px, the tab bar (Read, Listen, Search, Menu)
+//             replaces the nav row and the corner buttons; Menu holds
+//             every nav link and the page tools; see the block below
 //   navcurrent exactly one primary-nav link (or zero, on a page the
 //             nav doesn't list) carries aria-current="page", and it is
 //             the page actually open — checked against cleanPath, not
@@ -45,8 +48,8 @@
 //             operable, because scripts/build-provenance.mjs renders
 //             them at build time. Expected counts come from
 //             data/provenance/claims.json, never typed.
-//   keyboard  §6.5 nav groups at 375px (no hamburger: the details
-//             groups stay visible), dropdown menus at 1280px,
+//   keyboard  §6.5 the tab bar's Menu sheet at 375px (the details
+//             row returns without JavaScript), dropdown menus at 1280px,
 //             settings gear, Escape behavior (nav is identical on all
 //             pages — check-nav-sync.mjs guards that — so interaction
 //             runs on index.html and read.html only); focus-ring
@@ -743,27 +746,31 @@ for (const pageFile of testPages) {
       const closedGear = (await gear.getAttribute("aria-expanded")) === "false";
       report("keyboard", pageFile, openedGear && closedGear, `settings gear open/Escape (open=${openedGear} close=${closedGear})`);
     }
-    // Mobile: every group stays reachable at 375px with no hamburger
-    // to press. The nav used to hide .nav-groups at this width and
-    // rely on a toggle injected at runtime, which left a JS-off
-    // visitor with no navigation at all; this asserts the replacement.
+    // Mobile: the nav row gives way to the tab bar (assets/nav.js), and
+    // every group's links are in its Menu sheet. Keyboard: Enter on
+    // Menu opens the sheet with focus inside; Escape closes it and
+    // returns focus to Menu. (Without JavaScript nav.js never adds
+    // html.qd-tabs, so the <details> row stays: no reader is left with
+    // no navigation.)
     await page.setViewportSize({ width: 375, height: 812 });
     await page.waitForTimeout(150);
-    const summaries = page.locator("nav.primary .nav-group-btn");
-    const total = await summaries.count();
-    let visible = 0;
-    for (let i = 0; i < total; i++) {
-      if (await summaries.nth(i).isVisible()) visible++;
-    }
-    if (visible === total && total > 0) {
-      const firstDetails = page.locator(".nav-details").first();
-      await summaries.first().click();
-      const openedM = await firstDetails.evaluate((d) => d.open);
+    const rowVisible = await page.locator("nav.primary").isVisible();
+    const menuTab = page.locator('.qd-tab[data-tab="menu"]');
+    if (!rowVisible && (await menuTab.count()) === 1 && (await menuTab.isVisible())) {
+      await menuTab.focus();
+      await page.keyboard.press("Enter");
+      const openedM = await page.evaluate(() => {
+        const sh = document.getElementById("qdMenuSheet");
+        return !!sh && !sh.hidden && sh.contains(document.activeElement);
+      });
       await page.keyboard.press("Escape");
-      const closedM = !(await firstDetails.evaluate((d) => d.open));
-      report("keyboard", pageFile, openedM && closedM, `375px groups all visible (${visible}/${total}), open/Escape (open=${openedM} close=${closedM})`);
+      const closedM = await page.evaluate(() => {
+        const sh = document.getElementById("qdMenuSheet");
+        return !!sh && sh.hidden && document.activeElement && document.activeElement.getAttribute("data-tab") === "menu";
+      });
+      report("keyboard", pageFile, openedM && closedM, `375px tab bar Menu: Enter opens with focus inside=${openedM}, Escape closes and returns focus=${closedM}`);
     } else {
-      report("keyboard", pageFile, false, `only ${visible}/${total} nav groups visible at 375px`);
+      report("keyboard", pageFile, false, `375px: nav row visible=${rowVisible}, Menu tab present=${await menuTab.count()}`);
     }
   }
 
@@ -1885,14 +1892,20 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
       // Fixed to the foot of the viewport (see the note on .listen-panel
       // in assets/style.css): it was sticky at the top, where it held 39%
       // of a phone screen.
+      // On a phone the foot is the top of the tab bar (assets/nav.js):
+      // the bar rides on it as a mini-player.
       const pos = getComputedStyle(p).position;
       const r = p.getBoundingClientRect();
-      return { overflow, pos, atFoot: Math.abs(r.bottom - window.innerHeight) <= 1, wide: r.width };
+      const tabs = document.querySelector(".qd-tabbar");
+      const foot = tabs && tabs.getClientRects().length ? tabs.getBoundingClientRect().top : window.innerHeight;
+      return { overflow, pos, atFoot: Math.abs(r.bottom - foot) <= 1, wide: r.width };
     });
     // Focus mode hides the page chrome; the transport is not chrome.
     await page.keyboard.press("f");
     const focused = await page.evaluate(() => ({
       on: document.documentElement.hasAttribute("data-focus"),
+      // Focus hides the tab bar too, and the transport drops to the foot.
+      atFoot: Math.abs(document.getElementById("listenPanel").getBoundingClientRect().bottom - window.innerHeight) <= 1,
       // offsetParent is always null for a fixed element; measure instead.
       panelVisible: (() => {
         const r = document.getElementById("listenPanel").getBoundingClientRect();
@@ -1904,8 +1917,8 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
     }));
     report(
       "listen-mobile", "read.html",
-      m.overflow <= 0 && m.pos === "fixed" && m.atFoot && focused.on && focused.panelVisible && focused.playVisible,
-      `375px horizontal overflow=${m.overflow}px (want 0); panel ${Math.round(m.wide)}px, position=${m.pos}, at the foot of the viewport=${m.atFoot}; in Focus mode panel visible=${focused.panelVisible} play reachable=${focused.playVisible}`,
+      m.overflow <= 0 && m.pos === "fixed" && m.atFoot && focused.on && focused.panelVisible && focused.playVisible && focused.atFoot,
+      `375px horizontal overflow=${m.overflow}px (want 0); panel ${Math.round(m.wide)}px, position=${m.pos}, on the tab bar (or the viewport's foot)=${m.atFoot}; in Focus mode panel visible=${focused.panelVisible} play reachable=${focused.playVisible} at the foot=${focused.atFoot}`,
     );
     await rctx.close();
   }
@@ -2197,6 +2210,11 @@ if (runCheck("listennav") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !L
           hostBottom: Math.round(host.bottom),
           hostH: Math.round(host.height),
           vh: window.innerHeight,
+          // The phone tab bar's top, where the bar rides; else the foot.
+          foot: (() => {
+            const t = document.querySelector(".qd-tabbar");
+            return Math.round(t && t.getClientRects().length ? t.getBoundingClientRect().top : window.innerHeight);
+          })(),
           transports: document.querySelectorAll("[data-listen-play]").length,
         };
       });
@@ -2204,8 +2222,8 @@ if (runCheck("listennav") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !L
         "listen-bar-in-first-screen",
         "read.html",
         bar.playBottom <= bar.vh && bar.playTop > bar.vh / 2 && bar.playH >= 44 &&
-          Math.abs(bar.hostBottom - bar.vh) <= 1 && bar.transports === 1,
-        `Play at y=${bar.playTop}-${bar.playBottom} of ${bar.vh}, ${bar.playH}px; bar ${bar.hostH}px tall, bottom at ${bar.hostBottom}; transports=${bar.transports} (want 1)`,
+          Math.abs(bar.hostBottom - bar.foot) <= 1 && bar.transports === 1,
+        `Play at y=${bar.playTop}-${bar.playBottom} of ${bar.vh}, ${bar.playH}px; bar ${bar.hostH}px tall, bottom at ${bar.hostBottom} (want ${bar.foot}); transports=${bar.transports} (want 1)`,
       );
 
       // The recited verse must fit between the passage's sticky context
@@ -2244,6 +2262,9 @@ if (runCheck("listennav") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !L
             const el = document.querySelector(sel);
             if (!el || !el.getClientRects().length) return null;
             const r = el.getBoundingClientRect();
+            // An empty box (the corner stack on a phone, its buttons
+            // moved into the Menu tab) covers nothing.
+            if (!r.width || !r.height) return null;
             return { sel, bottom: Math.round(r.bottom), barTop: Math.round(barTop) };
           })
           .filter(Boolean);
@@ -3559,6 +3580,81 @@ if (runCheck("surahpages") && !LIVE) {
   await pr.close();
   report("surah-pages-linked", "navigate.html", listed === 114, `${listed} links to /surah/<n> on Navigate (want 114)`);
   await jctx.close();
+}
+
+// ── Phone chrome: tab bar and Menu sheet (assets/nav.js) ────────────
+// Below 768px one bar at the foot replaces the five-pill nav row and
+// the corner buttons. Checked at 390px: the bar shows and the nav row
+// does not; nothing else floats over the page; Menu lists every nav
+// link (counted from the nav itself, never typed) plus the page's
+// tools, and its Display proxies to the real settings panel; the
+// current tab tapped again scrolls to the top; on Read, Listen opens
+// the player's options sheet and the Listen bar sits on the tab bar,
+// not under it; a verse's ⋯ holds Pin. At 1280px none of it shows.
+if (runCheck("phonetabs") && !LIVE) {
+  const tctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: "block" });
+  await tctx.addInitScript(() => localStorage.setItem("qd_state", JSON.stringify({ seen: true, progress: { methodStripDismissed: true, lastRead: null, exercises: {}, paths: {} } })));
+  await tctx.route(/api\.(quran\.com|alquran\.cloud)|islamic\.network/, (r) => r.abort());
+  const tp = await tctx.newPage();
+  const visible = (sel) => tp.evaluate((q) => [...document.querySelectorAll(q)].some((el) => el.getClientRects().length > 0 && getComputedStyle(el).visibility !== "hidden"), sel);
+  await tp.goto(`${BASE}/surah/36`, { waitUntil: "load" });
+  const bar = await tp.evaluate(() => {
+    const b = document.querySelector(".qd-tabbar");
+    const r = b && b.getBoundingClientRect();
+    return b ? { tabs: [...b.querySelectorAll(".qd-tab")].map((t) => t.textContent.trim()), bottom: Math.round(r.bottom), vh: innerHeight, listen: b.querySelector('[data-tab="listen"]').getAttribute("href") } : null;
+  });
+  const navRow = await visible("nav.primary");
+  report("phonetabs-bar", "surah/36.html", !!bar && bar.tabs.join(",") === "Read,Listen,Search,Menu" && bar.bottom === bar.vh && !navRow && bar.listen === "/read?s=36#listen", bar ? `tabs ${bar.tabs.join(",")} at bottom ${bar.bottom}/${bar.vh}; nav row visible ${navRow}; Listen → ${bar.listen}` : "no tab bar");
+  const floaters = [];
+  for (const sel of [".settings .gear", ".share-fab", ".tour-fab", ".notebook-toggle", ".back-to-top"]) if (await visible(sel)) floaters.push(sel);
+  report("phonetabs-no-floaters", "surah/36.html", floaters.length === 0, floaters.length ? `still floating: ${floaters.join(", ")}` : "no corner buttons over the page");
+  await tp.click('.qd-tab[data-tab="menu"]');
+  const menu = await tp.evaluate(() => {
+    const sh = document.getElementById("qdMenuSheet");
+    const want = [...document.querySelectorAll("nav.primary .nav-menu a")].map((a) => a.getAttribute("href"));
+    const got = sh ? [...sh.querySelectorAll(".qd-menu-groups a")].map((a) => a.getAttribute("href")) : [];
+    return { open: !!sh && !sh.hidden, same: want.join("|") === got.join("|"), n: got.length, tools: sh ? [...sh.querySelectorAll(".qd-menu-tool")].map((b) => b.textContent.trim()) : [], focus: document.activeElement && document.activeElement.className };
+  });
+  report("phonetabs-menu", "surah/36.html", menu.open && menu.same && menu.n > 0 && menu.tools.includes("Display") && menu.tools.includes("Share"), `open ${menu.open}; ${menu.n} links, identical to the nav ${menu.same}; tools ${menu.tools.join(", ")}`);
+  await tp.click('.qd-menu-tool:text-is("Display")');
+  const display = await tp.evaluate(() => ({ panel: !document.getElementById("settingsPanel").hidden, sheet: document.getElementById("qdMenuSheet").hidden }));
+  report("phonetabs-display", "surah/36.html", display.panel && display.sheet, `Display opened the settings panel ${display.panel}; Menu closed ${display.sheet}`);
+  await tp.keyboard.press("Escape");
+  // Read tapped again on Read (a long passage) returns to the top and
+  // does not reload into Read's default passage.
+  await tp.goto(`${BASE}/read?s=36`, { waitUntil: "load" });
+  await tp.waitForSelector(".verse", { timeout: 15000 }).catch(() => {});
+  await tp.evaluate(() => window.scrollTo(0, 3000));
+  const before = await tp.evaluate(() => window.scrollY);
+  await tp.click('.qd-tab[data-tab="read"]');
+  await tp.waitForFunction(() => window.scrollY === 0, null, { timeout: 3000 }).catch(() => {});
+  const after = await tp.evaluate(() => ({ y: window.scrollY, s: new URLSearchParams(location.search).get("s") }));
+  report("phonetabs-retap-top", "read.html", before > 0 && after.y === 0 && after.s === "36", `scrolled ${before} → ${after.y}; still on s=${after.s}`);
+  await tp.goto(`${BASE}/read?s=103`, { waitUntil: "load" });
+  await tp.waitForSelector("#listenPanel [data-listen-play]", { timeout: 15000 }).catch(() => {});
+  const stack = await tp.evaluate(() => {
+    const lp = document.getElementById("listenPanel").getBoundingClientRect();
+    const tb = document.querySelector(".qd-tabbar").getBoundingClientRect();
+    return { gap: Math.round(tb.top - lp.bottom) };
+  });
+  await tp.click('.qd-tab[data-tab="listen"]');
+  const sheetOpen = await tp.evaluate(() => { const s = document.getElementById("listenSheet"); return !!s && !s.hidden; });
+  report("phonetabs-listen", "read.html", stack.gap === 0 && sheetOpen && new URL(tp.url()).searchParams.get("s") === "103", `Listen bar ends ${stack.gap}px above the tab bar (want 0); Listen tab opened the options sheet ${sheetOpen}; stayed on ${new URL(tp.url()).search}`);
+  await tp.click("[data-listen-close]").catch(() => {});
+  await tp.locator(".verse-more-btn").first().click();
+  const pinShown = await visible(".verse-actions:not([hidden]) .va-pin");
+  const headerPin = await visible(".verse .meta .notebook-pin-btn");
+  await tp.locator(".verse-actions:not([hidden]) .va-pin").first().click().catch(() => {});
+  const pinned = await tp.evaluate(() => ({ n: window.qdNotebook ? window.qdNotebook.list().length : -1, tray: !document.getElementById("notebookPanel").hidden }));
+  report("phonetabs-pin", "read.html", pinShown && !headerPin && pinned.n === 1 && pinned.tray, `Pin in ⋯ ${pinShown}; 📌 in the header row ${headerPin}; pinned ${pinned.n}, tray open ${pinned.tray}`);
+  await tctx.close();
+  const dctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, serviceWorkers: "block" });
+  await dctx.route(/api\.(quran\.com|alquran\.cloud)|islamic\.network/, (r) => r.abort());
+  const dp = await dctx.newPage();
+  await dp.goto(`${BASE}/surah/36`, { waitUntil: "load" });
+  const desk = await dp.evaluate(() => ({ bar: [...document.querySelectorAll(".qd-tabbar")].some((e) => e.getClientRects().length), nav: document.querySelector("nav.primary").getClientRects().length > 0, gear: document.querySelector(".settings .gear").getClientRects().length > 0 }));
+  report("phonetabs-desktop", "surah/36.html", !desk.bar && desk.nav && desk.gear, `1280px: tab bar ${desk.bar}, nav row ${desk.nav}, Display button ${desk.gear}`);
+  await dctx.close();
 }
 
 // ── Word highlighting during recitation (assets/word-follow.js) ─────
