@@ -156,11 +156,33 @@ and the corpus they derive from:
   https://corpus.quran.com. GNU GPL.
 
 License: the data content of these tables inherits the GPL from the
-Leeds morphology. Field definitions, counting rules, and verification
+Leeds morphology; the corpus's own notice is in NOTICE-LEEDS.txt. Field definitions, counting rules, and verification
 notes: schema.json and DATA-DICTIONARY.md in this archive, or
 ${SITE}/export. Chronology-based fields follow the Cairo 1924 order
 (see schema.json's _chronologySource). BibTeX for the site, every
 table, and every cited source: data/citations.bib in the repository.
+`;
+
+// ── NOTICE-LEEDS.txt ─────────────────────────────────────────────────
+// The corpus's terms ask that its copyright block be "reproduced
+// appropriately in all works derived from or containing substantial
+// portion of this file". The block is read, never retyped, from the
+// copy kept beside the morphology (data/morphology/NOTICE-LEEDS.txt),
+// so the archive and the repository carry the same bytes.
+const leedsBlock = readFileSync(join(ROOT, "data", "morphology", "NOTICE-LEEDS.txt"), "utf8")
+  .split("\n\n")[0];
+if (!leedsBlock.startsWith("# PLEASE DO NOT REMOVE OR CHANGE THIS COPYRIGHT BLOCK")) {
+  console.error("build-datapack: FAIL — data/morphology/NOTICE-LEEDS.txt does not open with the corpus's copyright block");
+  process.exit(1);
+}
+const leedsNoticeTxt = `${leedsBlock}
+
+The block above is reproduced verbatim from the head of
+quranic-corpus-morphology-0.4.txt (Quranic Arabic Corpus, version 0.4).
+
+The tables in this archive are computed from that file, so their data
+content is a derived work and inherits its license. Source, and updates
+to the corpus: https://corpus.quran.com
 `;
 
 // ── deterministic tar.gz ─────────────────────────────────────────────
@@ -194,6 +216,7 @@ const textOutputs = [
   ["datapackage.json", JSON.stringify(datapackage, null, 1) + "\n"],
   ["croissant.json", JSON.stringify(croissant, null, 1) + "\n"],
   ["CITATION-datasets.txt", citationTxt],
+  ["NOTICE-LEEDS.txt", leedsNoticeTxt],
 ];
 
 const stale = [];

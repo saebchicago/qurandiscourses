@@ -3968,6 +3968,12 @@ html.qd-has-listen body {
 .listen-time {
   margin: -0.25rem 0 0.5rem;
 }
+.listen-credit {
+  margin: 0.75rem 0 0;
+}
+.wbw-credit {
+  margin-top: 1rem;
+}
 .listen-time[hidden] {
   display: none;
 }

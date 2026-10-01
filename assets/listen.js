@@ -497,6 +497,10 @@
       '<button type="button" class="button secondary listen-btn" data-listen-hide aria-pressed="false">◐ Hide text to recite</button>' +
       "</div>" +
       '<div data-listen-support-slot></div>' +
+      // Credit for the recordings, once, in the sheet rather than on the bar.
+      '<p class="listen-credit t-annotation">Audio streamed from Islamic Network ' +
+      '(<a href="https://alquran.cloud/cdn" rel="noopener">cdn.islamic.network</a>); ' +
+      'each recording belongs to its reciter or publisher. <a href="/sources#apis-and-digital-tools">Sources</a></p>' +
       "</div>" +
       '<div class="listen-progress" aria-hidden="true"><span data-listen-progress></span></div>' +
       '<div class="listen-bar">' +

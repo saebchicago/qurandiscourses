@@ -2,7 +2,8 @@
    ───────────────────────────────────────────────────
    Draws one verse into a 1080x1350 PNG in the browser: the Arabic (the
    Tanzil text the page shows), the first translation on screen with its
-   translator named, the reference, and the address that opens it. No
+   translator named, a credit line for both, the reference, and the
+   address that opens it. No
    server and no third-party service: the canvas is the page's own.
 
    A preview opens first, with Share and Save. Sharing a file needs a
@@ -122,7 +123,7 @@
       ctx.lineTo(W - PAD, y);
       ctx.stroke();
       y += 30;
-      var trRoom = H - PAD - 150 - y;
+      var trRoom = H - PAD - 196 - y;
       var trFit = fitBlock(ctx, d.tr, "'Cormorant Garamond', Georgia, serif", 46, 28, inner, Math.max(trRoom, 80), 1.4);
       cut = cut || trFit.cut;
       ctx.font = trFit.size + "px 'Cormorant Garamond', Georgia, serif";
@@ -137,14 +138,18 @@
       });
     }
 
-    // Footer: translator, address, and a note when the text was cut.
+    // Footer: who the words come from (Tanzil's terms ask for its name
+    // and tanzil.net wherever its text is used; the translator is named
+    // as on the page), a note when the text was cut, and the address.
     ctx.direction = "ltr";
     ctx.textAlign = "left";
     ctx.fillStyle = COLORS.muted;
     ctx.font = "28px Inter, system-ui, sans-serif";
     var foot = H - PAD - 20;
-    if (d.trBy) ctx.fillText("Translation: " + d.trBy + (cut ? " · shortened, read in full at the address below" : ""), PAD, foot - 46);
-    else if (cut) ctx.fillText("Shortened; read in full at the address below", PAD, foot - 46);
+    var credit = "Arabic: Tanzil Project, tanzil.net" + (d.trBy ? " · Translation: " + d.trBy : "");
+    while (ctx.measureText(credit).width > inner && credit.length > 40) credit = credit.slice(0, -2).replace(/\s*\S*$/, "") + "…";
+    ctx.fillText(credit, PAD, foot - 46);
+    if (cut) ctx.fillText("Shortened; read in full at the address below", PAD, foot - 92);
     ctx.fillStyle = COLORS.accent;
     ctx.font = "600 30px Inter, system-ui, sans-serif";
     ctx.fillText("divinediscourses.org/read?s=" + d.s + "&a=" + d.a, PAD, foot);

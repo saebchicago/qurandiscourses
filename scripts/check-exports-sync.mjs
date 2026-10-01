@@ -53,7 +53,7 @@ const csvHeader = {};
 // ── 1. Declared tables, and only those, exist on disk ────────────────
 const META = new Set([
   "schema.json", "datapackage.json", "croissant.json",
-  "DATA-DICTIONARY.md", "CITATION-datasets.txt", "RELEASES.json",
+  "DATA-DICTIONARY.md", "CITATION-datasets.txt", "NOTICE-LEEDS.txt", "RELEASES.json",
 ]);
 const declared = new Set(tableNames.flatMap((t) => [`${t}.csv`, `${t}.json`]));
 for (const f of readdirSync(EXPORTS)) {

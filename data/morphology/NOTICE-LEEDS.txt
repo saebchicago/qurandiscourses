@@ -1,0 +1,38 @@
+# PLEASE DO NOT REMOVE OR CHANGE THIS COPYRIGHT BLOCK
+#====================================================================
+#
+#  Quranic Arabic Corpus (morphology, version 0.4)
+#  Copyright (C) 2011 Kais Dukes
+#  License: GNU General Public License
+#
+#  The Quranic Arabic Corpus includes syntactic and morphological
+#  annotation of the Quran, and builds on the verified Arabic text
+#  distributed by the Tanzil project.
+#
+#  TERMS OF USE:
+#
+#  - Permission is granted to copy and distribute verbatim copies
+#    of this file, but CHANGING IT IS NOT ALLOWED.
+#
+#  - This annotation can be used in any website or application,
+#    provided its source (the Quranic Arabic Corpus) is clearly
+#    indicated, and a link is made to http://corpus.quran.com to enable
+#    users to keep track of changes.
+#
+#  - This copyright notice shall be included in all verbatim copies
+#    of the text, and shall be reproduced appropriately in all works
+#    derived from or containing substantial portion of this file.
+#
+#  Please check updates at: http://corpus.quran.com/download
+
+The block above is reproduced verbatim from the head of
+quranic-corpus-morphology-0.4.txt (Quranic Arabic Corpus, version 0.4).
+
+This directory is a work derived from that file. Each {surah}.json holds,
+per verse, a subset of the corpus's fields: the word form in Arabic
+script (converted from the corpus's Buckwalter transliteration), root,
+lemma and part of speech. Source, and updates to the corpus:
+https://corpus.quran.com
+
+Every other file in this repository derived from the corpus is listed in
+NOTICE.md; the GNU General Public License text is LICENSE-GPL-3.0.txt.

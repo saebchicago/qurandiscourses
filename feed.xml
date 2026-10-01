@@ -9,6 +9,23 @@
   <updated>2026-10-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>Credit where it is due, and version 1.3.1</title>
+    <id>https://divinediscourses.org/changelog#2026-10-credits-and-notices</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-credits-and-notices"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Credit where it is due, and version 1.3.1.&lt;/strong&gt; Every
+              page's footer now names and links the two sources the site ships:
+              the &lt;a href="https://tanzil.net" rel="noopener"&gt;Tanzil&lt;/a&gt; Arabic
+              text and the &lt;a href="https://corpus.quran.com" rel="noopener"&gt;Quranic
+              Arabic Corpus&lt;/a&gt;. Word-by-word meanings carry one line crediting
+              Quran Foundation, and this browser now keeps them for at most a
+              week, as its terms ask. The Listen options credit the audio
+              source, and a verse image names Tanzil beside the translator. The
+              corpus's own copyright notice now sits, verbatim, beside the word
+              data and inside the &lt;a href="/export"&gt;data archive&lt;/a&gt;, which is
+              why the archive moves to v1.3.1; earlier archives stay available.</content>
+  </entry>
+  <entry>
     <title>Reading first, and five study tools</title>
     <id>https://divinediscourses.org/changelog#2026-10-reading-first-and-study-tools</id>
     <link href="https://divinediscourses.org/changelog#2026-10-reading-first-and-study-tools"/>

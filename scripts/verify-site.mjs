@@ -2015,6 +2015,15 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
         injectedImg: !!document.querySelector('.wbw-strip img[src="x"]'),
         payloadAsText: (document.querySelector(".wbw-en") || {}).textContent?.includes("hostile"),
         cite: !!document.querySelector('.wbw-strip .badge[data-source-ids="qcf-wbw-en"]'),
+        credits: [...document.querySelectorAll(".wbw-credit")].map((el) => el.textContent.trim()),
+        cache: (() => {
+          try {
+            const c = JSON.parse(localStorage.getItem("qd_wbwcache"));
+            return { v: c.v, dated: Object.values(c.entries).every((e) => Date.now() - e.t < 60000) };
+          } catch (e) {
+            return null;
+          }
+        })(),
       };
     });
     const ok =
@@ -2026,6 +2035,23 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
     report("read-wbw", "read.html", ok, `depth=${state.depth} strips=${state.shown} words=${state.words} endMarkerRendered=${state.endMarker} cited=${state.cite}`);
     const inert = state.xss === undefined && !state.injectedImg && state.payloadAsText === true;
     report("read-wbw-xss", "read.html", inert, `__xss=${state.xss} injectedImg=${state.injectedImg} payloadShownAsText=${state.payloadAsText}`);
+    // Quran Foundation's terms: "Quran data provided by Quran Foundation"
+    // wherever its content shows (once per passage here), and no caching
+    // past one week (every entry dated; an older one refetched).
+    report("read-wbw-credit", "read.html",
+      state.credits.length === 1 && state.credits[0].includes("Quran data provided by Quran Foundation"),
+      `credit lines ${state.credits.length}: "${(state.credits[0] || "").slice(0, 70)}"`);
+    await page.evaluate(() => {
+      const c = JSON.parse(localStorage.getItem("qd_wbwcache"));
+      const k = c.order[0];
+      c.entries[k] = { t: Date.now() - 8 * 24 * 3600 * 1000, d: { "103:1": [["وَٱلْعَصْرِ", "STALE-ENTRY"]] } };
+      localStorage.setItem("qd_wbwcache", JSON.stringify(c));
+    });
+    await page.reload({ waitUntil: "load" });
+    await page.waitForSelector(".wbw-strip .wbw-en", { timeout: 15000 }).catch(() => {});
+    const stale = await page.evaluate(() => document.body.textContent.includes("STALE-ENTRY"));
+    report("read-wbw-cache-week", "read.html", !!state.cache && state.cache.v === 2 && state.cache.dated && !stale,
+      `cache v${state.cache && state.cache.v}, entries dated ${state.cache && state.cache.dated}; an 8-day-old entry shown ${stale}`);
     report("read-wbw-console", "read.html", errors.length === 0, errors.slice(0, 3).join(" | ") || "clean");
     await rctx.close();
   }
@@ -3664,17 +3690,41 @@ if (runCheck("features") && !LIVE) {
   report("offline-save", "read.html", saved.includes("/data/quran-text/103.json") && saved.includes("/data/morphology/103.json") && saved.some((u) => /api\.alquran\.cloud\/v1\/surah\/103\//.test(u)),
     `dd-saved holds ${saved.length}: ${saved.map((u) => u.replace(/^https:\/\/api\.alquran\.cloud/, "api")).join(", ")}`);
 
-  // Verse image: a PNG preview, with the basmala left off 103:1.
+  // Credits: the footer names and links both bundled sources; the
+  // Listen options name the audio source.
+  const credits = await fp.evaluate(() => ({
+    tanzil: !!document.querySelector('footer.site .footer-license a[href="https://tanzil.net"]'),
+    corpus: !!document.querySelector('footer.site .footer-license a[href="https://corpus.quran.com"]'),
+    audio: ((document.querySelector(".listen-credit") || {}).textContent || "").includes("Islamic Network"),
+  }));
+  report("credits-visible", "read.html", credits.tanzil && credits.corpus && credits.audio,
+    `footer Tanzil link ${credits.tanzil}, corpus link ${credits.corpus}; Listen audio credit ${credits.audio}`);
+
+  // Verse image: a PNG preview, with the basmala left off 103:1, and the
+  // text's sources named on the card.
+  await fp.evaluate(() => {
+    window.__cardText = [];
+    const real = CanvasRenderingContext2D.prototype.fillText;
+    CanvasRenderingContext2D.prototype.fillText = function (t) {
+      window.__cardText.push(String(t));
+      return real.apply(this, arguments);
+    };
+  });
   await fp.locator(".verse-more-btn").first().click();
   await fp.locator('.verse-actions:not([hidden]) [data-act="image"]').first().click();
   await fp.waitForSelector(".verse-card-dialog img", { timeout: 8000 }).catch(() => {});
   const card = await fp.evaluate(() => {
     const img = document.querySelector(".verse-card-dialog img");
     const save = document.querySelector('.verse-card-dialog a[download]');
-    return { png: !!img && img.src.startsWith("data:image/png"), name: save ? save.getAttribute("download") : "" };
+    return {
+      png: !!img && img.src.startsWith("data:image/png"),
+      name: save ? save.getAttribute("download") : "",
+      credit: (window.__cardText || []).filter((t) => t.includes("tanzil.net"))[0] || "",
+    };
   });
   await fp.click('[data-card="close"]').catch(() => {});
-  report("verse-image", "read.html", card.png && card.name === "divine-discourses-103-1.png", `PNG preview ${card.png}; file ${card.name}`);
+  report("verse-image", "read.html", card.png && card.name === "divine-discourses-103-1.png" && /^Arabic: Tanzil Project, tanzil\.net · Translation: /.test(card.credit),
+    `PNG preview ${card.png}; file ${card.name}; credit "${card.credit}"`);
 
   // Memorization: each verse played N times, then the next; text hidden
   // until tapped.

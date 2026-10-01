@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-10-credits-and-notices",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Credit where it is due, and version 1.3.1.</strong> Every\n              page's footer now names and links the two sources the site ships:\n              the <a href=\"https://tanzil.net\" rel=\"noopener\">Tanzil</a> Arabic\n              text and the <a href=\"https://corpus.quran.com\" rel=\"noopener\">Quranic\n              Arabic Corpus</a>. Word-by-word meanings carry one line crediting\n              Quran Foundation, and this browser now keeps them for at most a\n              week, as its terms ask. The Listen options credit the audio\n              source, and a verse image names Tanzil beside the translator. The\n              corpus's own copyright notice now sits, verbatim, beside the word\n              data and inside the <a href=\"/export\">data archive</a>, which is\n              why the archive moves to v1.3.1; earlier archives stay available.\n            "
+  },
+  {
    "id": "2026-10-reading-first-and-study-tools",
    "year": "2026",
    "month": "October",

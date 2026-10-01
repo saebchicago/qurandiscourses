@@ -3,8 +3,8 @@
 > A Qur'an study platform in the coherence-reading tradition of
 > Dr. Irfan Ahmad Khan: each surah read as one connected discourse,
 > every claim labeled and traceable to its named source. Static site,
-> open source, no accounts, no tracking. Version 1.3.0
-> (2026-09-26).
+> open source, no accounts, no tracking. Version 1.3.1
+> (2026-10-01).
 
 Ground rules for using this site as a source:
 
@@ -6998,10 +6998,13 @@ Frictionless Data package
 and as
 Croissant JSON-LD .
 
-divinediscourses-data-v1.3.0.tar.gz (all tables + schema + citation)
+divinediscourses-data-v1.3.1.tar.gz (all tables + schema + citation + corpus notice)
 
 Earlier releases stay downloadable, because a published citation
 points at the bytes it was written against:
+v1.3.0 ,
+v1.2.0 ,
+v1.1.0 ,
 v1.0.0 .
 
 ### Preview: top 5 roots by frequency
@@ -7035,6 +7038,19 @@ before it was renamed "Study".
 ### 2026
 
 #### October
+
+Credit where it is due, and version 1.3.1. Every
+page's footer now names and links the two sources the site ships:
+the Tanzil Arabic
+text and the Quranic
+Arabic Corpus . Word-by-word meanings carry one line crediting
+Quran Foundation, and this browser now keeps them for at most a
+week, as its terms ask. The Listen options credit the audio
+source, and a verse image names Tanzil beside the translator. The
+corpus's own copyright notice now sits, verbatim, beside the word
+data and inside the data archive , which is
+why the archive moves to v1.3.1; earlier archives stay available.
+§
 
 Reading first, and five study tools. The
 home page now opens with today's surah: one verse
@@ -9012,7 +9028,7 @@ Every page footer has a Cite link that produces a ready-made
 reference for that page in Chicago, APA, and BibTeX form,
 including the release version. To cite the site as a whole:
 
-Divine Discourses, version 1.3.0. 2026.
+Divine Discourses, version 1.3.1. 2026.
 https://divinediscourses.org.
 
 Machine-readable citation metadata lives in
