@@ -497,7 +497,13 @@
           return window.qdSafeKey(bw);
         }
 
-        const PERIOD_LABELS = {
+        // 1st, 2nd, 3rd, 11th-13th, 21st, 41st (was a flat "th": "41th").
+      function ordinalEn(n) {
+        const v = n % 100;
+        if (v >= 11 && v <= 13) return n + "th";
+        return n + ({ 1: "st", 2: "nd", 3: "rd" }[n % 10] || "th");
+      }
+      const PERIOD_LABELS = {
           "meccan-early": "Early Meccan",
           "meccan-middle": "Middle Meccan",
           "meccan-late": "Late Meccan",
@@ -594,7 +600,7 @@
             `<div class="stat-grid">` +
               `<div class="stat-block"><h4>Verses ${OK("leeds-corpus-v0.4", "Leeds Corpus v0.4")}</h4><p class="stat-value">${su.verseCount}</p></div>` +
               (m
-                ? `<div class="stat-block"><h4>Revealed ${OK("quran-foundation-api-v4", "Quran Foundation Content API v4")}</h4><p class="stat-value" style="font-size:1rem">${qdEsc(m.revelationPlace === "makkah" ? "Makkah" : m.revelationPlace === "madinah" ? "Madinah" : m.revelationPlace)} · ${m.revelationOrder}th in revelation order</p></div>`
+                ? `<div class="stat-block"><h4>Revealed ${OK("quran-foundation-api-v4", "Quran Foundation Content API v4")}</h4><p class="stat-value" style="font-size:1rem">${qdEsc(m.revelationPlace === "makkah" ? "Makkah" : m.revelationPlace === "madinah" ? "Madinah" : m.revelationPlace)} · ${ordinalEn(m.revelationOrder)} in revelation order</p></div>`
                 : "") +
               (period
                 ? // Literal data-source-ids (not a NUANCED(ids) parameter):

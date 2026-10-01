@@ -354,7 +354,7 @@
         <span class="small" id="transSummary">${qdEsc(transLabel)}</span>
         <button type="button" id="openTransPicker" class="btn-ghost">Change</button>
       </div>
-      <h4>Depth <span class="small" style="font-weight: 400">(keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>)</span></h4>
+      <h4>Depth <span class="small key-hint" style="font-weight: 400">(keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>)</span></h4>
       <div class="row"><select id="setDepth" aria-label="Depth level">
         <option value="simple" ${state.depth === "simple" ? "selected" : ""}>Simple — just read</option>
         <option value="study" ${state.depth === "study" ? "selected" : ""}>Study — analyze</option>
@@ -440,6 +440,7 @@
       "qd_discovery_v1",
       "qd_listen_mode_v2",
       "qd_listen_voice_v1",
+      "qd_vocab",
     ];
     const exportBtn = document.getElementById("exportData");
     if (exportBtn)
@@ -512,7 +513,7 @@
           }
           if (
             !window.confirm(
-              "Replace the notes, pinned items, reading place and choices in this browser with the ones in this copy?",
+              "Replace the notes, pinned items, vocabulary progress, reading place and choices in this browser with the ones in this copy?",
             )
           )
             return;

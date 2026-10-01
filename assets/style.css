@@ -5084,3 +5084,12 @@ input[type="checkbox"] {
     display: none !important;
   }
 }
+
+/* Keyboard shortcut hints ("press 1, 2 or 3") mean nothing on a touch
+   screen with no keyboard; they show only where a fine pointer exists. */
+@media (hover: none) and (pointer: coarse) {
+  .key-hint,
+  .depth-hint {
+    display: none;
+  }
+}

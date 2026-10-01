@@ -32,14 +32,15 @@ publishers.
 
 ## Word timings (quran-align, CC BY 4.0)
 
-`data/recitation/words/` holds word-level timings from quran-align by
-Collin Fair (https://github.com/cpfair/quran-align, release
+`data/recitation/words/` holds word-level timings, for any reciter
+that passes the fit test, from quran-align by Collin Fair (https://github.com/cpfair/quran-align, release
 release-2016-11-24), whose README states: "These data files are licensed
 under a Creative Commons Attribution 4.0 International License." The
 segments are copied verbatim, split per surah; nothing else is changed.
 Only reciters whose timings fit the audio Read plays are included; the
 test and its results are in `data/recitation/word-timings-report.json`
-(written by `scripts/build-word-timings.mjs`).
+(written by `scripts/build-word-timings.mjs`). As of the v2 test no
+reciter passes, so the directory is absent and nothing is highlighted.
 
 ## Tanzil Quran text (bundled)
 
@@ -234,10 +235,10 @@ draws on another output: `data/exports/` republishes Leeds-derived
 tables as downloadable CSV/JSON under the GPL, as stated on the export
 page.
 
-The GNU General Public License text is not bundled in this repository
-yet; upstream (corpus.quran.com) states "GNU General Public License"
-without pinning a version. Until a copy is added, obtain the license
-text from https://www.gnu.org/licenses/.
+Upstream (corpus.quran.com) states "GNU General Public License" without
+pinning a version. The text of version 3, the current version, is
+bundled verbatim as `LICENSE-GPL-3.0.txt`; every version is at
+https://www.gnu.org/licenses/.
 
 ## Generated images
 

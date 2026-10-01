@@ -10,6 +10,7 @@
 //   s/root/<safeKey>.html   -> /roots?root=<safeKey>   (1,642)
 //   s/theme/<slug>.html     -> /themes#<slug>          (33)
 //   s/surah/<n>.html        -> /dossier?s=<n>           (114)
+//   s/read/<n>.html         -> /read?s=<n>              (114)
 //   s/juz/<n>.html          -> /read?j=<n>              (30)
 //
 // Share pages are noindex and deliberately NOT in sitemap.xml (1,789
@@ -183,6 +184,22 @@ for (let n = 1; n <= 114; n++) {
       target: `/dossier?s=${n}`,
     }),
   );
+  // The same card for a surah shared from Read: the recipient lands in
+  // the reader, where the sharer was, not on the profile. (Read used to
+  // hand out the dossier link above for every whole-surah view.)
+  wanted.set(
+    `s/read/${n}.html`,
+    page({
+      path: `s/read/${n}.html`,
+      title: `${nm.translit} (${nm.ar}) · Divine Discourses`,
+      description,
+      og: ogFor(
+        `assets/og/surah/${n}.png`,
+        `Surah ${n}, ${nm.translit} — ${p.verseCount} verses, ${cls}`,
+      ),
+      target: `/read?s=${n}`,
+    }),
+  );
 }
 
 // ── Juz ────────────────────────────────────────────
@@ -210,7 +227,7 @@ for (const j of juzList) {
 }
 
 // ── Write + prune ───────────────────────────────────────────────────
-for (const dir of ["s", "s/root", "s/theme", "s/surah", "s/juz"]) {
+for (const dir of ["s", "s/root", "s/theme", "s/surah", "s/read", "s/juz"]) {
   mkdirSync(join(ROOT, dir), { recursive: true });
 }
 let written = 0;
@@ -219,7 +236,7 @@ for (const [rel, content] of wanted) {
   written++;
 }
 let pruned = 0;
-for (const dir of ["s/root", "s/theme", "s/surah", "s/juz"]) {
+for (const dir of ["s/root", "s/theme", "s/surah", "s/read", "s/juz"]) {
   for (const f of readdirSync(join(ROOT, dir))) {
     const rel = `${dir}/${f}`;
     if (!wanted.has(rel)) {

@@ -3640,10 +3640,10 @@ if (runCheck("phonetabs") && !LIVE) {
   const bar = await tp.evaluate(() => {
     const b = document.querySelector(".qd-tabbar");
     const r = b && b.getBoundingClientRect();
-    return b ? { tabs: [...b.querySelectorAll(".qd-tab")].map((t) => t.textContent.trim()), bottom: Math.round(r.bottom), vh: innerHeight, listen: b.querySelector('[data-tab="listen"]').getAttribute("href") } : null;
+    return b ? { tabs: [...b.querySelectorAll(".qd-tab")].map((t) => t.textContent.trim()), bottom: Math.round(r.bottom), vh: innerHeight, listen: b.querySelector('[data-tab="listen"]').getAttribute("href"), read: b.querySelector('[data-tab="read"]').getAttribute("href") } : null;
   });
   const navRow = await visible("nav.primary");
-  report("phonetabs-bar", "surah/36.html", !!bar && bar.tabs.join(",") === "Read,Listen,Search,Menu" && bar.bottom === bar.vh && !navRow && bar.listen === "/read?s=36#listen", bar ? `tabs ${bar.tabs.join(",")} at bottom ${bar.bottom}/${bar.vh}; nav row visible ${navRow}; Listen → ${bar.listen}` : "no tab bar");
+  report("phonetabs-bar", "surah/36.html", !!bar && bar.tabs.join(",") === "Read,Listen,Search,Menu" && bar.bottom === bar.vh && !navRow && bar.listen === "/read?s=36#listen" && bar.read === "/read?s=36", bar ? `tabs ${bar.tabs.join(",")} at bottom ${bar.bottom}/${bar.vh}; nav row visible ${navRow}; Read → ${bar.read} (want /read?s=36); Listen → ${bar.listen}` : "no tab bar");
   const floaters = [];
   for (const sel of [".settings .gear", ".share-fab", ".tour-fab", ".notebook-toggle", ".back-to-top"]) if (await visible(sel)) floaters.push(sel);
   report("phonetabs-no-floaters", "surah/36.html", floaters.length === 0, floaters.length ? `still floating: ${floaters.join(", ")}` : "no corner buttons over the page");
@@ -3686,6 +3686,30 @@ if (runCheck("phonetabs") && !LIVE) {
   await tp.locator(".verse-actions:not([hidden]) .va-pin").first().click().catch(() => {});
   const pinned = await tp.evaluate(() => ({ n: window.qdNotebook ? window.qdNotebook.list().length : -1, tray: !document.getElementById("notebookPanel").hidden }));
   report("phonetabs-pin", "read.html", pinShown && !headerPin && pinned.n === 1 && pinned.tray, `Pin in ⋯ ${pinShown}; 📌 in the header row ${headerPin}; pinned ${pinned.n}, tray open ${pinned.tray}`);
+
+  // The Search tab answers a verse or a root directly (it used to list
+  // help pages for "2:255" and "رحم"), from the Ask box's own router.
+  const direct = {};
+  for (const [q, want] of [["2:255", "/read?s=2&a=255"], ["رحم", "/roots?q="]]) {
+    await tp.goto(`${BASE}/search?q=${encodeURIComponent(q)}`, { waitUntil: "load" });
+    await tp.waitForSelector("#searchDirect a", { timeout: 5000 }).catch(() => {});
+    direct[q] = await tp.evaluate(() => { const a = document.querySelector("#searchDirect a"); return a ? a.getAttribute("href") : null; });
+    direct[q + ":ok"] = !!direct[q] && direct[q].startsWith(want);
+  }
+  report("search-direct-answer", "search.html", direct["2:255:ok"] && direct["رحم:ok"], `2:255 → ${direct["2:255"]}; رحم → ${direct["رحم"]}`);
+
+  // Sharing from Read: a whole surah hands out its preview page that
+  // opens the reader (not the Dossier); a narrower range keeps its own
+  // URL, so 2:1-5 is not widened to all of al-Baqarah.
+  const shareFor = async (q) => {
+    await tp.goto(`${BASE}/read?${q}`, { waitUntil: "load" });
+    await tp.waitForSelector(".verse", { timeout: 15000 }).catch(() => {});
+    await tp.waitForTimeout(300);
+    return tp.evaluate(() => { const f = document.querySelector(".share-fab"); return f ? f.getAttribute("data-share-url") : "no fab"; });
+  };
+  const wholeShare = await shareFor("s=103");
+  const rangeShare = await shareFor("s=2&a=1-5");
+  report("read-share-target", "read.html", /\/s\/read\/103\.html$/.test(wholeShare || "") && rangeShare === null, `whole surah shares ${wholeShare} (want s/read/103.html); 2:1-5 shares ${rangeShare === null ? "the live URL" : rangeShare} (want the live URL)`);
   await tctx.close();
   const dctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, serviceWorkers: "block" });
   await dctx.route(/api\.(quran\.com|alquran\.cloud)|islamic\.network/, (r) => r.abort());

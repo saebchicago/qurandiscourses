@@ -115,14 +115,19 @@
     );
   }
 
-  // Where Listen goes from a page with no player: the surah or juz the
-  // page is about, else Read's own resume (its last-read passage).
-  function listenHref(here) {
+  // Where Read and Listen go from a page about one surah or juz: that
+  // surah or juz. Elsewhere, Read's own resume (its last-read passage).
+  // (Read used to be a bare /read everywhere, so on /surah/36 the tab
+  // opened whatever the reader last read instead of Yasin.)
+  function passageQuery(here) {
     var m = here.match(/^\/surah\/(\d+)$/);
-    if (m) return "/read?s=" + m[1] + "#listen";
+    if (m) return "?s=" + m[1];
     m = here.match(/^\/juz\/(\d+)$/);
-    if (m) return "/read?j=" + m[1] + "#listen";
-    return "/read#listen";
+    if (m) return "?j=" + m[1];
+    return "";
+  }
+  function listenHref(here) {
+    return "/read" + passageQuery(here) + "#listen";
   }
 
   function scrollTop() {
@@ -140,7 +145,7 @@
     bar.className = "qd-tabbar";
     bar.setAttribute("aria-label", "Main");
     bar.innerHTML =
-      '<a class="qd-tab" data-tab="read" href="/read"' +
+      '<a class="qd-tab" data-tab="read" href="/read' + passageQuery(here) + '"' +
       (readHere ? ' aria-current="page"' : "") +
       ">" + icon("read") + "<span>Read</span></a>" +
       '<a class="qd-tab" data-tab="listen" href="' + listenHref(here) + '">' +

@@ -915,6 +915,15 @@
       // read, juz included — depth changes, translation changes and the
       // load-on-idle path all rely on that. Passing null explicitly is
       // how a surah action says "stop reading a juz".
+      // True when the passage on screen is the whole surah: verse 1 to its
+      // last verse (an open-ended "1-" range counts).
+      function wholeSurahView(s, ayahStart, ayahEnd) {
+        if (ayahStart !== 1) return false;
+        if (!isFinite(ayahEnd)) return true;
+        const meta = (window.SURAHS || []).find((x) => x.id === Number(s));
+        return !!meta && ayahEnd >= meta.verseCount;
+      }
+
       async function load(juzArg) {
         if (juzArg !== undefined)
           activeJuz = juzArg ? Number(juzArg) : null;
@@ -1497,15 +1506,15 @@
           if (window.qdSaveLastRead && !juzMode) window.qdSaveLastRead(s, aParam);
           else if (juzMode && window.qdSaveLastJuz) window.qdSaveLastJuz(juzMode);
           maybeShowMethodStrip();
-          // Whole-surah views (starting at verse 1) share via the surah's
-          // link-preview page; specific-verse views keep the live URL so
-          // the exact verse is never lost to a redirect.
+          // A whole surah or juz shares via its link-preview page, which
+          // opens the reader; any narrower view keeps the live URL so the
+          // exact verses (2:1-5, not all of al-Baqarah) survive the share.
           if (window.qdSetShareUrl)
             window.qdSetShareUrl(
               juzMode
                 ? `https://divinediscourses.org/s/juz/${juzMode}.html`
-                : ayahStart === 1
-                  ? `https://divinediscourses.org/s/surah/${s}.html`
+                : wholeSurahView(s, ayahStart, ayahEnd)
+                  ? `https://divinediscourses.org/s/read/${s}.html`
                   : null,
             );
           // Human-readable label ("al-'Asr 103:1-3") for the native
@@ -1593,13 +1602,11 @@
             history.replaceState({}, "", url);
             if (window.qdSaveLastRead) window.qdSaveLastRead(s, aParam);
             maybeShowMethodStrip();
-          // Whole-surah views (starting at verse 1) share via the surah's
-          // link-preview page; specific-verse views keep the live URL so
-          // the exact verse is never lost to a redirect.
+          // As above: only a whole surah shares via its preview page.
           if (window.qdSetShareUrl)
             window.qdSetShareUrl(
-              ayahStart === 1
-                ? `https://divinediscourses.org/s/surah/${s}.html`
+              wholeSurahView(s, ayahStart, ayahEnd)
+                ? `https://divinediscourses.org/s/read/${s}.html`
                 : null,
             );
           // No API surah name offline — clear any stale share label.
