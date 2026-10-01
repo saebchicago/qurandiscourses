@@ -1616,6 +1616,45 @@ if (runCheck("read") && (!PAGE_FILTER || PAGE_FILTER === "read.html") && !LIVE) 
         : `load failure: idx ${fail.loadFail.idx}, playing=${fail.loadFail.playing} (want 0, false); mid-sitting failure: idx ${fail.midFail.idx}, playing=${fail.midFail.playing} (want 1, true); ended ${fail.endedBefore}->${fail.endedAfter} after the last step (want false->true), playing=${fail.playingAfterEnd}; seek clears ended=${!fail.endedCleared}`,
     );
 
+    // A translation clip that fails is not the Arabic reciter's fault.
+    // In Arabic + translation it is skipped to the next verse's Arabic
+    // (one missing file used to stop the recitation); in translation-
+    // only it stops. Either way the status names translation audio, not
+    // "choose another Arabic reciter".
+    const tfail = await page.evaluate(() => {
+      const pl = window.qdListenPlayer;
+      if (!pl || pl.items.length < 2) return null;
+      const status = () => {
+        const el = document.querySelector("#listenPanel [data-listen-status]");
+        return el && !el.hidden ? el.textContent.trim() : "";
+      };
+      const english = pl.english || { edition: "en.walk", bitrate: 192 };
+      const out = {};
+      pl.english = english; pl.repeat = false;
+      pl.mode = "ar-en"; pl.seek(0); pl.leg = "en";
+      pl.playing = true; pl._started = false;
+      pl.audio.dispatchEvent(new Event("error"));
+      out.arEn = { idx: pl.idx, leg: pl.leg, playing: pl.playing, status: status() };
+      pl.playing = false;
+      pl.mode = "en"; pl.seek(0);
+      pl.playing = true; pl._started = false;
+      pl.audio.dispatchEvent(new Event("error"));
+      out.en = { idx: pl.idx, playing: pl.playing, status: status() };
+      pl.playing = false; pl.mode = "ar"; pl.seek(0);
+      return out;
+    });
+    report(
+      "listen-translation-failure", "read.html",
+      !!tfail &&
+        tfail.arEn.idx === 1 && tfail.arEn.leg === "ar" && tfail.arEn.playing === true &&
+        /^Translation audio for \d+:\d+ did not load; continuing with the Arabic\.$/.test(tfail.arEn.status) &&
+        tfail.en.idx === 0 && tfail.en.playing === false &&
+        /^Translation audio could not load/.test(tfail.en.status),
+      tfail === null
+        ? "no seam"
+        : `Arabic+translation: idx ${tfail.arEn.idx}, leg ${tfail.arEn.leg}, playing=${tfail.arEn.playing} (want 1, ar, true), says "${tfail.arEn.status}"; translation only: idx ${tfail.en.idx}, playing=${tfail.en.playing} (want 0, false), says "${tfail.en.status}"`,
+    );
+
     // Leaving the juz for a verse range must REBIND the transport, not
     // retire it: the reader's unit of listening is whatever they asked to
     // read. (This check asserted the opposite while Listen mode was

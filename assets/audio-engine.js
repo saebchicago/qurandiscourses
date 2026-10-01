@@ -558,7 +558,15 @@
         // is as likely to fail, and advancing on every load error walks
         // the whole passage in silence, one verse per error. Stop, and
         // say so through state; the reader presses play again.
-        if (self._started && self.playing) return self.advance();
+        // One exception: in Arabic + translation, a translation clip that
+        // fails is skipped to the next verse's Arabic. That cannot walk
+        // the passage in silence (every step plays Arabic), and one
+        // missing translation file used to stop the recitation itself.
+        // lastError tells the panel which leg failed, before advance()
+        // moves the position on.
+        var skip = self.playing && (self._started || (self.leg === "en" && self.mode === "ar-en"));
+        self.lastError = { leg: self.leg, idx: self.idx, skipped: skip };
+        if (skip) return self.advance();
         self.playing = false;
         self.emit();
       },
