@@ -1,5 +1,5 @@
 {
- "_computed": "2026-09-27",
+ "_computed": "2026-10-01",
  "_source": "github.com/cpfair/quran-align, release release-2016-11-24",
  "_method": "v2: coverage and agreement (last-word-end vs our measured verse length, both from data/recitation/durations.json) gate as in v1; speed fit (regression of that gap against verse length) and onset fit (the audio's own first non-silent moment, via ffmpeg, against quran-align's first-word start) replace v1's single fit-window proxy. All thresholds fixed in scripts/build-word-timings.mjs before this version ran; see that file's header for the full methodology and why it changed.",
  "criteriaVersion": 2,
