@@ -218,6 +218,12 @@
     function renderDirect(query) {
       var r = window.parseAsk && query ? window.parseAsk(query) : null;
       var label = r && r.route && DIRECT[r.type] ? DIRECT[r.type](r) : "";
+      // Any other Arabic: look the word up among the dictionary forms,
+      // by root and part of speech, with every occurrence (/words).
+      if (!label && /[\u0600-\u06FF]/.test(query || "")) {
+        r = { route: "/words?q=" + encodeURIComponent(query.trim()) };
+        label = "Find this Arabic word in Words";
+      }
       directHost.innerHTML = label
         ? '<p class="search-direct"><a class="button" href="' + esc(r.route) + '">' + esc(label) + " ›</a></p>"
         : "";

@@ -518,12 +518,12 @@
 [[headers]]
   for = "/words.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-dGkkwWaUH0LfRaaTma2M5JUA88G/WhLojNQJBNViTKo=' 'sha256-WFgRYZG50gUb5C5RUCW6YIpSvD/1sk+O1tw4Nu58joc='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-dGkkwWaUH0LfRaaTma2M5JUA88G/WhLojNQJBNViTKo=' 'sha256-gKUeEdB7y0id+5V229C50V4jJfdhAc/q9Pgjh0WLUOA='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/words"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-dGkkwWaUH0LfRaaTma2M5JUA88G/WhLojNQJBNViTKo=' 'sha256-WFgRYZG50gUb5C5RUCW6YIpSvD/1sk+O1tw4Nu58joc='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-dGkkwWaUH0LfRaaTma2M5JUA88G/WhLojNQJBNViTKo=' 'sha256-gKUeEdB7y0id+5V229C50V4jJfdhAc/q9Pgjh0WLUOA='; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.alquran.cloud; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/replay.html"

@@ -204,6 +204,84 @@
         </p>
       </section>
 
+      <section id="dailySection" aria-live="polite">
+        <div class="card">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: baseline;
+              gap: 0.75rem;
+              flex-wrap: wrap;
+            "
+          >
+            <h2 style="margin: 0">Today's discourse</h2>
+            <span id="dailyWhen" style="font-size: 0.82rem; color: var(--muted)"
+              >Same surah for everyone · changes at midnight UTC</span
+            >
+          </div>
+          <p id="dailyIntro" style="margin: 0.6rem 0; min-height: 4.9em">
+            <!-- static:daily-intro -->
+            <strong>Surah 1 · al-Fatihah</strong> (<span class="ar notranslate" translate="no" lang="ar" dir="rtl">الفاتحة</span>), “The Opening”, 7 verses, Meccan. A different passage is chosen each day in the browser; with JavaScript off, this is where to start.
+            <!-- /static:daily-intro -->
+          </p>
+          <p
+            id="dailyLens"
+            style="margin: 0.6rem 0; min-height: 4.9em; color: var(--muted)"
+          >
+            <!-- static:daily-lens -->
+            Its most repeated root: <span class="ar notranslate" translate="no" lang="ar" dir="rtl">ر ح م</span> (r-ḥ-m), appearing 4×.
+            <!-- /static:daily-lens -->
+          </p>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 0.6rem;
+              margin-top: 0.4rem;
+            "
+          >
+            <!-- static:daily-links -->
+            <a id="dailyReadLink" class="button" href="/read?s=1&amp;a=1"
+              >Read this surah</a
+            >
+            <a id="dailyDossierLink" class="button secondary" href="/dossier?s=1"
+              >Its full dossier</a
+            >
+            <a id="dailyListenLink" class="button secondary" href="/read?s=1&amp;a=1-7#listen"
+              >Listen to this surah</a
+            >
+            <a id="dailyLensLink" class="button secondary" href="/roots?root=rHm"
+              >Explore this root</a
+            >
+            <!-- /static:daily-links -->
+          </div>
+          <p id="dailyMeta" class="caption-note" style="min-height: 1.4em"></p>
+          <div id="dailyVerseWrap" hidden>
+            <p id="dailyVerseLabel" class="caption-note" style="margin: 0.2rem 0"></p>
+            <p
+              id="dailyVerseAr"
+              class="ar xl notranslate"
+              translate="no"
+              lang="ar"
+              dir="rtl"
+              style="margin: 0.2rem 0 0.6rem; font-size: 1.55rem; line-height: 1.9"
+            ></p>
+            <p id="dailyVerseTr" class="daily-verse-tr" hidden></p>
+            <button type="button" id="dailyNextVerse" class="button secondary">
+              Show another verse
+            </button>
+          </div>
+          <div id="reflectBox" data-reflect-src="daily"></div>
+          <p id="dailyProv" class="caption-note" style="min-height: 4.9em">
+            <!-- static:daily-prov -->
+            <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Root frequency from the Leeds Quranic Arabic Corpus v0.4.
+            <!-- /static:daily-prov -->
+          </p>
+        </div>
+      </section>
+
       <section id="welcomeBanner" hidden>
         <div class="banner soft">
           <div
@@ -278,82 +356,6 @@
 
 
 
-      <section id="dailySection" aria-live="polite">
-        <div class="card">
-          <div
-            style="
-              display: flex;
-              justify-content: space-between;
-              align-items: baseline;
-              gap: 0.75rem;
-              flex-wrap: wrap;
-            "
-          >
-            <h2 style="margin: 0">Today's discourse</h2>
-            <span id="dailyWhen" style="font-size: 0.82rem; color: var(--muted)"
-              >Same surah for everyone · changes at midnight UTC</span
-            >
-          </div>
-          <p id="dailyIntro" style="margin: 0.6rem 0; min-height: 4.9em">
-            <!-- static:daily-intro -->
-            <strong>Surah 1 · al-Fatihah</strong> (<span class="ar notranslate" translate="no" lang="ar" dir="rtl">الفاتحة</span>), “The Opening”, 7 verses, Meccan. A different passage is chosen each day in the browser; with JavaScript off, this is where to start.
-            <!-- /static:daily-intro -->
-          </p>
-          <p
-            id="dailyLens"
-            style="margin: 0.6rem 0; min-height: 4.9em; color: var(--muted)"
-          >
-            <!-- static:daily-lens -->
-            Its most repeated root: <span class="ar notranslate" translate="no" lang="ar" dir="rtl">ر ح م</span> (r-ḥ-m), appearing 4×.
-            <!-- /static:daily-lens -->
-          </p>
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              align-items: flex-start;
-              gap: 0.6rem;
-              margin-top: 0.4rem;
-            "
-          >
-            <!-- static:daily-links -->
-            <a id="dailyReadLink" class="button" href="/read?s=1&amp;a=1"
-              >Read this surah</a
-            >
-            <a id="dailyDossierLink" class="button secondary" href="/dossier?s=1"
-              >Its full dossier</a
-            >
-            <a id="dailyListenLink" class="button secondary" href="/read?s=1&amp;a=1-7#listen"
-              >Listen to this surah</a
-            >
-            <a id="dailyLensLink" class="button secondary" href="/roots?root=rHm"
-              >Explore this root</a
-            >
-            <!-- /static:daily-links -->
-          </div>
-          <p id="dailyMeta" class="caption-note" style="min-height: 1.4em"></p>
-          <div id="dailyVerseWrap" hidden>
-            <p id="dailyVerseLabel" class="caption-note" style="margin: 0.2rem 0"></p>
-            <p
-              id="dailyVerseAr"
-              class="ar xl notranslate"
-              translate="no"
-              lang="ar"
-              dir="rtl"
-              style="margin: 0.2rem 0 0.6rem; font-size: 1.55rem; line-height: 1.9"
-            ></p>
-            <button type="button" id="dailyNextVerse" class="button secondary">
-              Show another verse
-            </button>
-          </div>
-          <div id="reflectBox" data-reflect-src="daily"></div>
-          <p id="dailyProv" class="caption-note" style="min-height: 4.9em">
-            <!-- static:daily-prov -->
-            <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> Root frequency from the Leeds Quranic Arabic Corpus v0.4.
-            <!-- /static:daily-prov -->
-          </p>
-        </div>
-      </section>
 
       <section id="beginSection" class="workflow-section">
         <div class="section-heading">

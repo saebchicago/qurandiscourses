@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-10-reading-first-and-study-tools",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Reading first, and five study tools.</strong> The\n              <a href=\"/\">home page</a> now opens with today's surah: one verse\n              in Arabic with your translation beneath it, and <em>Read this\n              surah</em> right under it. On <a href=\"/read\">Read</a>, a surah can\n              be <strong>saved for offline reading</strong> (its Arabic, word\n              data and your translations; recitation still streams). A verse's\n              ⋯ menu makes an <strong>image</strong> of it to share or save. The\n              Listen options add <strong>memorization</strong>: play each verse\n              3, 5 or 10 times before the next, and hide the text to recite it,\n              tapping a verse to check. <a href=\"/words\">Words</a> filters by\n              <strong>part of speech</strong> (every verb, say), and Search\n              sends an Arabic word there. Notes and pins can be <strong>added\n              from a saved copy</strong>, merged with what is already here.\n              Also corrected: word highlighting is off for every reciter, since\n              the stricter timing test passes none of the five.\n            "
+  },
+  {
    "id": "2026-09-word-highlight-and-reproduced-figures",
    "year": "2026",
    "month": "September",

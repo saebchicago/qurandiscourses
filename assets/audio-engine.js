@@ -211,6 +211,11 @@
       ? opts.translation
       : DEFAULT_TRANSLATION;
     this.repeat = false;
+    // How many times verse repeat plays each verse before moving on to
+    // the next: 0 is without end (hold one verse), 3/5/10 is the
+    // memorization pattern of hearing each verse N times in turn.
+    this.repeatTimes = 0;
+    this._reps = 0;
     // Loop the whole passage: after its last step, start again at its
     // first verse. Independent of `repeat`, which holds one verse; a
     // reader memorising a short surah wants the surah on a loop, not
@@ -291,6 +296,7 @@
       leg: this.leg,
       mode: this.mode,
       repeat: this.repeat,
+      repeatTimes: this.repeatTimes,
       loop: this.loop,
       rate: this.rate,
       playing: this.playing,
@@ -417,7 +423,20 @@
   };
 
   Engine.prototype.advance = function () {
-    if (this.repeat) {
+    // A counted repeat: once the verse has played repeatTimes times, the
+    // verse is done and the step below moves on (the count restarts).
+    var counted = false;
+    if (this.repeat && this.repeatTimes > 0) {
+      var inVerse = this.nextStep(this.idx, this.leg);
+      if (!(inVerse && inVerse.idx === this.idx)) {
+        this._reps += 1;
+        if (this._reps >= this.repeatTimes) {
+          this._reps = 0;
+          counted = true;
+        }
+      }
+    }
+    if (this.repeat && !counted) {
       // Repeat holds the VERSE, not the clip. Arabic+English still hands
       // Arabic to English before the verse repeats; single-language modes
       // simply replay that language for the same verse.
@@ -469,6 +488,7 @@
   Engine.prototype.point = function (i) {
     if (!this.items.length) return;
     this.idx = Math.min(Math.max(i, 0), this.items.length - 1);
+    this._reps = 0;
     this.leg = this.startLeg();
     this.ended = false;
     this.emit();
@@ -477,6 +497,7 @@
   Engine.prototype.seek = function (i) {
     if (!this.items.length) return;
     this.idx = Math.min(Math.max(i, 0), this.items.length - 1);
+    this._reps = 0;
     this.leg = this.startLeg();
     this.ended = false;
     this.armed = true;
@@ -496,6 +517,13 @@
 
   Engine.prototype.setRepeat = function (on) {
     this.repeat = !!on;
+    this._reps = 0;
+    this.emit();
+  };
+
+  Engine.prototype.setRepeatTimes = function (n) {
+    this.repeatTimes = n > 0 ? n : 0;
+    this._reps = 0;
     this.emit();
   };
 

@@ -9,21 +9,6 @@
     { id: "repeat", label: "What keeps returning?", seed: "What keeps returning in this passage is " },
   ];
 
-  // Short enough to be one address on the first screen.
-  var HERO = [
-    { s: 103, act: "outline", href: "/exercise?id=asr-outline", doText: "Outline it" },
-    { s: 112, act: "outline", href: "/exercise?id=ikhlas-outline", doText: "Outline it" },
-    { s: 108, act: "roots", href: "/exercise-roots?s=108", doText: "Spot the roots" },
-    { s: 110, act: "roots", href: "/exercise-roots?s=110", doText: "Spot the roots" },
-    { s: 112, act: "roots", href: "/exercise-roots?s=112", doText: "Spot the roots" },
-    { s: 109, act: "roots", href: "/exercise-roots?s=109", doText: "Spot the roots" },
-    { s: 97, act: "roots", href: "/exercise-roots?s=97", doText: "Spot the roots" },
-    { s: 106, act: "roots", href: "/exercise-roots?s=106", doText: "Spot the roots" },
-    { s: 105, act: "roots", href: "/exercise-roots?s=105", doText: "Spot the roots" },
-    { s: 1, act: "read", href: "/read?s=1&a=1-7", doText: "Read it" },
-    { s: 114, act: "roots", href: "/exercise-roots?s=114", doText: "Spot the roots" },
-    { s: 103, act: "roots", href: "/exercise-roots?s=103", doText: "Spot the roots" },
-  ];
 
   function daysSinceEpoch() {
     return Math.floor(Date.now() / 86400000);
@@ -85,127 +70,27 @@
   }
 
   var sessionVisit = visitOffset();
-  var heroShift = sessionVisit;
   window.qdFeatured = {
     dailySurahNum: dailySurahNum,
     hoursSinceEpoch: hoursSinceEpoch,
     sessionVisit: sessionVisit,
   };
 
-  function currentHero() {
-    return HERO[(hoursSinceEpoch() + heroShift) % HERO.length];
-  }
 
-  function verseLine(id, v, words) {
-    var ar = words
-      ? words
-          .map(function (w) {
-            return w.ar;
-          })
-          .join(" ")
-      : "";
-    return (
-      '<p class="ar notranslate" translate="no" lang="ar" dir="rtl" style="margin:0.15rem 0;font-size:1.45rem;line-height:1.9">' +
-      (ar ? esc(ar) : "") +
-      ' <a href="/read?s=' +
-      id +
-      "&a=" +
-      v +
-      '" style="font-size:0.72rem;opacity:0.55;margin-inline-start:0.35rem">' +
-      id +
-      ":" +
-      v +
-      "</a></p>"
-    );
-  }
 
-  function rotateHero() {
-    var hero = document.querySelector(".landing-hero");
-    var btn = document.querySelector(".hero-primary");
-    var secondary = document.querySelector(".hero-actions .btn-secondary, .hero-actions a.secondary");
-    var title = document.getElementById("hero-title");
-    if (!hero || !btn) return;
-
-    var mount = document.getElementById("heroDisc");
-    if (!mount) {
-      mount = document.createElement("div");
-      mount.id = "heroDisc";
-      mount.style.margin = "0.4rem 0 1rem";
-      if (title && title.parentNode) title.parentNode.insertBefore(mount, title.nextSibling);
-      else hero.insertBefore(mount, hero.firstChild);
-    }
-
+  // Reading first. The hero used to rotate short surahs in Arabic only,
+  // with an exercise ("Spot the roots" in 9 of 12) as its main button,
+  // above a second card showing a different surah. Now the hero is the
+  // site's one line, and today's surah (the card right below it) carries
+  // the verse, its translation and "Read this surah". The exercise is one
+  // link for newcomers.
+  function simplifyHero() {
+    hide(document.querySelector(".hero-actions"));
     hide(document.querySelector(".hero-lede"));
     var tert = document.querySelector(".hero-tertiary");
-    if (tert) tert.innerHTML = '<a href="/how-to-use">How to use</a>';
-
-    var another = document.getElementById("heroAnother");
-    if (!another && secondary) {
-      another = document.createElement("button");
-      another.type = "button";
-      another.id = "heroAnother";
-      another.className = "button secondary";
-      another.textContent = "Another surah";
-      secondary.parentNode.insertBefore(another, secondary.nextSibling);
-      another.addEventListener("click", function () {
-        heroShift += 1;
-        paint();
-      });
-    }
-
-    var morphCache = {};
-
-    function paint() {
-      var pick = currentHero();
-      var su = surahById(pick.s);
-      if (!su) return;
-      if (title) {
-        title.style.fontSize = "1.35rem";
-        title.innerHTML =
-          su.id +
-          " \u00b7 " +
-          esc(su.translit) +
-          ' <span class="ar notranslate" translate="no" lang="ar" dir="rtl">' +
-          esc(su.ar) +
-          "</span>";
-      }
-      btn.href = pick.href;
-      btn.textContent = pick.doText;
-      if (secondary) {
-        secondary.href = "/replay?s=" + su.id;
-        secondary.textContent = "Replay";
-      }
-
-      function draw(morph) {
-        var html = "";
-        var n = su.verseCount;
-        var i;
-        for (i = 1; i <= n; i++) {
-          html += verseLine(su.id, i, morph && morph[String(i)]);
-        }
-        mount.innerHTML = html;
-      }
-
-      if (morphCache[su.id]) {
-        draw(morphCache[su.id]);
-        return;
-      }
-      draw(null);
-      fetch("data/morphology/" + su.id + ".json")
-        .then(function (r) {
-          return r.ok ? r.json() : null;
-        })
-        .then(function (data) {
-          if (currentHero().s !== su.id) return;
-          morphCache[su.id] = data;
-          draw(data);
-        })
-        .catch(function () {
-          draw(null);
-        });
-    }
-
-    paint();
+    if (tert)
+      tert.innerHTML =
+        '<a href="/exercise?id=asr-outline">New here? Outline al-\'Asr, 3 verses</a> \u00b7 <a href="/how-to-use">How to use</a>';
   }
 
   function rotateAskChips() {
@@ -271,7 +156,10 @@
     var reflect = document.getElementById("reflectBox");
     if (!meta || !wrap || !verseAr || !verseLabel) return;
     var surahShift = 0;
-    var verseShift = sessionVisit;
+    // The same verse for everyone today, like the surah: it used to shift
+    // by the hour and by this tab's visit count, so the card that says
+    // "same for everyone" showed different verses on two visits.
+    var verseShift = 0;
     var morph = null;
     var morphSurah = 0;
     var su = surahById(dailySurahNum());
@@ -280,13 +168,35 @@
       return 1 + ((daysSinceEpoch() + surahShift) % 114);
     }
     function currentVerse() {
-      return 1 + ((hoursSinceEpoch() + verseShift) % su.verseCount);
+      return 1 + ((daysSinceEpoch() + verseShift) % su.verseCount);
+    }
+    // The verse in the reader's first chosen translation, under the
+    // Arabic. Arabic ships with the site; a translation that cannot load
+    // leaves the Arabic alone rather than showing an error on home.
+    var verseTr = document.getElementById("dailyVerseTr");
+    var trSeq = 0;
+    function paintTranslation(s, v) {
+      if (!verseTr || !window.qdFetchVerse) return;
+      var seq = ++trSeq;
+      verseTr.hidden = true;
+      window.qdFetchVerse(s, v).then(function (data) {
+        if (seq !== trSeq || !data || !data[1] || !data[1].text) return;
+        var ed = data[1].edition || {};
+        verseTr.innerHTML =
+          esc(data[1].text) +
+          (ed.englishName ? ' <span class="daily-tr-by">\u2014 ' + esc(ed.englishName) + "</span>" : "");
+        verseTr.setAttribute("lang", ed.language || "en");
+        verseTr.setAttribute("dir", ed.direction === "rtl" ? "rtl" : "ltr");
+        verseTr.hidden = false;
+      }).catch(function () {});
     }
     function applyLinks() {
       var replayLink = document.getElementById("dailyReplayLink");
       if (replayLink) replayLink.href = "/replay?s=" + su.id;
       var readLink = document.getElementById("dailyReadLink");
       if (readLink) readLink.href = "/read?s=" + su.id + "&a=1-" + su.verseCount;
+      var listen = document.getElementById("dailyListenLink");
+      if (listen) listen.href = "/read?s=" + su.id + "&a=1-" + su.verseCount + "#listen";
       var dossierLink = document.getElementById("dailyDossierLink");
       if (dossierLink) dossierLink.href = "/dossier?s=" + su.id;
     }
@@ -313,6 +223,7 @@
       if (morph && morphSurah === su.id && morph[String(v)]) {
         verseAr.textContent = morph[String(v)].map(function (w) { return w.ar; }).join(" ");
       }
+      paintTranslation(su.id, v);
       if (reflect) reflect.setAttribute("data-reflect-ref", su.id + ":" + v);
       if (window.qdMountReflect) window.qdMountReflect(reflect);
       if (nextVerseBtn) nextVerseBtn.textContent = "Another verse";
@@ -358,6 +269,20 @@
         verseShift = 0;
         adoptSurah();
       });
+    }
+    // The two actions that matter sit right under the verse: Read this
+    // surah (the main one) and Listen. They were the bottom of a column
+    // of four, below the verse switches and the reflection prompts.
+    var readLink = document.getElementById("dailyReadLink");
+    var listenLink = document.getElementById("dailyListenLink");
+    var verseTrEl = document.getElementById("dailyVerseTr");
+    if (readLink && verseTrEl && verseTrEl.parentNode) {
+      var row = document.createElement("p");
+      row.className = "daily-primary";
+      readLink.classList.add("btn-primary");
+      row.appendChild(readLink);
+      if (listenLink) row.appendChild(listenLink);
+      verseTrEl.parentNode.insertBefore(row, verseTrEl.nextSibling);
     }
     applyLinks();
     paintIntro();
@@ -440,7 +365,7 @@
 
   ready(function () {
     quietHome();
-    rotateHero();
+    simplifyHero();
     rotateAskChips();
     enhanceDailyCard();
     document.querySelectorAll("#reflectBox[data-reflect-ref]").forEach(mountReflect);

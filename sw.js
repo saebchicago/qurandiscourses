@@ -14,7 +14,10 @@ const SW_VERSION = "v19";
 const HTML_CACHE = "dd-html-" + SW_VERSION;
 const ASSET_CACHE = "dd-assets-" + SW_VERSION;
 const DATA_CACHE = "dd-data-" + SW_VERSION;
-const OWN_CACHES = [HTML_CACHE, ASSET_CACHE, DATA_CACHE];
+// Surahs a reader saves for offline reading (the offline save in assets/read-polish.js).
+// Not versioned: an update must never delete what the reader chose to keep.
+const SAVED_CACHE = "dd-saved";
+const OWN_CACHES = [HTML_CACHE, ASSET_CACHE, DATA_CACHE, SAVED_CACHE];
 
 // GENERATED:sw-precache (scripts/build-sw-manifest.mjs) — do not edit;
 // regenerate with: node scripts/build-sw-manifest.mjs
@@ -119,7 +122,9 @@ async function networkFirstData(request) {
     if (response && response.ok) cache.put(request, response.clone());
     return response;
   } catch (err) {
-    const cached = await cache.match(request);
+    const cached =
+      (await cache.match(request)) ||
+      (await caches.open(SAVED_CACHE).then((c) => c.match(request)));
     if (cached) return cached;
     throw err;
   }

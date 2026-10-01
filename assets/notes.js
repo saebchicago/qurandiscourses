@@ -111,11 +111,20 @@
         "</ul></details>";
     }
 
-    if (refs.length || currentRef) {
+    // The import is always offered: it matters most on a new device,
+    // where there is nothing here yet.
+    {
       html +=
         '<div class="share-row" style="margin-bottom:0">' +
         (refs.length
           ? '<button type="button" class="button secondary share-btn" id="notesExport">Export all as Markdown</button>'
+          : "") +
+        (window.qdBackup && refs.length
+          ? '<button type="button" class="button secondary share-btn" id="notesSaveCopy">Save a copy to move</button>'
+          : "") +
+        (window.qdBackup
+          ? '<label class="button secondary share-btn" for="notesImport">Add notes from a saved copy</label>' +
+            '<input type="file" id="notesImport" accept="application/json,.json" hidden>'
           : "") +
         (currentRef && current
           ? '<button type="button" class="button secondary share-btn" id="noteDelete">Delete this note</button>'
@@ -160,6 +169,21 @@
         }, 400);
       });
     }
+    var saveCopy = document.getElementById("notesSaveCopy");
+    if (saveCopy)
+      saveCopy.addEventListener("click", function () {
+        flushPendingSave();
+        if (window.qdBackup) window.qdBackup.save();
+      });
+    var imp = document.getElementById("notesImport");
+    if (imp)
+      imp.addEventListener("change", function () {
+        var f = imp.files && imp.files[0];
+        imp.value = "";
+        if (!f || !window.qdBackup) return;
+        flushPendingSave();
+        window.qdBackup.restore(f, "merge");
+      });
     var exp = document.getElementById("notesExport");
     if (exp)
       exp.addEventListener("click", function () {
@@ -426,6 +450,9 @@
     // The card's default open/closed state follows depth. Flush first so a
     // depth change cannot replace a textarea while its save still points
     // at mutable currentRef.
+    document.addEventListener("qd:data-imported", function () {
+      render();
+    });
     document.addEventListener("qd:depth-changed", function () {
       flushPendingSave();
       render();

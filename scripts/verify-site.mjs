@@ -16,6 +16,9 @@
 //             offline degradation path is what's tested by default
 //   links     §6.3 every internal href/src answers 200 from the local
 //             server; unknown #fragments are warnings
+//   features  reading-first home, save a surah offline, verse image,
+//             memorization (repeat count, hide/reveal), grammar search
+//             on Words, notes and pins merged from a saved copy
 //   phonetabs below 768px, the tab bar (Read, Listen, Search, Menu)
 //             replaces the nav row and the corner buttons; Menu holds
 //             every nav link and the page tools; see the block below
@@ -3619,6 +3622,106 @@ if (runCheck("surahpages") && !LIVE) {
   await pr.close();
   report("surah-pages-linked", "navigate.html", listed === 114, `${listed} links to /surah/<n> on Navigate (want 114)`);
   await jctx.close();
+}
+
+// ── Reading-first home, offline save, verse image, memorization,
+// grammar search, notes and pins import ──────────────────────────────
+// Each is driven the way a reader would, with the translation service
+// stubbed (fixtures carry an XSS payload, so escaping is exercised too).
+if (runCheck("features") && !LIVE) {
+  const fctx = await newContext({ apiMode: "stub" });
+  const fp = await fctx.newPage();
+  const ferr = [];
+  fp.on("pageerror", (e) => ferr.push(e.message));
+
+  // Home: today's verse with its translation, and Read this surah as the
+  // main action right under it; the old exercise buttons are gone.
+  await fp.goto(`${BASE}/`, { waitUntil: "load" });
+  await fp.waitForFunction(() => { const t = document.getElementById("dailyVerseTr"); return t && !t.hidden; }, null, { timeout: 8000 }).catch(() => {});
+  const home = await fp.evaluate(() => {
+    const tr = document.getElementById("dailyVerseTr");
+    const row = document.querySelector(".daily-primary");
+    const first = row && row.querySelector("a");
+    const actions = document.querySelector(".hero-actions");
+    return {
+      tr: tr && !tr.hidden ? tr.textContent : "",
+      xss: !!window.__xss,
+      primary: first ? first.getAttribute("href") + "|" + first.classList.contains("btn-primary") : "",
+      afterTr: !!(tr && row && tr.nextElementSibling === row),
+      heroHidden: !actions || !actions.getClientRects().length,
+    };
+  });
+  report("home-reading-first", "index.html", /FIXTURE/.test(home.tr) && !home.xss && /^\/read\?s=\d+&a=1-\d+\|true$/.test(home.primary) && home.afterTr && home.heroHidden,
+    `translation "${home.tr.slice(0, 30)}"; primary ${home.primary}; directly under the translation ${home.afterTr}; old hero buttons hidden ${home.heroHidden}; script injection ${home.xss}`);
+
+  // Save for offline: the Arabic, word data and translation response go
+  // into the dd-saved cache the service worker never prunes.
+  await fp.goto(`${BASE}/read?s=103`, { waitUntil: "load" });
+  await fp.waitForSelector("#saveOfflineBtn", { timeout: 10000 }).catch(() => {});
+  await fp.click("#saveOfflineBtn").catch(() => {});
+  await fp.waitForFunction(() => /saved for offline/.test((document.querySelector(".offline-save") || {}).textContent || ""), null, { timeout: 8000 }).catch(() => {});
+  const saved = await fp.evaluate(async () => (await (await caches.open("dd-saved")).keys()).map((r) => r.url.replace(location.origin, "")).sort());
+  report("offline-save", "read.html", saved.includes("/data/quran-text/103.json") && saved.includes("/data/morphology/103.json") && saved.some((u) => /api\.alquran\.cloud\/v1\/surah\/103\//.test(u)),
+    `dd-saved holds ${saved.length}: ${saved.map((u) => u.replace(/^https:\/\/api\.alquran\.cloud/, "api")).join(", ")}`);
+
+  // Verse image: a PNG preview, with the basmala left off 103:1.
+  await fp.locator(".verse-more-btn").first().click();
+  await fp.locator('.verse-actions:not([hidden]) [data-act="image"]').first().click();
+  await fp.waitForSelector(".verse-card-dialog img", { timeout: 8000 }).catch(() => {});
+  const card = await fp.evaluate(() => {
+    const img = document.querySelector(".verse-card-dialog img");
+    const save = document.querySelector('.verse-card-dialog a[download]');
+    return { png: !!img && img.src.startsWith("data:image/png"), name: save ? save.getAttribute("download") : "" };
+  });
+  await fp.click('[data-card="close"]').catch(() => {});
+  report("verse-image", "read.html", card.png && card.name === "divine-discourses-103-1.png", `PNG preview ${card.png}; file ${card.name}`);
+
+  // Memorization: each verse played N times, then the next; text hidden
+  // until tapped.
+  const mem = await fp.evaluate(() => {
+    const e = window.qdListenPlayer;
+    if (!e) return null;
+    e.mode = "ar"; e.setRepeat(true); e.setRepeatTimes(3); e.seek(0); e.playing = false;
+    const seen = [];
+    const real = e.playCurrent;
+    e.playCurrent = function () { seen.push(e.idx); };
+    for (let i = 0; i < 5; i++) e.advance();
+    e.playCurrent = real; e.setRepeat(false); e.setRepeatTimes(0); e.seek(0);
+    document.querySelector("[data-listen-hide]").click();
+    const v = document.querySelector(".verse");
+    const blurred = getComputedStyle(v.querySelector("p.ar")).filter;
+    v.querySelector("p.ar").click();
+    const revealed = getComputedStyle(v.querySelector("p.ar")).filter;
+    document.querySelector("[data-listen-hide]").click();
+    return { seen: seen.join(","), blurred, revealed, off: !document.documentElement.hasAttribute("data-memorize") };
+  });
+  report("memorize", "read.html", !!mem && mem.seen === "0,0,1,1,1" && /blur/.test(mem.blurred) && mem.revealed === "none" && mem.off,
+    mem ? `×3 repeat plays ${mem.seen} (want 0,0,1,1,1: three plays each); hidden ${mem.blurred}, tapped ${mem.revealed}; toggled off ${mem.off}` : "no player");
+
+  // Notes and pins from a saved copy: merged, never replacing.
+  const merged = await fp.evaluate(async () => {
+    localStorage.setItem("qd_notes", JSON.stringify({ "103:1": { text: "mine", updated: "2026-01-01T00:00:00Z" } }));
+    localStorage.setItem("qd_notebook_v1", JSON.stringify([{ id: "a", type: "verse", ref: "103:1", label: "103:1" }]));
+    const copy = { format: "divine-discourses-backup", version: 1, data: {
+      qd_notes: JSON.stringify({ "103:1": { text: "older", updated: "2025-01-01T00:00:00Z" }, "103:2": { text: "theirs", updated: "2026-02-01T00:00:00Z" } }),
+      qd_notebook_v1: JSON.stringify([{ id: "b", type: "verse", ref: "103:1", label: "103:1" }, { id: "c", type: "root", ref: "rHm", label: "r-h-m" }]) } };
+    const r = await window.qdBackup.restore(new File([JSON.stringify(copy)], "c.json", { type: "application/json" }), "merge");
+    const notes = JSON.parse(localStorage.getItem("qd_notes"));
+    const pins = JSON.parse(localStorage.getItem("qd_notebook_v1")).map((p) => p.ref);
+    return { r, mine: notes["103:1"].text, theirs: notes["103:2"] && notes["103:2"].text, pins: pins.join(","), importBtn: !!document.getElementById("notesImport") };
+  });
+  report("import-merge", "read.html", merged.r && merged.r.notes === 1 && merged.r.pins === 1 && merged.mine === "mine" && merged.theirs === "theirs" && merged.pins === "103:1,rHm" && merged.importBtn,
+    `added notes ${merged.r && merged.r.notes}, pins ${merged.r && merged.r.pins}; kept newer "${merged.mine}"; pins ${merged.pins}; notes section offers import ${merged.importBtn}`);
+
+  // Grammar search: every verb, with no text typed.
+  await fp.goto(`${BASE}/words?pos=V`, { waitUntil: "load" });
+  await fp.waitForFunction(() => /lemmas? match/.test(document.getElementById("wordCount").textContent), null, { timeout: 8000 }).catch(() => {});
+  const words = await fp.evaluate(() => ({ count: document.getElementById("wordCount").textContent, rows: document.querySelectorAll("#wordResults tr").length }));
+  const wantVerbs = JSON.parse(readFileSync(join(ROOT, "data/word-index.json"), "utf8")).lemmas.filter((l) => l.pos === "V").length;
+  report("words-by-grammar", "words.html", words.count.startsWith(wantVerbs.toLocaleString("en-US") + " lemma") && words.rows > 0,
+    `"${words.count}" (want ${wantVerbs.toLocaleString("en-US")} verbs, counted from data/word-index.json); ${words.rows} rows shown`);
+  report("features-console", "read.html", ferr.length === 0, ferr.slice(0, 3).join(" | ") || "clean");
+  await fctx.close();
 }
 
 // ── Phone chrome: tab bar and Menu sheet (assets/nav.js) ────────────

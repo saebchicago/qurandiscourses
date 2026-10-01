@@ -5093,3 +5093,105 @@ input[type="checkbox"] {
     display: none;
   }
 }
+
+/* Save this surah for offline reading (the offline save in assets/read-polish.js). */
+.offline-save {
+  margin: 1.25rem 0 0.5rem;
+}
+.offline-save-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+.offline-save-note {
+  margin: 0.35rem 0 0;
+}
+/* Today's verse on home: the translation under the Arabic. */
+.daily-verse-tr {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.daily-tr-by {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* Verse image card preview (assets/verse-card.js). */
+.verse-card-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: color-mix(in srgb, var(--ink) 45%, transparent);
+}
+.verse-card-box {
+  max-width: min(420px, 100%);
+  max-height: 100%;
+  overflow: auto;
+  background: var(--card);
+  border-radius: 12px;
+  padding: 0.75rem;
+}
+.verse-card-box img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+.verse-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.verse-card-actions .button {
+  min-height: 44px;
+}
+html.qd-card-open {
+  overflow: hidden;
+}
+
+/* Memorization (Listen options, "Hide text to recite"): each verse's
+   text is hidden until the verse is tapped. Blur, not removal, so the
+   layout (and the recitation's scroll target) does not jump. */
+html[data-memorize] .verse:not(.is-revealed) p.ar,
+html[data-memorize] .verse:not(.is-revealed) .translation .text,
+html[data-memorize] .verse:not(.is-revealed) .wbw-strip {
+  filter: blur(0.6em);
+  user-select: none;
+  cursor: pointer;
+}
+@media (prefers-reduced-transparency: reduce) {
+  html[data-memorize] .verse:not(.is-revealed) p.ar,
+  html[data-memorize] .verse:not(.is-revealed) .translation .text {
+    filter: none;
+    color: transparent;
+    background: var(--line);
+    border-radius: 4px;
+  }
+}
+
+/* featured.js hides the hero's old exercise buttons; the flex display
+   rule above would otherwise override the hidden attribute. */
+.hero-actions[hidden] {
+  display: none;
+}
+
+/* Home: Read this surah and Listen, directly under today's verse. */
+.daily-primary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 0.9rem;
+}
+.daily-primary .button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}

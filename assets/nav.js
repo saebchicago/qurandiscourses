@@ -199,6 +199,7 @@
     { sel: ".share-fab", label: "Share" },
     { sel: "#notebookToggle", label: "Pinned" },
     { sel: ".tour-fab", label: "Tour" },
+    { sel: "#saveOfflineBtn", label: "Save offline" },
   ];
 
   function renderTools() {
