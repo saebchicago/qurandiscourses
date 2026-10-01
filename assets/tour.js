@@ -36,7 +36,7 @@
     {
       sel: [".settings .gear", '.qd-tab[data-tab="menu"]'],
       title: "Depth and palette",
-      body: "Display sets your depth (Simple / Study / Encyclopedic — or keys 1/2/3) and colors; translations and reciter are chosen on the Read page. On a phone, Display is under Menu.",
+      body: "Display sets your depth (Simple / Study / Encyclopedic) and colors; translations and reciter are chosen on the Read page. On a phone, Display is under Menu.",
     },
   ];
 

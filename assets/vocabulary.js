@@ -205,7 +205,7 @@
           return;
         }
         el.meaning.innerHTML =
-          "<strong>" + esc(en) + "</strong> " + '<span class="t-annotation">(at ' + esc(at[0] + ":" + at[1]) + ", Quran.com word by word)</span>";
+          "<strong>" + esc(en) + "</strong> " + '<span class="t-annotation">(at ' + esc(at[0] + ":" + at[1]) + ", word by word; Quran data provided by <a href=\"https://quran.foundation\" rel=\"noopener\">Quran Foundation</a>)</span>";
       })
       .catch(function () {
         if (current !== r) return;

@@ -34,6 +34,11 @@
   // KB rather than a full v4 payload.
   var CACHE_KEY = "qd_wbwcache";
   var CACHE_MAX = 60;
+  // Quran Foundation's developer terms cap caching of its content at
+  // one week, so every entry carries the time it was fetched and is
+  // dropped after seven days. Version 2 dates each entry; version 1
+  // entries (undated) are discarded on load.
+  var CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
   var cache = null;
 
   function esc(v) {
@@ -42,18 +47,31 @@
 
   function cacheLoad() {
     if (cache) return cache;
-    cache = { v: 1, order: [], entries: {} };
+    cache = { v: 2, order: [], entries: {} };
     try {
       var saved = JSON.parse(localStorage.getItem(CACHE_KEY));
-      if (saved && saved.v === 1 && saved.entries && saved.order) cache = saved;
+      if (saved && saved.v === 2 && saved.entries && saved.order) cache = saved;
+      else if (saved) localStorage.removeItem(CACHE_KEY);
     } catch (e) {}
+    var now = Date.now();
+    cache.order = cache.order.filter(function (k) {
+      var e = cache.entries[k];
+      if (e && now - e.t < CACHE_TTL) return true;
+      delete cache.entries[k];
+      return false;
+    });
     return cache;
+  }
+
+  function cacheGet(key) {
+    var e = cacheLoad().entries[key];
+    return e && Date.now() - e.t < CACHE_TTL ? e.d : null;
   }
 
   function cachePut(key, value) {
     var c = cacheLoad();
     if (!c.entries[key]) c.order.push(key);
-    c.entries[key] = value;
+    c.entries[key] = { t: Date.now(), d: value };
     while (c.order.length > CACHE_MAX) delete c.entries[c.order.shift()];
     try {
       localStorage.setItem(CACHE_KEY, JSON.stringify(c));
@@ -93,8 +111,8 @@
 
   function fetchPage(surah, page) {
     var key = surah + ":" + page;
-    var c = cacheLoad();
-    if (c.entries[key]) return Promise.resolve(c.entries[key]);
+    var hit = cacheGet(key);
+    if (hit) return Promise.resolve(hit);
     var url =
       API +
       encodeURIComponent(surah) +
@@ -139,6 +157,19 @@
     );
   }
 
+  // One quiet line at the foot of the passage, once any strip has
+  // meanings: the attribution Quran Foundation's terms ask for wherever
+  // its content shows. One line per passage rather than one per verse.
+  function credit(container) {
+    if (!container.querySelector(".wbw-strip[data-filled]")) return;
+    if (container.querySelector(".wbw-credit")) return;
+    var p = document.createElement("p");
+    p.className = "prov wbw-credit";
+    p.innerHTML =
+      'Word-by-word meanings: Quran data provided by <a href="https://quran.foundation" rel="noopener">Quran Foundation</a>.';
+    container.appendChild(p);
+  }
+
   // Fills every .wbw-strip[data-vk] inside `container`. Verse numbers
   // decide which API pages are needed, so a three-verse range costs
   // one request, not three.
@@ -162,6 +193,7 @@
               strip.hidden = false;
               if (window.qdCiteEnhance) window.qdCiteEnhance(strip);
             });
+          credit(container);
         })
         .catch(function () {
           // Offline, blocked, or an unexpected shape: the strips stay

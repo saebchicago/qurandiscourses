@@ -6,8 +6,46 @@
   <id>https://divinediscourses.org/changelog</id>
   <link href="https://divinediscourses.org/changelog"/>
   <link rel="self" href="https://divinediscourses.org/feed.xml"/>
-  <updated>2026-09-01T00:00:00Z</updated>
+  <updated>2026-10-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
+  <entry>
+    <title>Credit where it is due, and version 1.3.1</title>
+    <id>https://divinediscourses.org/changelog#2026-10-credits-and-notices</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-credits-and-notices"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Credit where it is due, and version 1.3.1.&lt;/strong&gt; Every
+              page's footer now names and links the two sources the site ships:
+              the &lt;a href="https://tanzil.net" rel="noopener"&gt;Tanzil&lt;/a&gt; Arabic
+              text and the &lt;a href="https://corpus.quran.com" rel="noopener"&gt;Quranic
+              Arabic Corpus&lt;/a&gt;. Word-by-word meanings carry one line crediting
+              Quran Foundation, and this browser now keeps them for at most a
+              week, as its terms ask. The Listen options credit the audio
+              source, and a verse image names Tanzil beside the translator. The
+              corpus's own copyright notice now sits, verbatim, beside the word
+              data and inside the &lt;a href="/export"&gt;data archive&lt;/a&gt;, which is
+              why the archive moves to v1.3.1; earlier archives stay available.</content>
+  </entry>
+  <entry>
+    <title>Reading first, and five study tools</title>
+    <id>https://divinediscourses.org/changelog#2026-10-reading-first-and-study-tools</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-reading-first-and-study-tools"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Reading first, and five study tools.&lt;/strong&gt; The
+              &lt;a href="/"&gt;home page&lt;/a&gt; now opens with today's surah: one verse
+              in Arabic with your translation beneath it, and &lt;em&gt;Read this
+              surah&lt;/em&gt; right under it. On &lt;a href="/read"&gt;Read&lt;/a&gt;, a surah can
+              be &lt;strong&gt;saved for offline reading&lt;/strong&gt; (its Arabic, word
+              data and your translations; recitation still streams). A verse's
+              ⋯ menu makes an &lt;strong&gt;image&lt;/strong&gt; of it to share or save. The
+              Listen options add &lt;strong&gt;memorization&lt;/strong&gt;: play each verse
+              3, 5 or 10 times before the next, and hide the text to recite it,
+              tapping a verse to check. &lt;a href="/words"&gt;Words&lt;/a&gt; filters by
+              &lt;strong&gt;part of speech&lt;/strong&gt; (every verb, say), and Search
+              sends an Arabic word there. Notes and pins can be &lt;strong&gt;added
+              from a saved copy&lt;/strong&gt;, merged with what is already here.
+              Also corrected: word highlighting is off for every reciter, since
+              the stricter timing test passes none of the five.</content>
+  </entry>
   <entry>
     <title>Words highlighted as they are recited, and published figures reproduced</title>
     <id>https://divinediscourses.org/changelog#2026-09-word-highlight-and-reproduced-figures</id>

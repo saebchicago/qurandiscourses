@@ -13,6 +13,16 @@ directory and roots summary are GPL-licensed. The rest of this site's
 source code (HTML, CSS, JavaScript) remains under its existing license.
 Users redistributing or modifying the morphology data must comply with GPL.
 
+The corpus file opens with a copyright block whose terms ask that the
+source be named with a link to corpus.quran.com wherever the annotation
+is used, and that the block be "reproduced appropriately in all works
+derived from or containing substantial portion of this file". The block
+is reproduced verbatim (checked against three independent copies of
+`quranic-corpus-morphology-0.4.txt`) in `data/morphology/NOTICE-LEEDS.txt`
+and, through `scripts/build-datapack.mjs`, in `data/exports/NOTICE-LEEDS.txt`
+and every data archive from v1.3.1 on. Every page's footer names the
+corpus and links corpus.quran.com.
+
 ## Tanzil chronology
 
 `data/chronology.json` uses the Egyptian Standard (Cairo 1924) revelation
@@ -28,18 +38,19 @@ headers of the per-verse audio files served by Islamic Network
 (cdn.islamic.network), the same files the Read page plays; see
 `scripts/build-recitation-durations.mjs`. No audio is bundled or
 redistributed. The recordings remain the property of their reciters and
-publishers.
+publishers; the Listen options say so and name the audio source.
 
 ## Word timings (quran-align, CC BY 4.0)
 
-`data/recitation/words/` holds word-level timings from quran-align by
-Collin Fair (https://github.com/cpfair/quran-align, release
+`data/recitation/words/` holds word-level timings, for any reciter
+that passes the fit test, from quran-align by Collin Fair (https://github.com/cpfair/quran-align, release
 release-2016-11-24), whose README states: "These data files are licensed
 under a Creative Commons Attribution 4.0 International License." The
 segments are copied verbatim, split per surah; nothing else is changed.
 Only reciters whose timings fit the audio Read plays are included; the
 test and its results are in `data/recitation/word-timings-report.json`
-(written by `scripts/build-word-timings.mjs`).
+(written by `scripts/build-word-timings.mjs`). As of the v2 test no
+reciter passes, so the directory is absent and nothing is highlighted.
 
 ## Tanzil Quran text (bundled)
 
@@ -53,8 +64,9 @@ indicated with a link to tanzil.net; and the copyright notice must be
 included in every copy. The notice is reproduced verbatim in
 `data/quran-text/index.json` (`notice`), in every generated surah page
 (`surah/<n>.html`, which carry the text), and below. This site does not
-modify the text and attributes Tanzil on every passage and in
-sources.html. Surah names and each verse's juz, page, ruku, hizb and
+modify the text and attributes Tanzil on every passage, in every
+page's footer (with a link to tanzil.net), on the verse images Read
+makes, and in sources.html. Surah names and each verse's juz, page, ruku, hizb and
 sajda fields in those files come from the alquran.cloud API.
 
 ```
@@ -87,7 +99,17 @@ published word-by-word translation rendered exactly as served; **no
 word-translation text is bundled in this repository**. Copyright
 remains with the translation's rights holders, credited in
 sources.html and in `data/sources.json` under `qcf-wbw-en`. Anyone
-redistributing that text must clear its own license. The bundled Leeds
+redistributing that text must clear its own license.
+
+Quran Foundation's developer terms (last updated 2026-09-14) ask for the
+attribution "Quran data provided by Quran Foundation" wherever its
+content shows, and cap caching of that content at one week. Each passage
+with word-by-word meanings ends with that line, as does the meaning on a
+vocabulary card; `assets/wordbw.js` dates every cached page of meanings
+and drops it after seven days. The site still calls the older
+unauthenticated endpoint (`api.quran.com/api/v4`); the terms' newer
+endpoint needs client credentials, which a static site cannot hold
+without a server-side proxy. The bundled Leeds
 morphology carries no English glosses, so nothing here overlaps the
 GPL corpus data.
 
@@ -234,10 +256,10 @@ draws on another output: `data/exports/` republishes Leeds-derived
 tables as downloadable CSV/JSON under the GPL, as stated on the export
 page.
 
-The GNU General Public License text is not bundled in this repository
-yet; upstream (corpus.quran.com) states "GNU General Public License"
-without pinning a version. Until a copy is added, obtain the license
-text from https://www.gnu.org/licenses/.
+Upstream (corpus.quran.com) states "GNU General Public License" without
+pinning a version. The text of version 3, the current version, is
+bundled verbatim as `LICENSE-GPL-3.0.txt`; every version is at
+https://www.gnu.org/licenses/.
 
 ## Generated images
 

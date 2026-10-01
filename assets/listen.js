@@ -244,6 +244,18 @@
       "Repeat: " + rmode + ". Press to change to " +
         (rmode === "off" ? "verse" : rmode === "verse" ? "passage" : "off"),
     );
+    // How many times each verse plays, shown only while verse repeat is
+    // on: forever (hold one verse), or 3, 5, 10 times each, then on.
+    var times = this.el("times");
+    if (times) {
+      times.hidden = !st.repeat;
+      var n = st.repeatTimes || 0;
+      times.textContent = n ? "×" + n + " each" : "×∞";
+      times.setAttribute(
+        "aria-label",
+        n ? "Each verse plays " + n + " times, then the next. Press to change." : "The verse repeats without end. Press to play each verse a set number of times.",
+      );
+    }
     this.paintSleep();
     var speed = this.el("speed");
     speed.textContent = st.rate + "×";
@@ -479,10 +491,16 @@
       "</div>" +
       '<div class="listen-extra" role="group" aria-label="Listening options">' +
       '<button type="button" class="button secondary listen-btn" data-listen-repeat aria-pressed="false">↻ Repeat off</button>' +
+      '<button type="button" class="button secondary listen-btn" data-listen-times hidden>×∞</button>' +
       '<button type="button" class="button secondary listen-btn" data-listen-speed aria-label="Playback speed">1×</button>' +
       '<button type="button" class="button secondary listen-btn" data-listen-sleep aria-pressed="false">☾ Sleep timer off</button>' +
+      '<button type="button" class="button secondary listen-btn" data-listen-hide aria-pressed="false">◐ Hide text to recite</button>' +
       "</div>" +
       '<div data-listen-support-slot></div>' +
+      // Credit for the recordings, once, in the sheet rather than on the bar.
+      '<p class="listen-credit t-annotation">Audio streamed from Islamic Network ' +
+      '(<a href="https://alquran.cloud/cdn" rel="noopener">cdn.islamic.network</a>); ' +
+      'each recording belongs to its reciter or publisher. <a href="/sources#apis-and-digital-tools">Sources</a></p>' +
       "</div>" +
       '<div class="listen-progress" aria-hidden="true"><span data-listen-progress></span></div>' +
       '<div class="listen-bar">' +
@@ -682,6 +700,34 @@
     this.el("repeat").addEventListener("click", function () {
       self.cycleRepeat();
     });
+    // Memorization: hide every verse's text; tapping a verse shows it
+    // again (style.css html[data-memorize]). Page state only, like Focus.
+    var hideBtn = this.el("hide");
+    if (hideBtn)
+      hideBtn.addEventListener("click", function () {
+        var on = !document.documentElement.hasAttribute("data-memorize");
+        document.documentElement.toggleAttribute("data-memorize", on);
+        document.querySelectorAll(".verse.is-revealed").forEach(function (v) {
+          v.classList.remove("is-revealed");
+        });
+        hideBtn.setAttribute("aria-pressed", String(on));
+        hideBtn.textContent = on ? "◐ Show all text" : "◐ Hide text to recite";
+      });
+    if (!window.__qdMemorizeTap) {
+      window.__qdMemorizeTap = true;
+      document.addEventListener("click", function (ev) {
+        if (!document.documentElement.hasAttribute("data-memorize")) return;
+        var t = ev.target;
+        if (!t.closest || t.closest("button, a, input, select, textarea, label")) return;
+        var v = t.closest(".verse");
+        if (v) v.classList.toggle("is-revealed");
+      });
+    }
+    var REPEAT_TIMES = [0, 3, 5, 10];
+    this.el("times").addEventListener("click", function () {
+      var cur = self.engine.repeatTimes || 0;
+      self.engine.setRepeatTimes(REPEAT_TIMES[(REPEAT_TIMES.indexOf(cur) + 1) % REPEAT_TIMES.length]);
+    });
     this.el("sleep").addEventListener("click", function () {
       self.cycleSleep();
     });
@@ -781,6 +827,7 @@
       mode: e.mode,
       rate: e.rate,
       repeat: e.repeat,
+      repeatTimes: e.repeatTimes,
       loop: e.loop,
       sleepAt: this._sleepAt || 0,
       armed: e.armed,
@@ -796,6 +843,7 @@
     e.leg = snap.leg || (snap.mode === "en" ? "en" : "ar");
     e.rate = snap.rate;
     e.repeat = snap.repeat;
+    e.repeatTimes = snap.repeatTimes || 0;
     e.loop = !!snap.loop;
     e.armed = snap.armed;
     if (snap.sleepAt && snap.sleepAt > Date.now()) this.setSleep(snap.sleepAt);

@@ -77,7 +77,7 @@
     <meta name="theme-color" content="#2b1d0e" />
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/","url":"https://divinediscourses.org/","name":"Divine Discourses: Read the Qur'an One Surah at a Time","description":"Read the Qur'an one surah at a time as a connected discourse: Arabic, translations, recitation, roots and structure, with every claim sourced and citable.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.3.0","dateModified":"2026-09-26"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://divinediscourses.org/read?s={search_term_string}"},"query-input":"required name=search_term_string"}}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/","url":"https://divinediscourses.org/","name":"Divine Discourses: Read the Qur'an One Surah at a Time","description":"Read the Qur'an one surah at a time as a connected discourse: Arabic, translations, recitation, roots and structure, with every claim sourced and citable.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.3.1","dateModified":"2026-10-01"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://divinediscourses.org/read?s={search_term_string}"},"query-input":"required name=search_term_string"}}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -204,80 +204,6 @@
         </p>
       </section>
 
-      <section id="welcomeBanner" hidden>
-        <div class="banner soft">
-          <div
-            style="
-              display: flex;
-              align-items: flex-start;
-              justify-content: space-between;
-              gap: 0.75rem 1.25rem;
-              flex-wrap: wrap;
-            "
-          >
-            <div>
-              <div
-                style="
-                  display: flex;
-                  gap: 0.5rem;
-                  flex-wrap: wrap;
-                  margin: 0 0 0.6rem;
-                "
-              >
-                <a
-                  class="button"
-                  id="welcomeNewHere"
-                  href="/about#new-here"
-                  style="min-height: 44px; display: inline-flex; align-items: center"
-                  >New to the Qur'an? Start here</a
-                >
-                <button
-                  type="button"
-                  id="welcomeTourBtn"
-                  class="button secondary"
-                  style="min-height: 44px"
-                >
-                  Take the 60-second tour
-                </button>
-              </div>
-              <p style="margin: 0; font-size: 0.88rem; color: var(--muted)">
-                You start in <strong>Simple</strong>, which is just the
-                reading. The gear ⚙ or keys
-                <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> add depth.
-              </p>
-            </div>
-            <button
-              type="button"
-              id="welcomeDismiss"
-              class="button secondary"
-              aria-label="Dismiss welcome"
-              title="Dismiss"
-              style="flex-shrink: 0"
-            >
-              ×
-            </button>
-          </div>
-        </div>
-      </section>
-      <script>
-        // Decide whether to show the welcome banner synchronously, right
-        // here, rather than leaving it to tour.js (loaded `defer`, so it
-        // only runs after the whole page has parsed) — a hidden section
-        // that a later script unhides is a real, measured layout shift
-        // (the whole page below it jumps down once it appears), not just
-        // a theoretical one. Reading localStorage directly here avoids
-        // waiting on assets/app.js's qdState to be built.
-        (function () {
-          try {
-            var raw = localStorage.getItem("qd_state");
-            var seen = raw && JSON.parse(raw).seen;
-            if (!seen) document.getElementById("welcomeBanner").hidden = false;
-          } catch (e) {}
-        })();
-      </script>
-
-
-
       <section id="dailySection" aria-live="polite">
         <div class="card">
           <div
@@ -342,6 +268,7 @@
               dir="rtl"
               style="margin: 0.2rem 0 0.6rem; font-size: 1.55rem; line-height: 1.9"
             ></p>
+            <p id="dailyVerseTr" class="daily-verse-tr" hidden></p>
             <button type="button" id="dailyNextVerse" class="button secondary">
               Show another verse
             </button>
@@ -354,6 +281,81 @@
           </p>
         </div>
       </section>
+
+      <section id="welcomeBanner" hidden>
+        <div class="banner soft">
+          <div
+            style="
+              display: flex;
+              align-items: flex-start;
+              justify-content: space-between;
+              gap: 0.75rem 1.25rem;
+              flex-wrap: wrap;
+            "
+          >
+            <div>
+              <div
+                style="
+                  display: flex;
+                  gap: 0.5rem;
+                  flex-wrap: wrap;
+                  margin: 0 0 0.6rem;
+                "
+              >
+                <a
+                  class="button"
+                  id="welcomeNewHere"
+                  href="/about#new-here"
+                  style="min-height: 44px; display: inline-flex; align-items: center"
+                  >New to the Qur'an? Start here</a
+                >
+                <button
+                  type="button"
+                  id="welcomeTourBtn"
+                  class="button secondary"
+                  style="min-height: 44px"
+                >
+                  Take the 60-second tour
+                </button>
+              </div>
+              <p style="margin: 0; font-size: 0.88rem; color: var(--muted)">
+                You start in <strong>Simple</strong>, which is just the
+                reading. Display (under Menu on a phone)<span class="key-hint">
+                or keys <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd></span> add depth.
+              </p>
+            </div>
+            <button
+              type="button"
+              id="welcomeDismiss"
+              class="button secondary"
+              aria-label="Dismiss welcome"
+              title="Dismiss"
+              style="flex-shrink: 0"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      </section>
+      <script>
+        // Decide whether to show the welcome banner synchronously, right
+        // here, rather than leaving it to tour.js (loaded `defer`, so it
+        // only runs after the whole page has parsed) — a hidden section
+        // that a later script unhides is a real, measured layout shift
+        // (the whole page below it jumps down once it appears), not just
+        // a theoretical one. Reading localStorage directly here avoids
+        // waiting on assets/app.js's qdState to be built.
+        (function () {
+          try {
+            var raw = localStorage.getItem("qd_state");
+            var seen = raw && JSON.parse(raw).seen;
+            if (!seen) document.getElementById("welcomeBanner").hidden = false;
+          } catch (e) {}
+        })();
+      </script>
+
+
+
 
       <section id="beginSection" class="workflow-section">
         <div class="section-heading">
@@ -470,20 +472,20 @@
         <div class="card verify-example">
           <h3>
             <span
-              class="badge ok"
+              class="badge nuanced"
               data-source-ids="farahi-primary mir-coherence-1986"
-              aria-label="Verified"
+              aria-label="Nuanced"
               tabindex="0"
-              title="Verified · corroborated by an independent secondary source"
-              >●</span
+              title="Nuanced · depends on a classification or method"
+              >~</span
             >
-            Verified · Farahi's Mufradat and Niẓām
+            Nuanced · Farahi's Mufradat and Niẓām
           </h3>
           <p class="claim">
             Farahi's <em>Mufradat al-Qur'an</em> and <em>Niẓām al-Qur'an</em> are foundational to the coherence-based reading school.
           </p>
           <p class="trace t-citation">
-            Independently corroborated by Mustansir Mir's 1986 monograph on Islahi's nazm method. Full citations on <a href="/sources">Sources</a>.
+            Corroborated by Mustansir Mir's 1986 monograph on Islahi's nazm method. Nuanced, not Verified: no modern edition or page of Farahi's own works has been checked here. Full citations on <a href="/sources">Sources</a>.
           </p>
           <p style="margin: 0.9rem 0 0">
             <a class="button secondary btn-secondary" href="/validation">See the worked example</a>
@@ -539,7 +541,9 @@
         <a href="/about#cite">Cite</a>
       </p>
       <p class="footer-license">
-        Site code MIT. Bundled data and fonts keep their own licenses; see
+        Arabic text: <a href="https://tanzil.net" rel="noopener">Tanzil Project</a>.
+        Grammar: <a href="https://corpus.quran.com" rel="noopener">Quranic Arabic Corpus</a>.
+        Site code MIT; all else keeps its own license, see
         <a href="/credits">Credits</a>.
       </p>
       <details class="footer-feedback">

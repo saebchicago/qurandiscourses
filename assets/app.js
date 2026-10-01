@@ -354,7 +354,7 @@
         <span class="small" id="transSummary">${qdEsc(transLabel)}</span>
         <button type="button" id="openTransPicker" class="btn-ghost">Change</button>
       </div>
-      <h4>Depth <span class="small" style="font-weight: 400">(keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>)</span></h4>
+      <h4>Depth <span class="small key-hint" style="font-weight: 400">(keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>)</span></h4>
       <div class="row"><select id="setDepth" aria-label="Depth level">
         <option value="simple" ${state.depth === "simple" ? "selected" : ""}>Simple — just read</option>
         <option value="study" ${state.depth === "study" ? "selected" : ""}>Study — analyze</option>
@@ -427,102 +427,14 @@
         save();
         applyTheme();
       });
-    // One file for everything the reader keeps in this browser, and a
-    // way back. Notes had their own Markdown export; reading place,
-    // pinned items, lens and worksheet entries and listening choices had
-    // none, so changing phones lost them. Only these keys are written or
-    // restored: never the passage cache, never anything a file adds.
-    const BACKUP_KEYS = [
-      "qd_state",
-      "qd_notes",
-      "qd_notebook_v1",
-      "qd_lenses_v1",
-      "qd_discovery_v1",
-      "qd_listen_mode_v2",
-      "qd_listen_voice_v1",
-    ];
     const exportBtn = document.getElementById("exportData");
-    if (exportBtn)
-      exportBtn.addEventListener("click", () => {
-        const data = {};
-        BACKUP_KEYS.forEach((k) => {
-          try {
-            const v = localStorage.getItem(k);
-            if (v != null) data[k] = v;
-          } catch (e) {}
-        });
-        const blob = new Blob(
-          [
-            JSON.stringify(
-              {
-                format: "divine-discourses-backup",
-                version: 1,
-                exported: new Date().toISOString(),
-                data: data,
-              },
-              null,
-              1,
-            ),
-          ],
-          { type: "application/json" },
-        );
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = "divine-discourses-backup.json";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-        if (window.qdToast) window.qdToast("Copy saved");
-      });
+    if (exportBtn) exportBtn.addEventListener("click", () => window.qdBackup.save());
     const importInput = document.getElementById("importData");
     if (importInput)
       importInput.addEventListener("change", () => {
         const file = importInput.files && importInput.files[0];
         importInput.value = "";
-        if (!file) return;
-        if (file.size > 5 * 1024 * 1024) {
-          if (window.qdToast) window.qdToast("That file is too large to be a copy from this site");
-          return;
-        }
-        file.text().then((text) => {
-          let parsed = null;
-          try {
-            parsed = JSON.parse(text);
-          } catch (e) {}
-          const data = parsed && parsed.format === "divine-discourses-backup" && parsed.data;
-          if (!data || typeof data !== "object") {
-            if (window.qdToast) window.qdToast("That file is not a copy saved from this site");
-            return;
-          }
-          const entries = BACKUP_KEYS.filter(
-            (k) => typeof data[k] === "string",
-          ).filter((k) => {
-            try {
-              JSON.parse(data[k]);
-              return true;
-            } catch (e) {
-              // The two listening choices are plain strings.
-              return k === "qd_listen_mode_v2" || k === "qd_listen_voice_v1";
-            }
-          });
-          if (!entries.length) {
-            if (window.qdToast) window.qdToast("That copy holds nothing to restore");
-            return;
-          }
-          if (
-            !window.confirm(
-              "Replace the notes, pinned items, reading place and choices in this browser with the ones in this copy?",
-            )
-          )
-            return;
-          entries.forEach((k) => {
-            try {
-              localStorage.setItem(k, data[k]);
-            } catch (e) {}
-          });
-          location.reload();
-        });
+        if (file) window.qdBackup.restore(file, "replace");
       });
     const clearBtn = document.getElementById("clearPrefs");
     if (clearBtn)
@@ -697,8 +609,33 @@
     return p;
   }
 
+  // Surahs the reader saved for offline reading (the offline save in assets/read-polish.js)
+  // keep their translation response in the "dd-saved" cache, which the
+  // service worker never prunes. Read only when the network fails.
+  async function savedApiResponse(url) {
+    try {
+      if (!("caches" in window)) return null;
+      const r = await caches.match(url, { cacheName: "dd-saved" });
+      if (!r) return null;
+      const json = await r.json();
+      return json && json.data ? json.data : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
   async function apiFetchUncached(url) {
-    const res = await fetch(url);
+    let res;
+    try {
+      res = await fetch(url);
+    } catch (netErr) {
+      const saved = await savedApiResponse(url);
+      if (saved) {
+        apiCachePut(url, saved);
+        return saved;
+      }
+      throw netErr;
+    }
     if (!res.ok) {
       // Carry the status so callers can tell a 404 (bad reference) from
       // a network failure — the two need different explanations.
@@ -828,6 +765,15 @@
       `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/editions/${editions.join(",")}`,
     );
     return qdMarkEditionMismatches(data, editions);
+  };
+
+  // The translation request Read makes for a whole surah, for saving it
+  // offline. Null when no translation is chosen.
+  window.qdSurahTranslationUrl = function (surah) {
+    const tr = editionList().slice(1);
+    return tr.length
+      ? `https://api.alquran.cloud/v1/surah/${surah}/editions/${tr.join(",")}`
+      : null;
   };
 
   window.qdFetchSurah = async function (surah) {
@@ -1038,6 +984,167 @@
       });
     });
   }
+
+  // One file for everything the reader keeps in this browser, and a
+  // way back. Notes had their own Markdown export; reading place,
+  // pinned items, lens and worksheet entries and listening choices had
+  // none, so changing phones lost them. Only these keys are written or
+  // restored: never the passage cache, never anything a file adds.
+  const BACKUP_KEYS = [
+    "qd_state",
+    "qd_notes",
+    "qd_notebook_v1",
+    "qd_lenses_v1",
+    "qd_discovery_v1",
+    "qd_listen_mode_v2",
+    "qd_listen_voice_v1",
+    "qd_vocab",
+  ];
+  // The listening choices are plain strings; every other key is JSON.
+  const PLAIN_KEYS = ["qd_listen_mode_v2", "qd_listen_voice_v1"];
+  const toast = (msg) => {
+    if (window.qdToast) window.qdToast(msg);
+  };
+  function readJSON(k, fallback) {
+    try {
+      const v = JSON.parse(localStorage.getItem(k));
+      return v == null ? fallback : v;
+    } catch (e) {
+      return fallback;
+    }
+  }
+  // Notes: keyed by verse; the later edit of the same verse wins.
+  function mergeNotes(mine, theirs) {
+    const out = Object.assign({}, mine);
+    let added = 0;
+    Object.keys(theirs || {}).forEach((ref) => {
+      const t = theirs[ref];
+      if (!t || typeof t.text !== "string") return;
+      const m = out[ref];
+      if (!m || String(t.updated || "") > String(m.updated || "")) {
+        if (!m || m.text !== t.text) added++;
+        out[ref] = t;
+      }
+    });
+    return { value: out, added };
+  }
+  // Pins: one per (type, ref); nothing already pinned is duplicated.
+  function mergePins(mine, theirs) {
+    const out = Array.isArray(mine) ? mine.slice() : [];
+    const have = new Set(out.map((p) => p && p.type + "|" + p.ref));
+    let added = 0;
+    (Array.isArray(theirs) ? theirs : []).forEach((p) => {
+      if (!p || !p.type || !p.ref) return;
+      const key = p.type + "|" + p.ref;
+      if (have.has(key)) return;
+      have.add(key);
+      out.push(p);
+      added++;
+    });
+    return { value: out, added };
+  }
+  window.qdBackup = {
+    keys: BACKUP_KEYS,
+    save() {
+      const data = {};
+      BACKUP_KEYS.forEach((k) => {
+        try {
+          const v = localStorage.getItem(k);
+          if (v != null) data[k] = v;
+        } catch (e) {}
+      });
+      const blob = new Blob(
+        [
+          JSON.stringify(
+            { format: "divine-discourses-backup", version: 1, exported: new Date().toISOString(), data: data },
+            null,
+            1,
+          ),
+        ],
+        { type: "application/json" },
+      );
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "divine-discourses-backup.json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      toast("Copy saved");
+    },
+    // mode "replace": every key in the copy replaces this browser's (then
+    // reload). mode "merge": only notes and pins, added to what is here,
+    // no reload; listeners re-render on qd:data-imported.
+    restore(file, mode) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast("That file is too large to be a copy from this site");
+        return Promise.resolve(null);
+      }
+      return file.text().then((text) => {
+        let parsed = null;
+        try {
+          parsed = JSON.parse(text);
+        } catch (e) {}
+        const data = parsed && parsed.format === "divine-discourses-backup" && parsed.data;
+        if (!data || typeof data !== "object") {
+          toast("That file is not a copy saved from this site");
+          return null;
+        }
+        const entries = BACKUP_KEYS.filter((k) => typeof data[k] === "string").filter((k) => {
+          if (PLAIN_KEYS.includes(k)) return true;
+          try {
+            JSON.parse(data[k]);
+            return true;
+          } catch (e) {
+            return false;
+          }
+        });
+        if (mode === "merge") {
+          let notesAdded = 0;
+          let pinsAdded = 0;
+          if (entries.includes("qd_notes")) {
+            const r = mergeNotes(readJSON("qd_notes", {}), JSON.parse(data.qd_notes));
+            notesAdded = r.added;
+            try {
+              localStorage.setItem("qd_notes", JSON.stringify(r.value));
+            } catch (e) {}
+          }
+          if (entries.includes("qd_notebook_v1")) {
+            const r = mergePins(readJSON("qd_notebook_v1", []), JSON.parse(data.qd_notebook_v1));
+            pinsAdded = r.added;
+            try {
+              localStorage.setItem("qd_notebook_v1", JSON.stringify(r.value));
+            } catch (e) {}
+          }
+          const result = { notes: notesAdded, pins: pinsAdded };
+          toast(
+            notesAdded || pinsAdded
+              ? "Added " + notesAdded + (notesAdded === 1 ? " note" : " notes") + " and " + pinsAdded + (pinsAdded === 1 ? " pin" : " pins")
+              : "Nothing new in that copy",
+          );
+          document.dispatchEvent(new CustomEvent("qd:data-imported", { detail: result }));
+          return result;
+        }
+        if (!entries.length) {
+          toast("That copy holds nothing to restore");
+          return null;
+        }
+        if (
+          !window.confirm(
+            "Replace the notes, pinned items, vocabulary progress, reading place and choices in this browser with the ones in this copy?",
+          )
+        )
+          return null;
+        entries.forEach((k) => {
+          try {
+            localStorage.setItem(k, data[k]);
+          } catch (e) {}
+        });
+        location.reload();
+        return { replaced: entries.length };
+      });
+    },
+  };
 
   window.qdState = state;
   window.qdSaveState = save;

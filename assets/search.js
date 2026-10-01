@@ -187,7 +187,50 @@
       else window.qdPassage.clear(passageHost);
     }
 
+    // A verse, root, juz, theme or named page gets a direct answer above
+    // the list, from the same router as the Ask box. The Search tab used
+    // to answer "2:255" and "رحم" with help pages only.
+    var directHost = document.createElement("div");
+    directHost.id = "searchDirect";
+    out.parentNode.insertBefore(directHost, passageHost || out);
+    var DIRECT = {
+      verse: function (r) {
+        var m = r.route.match(/s=(\d+)&a=(\d+)/);
+        return m ? "Read verse " + m[1] + ":" + m[2] : "Read this verse";
+      },
+      root: function () {
+        return "Open this root on Roots";
+      },
+      juz: function (r) {
+        var m = r.route.match(/j=(\d+)/);
+        return m ? "Read juz " + m[1] : "Browse the juz";
+      },
+      theme: function () {
+        return "Open this theme";
+      },
+      page: function () {
+        return "Go to that page";
+      },
+      glossary: function () {
+        return "Open the glossary entry";
+      },
+    };
+    function renderDirect(query) {
+      var r = window.parseAsk && query ? window.parseAsk(query) : null;
+      var label = r && r.route && DIRECT[r.type] ? DIRECT[r.type](r) : "";
+      // Any other Arabic: look the word up among the dictionary forms,
+      // by root and part of speech, with every occurrence (/words).
+      if (!label && /[\u0600-\u06FF]/.test(query || "")) {
+        r = { route: "/words?q=" + encodeURIComponent(query.trim()) };
+        label = "Find this Arabic word in Words";
+      }
+      directHost.innerHTML = label
+        ? '<p class="search-direct"><a class="button" href="' + esc(r.route) + '">' + esc(label) + " ›</a></p>"
+        : "";
+    }
+
     function run(query) {
+      renderDirect(query);
       renderPassage(query);
       if (!index) {
         pending = query;

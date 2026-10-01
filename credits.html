@@ -35,7 +35,7 @@
     <meta name="theme-color" content="#2b1d0e" />
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/credits","url":"https://divinediscourses.org/credits","name":"Credits and scholarly lineage · Divine Discourses","description":"A one-screen summary of the datasets, scholarly lineage, and build infrastructure behind Divine Discourses.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.3.0","dateModified":"2026-09-26"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Credits and scholarly lineage","item":"https://divinediscourses.org/credits"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/credits","url":"https://divinediscourses.org/credits","name":"Credits and scholarly lineage · Divine Discourses","description":"A one-screen summary of the datasets, scholarly lineage, and build infrastructure behind Divine Discourses.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.3.1","dateModified":"2026-10-01"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Credits and scholarly lineage","item":"https://divinediscourses.org/credits"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -177,7 +177,9 @@
               al-Husary, Mohamed al-Minshawi, Abdul Basit, Sudais, and Shuraim
               — chosen from the microphone button beside any verse. The
               recordings' own licensing is the CDN's to state, not this
-              project's; see <a href="/sources">Sources</a>.
+              project's, and it has not stated it:
+              <span class="badge pending" aria-label="Pending" tabindex="0" title="Pending · recording rights not yet stated by the provider">○</span>
+              Pending until it does. See <a href="/sources">Sources</a>.
             </li>
             <li>
               <strong>Word timings.</strong>
@@ -187,8 +189,10 @@
               <a href="https://github.com/cpfair/quran-align" rel="noopener">quran-align</a>
               by Collin Fair, whose data files are licensed CC BY 4.0. They were
               made for the everyayah.com recordings, so they are used only for
-              the reciters whose timings were measured to fit the recordings
-              Read plays: Mohamed al-Minshawi, Abdul Basit and Shuraim.
+              a reciter whose timings are measured to fit the recordings Read
+              plays. At present none of the five passes that test (see
+              <code>data/recitation/word-timings-report.json</code>), so no
+              words are highlighted for any reciter.
             </li>
             <li>
               <strong>English translation audio.</strong> The English leg of
@@ -196,12 +200,15 @@
               <code>en.walk</code>, which alquran.cloud's registry names
               “Ibrahim Walk”, read verse by verse — checked against the API on
               16 September 2026, and served by the CDN from its 192 kbps
-              directory. The recording reads Saheeh International: the same
-              registry says so of a companion edition that names him, and
-              everyayah.com, a separate site that also hosts per-ayah
+              directory. Ibrahim Walk's recording reads Saheeh International:
+              the same registry says so of a companion edition that names him,
+              and everyayah.com, a separate site that also hosts per-ayah
               recitation audio, files it under a directory named for that
-              translation — both checked the same
-              day. What is <em>not</em> established is the licensing:
+              translation — both checked the same day. Not yet established is
+              that the CDN's <code>en.walk</code> file is that same recording
+              (its clips differ in size from everyayah.com's), so Read does
+              not pair it with Saheeh International automatically. Also
+              <em>not</em> established is the licensing:
               neither the registry nor the CDN states who holds the recording
               or on what terms, so this project credits no one for it and
               claims no license. The <a href="/sources">Sources</a> entry
@@ -372,7 +379,9 @@
         <a href="/about#cite">Cite</a>
       </p>
       <p class="footer-license">
-        Site code MIT. Bundled data and fonts keep their own licenses; see
+        Arabic text: <a href="https://tanzil.net" rel="noopener">Tanzil Project</a>.
+        Grammar: <a href="https://corpus.quran.com" rel="noopener">Quranic Arabic Corpus</a>.
+        Site code MIT; all else keeps its own license, see
         <a href="/credits">Credits</a>.
       </p>
       <details class="footer-feedback">

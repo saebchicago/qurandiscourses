@@ -179,6 +179,7 @@
       var pinSrc = verse.querySelector(".notebook-pin-btn");
       row.innerHTML =
         (pinSrc ? '<button type="button" class="btn-utility va-pin" data-act="pin">📌 Pin</button>' : "") +
+        '<button type="button" class="btn-utility" data-act="image">Image</button>' +
         '<button type="button" class="btn-utility" data-act="ref">Copy reference</button>' +
         '<button type="button" class="btn-utility" data-act="text">Copy text</button>' +
         '<button type="button" class="btn-utility" data-act="reflect">Reflect</button>' +
@@ -200,6 +201,20 @@
               ref: pinSrc.dataset.notebookRef,
               label: pinSrc.dataset.notebookLabel || pinSrc.dataset.notebookRef,
             });
+          return;
+        }
+        if (b && b.getAttribute("data-act") === "image") {
+          // Loaded on first use: most readers never make an image, and
+          // the page holds a 45-request budget.
+          if (window.qdVerseCard) window.qdVerseCard(verse);
+          else {
+            var sc = document.createElement("script");
+            sc.src = "/assets/verse-card.js";
+            sc.onload = function () {
+              if (window.qdVerseCard) window.qdVerseCard(verse);
+            };
+            document.body.appendChild(sc);
+          }
           return;
         }
         if (!b || !window.qdCopyText) return;
@@ -241,7 +256,7 @@
         more.textContent = "⋯";
         more.setAttribute("aria-expanded", "false");
         more.setAttribute("aria-controls", row.id);
-        more.setAttribute("aria-label", "More for " + ref + ": copy, reflect, dossier");
+        more.setAttribute("aria-label", "More for " + ref + ": pin, image, copy, reflect, dossier");
         more.addEventListener("click", function () {
           row.hidden = !row.hidden;
           more.setAttribute("aria-expanded", String(!row.hidden));
@@ -525,4 +540,173 @@
       }
     });
   });
+})();
+
+/* Save this surah for offline reading (Read page). Kept in this file,
+   which Read already loads, rather than its own: the page holds a
+   45-request budget (verify-site).
+   ─────────────────────────────────────────────────
+   One button under the passage. Saving puts three things in the
+   "dd-saved" cache, which sw.js keeps across updates:
+     - data/quran-text/N.json   the Arabic (Tanzil, ships with the site)
+     - data/morphology/N.json   the word-by-word study data
+     - the translation response for the reader's chosen translations
+   The Read page itself and its scripts are already precached by sw.js.
+   Recitation audio is streamed and never stored: its licensing is not
+   established (see /sources), so the button says so.
+
+   Saved surahs are listed in localStorage (qd_saved_v1) only so the
+   button can say "Saved"; the cache is the truth, and removing a surah
+   deletes its entries from it. */
+(function () {
+  "use strict";
+
+  var CACHE = "dd-saved";
+  var LIST_KEY = "qd_saved_v1";
+  var supported = "caches" in window;
+
+  function list() {
+    try {
+      var v = JSON.parse(localStorage.getItem(LIST_KEY) || "{}");
+      return v && typeof v === "object" ? v : {};
+    } catch (e) {
+      return {};
+    }
+  }
+  function writeList(v) {
+    try {
+      localStorage.setItem(LIST_KEY, JSON.stringify(v));
+    } catch (e) {}
+  }
+  function toast(msg) {
+    if (window.qdToast) window.qdToast(msg);
+  }
+  function urlsFor(s) {
+    var urls = ["/data/quran-text/" + s + ".json", "/data/morphology/" + s + ".json"];
+    var tr = window.qdSurahTranslationUrl ? window.qdSurahTranslationUrl(s) : null;
+    return { local: urls, translation: tr };
+  }
+  function surahName(s) {
+    var m = (window.SURAHS || []).filter(function (x) {
+      return x.id === s;
+    })[0];
+    return m ? m.translit : "Surah " + s;
+  }
+
+  // The surah on screen, or 0 for a juz or nothing.
+  function currentSurah() {
+    var p = new URLSearchParams(location.search);
+    if (p.get("j") || p.get("juz")) return 0;
+    var s = parseInt(p.get("s"), 10);
+    return s >= 1 && s <= 114 ? s : 0;
+  }
+
+  function save(s) {
+    if (!supported) {
+      toast("This browser cannot keep pages offline");
+      return Promise.resolve(false);
+    }
+    var u = urlsFor(s);
+    return caches
+      .open(CACHE)
+      .then(function (cache) {
+        return Promise.all(u.local.map(function (url) {
+          return cache.add(url);
+        })).then(function () {
+          if (!u.translation) return false;
+          return cache.add(u.translation).then(
+            function () {
+              return true;
+            },
+            function () {
+              return false;
+            },
+          );
+        });
+      })
+      .then(function (withTranslation) {
+        var l = list();
+        l[s] = { saved: new Date().toISOString(), translation: !!withTranslation };
+        writeList(l);
+        // Ask the browser not to evict what the reader chose to keep.
+        if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function () {});
+        toast(
+          withTranslation
+            ? surahName(s) + " saved for offline reading"
+            : surahName(s) + " saved (Arabic only; the translation could not be saved)",
+        );
+        return true;
+      })
+      .catch(function () {
+        toast("Could not save. Check your connection and try again.");
+        return false;
+      });
+  }
+
+  function remove(s) {
+    var u = urlsFor(s);
+    var l = list();
+    delete l[s];
+    writeList(l);
+    if (!supported) return Promise.resolve();
+    return caches.open(CACHE).then(function (cache) {
+      var all = u.local.slice();
+      if (u.translation) all.push(u.translation);
+      return Promise.all(all.map(function (url) {
+        return cache.delete(url);
+      }));
+    }).then(function () {
+      toast(surahName(s) + " removed from offline");
+    });
+  }
+
+  var bar = null;
+  function render() {
+    var s = currentSurah();
+    var container = document.getElementById("verseContainer");
+    if (!container || !container.querySelector(".verse") || !s || !supported) {
+      if (bar) bar.hidden = true;
+      return;
+    }
+    if (!bar) {
+      bar = document.createElement("div");
+      bar.className = "offline-save";
+      bar.addEventListener("click", function (e) {
+        var b = e.target.closest && e.target.closest("[data-offline]");
+        if (!b) return;
+        var cur = currentSurah();
+        if (!cur) return;
+        b.disabled = true;
+        (b.getAttribute("data-offline") === "save" ? save(cur) : remove(cur)).then(render, render);
+      });
+      container.parentNode.insertBefore(bar, container.nextSibling);
+    }
+    var saved = list()[s];
+    bar.hidden = false;
+    bar.innerHTML = saved
+      ? '<p class="offline-save-row"><span>✓ ' + surahName(s) + " is saved for offline reading" +
+        (saved.translation ? "" : " (Arabic only)") +
+        '.</span> <button type="button" class="btn-utility" data-offline="remove">Remove</button></p>'
+      : '<p class="offline-save-row"><button type="button" class="button secondary" id="saveOfflineBtn" data-offline="save">Save ' +
+        surahName(s) + " for offline reading</button></p>" +
+        '<p class="t-annotation offline-save-note">Keeps the Arabic, word data and your translations in this browser. Recitation audio still needs a connection.</p>';
+  }
+
+  window.qdOfflineSave = { save: save, remove: remove, list: list };
+
+  function init() {
+    render();
+    document.addEventListener("qd:verse-loaded", function () {
+      // The passage renders after the event; wait a frame for it.
+      setTimeout(render, 0);
+    });
+    var container = document.getElementById("verseContainer");
+    if (container && window.MutationObserver) {
+      new MutationObserver(function () {
+        if (!bar || bar.hidden) render();
+      }).observe(container, { childList: true });
+    }
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
 })();

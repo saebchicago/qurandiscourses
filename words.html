@@ -35,7 +35,7 @@
     <meta name="theme-color" content="#2b1d0e" />
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/words","url":"https://divinediscourses.org/words","name":"Search Qur'anic Arabic word forms · Divine Discourses","description":"Search all 4,832 dictionary forms of Qur'anic Arabic by Arabic, transliteration or root, with frequency, part of speech and first occurrence.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.3.0","dateModified":"2026-09-26"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Search Qur'anic Arabic word forms","item":"https://divinediscourses.org/words"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/words","url":"https://divinediscourses.org/words","name":"Search Qur'anic Arabic word forms · Divine Discourses","description":"Search all 4,832 dictionary forms of Qur'anic Arabic by Arabic, transliteration or root, with frequency, part of speech and first occurrence.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.3.1","dateModified":"2026-10-01"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Search Qur'anic Arabic word forms","item":"https://divinediscourses.org/words"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -149,6 +149,17 @@
                 font: inherit;
               "
             />
+          </p>
+          <p class="word-pos-row" style="margin: 0.4rem 0">
+            <label for="wordPos">Part of speech</label>
+            <select id="wordPos" style="min-height: 44px; margin-inline-start: 0.4rem">
+              <option value="">Any</option>
+              <option value="V">Verbs</option>
+              <option value="N">Nouns</option>
+              <option value="ADJ">Adjectives</option>
+              <option value="PN">Proper names</option>
+              <option value="other">Particles, pronouns and others</option>
+            </select>
           </p>
           <p
             class="ask-chips"
@@ -407,7 +418,9 @@
         <a href="/about#cite">Cite</a>
       </p>
       <p class="footer-license">
-        Site code MIT. Bundled data and fonts keep their own licenses; see
+        Arabic text: <a href="https://tanzil.net" rel="noopener">Tanzil Project</a>.
+        Grammar: <a href="https://corpus.quran.com" rel="noopener">Quranic Arabic Corpus</a>.
+        Site code MIT; all else keeps its own license, see
         <a href="/credits">Credits</a>.
       </p>
       <details class="footer-feedback">
@@ -812,9 +825,21 @@
           });
         });
 
+        // Part of speech (Leeds tags): the grammar half of word search.
+        // With no text, a chosen part of speech lists every lemma of it,
+        // most frequent first (all 1,475 verbs, say).
+        var posSel = document.getElementById("wordPos");
+        var MAIN_POS = { V: 1, N: 1, ADJ: 1, PN: 1 };
+        function posOk(e, pos) {
+          if (!pos) return true;
+          if (pos === "other") return !MAIN_POS[e.pos];
+          return e.pos === pos;
+        }
+
         function render() {
           var q = input.value.trim();
-          if (!q) {
+          var pos = posSel ? posSel.value : "";
+          if (!q && !pos) {
             table.hidden = true;
             moreBtn.hidden = true;
             countEl.textContent = "";
@@ -824,7 +849,7 @@
           var qLat = foldLatin(q);
           var qAr = /[؀-ۿ]/.test(q) ? skeleton(q) : "";
           current = index.filter(function (e) {
-            return matches(e, q, qFlat, qLat, qAr);
+            return posOk(e, pos) && (!q || matches(e, q, qFlat, qLat, qAr));
           });
           countEl.textContent =
             current.length.toLocaleString() +
@@ -853,6 +878,11 @@
           render();
         });
 
+        if (posSel)
+          posSel.addEventListener("change", function () {
+            input.dispatchEvent(new Event("input"));
+          });
+
         input.addEventListener("input", function () {
           showing = INITIAL;
           if (index) {
@@ -877,10 +907,13 @@
 
         // ?q= deep link — whitelisted to Arabic letters, Latin letters,
         // digits-free transliteration punctuation (guide §5).
-        var q = new URLSearchParams(location.search).get("q");
-        if (q) {
-          q = q.replace(/[^؀-ۿa-zA-Z'\-\s]/g, "").slice(0, 40);
-          if (q) {
+        var params = new URLSearchParams(location.search);
+        var q = params.get("q");
+        var qpos = params.get("pos");
+        if (posSel && qpos && /^(V|N|ADJ|PN|other)$/.test(qpos)) posSel.value = qpos;
+        if (q || (posSel && posSel.value)) {
+          q = (q || "").replace(/[^؀-ۿa-zA-Z'\-\s]/g, "").slice(0, 40);
+          if (q || posSel.value) {
             input.value = q;
             countEl.textContent = "Loading index…";
             loadIndex().then(render, function () {

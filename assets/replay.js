@@ -258,6 +258,10 @@
     playing = false;
     $("audioNote").hidden = false;
     $("btnPlay").hidden = true;
+    // The note sits below the controls; say it too, so the switch from
+    // Play to stepping is never silent for a screen-reader user.
+    var live = $("replayLive");
+    if (live) live.textContent = "Audio unavailable. Step through the surah with the previous and next buttons.";
   }
 
   function playCurrent() {

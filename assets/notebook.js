@@ -150,6 +150,26 @@
     if (toggleEl) toggleEl.setAttribute("aria-expanded", "false");
   }
 
+  // "Add from a saved copy": the backup file (Menu > Display > Save a
+  // copy of my data) merged into this browser's pins, never replacing
+  // them. qdBackup is in app.js; the file never leaves the browser.
+  function importControl() {
+    var label = document.createElement("label");
+    label.className = "button secondary notebook-import";
+    label.textContent = "Add pins from a saved copy";
+    var input = document.createElement("input");
+    input.type = "file";
+    input.accept = "application/json,.json";
+    input.hidden = true;
+    input.addEventListener("change", function () {
+      var f = input.files && input.files[0];
+      input.value = "";
+      if (f && window.qdBackup) window.qdBackup.restore(f, "merge");
+    });
+    label.appendChild(input);
+    return label;
+  }
+
   function renderPanel() {
     if (!panelEl) return;
     updateCount();
@@ -181,6 +201,12 @@
       empty.textContent =
         "Nothing pinned yet. Look for a 📌 Pin button next to a verse or a root.";
       panelEl.appendChild(empty);
+      if (window.qdBackup) {
+        var emptyActions = document.createElement("div");
+        emptyActions.className = "notebook-actions";
+        emptyActions.appendChild(importControl());
+        panelEl.appendChild(emptyActions);
+      }
       return;
     }
 
@@ -206,6 +232,7 @@
       }
     });
     actions.appendChild(clearBtn);
+    if (window.qdBackup) actions.appendChild(importControl());
     panelEl.appendChild(actions);
   }
 
@@ -267,6 +294,10 @@
     load();
     ensureUI();
     enhance(document);
+    document.addEventListener("qd:data-imported", function () {
+      load();
+      renderPanel();
+    });
   }
 
   if (document.readyState === "loading") {
