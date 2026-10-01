@@ -14,6 +14,10 @@
   "use strict";
 
   var player = null;
+  // Carried across a re-render: changing depth or translations rebuilds
+  // the passage, and without this a reader forty verses into al-Baqarah
+  // is dropped back to verse 1 with the audio stopped. Restored only
+  // onto the same passage (its first and last global ayah numbers).
   var carry = null;
   var MODE_KEY = "qd_listen_mode_v2";
 
@@ -172,12 +176,25 @@
         }
       },
     });
+    // Name the leg that failed: a missing translation clip is not the
+    // Arabic reciter's fault, and the remedy differs.
     this._onAudioError = function () {
-      self._error = "Audio could not load. Check your connection or choose another Arabic reciter.";
+      var le = self.engine.lastError || {};
+      var it = self.engine.items[le.idx];
+      var ref = it ? it.surah + ":" + it.ayah : "this verse";
+      self._errorLeg = le.leg || "ar";
+      if (le.leg === "en")
+        self._error = le.skipped
+          ? "Translation audio for " + ref + " did not load; continuing with the Arabic."
+          : "Translation audio could not load. Check your connection, or switch to Arabic in listening options.";
+      else self._error = "Audio could not load. Check your connection or choose another Arabic reciter.";
       self.render(self.engine.state());
     };
+    // Cleared once the failed kind of audio plays again; a skipped
+    // translation note stays up while the Arabic it fell back to plays.
     this._onAudioPlaying = function () {
       if (!self._error) return;
+      if (self._errorLeg === "en" && self.engine.leg !== "en") return;
       self._error = "";
       self.render(self.engine.state());
     };

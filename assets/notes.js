@@ -430,7 +430,14 @@
       flushPendingSave();
       render();
     });
+    // iOS Safari often skips beforeunload (and a home-screen app is
+    // usually suspended, not unloaded): pagehide and a hidden page are
+    // the moments it reliably gives, so the last 400ms of typing is kept.
     window.addEventListener("beforeunload", flushPendingSave);
+    window.addEventListener("pagehide", flushPendingSave);
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "hidden") flushPendingSave();
+    });
     render();
   }
 
