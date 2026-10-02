@@ -16,6 +16,7 @@ on:
     branches-ignore: [main]
     paths:
       - scripts/build-quran-text.mjs
+      - scripts/build-quran-text.test.mjs
       - .github/workflows/quran-text.yml
   schedule:
     - cron: "41 6 1 * *"
@@ -40,6 +41,9 @@ jobs:
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 22
+
+      - name: Test text integrity and check-mode isolation
+        run: node --test scripts/build-quran-text.test.mjs
 
       - name: Check against upstream (main)
         if: github.ref == 'refs/heads/main'
