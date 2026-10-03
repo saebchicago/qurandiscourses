@@ -190,7 +190,9 @@
               })
               .join(", ") +
             "; this reciter's timings did not fit the recordings Read plays."
-        : "";
+        : report
+          ? "Word highlighting is not offered: no word-timing set has been shown to fit the recordings Read plays."
+          : "";
     });
   }
 

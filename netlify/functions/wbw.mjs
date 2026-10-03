@@ -9,12 +9,14 @@
 //
 // CONFIGURATION (Netlify environment variables; never in the repository):
 //   QF_CLIENT_ID, QF_CLIENT_SECRET   issued by Quran Foundation (request access)
-//   QF_OAUTH_TOKEN_URL               the token endpoint for the chosen environment
-//   QF_CONTENT_BASE_URL              optional; default below
-// With any of the first three missing the function answers 503
+//   QF_OAUTH_TOKEN_URL               token endpoint of the chosen environment
+//   QF_CONTENT_BASE_URL              Content API base of the SAME environment
+// Tokens are environment-specific (prelive vs production), so the token and
+// content hosts are both required, never defaulted: a mismatch authenticates
+// and then 401s. With any of the four missing the function answers 503
 // {"error":"not_configured"} and the page falls back (assets/wordbw.js).
 //
-// NOT GUESSED: the token URL has no default, because the official docs
+// NOT GUESSED: neither URL has a default, because the official docs
 // could not be read from the session that wrote this. Take it from
 // https://api-docs.quran.foundation/docs/quickstart and confirm on prelive.
 //
@@ -24,7 +26,6 @@
 // Caching: the terms cap Quran Foundation content at one week; replies are
 // marked cacheable for one hour.
 
-const DEFAULT_BASE = "https://apis.quran.foundation/content/api/v4";
 const PER_PAGE = 50;
 const TIMEOUT_MS = 8000;
 const MAX_ATTEMPTS = 3;
@@ -115,21 +116,28 @@ export async function handle(req, { env = process.env, fetchImpl = fetch, sleep 
   if (req.method !== "GET") return json(405, { error: "method_not_allowed" }, { allow: "GET" });
   const query = parseQuery(req.url);
   if (!query) return json(400, { error: "bad_request" });
-  if (!env.QF_CLIENT_ID || !env.QF_CLIENT_SECRET || !env.QF_OAUTH_TOKEN_URL)
+  if (!env.QF_CLIENT_ID || !env.QF_CLIENT_SECRET || !env.QF_OAUTH_TOKEN_URL || !env.QF_CONTENT_BASE_URL)
     return json(503, { error: "not_configured" }, { "cache-control": "no-store" });
-  const base = (env.QF_CONTENT_BASE_URL || DEFAULT_BASE).replace(/\/$/, "");
+  const base = env.QF_CONTENT_BASE_URL.replace(/\/$/, "");
   const url = `${base}/verses/by_chapter/${query.chapter}?language=en&words=true&word_fields=text_uthmani&per_page=${PER_PAGE}&page=${query.page}`;
   try {
-    const token = await getToken(env, fetchImpl, sleep, now);
-    const res = await withRetry(
-      () =>
-        fetchImpl(url, {
-          headers: { "x-auth-token": token, "x-client-id": env.QF_CLIENT_ID, accept: "application/json" },
-          signal: AbortSignal.timeout(TIMEOUT_MS),
-        }),
-      sleep,
-    );
-    if (res.status === 401 || res.status === 403) resetTokenCache();
+    const call = async () => {
+      const token = await getToken(env, fetchImpl, sleep, now);
+      return withRetry(
+        () =>
+          fetchImpl(url, {
+            headers: { "x-auth-token": token, "x-client-id": env.QF_CLIENT_ID, accept: "application/json" },
+            signal: AbortSignal.timeout(TIMEOUT_MS),
+          }),
+        sleep,
+      );
+    };
+    let res = await call();
+    // A token revoked before its recorded expiry: drop it and retry once.
+    if (res.status === 401 || res.status === 403) {
+      resetTokenCache();
+      res = await call();
+    }
     if (!res.ok) return json(502, { error: "upstream_status", status: res.status }, { "cache-control": "no-store" });
     const payload = validatePayload(await res.json());
     if (!payload) return json(502, { error: "upstream_shape" }, { "cache-control": "no-store" });

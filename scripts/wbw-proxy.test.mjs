@@ -1,8 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { handle, parseQuery, validatePayload, resetTokenCache } from "./wbw.mjs";
+import { handle, parseQuery, validatePayload, resetTokenCache } from "../netlify/functions/wbw.mjs";
 
-const ENV = { QF_CLIENT_ID: "id", QF_CLIENT_SECRET: "sekret", QF_OAUTH_TOKEN_URL: "https://auth.example/oauth2/token" };
+const ENV = { QF_CLIENT_ID: "id", QF_CLIENT_SECRET: "sekret", QF_OAUTH_TOKEN_URL: "https://auth.example/oauth2/token", QF_CONTENT_BASE_URL: "https://api.example/content/api/v4" };
 const req = (q = "chapter=1&page=1", method = "GET") => new Request(`https://x.test/api/wbw?${q}`, { method });
 const verse = { verse_key: "1:1", words: [{ char_type_name: "word", text_uthmani: "بِسْمِ", translation: { text: "In (the) name" }, extra: 1 }], id: 9 };
 const ok = (b, h = {}) => new Response(JSON.stringify(b), { status: 200, headers: h });
@@ -40,7 +40,7 @@ test("sends the credentialed contract, reduces the payload, never leaks the secr
   assert.deepEqual(Object.keys(body.verses[0]), ["verse_key", "words"]);
   assert.deepEqual(Object.keys(body.verses[0].words[0]), ["char_type_name", "text_uthmani", "translation"]);
   const call = log.find((c) => !c.url.includes("oauth2"));
-  assert.match(call.url, /^https:\/\/apis\.quran\.foundation\/content\/api\/v4\/verses\/by_chapter\/1\?language=en&words=true/);
+  assert.match(call.url, /^https:\/\/api\.example\/content\/api\/v4\/verses\/by_chapter\/1\?language=en&words=true/);
   assert.equal(call.init.headers["x-auth-token"], "tok");
   assert.equal(call.init.headers["x-client-id"], "id");
   assert.ok(!JSON.stringify(body).includes("sekret"));
@@ -79,11 +79,24 @@ test("schema drift is a 502, not passed through", async () => {
   assert.equal(validatePayload(null), null);
 });
 
-test("a rejected token is dropped so the next call re-authenticates", async () => {
+test("a rejected token is refreshed and the call retried once", async () => {
+  resetTokenCache();
+  const log = [];
+  let n = 0;
+  const f = router(log, () => (++n === 1 ? new Response("", { status: 401 }) : ok({ verses: [verse] })));
+  assert.equal((await handle(req(), { env: ENV, sleep, fetchImpl: f })).status, 200);
+  assert.equal(log.filter((c) => c.url.includes("oauth2")).length, 2);
+});
+
+test("a token still rejected after the retry is a 502", async () => {
   resetTokenCache();
   const log = [];
   const f = router(log, () => new Response("", { status: 401 }));
   assert.equal((await handle(req(), { env: ENV, sleep, fetchImpl: f })).status, 502);
-  await handle(req(), { env: ENV, sleep, fetchImpl: f });
-  assert.equal(log.filter((c) => c.url.includes("oauth2")).length, 2);
+  assert.equal(log.filter((c) => !c.url.includes("oauth2")).length, 2);
+});
+
+test("content base URL is required, never defaulted", async () => {
+  const { QF_CONTENT_BASE_URL, ...rest } = ENV;
+  assert.equal((await handle(req(), { env: rest, sleep })).status, 503);
 });

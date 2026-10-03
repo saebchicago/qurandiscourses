@@ -56,7 +56,8 @@ jobs:
           node scripts/check-exports-sync.mjs
           node scripts/check-safe-key.mjs
           node scripts/validate-evidence.mjs
-          node --test netlify/functions/wbw.test.mjs
+          node scripts/check-word-timings-state.mjs
+          node --test scripts/wbw-proxy.test.mjs
 
       - name: Validate navigation and deployment headers
         run: |
