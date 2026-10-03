@@ -120,11 +120,13 @@
       PER_PAGE +
       "&page=" +
       page;
-    return fetch(url)
-      .then(function (r) {
-        if (!r.ok) throw new Error("HTTP " + r.status);
-        return r.json();
-      })
+    var get = window.qdWbwFetch
+      ? window.qdWbwFetch(surah, page, url)
+      : fetch(url).then(function (r) {
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return r.json();
+        });
+    return get
       .then(function (json) {
         var norm = normalize(json);
         cachePut(key, norm);
