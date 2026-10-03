@@ -112,7 +112,7 @@ authenticates to Quran Foundation's Content API with OAuth2 client
 credentials held only in Netlify environment variables (`QF_CLIENT_ID`,
 `QF_CLIENT_SECRET`, `QF_OAUTH_TOKEN_URL`). **Status: code shipped,
 credentials not yet provisioned.** Until they are, the proxy answers 503
-and `assets/wbw-fetch.js` falls back to the older unauthenticated endpoint
+and `assets/wordbw.js` falls back (and stays off until its `PROXY_ENABLED` flag is set) to the older unauthenticated endpoint
 (`api.quran.com/api/v4`), the same source and edition, so nothing is
 substituted. Remove that fallback once the proxy is live. The proxy
 reduces replies to the fields the page uses, rejects any other shape, and

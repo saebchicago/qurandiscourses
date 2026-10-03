@@ -12,7 +12,7 @@
 //   QF_OAUTH_TOKEN_URL               the token endpoint for the chosen environment
 //   QF_CONTENT_BASE_URL              optional; default below
 // With any of the first three missing the function answers 503
-// {"error":"not_configured"} and the page falls back (assets/wbw-fetch.js).
+// {"error":"not_configured"} and the page falls back (assets/wordbw.js).
 //
 // NOT GUESSED: the token URL has no default, because the official docs
 // could not be read from the session that wrote this. Take it from
