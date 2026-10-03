@@ -120,11 +120,13 @@
       PER_PAGE +
       "&page=" +
       page;
-    return fetch(url)
-      .then(function (r) {
-        if (!r.ok) throw new Error("HTTP " + r.status);
-        return r.json();
-      })
+    var get = window.qdWbwFetch
+      ? window.qdWbwFetch(surah, page, url)
+      : fetch(url).then(function (r) {
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return r.json();
+        });
+    return get
       .then(function (json) {
         var norm = normalize(json);
         cachePut(key, norm);
@@ -201,6 +203,44 @@
         });
     });
   }
+
+  // ── Fetch path: credentialed proxy first, legacy route as fallback ──
+  // Delete the legacy branch once the proxy is live.
+  // Flip to true once /api/wbw is deployed with Quran Foundation credentials
+  // (netlify/functions/wbw.mjs). While false nothing probes the endpoint, so
+  // a static host logs no failed requests. With it true, a 503 or 404 still
+  // falls back to the legacy route for the rest of the session.
+  var PROXY_ENABLED = false;
+  var proxyState = PROXY_ENABLED ? "unknown" : "absent"; // "unknown" | "up" | "absent"
+
+  function shaped(j) {
+    return !!(j && Array.isArray(j.verses) && j.verses.length);
+  }
+
+  function legacy(url) {
+    return fetch(url).then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
+    });
+  }
+
+  window.qdWbwFetch = function (surah, page, legacyUrl) {
+    if (proxyState === "absent") return legacy(legacyUrl);
+    return fetch("/api/wbw?chapter=" + encodeURIComponent(surah) + "&page=" + encodeURIComponent(page)).then(
+      function (r) {
+        if (r.status === 503 || r.status === 404) {
+          proxyState = "absent";
+          return legacy(legacyUrl);
+        }
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json().then(function (j) {
+          if (!shaped(j)) throw new Error("unexpected shape");
+          proxyState = "up";
+          return j;
+        });
+      },
+    );
+  };
 
   window.qdWbw = { fill: fill };
 })();

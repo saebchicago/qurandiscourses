@@ -163,13 +163,14 @@
     var page = Math.ceil(ayah / PER_PAGE);
     var key = surah + ":" + page;
     if (!pages[key]) {
-      pages[key] = fetch(
-        API + encodeURIComponent(surah) + "?language=en&words=true&word_fields=text_uthmani&per_page=" + PER_PAGE + "&page=" + page,
-      )
-        .then(function (res) {
-          if (!res.ok) throw new Error("HTTP " + res.status);
-          return res.json();
-        })
+      var legacyUrl =
+        API + encodeURIComponent(surah) + "?language=en&words=true&word_fields=text_uthmani&per_page=" + PER_PAGE + "&page=" + page;
+      pages[key] = (window.qdWbwFetch
+        ? window.qdWbwFetch(surah, page, legacyUrl)
+        : fetch(legacyUrl).then(function (res) {
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            return res.json();
+          }))
         .catch(function (e) {
           delete pages[key];
           throw e;

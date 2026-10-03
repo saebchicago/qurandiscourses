@@ -106,10 +106,19 @@ attribution "Quran data provided by Quran Foundation" wherever its
 content shows, and cap caching of that content at one week. Each passage
 with word-by-word meanings ends with that line, as does the meaning on a
 vocabulary card; `assets/wordbw.js` dates every cached page of meanings
-and drops it after seven days. The site still calls the older
-unauthenticated endpoint (`api.quran.com/api/v4`); the terms' newer
-endpoint needs client credentials, which a static site cannot hold
-without a server-side proxy. The bundled Leeds
+and drops it after seven days. The word-by-word meanings are requested through the site's own
+same-origin proxy (`netlify/functions/wbw.mjs`, `/api/wbw`), which
+authenticates to Quran Foundation's Content API with OAuth2 client
+credentials held only in Netlify environment variables (`QF_CLIENT_ID`,
+`QF_CLIENT_SECRET`, `QF_OAUTH_TOKEN_URL`, `QF_CONTENT_BASE_URL`, the last two from the same
+Quran Foundation environment). **Status: code shipped,
+credentials not yet provisioned.** Until they are, the proxy answers 503
+and `assets/wordbw.js` falls back (and stays off until its `PROXY_ENABLED` flag is set) to the older unauthenticated endpoint
+(`api.quran.com/api/v4`), the same source and edition, so nothing is
+substituted. Remove that fallback once the proxy is live. The proxy
+reduces replies to the fields the page uses, rejects any other shape, and
+marks replies cacheable for one hour (within the one-week cap). The
+bundled Leeds
 morphology carries no English glosses, so nothing here overlaps the
 GPL corpus data.
 
