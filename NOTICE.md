@@ -226,7 +226,7 @@ licenses, listed above): `ask-routes.json` (the Ask box routing tables),
 `case-studies.json`, `citations.bib` (generated
 citation metadata for the site, its export tables, and its cited
 sources), `changelog.json` (the changelog entry registry behind changelog.html
-and feed.xml), `claims.json`, `page-dates.json` (when each page's content
+and feed.xml), `claims.json`, `corrections.json` (the public corrections log behind corrections.html), `reviewers.json` (credited expert reviewers, only with their consent), `page-dates.json` (when each page's content
 last changed, behind sitemap.xml and each page's dateModified), `contributors.json` (the contributor
 roster behind credits.html), `replications.json` (published figures
 reproduced on validation.html; each carries a short quotation from its
