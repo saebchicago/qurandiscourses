@@ -41,7 +41,7 @@
 
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { computedDate } from "./lib/computed-date.mjs";
 
@@ -68,6 +68,17 @@ const PAUSE_MARKS = /[\u06D6-\u06DC]/;
 const EXPECTED_SURAHS = 114;
 const EXPECTED_AYAHS = 6236;
 
+export function fetchFailureDetail(error) {
+  const parts = [];
+  const seen = new Set();
+  for (let current = error; current && !seen.has(current); current = current.cause) {
+    seen.add(current);
+    const code = typeof current.code === "string" ? current.code : current.name;
+    parts.push([code, current.message].filter(Boolean).join(": "));
+  }
+  return parts.join(" <- ") || "unknown fetch failure";
+}
+
 async function get(url, as) {
   let lastErr;
   for (let attempt = 1; attempt <= 3; attempt++) {
@@ -80,16 +91,16 @@ async function get(url, as) {
       return as === "json" ? await res.json() : await res.text();
     } catch (e) {
       lastErr = e;
-      console.log(`  attempt ${attempt} failed for ${url}: ${e.message}`);
-      await new Promise((r) => setTimeout(r, 2000 * attempt));
+      console.log(`  attempt ${attempt} failed for ${url}: ${fetchFailureDetail(e)}`);
+      if (attempt < 3) await new Promise((r) => setTimeout(r, 2000 * attempt));
     }
   }
-  throw new Error(`could not fetch ${url}: ${lastErr && lastErr.message}`);
+  throw new Error(`could not fetch ${url}: ${fetchFailureDetail(lastErr)}`);
 }
 
 // txt-2 is "surah|ayah|text" per line, then a block of "#" comment lines
 // carrying the copyright notice.
-function parseTanzil(raw) {
+export function parseTanzil(raw) {
   const text = raw.replace(/^﻿/, "");
   const verses = new Map();
   const notice = [];
@@ -101,7 +112,9 @@ function parseTanzil(raw) {
     if (!line.trim()) continue;
     const m = /^(\d+)\|(\d+)\|(.*)$/.exec(line);
     if (!m) throw new Error(`unexpected Tanzil line: ${line.slice(0, 80)}`);
-    verses.set(`${m[1]}:${m[2]}`, m[3]);
+    const ref = `${m[1]}:${m[2]}`;
+    if (verses.has(ref)) throw new Error(`duplicate Tanzil verse: ${ref}`);
+    verses.set(ref, m[3]);
   }
   return { verses, notice };
 }
@@ -141,7 +154,7 @@ function compareCopies(api, tz) {
   return { identical, differing, moreInServedCopy: list(moreInServed), moreInTanzil: list(moreInTanzil) };
 }
 
-function hashText(tz) {
+export function hashText(tz) {
   const h = createHash("sha256");
   for (const [ref, text] of tz.verses) h.update(`${ref}|${text}\n`);
   for (const line of tz.notice) h.update(line + "\n");
@@ -176,17 +189,49 @@ function surahFile(s, tz, edition) {
   return `${headJson},"edition":${JSON.stringify(edition)},"ayahs":[\n${lines.join(",\n")}\n]}\n`;
 }
 
-async function main() {
+export function checkBundledText(tz, prior) {
+  if (!prior) throw new Error("check: data/quran-text/ has not been built yet.");
+  // Check mode no longer fetches structural metadata. Pin the numbering to
+  // the reviewed, committed inventory instead, without weakening validation.
+  if (!Array.isArray(prior.surahs) || prior.surahs.length !== EXPECTED_SURAHS)
+    throw new Error("check: committed surah inventory is invalid");
+  let count = 0;
+  prior.surahs.forEach((surah, i) => {
+    if (surah.number !== i + 1 || !Number.isInteger(surah.numberOfAyahs) || surah.numberOfAyahs < 1)
+      throw new Error("check: committed surah numbering is invalid");
+    for (let ayah = 1; ayah <= surah.numberOfAyahs; ayah++) {
+      const ref = `${surah.number}:${ayah}`;
+      if (!tz.verses.has(ref)) throw new Error(`check: Tanzil numbering differs at ${ref}`);
+      count++;
+    }
+  });
+  if (count !== EXPECTED_AYAHS || tz.verses.size !== count)
+    throw new Error("check: Tanzil verse count differs from the committed inventory");
+  const sha256 = hashText(tz);
+  if (prior.sha256 !== sha256)
+    throw new Error(`check: Tanzil's file changed (committed ${prior.sha256}, now ${sha256}). Rerun without --check.`);
+  return sha256;
+}
+
+export async function main({ check = CHECK, fetchData = get, out = OUT } = {}) {
   console.log(`Fetching ${TANZIL_URL}`);
-  const tz = parseTanzil(await get(TANZIL_URL, "text"));
+  const tz = parseTanzil(await fetchData(TANZIL_URL, "text"));
   if (tz.verses.size !== EXPECTED_AYAHS) throw new Error(`Tanzil: ${tz.verses.size} verses, expected 6236`);
   if (!tz.notice.length) throw new Error("Tanzil's file carried no copyright notice; refusing to bundle without it");
   for (const [ref, text] of tz.verses) if (!text.trim()) throw new Error(`Tanzil: ${ref} is empty`);
   if (!PAUSE_MARKS.test(tz.verses.get("2:2")))
     throw new Error("Tanzil's file has no pause marks at 2:2; the mark options were not applied");
 
+  const indexPath = join(out, "index.json");
+  const prior = existsSync(indexPath) ? JSON.parse(readFileSync(indexPath, "utf8")) : null;
+  if (check) {
+    const sha256 = checkBundledText(tz, prior);
+    console.log(`check: OK, bundled text matches Tanzil's current file (${sha256}).`);
+    return;
+  }
+
   console.log(`Fetching ${ALQURAN_URL}`);
-  const apiJson = await get(ALQURAN_URL, "json");
+  const apiJson = await fetchData(ALQURAN_URL, "json");
   const api = apiJson && apiJson.data;
   if (!api || !Array.isArray(api.surahs)) throw new Error("alquran.cloud: no surahs in response");
   if (!api.edition || api.edition.identifier !== "quran-uthmani")
@@ -209,21 +254,6 @@ async function main() {
   );
 
   const sha256 = hashText(tz);
-  const indexPath = join(OUT, "index.json");
-  const prior = existsSync(indexPath) ? JSON.parse(readFileSync(indexPath, "utf8")) : null;
-
-  if (CHECK) {
-    if (!prior) {
-      console.error("check: data/quran-text/ has not been built yet.");
-      process.exit(1);
-    }
-    if (prior.sha256 !== sha256) {
-      console.error(`check: Tanzil's file changed (committed ${prior.sha256}, now ${sha256}). Rerun without --check.`);
-      process.exit(1);
-    }
-    console.log(`check: OK, bundled text matches Tanzil's current file (${sha256}).`);
-    return;
-  }
 
   const edition = {
     identifier: "quran-uthmani",
@@ -254,14 +284,16 @@ async function main() {
     surahs: api.surahs.map((s) => ({ number: s.number, numberOfAyahs: s.ayahs.length })),
   };
 
-  mkdirSync(OUT, { recursive: true });
-  for (const f of readdirSync(OUT)) if (/^\d+\.json$/.test(f)) rmSync(join(OUT, f));
-  for (const s of api.surahs) writeFileSync(join(OUT, `${s.number}.json`), surahFile(s, tz, edition));
+  mkdirSync(out, { recursive: true });
+  for (const f of readdirSync(out)) if (/^\d+\.json$/.test(f)) rmSync(join(out, f));
+  for (const s of api.surahs) writeFileSync(join(out, `${s.number}.json`), surahFile(s, tz, edition));
   writeFileSync(indexPath, JSON.stringify(index, null, 2) + "\n");
   console.log(`Wrote data/quran-text/: ${api.surahs.length} surahs, ${ayahCount} verses, sha256 ${sha256}.`);
 }
 
-main().catch((e) => {
-  console.error(`build-quran-text: ${e.message}`);
-  process.exit(1);
-});
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((e) => {
+    console.error(`build-quran-text: ${fetchFailureDetail(e)}`);
+    process.exit(1);
+  });
+}
