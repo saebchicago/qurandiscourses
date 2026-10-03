@@ -95,7 +95,7 @@ const tokens = (s) =>
 const docs = [];
 const pageTitle = (html, file) =>
   (html.match(/<title>([\s\S]*?)<\/title>/) || [, file])[1]
-    .replace(/\s*·\s*Divine Discourses\s*$/, "")
+    .replace(/\s*[·|]\s*Divine Discourses\s*$/, "")
     .trim();
 
 // ── pages, sectioned ─────────────────────────────────────────────────

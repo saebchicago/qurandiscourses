@@ -79,7 +79,7 @@ function pageFor(n) {
   const struct = readJson(`data/structure/${n}.json`);
   const outline = exercises.find((e) => e.surah === n && e.type === "outline");
   const hasKhan = Object.prototype.hasOwnProperty.call(khan, k);
-  const title = `Surah ${nm.translit} (${nm.ar}), ${pr.verseCount} verses · Divine Discourses`;
+  const title = `Surah ${nm.translit} (${n}): ${nm.en} | Divine Discourses`;
   let description =
     `Surah ${nm.translit} (${nm.ar}), surah ${n} of the Qur'an: ${pr.verseCount} verses, ${cls}, ` +
     `${ordinal(ch.revelationOrder)} in revelation order. Arabic text, roots, structure and listening time.`;

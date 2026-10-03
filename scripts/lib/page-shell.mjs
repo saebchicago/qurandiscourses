@@ -12,6 +12,7 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, unlinkSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { loadReviewers, reviewersFor, renderReviewedBy, withContributors } from "./review-credit.mjs";
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 
@@ -78,6 +79,15 @@ const bottomChrome = absolutize(
 
 // A whole page. `main` is the inner HTML of <main>; `mainClass` its class.
 export function renderPage({ title, description, url, og, jsonld, main, mainClass, scripts = [] }) {
+  const path = new URL(url).pathname;
+  // Reviewer credit (data/reviewers.json). With no reviewer in scope both
+  // pieces are no-ops and the page is byte-identical to one without them.
+  const reviewers = reviewersFor(loadReviewers(), path);
+  const reviewedBy = renderReviewedBy(reviewers);
+  const graph = jsonld["@graph"].map((n) => (n["@type"] === "WebPage" ? withContributors(n, reviewers) : n));
+  jsonld = { ...jsonld, "@graph": graph };
+  // The footer's "Report an issue" link carries the page it was clicked on.
+  const footer = bottomChrome.replace("page=%2Fnavigate", "page=" + encodeURIComponent(path));
   return `<!doctype html>
 <html lang="en" dir="ltr" data-depth="simple">
   <head>
@@ -104,9 +114,9 @@ ${JSON.stringify(jsonld)}
   <body>
     ${topChrome}
     <main id="main" class="${mainClass}">
-${main}
+${main}${reviewedBy ? "\n        " + reviewedBy : ""}
     </main>
-    ${bottomChrome}
+    ${footer}
     <script src="/assets/surahs.js"></script>
     <script src="/assets/app.js"></script>
     <script src="/assets/share.js" defer></script>

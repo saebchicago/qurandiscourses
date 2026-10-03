@@ -2775,6 +2775,53 @@ kbd {
   overflow: hidden;
 }
 
+/* Review our work (/review), Corrections (/corrections), reviewer credit. */
+.review-form {
+  max-width: 36rem;
+}
+.review-form fieldset {
+  border: 0;
+  margin: 0.75rem 0 0;
+  padding: 0;
+}
+.review-form input[type="email"],
+.review-form select {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  font: inherit;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--card);
+  color: var(--ink);
+}
+.review-form label.check {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+.review-form label.check input {
+  margin-top: 0.3rem;
+}
+.review-form .req {
+  color: var(--muted);
+}
+.review-status {
+  margin: 0.75rem 0 0;
+}
+.corrections-list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+}
+.corrections-list .correction {
+  margin: 0 0 0.9rem;
+}
+.reviewed-by {
+  margin: 1.5rem 0 0;
+}
+
 /* Coverage's wanted-outlines queue: compact multi-column checklist. */
 .wanted-list {
   list-style: none;

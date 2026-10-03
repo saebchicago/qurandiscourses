@@ -53,7 +53,7 @@ historical record. Statistical results lead with plain phrasing (what
 held up, what chance predicts) and keep the exact figures in
 parentheses; nothing is hidden, but the jargon never leads.
 
-## 2. Site map (35 pages)
+## 2. Site map (37 pages)
 
 | Group | Pages | Notes |
 |---|---|---|
@@ -61,7 +61,7 @@ parentheses; nothing is hidden, but the jargon never leads.
 | Analyze | words, roots, patterns, numbers, formulas | fully local data |
 | Learn | how-to-use, how-it-works, exercises (hub), exercise, exercise-roots, paths, glossary, vocabulary, watch | exercises are data-driven or book-cited; exercise-asr.html is a redirect stub. vocabulary.html is the core-vocabulary list (static) plus practice cards that fetch word-by-word meanings from api.quran.com |
 | About | index, about, sources, datasets, validation, credits, changelog | credibility pages |
-| Off-nav, in sitemap | export (CSV/JSON downloads + schema), coverage (measured data-coverage dashboard), contribute (what the project wants and how to send it), open-questions (statements about Dr. Khan that no registered source settles, and records that conflict — generated from data/provenance/claims.json by build-provenance.mjs) | reachable via contextual links (roots.html, numbers.html, datasets.html), not the primary nav — adding them to nav means editing EVERY page's nav block (check-nav-sync.mjs enforces byte-identical navs) |
+| Off-nav, in sitemap | export (CSV/JSON downloads + schema), coverage (measured data-coverage dashboard), contribute (what the project wants and how to send it), review (invitation and forms for expert reviewers and issue reports, Netlify Forms), corrections (public corrections log rendered from data/corrections.json by build-review-pages.mjs), open-questions (statements about Dr. Khan that no registered source settles, and records that conflict — generated from data/provenance/claims.json by build-provenance.mjs) | reachable via contextual links (roots.html, numbers.html, datasets.html), not the primary nav — adding them to nav means editing EVERY page's nav block (check-nav-sync.mjs enforces byte-identical navs) |
 | Unlisted | embed (iframe card, the one frameable page), exercise-asr (redirect stub), 404 (Netlify's not-found page: search box, wayfinding cards, correction form) | outside nav and sitemap by design; 404.html carries no canonical and no JSON-LD because Netlify serves it at whatever address failed |
 
 Site-wide, not pages: `manifest.webmanifest` + `sw.js` (repo root) make
@@ -185,6 +185,7 @@ them only when their inputs change; commit their outputs.
 | build-replications.mjs | data/replications.json, data/sources.json, morphology/ | validation.html's static:replications region | "Published figures, reproduced here": each card quotes a source exactly (copied from fetch-evidence.mjs's CI output, re-checked by `fetch-evidence.mjs --verify`), states the source's figure, and computes ours from the corpus by a named computation; a mismatch renders as one, never hidden. To add a card: add the page to data/evidence/fetch-list.json, read the CI log, copy the quote verbatim with URL, date and SHA-256, and name a computation (add one to COMPUTE if needed) |
 | build-page-dates.mjs | every page's `<main>` (scripts and whitespace runs removed), hashed | data/page-dates.json | when each page's content last changed: sitemap.xml `<lastmod>` (build-canonicals) and each page's JSON-LD `dateModified` (build-jsonld). The date moves only when the hash does, so it is stable in a one-commit-deep CI checkout; `--check` fails when a page's content changed without a new date. Run it before build-canonicals and build-jsonld |
 | build-canonicals.mjs | `scripts/lib/site.mjs` (origin + clean-path rule), data/page-dates.json | every page's canonical/og:url, every internal link, sitemap.xml `<loc>` and `<lastmod>`, robots.txt | one address per page. `--check` fails on a canonical that is missing, duplicated, points elsewhere, disagrees with og:url, or names a `.html` address; also on an internal link that still ends in `.html` |
+| build-review-pages.mjs | data/corrections.json, data/reviewers.json (both shipped as empty arrays; shapes in scripts/lib/review-credit.mjs) | corrections.html (static:corrections region), and a "Reviewed by" line before `</main>` on in-scope root pages | the public corrections log and reviewer credit. While reviewers.json is empty nothing is rendered or emitted. A reviewer entry without `consent_to_name: true` fails the build; a scope that matches no page fails `--check`. Generated families get the line and `contributor` schema from page-shell.mjs, root pages get the schema from build-jsonld.mjs. Run before build-page-dates. Tested by `node --test scripts/review-credit.test.mjs` |
 | build-surah-profiles.mjs | morphology, chronology | data/surah-profiles.json | navigate.html profiles; also `formDiversityRatio`/`lemmaDiversityRatio` (type-token ratio at the surface-form and lemma level, alongside the existing root-level ratio), surfaced on dossier.html's Vocab section |
 | build-themes.mjs | morphology, roots-summary, surah-profiles | data/themes.json, data/theme-surah-index.json | themes.html (each theme's `topSurahs` = where its root-family vocabulary clusters, tokens per 1,000 normalized by surah length); the reverse index feeds dossier.html's "themes touching this surah" line. Absence from a theme's top-8 means "not among its densest", not "vocabulary absent" — the `_method` strings state this |
 | build-rhetorical-features.mjs | morphology | data/rhetorical-features.json | patterns.html direct-address list, numbers.html fawatih list |
@@ -258,6 +259,7 @@ so every one is listed here, not only the ones with a recent story.
 | playwright.mjs | the ONE way this repo resolves Playwright, degrading with a clear message rather than a module-not-found stack. Playwright is a dev-machine tool; nothing it needs ever ships |
 | ordinal.mjs | English ordinal suffix ("13th") |
 | page-shell.mjs | the ONE frame for the generated reference-page families (surah/, juz/, root/): chrome copied from navigate.html with absolute asset paths, the head, badges, the Leeds part-of-speech labels, the static-region and sitemap-region writers, and the write-or-check loop. The three generators share it so none can drift from the others or from the root pages |
+| review-credit.mjs | data/reviewers.json, data/corrections.json | validation, scope matching, the "Reviewed by" line, schema.org `contributor` nodes, and the corrections list markup, shared by page-shell.mjs, build-jsonld.mjs and build-review-pages.mjs so every page family agrees |
 
 `scripts/lib/corpus.mjs` holds the corpus totals — `TOTAL_VERSES`,
 `TOTAL_TOKENS`, `TOTAL_ROOTS`, `TOTAL_SURAHS` — that eight of these
@@ -671,7 +673,7 @@ plus a `[[redirects]]` rule 301ing the first to the second with
 matches headers on the request path, so a clean path without its own
 block ships with no CSP. Then run
 `node scripts/check-nav-sync.mjs && node scripts/check-headers-sync.mjs
-&& node scripts/build-surah-pages.mjs && node scripts/build-juz-pages.mjs && node scripts/build-root-pages.mjs && node scripts/build-vocabulary.mjs && node scripts/build-replications.mjs && node scripts/build-page-dates.mjs && node scripts/build-canonicals.mjs && node scripts/build-jsonld.mjs
+&& node scripts/build-surah-pages.mjs && node scripts/build-juz-pages.mjs && node scripts/build-root-pages.mjs && node scripts/build-vocabulary.mjs && node scripts/build-replications.mjs && node scripts/build-review-pages.mjs && node scripts/build-page-dates.mjs && node scripts/build-canonicals.mjs && node scripts/build-jsonld.mjs
 && node scripts/build-csp.mjs`.
 
 **`netlify.toml` is a hybrid file, and that makes its merge conflicts
