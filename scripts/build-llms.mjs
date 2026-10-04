@@ -41,7 +41,7 @@ const PAGES = [
   "roots.html", "words.html", "patterns.html", "formulas.html", "numbers.html",
   "how-to-use.html", "how-it-works.html", "paths.html", "glossary.html", "vocabulary.html", "search.html", "watch.html",
   "sources.html", "validation.html", "datasets.html", "coverage.html",
-  "export.html", "changelog.html", "contribute.html", "open-questions.html",
+  "export.html", "changelog.html", "contribute.html", "review.html", "corrections.html", "open-questions.html",
   "about.html", "credits.html",
 ];
 
@@ -53,7 +53,7 @@ const exportTables = readJson("data/exports/schema.json").tables;
 const meta = (file) => {
   const html = readText(file);
   const title = (html.match(/<title>([\s\S]*?)<\/title>/) || [, file])[1]
-    .replace(/\s*·\s*Divine Discourses\s*$/, "")
+    .replace(/\s*[·|]\s*Divine Discourses\s*$/, "")
     .trim();
   const desc = (html.match(/<meta\s+name="description"\s+content="([\s\S]*?)"/) || [, ""])[1]
     .replace(/\s+/g, " ")
@@ -113,13 +113,13 @@ function indexBody() {
   );
   for (const f of SURAH_PAGES) {
     const { title, desc } = meta(f);
-    lines.push(`- [${title.replace(/\s*·\s*Divine Discourses\s*$/, "")}](${SITE}/${f.replace(/\.html$/, "")}): ${desc}`);
+    lines.push(`- [${title.replace(/\s*[·|]\s*Divine Discourses\s*$/, "")}](${SITE}/${f.replace(/\.html$/, "")}): ${desc}`);
   }
   lines.push("", "## Juz", "", "One static reference page per juz (scripts/build-juz-pages.mjs): boundaries, surahs spanned, mushaf pages, and listening time per reciter.", "");
   for (let n = 1; n <= 30; n++) {
     const f = `juz/${n}.html`;
     const { title, desc } = meta(f);
-    lines.push(`- [${title.replace(/\s*·\s*Divine Discourses\s*$/, "")}](${SITE}/juz/${n}): ${desc}`);
+    lines.push(`- [${title.replace(/\s*[·|]\s*Divine Discourses\s*$/, "")}](${SITE}/juz/${n}): ${desc}`);
   }
   lines.push(
     "",

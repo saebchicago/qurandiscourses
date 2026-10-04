@@ -8,7 +8,8 @@
 // registries the pages themselves render:
 //
 //   every page      WebPage (name, description, canonical URL, version,
-//                   isPartOf WebSite) + BreadcrumbList
+//                   isPartOf WebSite, contributor when a named reviewer is
+//                   in scope) + BreadcrumbList
 //   index.html      WebSite with a SearchAction wired to the Ask box's
 //                   /read?s= routing surface
 //   datasets/export Dataset per export table, from data/exports/schema.json
@@ -30,6 +31,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { SITE, cleanPath, canonicalUrl, NO_CANONICAL } from "./lib/site.mjs";
 import { readJson } from "./lib/io.mjs";
+import { loadReviewers, reviewersFor, withContributors } from "./lib/review-credit.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CHECK = process.argv.includes("--check");
@@ -43,6 +45,9 @@ const claims = readJson("data/claims.json").claims;
 // published as the WebPage's dateModified, the same date sitemap.xml
 // gives as <lastmod>.
 const pageDates = readJson("data/page-dates.json").pages;
+// Named reviewers (data/reviewers.json, empty until someone consents to
+// credit). In scope => schema.org contributor on the WebPage node.
+const reviewers = loadReviewers();
 
 // The scholar whose method the site follows. Only facts stated on
 // about.html are carried here, so structured data never says more than
@@ -209,9 +214,9 @@ function graphFor(file, meta) {
     { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
   ];
   if (clean !== "/")
-    crumbs.push({ "@type": "ListItem", position: 2, name: meta.title.replace(/\s*·\s*Divine Discourses\s*$/, ""), item: canonicalUrl(file) });
+    crumbs.push({ "@type": "ListItem", position: 2, name: meta.title.replace(/\s*[·|]\s*Divine Discourses\s*$/, ""), item: canonicalUrl(file) });
   const graph = [
-    {
+    withContributors({
       "@type": "WebPage",
       "@id": canonicalUrl(file),
       url: canonicalUrl(file),
@@ -222,7 +227,7 @@ function graphFor(file, meta) {
       version,
       ...(pageDates[file] ? { dateModified: pageDates[file].lastmod } : {}),
       ...(file === "about.html" || file === "how-it-works.html" ? { about: { "@id": KHAN["@id"] } } : {}),
-    },
+    }, reviewersFor(reviewers, clean)),
     { "@type": "BreadcrumbList", itemListElement: crumbs },
     ...perPageNodes(file),
   ];

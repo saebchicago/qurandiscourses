@@ -26,7 +26,7 @@ Ground rules for using this site as a source:
 
 ## Pages
 
-- [Divine Discourses: Read the Qur'an One Surah at a Time](https://divinediscourses.org/): Read the Qur'an one surah at a time as a connected discourse: Arabic, translations, recitation, roots and structure, with every claim sourced and citable.
+- [Divine Discourses: Read the Qur'an One Surah at a Time](https://divinediscourses.org/): Read the Qur'an one surah at a time: Arabic, translations, recitation, roots and structure. Human scholarship, no AI-generated commentary.
 - [Read a surah with parallel translations](https://divinediscourses.org/read): Open any surah or verse range of the Qur'an with the Arabic, parallel translations, word-by-word meanings, and recitation.
 - [Browse all 114 surahs](https://divinediscourses.org/navigate): All 114 surahs in mushaf or revelation order, filtered by length, period, and structure, with a juz grid for finding your place.
 - [Surah dossier: one profile per surah](https://divinediscourses.org/dossier): One profile per surah: chronology, vocabulary and roots, verse-ending sounds, recurring phrases and structure, every claim badged and traceable.
@@ -55,6 +55,8 @@ Ground rules for using this site as a source:
 - [Download the data](https://divinediscourses.org/export): Download the Qur'an corpus data behind this site: root frequencies, lemmas, verse lengths and durations, formulas and more, as CSV or JSON with a schema.
 - [Changelog: every correction logged](https://divinediscourses.org/changelog): Every correction and material change to Divine Discourses since launch. A public record of accountability.
 - [Contribute to this project](https://divinediscourses.org/contribute): How to contribute to Divine Discourses: corrections, structural hypotheses, outline transcription, translation, and review.
+- [Review our work](https://divinediscourses.org/review): Review our work: we invite qualified experts to check Divine Discourses for accuracy, and every change is logged publicly.
+- [Corrections](https://divinediscourses.org/corrections): The public corrections record for Divine Discourses: each change with its date, page, summary and source.
 - [Open questions](https://divinediscourses.org/open-questions): Statements about Dr. Irfan Ahmad Khan that this site has not been able to trace to a stated source, published unresolved rather than repeated as fact.
 - [About this site and its method](https://divinediscourses.org/about): About Divine Discourses: the coherence-based method behind the site, its evidence-labeling standards, and how it's maintained.
 - [Credits and scholarly lineage](https://divinediscourses.org/credits): A one-screen summary of the datasets, scholarly lineage, and build infrastructure behind Divine Discourses.
@@ -72,120 +74,120 @@ Full page text for grounding: https://divinediscourses.org/llms-full.txt
 
 One static reference page per surah (scripts/build-surah-pages.mjs): verse and word-unit counts, classification, revelation order, juz and pages, listening time per reciter, top roots, computed sections, and the Arabic text.
 
-- [Surah al-Fatihah (الفاتحة), 7 verses](https://divinediscourses.org/surah/1): Surah al-Fatihah (الفاتحة), surah 1 of the Qur'an: 7 verses, Meccan, 5th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Baqarah (البقرة), 286 verses](https://divinediscourses.org/surah/2): Surah al-Baqarah (البقرة), surah 2 of the Qur'an: 286 verses, Medinan, 87th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah Al ʿImran (آل عمران), 200 verses](https://divinediscourses.org/surah/3): Surah Al ʿImran (آل عمران), surah 3 of the Qur'an: 200 verses, Medinan, 89th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Nisa' (النساء), 176 verses](https://divinediscourses.org/surah/4): Surah al-Nisa' (النساء), surah 4 of the Qur'an: 176 verses, Medinan, 92nd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Ma'idah (المائدة), 120 verses](https://divinediscourses.org/surah/5): Surah al-Ma'idah (المائدة), surah 5 of the Qur'an: 120 verses, Medinan, 112th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-An'am (الأنعام), 165 verses](https://divinediscourses.org/surah/6): Surah al-An'am (الأنعام), surah 6 of the Qur'an: 165 verses, Meccan, 55th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-A'raf (الأعراف), 206 verses](https://divinediscourses.org/surah/7): Surah al-A'raf (الأعراف), surah 7 of the Qur'an: 206 verses, Meccan, 39th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Anfal (الأنفال), 75 verses](https://divinediscourses.org/surah/8): Surah al-Anfal (الأنفال), surah 8 of the Qur'an: 75 verses, Medinan, 88th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Tawbah (التوبة), 129 verses](https://divinediscourses.org/surah/9): Surah al-Tawbah (التوبة), surah 9 of the Qur'an: 129 verses, Medinan, 113th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah Yunus (يونس), 109 verses](https://divinediscourses.org/surah/10): Surah Yunus (يونس), surah 10 of the Qur'an: 109 verses, Meccan, 51st in revelation order. Arabic text, roots, structure and listening time.
-- [Surah Hud (هود), 123 verses](https://divinediscourses.org/surah/11): Surah Hud (هود), surah 11 of the Qur'an: 123 verses, Meccan, 52nd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah Yusuf (يوسف), 111 verses](https://divinediscourses.org/surah/12): Surah Yusuf (يوسف), surah 12 of the Qur'an: 111 verses, Meccan, 53rd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Ra'd (الرعد), 43 verses](https://divinediscourses.org/surah/13): Surah al-Ra'd (الرعد), surah 13 of the Qur'an: 43 verses, Medinan, 96th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah Ibrahim (إبراهيم), 52 verses](https://divinediscourses.org/surah/14): Surah Ibrahim (إبراهيم), surah 14 of the Qur'an: 52 verses, Meccan, 72nd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Hijr (الحجر), 99 verses](https://divinediscourses.org/surah/15): Surah al-Hijr (الحجر), surah 15 of the Qur'an: 99 verses, Meccan, 54th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Nahl (النحل), 128 verses](https://divinediscourses.org/surah/16): Surah al-Nahl (النحل), surah 16 of the Qur'an: 128 verses, Meccan, 70th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Isra (الإسراء), 111 verses](https://divinediscourses.org/surah/17): Surah al-Isra (الإسراء), surah 17 of the Qur'an: 111 verses, Meccan, 50th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Kahf (الكهف), 110 verses](https://divinediscourses.org/surah/18): Surah al-Kahf (الكهف), surah 18 of the Qur'an: 110 verses, Meccan, 69th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah Maryam (مريم), 98 verses](https://divinediscourses.org/surah/19): Surah Maryam (مريم), surah 19 of the Qur'an: 98 verses, Meccan, 44th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah Taha (طه), 135 verses](https://divinediscourses.org/surah/20): Surah Taha (طه), surah 20 of the Qur'an: 135 verses, Meccan, 45th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Anbiya (الأنبياء), 112 verses](https://divinediscourses.org/surah/21): Surah al-Anbiya (الأنبياء), surah 21 of the Qur'an: 112 verses, Meccan, 73rd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Hajj (الحج), 78 verses](https://divinediscourses.org/surah/22): Surah al-Hajj (الحج), surah 22 of the Qur'an: 78 verses, Medinan, 103rd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Mu'minun (المؤمنون), 118 verses](https://divinediscourses.org/surah/23): Surah al-Mu'minun (المؤمنون), surah 23 of the Qur'an: 118 verses, Meccan, 74th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Nur (النور), 64 verses](https://divinediscourses.org/surah/24): Surah al-Nur (النور), surah 24 of the Qur'an: 64 verses, Medinan, 102nd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Furqan (الفرقان), 77 verses](https://divinediscourses.org/surah/25): Surah al-Furqan (الفرقان), surah 25 of the Qur'an: 77 verses, Meccan, 42nd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Shu'ara (الشعراء), 227 verses](https://divinediscourses.org/surah/26): Surah al-Shu'ara (الشعراء), surah 26 of the Qur'an: 227 verses, Meccan, 47th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Naml (النمل), 93 verses](https://divinediscourses.org/surah/27): Surah al-Naml (النمل), surah 27 of the Qur'an: 93 verses, Meccan, 48th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Qasas (القصص), 88 verses](https://divinediscourses.org/surah/28): Surah al-Qasas (القصص), surah 28 of the Qur'an: 88 verses, Meccan, 49th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-'Ankabut (العنكبوت), 69 verses](https://divinediscourses.org/surah/29): Surah al-'Ankabut (العنكبوت), surah 29 of the Qur'an: 69 verses, Meccan, 85th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Rum (الروم), 60 verses](https://divinediscourses.org/surah/30): Surah al-Rum (الروم), surah 30 of the Qur'an: 60 verses, Meccan, 84th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah Luqman (لقمان), 34 verses](https://divinediscourses.org/surah/31): Surah Luqman (لقمان), surah 31 of the Qur'an: 34 verses, Meccan, 57th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Sajdah (السجدة), 30 verses](https://divinediscourses.org/surah/32): Surah al-Sajdah (السجدة), surah 32 of the Qur'an: 30 verses, Meccan, 75th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Ahzab (الأحزاب), 73 verses](https://divinediscourses.org/surah/33): Surah al-Ahzab (الأحزاب), surah 33 of the Qur'an: 73 verses, Medinan, 90th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah Saba (سبأ), 54 verses](https://divinediscourses.org/surah/34): Surah Saba (سبأ), surah 34 of the Qur'an: 54 verses, Meccan, 58th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah Fatir (فاطر), 45 verses](https://divinediscourses.org/surah/35): Surah Fatir (فاطر), surah 35 of the Qur'an: 45 verses, Meccan, 43rd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah Yasin (يس), 83 verses](https://divinediscourses.org/surah/36): Surah Yasin (يس), surah 36 of the Qur'an: 83 verses, Meccan, 41st in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Saffat (الصافات), 182 verses](https://divinediscourses.org/surah/37): Surah al-Saffat (الصافات), surah 37 of the Qur'an: 182 verses, Meccan, 56th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah Sad (ص), 88 verses](https://divinediscourses.org/surah/38): Surah Sad (ص), surah 38 of the Qur'an: 88 verses, Meccan, 38th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Zumar (الزمر), 75 verses](https://divinediscourses.org/surah/39): Surah al-Zumar (الزمر), surah 39 of the Qur'an: 75 verses, Meccan, 59th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah Ghafir (غافر), 85 verses](https://divinediscourses.org/surah/40): Surah Ghafir (غافر), surah 40 of the Qur'an: 85 verses, Meccan, 60th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah Fussilat (فصلت), 54 verses](https://divinediscourses.org/surah/41): Surah Fussilat (فصلت), surah 41 of the Qur'an: 54 verses, Meccan, 61st in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Shura (الشورى), 53 verses](https://divinediscourses.org/surah/42): Surah al-Shura (الشورى), surah 42 of the Qur'an: 53 verses, Meccan, 62nd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Zukhruf (الزخرف), 89 verses](https://divinediscourses.org/surah/43): Surah al-Zukhruf (الزخرف), surah 43 of the Qur'an: 89 verses, Meccan, 63rd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Dukhan (الدخان), 59 verses](https://divinediscourses.org/surah/44): Surah al-Dukhan (الدخان), surah 44 of the Qur'an: 59 verses, Meccan, 64th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Jathiyah (الجاثية), 37 verses](https://divinediscourses.org/surah/45): Surah al-Jathiyah (الجاثية), surah 45 of the Qur'an: 37 verses, Meccan, 65th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Ahqaf (الأحقاف), 35 verses](https://divinediscourses.org/surah/46): Surah al-Ahqaf (الأحقاف), surah 46 of the Qur'an: 35 verses, Meccan, 66th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah Muhammad (محمد), 38 verses](https://divinediscourses.org/surah/47): Surah Muhammad (محمد), surah 47 of the Qur'an: 38 verses, Medinan, 95th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Fath (الفتح), 29 verses](https://divinediscourses.org/surah/48): Surah al-Fath (الفتح), surah 48 of the Qur'an: 29 verses, Medinan, 111th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Hujurat (الحجرات), 18 verses](https://divinediscourses.org/surah/49): Surah al-Hujurat (الحجرات), surah 49 of the Qur'an: 18 verses, Medinan, 106th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah Qaf (ق), 45 verses](https://divinediscourses.org/surah/50): Surah Qaf (ق), surah 50 of the Qur'an: 45 verses, Meccan, 34th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Dhariyat (الذاريات), 60 verses](https://divinediscourses.org/surah/51): Surah al-Dhariyat (الذاريات), surah 51 of the Qur'an: 60 verses, Meccan, 67th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Tur (الطور), 49 verses](https://divinediscourses.org/surah/52): Surah al-Tur (الطور), surah 52 of the Qur'an: 49 verses, Meccan, 76th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Najm (النجم), 62 verses](https://divinediscourses.org/surah/53): Surah al-Najm (النجم), surah 53 of the Qur'an: 62 verses, Meccan, 23rd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Qamar (القمر), 55 verses](https://divinediscourses.org/surah/54): Surah al-Qamar (القمر), surah 54 of the Qur'an: 55 verses, Meccan, 37th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Rahman (الرحمن), 78 verses](https://divinediscourses.org/surah/55): Surah al-Rahman (الرحمن), surah 55 of the Qur'an: 78 verses, Medinan, 97th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Waqi'ah (الواقعة), 96 verses](https://divinediscourses.org/surah/56): Surah al-Waqi'ah (الواقعة), surah 56 of the Qur'an: 96 verses, Meccan, 46th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Hadid (الحديد), 29 verses](https://divinediscourses.org/surah/57): Surah al-Hadid (الحديد), surah 57 of the Qur'an: 29 verses, Medinan, 94th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Mujadilah (المجادلة), 22 verses](https://divinediscourses.org/surah/58): Surah al-Mujadilah (المجادلة), surah 58 of the Qur'an: 22 verses, Medinan, 105th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Hashr (الحشر), 24 verses](https://divinediscourses.org/surah/59): Surah al-Hashr (الحشر), surah 59 of the Qur'an: 24 verses, Medinan, 101st in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Mumtahanah (الممتحنة), 13 verses](https://divinediscourses.org/surah/60): Surah al-Mumtahanah (الممتحنة), surah 60 of the Qur'an: 13 verses, Medinan, 91st in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Saff (الصف), 14 verses](https://divinediscourses.org/surah/61): Surah al-Saff (الصف), surah 61 of the Qur'an: 14 verses, Medinan, 109th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Jumu'ah (الجمعة), 11 verses](https://divinediscourses.org/surah/62): Surah al-Jumu'ah (الجمعة), surah 62 of the Qur'an: 11 verses, Medinan, 110th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Munafiqun (المنافقون), 11 verses](https://divinediscourses.org/surah/63): Surah al-Munafiqun (المنافقون), surah 63 of the Qur'an: 11 verses, Medinan, 104th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Taghabun (التغابن), 18 verses](https://divinediscourses.org/surah/64): Surah al-Taghabun (التغابن), surah 64 of the Qur'an: 18 verses, Medinan, 108th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Talaq (الطلاق), 12 verses](https://divinediscourses.org/surah/65): Surah al-Talaq (الطلاق), surah 65 of the Qur'an: 12 verses, Medinan, 99th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Tahrim (التحريم), 12 verses](https://divinediscourses.org/surah/66): Surah al-Tahrim (التحريم), surah 66 of the Qur'an: 12 verses, Medinan, 107th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Mulk (الملك), 30 verses](https://divinediscourses.org/surah/67): Surah al-Mulk (الملك), surah 67 of the Qur'an: 30 verses, Meccan, 77th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Qalam (القلم), 52 verses](https://divinediscourses.org/surah/68): Surah al-Qalam (القلم), surah 68 of the Qur'an: 52 verses, Meccan, 2nd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Haqqah (الحاقة), 52 verses](https://divinediscourses.org/surah/69): Surah al-Haqqah (الحاقة), surah 69 of the Qur'an: 52 verses, Meccan, 78th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Ma'arij (المعارج), 44 verses](https://divinediscourses.org/surah/70): Surah al-Ma'arij (المعارج), surah 70 of the Qur'an: 44 verses, Meccan, 79th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah Nuh (نوح), 28 verses](https://divinediscourses.org/surah/71): Surah Nuh (نوح), surah 71 of the Qur'an: 28 verses, Meccan, 71st in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Jinn (الجن), 28 verses](https://divinediscourses.org/surah/72): Surah al-Jinn (الجن), surah 72 of the Qur'an: 28 verses, Meccan, 40th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Muzzammil (المزمل), 20 verses](https://divinediscourses.org/surah/73): Surah al-Muzzammil (المزمل), surah 73 of the Qur'an: 20 verses, Meccan, 3rd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Muddaththir (المدثر), 56 verses](https://divinediscourses.org/surah/74): Surah al-Muddaththir (المدثر), surah 74 of the Qur'an: 56 verses, Meccan, 4th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Qiyamah (القيامة), 40 verses](https://divinediscourses.org/surah/75): Surah al-Qiyamah (القيامة), surah 75 of the Qur'an: 40 verses, Meccan, 31st in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Insan (الإنسان), 31 verses](https://divinediscourses.org/surah/76): Surah al-Insan (الإنسان), surah 76 of the Qur'an: 31 verses, Medinan, 98th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Mursalat (المرسلات), 50 verses](https://divinediscourses.org/surah/77): Surah al-Mursalat (المرسلات), surah 77 of the Qur'an: 50 verses, Meccan, 33rd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Naba' (النبأ), 40 verses](https://divinediscourses.org/surah/78): Surah al-Naba' (النبأ), surah 78 of the Qur'an: 40 verses, Meccan, 80th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Nazi'at (النازعات), 46 verses](https://divinediscourses.org/surah/79): Surah al-Nazi'at (النازعات), surah 79 of the Qur'an: 46 verses, Meccan, 81st in revelation order. Arabic text, roots, structure and listening time.
-- [Surah 'Abasa (عبس), 42 verses](https://divinediscourses.org/surah/80): Surah 'Abasa (عبس), surah 80 of the Qur'an: 42 verses, Meccan, 24th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Takwir (التكوير), 29 verses](https://divinediscourses.org/surah/81): Surah al-Takwir (التكوير), surah 81 of the Qur'an: 29 verses, Meccan, 7th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Infitar (الانفطار), 19 verses](https://divinediscourses.org/surah/82): Surah al-Infitar (الانفطار), surah 82 of the Qur'an: 19 verses, Meccan, 82nd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Mutaffifin (المطففين), 36 verses](https://divinediscourses.org/surah/83): Surah al-Mutaffifin (المطففين), surah 83 of the Qur'an: 36 verses, Meccan, 86th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Inshiqaq (الانشقاق), 25 verses](https://divinediscourses.org/surah/84): Surah al-Inshiqaq (الانشقاق), surah 84 of the Qur'an: 25 verses, Meccan, 83rd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Buruj (البروج), 22 verses](https://divinediscourses.org/surah/85): Surah al-Buruj (البروج), surah 85 of the Qur'an: 22 verses, Meccan, 27th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Tariq (الطارق), 17 verses](https://divinediscourses.org/surah/86): Surah al-Tariq (الطارق), surah 86 of the Qur'an: 17 verses, Meccan, 36th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-A'la (الأعلى), 19 verses](https://divinediscourses.org/surah/87): Surah al-A'la (الأعلى), surah 87 of the Qur'an: 19 verses, Meccan, 8th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Ghashiyah (الغاشية), 26 verses](https://divinediscourses.org/surah/88): Surah al-Ghashiyah (الغاشية), surah 88 of the Qur'an: 26 verses, Meccan, 68th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Fajr (الفجر), 30 verses](https://divinediscourses.org/surah/89): Surah al-Fajr (الفجر), surah 89 of the Qur'an: 30 verses, Meccan, 10th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Balad (البلد), 20 verses](https://divinediscourses.org/surah/90): Surah al-Balad (البلد), surah 90 of the Qur'an: 20 verses, Meccan, 35th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Shams (الشمس), 15 verses](https://divinediscourses.org/surah/91): Surah al-Shams (الشمس), surah 91 of the Qur'an: 15 verses, Meccan, 26th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Layl (الليل), 21 verses](https://divinediscourses.org/surah/92): Surah al-Layl (الليل), surah 92 of the Qur'an: 21 verses, Meccan, 9th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Duha (الضحى), 11 verses](https://divinediscourses.org/surah/93): Surah al-Duha (الضحى), surah 93 of the Qur'an: 11 verses, Meccan, 11th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Sharh (الشرح), 8 verses](https://divinediscourses.org/surah/94): Surah al-Sharh (الشرح), surah 94 of the Qur'an: 8 verses, Meccan, 12th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Tin (التين), 8 verses](https://divinediscourses.org/surah/95): Surah al-Tin (التين), surah 95 of the Qur'an: 8 verses, Meccan, 28th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-'Alaq (العلق), 19 verses](https://divinediscourses.org/surah/96): Surah al-'Alaq (العلق), surah 96 of the Qur'an: 19 verses, Meccan, 1st in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Qadr (القدر), 5 verses](https://divinediscourses.org/surah/97): Surah al-Qadr (القدر), surah 97 of the Qur'an: 5 verses, Meccan, 25th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Bayyinah (البينة), 8 verses](https://divinediscourses.org/surah/98): Surah al-Bayyinah (البينة), surah 98 of the Qur'an: 8 verses, Medinan, 100th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Zalzalah (الزلزلة), 8 verses](https://divinediscourses.org/surah/99): Surah al-Zalzalah (الزلزلة), surah 99 of the Qur'an: 8 verses, Medinan, 93rd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-'Adiyat (العاديات), 11 verses](https://divinediscourses.org/surah/100): Surah al-'Adiyat (العاديات), surah 100 of the Qur'an: 11 verses, Meccan, 14th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Qari'ah (القارعة), 11 verses](https://divinediscourses.org/surah/101): Surah al-Qari'ah (القارعة), surah 101 of the Qur'an: 11 verses, Meccan, 30th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Takathur (التكاثر), 8 verses](https://divinediscourses.org/surah/102): Surah al-Takathur (التكاثر), surah 102 of the Qur'an: 8 verses, Meccan, 16th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-'Asr (العصر), 3 verses](https://divinediscourses.org/surah/103): Surah al-'Asr (العصر), surah 103 of the Qur'an: 3 verses, Meccan, 13th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Humazah (الهمزة), 9 verses](https://divinediscourses.org/surah/104): Surah al-Humazah (الهمزة), surah 104 of the Qur'an: 9 verses, Meccan, 32nd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Fil (الفيل), 5 verses](https://divinediscourses.org/surah/105): Surah al-Fil (الفيل), surah 105 of the Qur'an: 5 verses, Meccan, 19th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah Quraysh (قريش), 4 verses](https://divinediscourses.org/surah/106): Surah Quraysh (قريش), surah 106 of the Qur'an: 4 verses, Meccan, 29th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Ma'un (الماعون), 7 verses](https://divinediscourses.org/surah/107): Surah al-Ma'un (الماعون), surah 107 of the Qur'an: 7 verses, Meccan, 17th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Kawthar (الكوثر), 3 verses](https://divinediscourses.org/surah/108): Surah al-Kawthar (الكوثر), surah 108 of the Qur'an: 3 verses, Meccan, 15th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Kafirun (الكافرون), 6 verses](https://divinediscourses.org/surah/109): Surah al-Kafirun (الكافرون), surah 109 of the Qur'an: 6 verses, Meccan, 18th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Nasr (النصر), 3 verses](https://divinediscourses.org/surah/110): Surah al-Nasr (النصر), surah 110 of the Qur'an: 3 verses, Medinan, 114th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Masad (المسد), 5 verses](https://divinediscourses.org/surah/111): Surah al-Masad (المسد), surah 111 of the Qur'an: 5 verses, Meccan, 6th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Ikhlas (الإخلاص), 4 verses](https://divinediscourses.org/surah/112): Surah al-Ikhlas (الإخلاص), surah 112 of the Qur'an: 4 verses, Meccan, 22nd in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Falaq (الفلق), 5 verses](https://divinediscourses.org/surah/113): Surah al-Falaq (الفلق), surah 113 of the Qur'an: 5 verses, Meccan, 20th in revelation order. Arabic text, roots, structure and listening time.
-- [Surah al-Nas (الناس), 6 verses](https://divinediscourses.org/surah/114): Surah al-Nas (الناس), surah 114 of the Qur'an: 6 verses, Meccan, 21st in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Fatihah (1): The Opening](https://divinediscourses.org/surah/1): Surah al-Fatihah (الفاتحة), surah 1 of the Qur'an: 7 verses, Meccan, 5th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Baqarah (2): The Cow](https://divinediscourses.org/surah/2): Surah al-Baqarah (البقرة), surah 2 of the Qur'an: 286 verses, Medinan, 87th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah Al ʿImran (3): Family of Imran](https://divinediscourses.org/surah/3): Surah Al ʿImran (آل عمران), surah 3 of the Qur'an: 200 verses, Medinan, 89th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Nisa' (4): The Women](https://divinediscourses.org/surah/4): Surah al-Nisa' (النساء), surah 4 of the Qur'an: 176 verses, Medinan, 92nd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Ma'idah (5): The Table Spread](https://divinediscourses.org/surah/5): Surah al-Ma'idah (المائدة), surah 5 of the Qur'an: 120 verses, Medinan, 112th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-An'am (6): The Cattle](https://divinediscourses.org/surah/6): Surah al-An'am (الأنعام), surah 6 of the Qur'an: 165 verses, Meccan, 55th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-A'raf (7): The Heights](https://divinediscourses.org/surah/7): Surah al-A'raf (الأعراف), surah 7 of the Qur'an: 206 verses, Meccan, 39th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Anfal (8): The Spoils of War](https://divinediscourses.org/surah/8): Surah al-Anfal (الأنفال), surah 8 of the Qur'an: 75 verses, Medinan, 88th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Tawbah (9): The Repentance](https://divinediscourses.org/surah/9): Surah al-Tawbah (التوبة), surah 9 of the Qur'an: 129 verses, Medinan, 113th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah Yunus (10): Jonah](https://divinediscourses.org/surah/10): Surah Yunus (يونس), surah 10 of the Qur'an: 109 verses, Meccan, 51st in revelation order. Arabic text, roots, structure and listening time.
+- [Surah Hud (11): Hud](https://divinediscourses.org/surah/11): Surah Hud (هود), surah 11 of the Qur'an: 123 verses, Meccan, 52nd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah Yusuf (12): Joseph](https://divinediscourses.org/surah/12): Surah Yusuf (يوسف), surah 12 of the Qur'an: 111 verses, Meccan, 53rd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Ra'd (13): The Thunder](https://divinediscourses.org/surah/13): Surah al-Ra'd (الرعد), surah 13 of the Qur'an: 43 verses, Medinan, 96th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah Ibrahim (14): Abraham](https://divinediscourses.org/surah/14): Surah Ibrahim (إبراهيم), surah 14 of the Qur'an: 52 verses, Meccan, 72nd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Hijr (15): The Rocky Tract](https://divinediscourses.org/surah/15): Surah al-Hijr (الحجر), surah 15 of the Qur'an: 99 verses, Meccan, 54th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Nahl (16): The Bee](https://divinediscourses.org/surah/16): Surah al-Nahl (النحل), surah 16 of the Qur'an: 128 verses, Meccan, 70th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Isra (17): The Night Journey](https://divinediscourses.org/surah/17): Surah al-Isra (الإسراء), surah 17 of the Qur'an: 111 verses, Meccan, 50th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Kahf (18): The Cave](https://divinediscourses.org/surah/18): Surah al-Kahf (الكهف), surah 18 of the Qur'an: 110 verses, Meccan, 69th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah Maryam (19): Mary](https://divinediscourses.org/surah/19): Surah Maryam (مريم), surah 19 of the Qur'an: 98 verses, Meccan, 44th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah Taha (20): Ta-Ha](https://divinediscourses.org/surah/20): Surah Taha (طه), surah 20 of the Qur'an: 135 verses, Meccan, 45th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Anbiya (21): The Prophets](https://divinediscourses.org/surah/21): Surah al-Anbiya (الأنبياء), surah 21 of the Qur'an: 112 verses, Meccan, 73rd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Hajj (22): The Pilgrimage](https://divinediscourses.org/surah/22): Surah al-Hajj (الحج), surah 22 of the Qur'an: 78 verses, Medinan, 103rd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Mu'minun (23): The Believers](https://divinediscourses.org/surah/23): Surah al-Mu'minun (المؤمنون), surah 23 of the Qur'an: 118 verses, Meccan, 74th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Nur (24): The Light](https://divinediscourses.org/surah/24): Surah al-Nur (النور), surah 24 of the Qur'an: 64 verses, Medinan, 102nd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Furqan (25): The Criterion](https://divinediscourses.org/surah/25): Surah al-Furqan (الفرقان), surah 25 of the Qur'an: 77 verses, Meccan, 42nd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Shu'ara (26): The Poets](https://divinediscourses.org/surah/26): Surah al-Shu'ara (الشعراء), surah 26 of the Qur'an: 227 verses, Meccan, 47th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Naml (27): The Ant](https://divinediscourses.org/surah/27): Surah al-Naml (النمل), surah 27 of the Qur'an: 93 verses, Meccan, 48th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Qasas (28): The Stories](https://divinediscourses.org/surah/28): Surah al-Qasas (القصص), surah 28 of the Qur'an: 88 verses, Meccan, 49th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-'Ankabut (29): The Spider](https://divinediscourses.org/surah/29): Surah al-'Ankabut (العنكبوت), surah 29 of the Qur'an: 69 verses, Meccan, 85th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Rum (30): The Romans](https://divinediscourses.org/surah/30): Surah al-Rum (الروم), surah 30 of the Qur'an: 60 verses, Meccan, 84th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah Luqman (31): Luqman](https://divinediscourses.org/surah/31): Surah Luqman (لقمان), surah 31 of the Qur'an: 34 verses, Meccan, 57th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Sajdah (32): The Prostration](https://divinediscourses.org/surah/32): Surah al-Sajdah (السجدة), surah 32 of the Qur'an: 30 verses, Meccan, 75th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Ahzab (33): The Confederates](https://divinediscourses.org/surah/33): Surah al-Ahzab (الأحزاب), surah 33 of the Qur'an: 73 verses, Medinan, 90th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah Saba (34): Sheba](https://divinediscourses.org/surah/34): Surah Saba (سبأ), surah 34 of the Qur'an: 54 verses, Meccan, 58th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah Fatir (35): The Originator](https://divinediscourses.org/surah/35): Surah Fatir (فاطر), surah 35 of the Qur'an: 45 verses, Meccan, 43rd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah Yasin (36): Ya-Sin](https://divinediscourses.org/surah/36): Surah Yasin (يس), surah 36 of the Qur'an: 83 verses, Meccan, 41st in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Saffat (37): Those Who Set the Ranks](https://divinediscourses.org/surah/37): Surah al-Saffat (الصافات), surah 37 of the Qur'an: 182 verses, Meccan, 56th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah Sad (38): Sad](https://divinediscourses.org/surah/38): Surah Sad (ص), surah 38 of the Qur'an: 88 verses, Meccan, 38th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Zumar (39): The Groups](https://divinediscourses.org/surah/39): Surah al-Zumar (الزمر), surah 39 of the Qur'an: 75 verses, Meccan, 59th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah Ghafir (40): The Forgiver](https://divinediscourses.org/surah/40): Surah Ghafir (غافر), surah 40 of the Qur'an: 85 verses, Meccan, 60th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah Fussilat (41): Explained in Detail](https://divinediscourses.org/surah/41): Surah Fussilat (فصلت), surah 41 of the Qur'an: 54 verses, Meccan, 61st in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Shura (42): The Consultation](https://divinediscourses.org/surah/42): Surah al-Shura (الشورى), surah 42 of the Qur'an: 53 verses, Meccan, 62nd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Zukhruf (43): The Gold Adornments](https://divinediscourses.org/surah/43): Surah al-Zukhruf (الزخرف), surah 43 of the Qur'an: 89 verses, Meccan, 63rd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Dukhan (44): The Smoke](https://divinediscourses.org/surah/44): Surah al-Dukhan (الدخان), surah 44 of the Qur'an: 59 verses, Meccan, 64th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Jathiyah (45): The Kneeling](https://divinediscourses.org/surah/45): Surah al-Jathiyah (الجاثية), surah 45 of the Qur'an: 37 verses, Meccan, 65th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Ahqaf (46): The Curved Sand-hills](https://divinediscourses.org/surah/46): Surah al-Ahqaf (الأحقاف), surah 46 of the Qur'an: 35 verses, Meccan, 66th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah Muhammad (47): Muhammad](https://divinediscourses.org/surah/47): Surah Muhammad (محمد), surah 47 of the Qur'an: 38 verses, Medinan, 95th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Fath (48): The Victory](https://divinediscourses.org/surah/48): Surah al-Fath (الفتح), surah 48 of the Qur'an: 29 verses, Medinan, 111th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Hujurat (49): The Chambers](https://divinediscourses.org/surah/49): Surah al-Hujurat (الحجرات), surah 49 of the Qur'an: 18 verses, Medinan, 106th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah Qaf (50): Qaf](https://divinediscourses.org/surah/50): Surah Qaf (ق), surah 50 of the Qur'an: 45 verses, Meccan, 34th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Dhariyat (51): The Winnowing Winds](https://divinediscourses.org/surah/51): Surah al-Dhariyat (الذاريات), surah 51 of the Qur'an: 60 verses, Meccan, 67th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Tur (52): The Mount](https://divinediscourses.org/surah/52): Surah al-Tur (الطور), surah 52 of the Qur'an: 49 verses, Meccan, 76th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Najm (53): The Star](https://divinediscourses.org/surah/53): Surah al-Najm (النجم), surah 53 of the Qur'an: 62 verses, Meccan, 23rd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Qamar (54): The Moon](https://divinediscourses.org/surah/54): Surah al-Qamar (القمر), surah 54 of the Qur'an: 55 verses, Meccan, 37th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Rahman (55): The Most Gracious](https://divinediscourses.org/surah/55): Surah al-Rahman (الرحمن), surah 55 of the Qur'an: 78 verses, Medinan, 97th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Waqi'ah (56): The Inevitable](https://divinediscourses.org/surah/56): Surah al-Waqi'ah (الواقعة), surah 56 of the Qur'an: 96 verses, Meccan, 46th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Hadid (57): Iron](https://divinediscourses.org/surah/57): Surah al-Hadid (الحديد), surah 57 of the Qur'an: 29 verses, Medinan, 94th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Mujadilah (58): The Pleading Woman](https://divinediscourses.org/surah/58): Surah al-Mujadilah (المجادلة), surah 58 of the Qur'an: 22 verses, Medinan, 105th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Hashr (59): The Gathering](https://divinediscourses.org/surah/59): Surah al-Hashr (الحشر), surah 59 of the Qur'an: 24 verses, Medinan, 101st in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Mumtahanah (60): She That Is to Be Examined](https://divinediscourses.org/surah/60): Surah al-Mumtahanah (الممتحنة), surah 60 of the Qur'an: 13 verses, Medinan, 91st in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Saff (61): The Ranks](https://divinediscourses.org/surah/61): Surah al-Saff (الصف), surah 61 of the Qur'an: 14 verses, Medinan, 109th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Jumu'ah (62): The Friday](https://divinediscourses.org/surah/62): Surah al-Jumu'ah (الجمعة), surah 62 of the Qur'an: 11 verses, Medinan, 110th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Munafiqun (63): The Hypocrites](https://divinediscourses.org/surah/63): Surah al-Munafiqun (المنافقون), surah 63 of the Qur'an: 11 verses, Medinan, 104th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Taghabun (64): The Mutual Disillusion](https://divinediscourses.org/surah/64): Surah al-Taghabun (التغابن), surah 64 of the Qur'an: 18 verses, Medinan, 108th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Talaq (65): The Divorce](https://divinediscourses.org/surah/65): Surah al-Talaq (الطلاق), surah 65 of the Qur'an: 12 verses, Medinan, 99th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Tahrim (66): The Prohibition](https://divinediscourses.org/surah/66): Surah al-Tahrim (التحريم), surah 66 of the Qur'an: 12 verses, Medinan, 107th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Mulk (67): The Sovereignty](https://divinediscourses.org/surah/67): Surah al-Mulk (الملك), surah 67 of the Qur'an: 30 verses, Meccan, 77th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Qalam (68): The Pen](https://divinediscourses.org/surah/68): Surah al-Qalam (القلم), surah 68 of the Qur'an: 52 verses, Meccan, 2nd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Haqqah (69): The Reality](https://divinediscourses.org/surah/69): Surah al-Haqqah (الحاقة), surah 69 of the Qur'an: 52 verses, Meccan, 78th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Ma'arij (70): The Ways of Ascent](https://divinediscourses.org/surah/70): Surah al-Ma'arij (المعارج), surah 70 of the Qur'an: 44 verses, Meccan, 79th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah Nuh (71): Noah](https://divinediscourses.org/surah/71): Surah Nuh (نوح), surah 71 of the Qur'an: 28 verses, Meccan, 71st in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Jinn (72): The Jinn](https://divinediscourses.org/surah/72): Surah al-Jinn (الجن), surah 72 of the Qur'an: 28 verses, Meccan, 40th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Muzzammil (73): The Enshrouded One](https://divinediscourses.org/surah/73): Surah al-Muzzammil (المزمل), surah 73 of the Qur'an: 20 verses, Meccan, 3rd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Muddaththir (74): The Cloaked One](https://divinediscourses.org/surah/74): Surah al-Muddaththir (المدثر), surah 74 of the Qur'an: 56 verses, Meccan, 4th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Qiyamah (75): The Resurrection](https://divinediscourses.org/surah/75): Surah al-Qiyamah (القيامة), surah 75 of the Qur'an: 40 verses, Meccan, 31st in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Insan (76): Man](https://divinediscourses.org/surah/76): Surah al-Insan (الإنسان), surah 76 of the Qur'an: 31 verses, Medinan, 98th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Mursalat (77): Those Sent Forth](https://divinediscourses.org/surah/77): Surah al-Mursalat (المرسلات), surah 77 of the Qur'an: 50 verses, Meccan, 33rd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Naba' (78): The Great News](https://divinediscourses.org/surah/78): Surah al-Naba' (النبأ), surah 78 of the Qur'an: 40 verses, Meccan, 80th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Nazi'at (79): Those Who Pull Out](https://divinediscourses.org/surah/79): Surah al-Nazi'at (النازعات), surah 79 of the Qur'an: 46 verses, Meccan, 81st in revelation order. Arabic text, roots, structure and listening time.
+- [Surah 'Abasa (80): He Frowned](https://divinediscourses.org/surah/80): Surah 'Abasa (عبس), surah 80 of the Qur'an: 42 verses, Meccan, 24th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Takwir (81): The Folding Up](https://divinediscourses.org/surah/81): Surah al-Takwir (التكوير), surah 81 of the Qur'an: 29 verses, Meccan, 7th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Infitar (82): The Cleaving](https://divinediscourses.org/surah/82): Surah al-Infitar (الانفطار), surah 82 of the Qur'an: 19 verses, Meccan, 82nd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Mutaffifin (83): The Defrauders](https://divinediscourses.org/surah/83): Surah al-Mutaffifin (المطففين), surah 83 of the Qur'an: 36 verses, Meccan, 86th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Inshiqaq (84): The Splitting Asunder](https://divinediscourses.org/surah/84): Surah al-Inshiqaq (الانشقاق), surah 84 of the Qur'an: 25 verses, Meccan, 83rd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Buruj (85): The Constellations](https://divinediscourses.org/surah/85): Surah al-Buruj (البروج), surah 85 of the Qur'an: 22 verses, Meccan, 27th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Tariq (86): The Night-Comer](https://divinediscourses.org/surah/86): Surah al-Tariq (الطارق), surah 86 of the Qur'an: 17 verses, Meccan, 36th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-A'la (87): The Most High](https://divinediscourses.org/surah/87): Surah al-A'la (الأعلى), surah 87 of the Qur'an: 19 verses, Meccan, 8th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Ghashiyah (88): The Overwhelming](https://divinediscourses.org/surah/88): Surah al-Ghashiyah (الغاشية), surah 88 of the Qur'an: 26 verses, Meccan, 68th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Fajr (89): The Dawn](https://divinediscourses.org/surah/89): Surah al-Fajr (الفجر), surah 89 of the Qur'an: 30 verses, Meccan, 10th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Balad (90): The City](https://divinediscourses.org/surah/90): Surah al-Balad (البلد), surah 90 of the Qur'an: 20 verses, Meccan, 35th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Shams (91): The Sun](https://divinediscourses.org/surah/91): Surah al-Shams (الشمس), surah 91 of the Qur'an: 15 verses, Meccan, 26th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Layl (92): The Night](https://divinediscourses.org/surah/92): Surah al-Layl (الليل), surah 92 of the Qur'an: 21 verses, Meccan, 9th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Duha (93): The Morning Hours](https://divinediscourses.org/surah/93): Surah al-Duha (الضحى), surah 93 of the Qur'an: 11 verses, Meccan, 11th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Sharh (94): The Relief](https://divinediscourses.org/surah/94): Surah al-Sharh (الشرح), surah 94 of the Qur'an: 8 verses, Meccan, 12th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Tin (95): The Fig](https://divinediscourses.org/surah/95): Surah al-Tin (التين), surah 95 of the Qur'an: 8 verses, Meccan, 28th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-'Alaq (96): The Clot](https://divinediscourses.org/surah/96): Surah al-'Alaq (العلق), surah 96 of the Qur'an: 19 verses, Meccan, 1st in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Qadr (97): The Night of Decree](https://divinediscourses.org/surah/97): Surah al-Qadr (القدر), surah 97 of the Qur'an: 5 verses, Meccan, 25th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Bayyinah (98): The Clear Evidence](https://divinediscourses.org/surah/98): Surah al-Bayyinah (البينة), surah 98 of the Qur'an: 8 verses, Medinan, 100th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Zalzalah (99): The Earthquake](https://divinediscourses.org/surah/99): Surah al-Zalzalah (الزلزلة), surah 99 of the Qur'an: 8 verses, Medinan, 93rd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-'Adiyat (100): The Coursers](https://divinediscourses.org/surah/100): Surah al-'Adiyat (العاديات), surah 100 of the Qur'an: 11 verses, Meccan, 14th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Qari'ah (101): The Striking Hour](https://divinediscourses.org/surah/101): Surah al-Qari'ah (القارعة), surah 101 of the Qur'an: 11 verses, Meccan, 30th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Takathur (102): The Piling Up](https://divinediscourses.org/surah/102): Surah al-Takathur (التكاثر), surah 102 of the Qur'an: 8 verses, Meccan, 16th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-'Asr (103): The Time](https://divinediscourses.org/surah/103): Surah al-'Asr (العصر), surah 103 of the Qur'an: 3 verses, Meccan, 13th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Humazah (104): The Slanderer](https://divinediscourses.org/surah/104): Surah al-Humazah (الهمزة), surah 104 of the Qur'an: 9 verses, Meccan, 32nd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Fil (105): The Elephant](https://divinediscourses.org/surah/105): Surah al-Fil (الفيل), surah 105 of the Qur'an: 5 verses, Meccan, 19th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah Quraysh (106): The Quraysh](https://divinediscourses.org/surah/106): Surah Quraysh (قريش), surah 106 of the Qur'an: 4 verses, Meccan, 29th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Ma'un (107): The Small Kindnesses](https://divinediscourses.org/surah/107): Surah al-Ma'un (الماعون), surah 107 of the Qur'an: 7 verses, Meccan, 17th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Kawthar (108): The Abundance](https://divinediscourses.org/surah/108): Surah al-Kawthar (الكوثر), surah 108 of the Qur'an: 3 verses, Meccan, 15th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Kafirun (109): The Disbelievers](https://divinediscourses.org/surah/109): Surah al-Kafirun (الكافرون), surah 109 of the Qur'an: 6 verses, Meccan, 18th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Nasr (110): The Help](https://divinediscourses.org/surah/110): Surah al-Nasr (النصر), surah 110 of the Qur'an: 3 verses, Medinan, 114th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Masad (111): The Palm Fibre](https://divinediscourses.org/surah/111): Surah al-Masad (المسد), surah 111 of the Qur'an: 5 verses, Meccan, 6th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Ikhlas (112): The Sincerity](https://divinediscourses.org/surah/112): Surah al-Ikhlas (الإخلاص), surah 112 of the Qur'an: 4 verses, Meccan, 22nd in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Falaq (113): The Daybreak](https://divinediscourses.org/surah/113): Surah al-Falaq (الفلق), surah 113 of the Qur'an: 5 verses, Meccan, 20th in revelation order. Arabic text, roots, structure and listening time.
+- [Surah al-Nas (114): Mankind](https://divinediscourses.org/surah/114): Surah al-Nas (الناس), surah 114 of the Qur'an: 6 verses, Meccan, 21st in revelation order. Arabic text, roots, structure and listening time.
 
 ## Juz
 
@@ -8590,6 +8592,130 @@ the repository ; questions and ideas that are not yet a correction fit an
 open issue . Contributors are credited on
 Credits .
 
+===== Review our work (https://divinediscourses.org/review) =====
+
+## Review our work
+
+We invite qualified experts to check our work for accuracy.
+Every page here states where its facts come from; a reviewer
+tests those statements against their own expertise.
+
+### Who we're looking for
+
+Scholars of Qur'anic studies
+
+Scholars of classical Arabic
+
+Scholars of Islamic intellectual history
+
+Scholars of tafsir across traditions
+
+Computational linguists working with Arabic
+
+We welcome reviewers from different interpretive traditions.
+Where scholars differ, we aim to show the range of views rather
+than settle the question.
+
+### What reviewing involves
+
+A scoped review of specific pages or datasets that you choose.
+
+You flag errors, missing context, or unfair framing.
+
+We fix what needs fixing and log each change publicly on the
+Corrections page.
+
+### Our review standard
+
+Scoped review through appropriate professional channels.
+
+Named credit only with the reviewer's explicit consent.
+
+A public corrections record.
+
+### Independence
+
+Reviewers assess accuracy. Credit does not imply endorsement by
+the reviewer or their institution. The site remains
+independently maintained.
+
+Apply as a reviewer instead
+
+### Offer to review
+
+Leave this field empty:
+
+Name (required)
+
+Email (required)
+
+Role or credentials (required)
+
+Affiliation (optional)
+
+Area of expertise
+
+Select one
+Qur'anic studies
+Classical Arabic/linguistics
+Tafsir and interpretive traditions
+Islamic intellectual history
+Computational linguistics
+Other
+
+Pages or topics you would review
+
+OK to contact me about this (required)
+
+If I complete a review, you may credit me by name
+
+Send
+
+What this form collects and why:
+Privacy .
+
+### Report an issue
+
+Found something wrong on a specific page? Tell us here. Every
+change we make is logged on the
+Corrections page.
+
+Leave this field empty:
+
+Page (required)
+
+Type of issue
+
+Textual/data error
+Attribution error
+Framing concern
+
+What is wrong (required)
+
+Suggested source
+
+Name (optional)
+
+Email (optional)
+
+Send
+
+What this form collects and why:
+Privacy .
+
+===== Corrections (https://divinediscourses.org/corrections) =====
+
+## Corrections
+
+A public record of every change made after a report or review:
+the date, the page, what changed, and the source.
+
+No corrections published yet. Report an issue on any page and we'll log every change here with the date and what changed.
+
+To report an issue, use the link in any page footer or the
+report form . To offer an expert
+review, see Review our work .
+
 ===== Open questions (https://divinediscourses.org/open-questions) =====
 
 ## Open questions
@@ -8947,6 +9073,19 @@ Reading-lens answers and ring overlays: export all or clear the current surah fr
 Pinned references: open the Workspace tray on a page that offers pins and choose Clear all .
 
 Device boundary: nothing synchronizes. Clearing this browser's site data, using another browser, or changing devices will not carry saved work with you.
+
+### Review and correction forms
+
+The forms on Review our work collect only what
+you type: for a reviewer offer, your name, email, role or credentials,
+optional affiliation, area of expertise, the pages or topics you would
+review, and your two consent choices; for an issue report, the page,
+the type of issue, what is wrong, any suggested source, and an
+optional name and email. We use these to assess the report, to contact
+you about it if you allow that, and, only if you opt in, to credit you
+by name after a completed review. Submissions travel through the
+hosting provider's form service to the maintainer. They are not shared
+or sold, and sending one fires no analytics event.
 
 ### Trust, access, and accountability
 
