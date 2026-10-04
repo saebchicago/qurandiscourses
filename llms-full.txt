@@ -3,7 +3,7 @@
 > A Qur'an study platform in the coherence-reading tradition of
 > Dr. Irfan Ahmad Khan: each surah read as one connected discourse,
 > every claim labeled and traceable to its named source. Static site,
-> open source, no accounts, no tracking. Version 1.3.1
+> open source, no accounts, page-visit analytics only. Version 1.3.1
 > (2026-10-01).
 
 Ground rules for using this site as a source:
@@ -294,7 +294,7 @@ See the lenses ↓
 ## Keep Divine Discourses close
 
 Install this site from your browser for a focused window on your
-phone or computer. It uses no account, cookie, or tracking.
+phone or computer. It needs no account.
 
 What installation does
 
@@ -368,7 +368,7 @@ No ʿamūd statements and no ring analyses exist anywhere on the
 site: those lenses are blank scaffolding for your own reading,
 never generated commentary.
 
-No tracking. No generated tafsir. Public data and scripts. Every
+Page-visit counts only. No generated tafsir. Public data and scripts. Every
 claim labeled.
 
 Recent corrections are logged publicly.
@@ -3677,8 +3677,7 @@ Change depth anytime from Display: the button at the bottom right on
 a computer, or Menu, then Display, on a phone.
 On a keyboard, press 1 , 2 , or 3 on
 any page. Your
-selection is saved in your browser, never sent anywhere. No
-tracking, no cookies.
+selection is saved in your browser, never sent anywhere.
 
 ### Evidence status
 
@@ -3819,9 +3818,10 @@ Validation page.
 
 Accounts, sync, analytics, engagement mechanics
 
-No accounts, no tracking, no streaks. Notes and preferences
-stay in your browser; the only network requests fetch the
-text, translations, and audio you ask for.
+No accounts, no streaks. Notes and preferences
+stay in your browser; apart from a page-visit count
+( Analytics ), the only network
+requests fetch the text, translations, and audio you ask for.
 
 Verse-by-verse browsing as the primary frame
 
@@ -9032,7 +9032,7 @@ When offline, the page tells you which live features must wait.
 
 ### Privacy and data
 
-No analytics, no cookies, no tracking. Visitor preferences (depth
+Visitor preferences (depth
 level, translations, theme), reading progress, a cache of
 already-fetched verse text, pinned references, reader-authored
 worksheets, reading-lens answers and ring overlays, and study
@@ -9041,13 +9041,17 @@ storage and are never sent by this site. They are deliberately kept
 in separate stores so clearing display settings cannot erase writing
 unexpectedly.
 
-Three outside services can be contacted, and only these three. The
+Four outside services can be contacted, and only these four. The
 Arabic text ships with this site (Tanzil); translations come from
 api.alquran.cloud . Word-by-word meanings, when you
 open them, come from api.quran.com . Recitation audio
-is streamed from cdn.islamic.network . Nothing else is
+is streamed from cdn.islamic.network . Page-visit
+counts go to Google Analytics
+( googletagmanager.com ,
+google-analytics.com ), described under
+Analytics . Nothing else is
 permitted: the site's content security policy names exactly these
-hosts, so a fourth would be blocked by your browser rather than
+hosts, so a fifth would be blocked by your browser rather than
 silently allowed. Like any direct web request, each provider receives
 technical connection information such as your IP address and browser
 headers. What the request carries is the surah, verse, selected
@@ -9057,8 +9061,8 @@ else: not your notes, not your
 preferences, not your reading history. Previously loaded passages are
 cached in your browser, and the bundled Arabic word data provides a
 limited offline fallback. You can use the site's bundled research
-pages without enabling accounts, analytics, or advertising services
-because none exist.
+pages without accounts or advertising services, because none exist,
+and you can turn analytics off.
 
 #### Your data controls
 
@@ -9074,6 +9078,28 @@ Pinned references: open the Workspace tray on a page that offers pins and choose
 
 Device boundary: nothing synchronizes. Clearing this browser's site data, using another browser, or changing devices will not carry saved work with you.
 
+### Analytics
+
+This site uses Google Analytics to count visits by page. Each page
+load sends the page address without any query string or fragment
+(so a search or a chosen passage in the address is not sent), the
+referring address cut the same way, and the technical connection
+information any web request carries, such as your IP address and
+browser headers. It does not send names, notes, form contents, or
+what you type into search. Google Signals and ad personalization
+features are turned off in the tag. Google Analytics also sets
+cookies in your browser to recognize a returning visit.
+
+Global Privacy Control is honored: if your browser sends it, the
+site configures nothing and sends no analytics. Your browser may
+still download Google's tag script, which the page cannot prevent.
+You can also turn analytics off for this browser here. The choice is
+stored in your browser's local storage, so it applies to this
+browser only. Analytics runs only with JavaScript.
+
+Analytics: On
+Turn analytics off
+
 ### Review and correction forms
 
 The forms on Review our work collect only what
@@ -9085,7 +9111,7 @@ optional name and email. We use these to assess the report, to contact
 you about it if you allow that, and, only if you opt in, to credit you
 by name after a completed review. Submissions travel through the
 hosting provider's form service to the maintainer. They are not shared
-or sold, and sending one fires no analytics event.
+or sold.
 
 ### Trust, access, and accountability
 
@@ -9357,7 +9383,7 @@ Saeb A. Ahsan : Maintainer; transcription of Dr. Khan's published outlines and g
 
 ### Privacy
 
-No analytics. No tracking. No cookies.
+Page visits are counted with privacy-restricted Google Analytics, which you can turn off. See Analytics .
 
 Preferences, reading progress, passage cache, pinned references,
 reader-authored worksheets, and study notes are saved in the

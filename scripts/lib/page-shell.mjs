@@ -107,6 +107,8 @@ export function renderPage({ title, description, url, og, jsonld, main, mainClas
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
 ${headLinks}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QEQGD1980R"></script>
+    <script src="/assets/ga-init.js"></script>
     <script type="application/ld+json">
 ${JSON.stringify(jsonld)}
     </script>

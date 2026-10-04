@@ -6,7 +6,7 @@ _Last updated: 2026-09-16_
 
 Divine Discourses is primarily a static reading and research site. Reading,
 search, study-depth preferences, and other ordinary use do not require an
-account, payment flow, or analytics cookie. Browser preferences such as depth
+account or payment flow. Page-visit analytics are described on the About page and can be turned off. Browser preferences such as depth
 selection remain local to the reader.
 
 The site does, however, provide an optional correction/reporting form. When a

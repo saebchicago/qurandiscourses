@@ -33,9 +33,11 @@
     />
     <link rel="manifest" href="manifest.webmanifest" />
     <meta name="theme-color" content="#2b1d0e" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QEQGD1980R"></script>
+    <script src="/assets/ga-init.js"></script>
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/about","url":"https://divinediscourses.org/about","name":"About this site and its method · Divine Discourses","description":"About Divine Discourses: the coherence-based method behind the site, its evidence-labeling standards, and how it's maintained.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.3.1","dateModified":"2026-10-03","about":{"@id":"https://divinediscourses.org/about#about-dr-khan"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"About this site and its method","item":"https://divinediscourses.org/about"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"},{"@type":"Person","@id":"https://divinediscourses.org/about#about-dr-khan","name":"Irfan Ahmad Khan","honorificPrefix":"Dr.","birthDate":"1931","deathDate":"2018","url":"https://divinediscourses.org/about#about-dr-khan","description":"Scholar of the Qur'an whose weekly tafsir lessons and published writings at the Association of Quranic Understanding developed the coherence-based reading this site follows."}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/about","url":"https://divinediscourses.org/about","name":"About this site and its method · Divine Discourses","description":"About Divine Discourses: the coherence-based method behind the site, its evidence-labeling standards, and how it's maintained.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.3.1","dateModified":"2026-10-04","about":{"@id":"https://divinediscourses.org/about#about-dr-khan"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"About this site and its method","item":"https://divinediscourses.org/about"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"},{"@type":"Person","@id":"https://divinediscourses.org/about#about-dr-khan","name":"Irfan Ahmad Khan","honorificPrefix":"Dr.","birthDate":"1931","deathDate":"2018","url":"https://divinediscourses.org/about#about-dr-khan","description":"Scholar of the Qur'an whose weekly tafsir lessons and published writings at the Association of Quranic Understanding developed the coherence-based reading this site follows."}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -126,6 +128,7 @@
             <li><a href="#the-name">The name</a></li>
             <li><a href="#install">Install and offline use</a></li>
             <li><a href="#privacy">Privacy and data</a></li>
+            <li><a href="#analytics">Analytics</a></li>
             <li><a href="#review-forms">Review and correction forms</a></li>
             <li><a href="#trust">Trust, access, and accountability</a></li>
             <li><a href="#accessibility">Accessibility statement</a></li>
@@ -307,7 +310,7 @@
         </p>
         <h3 id="privacy">Privacy and data</h3>
         <p>
-          No analytics, no cookies, no tracking. Visitor preferences (depth
+          Visitor preferences (depth
           level, translations, theme), reading progress, a cache of
           already-fetched verse text, pinned references, reader-authored
           worksheets, reading-lens answers and ring overlays, and study
@@ -317,13 +320,17 @@
           unexpectedly.
         </p>
         <p>
-          Three outside services can be contacted, and only these three. The
+          Four outside services can be contacted, and only these four. The
           Arabic text ships with this site (Tanzil); translations come from
           <strong>api.alquran.cloud</strong>. Word-by-word meanings, when you
           open them, come from <strong>api.quran.com</strong>. Recitation audio
-          is streamed from <strong>cdn.islamic.network</strong>. Nothing else is
+          is streamed from <strong>cdn.islamic.network</strong>. Page-visit
+          counts go to <strong>Google Analytics</strong>
+          (<strong>googletagmanager.com</strong>,
+          <strong>google-analytics.com</strong>), described under
+          <a href="#analytics">Analytics</a>. Nothing else is
           permitted: the site's content security policy names exactly these
-          hosts, so a fourth would be blocked by your browser rather than
+          hosts, so a fifth would be blocked by your browser rather than
           silently allowed. Like any direct web request, each provider receives
           technical connection information such as your IP address and browser
           headers. What the request carries is the surah, verse, selected
@@ -333,8 +340,8 @@
           preferences, not your reading history. Previously loaded passages are
           cached in your browser, and the bundled Arabic word data provides a
           limited offline fallback. You can use the site's bundled research
-          pages without enabling accounts, analytics, or advertising services
-          because none exist.
+          pages without accounts or advertising services, because none exist,
+          and you can turn analytics off.
         </p>
         <div class="card" aria-labelledby="data-controls-title">
           <h4 id="data-controls-title">Your data controls</h4>
@@ -348,6 +355,31 @@
           </ul>
         </div>
 
+        <h3 id="analytics">Analytics</h3>
+        <p>
+          This site uses Google Analytics to count visits by page. Each page
+          load sends the page address without any query string or fragment
+          (so a search or a chosen passage in the address is not sent), the
+          referring address cut the same way, and the technical connection
+          information any web request carries, such as your IP address and
+          browser headers. It does not send names, notes, form contents, or
+          what you type into search. Google Signals and ad personalization
+          features are turned off in the tag. Google Analytics also sets
+          cookies in your browser to recognize a returning visit.
+        </p>
+        <p>
+          Global Privacy Control is honored: if your browser sends it, the
+          site configures nothing and sends no analytics. Your browser may
+          still download Google's tag script, which the page cannot prevent.
+          You can also turn analytics off for this browser here. The choice is
+          stored in your browser's local storage, so it applies to this
+          browser only. Analytics runs only with JavaScript.
+        </p>
+        <p>
+          Analytics: <strong id="analyticsState">On</strong>
+          <button type="button" id="analyticsToggle" class="button secondary" aria-pressed="true">Turn analytics off</button>
+        </p>
+
         <h3 id="review-forms">Review and correction forms</h3>
         <p>
           The forms on <a href="/review">Review our work</a> collect only what
@@ -359,7 +391,7 @@
           you about it if you allow that, and, only if you opt in, to credit you
           by name after a completed review. Submissions travel through the
           hosting provider's form service to the maintainer. They are not shared
-          or sold, and sending one fires no analytics event.
+          or sold.
         </p>
 
         <h3 id="trust">Trust, access, and accountability</h3>
@@ -548,7 +580,7 @@
           <button type="submit" class="button secondary">Send</button>
           <p class="feedback-note t-annotation">
             Goes to the maintainer via the hosting provider's form service.
-            No analytics or tracking; audio and translations load from the
+            Page visits are counted with Google Analytics; audio and translations load from the
             providers named under <a href="/about#privacy">Privacy</a>. Prefer
             GitHub? <a href="https://github.com/saebchicago/qurandiscourses/issues/new?template=correction.md" rel="noopener">Open a correction issue</a>.
           </p>
@@ -585,5 +617,6 @@
     <script src="assets/version.js" defer></script>
     <script src="assets/cite-page.js" defer></script>
     <script src="assets/feedback.js" defer></script>
+    <script src="assets/analytics-toggle.js" defer></script>
   </body>
 </html>

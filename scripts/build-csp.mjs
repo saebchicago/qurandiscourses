@@ -14,7 +14,7 @@
 // If you edit an inline script, rerun this; --check runs in the ship
 // checklist so a stale policy fails before deploy. Zero dependencies.
 
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { createHash } from "node:crypto";
@@ -65,10 +65,44 @@ function hashBlocks(file, tag) {
   return hashes;
 }
 
+// Google Analytics (assets/ga-init.js + the async gtag.js tag in each page
+// head). Only a block whose pages carry the tag gets these hosts; the tag
+// is in the page source, so the hosts are written here at build time and
+// not left to anything injected after the build, which no hash covers.
+const GA_TAG = "/assets/ga-init.js";
+const GA_SCRIPT = ["https://www.googletagmanager.com"];
+const GA_CONNECT = ["https://*.google-analytics.com", "https://*.analytics.google.com", "https://www.googletagmanager.com"];
+const GA_IMG = ["https://*.google-analytics.com", "https://www.googletagmanager.com"];
+
+// Generated families are one CSP block for a directory of pages: GA is
+// allowed only if every page in it carries the tag.
+const FAMILY = /^\/(surah|juz|root)\/\*$/;
+function pageHasGa(path) {
+  const fam = FAMILY.exec(path);
+  if (fam) {
+    const dir = join(ROOT, fam[1]);
+    const files = readdirSync(dir).filter((f) => f.endsWith(".html"));
+    return files.length > 0 && files.every((f) => readFileSync(join(dir, f), "utf8").includes(GA_TAG));
+  }
+  const file = fileForPath(path);
+  return Boolean(file) && existsSync(join(ROOT, file)) && readFileSync(join(ROOT, file), "utf8").includes(GA_TAG);
+}
+
+// Set a directive's GA hosts to exactly `hosts` (none when the page has no
+// tag), leaving every other source untouched. Idempotent.
+function withGa(csp, directive, hosts, on) {
+  const re = new RegExp(`(${directive} )([^;]*)`);
+  return csp.replace(re, (_, head, list) => {
+    const kept = list.split(/\s+/).filter((t) => t && ![...GA_SCRIPT, ...GA_CONNECT, ...GA_IMG].includes(t));
+    return head + [...kept, ...(on ? hosts : [])].join(" ");
+  });
+}
+
 function scriptSrcFor(path) {
   const file = fileForPath(path);
   const parts = ["'self'"];
   if (file) parts.push(...hashBlocks(file, "script"));
+  if (pageHasGa(path)) parts.push(...GA_SCRIPT);
   return `script-src ${parts.join(" ")}`;
 }
 
@@ -97,6 +131,10 @@ const out = chunks.map((chunk, i) => {
   let c = chunk;
   // script-src: replace the whole directive with 'self' + inline hashes.
   c = c.replace(/script-src [^;]*/, scriptSrcFor(pathMatch[1]));
+  // connect-src / img-src: GA hosts on pages that carry the tag, nothing else.
+  const ga = pageHasGa(pathMatch[1]);
+  c = withGa(c, "connect-src", GA_CONNECT, ga);
+  c = withGa(c, "img-src", GA_IMG, ga);
   // style-src-elem: drop any prior copy (idempotent), then insert a fresh
   // one right after style-src so element styles are hash-authorized.
   c = c.replace(/;\s*style-src-elem [^;]*/g, "");

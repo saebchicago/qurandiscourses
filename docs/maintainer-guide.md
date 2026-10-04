@@ -951,7 +951,9 @@ committing. Register the palette in the `setPalette` select in
   chart-bar widths) are still permitted: they fall back to `style-src`,
   which keeps `'unsafe-inline'`. Hashing every distinct style attribute
   isn't feasible, and with script-src locked down the residual risk is low.
-- No analytics, no cookies, no accounts. Preferences live in
+- No accounts. Page-visit analytics (Google Analytics 4, address only,
+  honors Global Privacy Control and the dd_analytics_off setting; see
+  assets/ga-init.js) are the only analytics. Preferences live in
   localStorage only; the privacy copy on about.html/credits.html must
   stay in sync with reality.
 
