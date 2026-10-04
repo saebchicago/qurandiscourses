@@ -66,7 +66,7 @@ const header = `# Divine Discourses
 > A Qur'an study platform in the coherence-reading tradition of
 > Dr. Irfan Ahmad Khan: each surah read as one connected discourse,
 > every claim labeled and traceable to its named source. Static site,
-> open source, no accounts, no tracking. Version ${version}
+> open source, no accounts, page-visit analytics only. Version ${version}
 > (${released}).
 
 Ground rules for using this site as a source:

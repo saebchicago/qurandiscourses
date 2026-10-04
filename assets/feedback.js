@@ -10,7 +10,7 @@
    static markup on every page, so it is true without JavaScript too.
 
    Submitting the form sends its fields to the hosting provider. The site
-   uses no analytics or tracking; optional translation and audio features
+   counts page visits with Google Analytics (see /about#privacy); optional translation and audio features
    make direct requests to the named providers described on /about#privacy. */
 (function () {
   "use strict";
