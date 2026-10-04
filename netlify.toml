@@ -588,6 +588,33 @@
 # noindex bounce stubs, excluded from sitemap.xml, and their URLs are
 # already in the wild from the share button.
 
+# divinediscourses.com is a defensive domain, added as a Netlify domain
+# alias. These host rules come first so every .com request, on any path,
+# lands on the same path at the canonical .org with a permanent redirect.
+[[redirects]]
+  from = "https://divinediscourses.com/*"
+  to = "https://divinediscourses.org/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.divinediscourses.com/*"
+  to = "https://divinediscourses.org/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://divinediscourses.com/*"
+  to = "https://divinediscourses.org/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.divinediscourses.com/*"
+  to = "https://divinediscourses.org/:splat"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/about.html"
   to = "/about"
