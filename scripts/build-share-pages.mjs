@@ -44,7 +44,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = SITE_ORIGIN;
 const OG_IMG = `${SITE}/assets/og/site-og.png`;
 const OG_ALT =
-  "Divine Discourses — Qur'an study, every claim traceable to its source";
+  "Divine Discourses: Qur'an study, every claim traceable to its source";
 
 // Per-entity social cards (scripts/build-og-images.mjs) when they have
 // been generated, the site-wide card otherwise. Checking the file
@@ -150,7 +150,7 @@ for (const t of themes.slice().sort((a, b) => a.slug.localeCompare(b.slug))) {
       description,
       og: ogFor(
         `assets/og/theme/${t.slug}.png`,
-        `${t.title} — a theme gateway on Divine Discourses`,
+        `${t.title}, a theme gateway on Divine Discourses`,
       ),
       target: `/themes#${t.slug}`,
     }),
@@ -175,7 +175,7 @@ for (let n = 1; n <= 114; n++) {
       description,
       og: ogFor(
         `assets/og/surah/${n}.png`,
-        `Surah ${n}, ${nm.translit} — ${p.verseCount} verses, ${cls}`,
+        `Surah ${n}, ${nm.translit}: ${p.verseCount} verses, ${cls}`,
       ),
       // The dossier IS the surah's profile page — the share description
       // above already reads like its teaser, and the dossier's first
@@ -195,7 +195,7 @@ for (let n = 1; n <= 114; n++) {
       description,
       og: ogFor(
         `assets/og/surah/${n}.png`,
-        `Surah ${n}, ${nm.translit} — ${p.verseCount} verses, ${cls}`,
+        `Surah ${n}, ${nm.translit}: ${p.verseCount} verses, ${cls}`,
       ),
       target: `/read?s=${n}`,
     }),
@@ -220,7 +220,7 @@ for (const j of juzList) {
       path: `s/juz/${j.juz}.html`,
       title: `Juz ${j.juz} · Divine Discourses`,
       description: `Juz ${j.juz} of 30 · ${span}. Read it verse by verse, or listen to the whole juz in Arabic with English translation audio, on Divine Discourses.`,
-      og: ogFor("assets/og/site-og.png", `Juz ${j.juz} — ${span}`),
+      og: ogFor("assets/og/site-og.png", `Juz ${j.juz}: ${span}`),
       target: `/read?j=${j.juz}`,
     }),
   );
