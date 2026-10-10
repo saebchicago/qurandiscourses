@@ -19,6 +19,18 @@
   // never flashes the five-pill row before the tab bar replaces it.
   document.documentElement.classList.add("qd-tabs");
 
+  // Inside the native app shell only (window.Capacitor is injected by
+  // Capacitor before any page script runs), load the bridge that adds
+  // backups, universal-link routing and the daily reminder. A browser
+  // never sees this request.
+  try {
+    if (window.Capacitor && typeof window.Capacitor.isNativePlatform === "function" && window.Capacitor.isNativePlatform()) {
+      var nb = document.createElement("script");
+      nb.src = "/assets/native-bridge.js";
+      document.head.appendChild(nb);
+    }
+  } catch (e) {}
+
   function ready(fn) {
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", fn);

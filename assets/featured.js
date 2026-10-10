@@ -355,6 +355,68 @@
   }
   window.qdMountReflect = mountReflect;
 
+  // A 30-day plan: one juz a day, from a start date the reader chooses
+  // by pressing Start. Stored in localStorage key "qd_juzplan_v1" as
+  // {"start":"YYYY-MM-DD"} in the reader's local calendar. Nothing leaves
+  // the device. Day N links to the N-th juz page.
+  var PLAN_KEY = "qd_juzplan_v1";
+  function localISO(d) {
+    var m = d.getMonth() + 1, day = d.getDate();
+    return d.getFullYear() + "-" + (m < 10 ? "0" : "") + m + "-" + (day < 10 ? "0" : "") + day;
+  }
+  function planStart() {
+    try {
+      var p = JSON.parse(localStorage.getItem(PLAN_KEY) || "null");
+      return p && /^\d{4}-\d{2}-\d{2}$/.test(p.start) ? p.start : null;
+    } catch (e) { return null; }
+  }
+  function mountJuzPlan() {
+    var section = document.getElementById("dailySection");
+    if (!section || document.getElementById("juzPlan")) return;
+    var box = document.createElement("div");
+    box.id = "juzPlan";
+    box.className = "card";
+    section.appendChild(box);
+    function paint() {
+      var start = planStart();
+      var h = '<h3 style="margin:0 0 .4rem">30-day plan: one juz a day</h3>';
+      if (!start) {
+        box.innerHTML = h + '<p style="margin:0 0 .6rem">Read the Qur\'an in 30 days, one juz each day. Starting today puts juz 1 on today.</p>' +
+          '<button type="button" class="button secondary" id="juzPlanStart">Start today</button>';
+        box.querySelector("#juzPlanStart").addEventListener("click", function () {
+          try { localStorage.setItem(PLAN_KEY, JSON.stringify({ start: localISO(new Date()) })); } catch (e) {}
+          paint();
+        });
+        return;
+      }
+      var a = start.split("-");
+      var t0 = new Date(+a[0], +a[1] - 1, +a[2]);
+      var now = new Date();
+      var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      var day = Math.round((today - t0) / 86400000) + 1;
+      if (day < 1) day = 1;
+      var body;
+      if (day > 30) {
+        body = '<p style="margin:0 0 .6rem">The 30 days are complete. Start again, or stop the plan.</p>';
+      } else {
+        body = '<p style="margin:0 0 .6rem">Day ' + day + ' of 30: <a href="/juz/' + day + '">read juz ' + day + '</a>.' +
+          (day > 1 ? ' Behind? <a href="/juz/' + (day - 1) + '">Juz ' + (day - 1) + '</a> is the day before.' : "") + "</p>";
+      }
+      box.innerHTML = h + body +
+        '<button type="button" class="button secondary" id="juzPlanRestart">Restart today</button> ' +
+        '<button type="button" class="button secondary" id="juzPlanStop">Stop plan</button>';
+      box.querySelector("#juzPlanRestart").addEventListener("click", function () {
+        try { localStorage.setItem(PLAN_KEY, JSON.stringify({ start: localISO(new Date()) })); } catch (e) {}
+        paint();
+      });
+      box.querySelector("#juzPlanStop").addEventListener("click", function () {
+        try { localStorage.removeItem(PLAN_KEY); } catch (e) {}
+        paint();
+      });
+    }
+    paint();
+  }
+
   function ready(fn) {
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", fn);
@@ -368,6 +430,7 @@
     simplifyHero();
     rotateAskChips();
     enhanceDailyCard();
+    mountJuzPlan();
     document.querySelectorAll("#reflectBox[data-reflect-ref]").forEach(mountReflect);
   });
 })();

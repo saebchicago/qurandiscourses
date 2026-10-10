@@ -14,11 +14,14 @@ function gtag() {
   "use strict";
   var ID = "G-QEQGD1980R";
 
-  var off = false;
+  // The native app builds send no analytics at all (store privacy
+  // disclosures say so). window.Capacitor exists only inside that shell.
+  var inApp = !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === "function" && window.Capacitor.isNativePlatform());
+  var off = inApp;
   try {
-    off = navigator.globalPrivacyControl === true || localStorage.getItem("dd_analytics_off") === "1";
+    off = inApp || navigator.globalPrivacyControl === true || localStorage.getItem("dd_analytics_off") === "1";
   } catch (e) {
-    off = navigator.globalPrivacyControl === true;
+    off = inApp || navigator.globalPrivacyControl === true;
   }
   if (off) {
     window["ga-disable-" + ID] = true;
