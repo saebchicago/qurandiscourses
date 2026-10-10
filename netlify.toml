@@ -60,6 +60,13 @@
   [headers.values]
     Content-Type = "text/plain"
 
+# iOS universal links. The file itself is added once the Apple Team ID
+# exists (ios-app/README.md); the header rule is ready for it.
+[[headers]]
+  for = "/.well-known/apple-app-site-association"
+  [headers.values]
+    Content-Type = "application/json"
+
 # RFC 9116 security contact (SECURITY.md is the policy it points to).
 [[headers]]
   for = "/.well-known/security.txt"
