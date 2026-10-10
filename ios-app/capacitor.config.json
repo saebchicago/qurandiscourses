@@ -1,0 +1,13 @@
+{
+  "appId": "org.divinediscourses.app",
+  "appName": "Divine Discourses",
+  "webDir": "www",
+  "server": {
+    "url": "https://divinediscourses.org",
+    "allowNavigation": ["divinediscourses.org"]
+  },
+  "ios": {
+    "contentInset": "always",
+    "backgroundColor": "#f6efe2"
+  }
+}

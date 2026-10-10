@@ -53,7 +53,7 @@ Privacy policy URL: `https://divinediscourses.org/privacy` (301 to `/about#priva
 
 ## iOS (Phase 2, Capacitor)
 
-1. Capacitor project that bundles the static site (offline-capable) instead of loading the remote URL. Needs a Mac with Xcode or a cloud Mac CI.
+1. Capacitor project scaffolded in `ios-app/` (see its README). Currently remote-URL mode; bundled offline mode is a later option. Never built on a Mac yet. Needs a Mac with Xcode or a cloud Mac CI.
 2. Guideline 4.2 (minimum functionality) is the main rejection risk for web wrappers. Add native value: daily-discourse local notification, native share sheet, background audio, haptics. Keep each small.
 3. App Review notes: scholarly study tool, no login, no purchases, sources and corrections public, privacy policy URL, reviewer can test fully offline for text.
 4. TestFlight first, then submit.

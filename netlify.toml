@@ -844,6 +844,19 @@
   status = 301
   force = true
 
+# Native app wrapper and store assets are repo-only; never serve them publicly.
+[[redirects]]
+  from = "/ios-app/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/store/*"
+  to = "/404"
+  status = 404
+  force = true
+
 # Replit agent notes are repo-only; never serve them publicly.
 [[redirects]]
   from = "/replit.md"
