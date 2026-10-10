@@ -16,7 +16,7 @@ Claims rule: nothing here may say more than the site's own claim registry labels
   - Follow a 30-day plan: one juz a day.
   - Keep your own notes, worksheets and pinned references on your device.
   - A public corrections log and open review process show what changed and why.
-  No account. No advertising. Analytics are off in the app.
+  No account. No advertising. No analytics in the app.
 - Keywords (Apple, 100 chars): quran,surah,juz,study,roots,tafsir,translation,arabic,coherence,reading plan
 - What's new (first version): First release.
 - Review notes (Apple): Scholarly Qur'an study tool. No login, no purchases. Content is the Arabic text (bundled) plus translations and word meanings from the providers named in About > Sources. Privacy policy: https://divinediscourses.org/privacy

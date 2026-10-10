@@ -2,7 +2,7 @@
 
 Wraps https://divinediscourses.org in a WKWebView. Own folder so the site stays zero-dependency. Not served publicly (404 rule in `netlify.toml`).
 
-Status: project generated on Linux; **never opened in Xcode or run**. Treat as unbuilt.
+Status: project generated on Linux and validated with a pbxproj parser; **never opened in Xcode or run**. iPhone only, privacy manifest and export-compliance key included. Owner steps: `docs/APP-STORE-RUNBOOK.md`.
 
 ## Build (Mac with Xcode)
 
@@ -23,7 +23,7 @@ Chosen over bundling the site into `www` because bundled mode would change every
 
 **Unverified on a device.** First TestFlight check, in order: (1) airplane mode after one online launch still opens `/` and a precached page; (2) `navigator.serviceWorker.controller` is set; (3) `window.Capacitor` is present on the remote page (the bridge depends on it). First launch with no connection shows no site content; that is expected and should be in the review notes.
 
-Native bridge plugins are installed (local notifications, haptics, app, filesystem, share). Web `navigator.share` already opens the iOS share sheet. Analytics are off in the app (`assets/ga-init.js`).
+Native bridge plugins are installed (local notifications, haptics, app, filesystem, share). Web `navigator.share` already opens the iOS share sheet. Analytics are off in the app: `assets/ga-init.js` injects Google's script only when analytics are on, so the app never contacts Google.
 
 ## Native features (site-side, `assets/native-bridge.js`)
 
@@ -38,7 +38,7 @@ Not yet run on a device. Verify each on first TestFlight build.
 
 ## One-time setup in Xcode and on the site
 
-1. **Associated Domains**: App target > Signing & Capabilities > + Capability > Associated Domains > add `applinks:divinediscourses.org`.
+1. **Associated Domains**: already declared in `App/App.entitlements` (`applinks:divinediscourses.org`); automatic signing registers it. Nothing to click.
 2. **`/.well-known/apple-app-site-association`** (site repo, no extension; header rule already in `netlify.toml`). Replace `TEAMID` with the Apple Team ID from developer.apple.com > Membership:
 
 ```json
