@@ -16,10 +16,11 @@ Labels: **verified** = checked in this repo; **to verify** = from general knowle
 | File | Use |
 |---|---|
 | `store/icon-1024.png` | App Store icon (1024, opaque, no alpha). Also usable as Play 512 source. |
+| `store/play-feature-graphic-1024x500.png` | Play feature graphic. |
 | `store/android/*.png` (1080x1920) | Play phone screenshots (4 of 2-8 allowed). |
 | `store/ios-6.9in/*.png` (1320x2868) | App Store 6.9" iPhone screenshots (to verify current required sizes in App Store Connect). |
 
-Gaps: Play feature graphic (1024x500), tablet screenshots if targeting tablets, a Read-page screenshot with translations loaded (the capture sandbox could not reach api.alquran.cloud, so the Read shot was dropped rather than show an error banner). Retake on a networked device.
+Gaps: tablet screenshots if targeting tablets, a Read-page screenshot with translations loaded (the capture sandbox could not reach api.alquran.cloud, so the Read shot was dropped rather than show an error banner). Retake on a networked device.
 
 Privacy policy URL: `https://divinediscourses.org/privacy` (301 to `/about#privacy`). If a store reviewer rejects a fragment redirect, promote it to a standalone page.
 
