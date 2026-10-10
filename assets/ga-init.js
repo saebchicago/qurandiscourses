@@ -1,6 +1,8 @@
 /* Google Analytics 4, privacy-restricted.
 
-   Loaded on every page next to the async gtag.js tag. It counts one
+   Loaded on every page. It loads Google's gtag.js itself, and only when
+   analytics are on, so a browser that has opted out (or the native app)
+   never contacts Google at all. It counts one
    page view per page load by address only: no query string, no hash, and
    the referrer is cut the same way. Google Signals and ad personalization
    are off. Nothing is configured or sent when the browser sends Global
@@ -27,6 +29,11 @@ function gtag() {
     window["ga-disable-" + ID] = true;
     return;
   }
+
+  var tag = document.createElement("script");
+  tag.async = true;
+  tag.src = "https://www.googletagmanager.com/gtag/js?id=" + ID;
+  (document.head || document.documentElement).appendChild(tag);
 
   // Address only: origin + path. Anything else on the URL is dropped.
   function bare(href) {

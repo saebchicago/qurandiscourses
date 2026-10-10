@@ -128,7 +128,7 @@
         id: REM_ID,
         title: "Today's discourse",
         body: "A passage is waiting. Read it as one discourse.",
-        schedule: { on: { hour: 7, minute: 0 }, allowWhileIdle: true },
+        schedule: { on: { hour: 7, minute: 0 }, repeats: true, allowWhileIdle: true },
         extra: { url: "/#dailySection" },
       }],
     });

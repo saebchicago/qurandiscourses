@@ -9092,8 +9092,8 @@ features are turned off in the tag. Google Analytics also sets
 cookies in your browser to recognize a returning visit.
 
 Global Privacy Control is honored: if your browser sends it, the
-site configures nothing and sends no analytics. Your browser may
-still download Google's tag script, which the page cannot prevent.
+site configures nothing, sends no analytics, and does not load
+Google's tag script, so Google is not contacted.
 You can also turn analytics off for this browser here. The choice is
 stored in your browser's local storage, so it applies to this
 browser only. Analytics runs only with JavaScript.
