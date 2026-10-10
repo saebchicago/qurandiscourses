@@ -729,6 +729,13 @@
   status = 301
   force = true
 
+# Stable policy URL for the Play Console and App Store Connect forms.
+[[redirects]]
+  from = "/privacy"
+  to = "/about#privacy"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/corrections.html"
   to = "/corrections"
