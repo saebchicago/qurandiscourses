@@ -15,15 +15,21 @@ npx cap open ios
 
 In Xcode: App target > Signing & Capabilities > choose your Team; confirm bundle id `org.divinediscourses.app` (change in `capacitor.config.json` and Xcode together if taken). Run on a device, then Product > Archive > Distribute to App Store Connect (TestFlight first).
 
-## Mode: remote URL (current)
+## Mode: remote URL with App-Bound Domains (current)
 
-`capacitor.config.json` sets `server.url` to the live site. Lowest lift, always current, but: no offline at launch, and Apple guideline 4.2 risk is highest in this mode. Native bridge plugins are installed (local notifications, haptics, app, share) but **no site code calls them yet**. Web `navigator.share` already opens the iOS share sheet.
+`capacitor.config.json` sets `server.url` to the live site, and `ios.limitsNavigationsToAppBoundDomains: true` with `WKAppBoundDomains` (divinediscourses.org, localhost) in `Info.plist`. App-Bound Domains are what let a WKWebView register the site's existing service worker, so offline Save, the precached pages and the cached passages work in the app with no code changes and with `location.href` still on https://divinediscourses.org (shared links stay correct).
+
+Chosen over bundling the site into `www` because bundled mode would change every `location.href`-based share and citation link to `capacitor://localhost`, break the `/api/wbw` proxy path, and need a clean-URL router in Swift. Revisit only if on-device testing shows the service worker does not register.
+
+**Unverified on a device.** First TestFlight check, in order: (1) airplane mode after one online launch still opens `/` and a precached page; (2) `navigator.serviceWorker.controller` is set; (3) `window.Capacitor` is present on the remote page (the bridge depends on it). First launch with no connection shows no site content; that is expected and should be in the review notes.
+
+Native bridge plugins are installed (local notifications, haptics, app, filesystem, share). Web `navigator.share` already opens the iOS share sheet. Analytics are off in the app (`assets/ga-init.js`).
 
 ## Native features (site-side, `assets/native-bridge.js`)
 
 Loaded by `assets/nav.js` only when `window.Capacitor.isNativePlatform()` is true; the web site never requests it. It provides:
 
-- **Durability**: reader notes, worksheets, lens answers, pins, preferences mirrored to `Documents/divine-discourses-backup.json` on background, page hide, and every 45 s; restored on launch when localStorage is empty.
+- **Durability**: reader notes, worksheets, lens answers, pins, 30-day plan start date, preferences mirrored to `Documents/divine-discourses-backup.json` on background, page hide, and every 45 s; restored on launch when localStorage is empty.
 - **Universal links**: `appUrlOpen` routes a divinediscourses.org URL to that page.
 - **Daily reminder**: opt-in button in the home page's daily section, local notification at 07:00 device time. Tap opens `/#dailySection`.
 - **Haptics**: light impact on share and the reminder button.
@@ -49,5 +55,4 @@ Add a `Content-Type: application/json` header rule for it in `netlify.toml`, the
 
 ## Later
 
-- Bundled offline mode (copy the site into `www`, drop `server.url`). Needs a clean-URL strategy (`/read` -> `read.html`) and a size budget (repo is ~120 MB); unverified on-device.
 - App Review notes and privacy answers: `docs/STORE-SUBMISSION.md`.

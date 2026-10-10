@@ -34,6 +34,7 @@
     "qd_state",
     "qd_vocab",
     "qd_saved_v1",
+    "qd_juzplan_v1",
     "qd_listen_voice_v1",
     "qd_listen_mode_v2",
     "dd_analytics_off",

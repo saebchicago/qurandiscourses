@@ -34,12 +34,21 @@ Privacy policy URL: `https://divinediscourses.org/privacy` (301 to `/about#priva
 
 ## Data disclosures (derived from `/about#privacy` and `assets/ga-init.js`, verified)
 
-- Collected: page-view analytics via Google Analytics 4 (page address without query/fragment, referrer without query, IP and browser headers as part of any request). No names, notes, search text. Google Signals and ad personalization off. Opt-out in About; Global Privacy Control honored.
-- Not collected: accounts, location, contacts, purchases, advertising ID use.
-- Stored on device only: preferences, progress, notes, worksheets, cache.
-- Third parties contacted: api.alquran.cloud, Quran Foundation (word-by-word), cdn.islamic.network (audio), googletagmanager.com / google-analytics.com.
-- Play Data safety: declare "App activity" (page views) and "Device or other IDs" (GA cookie/client ID) as collected for Analytics, not shared for advertising; data encrypted in transit; no deletion-request mechanism for server data beyond opt-out (to verify wording). To simplify the form, consider disabling GA4 inside the app builds.
-- App Store privacy label: "Usage Data > Product Interaction" and "Identifiers" for Analytics, not linked to identity, no tracking (to verify against how GA4 is configured in the wrapper; if GA is off in-app, answer Data Not Collected).
+**Decision (placeholder, owner may reverse): analytics are off in the app.** `assets/ga-init.js` sends nothing when `window.Capacitor.isNativePlatform()` is true. The web site is unchanged (GA4, page address only, opt-out, Global Privacy Control honored).
+
+- App Store privacy label: **Data Not Collected** (the app contacts providers named below for content, not for tracking; confirm against Apple's definitions at submission).
+- Play Data safety: no data collected or shared for analytics. Declare that content requests go to third parties without user identifiers beyond what any HTTPS request carries (IP address, to verify wording against Play's definition: IP-derived approximate location counts if collected, which is why analytics stay off in the app).
+- If analytics are ever turned on in the app, declare: Approximate Location (GA4 derives it from IP), App activity (page views), Device or other IDs (GA client ID), purpose Analytics, not used for advertising.
+- Stored on device only: preferences, progress, notes, worksheets, 30-day plan start date, cache. The app also writes a backup JSON to its Documents folder (never leaves the device unless the user enables iCloud/device backup).
+- Third parties contacted by the app: api.alquran.cloud, Quran Foundation (word-by-word), cdn.islamic.network (audio).
+- Not collected: accounts, contacts, purchases, advertising ID.
+
+## Account status (from the owner's email, verified 2026-10-10)
+
+- Apple Developer Program: individual membership purchased 2026-09-27 (auto-renew on). Paid Applications Agreement accepted. EU Digital Services Act trader contact verified (live in the EU). A different app (DecisionPlay) is already in TestFlight and has been through App Review with changes requested twice (2026-09-28, 2026-09-30); read its feedback in App Store Connect before submitting this one, since reviewers' notes carry over as a preview of what they check.
+- Individual membership: the seller name shown on the App Store is the owner's personal name. An organization account (needs a D-U-N-S number) would show the organization instead.
+- Apple Team ID: not in the email; find it at developer.apple.com > Membership details.
+- Google Play Console: **no developer-account emails found.** Only consumer Google Play mail. Treat Android as not yet started: it needs a Play Console registration (about $25 one time, identity verification; to verify current terms), and a personal account may require closed testing with a minimum number of testers for a set period before production access (to verify current rule). Apple is the critical path.
 
 ## Android (Phase 1, TWA)
 

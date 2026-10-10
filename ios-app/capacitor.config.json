@@ -4,10 +4,13 @@
   "webDir": "www",
   "server": {
     "url": "https://divinediscourses.org",
-    "allowNavigation": ["divinediscourses.org"]
+    "allowNavigation": [
+      "divinediscourses.org"
+    ]
   },
   "ios": {
     "contentInset": "always",
-    "backgroundColor": "#f6efe2"
+    "backgroundColor": "#f6efe2",
+    "limitsNavigationsToAppBoundDomains": true
   }
 }
