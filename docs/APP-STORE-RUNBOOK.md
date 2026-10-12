@@ -25,12 +25,12 @@ Owner steps only. Everything else is already in the repo. Labels: **verified** =
 
 | # | Step | Who | Time | Blocks |
 |---|---|---|---|---|
-| 0 | Decide Gate 0 rights (`docs/STORE-SUBMISSION.md`): ship audio and translations as-is, gate them, or get permission. ASC asks "does your app use third-party content?" and you must answer truthfully | You | 15 min decision | Submission |
+| 0 | Gate 0 decided 2026-10-12: translations live-only in the app, audio streamed only (`docs/STORE-SUBMISSION.md`). You still answer ASC's "necessary rights" question yourself from that table | You | 5 min | Submission |
 | 1 | Paste `docs/AGENT-BROWSER-PROMPT.md` into your browser agent, approve sign-in and 2FA when it asks | You + agent | 5 min of yours | 2, 5 |
 | 2 | Send Claude the Team ID the agent reports; Claude adds `/.well-known/apple-app-site-association` and merges | You (paste) + Claude | 1 min | Universal links only |
 | 3 | On a Mac: `git pull`, then `cd ios-app && npm ci && npx cap sync ios && npx cap open ios` | You | 10 min | 4 |
 | 4 | Xcode: App target > Signing & Capabilities > Team = yours. Select "Any iOS Device (arm64)". Product > Archive > Distribute App > App Store Connect > Upload | You | 15 min | 5 |
-| 5 | TestFlight on your iPhone, run the 5 checks below | You | 15 min | 6 |
+| 5 | TestFlight on your iPhone, run the 6 checks below | You | 15 min | 6 |
 | 6 | ASC > Divine Discourses > iOS App 1.0 > Build: select the build > Add for Review > Submit | You | 2 min | Release |
 
 No Mac? Use a cloud Mac build (Codemagic or Xcode Cloud). Ask Claude for the config; it is not set up yet.
@@ -40,9 +40,11 @@ No Mac? Use a cloud Mac build (Codemagic or Xcode Cloud). Ask Claude for the con
 1. Opens to the home page, no browser bar, safe-area insets look right.
 2. Home > "Remind me daily at 7:00" > allow > button says on. Next morning it fires; tap opens Today's discourse.
 3. Write a note on any verse, force-quit, reopen: note is there.
-4. Airplane mode after one online launch: home and a previously opened passage still load.
+4. Airplane mode after one online launch: home and a previously opened passage still load (Arabic and word data; translations are online-only in the app by design).
 5. Share button opens the iOS share sheet with a divinediscourses.org link.
+6. Read any surah: translations appear, and Listen plays recitation (audio streams from cdn.islamic.network; checks that App-Bound Domains do not block it).
 
+If 6 fails (no translations or no audio), App-Bound Domains are blocking third-party requests: tell Claude before submitting.
 If 4 fails, the service worker did not register under App-Bound Domains: tell Claude before submitting (fallback is bundling the site; bigger change).
 If 2 or 3 fails, `window.Capacitor` is not reaching the remote page: tell Claude.
 

@@ -573,14 +573,21 @@
     } catch (e) {}
     return apiCache;
   }
+  // Inside the native app (window.Capacitor, injected by the shell) the
+  // translations are not written to device storage: no per-edition
+  // permission to keep them offline is on record (docs/RIGHTS-REGISTER.md
+  // row 3), and an app is wider distribution than a browser tab. They are
+  // fetched live and held in memory for the session only. The website is
+  // unchanged.
+  const IN_APP = !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === "function" && window.Capacitor.isNativePlatform());
   function apiCachePut(url, data) {
     const c = apiCacheLoad();
     if (!c.entries[url]) c.order.push(url);
     c.entries[url] = data;
     while (c.order.length > API_CACHE_MAX) delete c.entries[c.order.shift()];
     // In-memory cache stays warm either way; only the storage write is
-    // suspended while a just-cleared page settles.
-    if (persistPaused) return;
+    // suspended while a just-cleared page settles, and never made in-app.
+    if (persistPaused || IN_APP) return;
     try {
       localStorage.setItem(API_CACHE_KEY, JSON.stringify(c));
     } catch (e) {

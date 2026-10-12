@@ -24,6 +24,8 @@ Public availability is not proof of redistribution or caching rights.
 | 14 | Fonts | Noto Serif Bengali/Devanagari, Noto Nastaliq Urdu, Amiri, Cormorant Garamond, Inter | Bundled `assets/fonts/` | OFL texts beside binaries | SIL OFL 1.1 | Redistributed unmodified | None |
 | 15 | Third-party services at runtime | api.alquran.cloud, api.quran.com (to be `/api/wbw` proxy), cdn.islamic.network (CSP `connect-src`/`media-src` allowlist); Tanzil only at build/CI | `netlify.toml` | Footer / `sources.html` | Service terms not recorded in repo | No secrets in static assets; proxy credentials only in Netlify env | Service-level terms for alquran.cloud and Islamic Network |
 
+In the native app (`ios-app/`, which loads the live site): translations (row 3) are held in memory only, never written to device storage or offline saves; audio (rows 8-9) stays streamed only; no corpus data (row 7) is in the app bundle. See `docs/STORE-SUBMISSION.md` Gate 0.
+
 ## Timing result (served audio)
 
 Served: `ar.husary` at 128 kbps from cdn.islamic.network (default reciter), plus the other four above. Timing candidates were tested by `scripts/build-word-timings.mjs` (criteria v2, fixed before data was seen), report `data/recitation/word-timings-report.json` dated 2026-09-27.

@@ -581,9 +581,14 @@
   function toast(msg) {
     if (window.qdToast) window.qdToast(msg);
   }
+  // In the native app, offline saving keeps the Arabic and word data only:
+  // translations stay online-only there until a per-edition permission to
+  // store them is on record (docs/RIGHTS-REGISTER.md row 3). The website
+  // keeps its current behavior.
+  var IN_APP = !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === "function" && window.Capacitor.isNativePlatform());
   function urlsFor(s) {
     var urls = ["/data/quran-text/" + s + ".json", "/data/morphology/" + s + ".json"];
-    var tr = window.qdSurahTranslationUrl ? window.qdSurahTranslationUrl(s) : null;
+    var tr = !IN_APP && window.qdSurahTranslationUrl ? window.qdSurahTranslationUrl(s) : null;
     return { local: urls, translation: tr };
   }
   function surahName(s) {
@@ -633,7 +638,9 @@
         toast(
           withTranslation
             ? surahName(s) + " saved for offline reading"
-            : surahName(s) + " saved (Arabic only; the translation could not be saved)",
+            : IN_APP
+              ? surahName(s) + " saved for offline reading (Arabic and word data)"
+              : surahName(s) + " saved (Arabic only; the translation could not be saved)",
         );
         return true;
       })
@@ -689,7 +696,11 @@
         '.</span> <button type="button" class="btn-utility" data-offline="remove">Remove</button></p>'
       : '<p class="offline-save-row"><button type="button" class="button secondary" id="saveOfflineBtn" data-offline="save">Save ' +
         surahName(s) + " for offline reading</button></p>" +
-        '<p class="t-annotation offline-save-note">Keeps the Arabic, word data and your translations in this browser. Recitation audio still needs a connection.</p>';
+        '<p class="t-annotation offline-save-note">' +
+        (IN_APP
+          ? "Keeps the Arabic and word data on this device. Translations and recitation need a connection."
+          : "Keeps the Arabic, word data and your translations in this browser. Recitation audio still needs a connection.") +
+        "</p>";
   }
 
   window.qdOfflineSave = { save: save, remove: remove, list: list };

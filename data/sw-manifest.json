@@ -2,7 +2,7 @@
  "_generated": "scripts/build-sw-manifest.mjs — the service worker's precache list and content fingerprint. A hash diff here alongside an unchanged version is the reviewer's cue to consider a SW_VERSION bump (see docs/maintainer-guide.md).",
  "version": "v19",
  "hashes": {
-  "assets/app.js": "97cd759a2d14720322fa452b5391c612adc5a38a67000b3b27ee13221533a631",
+  "assets/app.js": "02ee2264d49fc795f1d11ef8dc5b3783dc7cd846017c1de26bb55f63ca10796a",
   "assets/ask-routes.js": "227bced79a00b3fed1a941435ff26a55678f56fdec99aa41cae0f6de765fcbf1",
   "assets/ask.js": "096eb8174d6bd72765c4b096ae3d670d20483a1a3a1aa538e5ce02f5e353ce69",
   "assets/audio-engine.js": "28fb9def208eb2a2fa6c1a24292856e43696d4d15a30cbdb0ec38569053c681b",
@@ -34,7 +34,7 @@
   "assets/path-ribbon.js": "809f571df08900ffa1470ea7c04c73769daaac8fb76732c59b402e7d3f9e95fe",
   "assets/picker.js": "e48c0c9a41e9d1a2732296a13b8c644c7eb55cefbf5ec47628f873e68a3c2e7c",
   "assets/read-picker.js": "2b5cd03ff4c4171df47a63fc43c3156faf240ae158b693f6a169c46ee4ef4976",
-  "assets/read-polish.js": "a8bcef85180bcd623513bff922395780f284b182e7ac46eca2714bdb7e147b11",
+  "assets/read-polish.js": "a24deba43f2b521e38d8af86ab465f6ebde028c84b2d3416fb3539733567ad07",
   "assets/refs.js": "64ba9ed4538cfbee5cef47e82d45062cef8e7fa251086e51293952ad0dc2c26a",
   "assets/root-meanings.js": "54a331f174db5ec561a2d33d59efa93f2807286cd773d1e2eb573dce57b81ed8",
   "assets/root-refs/paths.js": "01b6d5ef3e38aaa0e13af653158241d17d9cb702a4830fac3051394925931c16",
