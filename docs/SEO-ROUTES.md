@@ -24,7 +24,7 @@ One canonical host, `https://divinediscourses.org`, and one address per page: th
 
 ## Headings
 
-Every page has exactly one h1. On the home page it is the site name; everywhere else the header shows the site name as text and the page's own title is the h1 inside `<main>` (enforced by `verify-site.mjs --only=a11y` and `smoke-deployed.mjs`).
+Every page has exactly one h1. On the 555 generated reference pages (`/surah/`, `/juz/`, `/root/`), the search landing pages, it is the page's own title inside `<main>`; their header shows the site name as text (`scripts/lib/page-shell.mjs`) and their cards are h2. The 34 hand-written pages keep the site name as the h1 over an h2 page title, the outline their h3/h4 sections and scripts are built on (`verify-site.mjs --only=a11y` enforces it without heading-skip warnings). `<title>`, which differs on every page, carries each page's subject either way.
 
 ## Not measured
 

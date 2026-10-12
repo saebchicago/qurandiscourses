@@ -20,7 +20,8 @@
 // .html -> clean-URL 301; unknown URL -> 404; robots.txt names the
 // sitemap; a sample of sitemap URLs answer 200, are not noindex, and
 // carry a matching canonical; a share stub is noindex and outside the
-// sitemap; representative pages' title, description, one <main> h1 and
+// sitemap; representative pages' title, description, exactly one h1 (in
+// <main> on the surah/juz/root pages) and
 // parseable JSON-LD; the bundled Arabic and Tanzil notice in delivered
 // HTML; the /* security headers; the word-by-word proxy's state.
 // Not covered (needs a browser): translation-failure rendering, which
@@ -125,10 +126,13 @@ for (const u of sample) {
   if (canon !== u) problems.push(`canonical ${canon}`);
   if (!meta(body, /<title>([^<]+)<\/title>/)) problems.push("no title");
   if (!/<meta\s+name="description"\s+content="[^"]{30,}"/.test(body)) problems.push("no description");
-  if (path !== "/" && h1InMain !== 1) problems.push(`${h1InMain} h1 in main`);
+  const h1All = (body.match(/<h1\b/g) || []).length;
+  if (h1All !== 1) problems.push(`${h1All} h1 elements`);
+  // Generated reference pages carry their own title as the h1.
+  if (/^\/(surah|juz|root)\//.test(path) && h1InMain !== 1) problems.push("title is not the h1 in <main>");
   if (!ldOk) problems.push("JSON-LD does not parse");
   if (!LOCAL && r.status === 200 && !/text\/html/.test(r.headers.get("content-type") || "")) problems.push(`content-type ${r.headers.get("content-type")}`);
-  check(`page ${path}`, !problems.length, problems.join(", ") || "200, indexable, canonical, title, description, h1, JSON-LD");
+  check(`page ${path}`, !problems.length, problems.join(", ") || "200, indexable, canonical, title, description, one h1, JSON-LD");
 }
 
 // ── share stubs stay out of the index ────────────────────────────────
