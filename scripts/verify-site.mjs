@@ -70,7 +70,8 @@
 //   firstvisit index.html with empty storage shows the first-visit
 //             flow without breaking overflow
 //   a11y      hand-rolled WCAG 2.2 AA subset on the rendered DOM of
-//             every page: exactly one h1 + an h2 page title (embed
+//             every page: exactly one h1, and off the home page that
+//             h1 is the page's own title inside <main> (embed
 //             surfaces exempt), img alt, a programmatic label on every
 //             form control, no focusable content inside
 //             aria-hidden="true"; heading-level skips are warnings
@@ -788,7 +789,7 @@ for (const pageFile of testPages) {
   if (runCheck("a11y")) {
     // embed.html and exercise-asr.html are chromeless embed/iframe
     // surfaces with no site header, so the document-outline rules
-    // (one h1, an h2 page title) do not apply to them; every other
+    // (one h1, the page title inside <main>) do not apply to them; every other
     // assertion still does.
     const CHROMELESS = new Set(["embed.html", "exercise-asr.html"]);
     const a = await page.evaluate((skipOutline) => {
@@ -832,9 +833,13 @@ for (const pageFile of testPages) {
       }
       return { problems, warns: warns.slice(0, 3) };
     }, CHROMELESS.has(pageFile));
-    if (!CHROMELESS.has(pageFile)) {
-      const h2s = await page.locator("h2").count();
-      if (!h2s) a.problems.push("no h2 (page title heading missing)");
+    // The page's subject is its h1. On the home page the h1 is the site
+    // name (the page IS the site); everywhere else the header carries
+    // the name as plain text and the h1 sits in <main>, so 588 pages do
+    // not all share one identical top-level heading.
+    if (!CHROMELESS.has(pageFile) && pageFile !== "index.html") {
+      const titleH1 = await page.locator("main h1").count();
+      if (titleH1 !== 1) a.problems.push(`${titleH1} h1 in <main> (want the page title as the one h1)`);
     }
     report(
       "a11y", pageFile, a.problems.length === 0,
@@ -4437,7 +4442,7 @@ if (runCheck("sw") && !PAGE_FILTER) {
     let banner = false;
     try {
       await page.goto(`${BASE}/navigate`, { waitUntil: "load", timeout: 15000 });
-      h2 = await page.locator("h2").count();
+      h2 = await page.locator("main h1, h2").count();
       await page.waitForSelector(".offline-banner", { timeout: 5000 });
       banner = await page.locator(".offline-banner").isVisible();
     } catch {

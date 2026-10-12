@@ -56,7 +56,7 @@
     <a href="#main" class="skip">Skip to main content</a>
     <header class="site">
       <div class="crest" aria-hidden="true">﷽</div>
-      <h1><a href="/">Divine Discourses</a></h1>
+      <p class="site-name"><a href="/">Divine Discourses</a></p>
     </header>
     <nav class="primary" aria-label="Primary">
       <ul class="nav-groups">
@@ -127,7 +127,7 @@
     </nav>
     <main id="main">
       <section>
-        <h2>Read</h2>
+        <h1>Read</h1>
         <p class="lede" id="readLede">
           Choose a surah or juz to read, listen, study and reflect.
         </p>
@@ -1245,7 +1245,16 @@
                   : "";
                 // The edition's native-script name gets the same lang/dir
                 // as the text it names, so screen readers switch voices.
-                html += `<div class="translation"><div class="label">${qdEsc(t.edition.englishName)} · <span${dirAttr}${langAttr}>${qdEsc(t.edition.name)}</span></div><div class="text${scriptClass}"${dirAttr}${langAttr}>${qdEsc(t.text)}</div></div>`;
+                // Many editions carry the same string in both fields
+                // ("Saheeh International · Saheeh International"); the
+                // native name is shown only when it adds something.
+                const enName = String(t.edition.englishName || "");
+                const nativeName = String(t.edition.name || "");
+                const sameName = enName.trim().toLowerCase() === nativeName.trim().toLowerCase();
+                const label = sameName || !nativeName
+                  ? qdEsc(enName)
+                  : `${qdEsc(enName)} · <span${dirAttr}${langAttr}>${qdEsc(nativeName)}</span>`;
+                html += `<div class="translation"><div class="label">${label}</div><div class="text${scriptClass}"${dirAttr}${langAttr}>${qdEsc(t.text)}</div></div>`;
               });
               if (needsMorph && qdState.features.showWords !== false) {
                 const words = morphCache[s] && morphCache[s][String(ayahNum)];

@@ -79,6 +79,17 @@ function pageFor(n) {
   const struct = readJson(`data/structure/${n}.json`);
   const outline = exercises.find((e) => e.surah === n && e.type === "outline");
   const hasKhan = Object.prototype.hasOwnProperty.call(khan, k);
+  // What published scholarship this site holds for the surah, stated from
+  // the registries only: data/exercises.json (transcribed outlines) and the
+  // works registered in data/sources.json. Never inferred beyond them.
+  const exerciseBook = "<cite>An Exercise in Understanding the Qur'an</cite> (2013)";
+  const publishedLine = outline
+    ? `${badge("khan-exercise-2013")} Dr. Irfan Ahmad Khan's outline of this surah, from ${exerciseBook}, is transcribed as an <a href="/exercise?id=${esc(outline.id)}">exercise</a>: draft your own reading first, then compare.`
+    : n >= 85
+      ? `${badge("khan-exercise-2013")} Dr. Irfan Ahmad Khan's ${exerciseBook} outlines surahs 85 to 114, this one included. Its outline of this surah is not transcribed here yet (<a href="/contribute">help transcribe it</a>).`
+      : n <= 2
+        ? `${badge("khan-reflections-2005")} Dr. Irfan Ahmad Khan's <cite>Reflections on the Qur'an</cite> (2005) discusses this surah. No outline or excerpt from it is transcribed here yet; the full citation is on <a href="/sources">Sources</a>.`
+        : `No published outline of this surah is registered on this site. Dr. Irfan Ahmad Khan's outline study covers surahs 85 to 114; for this surah, the structure is yours to read.`;
   const title = `Surah ${nm.translit} (${n}): ${nm.en} | Divine Discourses`;
   let description =
     `Surah ${nm.translit} (${nm.ar}), surah ${n} of the Qur'an: ${pr.verseCount} verses, ${cls}, ` +
@@ -169,7 +180,7 @@ function pageFor(n) {
     jsonld,
     mainClass: "surah-page",
     main: `      <nav class="surah-crumbs t-annotation" aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/navigate">All surahs</a> › Surah ${n}</nav>
-      <h2 class="surah-title">Surah ${esc(nm.translit)} <span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">${esc(nm.ar)}</span></h2>
+      <h1 class="surah-title">Surah ${esc(nm.translit)} <span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">${esc(nm.ar)}</span></h1>
       <p class="lede">
         ${esc(nm.translit)} is surah ${n} of the Qur'an's 114. It has
         ${n0(pr.verseCount)} verses and ${n0(pr.tokenCount)} word-units, is classified
@@ -181,9 +192,19 @@ function pageFor(n) {
         <span class="surah-more-links"><a href="/dossier?s=${n}">Full profile</a> · <a href="/replay?s=${n}">Watch it unfold</a></span>
       </p>
 
+      <section class="card surah-study" aria-labelledby="study">
+        <h2 class="card-title" id="study">Published readings and your own</h2>
+        <ul class="surah-study-list">
+          <li>${publishedLine}</li>${hasKhan ? `
+          <li>${badge("khan-introduction-2011")} Short verbatim excerpts from his essay on this surah in <cite>An Introduction to Understanding the Qur'an with Examples</cite> (2011) are quoted in the <a href="/dossier?s=${n}">full profile</a>.</li>` : ""}
+          <li>The <a href="#sections">computed sections</a> below are found mechanically from shared vocabulary: a starting point for reading structure, not a scholarly outline.</li>
+          <li>To propose your own outline, use the <a href="/read?s=${n}#discoveryWorksheetSection">worksheet on Read</a>. It stays on your device and is never shown as a claim of this site.</li>
+        </ul>
+      </section>
+
       <div class="grid">
         <section class="card" aria-labelledby="facts">
-          <h3 id="facts">At a glance</h3>
+          <h2 class="card-title" id="facts">At a glance</h2>
           <table class="data surah-facts">
             <tbody>
               ${facts}
@@ -193,7 +214,7 @@ function pageFor(n) {
         </section>
 
         <section class="card" aria-labelledby="listening">
-          <h3 id="listening">Listening time</h3>
+          <h2 class="card-title" id="listening">Listening time</h2>
           <table class="data">
             <thead><tr><th>Reciter</th><th class="count">Whole surah</th></tr></thead>
             <tbody>${reciterRows}</tbody>
@@ -202,25 +223,25 @@ function pageFor(n) {
         </section>
 
         <section class="card" aria-labelledby="roots">
-          <h3 id="roots">Most frequent roots</h3>
+          <h2 class="card-title" id="roots">Most frequent roots</h2>
           <ol class="surah-roots">${roots}</ol>
           <p class="prov t-annotation">${badge("leeds-corpus-v0.4")} Word-units per root in this surah, Leeds corpus v0.4. Each opens every occurrence on <a href="/roots">Roots</a>.</p>
         </section>
 
         <section class="card" aria-labelledby="sections">
-          <h3 id="sections">Computed sections</h3>
+          <h2 class="card-title" id="sections">Computed sections</h2>
           <ol class="surah-sections">${sections}</ol>
-          <p class="prov t-annotation">${badge("leeds-corpus-v0.4", "nuanced")} Found mechanically, where shared vocabulary between neighboring verses drops. A starting point for reading structure, not a scholarly outline.${outline ? ` Dr. Khan's outline of this surah is an <a href="/exercise?id=${esc(outline.id)}">exercise</a>.` : ""}${hasKhan ? ` His reading of it is quoted in the <a href="/dossier?s=${n}">full profile</a>.` : ""}</p>
+          <p class="prov t-annotation">${badge("leeds-corpus-v0.4", "nuanced")} Found mechanically, where shared vocabulary between neighboring verses drops. A starting point for reading structure, not a scholarly outline.</p>
         </section>
 
         ${themeItems ? `<section class="card" aria-labelledby="themes">
-          <h3 id="themes">Themes whose vocabulary clusters here</h3>
+          <h2 class="card-title" id="themes">Themes whose vocabulary clusters here</h2>
           <ul class="surah-themes">${themeItems}</ul>
           <p class="prov t-annotation">${badge("leeds-corpus-v0.4", "nuanced")} Theme groupings are editorial; the densities are computed. See <a href="/themes">Themes</a>.</p>
         </section>` : ""}
 
         <section class="card" aria-labelledby="patterns">
-          <h3 id="patterns">Sound and repetition</h3>
+          <h2 class="card-title" id="patterns">Sound and repetition</h2>
           <ul class="surah-patterns">
             <li>${n0(fs.rootCount || 0)} recurring root-sequence phrases and ${n0(fs.surfaceCount || 0)} recurring surface phrases occur here (<a href="/formulas">Formulas</a>).</li>
             ${rh ? `<li>Most verses end in <span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">${esc(rh.dominantKey)}</span> (${Math.round(rh.dominantShare * 100)}% of verses); the ending changes ${n0(rh.shiftCount)} times (<a href="/patterns">Patterns</a>).</li>` : ""}
@@ -230,7 +251,7 @@ function pageFor(n) {
       </div>
 
       <section class="card surah-text-card" aria-labelledby="text">
-        <h3 id="text">The Arabic text</h3>
+        <h2 class="card-title" id="text">The Arabic text</h2>
         <p class="surah-text ar notranslate" translate="no" lang="ar" dir="rtl">${verses}</p>
         <p class="prov t-annotation">${badge("tanzil")} Tanzil Quran Text (Uthmani, Version 1.1), copied verbatim; Creative Commons Attribution 3.0, changes not allowed. Source: <a href="https://tanzil.net" rel="noopener">tanzil.net</a>. Translations are on <a href="/read?s=${n}">Read</a>.</p>
         <details class="method-note">

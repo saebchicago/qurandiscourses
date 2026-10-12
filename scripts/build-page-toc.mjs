@@ -71,6 +71,7 @@ const THRESHOLD = 7;
 // visible § permalink already beside it.
 const RUNTIME_REGIONS = {
   "data-case-studies": "assets/case-studies.js replaces this block from data/case-studies.json",
+  "data-theme-sections": "themes.html's script replaces this block from data/themes.json (the page's own chip list is its contents)",
 };
 
 // A page at or above THRESHOLD may go without a list only by being named
@@ -96,8 +97,12 @@ for (const file of pages) {
   const hasRegion = i !== -1 && j !== -1 && j > i;
 
   const all = scanHeadings(before, { skipAttrs: Object.keys(RUNTIME_REGIONS) });
-  // Everything under the page's title heading.
-  const eligible = Math.max(0, all.length - 1);
+  // Everything under the page's title. Off the home page the title is
+  // the h1 inside <main>, which scanHeadings (h2/h3 only) never returns;
+  // the home page's h1 is the site name, so its first h2 is the title.
+  const mainOpen = before.search(/<main\b/);
+  const titleIsH1 = mainOpen !== -1 && /<h1\b/.test(before.slice(mainOpen));
+  const eligible = titleIsH1 ? all.length : Math.max(0, all.length - 1);
   report.push([file, eligible, hasRegion]);
 
   const excused = Object.prototype.hasOwnProperty.call(NO_TOC, file);

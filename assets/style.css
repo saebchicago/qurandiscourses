@@ -243,7 +243,8 @@ header.site .crest {
     font-size: 1.9rem;
   }
 }
-header.site h1 {
+header.site h1,
+header.site .site-name {
   font-family: var(--serif);
   font-weight: 600;
   font-size: clamp(2rem, 4.5vw, 3rem);
@@ -251,7 +252,8 @@ header.site h1 {
   letter-spacing: 0.005em;
   color: var(--ink);
 }
-header.site h1 a {
+header.site h1 a,
+header.site .site-name a {
   color: inherit;
   text-decoration: none;
 }
@@ -433,7 +435,8 @@ section {
   margin: 2.5rem 0;
   scroll-margin-top: 5rem;
 }
-h2 {
+h2,
+main h1 {
   font-family: var(--serif);
   font-weight: 600;
   font-size: clamp(1.5rem, 3vw, 1.9rem);
@@ -441,11 +444,23 @@ h2 {
   border-bottom: 1px solid var(--line);
   padding-bottom: 0.4rem;
 }
-h3 {
+h3,
+h2.card-title {
   font-family: var(--serif);
   font-weight: 600;
   font-size: 1.25rem;
   margin: 1.2rem 0 0.5rem;
+}
+h2.card-title {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.surah-study-list {
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+.surah-study-list li + li {
+  margin-top: 0.35rem;
 }
 h4 {
   font-family: var(--serif);
@@ -1897,7 +1912,8 @@ html[data-depth="encyclopedic"] li.encyclopedic-only {
   }
 }
 @media (max-width: 600px) {
-  header.site h1 {
+  header.site h1,
+header.site .site-name {
     font-size: 1.6rem;
   }
   .ar {
@@ -1948,7 +1964,8 @@ html[data-depth="encyclopedic"] li.encyclopedic-only {
     font-size: 1.35rem;
     margin: 0;
   }
-  header.site h1 {
+  header.site h1,
+header.site .site-name {
     font-size: 1.3rem;
     margin: 0;
     line-height: 1.2;
@@ -4274,7 +4291,8 @@ html.qd-has-listen .qd-toast {
   html.qd-tabs .verse .meta > strong:first-child {
     margin-inline-end: auto;
   }
-  html.qd-tabs.qd-reading main > section > h2:first-child {
+  html.qd-tabs.qd-reading main > section > h2:first-child,
+  html.qd-tabs.qd-reading main > section > h1:first-child {
     position: absolute;
     width: 1px;
     height: 1px;

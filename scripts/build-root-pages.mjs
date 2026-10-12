@@ -126,12 +126,17 @@ function pageFor(bw) {
   };
 
   const main = `      <nav class="surah-crumbs t-annotation" aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/roots">Roots</a> › ${esc(s.rootLatin)}</nav>
-      <h2 class="surah-title">Root ${esc(s.rootLatin)} ${ar(s.rootArabic)}</h2>
+      <h1 class="surah-title">Root ${esc(s.rootLatin)} ${ar(s.rootArabic)}</h1>
       <p class="lede">
         The root ${esc(s.rootLatin)} (${esc(s.rootArabic)}) occurs ${n0(s.totalCount)} times in the Qur'an,
         the ${ordinal(rank.get(bw))} most frequent of its 1,642 roots. It appears in ${n0(verses.length)} verses
         across ${disp.surahsOccurringIn} of the 114 surahs, as ${lems.length} lemma${lems.length === 1 ? "" : "s"}
         (dictionary headword${lems.length === 1 ? "" : "s"}).
+      </p>
+      <p class="t-annotation root-unit-note">
+        Each count is a <a href="/glossary#word-unit">word-unit</a>: one written word of the text whose stem carries this root.
+        A <a href="/glossary#root">root</a> is a family of related words, not a single meaning, so this page lists its forms
+        and where they occur rather than translating it.
       </p>
       <p class="surah-actions">
         <a class="button btn-primary" href="/roots?root=${sk}">Every occurrence</a>
@@ -140,7 +145,7 @@ function pageFor(bw) {
 
       <div class="grid">
         <section class="card" aria-labelledby="facts">
-          <h3 id="facts">At a glance</h3>
+          <h2 class="card-title" id="facts">At a glance</h2>
           <table class="data surah-facts">
             <tbody>
               ${facts}
@@ -150,7 +155,7 @@ function pageFor(bw) {
         </section>
 
         <section class="card" aria-labelledby="lemmas">
-          <h3 id="lemmas">Lemmas</h3>
+          <h2 class="card-title" id="lemmas">Lemmas</h2>
           <table class="data">
             <thead><tr><th>Most common form</th><th>Part of speech</th><th class="count">Count</th><th class="count">Surahs</th></tr></thead>
             <tbody>${lemmaRows}</tbody>
@@ -159,25 +164,25 @@ function pageFor(bw) {
         </section>
 
         <section class="card" aria-labelledby="forms">
-          <h3 id="forms">Most frequent written forms</h3>
+          <h2 class="card-title" id="forms">Most frequent written forms</h2>
           <ul class="surah-patterns root-forms">${forms}</ul>
           <p class="prov t-annotation">${badge("leeds-corpus-v0.4")} Surface forms, with attached prefixes and suffixes.</p>
         </section>
 
         <section class="card" aria-labelledby="where">
-          <h3 id="where">Where it concentrates</h3>
+          <h2 class="card-title" id="where">Where it concentrates</h2>
           <ol class="surah-themes">${whereItems}</ol>
           <p class="prov t-annotation">${badge("leeds-corpus-v0.4")} The ten surahs with the most occurrences, with the rate per 1,000 of each surah's word-units.</p>
         </section>
 
         <section class="card" aria-labelledby="company">
-          <h3 id="company">Roots it keeps company with</h3>
+          <h2 class="card-title" id="company">Roots it keeps company with</h2>
           <ul class="surah-themes">${partners}</ul>
           <p class="prov t-annotation">${badge("leeds-corpus-v0.4", "nuanced")} Ranked by log-likelihood of sharing a verse, one association measure among several (<a href="/roots?root=${sk}">explorer</a>).</p>
         </section>
 
         <section class="card" aria-labelledby="first">
-          <h3 id="first">First verses, in mushaf order</h3>
+          <h2 class="card-title" id="first">First verses, in mushaf order</h2>
           <ul class="surah-themes">${firstVerses}</ul>
         </section>
       </div>`;

@@ -132,6 +132,32 @@ const roster = contributors
   })
   .join("\n            ");
 
+// themes.html's 33 theme sections. The page's script rebuilds the full
+// cards (charts, passages, chips) and clears this first; the static copy
+// is what a reader without scripts, and a crawler, gets: each theme with
+// its id, so the /themes#<slug> links on the surah pages land on real
+// anchors in the delivered HTML.
+const themeList = readJson("data/themes.json")
+  .themes.map((t) => {
+    const roots = t.roots
+      .map((r) => `<span class="ar-inline notranslate" translate="no" lang="ar" dir="rtl">${esc(r.arabic)}</span> ${esc(r.latin)} (${esc(r.gloss)})`)
+      .join(", ");
+    const surahs = (t.topSurahs || [])
+      .slice(0, 3)
+      .map((x) => `<a href="/surah/${x.s}">${esc(translit(x.s))}</a>`)
+      .join(", ");
+    const passages = (t.passages || [])
+      .slice(0, 3)
+      .map((p) => `<a href="/read?s=${p.s}&amp;a=${p.a}">${p.s}:${p.a}</a>`)
+      .join(", ");
+    return `<section id="${esc(t.slug)}"><div class="card theme-card"><h3>${esc(t.title)}</h3>` +
+      `<p>Root families: ${roots}.</p>` +
+      (surahs ? `<p>Densest in: ${surahs}.</p>` : "") +
+      (passages ? `<p>Key passages: ${passages}.</p>` : "") +
+      `</div></section>`;
+  })
+  .join("\n            ");
+
 const REGIONS = [
   ["navigate.html", "juz-grid", juzGrid],
   ["dossier.html", "surah-picker", surahPicker],
@@ -140,6 +166,7 @@ const REGIONS = [
   ["index.html", "daily-prov", dailyProv],
   ["index.html", "daily-links", dailyLinks],
   ["credits.html", "contributors", roster],
+  ["themes.html", "theme-sections", themeList],
 ];
 
 const failures = [];

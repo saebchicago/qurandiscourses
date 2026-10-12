@@ -140,7 +140,7 @@
     <a href="#main" class="skip">Skip to main content</a>
     <header class="site">
       <div class="crest" aria-hidden="true">﷽</div>
-      <h1><a href="/">Divine Discourses</a></h1>
+      <p class="site-name"><a href="/">Divine Discourses</a></p>
     </header>
     <nav class="primary" aria-label="Primary">
       <ul class="nav-groups">
@@ -261,7 +261,7 @@
 
         <!-- ── Roots panel ─────────────────────────────────────────────────── -->
         <div id="panel-roots" role="tabpanel" aria-labelledby="btn-roots">
-          <h2>Compare roots</h2>
+          <h1>Compare roots</h1>
           <p class="lede">
             Overlay the chronological distributions of two or more roots (up to
             six). The shape of how a root appears across the four periods of
@@ -1430,12 +1430,12 @@
                 '<div class="cmp-trans" style="border-top:1px solid var(--line);padding-top:0.5rem;margin-top:0.5rem">' +
                 '<p style="margin:0 0 0.3rem;font-size:0.78rem;color:var(--muted)">' +
                 qdEsc(tr.edition.englishName) +
-                " · <span" +
-                dirAttr +
-                langAttr +
-                ">" +
-                qdEsc(tr.edition.name) +
-                "</span></p>" +
+                // Native name only when it differs (same rule as Read).
+                (String(tr.edition.name || "").trim().toLowerCase() ===
+                  String(tr.edition.englishName || "").trim().toLowerCase() || !tr.edition.name
+                  ? ""
+                  : " · <span" + dirAttr + langAttr + ">" + qdEsc(tr.edition.name) + "</span>") +
+                "</p>" +
                 '<div class="text' +
                 scriptClass +
                 '"' +

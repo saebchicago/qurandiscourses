@@ -10,8 +10,8 @@
 //   every page      WebPage (name, description, canonical URL, version,
 //                   isPartOf WebSite, contributor when a named reviewer is
 //                   in scope) + BreadcrumbList
-//   index.html      WebSite with a SearchAction wired to the Ask box's
-//                   /read?s= routing surface
+//   index.html      WebSite with a SearchAction wired to /search?q=,
+//                   the site's full-text search
 //   datasets/export Dataset per export table, from data/exports/schema.json
 //   glossary.html   DefinedTermSet from data/glossary.json
 //   sources.html    Book / ScholarlyArticle / Dataset per typed source
@@ -79,16 +79,17 @@ const SITE_NODE = {
   license: "https://opensource.org/licenses/MIT",
 };
 
-// The one query surface a crawler can use directly: the Read page's
-// s= parameter accepts a surah number or name (assets/ask.js and
-// read.html's resolveSurah share the grammar).
+// The site's full-text search (assets/search.js reads ?q=). /read?s=
+// only resolves a surah number or name, so a free-text query sent there
+// would land on an error; /search answers any term from the prebuilt
+// index (data/search-index.json).
 const SEARCH_ACTION = {
   ...SITE_NODE,
   potentialAction: {
     "@type": "SearchAction",
     target: {
       "@type": "EntryPoint",
-      urlTemplate: `${SITE}/read?s={search_term_string}`,
+      urlTemplate: `${SITE}/search?q={search_term_string}`,
     },
     "query-input": "required name=search_term_string",
   },

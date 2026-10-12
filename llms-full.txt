@@ -22,7 +22,8 @@ Ground rules for using this site as a source:
   metadata: CITATION.cff and data/citations.bib in the repository.
 - Data downloads with schema and data dictionary: https://divinediscourses.org/export.
   Bundled corpora keep their own licenses: see https://divinediscourses.org/credits and
-  NOTICE.md. Corrections: https://divinediscourses.org/about#contribute.
+  NOTICE.md. Every correction is logged publicly at https://divinediscourses.org/corrections;
+  to report one, or to review the work, see https://divinediscourses.org/review.
 
 ## Pages
 
@@ -72,7 +73,7 @@ Full page text for grounding: https://divinediscourses.org/llms-full.txt
 
 ## Surahs
 
-One static reference page per surah (scripts/build-surah-pages.mjs): verse and word-unit counts, classification, revelation order, juz and pages, listening time per reciter, top roots, computed sections, and the Arabic text.
+One static reference page per surah (scripts/build-surah-pages.mjs): which published scholarship the site holds for that surah (and that computed sections are not a scholarly outline), verse and word-unit counts, classification, revelation order, juz and pages, listening time per reciter, top roots, computed sections, and the Arabic text.
 
 - [Surah al-Fatihah (1): The Opening](https://divinediscourses.org/surah/1): Surah al-Fatihah (الفاتحة), surah 1 of the Qur'an: 7 verses, Meccan, 5th in revelation order. Arabic text, roots, structure and listening time.
 - [Surah al-Baqarah (2): The Cow](https://divinediscourses.org/surah/2): Surah al-Baqarah (البقرة), surah 2 of the Qur'an: 286 verses, Medinan, 87th in revelation order. Arabic text, roots, structure and listening time.
@@ -375,7 +376,7 @@ Recent corrections are logged publicly.
 
 ===== Read a surah with parallel translations (https://divinediscourses.org/read) =====
 
-## Read
+# Read
 
 Choose a surah or juz to read, listen, study and reflect.
 
@@ -460,7 +461,7 @@ features in this verse.
 
 ===== Browse all 114 surahs (https://divinediscourses.org/navigate) =====
 
-## Navigate
+# Navigate
 
 All 114 surahs, with their English meanings and lengths. Filter by
 name, meaning, classification, or length, and open any surah whole.
@@ -885,7 +886,7 @@ pages, and how long it takes with each reciter.
 
 ===== Surah dossier: one profile per surah (https://divinediscourses.org/dossier) =====
 
-## Surah Dossier
+# Surah Dossier
 
 One surah on one page: identity and chronology, vocabulary,
 verse-ending sound, recurring phrases, and
@@ -1131,7 +1132,7 @@ Keys 1 2 3
 
 ===== Themes across the Qur'an (https://divinediscourses.org/themes) =====
 
-## Themes
+# Themes
 
 Gateways from a life theme to the places in the Qur'an where its
 vocabulary works hardest. Pick a theme; get its root families, the
@@ -1163,7 +1164,269 @@ cluster, and in which period?
 Write down, in your own words, what the passages agree on and
 where they differ.
 
-Loading themes...
+### Forgiveness
+
+Root families: غ ف ر gh-f-r (to forgive, cover over), ع ف و ʿ-f-w (to pardon, efface), ت و ب t-w-b (to turn back, repent), ص ف ح ṣ-f-ḥ (to overlook, forgive).
+
+Densest in: al-Nasr , al-Tahrim , al-Munafiqun .
+
+Key passages: 24:22 , 64:14 , 4:64 .
+
+### Marriage and spouses
+
+Root families: ز و ج z-w-j (spouse, pair), ن ك ح n-k-ḥ (to marry), ط ل ق ṭ-l-q (to divorce, release).
+
+Densest in: al-Tahrim , al-Ahzab , al-Mursalat .
+
+Key passages: 2:230 , 2:232 , 33:50 .
+
+### Children and family
+
+Root families: و ل د w-l-d (to give birth; child), ب ن ي b-n-y (to build; son, children), ي ت م y-t-m (orphan), ذ ر ر dh-r-r (offspring, progeny).
+
+Densest in: al-Ikhlas , al-Zalzalah , al-Duha .
+
+Key passages: 2:83 , 2:215 , 4:36 .
+
+### Trade and wealth
+
+Root families: ب ي ع b-y-ʿ (to sell, trade), ت ج ر t-j-r (commerce), ر ب و r-b-w (to increase; usury), ك ي ل k-y-l (to measure), و ز ن w-z-n (to weigh), م و ل m-w-l (wealth, property).
+
+Densest in: al-Humazah , al-Qari'ah , al-Layl .
+
+Key passages: 6:152 , 2:275 , 30:39 .
+
+### Peace and reconciliation
+
+Root families: س ل م s-l-m (peace, safety, submission), ص ل ح ṣ-l-ḥ (to set right, reconcile).
+
+Densest in: al-Hujurat , al-Tahrim , al-Saffat .
+
+Key passages: 46:15 , 6:54 , 12:101 .
+
+### Patience and trial
+
+Root families: ص ب ر ṣ-b-r (patience, steadfastness), ب ل و b-l-w (to test, try), ي س ر y-s-r (ease), ع س ر ʿ-s-r (hardship).
+
+Densest in: al-Sharh , al-Layl , al-A'la .
+
+Key passages: 47:31 , 2:155 , 2:185 .
+
+### Justice
+
+Root families: ع د ل ʿ-d-l (justice, fairness), ق س ط q-s-ṭ (equity), ظ ل م ẓ-l-m (wrongdoing, injustice).
+
+Densest in: al-Hujurat , al-Jumu'ah , Ibrahim .
+
+Key passages: 2:282 , 5:8 , 10:54 .
+
+### Illness and healing
+
+Root families: ش ف ي sh-f-y (to heal), م ر ض m-r-ḍ (illness, disease).
+
+Densest in: Muhammad , al-Ahzab , al-Nur .
+
+Key passages: 26:80 , 2:10 .
+
+### Knowledge and reflection
+
+Root families: ع ل م ʿ-l-m (to know), ف ك ر f-k-r (to reflect), ع ق ل ʿ-q-l (to reason), د ب ر d-b-r (to consider, ponder).
+
+Densest in: al-Takathur , al-'Alaq , al-Takwir .
+
+Key passages: 2:75 , 6:45 , 6:50 .
+
+### Prayer and remembrance
+
+Root families: ص ل و ṣ-l-w (prayer), ذ ك ر dh-k-r (to remember, mention), س ب ح s-b-ḥ (to glorify), د ع و d-ʿ-w (to call, supplicate).
+
+Densest in: al-A'la , al-Ma'un , al-Qamar .
+
+Key passages: 4:103 , 17:110 , 2:221 .
+
+### Gratitude
+
+Root families: ش ك ر sh-k-r (to give thanks, gratitude).
+
+Densest in: al-Insan , Luqman , Saba .
+
+Key passages: 27:40 , 31:12 , 4:147 .
+
+### Guidance and light
+
+Root families: ه د ي h-d-y (to guide; guidance), ن و ر n-w-r (light).
+
+Densest in: al-Layl , al-A'la , al-Balad .
+
+Key passages: 24:35 , 20:10 , 5:16 .
+
+### Fear and hope
+
+Root families: خ و ف kh-w-f (to fear), ر ج و r-j-w (to hope, expect).
+
+Densest in: al-Dhariyat , al-Insan , al-Qasas .
+
+Key passages: 10:15 , 17:57 , 3:175 .
+
+### Truthfulness and falsehood
+
+Root families: ص د ق ṣ-d-q (truth, sincerity), ك ذ ب k-dh-b (to lie, falsehood).
+
+Densest in: al-Rahman , al-Mursalat , al-Layl .
+
+Key passages: 40:28 , 39:32 , 9:43 .
+
+### Charity and giving
+
+Root families: ن ف ق n-f-q (to spend, give), ز ك و z-k-w (to purify; alms).
+
+Densest in: al-Munafiqun , 'Abasa , al-Hadid .
+
+Key passages: 2:272 , 9:67 , 57:10 .
+
+### Death and mortality
+
+Root families: م و ت m-w-t (death).
+
+Densest in: al-Dukhan , al-Jumu'ah , Qaf .
+
+Key passages: 30:19 , 39:42 , 2:28 .
+
+### Paradise
+
+Root families: ج ن ن j-n-n (garden, paradise).
+
+Densest in: al-Rahman , al-Takwir , al-Qalam .
+
+Key passages: 9:72 , 34:16 , 37:158 .
+
+### Hellfire and consequence
+
+Root families: س ع ر s-ʿ-r (blazing fire), ص ل ي ṣ-l-y (to burn, roast).
+
+Densest in: al-Inshiqaq , al-Mulk , al-Qamar .
+
+Key passages: 4:10 , 84:12 .
+
+### Wisdom
+
+Root families: ح ك م ḥ-k-m (judgment, wisdom).
+
+Densest in: al-Tin , al-Jumu'ah , al-Mumtahanah .
+
+Key passages: 5:42 , 60:10 , 2:129 .
+
+### Pilgrimage
+
+Root families: ح ج ج ḥ-j-j (pilgrimage, argument).
+
+Densest in: al-Shura , al-Baqarah , Al ʿImran .
+
+Key passages: 2:196 , 2:197 , 3:66 .
+
+### Fasting
+
+Root families: ص و م ṣ-w-m (fasting).
+
+Densest in: al-Ahzab , al-Baqarah , al-Ma'idah .
+
+Key passages: 2:187 , 2:196 , 33:35 .
+
+### Anger and restraint
+
+Root families: غ ض ب gh-ḍ-b (anger), ك ظ م k-ẓ-m (to restrain, suppress anger).
+
+Densest in: Taha , al-Shura , al-A'raf .
+
+Key passages: 2:90 , 20:81 , 20:86 .
+
+### Love
+
+Root families: ح ب ب ḥ-b-b (to love).
+
+Densest in: al-Fajr , al-Saff , al-Hujurat .
+
+Key passages: 2:165 , 2:222 , 2:261 .
+
+### Trust in God
+
+Root families: و ك ل w-k-l (to trust, rely upon).
+
+Densest in: Ibrahim , al-Shura , al-Zumar .
+
+Key passages: 12:67 , 14:12 , 3:159 .
+
+### Arrogance and humility
+
+Root families: ك ب ر k-b-r (arrogance, greatness), خ ش ع kh-sh-ʿ (to humble oneself).
+
+Densest in: al-Ghashiyah , al-Nazi'at , Nuh .
+
+Key passages: 2:45 , 2:217 , 2:219 .
+
+### Brotherhood and community
+
+Root families: ا خ و a-kh-w (brother, kinship), ج م ع j-m-ʿ (to gather, community), ش و ر sh-w-r (to consult).
+
+Densest in: al-Qiyamah , al-Ma'arij , Yusuf .
+
+Key passages: 4:23 , 24:31 , 24:61 .
+
+### Sincerity
+
+Root families: خ ل ص kh-l-ṣ (to purify, be sincere), ن ص ح n-ṣ-ḥ (sincere advice, counsel).
+
+Densest in: al-Saffat , Sad , al-Zumar .
+
+Key passages: 7:79 , 11:34 , 38:46 .
+
+### Tyranny and transgression
+
+Root families: ط غ ي ṭ-gh-y (to transgress, tyrannize), ب غ ي b-gh-y (to transgress, wrong).
+
+Densest in: al-Nazi'at , al-Haqqah , al-Hujurat .
+
+Key passages: 24:33 , 3:7 , 10:23 .
+
+### Covenant and fulfillment
+
+Root families: ع ه د ʿ-h-d (covenant, promise), و ف ي w-f-y (to fulfill, be loyal).
+
+Densest in: al-Najm , al-Ra'd , al-Nahl .
+
+Key passages: 2:40 , 2:177 , 6:152 .
+
+### Effort and striving
+
+Root families: ج ه د j-h-d (to strive, exert effort).
+
+Densest in: al-Tawbah , al-'Ankabut , al-Anfal .
+
+Key passages: 4:95 , 22:78 , 25:52 .
+
+### Certainty and doubt
+
+Root families: ي ق ن y-q-n (certainty), ر ي ب r-y-b (doubt, suspicion).
+
+Densest in: al-Takathur , al-Muddaththir , al-Jathiyah .
+
+Key passages: 45:32 , 74:31 , 9:45 .
+
+### Joy and sorrow
+
+Root families: ف ر ح f-r-ḥ (joy, delight), ح ز ن ḥ-z-n (grief, sorrow).
+
+Densest in: al-Rum , al-Qasas , al-Ra'd .
+
+Key passages: 3:170 , 28:76 .
+
+### Blessing
+
+Root families: ن ع م n-ʿ-m (blessing, favor).
+
+Densest in: al-Mutaffifin , al-Qalam , al-Nahl .
+
+Key passages: 6:138 , 2:40 , 2:47 .
 
 ● Leeds corpus v0.4.
 
@@ -1191,7 +1454,7 @@ Passages
 
 Surahs
 
-## Compare roots
+# Compare roots
 
 Overlay the chronological distributions of two or more roots (up to
 six). The shape of how a root appears across the four periods of
@@ -1258,7 +1521,7 @@ Compare
 
 ===== Replay a surah with recitation (https://divinediscourses.org/replay) =====
 
-## Replay
+# Replay
 
 Watch a surah unfold. The recitation plays verse by verse; words
 from recurring root families light up as the discourse proceeds,
@@ -1313,7 +1576,7 @@ Recitation served from the Islamic Network audio CDN.
 
 ===== Practice structural reading (https://divinediscourses.org/exercises) =====
 
-## Exercises
+# Exercises
 
 Practice reading the Qur'an structurally. Each exercise asks you to
 commit to a reading first, then checks it against a verifiable
@@ -1345,7 +1608,7 @@ Help with transcription .
 
 ===== Outline a discourse (https://divinediscourses.org/exercise) =====
 
-## Outline a discourse
+# Outline a discourse
 
 This is an exercise in coherence-based reading. The premise: every
 surah has a deliberate structure. Oaths set the frame, claims are
@@ -1366,7 +1629,7 @@ Reveal the outline
 
 ===== Exercise: Spot the roots (https://divinediscourses.org/exercise-roots) =====
 
-## Exercise: Spot the roots
+# Exercise: Spot the roots
 
 Repetition is one of a surah's structural signals. When a triliteral
 root recurs, the discourse is circling a concept. This exercise
@@ -1406,7 +1669,7 @@ the Roots page.
 
 ===== Qur'anic roots and where they occur (https://divinediscourses.org/roots) =====
 
-## Roots
+# Roots
 
 Every Arabic word grows from a root, a set of (usually three)
 consonants from which nouns, verbs, and adjectives are derived by
@@ -2571,7 +2834,7 @@ and the roots it keeps company with. The number is its count.
 
 ===== Search Qur'anic Arabic word forms (https://divinediscourses.org/words) =====
 
-## Words
+# Words
 
 Each Qur'anic word can be examined by root, lemma, part of speech, and
 grammatical role. Use Read to load a verse,
@@ -2717,7 +2980,7 @@ Follow the guided path "Follow a root through the Qur'an" →
 
 ===== Structural and rhetorical patterns (https://divinediscourses.org/patterns) =====
 
-## Patterns
+# Patterns
 
 The Qur'an's linguistic structure includes documented rhetorical
 features. Three are surfaced here: grammatical shifts (iltifat),
@@ -2894,7 +3157,7 @@ One surah's structure, sound, and phrases on a single page: Dossier →
 
 ===== Recurring phrases in the Qur'an (https://divinediscourses.org/formulas) =====
 
-## Formulas — the Qur'an's recurring phrases
+# Formulas — the Qur'an's recurring phrases
 
 Every sequence of three, four, or five consecutive words that
 recurs anywhere in the Qur'an, with every place it occurs —
@@ -2967,7 +3230,7 @@ Read a formula's verses in context on the Read page →
 
 ===== Corpus numbers and how each was counted (https://divinediscourses.org/numbers) =====
 
-## Numbers
+# Numbers
 
 Frequency and distribution insights from the corpus. Each card ends
 with its verification status.
@@ -3496,7 +3759,7 @@ Follow the guided path "Profile a surah before reading it" →
 
 ===== How to use this site (https://divinediscourses.org/how-to-use) =====
 
-## How to use Divine Discourses
+# How to use Divine Discourses
 
 This site is not Google. It is a workbench for studying the Qur'an the
 way Dr. Khan taught. One surah at a time. As a coherent discourse.
@@ -3606,7 +3869,7 @@ study paths step by step.
 
 ===== How the method works (https://divinediscourses.org/how-it-works) =====
 
-## How It Works
+# How It Works
 
 Divine Discourses follows a coherence-based method for reading the Qur'an,
 drawing on the work of Hamiduddin Farahi (1863–1930), Amin Ahsan
@@ -3861,7 +4124,7 @@ shortest meaningful surah.
 
 ===== Guided study paths (https://divinediscourses.org/paths) =====
 
-## Study paths
+# Study paths
 
 Guided walkthroughs that chain the site's tools into a method. Each
 step links to a live page; nothing here adds interpretation — the
@@ -4014,7 +4277,7 @@ the settings panel's "Clear preferences".
 
 ===== Glossary of terms used here (https://divinediscourses.org/glossary) =====
 
-## Glossary
+# Glossary
 
 Specialist terms used across the site, with plain-language
 definitions. Terms with a dotted underline on any page reveal their
@@ -4443,7 +4706,7 @@ Pending).
 
 ===== Core Qur'an vocabulary: 475 lemmas, 80% of lemmatized words (https://divinediscourses.org/vocabulary) =====
 
-## Core vocabulary
+# Core vocabulary
 
 A small set of words carries most of the Qur'an. Of its
 77,429 word-units in the Leeds corpus,
@@ -5454,7 +5717,7 @@ in the lemma-frequencies table.
 
 ===== Search this site (https://divinediscourses.org/search) =====
 
-## Search this site
+# Search this site
 
 Every page section, glossary term, cited source, and theme, in
 one index. Type a verse (2:255), a surah, a juz, or a root
@@ -5480,7 +5743,7 @@ verse length
 
 ===== Watch short walkthroughs (https://divinediscourses.org/watch) =====
 
-## Watch
+# Watch
 
 Short walkthroughs of how to study with this site — each under two
 minutes.
@@ -5508,7 +5771,7 @@ Validation .
 
 ===== Sources, cited in full (https://divinediscourses.org/sources) =====
 
-## Sources
+# Sources
 
 Every dataset, translation, scholarly work, and tool that Divine Discourses
 draws on, with license and verification status.
@@ -6133,7 +6396,7 @@ in any single school.
 
 Evidence before confidence
 
-## Validation methods
+# Validation methods
 
 A single “verified” label can hide important differences. This site
 records whether a source was inspected, whether a computation was
@@ -6351,7 +6614,7 @@ review stage and never changes a claim's evidence status.
 
 ===== Datasets, documented for reuse (https://divinediscourses.org/datasets) =====
 
-## Datasets — take the data, check the work
+# Datasets — take the data, check the work
 
 Every number on this site is computed from data that ships with the
 site. This page documents each dataset for reuse: what it contains,
@@ -6595,7 +6858,7 @@ earn their labels here.
 
 ===== Data coverage, measured (https://divinediscourses.org/coverage) =====
 
-## Coverage: what this site's data actually covers
+# Coverage: what this site's data actually covers
 
 Every number on this page is measured directly from the data
 files bundled with this site at generation time. None is
@@ -6728,7 +6991,7 @@ script, see Datasets .
 
 ===== Download the data (https://divinediscourses.org/export) =====
 
-## Export: download the numbers
+# Export: download the numbers
 
 Eighteen precomputed tables, each as CSV and JSON: root
 frequencies, dispersion and counts by surah, lemma frequencies,
@@ -7027,7 +7290,7 @@ their labels on this site.
 
 ===== Changelog: every correction logged (https://divinediscourses.org/changelog) =====
 
-## Changelog
+# Changelog
 
 Every correction and material change to Divine Discourses since launch.
 Logged here as a record of accountability. Site maintainers commit to
@@ -8520,7 +8783,7 @@ github.com/saebchicago/qurandiscourses .
 
 ===== Contribute to this project (https://divinediscourses.org/contribute) =====
 
-## Contribute
+# Contribute
 
 This project needs careful work, not money. Every path below
 ends in a public record: an issue anyone can read, a change
@@ -8594,7 +8857,7 @@ Credits .
 
 ===== Review our work (https://divinediscourses.org/review) =====
 
-## Review our work
+# Review our work
 
 We invite qualified experts to check our work for accuracy.
 Every page here states where its facts come from; a reviewer
@@ -8705,7 +8968,7 @@ Privacy .
 
 ===== Corrections (https://divinediscourses.org/corrections) =====
 
-## Corrections
+# Corrections
 
 A public record of every change made after a report or review:
 the date, the page, what changed, and the source.
@@ -8718,7 +8981,7 @@ review, see Review our work .
 
 ===== Open questions (https://divinediscourses.org/open-questions) =====
 
-## Open questions
+# Open questions
 
 Statements about Dr. Khan's life and work that appear in circulation
 but that this site has not been able to trace to a stated source. They
@@ -8914,7 +9177,7 @@ GitHub .
 
 ===== About this site and its method (https://divinediscourses.org/about) =====
 
-## About Divine Discourses
+# About Divine Discourses
 
 Divine Discourses is a platform for personal, evidence-based study
 of the Qur'an: read each surah as one coherent discourse, verify
@@ -9235,7 +9498,7 @@ github.com/saebchicago/qurandiscourses .
 
 ===== Credits and scholarly lineage (https://divinediscourses.org/credits) =====
 
-## Credits
+# Credits
 
 A one-screen summary of what built this site. For the full reference
 list, see Sources .

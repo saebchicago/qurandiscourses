@@ -48,13 +48,16 @@ const pages = [
   ...family("root"),
 ];
 
+// What a reader gets from <main>: its visible text and where its links
+// go. Tag names, classes and attributes are left out, so a markup-only
+// change (a heading promoted from h2 to h1, a class renamed) does not
+// move lastmod for hundreds of pages whose content is the same.
 function contentHash(html) {
   const m = /<main\b[\s\S]*?<\/main>/i.exec(html);
-  const body = (m ? m[0] : html)
-    .replace(/<script\b[\s\S]*?<\/script>/gi, "")
-    .replace(/\s+/g, " ")
-    .trim();
-  return createHash("sha256").update(body).digest("hex").slice(0, 16);
+  const main = (m ? m[0] : html).replace(/<script\b[\s\S]*?<\/script>/gi, "");
+  const hrefs = [...main.matchAll(/\shref="([^"]*)"/g)].map((x) => x[1]).join(" ");
+  const text = main.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  return createHash("sha256").update(text + "\n" + hrefs).digest("hex").slice(0, 16);
 }
 
 function gitDate(file) {
@@ -95,7 +98,7 @@ if (CHECK) {
   const out = {
     _generated: "scripts/build-page-dates.mjs",
     _method:
-      "lastmod = the date a page's <main> content (scripts and whitespace runs removed) last changed, detected by hash. " +
+      "lastmod = the date a page's <main> content (its visible text and link targets; scripts, markup and whitespace runs ignored) last changed, detected by hash. " +
       "Seeded from each page's last commit on first run.",
     pages: next,
   };
