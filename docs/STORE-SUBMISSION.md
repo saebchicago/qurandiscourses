@@ -5,11 +5,19 @@ Labels: **verified** = checked in this repo; **to verify** = from general knowle
 
 ## Gate 0: rights (blocks both stores)
 
-`docs/RIGHTS-REGISTER.md` (verified) lists terms as unresolved for: translation editions (row 3), recitation audio (rows 8-9), Khan glosses and excerpts (rows 5-6), alquran.cloud and Islamic Network service terms (rows 2, 15). Store distribution is wider redistribution than a website. Before submitting:
+`docs/RIGHTS-REGISTER.md` (verified) lists terms as unresolved for: translation editions (row 3), recitation audio (rows 8-9), Khan glosses and excerpts (rows 5-6), alquran.cloud and Islamic Network service terms (rows 2, 15). Store distribution is wider than a website.
 
-1. Obtain written permission or switch source for audio (rows 8-9) and per-edition translation caching (row 3), or ship the app with those features off or online-only.
-2. Quran Foundation credentialed proxy (PR #159) provisioned; production still calls the legacy route (row 4).
-3. GPL (Leeds morphology, row 7): confirm with counsel that bundling in a store binary is acceptable. Apple's terms and GPL have a known conflict for third-party GPL code; this is a lawyer question, not an engineering one.
+**Decision (owner, 2026-10-12): ship the app with content online-only where no storage permission is on record.**
+
+| Item | State | Basis |
+|---|---|---|
+| Translations (row 3) | In the app: fetched live and held in memory only. Not written to device storage, not included in "Save for offline" (which keeps the Arabic and word data). Website unchanged. | `assets/app.js` (`IN_APP` skips the `qd_apicache` write), `assets/read-polish.js` (no translation URL in-app). Verified in Playwright with a stubbed shell. |
+| Recitation audio (rows 8-9) | Streamed only, never stored, on the website and in the app alike (unchanged). Rights holder and terms still unstated. | Same exposure as the website. Residual risk: a rights holder could object to app distribution. |
+| GPL corpus data (row 7) | Not in the app binary. The app loads the live site (`server.url`); the bundle holds only a one-page connection fallback (`ios-app/www/index.html`). | Engineering reading of the build, verified by listing the bundled files; not legal advice. Counsel review is optional rather than blocking. |
+| Khan glosses and excerpts (rows 5-6) | Shown as on the website, from the live site. | Unchanged; no written permission in the repo. |
+| Word-by-word (row 4) | Production still calls the legacy unauthenticated route; the credentialed proxy is deployed but switched off. | Open. `node scripts/smoke-deployed.mjs` reports whether the proxy has its credentials. |
+
+**App Store Connect "third-party content" question:** answer Yes (the app shows third-party text and audio). Whether to confirm "I have the necessary rights" is the owner's call, made from the table above; the browser-agent prompt stops and asks rather than answering it.
 
 ## Shared assets (done, in `store/`)
 
