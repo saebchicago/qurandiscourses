@@ -71,6 +71,7 @@ const THRESHOLD = 7;
 // visible § permalink already beside it.
 const RUNTIME_REGIONS = {
   "data-case-studies": "assets/case-studies.js replaces this block from data/case-studies.json",
+  "data-theme-sections": "themes.html's script replaces this block from data/themes.json (the page's own chip list is its contents)",
 };
 
 // A page at or above THRESHOLD may go without a list only by being named

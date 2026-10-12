@@ -72,7 +72,16 @@ const headLinks = absolutize(
     "\n" +
     ((/^\s*<meta name="theme-color"[^>]*>\s*$/m.exec(nav) || [""])[0]),
 );
-const topChrome = absolutize(slice('<a href="#main" class="skip">', "</nav>"));
+// The generated reference pages (surah/, juz/, root/) are what search
+// lands on, so each one's own subject is its h1 (in <main>) rather than
+// the site name every hand-written page shares; the header shows the name
+// as text. The hand-written pages keep the site-name h1 over an h2 title
+// (their h3/h4 sections are built for that outline).
+const topChrome = absolutize(slice('<a href="#main" class="skip">', "</nav>")).replace(
+  '<h1><a href="/">Divine Discourses</a></h1>',
+  '<p class="site-name"><a href="/">Divine Discourses</a></p>',
+);
+if (!topChrome.includes('class="site-name"')) throw new Error("page-shell: navigate.html header h1 not found");
 const bottomChrome = absolutize(
   slice('<footer class="site">', "</footer>") + "\n" + slice('<div class="settings">', "</div>\n    </div>"),
 );

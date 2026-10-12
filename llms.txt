@@ -22,7 +22,8 @@ Ground rules for using this site as a source:
   metadata: CITATION.cff and data/citations.bib in the repository.
 - Data downloads with schema and data dictionary: https://divinediscourses.org/export.
   Bundled corpora keep their own licenses: see https://divinediscourses.org/credits and
-  NOTICE.md. Corrections: https://divinediscourses.org/about#contribute.
+  NOTICE.md. Every correction is logged publicly at https://divinediscourses.org/corrections;
+  to report one, or to review the work, see https://divinediscourses.org/review.
 
 ## Pages
 
@@ -72,7 +73,7 @@ Full page text for grounding: https://divinediscourses.org/llms-full.txt
 
 ## Surahs
 
-One static reference page per surah (scripts/build-surah-pages.mjs): verse and word-unit counts, classification, revelation order, juz and pages, listening time per reciter, top roots, computed sections, and the Arabic text.
+One static reference page per surah (scripts/build-surah-pages.mjs): which published scholarship the site holds for that surah (and that computed sections are not a scholarly outline), verse and word-unit counts, classification, revelation order, juz and pages, listening time per reciter, top roots, computed sections, and the Arabic text.
 
 - [Surah al-Fatihah (1): The Opening](https://divinediscourses.org/surah/1): Surah al-Fatihah (الفاتحة), surah 1 of the Qur'an: 7 verses, Meccan, 5th in revelation order. Arabic text, roots, structure and listening time.
 - [Surah al-Baqarah (2): The Cow](https://divinediscourses.org/surah/2): Surah al-Baqarah (البقرة), surah 2 of the Qur'an: 286 verses, Medinan, 87th in revelation order. Arabic text, roots, structure and listening time.

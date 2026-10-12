@@ -75,29 +75,57 @@ async function fetchText(url, pdf) {
 }
 
 if (process.argv.includes("--verify")) {
+  // Every card ends in exactly one of three states, and the summary names
+  // all three. A source that could not be fetched, or a PDF this machine
+  // cannot read, is "not checked": it is never folded into a pass.
+  //   verified     every quote found at the URL
+  //   failed       a quote is gone (exit 1: the site's citation needs work)
+  //   not checked  the URL did not answer, or no PDF reader is installed
+  // A missing pdftotext is this machine's problem, not the source's, so it
+  // also exits 1: the job that runs this installs poppler-utils first.
   const { cards } = JSON.parse(readFileSync(join(ROOT, "data/replications.json"), "utf8"));
   const flat = (t) => t.replace(/\s+/g, " ").trim();
-  let bad = 0;
+  const verified = [];
+  const failed = [];
+  const unchecked = [];
+  let noParser = false;
   for (const c of cards) {
+    const pdf = /\.pdf$|\/pdf\//.test(c.url);
     let text;
     try {
-      text = flat((await fetchText(c.url, /\.pdf$|\/pdf\//.test(c.url))).text);
+      text = flat((await fetchText(c.url, pdf)).text);
     } catch (e) {
-      console.log(`?    ${c.id}: ${c.url} not fetched (${e.message}); not counted as a failure`);
+      const missingTool = pdf && e.code === "ENOENT";
+      if (missingTool) noParser = true;
+      const why = missingTool ? "pdftotext is not installed (poppler-utils)" : e.message;
+      unchecked.push(c.id);
+      console.log(`NOT CHECKED ${c.id}: ${c.url} (${why})`);
+      if (process.env.GITHUB_ACTIONS) console.log(`::warning title=Evidence not checked::${c.id}: ${why}`);
       continue;
     }
+    let cardOk = true;
     for (const q of [c.quote, c.quote2].filter(Boolean)) {
       const ok = text.includes(flat(q));
-      if (!ok) bad++;
+      if (!ok) cardOk = false;
       console.log(`${ok ? "OK  " : "GONE"} ${c.id}: "${q.slice(0, 70)}${q.length > 70 ? "…" : ""}"`);
     }
+    (cardOk ? verified : failed).push(c.id);
   }
   rmSync(tmp, { recursive: true, force: true });
-  if (bad) {
-    console.error(`fetch-evidence --verify: FAIL — ${bad} quote(s) no longer found at their URL. Re-read the page and update data/replications.json.`);
+  const summary = `${verified.length} verified, ${failed.length} failed, ${unchecked.length} not checked (of ${cards.length} cards)`;
+  if (failed.length) {
+    console.error(`fetch-evidence --verify: FAIL — ${summary}. A quote is no longer found at its URL: re-read the page and update data/replications.json.`);
     process.exit(1);
   }
-  console.log(`fetch-evidence --verify: OK (${cards.length} cards)`);
+  if (noParser) {
+    console.error(`fetch-evidence --verify: FAIL — ${summary}. Install poppler-utils (pdftotext) so PDF sources can be read.`);
+    process.exit(1);
+  }
+  if (unchecked.length) {
+    console.log(`fetch-evidence --verify: INCOMPLETE — ${summary}. Unreachable sources are not counted as verified.`);
+    process.exit(0);
+  }
+  console.log(`fetch-evidence --verify: OK — ${summary}`);
   process.exit(0);
 }
 

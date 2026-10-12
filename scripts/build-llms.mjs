@@ -85,7 +85,8 @@ Ground rules for using this site as a source:
   metadata: CITATION.cff and data/citations.bib in the repository.
 - Data downloads with schema and data dictionary: ${SITE}/export.
   Bundled corpora keep their own licenses: see ${SITE}/credits and
-  NOTICE.md. Corrections: ${SITE}/about#contribute.
+  NOTICE.md. Every correction is logged publicly at ${SITE}/corrections;
+  to report one, or to review the work, see ${SITE}/review.
 
 `;
 
@@ -108,7 +109,7 @@ function indexBody() {
     "",
     "## Surahs",
     "",
-    "One static reference page per surah (scripts/build-surah-pages.mjs): verse and word-unit counts, classification, revelation order, juz and pages, listening time per reciter, top roots, computed sections, and the Arabic text.",
+    "One static reference page per surah (scripts/build-surah-pages.mjs): which published scholarship the site holds for that surah (and that computed sections are not a scholarly outline), verse and word-unit counts, classification, revelation order, juz and pages, listening time per reciter, top roots, computed sections, and the Arabic text.",
     "",
   );
   for (const f of SURAH_PAGES) {

@@ -111,7 +111,7 @@ function pageFor(j) {
     ],
   };
   const main = `      <nav class="surah-crumbs t-annotation" aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/navigate#juz">All juz</a> › Juz ${n}</nav>
-      <h2 class="surah-title">Juz ${n}</h2>
+      <h1 class="surah-title">Juz ${n}</h1>
       <p class="lede">
         Juz ${n} of 30 runs from ${esc(span)}. It holds ${n0(verses)} verses and
         ${n0(words)} word-units across ${parts.length} surah${parts.length === 1 ? "" : "s"}.
@@ -125,7 +125,7 @@ function pageFor(j) {
 
       <div class="grid">
         <section class="card" aria-labelledby="facts">
-          <h3 id="facts">At a glance</h3>
+          <h2 class="card-title" id="facts">At a glance</h2>
           <table class="data surah-facts">
             <tbody>
               ${facts}
@@ -135,7 +135,7 @@ function pageFor(j) {
         </section>
 
         <section class="card" aria-labelledby="listening">
-          <h3 id="listening">Listening time</h3>
+          <h2 class="card-title" id="listening">Listening time</h2>
           <table class="data">
             <thead><tr><th>Reciter</th><th class="count">Whole juz</th></tr></thead>
             <tbody>${rows}</tbody>
@@ -144,7 +144,7 @@ function pageFor(j) {
         </section>
 
         <section class="card" aria-labelledby="surahs">
-          <h3 id="surahs">Surahs in this juz</h3>
+          <h2 class="card-title" id="surahs">Surahs in this juz</h2>
           <ul class="surah-themes">
             ${surahItems}
           </ul>

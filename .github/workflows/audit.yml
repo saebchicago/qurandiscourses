@@ -173,11 +173,23 @@ jobs:
       # Prints, verbatim, the lines of registered sources that state a
       # finding, so a quote on the site is taken from what the source
       # says and not from memory. Reporter only; writes nothing.
-      - name: Excerpt source statements for exact quotation
+      # pdftotext reads the PDF sources below. The runner image's package
+      # index can be stale, so refresh it first: installing from a stale
+      # index 404s on a superseded .deb (seen 2026-10-10). Failing here is
+      # deliberate; the verify step reports a PDF it cannot read as
+      # "not checked", never as verified.
+      - name: Install the PDF reader the evidence checks need
         if: ${{ !cancelled() }}
         run: |
-          command -v pdftotext >/dev/null || sudo apt-get install -y -qq poppler-utils >/dev/null
-          node scripts/fetch-evidence.mjs
+          command -v pdftotext >/dev/null || {
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq poppler-utils >/dev/null
+          }
+          pdftotext -v
+
+      - name: Excerpt source statements for exact quotation
+        if: ${{ !cancelled() }}
+        run: node scripts/fetch-evidence.mjs
 
       - name: Check each reproduced figure's quote still appears at its source
         if: ${{ !cancelled() }}

@@ -22,7 +22,8 @@ Ground rules for using this site as a source:
   metadata: CITATION.cff and data/citations.bib in the repository.
 - Data downloads with schema and data dictionary: https://divinediscourses.org/export.
   Bundled corpora keep their own licenses: see https://divinediscourses.org/credits and
-  NOTICE.md. Corrections: https://divinediscourses.org/about#contribute.
+  NOTICE.md. Every correction is logged publicly at https://divinediscourses.org/corrections;
+  to report one, or to review the work, see https://divinediscourses.org/review.
 
 ## Pages
 
@@ -72,7 +73,7 @@ Full page text for grounding: https://divinediscourses.org/llms-full.txt
 
 ## Surahs
 
-One static reference page per surah (scripts/build-surah-pages.mjs): verse and word-unit counts, classification, revelation order, juz and pages, listening time per reciter, top roots, computed sections, and the Arabic text.
+One static reference page per surah (scripts/build-surah-pages.mjs): which published scholarship the site holds for that surah (and that computed sections are not a scholarly outline), verse and word-unit counts, classification, revelation order, juz and pages, listening time per reciter, top roots, computed sections, and the Arabic text.
 
 - [Surah al-Fatihah (1): The Opening](https://divinediscourses.org/surah/1): Surah al-Fatihah (الفاتحة), surah 1 of the Qur'an: 7 verses, Meccan, 5th in revelation order. Arabic text, roots, structure and listening time.
 - [Surah al-Baqarah (2): The Cow](https://divinediscourses.org/surah/2): Surah al-Baqarah (البقرة), surah 2 of the Qur'an: 286 verses, Medinan, 87th in revelation order. Arabic text, roots, structure and listening time.
@@ -1163,7 +1164,269 @@ cluster, and in which period?
 Write down, in your own words, what the passages agree on and
 where they differ.
 
-Loading themes...
+### Forgiveness
+
+Root families: غ ف ر gh-f-r (to forgive, cover over), ع ف و ʿ-f-w (to pardon, efface), ت و ب t-w-b (to turn back, repent), ص ف ح ṣ-f-ḥ (to overlook, forgive).
+
+Densest in: al-Nasr , al-Tahrim , al-Munafiqun .
+
+Key passages: 24:22 , 64:14 , 4:64 .
+
+### Marriage and spouses
+
+Root families: ز و ج z-w-j (spouse, pair), ن ك ح n-k-ḥ (to marry), ط ل ق ṭ-l-q (to divorce, release).
+
+Densest in: al-Tahrim , al-Ahzab , al-Mursalat .
+
+Key passages: 2:230 , 2:232 , 33:50 .
+
+### Children and family
+
+Root families: و ل د w-l-d (to give birth; child), ب ن ي b-n-y (to build; son, children), ي ت م y-t-m (orphan), ذ ر ر dh-r-r (offspring, progeny).
+
+Densest in: al-Ikhlas , al-Zalzalah , al-Duha .
+
+Key passages: 2:83 , 2:215 , 4:36 .
+
+### Trade and wealth
+
+Root families: ب ي ع b-y-ʿ (to sell, trade), ت ج ر t-j-r (commerce), ر ب و r-b-w (to increase; usury), ك ي ل k-y-l (to measure), و ز ن w-z-n (to weigh), م و ل m-w-l (wealth, property).
+
+Densest in: al-Humazah , al-Qari'ah , al-Layl .
+
+Key passages: 6:152 , 2:275 , 30:39 .
+
+### Peace and reconciliation
+
+Root families: س ل م s-l-m (peace, safety, submission), ص ل ح ṣ-l-ḥ (to set right, reconcile).
+
+Densest in: al-Hujurat , al-Tahrim , al-Saffat .
+
+Key passages: 46:15 , 6:54 , 12:101 .
+
+### Patience and trial
+
+Root families: ص ب ر ṣ-b-r (patience, steadfastness), ب ل و b-l-w (to test, try), ي س ر y-s-r (ease), ع س ر ʿ-s-r (hardship).
+
+Densest in: al-Sharh , al-Layl , al-A'la .
+
+Key passages: 47:31 , 2:155 , 2:185 .
+
+### Justice
+
+Root families: ع د ل ʿ-d-l (justice, fairness), ق س ط q-s-ṭ (equity), ظ ل م ẓ-l-m (wrongdoing, injustice).
+
+Densest in: al-Hujurat , al-Jumu'ah , Ibrahim .
+
+Key passages: 2:282 , 5:8 , 10:54 .
+
+### Illness and healing
+
+Root families: ش ف ي sh-f-y (to heal), م ر ض m-r-ḍ (illness, disease).
+
+Densest in: Muhammad , al-Ahzab , al-Nur .
+
+Key passages: 26:80 , 2:10 .
+
+### Knowledge and reflection
+
+Root families: ع ل م ʿ-l-m (to know), ف ك ر f-k-r (to reflect), ع ق ل ʿ-q-l (to reason), د ب ر d-b-r (to consider, ponder).
+
+Densest in: al-Takathur , al-'Alaq , al-Takwir .
+
+Key passages: 2:75 , 6:45 , 6:50 .
+
+### Prayer and remembrance
+
+Root families: ص ل و ṣ-l-w (prayer), ذ ك ر dh-k-r (to remember, mention), س ب ح s-b-ḥ (to glorify), د ع و d-ʿ-w (to call, supplicate).
+
+Densest in: al-A'la , al-Ma'un , al-Qamar .
+
+Key passages: 4:103 , 17:110 , 2:221 .
+
+### Gratitude
+
+Root families: ش ك ر sh-k-r (to give thanks, gratitude).
+
+Densest in: al-Insan , Luqman , Saba .
+
+Key passages: 27:40 , 31:12 , 4:147 .
+
+### Guidance and light
+
+Root families: ه د ي h-d-y (to guide; guidance), ن و ر n-w-r (light).
+
+Densest in: al-Layl , al-A'la , al-Balad .
+
+Key passages: 24:35 , 20:10 , 5:16 .
+
+### Fear and hope
+
+Root families: خ و ف kh-w-f (to fear), ر ج و r-j-w (to hope, expect).
+
+Densest in: al-Dhariyat , al-Insan , al-Qasas .
+
+Key passages: 10:15 , 17:57 , 3:175 .
+
+### Truthfulness and falsehood
+
+Root families: ص د ق ṣ-d-q (truth, sincerity), ك ذ ب k-dh-b (to lie, falsehood).
+
+Densest in: al-Rahman , al-Mursalat , al-Layl .
+
+Key passages: 40:28 , 39:32 , 9:43 .
+
+### Charity and giving
+
+Root families: ن ف ق n-f-q (to spend, give), ز ك و z-k-w (to purify; alms).
+
+Densest in: al-Munafiqun , 'Abasa , al-Hadid .
+
+Key passages: 2:272 , 9:67 , 57:10 .
+
+### Death and mortality
+
+Root families: م و ت m-w-t (death).
+
+Densest in: al-Dukhan , al-Jumu'ah , Qaf .
+
+Key passages: 30:19 , 39:42 , 2:28 .
+
+### Paradise
+
+Root families: ج ن ن j-n-n (garden, paradise).
+
+Densest in: al-Rahman , al-Takwir , al-Qalam .
+
+Key passages: 9:72 , 34:16 , 37:158 .
+
+### Hellfire and consequence
+
+Root families: س ع ر s-ʿ-r (blazing fire), ص ل ي ṣ-l-y (to burn, roast).
+
+Densest in: al-Inshiqaq , al-Mulk , al-Qamar .
+
+Key passages: 4:10 , 84:12 .
+
+### Wisdom
+
+Root families: ح ك م ḥ-k-m (judgment, wisdom).
+
+Densest in: al-Tin , al-Jumu'ah , al-Mumtahanah .
+
+Key passages: 5:42 , 60:10 , 2:129 .
+
+### Pilgrimage
+
+Root families: ح ج ج ḥ-j-j (pilgrimage, argument).
+
+Densest in: al-Shura , al-Baqarah , Al ʿImran .
+
+Key passages: 2:196 , 2:197 , 3:66 .
+
+### Fasting
+
+Root families: ص و م ṣ-w-m (fasting).
+
+Densest in: al-Ahzab , al-Baqarah , al-Ma'idah .
+
+Key passages: 2:187 , 2:196 , 33:35 .
+
+### Anger and restraint
+
+Root families: غ ض ب gh-ḍ-b (anger), ك ظ م k-ẓ-m (to restrain, suppress anger).
+
+Densest in: Taha , al-Shura , al-A'raf .
+
+Key passages: 2:90 , 20:81 , 20:86 .
+
+### Love
+
+Root families: ح ب ب ḥ-b-b (to love).
+
+Densest in: al-Fajr , al-Saff , al-Hujurat .
+
+Key passages: 2:165 , 2:222 , 2:261 .
+
+### Trust in God
+
+Root families: و ك ل w-k-l (to trust, rely upon).
+
+Densest in: Ibrahim , al-Shura , al-Zumar .
+
+Key passages: 12:67 , 14:12 , 3:159 .
+
+### Arrogance and humility
+
+Root families: ك ب ر k-b-r (arrogance, greatness), خ ش ع kh-sh-ʿ (to humble oneself).
+
+Densest in: al-Ghashiyah , al-Nazi'at , Nuh .
+
+Key passages: 2:45 , 2:217 , 2:219 .
+
+### Brotherhood and community
+
+Root families: ا خ و a-kh-w (brother, kinship), ج م ع j-m-ʿ (to gather, community), ش و ر sh-w-r (to consult).
+
+Densest in: al-Qiyamah , al-Ma'arij , Yusuf .
+
+Key passages: 4:23 , 24:31 , 24:61 .
+
+### Sincerity
+
+Root families: خ ل ص kh-l-ṣ (to purify, be sincere), ن ص ح n-ṣ-ḥ (sincere advice, counsel).
+
+Densest in: al-Saffat , Sad , al-Zumar .
+
+Key passages: 7:79 , 11:34 , 38:46 .
+
+### Tyranny and transgression
+
+Root families: ط غ ي ṭ-gh-y (to transgress, tyrannize), ب غ ي b-gh-y (to transgress, wrong).
+
+Densest in: al-Nazi'at , al-Haqqah , al-Hujurat .
+
+Key passages: 24:33 , 3:7 , 10:23 .
+
+### Covenant and fulfillment
+
+Root families: ع ه د ʿ-h-d (covenant, promise), و ف ي w-f-y (to fulfill, be loyal).
+
+Densest in: al-Najm , al-Ra'd , al-Nahl .
+
+Key passages: 2:40 , 2:177 , 6:152 .
+
+### Effort and striving
+
+Root families: ج ه د j-h-d (to strive, exert effort).
+
+Densest in: al-Tawbah , al-'Ankabut , al-Anfal .
+
+Key passages: 4:95 , 22:78 , 25:52 .
+
+### Certainty and doubt
+
+Root families: ي ق ن y-q-n (certainty), ر ي ب r-y-b (doubt, suspicion).
+
+Densest in: al-Takathur , al-Muddaththir , al-Jathiyah .
+
+Key passages: 45:32 , 74:31 , 9:45 .
+
+### Joy and sorrow
+
+Root families: ف ر ح f-r-ḥ (joy, delight), ح ز ن ḥ-z-n (grief, sorrow).
+
+Densest in: al-Rum , al-Qasas , al-Ra'd .
+
+Key passages: 3:170 , 28:76 .
+
+### Blessing
+
+Root families: ن ع م n-ʿ-m (blessing, favor).
+
+Densest in: al-Mutaffifin , al-Qalam , al-Nahl .
+
+Key passages: 6:138 , 2:40 , 2:47 .
 
 ● Leeds corpus v0.4.
 

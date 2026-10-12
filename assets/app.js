@@ -624,10 +624,24 @@
     }
   }
 
+  // A translation provider that never answers must not hold the page:
+  // the bundled Arabic waits on this request (withLocalArabic), so an
+  // unbounded fetch meant an unbounded blank reader. After the limit the
+  // request is aborted and handled exactly like a network failure: a
+  // saved offline copy if there is one, otherwise the Arabic renders
+  // with the "translations could not be loaded" notice.
+  const API_TIMEOUT_MS = 8000;
+  function fetchWithTimeout(url) {
+    if (typeof AbortController !== "function") return fetch(url);
+    const ctl = new AbortController();
+    const timer = setTimeout(() => ctl.abort(), API_TIMEOUT_MS);
+    return fetch(url, { signal: ctl.signal }).finally(() => clearTimeout(timer));
+  }
+
   async function apiFetchUncached(url) {
     let res;
     try {
-      res = await fetch(url);
+      res = await fetchWithTimeout(url);
     } catch (netErr) {
       const saved = await savedApiResponse(url);
       if (saved) {

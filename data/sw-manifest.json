@@ -2,7 +2,7 @@
  "_generated": "scripts/build-sw-manifest.mjs — the service worker's precache list and content fingerprint. A hash diff here alongside an unchanged version is the reviewer's cue to consider a SW_VERSION bump (see docs/maintainer-guide.md).",
  "version": "v19",
  "hashes": {
-  "assets/app.js": "739f897ae52da7b775809af194e2f2478946cc0822ac2eafa468075f5d2826e7",
+  "assets/app.js": "97cd759a2d14720322fa452b5391c612adc5a38a67000b3b27ee13221533a631",
   "assets/ask-routes.js": "227bced79a00b3fed1a941435ff26a55678f56fdec99aa41cae0f6de765fcbf1",
   "assets/ask.js": "096eb8174d6bd72765c4b096ae3d670d20483a1a3a1aa538e5ce02f5e353ce69",
   "assets/audio-engine.js": "28fb9def208eb2a2fa6c1a24292856e43696d4d15a30cbdb0ec38569053c681b",
@@ -40,7 +40,7 @@
   "assets/root-refs/paths.js": "01b6d5ef3e38aaa0e13af653158241d17d9cb702a4830fac3051394925931c16",
   "assets/search.js": "8ebc6c8e82587adddaa11810fcd2262a472ee926cc06cfcd836d97b7f37424e9",
   "assets/share.js": "9fd266d6e7f65c776de1c5d40a60c700137f7539d248a4d2dccc3542a6043a32",
-  "assets/style.css": "0ca17c7ffd46220fcfc4224578eda7d65498f64732c9ae583ab37892822ba5a3",
+  "assets/style.css": "ae7c32c90b8503590b0fd304d545592f714497f00ed5d86a3b7ad117c72477c2",
   "assets/surahs.js": "de8a6221aa3da3cc7dc4f359f613b429732e0fe19e81aa2589fafeb17a2da9ec",
   "assets/tour.js": "1b879dae926416f64f15fd4c9ec91dbbf012923db0f4cbeb3c96c5a809076073",
   "assets/trans-picker.js": "b62973d373dfc7d5289e3b781bc122aed82bd919c0ecbf2fc375bfd2a8eebbc5",
@@ -67,7 +67,7 @@
   "data/name-mentions.json": "7583039eb03c10a48bed1b18f0b98fdce9dd7369e7692b4aa7c9633ddfec13a2",
   "data/names.json": "a5b42e8cbddb92d58a90968ba9a33212690582709353e3f7da16e5d1c01b3f50",
   "data/numbers.json": "da90637377a660f16cfc89d4cbbf6f14567d94c605a05d8d5fe5de45951cb0a3",
-  "data/page-dates.json": "f6112139c3be140a43718bfca2030d4f58a5312fb78bb6ba4e2a76219392e73c",
+  "data/page-dates.json": "c9e44268b1bfd536ae44a423cc943b07381b6577c8fa6e9070b3ce745e2dbdea",
   "data/paths.json": "4c856e51bfa683da92b1534018640344c55dd9e242fc3b2f3d324c90a19c291f",
   "data/related.json": "28c9fb28bcc473030cff5045879cb5bf34f046ea0d1f6dd2d757dc2cf4d11f9d",
   "data/replications.json": "774212ea23301a6e0922267a3c9f87716469fcd95180c01e224af2c62ae3bf3e",
@@ -77,7 +77,7 @@
   "data/roots-index.json": "ede890265ea2ab92cf2355f546e261d341a40a66b66f33b10ad70528a216bbdd",
   "data/roots-list.json": "477cff50fa62cb1067125ba01b1a8ffc223b09b55daf4cb1d8d983c2ea2f8af3",
   "data/roots-summary.json": "c75bb05f6429f11483e470fce9579407cbbf6622e058846273a27afd8f6a5dc4",
-  "data/search-index.json": "ec1b3017db26da6c24b45fb71ddd4b20f036441df6633001a221d7106b0b0673",
+  "data/search-index.json": "af5efe028ae36ed185ad40b4a069c8407955beaa12edb4a0dc8f37c3407ebb2c",
   "data/sources.json": "84f0bf5180e362becc535210175f9129f68d34997b3c2328fed83fc28264f6af",
   "data/structure-tests.json": "0993bdd2e10cb073478b9cd544ec2d9e3f1afe3e11a80e6531a48ed008667193",
   "data/surah-meta.json": "a3448191e3bfea6c15069ac2485478942e7cab6423216d772802b9cae4cb6454",
@@ -90,10 +90,10 @@
   "data/videos.json": "9017e1153b2020d3623c5a3863f09533a8c85a755d19976764ecd0151d85c186",
   "data/vocabulary.json": "999cc99e922d0096230c2aed1078a9eee66d35c3f446b53ef7157f0530803af2",
   "data/word-index.json": "42e17793956d2db3e5ce4126953b9a4289a8173d876ab601b07239aa0c240901",
-  "index.html": "549bb7468805592fae3492baae7a9c92b3a91dbd5ce3dfdcb8da457e9fd65e7e",
+  "index.html": "f38a556139e98f649541f9ca7bbce83a6cc7671815c664305e62f16722f40229",
   "navigate.html": "f6882555e10922b2b2e4146ce6321f69563b191eed58b9f092207a6134634dda",
   "paths.html": "828714850672059abfc265f86d6eec217bed35744102761cd2a007c3360d0339",
-  "read.html": "c341ca8b5b44cfed51d0e15823e7daa59e30e29b6c1d20abb9a8bf8f5eba422e",
+  "read.html": "9ff2a84151c98e4ef425fc3f680c31ec331551dc2f22fc898b94cafcf37b7198",
   "search.html": "21260d96d542f541306606603a8ec13faa94864f36f9dc8878b987e3e72115d0"
  }
 }
