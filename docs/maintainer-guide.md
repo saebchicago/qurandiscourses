@@ -794,7 +794,8 @@ the external-evidence job.
    the entry's `status` to `"published"` in `data/videos.json`.
 5. `node scripts/check-videos.mjs` — it refuses to publish without the
    files and real captions. Self-hosted only: a YouTube embed would
-   break the CSP and the no-tracking promise.
+   break the CSP and the privacy copy on About (the only analytics are
+   the two listed in §5).
 
 ### Regenerate the social-preview image (rare)
 `assets/og/site-og.png` (the og:image on every page, and on the share
@@ -952,9 +953,15 @@ committing. Register the palette in the `setPalette` select in
   chart-bar widths) are still permitted: they fall back to `style-src`,
   which keeps `'unsafe-inline'`. Hashing every distinct style attribute
   isn't feasible, and with script-src locked down the residual risk is low.
-- No accounts. Page-visit analytics (Google Analytics 4, address only,
-  honors Global Privacy Control and the dd_analytics_off setting; see
-  assets/ga-init.js) are the only analytics. Preferences live in
+- No accounts. Two analytics run, and these are the only ones: Google
+  Analytics 4 (address only, honors Global Privacy Control and the
+  dd_analytics_off setting; assets/ga-init.js) and the maintainer's own
+  first-party, cookieless analytics (assets/ah-init.js adds /_ah/t.js; netlify.toml
+  passes /_ah/t.js and /_ah/c through to the analytics service, so the
+  browser contacts no extra host and CSP is unchanged). The second honors
+  dd_analytics_off, Global Privacy Control, Do Not Track and ah_optout=1,
+  and neither runs inside the native app. No ads, no sale of data, no
+  profile building, no consent banner. Preferences live in
   localStorage only; the privacy copy on about.html/credits.html must
   stay in sync with reality.
 

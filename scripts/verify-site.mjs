@@ -436,7 +436,7 @@ const browser = await chromium.launch(launchOptions());
 // Analytics hosts are blocked too: the audit must never send hits for
 // localhost to the live GA property, and the gtag.js tag is the one
 // outside request every page makes on its own.
-const BLOCKED_HOSTS = /api\.alquran\.cloud|cdn\.islamic\.network|api\.quran\.com|googletagmanager\.com|google-analytics\.com|analytics\.google\.com/;
+const BLOCKED_HOSTS = /api\.alquran\.cloud|cdn\.islamic\.network|api\.quran\.com|googletagmanager\.com|google-analytics\.com|analytics\.google\.com|\/_ah\/(?:t\.js|c)$/;
 
 // savedTranslations: seed qd_state with a translation selection BEFORE
 // the first navigation, i.e. make the context behave like a returning
@@ -1284,7 +1284,8 @@ if (runCheck("budgets") && !PAGE_FILTER && !LIVE) {
     // 1,650 nodes, links a crawler needs without JavaScript): 4566 nodes.
     { path: "/index.html", bytesKB: 1250, requests: 40, domNodes: 800 },
     // 2026-10-04: +1 request, assets/ga-init.js on every page.
-    { path: "/read.html?s=103&a=1-3", bytesKB: 1000, requests: 47, domNodes: 1200 },
+    // 2026-10-17: +1 request, assets/ah-init.js on every page (the /_ah/ tracker itself is blocked in the audit).
+    { path: "/read.html?s=103&a=1-3", bytesKB: 1000, requests: 48, domNodes: 1200 },
     { path: "/roots.html", bytesKB: 1400, requests: 45, domNodes: 5000 },
     { path: "/numbers.html", bytesKB: 950, requests: 40, domNodes: 8000 },
     { path: "/navigate.html", bytesKB: 1050, requests: 40, domNodes: 2500 },

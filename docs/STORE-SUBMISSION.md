@@ -42,7 +42,7 @@ Privacy policy URL: `https://divinediscourses.org/privacy` (301 to `/about#priva
 
 ## Data disclosures (derived from `/about#privacy` and `assets/ga-init.js`, verified)
 
-**Decision (placeholder, owner may reverse): analytics are off in the app.** `assets/ga-init.js` sends nothing when `window.Capacitor.isNativePlatform()` is true. The web site is unchanged (GA4, page address only, opt-out, Global Privacy Control honored).
+**Decision (placeholder, owner may reverse): analytics are off in the app.** `assets/ga-init.js` and `assets/ah-init.js` (the site's own first-party analytics loader) both send and add nothing when `window.Capacitor.isNativePlatform()` is true. The web site runs GA4 (page address only, opt-out, Global Privacy Control honored) and the first-party analytics described on About.
 
 - App Store privacy label: **Data Not Collected** (the app contacts providers named below for content, not for tracking; confirm against Apple's definitions at submission).
 - Play Data safety: no data collected or shared for analytics. Declare that content requests go to third parties without user identifiers beyond what any HTTPS request carries (IP address, to verify wording against Play's definition: IP-derived approximate location counts if collected, which is why analytics stay off in the app).

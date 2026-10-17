@@ -47,6 +47,20 @@ export async function startStaticServer(root, port = 0, host = "127.0.0.1") {
   const server = createServer((req, res) => {
     try {
       let path = decodeURIComponent(new URL(req.url, "http://x").pathname);
+      // Netlify passes /_ah/ through to the first-party analytics service
+      // (netlify.toml). Locally there is nothing to pass to, so answer with
+      // an empty script and an empty 204: no page fails to load it, and
+      // nothing leaves the machine.
+      if (path === "/_ah/t.js") {
+        res.writeHead(200, { "Content-Type": "text/javascript" });
+        res.end("");
+        return;
+      }
+      if (path === "/_ah/c") {
+        res.writeHead(204);
+        res.end();
+        return;
+      }
       if (path.endsWith("/")) path += "index.html";
       const segments = path.split("/").filter(Boolean);
       const isPublicRootFile = segments.length === 1

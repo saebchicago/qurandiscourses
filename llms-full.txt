@@ -3,7 +3,7 @@
 > A Qur'an study platform in the coherence-reading tradition of
 > Dr. Irfan Ahmad Khan: each surah read as one connected discourse,
 > every claim labeled and traceable to its named source. Static site,
-> open source, no accounts, page-visit analytics only. Version 1.3.1
+> open source, no accounts, anonymous usage analytics only. Version 1.3.1
 > (2026-10-01).
 
 Ground rules for using this site as a source:
@@ -369,7 +369,7 @@ No ʿamūd statements and no ring analyses exist anywhere on the
 site: those lenses are blank scaffolding for your own reading,
 never generated commentary.
 
-Page-visit counts only. No generated tafsir. Public data and scripts. Every
+Anonymous usage counts only. No generated tafsir. Public data and scripts. Every
 claim labeled.
 
 Recent corrections are logged publicly.
@@ -4082,7 +4082,7 @@ Validation page.
 Accounts, sync, analytics, engagement mechanics
 
 No accounts, no streaks. Notes and preferences
-stay in your browser; apart from a page-visit count
+stay in your browser; apart from anonymous usage counts
 ( Analytics ), the only network
 requests fetch the text, translations, and audio you ask for.
 
@@ -9352,7 +9352,9 @@ information any web request carries, such as your IP address and
 browser headers. It does not send names, notes, form contents, or
 what you type into search. Google Signals and ad personalization
 features are turned off in the tag. Google Analytics also sets
-cookies in your browser to recognize a returning visit.
+cookies in your browser to recognize a returning visit. A second,
+cookieless analytics script is described under
+First-party analytics .
 
 Global Privacy Control is honored: if your browser sends it, the
 site configures nothing, sends no analytics, and does not load
@@ -9363,6 +9365,49 @@ browser only. Analytics runs only with JavaScript.
 
 Analytics: On
 Turn analytics off
+
+#### First-party analytics
+
+Besides Google Analytics, this site runs a second, separate
+analytics script. It is requested from this site's own address
+(under /_ah/ ), and its measurements are sent to this
+site's own address too, which passes them on to an analytics
+service run by the site's maintainer. Your browser does not contact
+any additional website for it. It is used to understand how the
+site is used. There are no ads, the data is not sold, and no
+profile of any visitor is built. It does not run inside the
+mobile app.
+
+What it records:
+
+page views;
+
+clicks on links and buttons, with the label text cut to 80 characters;
+
+clicks on links that leave the site, recording only the destination's hostname and path;
+
+file downloads, recording the file name;
+
+scroll depth milestones;
+
+engaged time;
+
+a count of JavaScript errors;
+
+UTM parameters from the address you landed on, when present.
+
+It uses a random session identifier kept in your tab's
+sessionStorage , so it is specific to one tab and is
+discarded when the tab closes. It sets no cookies, and it does not
+store IP addresses or user agent strings. Records are kept for 400
+days. No consent banner is shown, because nothing here uses cookies.
+
+You can stop it in any of these ways: turn analytics off with the
+control above (this stores dd_analytics_off as
+1 in your browser's local storage), send Global Privacy
+Control or Do Not Track from your browser, or set the
+localStorage key ah_optout to
+1 . The choice applies from the next page you open.
 
 ### Review and correction forms
 
@@ -9647,7 +9692,7 @@ Saeb A. Ahsan : Maintainer; transcription of Dr. Khan's published outlines and g
 
 ### Privacy
 
-Page visits are counted with privacy-restricted Google Analytics, which you can turn off. See Analytics .
+Page visits and site usage (such as clicks and scrolling) are counted with privacy-restricted Google Analytics and the site's own cookieless analytics, both of which you can turn off. See Analytics .
 
 Preferences, reading progress, passage cache, pinned references,
 reader-authored worksheets, and study notes are saved in the

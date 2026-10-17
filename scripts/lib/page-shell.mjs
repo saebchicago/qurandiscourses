@@ -117,6 +117,7 @@ export function renderPage({ title, description, url, og, jsonld, main, mainClas
     <meta name="twitter:card" content="summary_large_image" />
 ${headLinks}
     <script src="/assets/ga-init.js"></script>
+    <script src="/assets/ah-init.js"></script>
     <script type="application/ld+json">
 ${JSON.stringify(jsonld)}
     </script>

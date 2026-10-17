@@ -104,8 +104,13 @@ Before a submission is merged, it needs to pass:
 4. **Recomputable from open sources.** Either the bundled Tanzil/Leeds
    data, or a newly-added source with documented rights status — never
    invented figures.
-5. **No new tracking, analytics, backend, or paywall logic.** This stays a
-   static site with client-only persistence.
+5. **No new tracking, analytics, backend, or paywall logic in a
+   submission.** The site's only analytics are the two described on the
+   About page (Google Analytics, and the maintainer's own cookieless
+   first-party analytics, loaded by `assets/ga-init.js` and
+   `assets/ah-init.js`); a contribution must not add a third, an account
+   system, a backend, or paywall logic. This stays a static site with
+   client-only persistence.
 6. `node scripts/verify-site.mjs` and `node scripts/build-csp.mjs --check`
    both pass.
 

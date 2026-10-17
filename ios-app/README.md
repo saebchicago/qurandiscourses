@@ -23,7 +23,7 @@ Chosen over bundling the site into `www` because bundled mode would change every
 
 **Unverified on a device.** First TestFlight check, in order: (1) airplane mode after one online launch still opens `/` and a precached page; (2) `navigator.serviceWorker.controller` is set; (3) `window.Capacitor` is present on the remote page (the bridge depends on it). First launch with no connection shows no site content; that is expected and should be in the review notes.
 
-Native bridge plugins are installed (local notifications, haptics, app, filesystem, share). Web `navigator.share` already opens the iOS share sheet. Analytics are off in the app: `assets/ga-init.js` injects Google's script only when analytics are on, so the app never contacts Google.
+Native bridge plugins are installed (local notifications, haptics, app, filesystem, share). Web `navigator.share` already opens the iOS share sheet. Analytics are off in the app: `assets/ga-init.js` injects Google's script only when analytics are on, so the app never contacts Google, and `assets/ah-init.js` applies the same Capacitor test before adding the site's first-party analytics script, so the app sends nothing to `/_ah/` either.
 
 ## Native features (site-side, `assets/native-bridge.js`)
 

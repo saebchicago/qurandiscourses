@@ -851,6 +851,24 @@
   status = 301
   force = true
 
+# First-party analytics hub, proxied same-origin so the browser only talks to
+# this site (CSP 'self' covers both the script and the collect endpoint; no
+# CSP change). /_ah/t.js is the tracker script, /_ah/c the collect endpoint.
+# Nothing earlier in this file matches /_ah/ and there is no public
+# _redirects file; first match wins, so keep these ahead of any future
+# catch-all.
+[[redirects]]
+  from = "/_ah/t.js"
+  to = "https://saeb-analytics-hub.lovable.app/tracker.js"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/_ah/c"
+  to = "https://saeb-analytics-hub.lovable.app/api/public/collect"
+  status = 200
+  force = true
+
 # Native app wrapper and store assets are repo-only; never serve them publicly.
 [[redirects]]
   from = "/ios-app/*"
