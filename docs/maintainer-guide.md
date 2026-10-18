@@ -171,6 +171,7 @@ them only when their inputs change; commit their outputs.
 | build-surah-meta.mjs | Quran Foundation API | data/surah-meta.json | Makki/Madani |
 | build-quran-text.mjs | Tanzil Uthmani download + alquran.cloud `quran-uthmani` (network) | data/quran-text/{1-114}.json, data/quran-text/index.json | the bundled Arabic text for read.html. Verse text is Tanzil's file verbatim, with Tanzil's notice copied into the index; alquran.cloud supplies surah names and the juz/page/ruku/hizb/sajda fields, and its numbering must match Tanzil's or nothing is written. The index records how alquran.cloud's copy differs from Tanzil's (marks only). `--check` needs Tanzil only and validates numbering against the committed surah inventory; build mode still needs both services. Needs the network, so `.github/workflows/quran-text.yml` runs it: on a working branch it commits the result; on main it runs monthly with `--check` and fails on upstream change, never committing |
 | build-quran-text.test.mjs | Synthetic verse text + committed surah counts (offline) | none | `node --test scripts/build-quran-text.test.mjs` verifies check-mode service isolation, no writes, hash/notice/numbering integrity, duplicate rejection, and nested network diagnostics. The text-bundle workflow runs it before fetching upstream |
+| scripts/concordance.test.mjs | data/morphology/, data/root-analytics/ (offline) | none | `node --test scripts/concordance.test.mjs` loads assets/concordance.js (the Roots explorer's word-in-context view, built in the browser from morphology) and asserts that, fully loaded, it yields exactly each root's published occurrence count for all 1,642 roots, and that context never crosses a verse boundary. Runs in audit.yml |
 | scripts/association-measures.test.mjs | Hand-computed 2x2 cells (offline) | none | `node --test scripts/association-measures.test.mjs` verifies logDice, t-score, log odds ratio with its interval, and both deltaP directions against values worked by hand, including an asymmetric table. Runs in audit.yml |
 | scripts/wbw-proxy.test.mjs | Stubbed fetch (offline) | none | `node --test scripts/wbw-proxy.test.mjs` verifies the word-by-word proxy: query bounds, 503 when unconfigured, credentialed headers, token reuse, bounded retries, shape validation, no secret in replies. Runs in audit.yml. Activating it needs `QF_CLIENT_ID`, `QF_CLIENT_SECRET`, `QF_OAUTH_TOKEN_URL`, `QF_CONTENT_BASE_URL` (same environment) in Netlify |
 | fetch-evidence.mjs | data/evidence/fetch-list.json; the pages it names (network) | nothing (job log only) | prints, verbatim and with URL, date and SHA-256, the lines of registered sources that state a finding, so the site quotes a source's own words rather than a remembered figure. Runs in audit.yml's external-evidence job; third-party text is never committed. `--verify` re-checks every card in data/replications.json and ends each in one of three states, all named in the summary: verified, failed (exit 1), or not checked (source unreachable, or no `pdftotext` for a PDF). An unreachable source is reported INCOMPLETE and never counted as verified; a missing PDF reader exits 1, because it is the runner's fault, not the source's (audit.yml installs poppler-utils after refreshing the package index) |
@@ -210,6 +211,7 @@ them only when their inputs change; commit their outputs.
 | build-formulaic-density.mjs | formulas-root, formulas-surface, morphology/ | data/formulaic-density.json | Per-verse and per-surah formulaic density (Bannister). Rerun after build-formulas.mjs |
 | compute-coverage.mjs | morphology, roots-summary, sources.json | data/coverage/report.json | coverage.html dashboard — every number there traces to this report |
 | build-exports.mjs | roots-summary, numbers.json, chronology, surah-profiles, surah-names, morphology, association/ | data/exports/ (CSV+JSON tables, schema.json, DATA-DICTIONARY.md) | export.html downloads. Rerun after compute-association-stats.mjs. `association-extended` is computed here from the published pair counts and each root's `verseCount` through lib/association-measures.mjs, so it needs no corpus rescan |
+| build-api-index.mjs | data/exports/schema.json, every table's CSV and JSON, data/exports/RELEASES.json, data/version.json | api/v1/index.json, api/v1/openapi.json | the static data API: an index of every table (address, size, SHA-256) and archive, plus an OpenAPI 3.1 description of the same GET paths. No server. netlify.toml serves /api/v1/* and /data/exports/* with `Access-Control-Allow-Origin: *` (both blocks guarded by check-headers-sync). Run after build-exports and build-datapack; `--check` fails when any table's bytes moved |
 
 ### Site artifacts
 
@@ -647,7 +649,7 @@ fourteen. This recipe exists so that cannot happen quietly again;
    is checked against the table itself, because that string propagates
    into `datapackage.json`, `croissant.json` and both pages' JSON-LD.
    Write no figure you do not want checked.
-3. `node scripts/build-exports.mjs`, then `node scripts/build-datapack.mjs`.
+3. `node scripts/build-exports.mjs`, then `node scripts/build-datapack.mjs`, then `node scripts/build-api-index.mjs`.
    The second refuses to rewrite a published archive: if the table set
    changed, bump `data/version.json` and let a NEW archive be written
    (see "Cutting a release"), never edit `data/exports/RELEASES.json`.
@@ -1095,7 +1097,8 @@ The site is versioned so a citation can pin an exact set of numbers.
    which writes a NEW `data/exports/divinediscourses-data-v<version>.tar.gz`
    (keep the old archives: they are what published citations point at),
    and update export.html's archive link (check-citation fails if you
-   forget).
+   forget). Then `node scripts/build-api-index.mjs` so the API index
+   lists the new archive.
 4. Add a changelog entry, run the §6 checklist, merge.
 5. Tag the merge commit: `git tag -a v<version> -m "<one-line summary>"`
    and push the tag. The tag is what makes a citation resolvable later:

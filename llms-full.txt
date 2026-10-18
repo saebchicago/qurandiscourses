@@ -1907,17 +1907,63 @@ Click a node to open that root; hover or tab to it for the
 shared-verse count, LLR, PMI, and Dice. The graph plots the
 same partners the table below lists.
 
+Order these partners by
+
+Strength of evidence (LLR)
+Distinctiveness (PMI)
+Overlap (Dice)
+logDice
+t-score
+Log odds ratio
+deltaP (partner given this root)
+
+The partners are this root's 25 strongest by LLR. Another
+measure reorders the same 25; it does not bring in different
+partners. Measures disagree by design, and none is the right
+one. Formulas in data/association/methods.json .
+
 Root
 Shared verses
 Strength of evidence (LLR)
 Distinctiveness (PMI)
 Overlap (Dice)
+logDice
+t-score
+Log odds ratio
+deltaP
 
 These are statistical measures of word distribution in the
 text. They do not indicate thematic, exegetical, or
 theological relationships.
 
 Download the full association-pairs table (CSV/JSON) →
+
+#### Concordance (word in context)
+
+Show every occurrence in context
+
+Every occurrence of this root with up to five words on each
+side, within the same verse. Words are shown as the Leeds
+corpus v0.4 segments them, the same tokens every count on
+this page is made from.
+
+Order by
+
+Reference
+Lemma
+Word before
+Word after
+
+Download loaded lines (CSV)
+
+Ref
+Before
+Word
+After
+Lemma
+POS
+
+Load more verses
 
 #### Network position ●
 
@@ -7266,7 +7312,7 @@ One archive holds all nineteen tables in both formats, the schema,
 the data dictionary, and a citation file, so a download never
 travels without its provenance. The archive is named by release
 version and built deterministically: citing
-v1.3.0 names these exact bytes, and
+v1.4.0 names these exact bytes, and
 a new release adds a new archive rather than replacing this
 one. For toolchains that read standard packaging, the same
 tables are described as a
@@ -7278,10 +7324,28 @@ divinediscourses-data-v1.4.0.tar.gz (all tables + schema + citation + corpus not
 
 Earlier releases stay downloadable, because a published citation
 points at the bytes it was written against:
+v1.3.1 ,
 v1.3.0 ,
 v1.2.0 ,
 v1.1.0 ,
 v1.0.0 .
+
+### For scripts and notebooks
+
+api/v1/index.json lists every
+table with its row count, CSV and JSON address, size and SHA-256,
+and every archive above, so a script can find the data and check
+a download without reading this page.
+api/v1/openapi.json describes
+the same addresses in OpenAPI 3.1. These are static files: there
+is no query service, no key and no rate limit, and any site may
+fetch them. Fetch a table whole and filter it locally.
+
+A worked example:
+reproduce-numbers.ipynb , a Python notebook that recomputes figures from the Numbers
+page and the association tables using only the archive. It runs
+on every change to the site, so a failure there means the
+archive and the pages disagree.
 
 ### Preview: top 5 roots by frequency
 
@@ -7314,6 +7378,24 @@ before it was renamed "Study".
 ### 2026
 
 #### October
+
+A concordance, and more ways to rank a root's partners.
+On Roots , each root now has a word-in-context view:
+every occurrence with up to five words on each side, inside the
+verse, ordered by reference, lemma, or the word before or after,
+and downloadable as CSV. It is built from the same word
+segmentation as every count on the page, and a test checks that it
+lists exactly as many occurrences as each root's published total.
+The association table also shows logDice, t-score, log odds ratio
+and deltaP, and can reorder the same 25 partners by any of them. §
+
+An index for scripts. The data is now discoverable
+without reading a web page: api/v1/index.json
+lists every export table with its address, size and SHA-256, and every
+published archive, and api/v1/openapi.json
+describes the same addresses in OpenAPI 3.1. They are static files,
+readable from any site, with no key. See Export .
+No published number changed. §
 
 Four more ways to score a root pair, and version 1.4.0.
 The Export page has a nineteenth table, association-extended :

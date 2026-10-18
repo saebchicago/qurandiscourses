@@ -22,7 +22,8 @@
 // under data/exports/):
 //   data/association/{safeKey}.json: per root, overall normalized
 //     frequency and the top 25 association partners by log-likelihood
-//     ratio (k11, PMI, Dice, LLR).
+//     ratio (k11, PMI, Dice, LLR, plus logDice, t-score, log odds ratio and
+//     deltaP from scripts/lib/association-measures.mjs).
 //   data/association/keyness-top.json: top 15 roots per period by
 //     keyness (G2), for the Numbers page.
 //   data/association/methods.json: the shared metadata block (script
@@ -62,6 +63,7 @@ import { fileURLToPath } from "url";
 import { safeKey } from "./lib/safe-key.mjs";
 import { computedDate } from "./lib/computed-date.mjs";
 import { TOTAL_VERSES, TOTAL_TOKENS, TOTAL_ROOTS } from "./lib/corpus.mjs";
+import { cells, logDice, tScore, logOddsRatio, deltaP } from "./lib/association-measures.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
@@ -385,6 +387,11 @@ const methodsDoc = {
     dice: "2*k11 / (2*k11 + k12 + k21)",
     llr: "Dunning's G2 = 2 * sum(O * ln(O/E)) over the 2x2 table; O=0 cells contribute 0",
     keyness: "Same G2 formula, token-based 2x2: root tokens in period vs. rest of corpus",
+    partnerVerses: "verses in which the partner root is attested (the second marginal of the 2x2)",
+    logDice: "14 + log2(2*k11 / (verses of root + verses of partner)), Rychly 2008; at most 14",
+    tScore: "(k11 - E11) / sqrt(k11), E11 = verses of root * verses of partner / N",
+    logOddsRatio: "ln((k11+0.5)(k22+0.5) / ((k12+0.5)(k21+0.5))), Haldane-Anscombe correction",
+    deltaP: "P(partner in verse | root in verse) - P(partner | root absent); directional, from this file's root to the partner",
   },
   _thresholds: {
     minSharedVerses: MIN_SHARED_VERSES,
@@ -402,6 +409,18 @@ writeFileSync(join(OUT, "methods.json"), JSON.stringify(methodsDoc, null, 1) + "
 
 let written = 0;
 
+function extended(k11, fA, fB) {
+  const c = cells(k11, fA, fB, TOTAL_VERSES);
+  const r = (x, d) => Math.round(x * 10 ** d) / 10 ** d;
+  return {
+    partnerVerses: fB,
+    logDice: r(logDice(c), 3),
+    tScore: r(tScore(c), 2),
+    logOddsRatio: r(logOddsRatio(c).lor, 3),
+    deltaP: r(deltaP(c).bGivenA, 4),
+  };
+}
+
 for (const [bw, meta] of Object.entries(rootsSummary)) {
   const sk = safeKey(bw);
   const overallNorm = (meta.totalCount / TOTAL_TOKENS) * 1000;
@@ -415,6 +434,10 @@ for (const [bw, meta] of Object.entries(rootsSummary)) {
     pmi: Math.round(p.pmiVal * 100) / 100,
     dice: Math.round(p.diceVal * 1000) / 1000,
     llr: Math.round(p.llrVal * 100) / 100,
+    // Extended measures over the same 2x2, oriented from this root (A) to
+    // the partner (B). Same formulas and rounding as the association-extended
+    // export table, so the Roots panel and the download agree.
+    ...extended(p.k11, rootVerseCount[bw] || 0, rootVerseCount[p.partner] || 0),
   }));
 
   const output = {

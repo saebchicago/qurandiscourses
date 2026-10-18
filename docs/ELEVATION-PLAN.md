@@ -73,7 +73,7 @@ Effort: S ≈ days, M ≈ 1–3 weeks, L ≈ 1–3 months, XL > 3 months of one 
 | A1 | **Extended association measures**: logDice, t-score, log odds ratio with 95% interval, directional ΔP, beside PMI/Dice/G2 (new export table `association-extended`, measure toggle in Roots explorer) | Shows method-dependence instead of picking a winner; matches the site's dispersion convention | Leeds only | S–M (script exists: `docs/elevation/compute-association-extended.mjs`) | Readers over-read a "winner" → every ranking shows which measure; a claim record with `agreement: method-dependent` | Script in `scripts/` with `--check`; shared measures equal the published file within its rounding; table in `schema.json`; claim 1:1 with a worked example |
 | A2 | **Layer-sensitivity harness** in the build, with Leeds as layer 1 (no new data yet) | Makes the later layers a converter, not a rewrite | None | S (exists: `layer-sensitivity.mjs`) | Premature surface area → ship as generator + empty-state page only | Identity test passes; misaligned layer refused; unannotated ≠ disagreement |
 | A3 | **Licence and fit verification** for MASAQ, QuranMorph, QAMAR | Gates all of Phase B | Read-only research | S | Misreading a licence → quote the grant verbatim from the source, record sha256 | `sources.json` entries as ○ Pending with licence text, URL, retrieval date, file hash, tokenization notes |
-| A4 | **Notebook + data-pack guide** (`docs/elevation/reproduce-numbers.ipynb`) published on Export | Lets an outsider reproduce a Numbers figure in minutes | Data pack (Leeds GPL notice included) | S | Notebook rot → CI runs its cells against the committed pack | CI executes the notebook; 4 checks pass |
+| A4 | **Notebook + data-pack guide** (`docs/notebooks/reproduce-numbers.ipynb`) published on Export | Lets an outsider reproduce a Numbers figure in minutes | Data pack (Leeds GPL notice included) | S | Notebook rot → CI runs its cells against the committed pack | CI executes the notebook; 4 checks pass |
 | A5 | **Gloss source decision** (the owner task in `docs/gloss-dataset-research.md`) | Unblocks the 0% | Per that memo: verify QUL label and the volume's permission page | S (owner) | Shipping without verified licence → memo's own gate stands | Decision recorded in `DEFERRED.md` |
 | A6 | **Coverage report v2**: add token-weighted gloss coverage, layer count, overlay count, claims by status | Honest accounting that can't be gamed by glossing rare roots | None | S | None | `compute-coverage.mjs --check` passes; `coverage.html` figures are bound spans |
 | A7 | **Zenodo DOI per release** (CITATION.cff exists) | Makes citation measurable | None | S | Version/date drift → release script checks `version.json`, `CITATION.cff`, tag together | DOI in `CITATION.cff` and About |
@@ -170,7 +170,7 @@ All files are in `docs/elevation/`. Each was run here; results are under "What w
 | Deterministic generator: annotation sensitivity between layers | `layer-sensitivity.mjs` | `--selftest`; refuses misaligned layers |
 | Deterministic root-network layout + pure SVG renderer | `root-network.mjs` | Replaces "a React component" |
 | Claim record for the new statistic | `claim.example.json` | Field values are exactly what `check-claims.mjs` enforces |
-| Notebook reproducing Numbers-page figures from the data pack | `reproduce-numbers.ipynb` | Four checks |
+| Notebook reproducing Numbers-page figures from the data pack | `docs/notebooks/reproduce-numbers.ipynb` (moved; runs in CI) | Five checks |
 
 ### API sketch (static, no server)
 

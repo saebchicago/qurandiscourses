@@ -750,7 +750,7 @@
           the data dictionary, and a citation file, so a download never
           travels without its provenance. The archive is named by release
           version and built deterministically: citing
-          <span class="t-data">v1.3.0</span> names these exact bytes, and
+          <span class="t-data">v1.4.0</span> names these exact bytes, and
           a new release adds a new archive rather than replacing this
           one. For toolchains that read standard packaging, the same
           tables are described as a
@@ -770,6 +770,9 @@
         <p class="t-annotation">
           Earlier releases stay downloadable, because a published citation
           points at the bytes it was written against:
+          <a href="data/exports/divinediscourses-data-v1.3.1.tar.gz" download
+            >v1.3.1</a
+          >,
           <a href="data/exports/divinediscourses-data-v1.3.0.tar.gz" download
             >v1.3.0</a
           >,
@@ -782,6 +785,28 @@
           <a href="data/exports/divinediscourses-data-v1.0.0.tar.gz" download
             >v1.0.0</a
           >.
+        </p>
+        <h3 id="api">For scripts and notebooks</h3>
+        <p>
+          <a href="api/v1/index.json">api/v1/index.json</a> lists every
+          table with its row count, CSV and JSON address, size and SHA-256,
+          and every archive above, so a script can find the data and check
+          a download without reading this page.
+          <a href="api/v1/openapi.json">api/v1/openapi.json</a> describes
+          the same addresses in OpenAPI 3.1. These are static files: there
+          is no query service, no key and no rate limit, and any site may
+          fetch them. Fetch a table whole and filter it locally.
+        </p>
+        <p>
+          A worked example:
+          <a
+            href="https://github.com/saebchicago/qurandiscourses/blob/main/docs/notebooks/reproduce-numbers.ipynb"
+            rel="noopener"
+            >reproduce-numbers.ipynb</a
+          >, a Python notebook that recomputes figures from the Numbers
+          page and the association tables using only the archive. It runs
+          on every change to the site, so a failure there means the
+          archive and the pages disagree.
         </p>
       </section>
 
