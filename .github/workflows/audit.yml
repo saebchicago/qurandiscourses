@@ -62,6 +62,7 @@ jobs:
           node --test scripts/association-measures.test.mjs
           node scripts/surah-distance.test.mjs
           node --test scripts/query.test.mjs
+          node scripts/templates.test.mjs
           node --test scripts/concordance.test.mjs
 
       - name: Validate navigation and deployment headers
@@ -105,6 +106,7 @@ jobs:
           node scripts/compare-layers.mjs --selftest
           node scripts/compare-layers.mjs --check
           node scripts/compute-surah-distance.mjs --check
+          node scripts/build-formulaic-templates.mjs --check
           node scripts/build-search-index.mjs --check
           node scripts/build-ask-routes.mjs --check
           node scripts/build-related.mjs --check

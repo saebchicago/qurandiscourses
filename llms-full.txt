@@ -3336,6 +3336,44 @@ judgment argued in Bannister 2014, not settled by this
 count. Full per-surah, per-verse table:
 Export .
 
+### Templates with one open slot ●
+
+Two words two places apart in one verse, with any word between
+them, such as وما _ من .
+Each template's count is compared with what shuffling the words
+inside every verse would give, and the whole list is corrected
+together (Benjamini-Hochberg). A template needs at least three
+occurrences and at least two different words in the slot; a
+phrase with one fixed middle word is on the list above.
+
+Show the templates
+
+Order by
+
+Most occurrences
+Most above chance (count / expected)
+Smallest q
+Most different slot words
+
+Contains
+
+Template
+Count
+Expected by chance
+Slot words
+Most frequent slot words
+Occurrences
+
+Show more
+
+This records where a pattern recurs beyond word order, not why.
+The shuffle keeps each verse's length and words, so common
+particles and repeated verses (a refrain repeated verbatim counts
+each time) are in the count; whether a template is a formula in the
+oral-formulaic sense is a scholarly judgment, argued in Bannister
+2014, not settled here. Full list with every occurrence:
+data/formulaic-templates.json .
+
 ### Explore further
 
 Rhetorical and structural patterns: Patterns →
@@ -7461,6 +7499,16 @@ before it was renamed "Study".
 ### 2026
 
 #### October
+
+Templates with one open slot. Formulas
+has a new panel listing pairs of words two places apart with any word
+between them (for example wa-ma _ min ) that recur more than
+shuffling the words inside each verse would predict. 1,003 of 1,669
+candidates pass a Benjamini-Hochberg correction; the same procedure on
+100 verse-shuffled copies of the text finds almost none. Each
+template lists every place it occurs. This records recurrence, not
+why it recurs, and common particles and repeated verses are in the
+count. No existing number changed. §
 
 A query page. The new Query page
 (under Analyze) filters the word-by-word morphology by root, lemma,
