@@ -21,6 +21,17 @@
 export function poissonUpperTail(k, mu) {
   if (k <= 0) return 1;
   if (mu <= 0) return 0;
+  // At or below the mean the tail is large; take 1 minus the lower sum, whose
+  // terms may underflow to 0 for a large mu without making the answer wrong.
+  if (k <= mu) {
+    let lower = 0;
+    let lf = 0;
+    for (let i = 0; i < k; i++) {
+      if (i > 1) lf += Math.log(i);
+      lower += Math.exp(-mu + i * Math.log(mu) - lf);
+    }
+    return Math.min(1, Math.max(0, 1 - lower));
+  }
   // first term e^-mu mu^k / k!, in logs
   let lf = 0;
   for (let i = 2; i <= k; i++) lf += Math.log(i);

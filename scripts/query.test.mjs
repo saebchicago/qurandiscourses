@@ -37,6 +37,9 @@ test("parse drops junk and orders; serialize is canonical", () => {
   assert.equal(Q.serialize(Q.parse(Q.serialize(f))), Q.serialize(f));
   assert.equal(Q.parse("from=9&to=2").from, 2);
   assert.ok(Q.isEmpty(Q.parse("")));
+  assert.equal(Q.parse("pos=V&pos=N").pos.join(","), "N,V");
+  assert.ok(!Q.hasAnchor(Q.parse("from=1&period=medinan")));
+  assert.ok(Q.hasAnchor(Q.parse("pos=V")));
 });
 
 test("a root query equals the published total for that root", () => {

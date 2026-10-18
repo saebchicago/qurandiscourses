@@ -52,6 +52,89 @@
       ],
       "head": 8,
       "context": 2
+    },
+    {
+      "id": "masaq-mendeley",
+      "url": "https://data.mendeley.com/datasets/9yvrzxktmr",
+      "patterns": [
+        "licen[cs]e|CC[- ]?BY|Creative Commons|GPL|MIT License|Apache|open[- ]source|publicly available|terms of use",
+        "version|published|DOI|doi\\.org"
+      ],
+      "context": 1
+    },
+    {
+      "id": "masaq-mendeley-api",
+      "url": "https://data.mendeley.com/public-api/datasets/9yvrzxktmr",
+      "patterns": [
+        "licen[cs]e|CC[- ]?BY|Creative Commons|GPL|MIT License|Apache|open[- ]source|publicly available|terms of use",
+        "\"name\"|\"version\"|\"doi\"|\"licence\"|\"license\""
+      ],
+      "context": 1
+    },
+    {
+      "id": "quranmorph-arxiv",
+      "url": "https://arxiv.org/abs/2506.18148",
+      "patterns": [
+        "licen[cs]e|CC[- ]?BY|Creative Commons|GPL|MIT License|Apache|open[- ]source|publicly available|terms of use",
+        "https?://\\S+",
+        "77,?429|tokens|lemma|root"
+      ],
+      "context": 1
+    },
+    {
+      "id": "quranmorph-pdf",
+      "url": "https://arxiv.org/pdf/2506.18148",
+      "patterns": [
+        "licen[cs]e|CC[- ]?BY|Creative Commons|GPL|MIT License|Apache|open[- ]source|publicly available|terms of use",
+        "https?://\\S+|github",
+        "\\broots?\\b"
+      ],
+      "context": 1,
+      "pdf": true
+    },
+    {
+      "id": "quranmorph-site",
+      "url": "https://sina.birzeit.edu/quran/",
+      "patterns": [
+        "licen[cs]e|CC[- ]?BY|Creative Commons|GPL|MIT License|Apache|open[- ]source|publicly available|terms of use",
+        "download|github|\\.zip|\\.csv|\\.tsv"
+      ],
+      "context": 1
+    },
+    {
+      "id": "qamar-acl",
+      "url": "https://aclanthology.org/2026.abjadnlp-1.38/",
+      "patterns": [
+        "licen[cs]e|CC[- ]?BY|Creative Commons|GPL|MIT License|Apache|open[- ]source|publicly available|terms of use",
+        "https?://\\S+|github",
+        "Anthology ID|pages|Proceedings"
+      ],
+      "context": 1
+    },
+    {
+      "id": "qamar-pdf",
+      "url": "https://aclanthology.org/2026.abjadnlp-1.38.pdf",
+      "patterns": [
+        "licen[cs]e|CC[- ]?BY|Creative Commons|GPL|MIT License|Apache|open[- ]source|publicly available|terms of use",
+        "https?://\\S+|github|huggingface",
+        "\\d[\\d,]* (words|tokens|entries)"
+      ],
+      "context": 1,
+      "pdf": true
+    },
+    {
+      "id": "penrice-archive-search",
+      "url": "https://archive.org/advancedsearch.php?q=creator%3A%28penrice%29&fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=year&rows=25&output=json",
+      "patterns": [
+        "identifier|title|year"
+      ]
+    },
+    {
+      "id": "lane-archive-search",
+      "url": "https://archive.org/advancedsearch.php?q=title%3A%28arabic-english+lexicon%29+AND+creator%3A%28lane%29&fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=year&rows=25&output=json",
+      "patterns": [
+        "identifier|title|year"
+      ]
     }
   ]
 }

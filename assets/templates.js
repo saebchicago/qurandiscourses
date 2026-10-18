@@ -86,7 +86,8 @@
 
   function refresh() {
     var how = el("tplSort").value;
-    var q = el("tplFilter").value.trim();
+    // Same folding as the data: no vowel marks or tatweel, alif wasla as alif.
+    var q = el("tplFilter").value.replace(/[\u064b-\u0670\u065f\u06d6-\u06ed\u0640]/g, "").replace(/\u0671/g, "\u0627").trim();
     var list = data.systems;
     if (q) list = list.filter(function (s) { return s.template.indexOf(q) >= 0; });
     rows = sortRows(list, how);

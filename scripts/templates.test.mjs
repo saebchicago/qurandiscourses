@@ -15,6 +15,10 @@ near(poissonUpperTail(0, 5), 1, "P(X>=0)");
 const far = poissonUpperTail(30, 2);
 if (!(far > 1e-26 && far < 1e-22)) { failures++; console.error(`FAIL far tail: ${far}`); }
 
+// A support far below a large expectation is not significant (no underflow to p = 0).
+near(poissonUpperTail(3, 800), 1, "P(X>=3 | 800)");
+near(poissonUpperTail(5, 5), 1 - Math.exp(-5) * (1 + 5 + 12.5 + 125 / 6 + 625 / 24), "P(X>=5 | 5)");
+
 // BH: p = .01 .02 .03 .04 .05 -> q all .05 (m=5): .01*5/1=.05, .02*5/2=.05, ...
 bhAdjust([0.03, 0.01, 0.05, 0.02, 0.04]).forEach((q, i) => near(q, 0.05, `bh ${i}`));
 near(bhAdjust([0.5, 0.001])[1], 0.002, "bh small");

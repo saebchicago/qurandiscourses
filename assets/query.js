@@ -38,52 +38,67 @@
     return fetchJson("data/chronology.json").then(function (c) { chronology = c; return c; });
   }
 
-  // A root typed as Latin (r-h-m) or Arabic letters resolves through the
-  // published root list; a Buckwalter key passes through unchanged.
+  // A root may be typed as its Buckwalter key (rHm, case-sensitive), as Latin
+  // (r-\u1e25-m, or r-h-m / rhm without the dots) or in Arabic letters (\u0631\u062d\u0645,
+  // with or without spaces or vowel marks). An unmarked spelling is accepted
+  // only when it names exactly one root; otherwise the candidates are listed.
+  var plainLatin = function (x) { return x.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z\u02bf\u02be']/g, ""); };
+  var plainArabic = function (x) { return x.replace(/[\u064b-\u0670\u065f\u06d6-\u06ed\u0640\s]/g, "").replace(/\u0671/g, "\u0627"); };
   function resolveRoot(text) {
-    if (!text || /^[A-Za-z'|>&<}$*~{`_]+$/.test(text)) return Promise.resolve(text);
+    if (!text) return Promise.resolve(text);
     var want = text.replace(/\s+/g, " ").trim();
     var load = rootsList ? Promise.resolve(rootsList) : fetchJson("data/roots-list.json").then(function (l) { rootsList = l; return l; });
-    var plain = function (x) { return x.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); };
     return load.then(function (list) {
+      if (Object.prototype.hasOwnProperty.call(list, want)) return want;
       var keys = Object.keys(list);
       var i;
       for (i = 0; i < keys.length; i++) {
         var e = list[keys[i]];
         if (e.rootLatin === want || e.rootArabic === want) return keys[i];
       }
-      // Unmarked spelling (r-h-m for r-\u1e25-m): accepted only when it names one root.
-      var hits = keys.filter(function (k) { return plain(list[k].rootLatin) === plain(want); });
+      var isArabic = /[\u0600-\u06ff]/.test(want);
+      var hits = keys.filter(function (k) {
+        return isArabic ? plainArabic(list[k].rootArabic) === plainArabic(want) : plainLatin(list[k].rootLatin) === plainLatin(want);
+      });
       if (hits.length === 1) return hits[0];
       if (hits.length > 1) {
         throw new Error("\u201c" + text + "\u201d fits more than one root: " + hits.map(function (k) { return list[k].rootLatin + " (" + k + ")"; }).join(", ") + ". Use one of those.");
       }
-      throw new Error("No root matches \u201c" + text + "\u201d. Try the Buckwalter key (rHm), the Latin form with its dots (r-\u1e25-m) or the Arabic letters.");
+      throw new Error("No root matches \u201c" + text + "\u201d. Try the Buckwalter key (rHm), the Latin form (r-\u1e25-m) or the Arabic letters (\u0631 \u062d \u0645).");
     });
   }
 
+  // Each surah file is fetched once per page view; the promise is cached, so
+  // a query that overlaps one still loading waits for it instead of refetching.
+  function loadSurah(s) {
+    if (!morph[s]) {
+      morph[s] = fetchJson("data/morphology/" + s + ".json").catch(function (e) { delete morph[s]; throw e; });
+    }
+    return morph[s];
+  }
+
   function loadSurahs(scan, onProgress) {
-    var todo = scan.filter(function (s) { return !morph[s]; });
+    var data = {};
     var done = 0;
     var i = 0;
     return new Promise(function (resolve, reject) {
-      if (!todo.length) return resolve();
+      if (!scan.length) return resolve(data);
       var active = 0;
       var failed = false;
       function next() {
         if (failed) return;
-        if (i >= todo.length && active === 0) return resolve();
-        while (active < CONCURRENCY && i < todo.length) {
+        if (i >= scan.length && active === 0) return resolve(data);
+        while (active < CONCURRENCY && i < scan.length) {
           (function (s) {
             active++;
-            fetchJson("data/morphology/" + s + ".json").then(function (d) {
-              morph[s] = d;
+            loadSurah(s).then(function (d) {
+              data[s] = d;
               done++;
               active--;
-              onProgress(done, todo.length);
+              onProgress(done, scan.length);
               next();
             }).catch(function (e) { failed = true; reject(e); });
-          })(todo[i++]);
+          })(scan[i++]);
         }
       }
       next();
@@ -180,7 +195,11 @@
     var status = $("qStatus");
     $("qResults").hidden = true;
     if (Q.isEmpty(f)) {
-      status.textContent = "Choose at least one filter. A query with none would list every token.";
+      status.textContent = "";
+      return;
+    }
+    if (!Q.hasAnchor(f)) {
+      status.textContent = "Choose a root, a lemma or a part of speech. A surah range or a period only narrows a query; on its own it would list every word in it.";
       return;
     }
     status.textContent = "Reading…";
@@ -191,9 +210,9 @@
         var scan = Q.surahsToScan(g, chronology);
         return loadSurahs(scan, function (d, n) {
           if (id === runId) status.textContent = "Reading surah files: " + d + " of " + n + "…";
-        }).then(function () {
+        }).then(function (data) {
           if (id !== runId) return;
-          draw(f, Q.run(morph, scan, g));
+          draw(f, Q.run(data, scan, g));
           status.textContent = "";
         });
       })
@@ -209,6 +228,7 @@
       var l = document.createElement("label");
       var i = document.createElement("input");
       i.type = "checkbox";
+      i.name = "pos";
       i.value = p[0];
       l.appendChild(i);
       l.appendChild(document.createTextNode(" " + p[0] + (p[1] !== p[0] ? " " + p[1] : "")));
@@ -218,6 +238,7 @@
     $("qForm").addEventListener("submit", function (e) {
       e.preventDefault();
       var f = readForm();
+      fillForm(f);
       var qs = Q.serialize(f);
       history.pushState(null, "", qs ? "?" + qs : location.pathname);
       execute(f);
@@ -250,6 +271,10 @@
       var f = Q.parse(location.search);
       fillForm(f);
       execute(f);
+    });
+    // Empty submit: say what is needed (execute stays silent for a bare page).
+    $("qForm").addEventListener("submit", function () {
+      if (Q.isEmpty(readForm())) $("qStatus").textContent = "Choose a root, a lemma or a part of speech.";
     });
 
     var f0 = Q.parse(location.search);

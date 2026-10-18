@@ -13,7 +13,8 @@
  *           (data/chronology.json, the Noldeke-Bell scheme)
  *
  * Filters combine with AND; an empty filter matches everything. A query
- * with no filter at all is refused, because it would list every token.
+ * needs a root, a lemma or a part of speech: a surah range or a period
+ * alone only narrows, and on its own would list every token in it.
  */
 (function (root) {
   "use strict";
@@ -34,7 +35,7 @@
     var f = { root: "", lemma: "", pos: [], from: null, to: null, period: "" };
     f.root = (p.get("root") || "").trim();
     f.lemma = (p.get("lemma") || "").trim();
-    f.pos = (p.get("pos") || "")
+    f.pos = p.getAll("pos").join(",")
       .split(",")
       .map(function (s) { return s.trim(); })
       .filter(function (s) { return /^[A-Z]{1,5}$/.test(s); })
@@ -63,6 +64,10 @@
 
   function isEmpty(f) {
     return !f.root && !f.lemma && !(f.pos && f.pos.length) && !f.from && !f.to && !f.period;
+  }
+
+  function hasAnchor(f) {
+    return !!(f.root || f.lemma || (f.pos && f.pos.length));
   }
 
   // Surah numbers a query has to read. chronology maps "1".."114" to {period}.
@@ -131,7 +136,7 @@
 
   var api = {
     PERIODS: PERIODS, KEYS: KEYS, WINDOW: WINDOW,
-    parse: parse, serialize: serialize, isEmpty: isEmpty,
+    parse: parse, serialize: serialize, isEmpty: isEmpty, hasAnchor: hasAnchor,
     surahsToScan: surahsToScan, matches: matches, run: run, csv: csv,
   };
   root.qdQueryCore = api;

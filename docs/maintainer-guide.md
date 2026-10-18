@@ -1110,8 +1110,12 @@ The site is versioned so a citation can pin an exact set of numbers.
    forget). Then `node scripts/build-api-index.mjs` so the API index
    lists the new archive.
 4. Add a changelog entry, run the §6 checklist, merge.
-5. Tag the merge commit: `git tag -a v<version> -m "<one-line summary>"`
-   and push the tag. The tag is what makes a citation resolvable later:
+5. Tag the merge commit. `.github/workflows/release-tag.yml` does this on
+   its own when a push to main changes `data/version.json`: it creates
+   `v<version>` on that commit if the tag does not exist, and refuses a
+   commit whose `data/version.json` names another version. To backfill an
+   older tag, run it by hand with `pairs` (`v1.4.0=<sha>`). By hand:
+   `git tag -a v<version> -m "<one-line summary>"` and push the tag. The tag is what makes a citation resolvable later:
    `github.com/saebchicago/qurandiscourses/tree/v<version>` is the exact
    data a paper used.
 
