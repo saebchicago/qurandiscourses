@@ -156,7 +156,17 @@ if (Object.keys(rootsSummary).length !== TOTAL_ROOTS) {
 }
 
 const rootHasGlossField = Object.values(rootsSummary).some((meta) => "gloss" in meta);
-const verifiedGlossSourceExists = rootHasGlossField; // no other candidate file found in data/
+const verifiedGlossSourceExists = rootHasGlossField; // a gloss field on roots-summary would be unexpected
+
+// Verified root glosses live in data/root-glosses/roots.json: verbatim
+// Penrice (1873) quotations with a page, cross-checked against Lane by a
+// second reader. scripts/build-root-glosses.mjs --check (run in CI) refuses
+// any incomplete record, so every record here counts. "Verified" means the
+// transcription was checked; the glosses themselves render as Nuanced.
+const glossRecordsPath = join(DATA, "root-glosses", "roots.json");
+const glossRecords = existsSync(glossRecordsPath)
+  ? JSON.parse(readFileSync(glossRecordsPath, "utf8")).records || []
+  : [];
 
 let editorialGlossCount = 0;
 const rootMeaningsPath = join(ROOT, "assets", "root-meanings.js");
@@ -219,17 +229,18 @@ if (editorialUnmatched.length) {
   throw new Error(`assets/root-meanings.js has keys that are not corpus roots: ${editorialUnmatched.join(", ")}. STOPPING.`);
 }
 const editorialTokens = editorialMatched.reduce((n, k) => n + rootsSummary[k].totalCount, 0);
+const verifiedTokens = glossRecords.reduce((n, r) => n + (rootsSummary[r.root]?.totalCount || 0), 0);
 const tokenWeighted = {
   rootedTokens: rootedTokensTotal,
-  verifiedGlossTokens: 0,
-  verifiedGlossPercentOfRootedTokens: 0,
+  verifiedGlossTokens: verifiedTokens,
+  verifiedGlossPercentOfRootedTokens: pct(verifiedTokens, rootedTokensTotal),
   editorialGlossRootsMatched: editorialMatched.length,
   editorialGlossTokens: editorialTokens,
   editorialGlossPercentOfRootedTokens: pct(editorialTokens, rootedTokensTotal),
   topNShare,
   rootsNeededForShareOfRootedTokens: rootsNeededFor,
   _note:
-    "Verified coverage is 0 tokens because no root has a verified gloss. The editorial figure is shown for scale only: " +
+    "Verified coverage counts the rooted tokens of roots with a checked Penrice transcription in data/root-glosses/roots.json. The editorial figure is shown for scale only: " +
     "those glosses are working glosses, not quotations from a citable dictionary, and are not counted as verified. " +
     "topNShare and rootsNeededForShareOfRootedTokens size the target: they say how much of the rooted text the most " +
     "frequent roots cover, and are not a claim about which roots matter most.",
@@ -237,12 +248,15 @@ const tokenWeighted = {
 
 const rootGloss = {
   totalRoots: TOTAL_ROOTS,
-  withVerifiedGloss: 0,
-  percentWith: 0,
+  withVerifiedGloss: glossRecords.length,
+  percentWith: pct(glossRecords.length, TOTAL_ROOTS),
   tokenWeighted,
+  source: "penrice-1873 (primary), lane-lexicon (cross-check); records in data/root-glosses/roots.json",
   reason: verifiedGlossSourceExists
     ? "unexpected: a gloss field was found on data/roots-summary.json entries; script needs updating"
-    : "no verified gloss source present in repository",
+    : glossRecords.length
+      ? `${glossRecords.length} roots have a checked transcription from Penrice (1873), cross-checked against Lane; transcription continues down data/root-glosses/worklist.json`
+      : "source chosen (Penrice 1873, cross-checked against Lane's Lexicon); no root transcribed yet",
   editorialGlossCount,
   editorialGlossRenderPaths: glossRenderPaths,
   _note:
@@ -261,7 +275,7 @@ const rootGloss = {
       : null,
 };
 
-console.log(`  Verified root gloss coverage: 0/${TOTAL_ROOTS} (0%). Reason: ${rootGloss.reason}`);
+console.log(`  Verified root gloss coverage: ${rootGloss.withVerifiedGloss}/${TOTAL_ROOTS} (${rootGloss.percentWith}%). Reason: ${rootGloss.reason}`);
 console.log(`  Token-weighted: ${tokenWeighted.editorialGlossPercentOfRootedTokens}% of ${rootedTokensTotal} rooted tokens carry an editorial (unverified) gloss; top-100 roots would cover ${topNShare.top100.percentOfRootedTokens}%.`);
 console.log(`  (Editorial, unverified: ${editorialGlossCount} roots in assets/root-meanings.js, not counted.)`);
 console.log(`  Render paths (${glossRenderPaths.length}): ${glossRenderPaths.join(", ")}`);

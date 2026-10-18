@@ -238,9 +238,10 @@
     "75pct": 193,
     "90pct": 441
    },
-   "_note": "Verified coverage is 0 tokens because no root has a verified gloss. The editorial figure is shown for scale only: those glosses are working glosses, not quotations from a citable dictionary, and are not counted as verified. topNShare and rootsNeededForShareOfRootedTokens size the target: they say how much of the rooted text the most frequent roots cover, and are not a claim about which roots matter most."
+   "_note": "Verified coverage counts the rooted tokens of roots with a checked Penrice transcription in data/root-glosses/roots.json. The editorial figure is shown for scale only: those glosses are working glosses, not quotations from a citable dictionary, and are not counted as verified. topNShare and rootsNeededForShareOfRootedTokens size the target: they say how much of the rooted text the most frequent roots cover, and are not a claim about which roots matter most."
   },
-  "reason": "no verified gloss source present in repository",
+  "source": "penrice-1873 (primary), lane-lexicon (cross-check); records in data/root-glosses/roots.json",
+  "reason": "source chosen (Penrice 1873, cross-checked against Lane's Lexicon); no root transcribed yet",
   "editorialGlossCount": 84,
   "editorialGlossRenderPaths": [
    "compare.html",
@@ -614,8 +615,8 @@
  ],
  "sourceRegistryBlockers": [],
  "sourceUsage": {
-  "totalSources": 41,
-  "used": 38,
+  "totalSources": 43,
+  "used": 40,
   "unusedIds": [
    "qul",
    "qul-mutashabihat",
