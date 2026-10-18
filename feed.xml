@@ -9,6 +9,37 @@
   <updated>2026-10-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>Templates with one open slot</title>
+    <id>https://divinediscourses.org/changelog#2026-10-one-slot-templates</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-one-slot-templates"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Templates with one open slot.&lt;/strong&gt; &lt;a href="/formulas"&gt;Formulas&lt;/a&gt;
+              has a new panel listing pairs of words two places apart with any word
+              between them (for example &lt;em&gt;wa-ma _ min&lt;/em&gt;) that recur more than
+              shuffling the words inside each verse would predict. 1,003 of 1,669
+              candidates pass a Benjamini-Hochberg correction; the same procedure on
+              100 verse-shuffled copies of the text finds almost none. Each
+              template lists every place it occurs. This records recurrence, not
+              why it recurs, and common particles and repeated verses are in the
+              count. No existing number changed.</content>
+  </entry>
+  <entry>
+    <title>A query page</title>
+    <id>https://divinediscourses.org/changelog#2026-10-query-builder</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-query-builder"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;A query page.&lt;/strong&gt; The new &lt;a href="/query"&gt;Query&lt;/a&gt; page
+              (under Analyze) filters the word-by-word morphology by root, lemma,
+              part of speech, surah range and period, and returns the counts, the
+              occurrences with a few words of context, and a CSV. The whole query
+              lives in the address, so a copied link reproduces the same result and
+              nothing is stored. A root's total on this page equals its total on
+              Roots, checked for all 1,642 roots. Roots and lemmas are the
+              annotators' judgments from the Leeds v0.4 corpus, and the period
+              filter uses one chronology among several. No published number
+              changed.</content>
+  </entry>
+  <entry>
     <title>How far apart two surahs are, against chance, and version 1.5.0</title>
     <id>https://divinediscourses.org/changelog#2026-10-surah-distance</id>
     <link href="https://divinediscourses.org/changelog#2026-10-surah-distance"/>

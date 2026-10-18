@@ -272,6 +272,17 @@
    "onHome": false,
    "claim": "Al-Baqarah (2) and Al-Imran (3) have a Jensen-Shannon root distance of 0.384 against a permutation-null mean of 0.345 (excess 0.039, permutation p 0.002, BH q 0.003). Al-Baqarah and At-Tawbah (9) are 0.482 against 0.376 (excess 0.106). Both are well above chance for their lengths, and the second more so; neither number says what the surahs differ in.",
    "traceFull": "<strong>Source trace.</strong> Computed by <code>scripts/compute-surah-distance.mjs</code> from the Leeds v0.4 rooted tokens, written to <code>data/surah-distance/surah-distance.json</code> and published as the <code>surah-distance</code> table on <a href=\"export.html\">Export</a>. The distance is the square root of the Jensen-Shannon divergence (Lin 1991; a metric, Endres &amp; Schindelin 2003). Checked against hand-computed cases in <code>scripts/surah-distance.test.mjs</code>. The null reassigns verses between the two surahs at random with sizes fixed (500 draws, fixed seed)."
+  },
+  {
+   "id": "formulas-one-slot-templates",
+   "claimId": "claim.formulas.one-slot-templates.v1",
+   "label": "nuanced",
+   "labelText": "Nuanced",
+   "title": "templates with one open slot",
+   "sourceIds": "leeds-corpus-v0.4 bannister-2014",
+   "onHome": false,
+   "claim": "The template وما _ من (wa-ma, any word, min) occurs 92 times where word order alone predicts about 25 (q 4.5e-22), and إن _ إلا (in, any word, illa) 90 times against about 11 (q 4.5e-46). In all, 1,003 of 1,669 candidate templates pass at q <= 0.05 and cover 26.6% of the corpus's words, while the same procedure on 100 verse-shuffled copies finds 0.06 on average. This records recurrence, not composition.",
+   "traceFull": "<strong>Source trace.</strong> Computed by <code>scripts/build-formulaic-templates.mjs</code> from the Leeds v0.4 surface forms, written to <code>data/formulaic-templates.json</code> and shown on <a href=\"formulas.html#templates\">Formulas</a>. The expectation under a within-verse shuffle is exact and was checked against all permutations of small verses in <code>scripts/templates.test.mjs</code>. Whether a recurring template is a formula in the oral-formulaic sense is a scholarly question (Bannister 2014) this site does not decide."
   }
  ]
 }

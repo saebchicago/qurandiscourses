@@ -242,6 +242,10 @@ if (!LOCAL) {
   check("assets/concordance.js is served", cj.r.status === 200 && /qdConcordance/.test(cj.body), String(cj.r.status));
   const ra = await get(BASE + "/data/root-analytics/ruHm.json");
   check("concordance inputs are served (root-analytics, morphology)", ra.status === 200 && (await get(BASE + "/data/morphology/1.json")).status === 200, String(ra.status));
+  const qp = await text(BASE + "/query");
+  check("query page is served with its form and scripts", qp.r.status === 200 && /id="qForm"/.test(qp.body) && /src="assets\/query-core\.js"/.test(qp.body), String(qp.r.status));
+  const qc = await text(BASE + "/assets/query-core.js");
+  check("assets/query-core.js is served", qc.r.status === 200 && /qdQueryCore/.test(qc.body), String(qc.r.status));
 }
 
 // ── security headers ─────────────────────────────────────────────────

@@ -522,6 +522,31 @@
     "With 500 draws the smallest possible permutationP is 0.002; many long-surah pairs sit at that floor, so p does not rank them.",
     "All inputs inherit the Leeds v0.4 root assignments; a different morphological layer would change the vectors."
    ]
+  },
+  {
+   "id": "claim.formulas.one-slot-templates.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4",
+    "bannister-2014"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/build-formulaic-templates.mjs",
+    "output": "data/formulaic-templates.json",
+    "method": "Over diacritic-stripped surface forms within a verse, take every pair of forms at distance two (a _ c) with at least 3 windows and at least 2 different words in the slot. Expected support under a within-verse shuffle is exact (scripts/lib/templates.mjs, checked against all permutations of small verses in scripts/templates.test.mjs); the p-value is the Poisson upper tail at that expectation; q is Benjamini-Hochberg over all candidates. The identical pipeline runs on 100 verse-shuffled copies of the text (seed 20261018) and its result is published beside the real one."
+   },
+   "limitations": [
+    "The list records where a pattern recurs beyond word order inside a verse; it does not say the pattern is a formula in the oral-formulaic sense or why it recurs.",
+    "The shuffle keeps verse length and word multiset, so templates built from very common particles are counted; repeated verses (such as a refrain repeated verbatim) contribute each time they occur.",
+    "The Poisson tail is an approximation; the build checks it by running the same procedure on shuffled copies, where it finds a system in 6 of 100 shuffles (at most 1), consistent with the 5% level it is set at, not exact control.",
+    "Only a _ c at distance two is searched. Other shapes (longer gaps, two slots) are not tested, so absence from the list says nothing about them.",
+    "Surface forms are diacritic-stripped spelling, so distinct words that share a spelling are merged and inflected variants are separate."
+   ]
   }
  ]
 }

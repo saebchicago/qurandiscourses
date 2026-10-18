@@ -2,6 +2,18 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-10-one-slot-templates",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Templates with one open slot.</strong> <a href=\"/formulas\">Formulas</a>\n              has a new panel listing pairs of words two places apart with any word\n              between them (for example <em>wa-ma _ min</em>) that recur more than\n              shuffling the words inside each verse would predict. 1,003 of 1,669\n              candidates pass a Benjamini-Hochberg correction; the same procedure on\n              100 verse-shuffled copies of the text finds almost none. Each\n              template lists every place it occurs. This records recurrence, not\n              why it recurs, and common particles and repeated verses are in the\n              count. No existing number changed."
+  },
+  {
+   "id": "2026-10-query-builder",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>A query page.</strong> The new <a href=\"/query\">Query</a> page\n              (under Analyze) filters the word-by-word morphology by root, lemma,\n              part of speech, surah range and period, and returns the counts, the\n              occurrences with a few words of context, and a CSV. The whole query\n              lives in the address, so a copied link reproduces the same result and\n              nothing is stored. A root's total on this page equals its total on\n              Roots, checked for all 1,642 roots. Roots and lemmas are the\n              annotators' judgments from the Leeds v0.4 corpus, and the period\n              filter uses one chronology among several. No published number\n              changed."
+  },
+  {
    "id": "2026-10-surah-distance",
    "year": "2026",
    "month": "October",

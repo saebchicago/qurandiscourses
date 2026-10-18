@@ -53,12 +53,12 @@ historical record. Statistical results lead with plain phrasing (what
 held up, what chance predicts) and keep the exact figures in
 parentheses; nothing is hidden, but the jargon never leads.
 
-## 2. Site map (37 pages)
+## 2. Site map (38 pages)
 
 | Group | Pages | Notes |
 |---|---|---|
 | Study | read, navigate, dossier, compare, themes, replay | API-backed reading; local-data everything else. dossier.html?s=N is the per-surah synthesis page (roots.html-style client-side param; invalid/absent ?s= renders a 114-surah picker); its recurring-phrases section reads data/formula-summary.json, and s/surah/{n}.html share pages bounce to it |
-| Analyze | words, roots, patterns, numbers, formulas | fully local data |
+| Analyze | words, roots, query, patterns, numbers, formulas | fully local data. query.html is the query builder: filters (root, lemma, POS, surah range, period) over data/morphology/, state only in the URL query string, logic in assets/query-core.js (tested by scripts/query.test.mjs), runtime in assets/query.js |
 | Learn | how-to-use, how-it-works, exercises (hub), exercise, exercise-roots, paths, glossary, vocabulary, watch | exercises are data-driven or book-cited; exercise-asr.html is a redirect stub. vocabulary.html is the core-vocabulary list (static) plus practice cards that fetch word-by-word meanings from api.quran.com |
 | About | index, about, sources, datasets, validation, credits, changelog | credibility pages |
 | Off-nav, in sitemap | export (CSV/JSON downloads + schema), coverage (measured data-coverage dashboard), contribute (what the project wants and how to send it), review (invitation and forms for expert reviewers and issue reports, Netlify Forms), corrections (public corrections log rendered from data/corrections.json by build-review-pages.mjs), open-questions (statements about Dr. Khan that no registered source settles, and records that conflict — generated from data/provenance/claims.json by build-provenance.mjs) | reachable via contextual links (roots.html, numbers.html, datasets.html), not the primary nav — adding them to nav means editing EVERY page's nav block (check-nav-sync.mjs enforces byte-identical navs) |
@@ -172,6 +172,8 @@ them only when their inputs change; commit their outputs.
 | build-quran-text.mjs | Tanzil Uthmani download + alquran.cloud `quran-uthmani` (network) | data/quran-text/{1-114}.json, data/quran-text/index.json | the bundled Arabic text for read.html. Verse text is Tanzil's file verbatim, with Tanzil's notice copied into the index; alquran.cloud supplies surah names and the juz/page/ruku/hizb/sajda fields, and its numbering must match Tanzil's or nothing is written. The index records how alquran.cloud's copy differs from Tanzil's (marks only). `--check` needs Tanzil only and validates numbering against the committed surah inventory; build mode still needs both services. Needs the network, so `.github/workflows/quran-text.yml` runs it: on a working branch it commits the result; on main it runs monthly with `--check` and fails on upstream change, never committing |
 | build-quran-text.test.mjs | Synthetic verse text + committed surah counts (offline) | none | `node --test scripts/build-quran-text.test.mjs` verifies check-mode service isolation, no writes, hash/notice/numbering integrity, duplicate rejection, and nested network diagnostics. The text-bundle workflow runs it before fetching upstream |
 | scripts/concordance.test.mjs | data/morphology/, data/root-analytics/ (offline) | none | `node --test scripts/concordance.test.mjs` loads assets/concordance.js (the Roots explorer's word-in-context view, built in the browser from morphology) and asserts that, fully loaded, it yields exactly each root's published occurrence count for all 1,642 roots, and that context never crosses a verse boundary. Runs in audit.yml |
+| scripts/query.test.mjs | data/morphology/, data/roots-list.json, data/root-analytics/, data/chronology.json (offline) | none | `node --test scripts/query.test.mjs` loads assets/query-core.js (the query builder's logic) and asserts that a query by root returns exactly that root's published total for every root in roots-list.json, that the period filter equals the published per-period counts, that filters combine with AND, that parse/serialize give one canonical permalink, and that context stays inside the verse. Runs in audit.yml |
+| scripts/templates.test.mjs | none (offline) | none | `node scripts/templates.test.mjs` checks the Poisson upper tail against hand values and a far tail that must not underflow to zero, Benjamini-Hochberg q-values, the expected support against the exact mean over every permutation of small verses (including the a = c case, 1/3 for a verse of two a and one b), and that a planted template is found while a fixed one-filler phrase is not a candidate. Runs in audit.yml |
 | scripts/association-measures.test.mjs | Hand-computed 2x2 cells (offline) | none | `node --test scripts/association-measures.test.mjs` verifies logDice, t-score, log odds ratio with its interval, and both deltaP directions against values worked by hand, including an asymmetric table. Runs in audit.yml |
 | scripts/surah-distance.test.mjs | Hand-computed JS distances (offline) | none | `node scripts/surah-distance.test.mjs` checks identical, disjoint, half-versus-all (0.5579) and symmetric cases and the empty-side NaN. Runs in audit.yml |
 | scripts/wbw-proxy.test.mjs | Stubbed fetch (offline) | none | `node --test scripts/wbw-proxy.test.mjs` verifies the word-by-word proxy: query bounds, 503 when unconfigured, credentialed headers, token reuse, bounded retries, shape validation, no secret in replies. Runs in audit.yml. Activating it needs `QF_CLIENT_ID`, `QF_CLIENT_SECRET`, `QF_OAUTH_TOKEN_URL`, `QF_CONTENT_BASE_URL` (same environment) in Netlify |
@@ -216,6 +218,7 @@ them only when their inputs change; commit their outputs.
 | build-root-glosses.mjs | data/root-glosses/roots.json, data/roots-summary.json, data/sources.json | data/root-glosses/worklist.json | the gate on verified root glosses (Penrice 1873, cross-checked against Lane): rejects any record without a verbatim quotation, a Penrice page, a Lane part/page and finding, two different readers, a date, or the fixed Nuanced label; writes the top-200 worklist by token count. compute-coverage.mjs counts the records. Rules for transcribers: docs/root-glosses.md |
 | compare-layers.mjs | data/sources.json (Leeds entry), data/morphology/, data/layers/<id>/manifest.json + tokens.json for any added layer | data/layers/index.json, data/layers/sensitivity.json | the morphological-layer registry and the annotation-sensitivity comparison. Leeds is layer 1 (its digest moves when any token does). A layer folder must carry a validated manifest (licence, upstream sha256, rootNotation) and tokens aligned to Leeds on (surah, verse, word) with the same Arabic; a misaligned layer stops the build. `root: null` is "not annotated", never a disagreement. Output is counts and differences, never a ranking. `--selftest` proves the comparator on synthetic input (never written to disk). Empty comparisons until a second layer exists |
 | compute-surah-distance.mjs | data/morphology/ | data/surah-distance/surah-distance.json | Jensen-Shannon distance between every pair of surahs' root distributions (6,441 pairs) with a permutation null (verses pooled and reassigned, sizes fixed, 500 draws, seed 20261018), excess over the null, permutation p and Benjamini-Hochberg q. ~35 s. build-exports.mjs publishes it as the `surah-distance` table, so rerun this first. A verse-block bootstrap interval was rejected: plug-in JSD is biased, so the resampled values do not bracket the observed one |
+| build-formulaic-templates.mjs | data/morphology/ | data/formulaic-templates.json | one-slot templates (`a _ c`, two forms at distance two inside a verse, at least 3 windows and 2 different slot words) that recur more than a within-verse shuffle predicts: exact expected support, Poisson tail, Benjamini-Hochberg over all candidates, then the identical pipeline on 100 shuffled copies of the text (seed 20261018) published as the measured false-positive behavior. ~15 s. Shown on formulas.html through assets/templates.js. Records recurrence, not composition |
 
 ### Site artifacts
 
@@ -256,6 +259,7 @@ so every one is listed here, not only the ones with a recent story.
 | corpus.mjs | `TOTAL_VERSES`, `TOTAL_TOKENS`, `TOTAL_ROOTS`, `TOTAL_SURAHS` — see the note below |
 | association-measures.mjs | logDice, t-score, Haldane-Anscombe log odds ratio with a Wald 95% interval, and directional deltaP over the verse-level 2x2, beside the PMI/Dice/G2 that compute-association-stats.mjs publishes. Pure functions; hand-computed unit test in `scripts/association-measures.test.mjs` (run by audit.yml) |
 | surah-distance.mjs | `jsDistance(a, b, keys, na, nb)`: square root of the base-2 Jensen-Shannon divergence over count arrays, 0 to 1. Shared by compute-surah-distance.mjs and `scripts/surah-distance.test.mjs` |
+| templates.mjs | `poissonUpperTail`, `bhAdjust`, `observe`, `indexVerses`, `expectedSupport` and `analyze`: the one-slot template pipeline (candidates, exact within-verse-shuffle expectation, Poisson p, BH q, covered tokens). Shared by build-formulaic-templates.mjs and `scripts/templates.test.mjs` |
 | layers.mjs | `leedsLayer()`, `leedsSource()`, `leedsContentDigest()`, `compareLayers(base, other)` and the layer typedefs. Alignment first (join on surah/verse/word plus a diacritic-stripped Arabic match), then counts. Used by compare-layers.mjs |
 | stats.mjs | Benjamini-Hochberg, Bonferroni, Pearson, tie-corrected Spearman, and `FREQUENCY_CEILING`. Extracted from three generators that had reimplemented the same math |
 | lexical-diversity.mjs | MATTR and MTLD, the length-robust alternatives to raw type-token ratio |
@@ -1106,8 +1110,12 @@ The site is versioned so a citation can pin an exact set of numbers.
    forget). Then `node scripts/build-api-index.mjs` so the API index
    lists the new archive.
 4. Add a changelog entry, run the §6 checklist, merge.
-5. Tag the merge commit: `git tag -a v<version> -m "<one-line summary>"`
-   and push the tag. The tag is what makes a citation resolvable later:
+5. Tag the merge commit. `.github/workflows/release-tag.yml` does this on
+   its own when a push to main changes `data/version.json`: it creates
+   `v<version>` on that commit if the tag does not exist, and refuses a
+   commit whose `data/version.json` names another version. To backfill an
+   older tag, run it by hand with `pairs` (`v1.4.0=<sha>`). By hand:
+   `git tag -a v<version> -m "<one-line summary>"` and push the tag. The tag is what makes a citation resolvable later:
    `github.com/saebchicago/qurandiscourses/tree/v<version>` is the exact
    data a paper used.
 

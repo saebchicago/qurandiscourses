@@ -1,0 +1,72 @@
+name: Release tag
+
+# Creates the annotated tag v<version> that the release checklist asks for
+# (docs/maintainer-guide.md, "Cutting a release", step 5), so a citation of
+# a version resolves to the exact commit. Two ways in:
+#
+#   push to main that changes data/version.json  -> tags that commit
+#   manual run with "pairs" (v1.4.0=<sha> ...)    -> backfills older tags
+#
+# Safety: a tag is created only if it does not exist yet, never moved or
+# deleted, and only on a commit whose data/version.json names that same
+# version. Anything else fails the run and changes nothing.
+
+on:
+  push:
+    branches: [main]
+    paths: [data/version.json]
+  workflow_dispatch:
+    inputs:
+      pairs:
+        description: "Space-separated tag=commit pairs, e.g. v1.4.0=aa98f5dc... (empty = tag the current main from data/version.json)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-tag
+  cancel-in-progress: false
+
+jobs:
+  tag:
+    name: Tag the release commit
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+      - name: Create missing tags
+        env:
+          PAIRS: ${{ github.event.inputs.pairs }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch --tags --force
+          if [ -z "${PAIRS:-}" ]; then
+            v=$(node -p 'require("./data/version.json").version')
+            PAIRS="v${v}=$(git rev-parse HEAD)"
+          fi
+          for pair in $PAIRS; do
+            tag="${pair%%=*}"
+            sha="${pair#*=}"
+            case "$tag" in v[0-9]*.[0-9]*.[0-9]*) ;; *) echo "::error::bad tag name: $tag"; exit 1 ;; esac
+            full=$(git rev-parse --verify "${sha}^{commit}")
+            if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
+              echo "$tag already exists at $(git rev-list -n 1 "$tag"); left unchanged." | tee -a "$GITHUB_STEP_SUMMARY"
+              continue
+            fi
+            if ! git merge-base --is-ancestor "$full" origin/main; then
+              echo "::error::$full is not on main; refusing to tag $tag"; exit 1
+            fi
+            said=$(git show "$full:data/version.json" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>console.log(JSON.parse(s).version))')
+            if [ "v$said" != "$tag" ]; then
+              echo "::error::$full has data/version.json $said, not ${tag#v}; refusing"; exit 1
+            fi
+            git tag -a "$tag" "$full" -m "$tag: $(git log -1 --format=%s "$full")"
+            git push origin "refs/tags/$tag"
+            echo "Created $tag at $full." | tee -a "$GITHUB_STEP_SUMMARY"
+          done
