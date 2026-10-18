@@ -7381,6 +7381,16 @@ before it was renamed "Study".
 
 #### October
 
+Root pages now have one address. A check run against the
+live site found that 195 of the 411 root reference pages, those whose
+key contains a capital letter such as /root/uAlh , were
+redirected by the host to a lowercase address while the sitemap, the
+page's own canonical tag and the links to it still named the capital
+form. All root pages now live at lowercase addresses
+( /root/ualh ), and the sitemap, canonical tags and links
+say so. Old links keep working through the host's redirect. No
+published number changed. §
+
 A source for root glosses. Root meanings will be
 quoted, with page numbers, from John Penrice's Dictionary and
 Glossary of the Kor-ân (1873) and checked against Lane's

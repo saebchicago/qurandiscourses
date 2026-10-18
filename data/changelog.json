@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-10-root-page-addresses",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Root pages now have one address.</strong> A check run against the\n              live site found that 195 of the 411 root reference pages, those whose\n              key contains a capital letter such as <code>/root/uAlh</code>, were\n              redirected by the host to a lowercase address while the sitemap, the\n              page's own canonical tag and the links to it still named the capital\n              form. All root pages now live at lowercase addresses\n              (<code>/root/ualh</code>), and the sitemap, canonical tags and links\n              say so. Old links keep working through the host's redirect. No\n              published number changed."
+  },
+  {
    "id": "2026-10-root-gloss-source",
    "year": "2026",
    "month": "October",

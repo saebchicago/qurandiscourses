@@ -130,6 +130,12 @@ const sm = await text(BASE + "/sitemap.xml");
 const locs = [...sm.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
 check("sitemap.xml lists pages", sm.r.status === 200 && locs.length > 100, `${locs.length} URLs`);
 if (!locs.every((u) => u.startsWith("https://divinediscourses.org/"))) check("sitemap URLs all on the canonical host", false);
+{
+  // The host redirects a mixed-case page path to lowercase, so a sitemap URL
+  // with a capital in its path would redirect (and its canonical would loop).
+  const mixed = locs.filter((u) => /[A-Z]/.test(u.slice("https://divinediscourses.org".length)));
+  check("sitemap URLs are all lowercase paths", mixed.length === 0, mixed.length ? `${mixed.length}, e.g. ${mixed[0]}` : `${locs.length} URLs`);
+}
 
 // A deterministic sample spread across the families.
 const sample = [...new Set([
