@@ -210,6 +210,7 @@ them only when their inputs change; commit their outputs.
 | build-formulaic-density.mjs | formulas-root, formulas-surface, morphology/ | data/formulaic-density.json | Per-verse and per-surah formulaic density (Bannister). Rerun after build-formulas.mjs |
 | compute-coverage.mjs | morphology, roots-summary, sources.json | data/coverage/report.json | coverage.html dashboard — every number there traces to this report |
 | build-exports.mjs | roots-summary, numbers.json, chronology, surah-profiles, surah-names, morphology, association/ | data/exports/ (CSV+JSON tables, schema.json, DATA-DICTIONARY.md) | export.html downloads. Rerun after compute-association-stats.mjs. `association-extended` is computed here from the published pair counts and each root's `verseCount` through lib/association-measures.mjs, so it needs no corpus rescan |
+| build-api-index.mjs | data/exports/schema.json, every table's CSV and JSON, data/exports/RELEASES.json, data/version.json | api/v1/index.json, api/v1/openapi.json | the static data API: an index of every table (address, size, SHA-256) and archive, plus an OpenAPI 3.1 description of the same GET paths. No server. netlify.toml serves /api/v1/* and /data/exports/* with `Access-Control-Allow-Origin: *` (both blocks guarded by check-headers-sync). Run after build-exports and build-datapack; `--check` fails when any table's bytes moved |
 
 ### Site artifacts
 
@@ -647,7 +648,7 @@ fourteen. This recipe exists so that cannot happen quietly again;
    is checked against the table itself, because that string propagates
    into `datapackage.json`, `croissant.json` and both pages' JSON-LD.
    Write no figure you do not want checked.
-3. `node scripts/build-exports.mjs`, then `node scripts/build-datapack.mjs`.
+3. `node scripts/build-exports.mjs`, then `node scripts/build-datapack.mjs`, then `node scripts/build-api-index.mjs`.
    The second refuses to rewrite a published archive: if the table set
    changed, bump `data/version.json` and let a NEW archive be written
    (see "Cutting a release"), never edit `data/exports/RELEASES.json`.
@@ -1095,7 +1096,8 @@ The site is versioned so a citation can pin an exact set of numbers.
    which writes a NEW `data/exports/divinediscourses-data-v<version>.tar.gz`
    (keep the old archives: they are what published citations point at),
    and update export.html's archive link (check-citation fails if you
-   forget).
+   forget). Then `node scripts/build-api-index.mjs` so the API index
+   lists the new archive.
 4. Add a changelog entry, run the §6 checklist, merge.
 5. Tag the merge commit: `git tag -a v<version> -m "<one-line summary>"`
    and push the tag. The tag is what makes a citation resolvable later:

@@ -9,6 +9,19 @@
   <updated>2026-10-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>An index for scripts</title>
+    <id>https://divinediscourses.org/changelog#2026-10-data-api-index</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-data-api-index"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;An index for scripts.&lt;/strong&gt; The data is now discoverable
+              without reading a web page: &lt;a href="/api/v1/index.json"&gt;api/v1/index.json&lt;/a&gt;
+              lists every export table with its address, size and SHA-256, and every
+              published archive, and &lt;a href="/api/v1/openapi.json"&gt;api/v1/openapi.json&lt;/a&gt;
+              describes the same addresses in OpenAPI 3.1. They are static files,
+              readable from any site, with no key. See &lt;a href="/export#api"&gt;Export&lt;/a&gt;.
+              No published number changed.</content>
+  </entry>
+  <entry>
     <title>Four more ways to score a root pair, and version 1.4.0</title>
     <id>https://divinediscourses.org/changelog#2026-10-extended-association-measures</id>
     <link href="https://divinediscourses.org/changelog#2026-10-extended-association-measures"/>

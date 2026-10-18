@@ -240,7 +240,7 @@
     <script src="/assets/ga-init.js"></script>
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/roots","url":"https://divinediscourses.org/roots","name":"Qur'anic roots and where they occur · Divine Discourses","description":"The 1,642 triliteral roots of the Qur'an with frequency, derived forms, surah distribution, Makki/Madani split, and co-occurrence data from the Leeds Corpus.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.4.0","dateModified":"2026-09-26"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Qur'anic roots and where they occur","item":"https://divinediscourses.org/roots"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/roots","url":"https://divinediscourses.org/roots","name":"Qur'anic roots and where they occur · Divine Discourses","description":"The 1,642 triliteral roots of the Qur'an with frequency, derived forms, surah distribution, Makki/Madani split, and co-occurrence data from the Leeds Corpus.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.4.0","dateModified":"2026-10-18"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Qur'anic roots and where they occur","item":"https://divinediscourses.org/roots"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -1010,8 +1010,26 @@
             <div id="detailNetworkAssocBlock" hidden>
               <div id="detailNetworkAssocChart"></div>
             </div>
+            <p style="font-size: 0.86rem; margin: 0.4rem 0">
+              <label for="detailAssocSort">Order these partners by</label>
+              <select id="detailAssocSort">
+                <option value="llr">Strength of evidence (LLR)</option>
+                <option value="pmi">Distinctiveness (PMI)</option>
+                <option value="dice">Overlap (Dice)</option>
+                <option value="logDice">logDice</option>
+                <option value="tScore">t-score</option>
+                <option value="logOddsRatio">Log odds ratio</option>
+                <option value="deltaP">deltaP (partner given this root)</option>
+              </select>
+            </p>
+            <p style="font-size: 0.82rem; color: var(--muted); margin: 0 0 0.4rem">
+              The partners are this root's 25 strongest by LLR. Another
+              measure reorders the same 25; it does not bring in different
+              partners. Measures disagree by design, and none is the right
+              one. Formulas in <code>data/association/methods.json</code>.
+            </p>
             <div class="table-scroll">
-              <table class="data" id="detailAssocTable" style="min-width: 480px">
+              <table class="data" id="detailAssocTable" style="min-width: 760px">
                 <thead>
                   <tr>
                     <th>Root</th>
@@ -1019,6 +1037,10 @@
                     <th class="count">Strength of evidence (LLR)</th>
                     <th class="count">Distinctiveness (PMI)</th>
                     <th class="count">Overlap (Dice)</th>
+                    <th class="count">logDice</th>
+                    <th class="count">t-score</th>
+                    <th class="count">Log odds ratio</th>
+                    <th class="count">deltaP</th>
                   </tr>
                 </thead>
                 <tbody id="detailAssocBody"></tbody>
@@ -2430,9 +2452,14 @@
             .join("");
         }
 
-        // Association-measure table (LLR, PMI, Dice) from
-        // data/association/{safeKey}.json — top 25 partners by LLR,
-        // precomputed by scripts/compute-association-stats.mjs.
+        // Association-measure table from data/association/{safeKey}.json —
+        // top 25 partners by LLR, precomputed by
+        // scripts/compute-association-stats.mjs with the extended measures
+        // (logDice, t-score, log odds ratio, deltaP). The sort control only
+        // reorders those 25 rows; ties break on the root key so the order
+        // is stable.
+        var assocPartners = [];
+        var fmtMeasure = (v, d) => (typeof v === "number" ? v.toFixed(d) : "–");
         function renderAssociations(partners) {
           const block = document.getElementById("detailAssocBlock");
           const tbody = document.getElementById("detailAssocBody");
@@ -2442,7 +2469,13 @@
             return;
           }
           block.hidden = false;
-          tbody.innerHTML = partners
+          assocPartners = partners;
+          const sortEl = document.getElementById("detailAssocSort");
+          const key = sortEl ? sortEl.value : "llr";
+          const rows = partners
+            .slice()
+            .sort((a, b) => (b[key] ?? -Infinity) - (a[key] ?? -Infinity) || (a.root < b.root ? -1 : 1));
+          tbody.innerHTML = rows
             .map((p) => {
               const meaning = MEANINGS[p.root] || "";
               return (
@@ -2455,11 +2488,16 @@
                 `<td class="count">${p.llr.toFixed(2)}</td>` +
                 `<td class="count">${p.pmi.toFixed(2)}</td>` +
                 `<td class="count">${p.dice.toFixed(3)}</td>` +
+                `<td class="count">${fmtMeasure(p.logDice, 2)}</td>` +
+                `<td class="count">${fmtMeasure(p.tScore, 2)}</td>` +
+                `<td class="count">${fmtMeasure(p.logOddsRatio, 2)}</td>` +
+                `<td class="count">${fmtMeasure(p.deltaP, 3)}</td>` +
                 `</tr>`
               );
             })
             .join("");
         }
+        document.getElementById("detailAssocSort")?.addEventListener("change", () => renderAssociations(assocPartners));
 
         // Association network graph: plots the precomputed layout from
         // data/network/{safeKey}.json (scripts/compute-network-layout.mjs).

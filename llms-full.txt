@@ -1907,11 +1907,30 @@ Click a node to open that root; hover or tab to it for the
 shared-verse count, LLR, PMI, and Dice. The graph plots the
 same partners the table below lists.
 
+Order these partners by
+
+Strength of evidence (LLR)
+Distinctiveness (PMI)
+Overlap (Dice)
+logDice
+t-score
+Log odds ratio
+deltaP (partner given this root)
+
+The partners are this root's 25 strongest by LLR. Another
+measure reorders the same 25; it does not bring in different
+partners. Measures disagree by design, and none is the right
+one. Formulas in data/association/methods.json .
+
 Root
 Shared verses
 Strength of evidence (LLR)
 Distinctiveness (PMI)
 Overlap (Dice)
+logDice
+t-score
+Log odds ratio
+deltaP
 
 These are statistical measures of word distribution in the
 text. They do not indicate thematic, exegetical, or
@@ -7266,7 +7285,7 @@ One archive holds all nineteen tables in both formats, the schema,
 the data dictionary, and a citation file, so a download never
 travels without its provenance. The archive is named by release
 version and built deterministically: citing
-v1.3.0 names these exact bytes, and
+v1.4.0 names these exact bytes, and
 a new release adds a new archive rather than replacing this
 one. For toolchains that read standard packaging, the same
 tables are described as a
@@ -7278,10 +7297,22 @@ divinediscourses-data-v1.4.0.tar.gz (all tables + schema + citation + corpus not
 
 Earlier releases stay downloadable, because a published citation
 points at the bytes it was written against:
+v1.3.1 ,
 v1.3.0 ,
 v1.2.0 ,
 v1.1.0 ,
 v1.0.0 .
+
+### For scripts and notebooks
+
+api/v1/index.json lists every
+table with its row count, CSV and JSON address, size and SHA-256,
+and every archive above, so a script can find the data and check
+a download without reading this page.
+api/v1/openapi.json describes
+the same addresses in OpenAPI 3.1. These are static files: there
+is no query service, no key and no rate limit, and any site may
+fetch them. Fetch a table whole and filter it locally.
 
 ### Preview: top 5 roots by frequency
 

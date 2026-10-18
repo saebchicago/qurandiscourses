@@ -82,6 +82,22 @@
   [headers.values]
     Content-Type = "application/gzip"
 
+# The static data API (scripts/build-api-index.mjs): an index and an
+# OpenAPI description at /api/v1/, pointing at the tables in
+# /data/exports/. Public, read-only data, so any origin may fetch it from
+# a notebook or another site. Never add credentials or cookies here.
+[[headers]]
+  for = "/api/v1/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Content-Type = "application/json; charset=utf-8"
+    Cache-Control = "public, max-age=300, must-revalidate"
+
+[[headers]]
+  for = "/data/exports/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+
 # Browser search-engine registration (see /search).
 [[headers]]
   for = "/opensearch.xml"
@@ -510,12 +526,12 @@
 [[headers]]
   for = "/roots.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-Z7eyTCeTQ//JMYkMlzLeA5sTvN1Ztt50mNvIbUCYFLk=' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-5wbfP53GFWSxZWwL3asnhg62OKhI0Edq2aFP2AmukLs='; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://api.alquran.cloud https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-V8BCP8MNRjTqnM2+UBfk74xLHGSupkmrRmoNJsCr24Q=' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-5wbfP53GFWSxZWwL3asnhg62OKhI0Edq2aFP2AmukLs='; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://api.alquran.cloud https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/roots"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-Z7eyTCeTQ//JMYkMlzLeA5sTvN1Ztt50mNvIbUCYFLk=' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-5wbfP53GFWSxZWwL3asnhg62OKhI0Edq2aFP2AmukLs='; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://api.alquran.cloud https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-V8BCP8MNRjTqnM2+UBfk74xLHGSupkmrRmoNJsCr24Q=' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-5wbfP53GFWSxZWwL3asnhg62OKhI0Edq2aFP2AmukLs='; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://api.alquran.cloud https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/sources.html"
