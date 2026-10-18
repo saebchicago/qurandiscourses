@@ -1,7 +1,7 @@
 {
  "name": "divinediscourses-exports",
  "title": "Divine Discourses public export tables",
- "version": "1.4.0",
+ "version": "1.5.0",
  "created": "2026-10-18",
  "homepage": "https://divinediscourses.org/export",
  "licenses": [
@@ -865,6 +865,69 @@
       "name": "lengthSymmetry_survivor",
       "type": "string",
       "description": "Whether this candidate survived correction; null if not applicable."
+     }
+    ]
+   }
+  },
+  {
+   "name": "surah-distance",
+   "title": "Divine Discourses: surah-distance",
+   "description": "Jensen-Shannon distance between the root distributions of every pair of surahs (6,441 pairs), with a permutation null so each distance can be read against what chance and surah length alone produce.",
+   "path": "surah-distance.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "surahA",
+      "type": "integer",
+      "description": "Lower surah number of the pair, 1-114, Cairo order."
+     },
+     {
+      "name": "surahB",
+      "type": "integer",
+      "description": "Higher surah number of the pair."
+     },
+     {
+      "name": "rootedTokensA",
+      "type": "integer",
+      "description": "Tokens of surahA with an annotated root. Unit: tokens."
+     },
+     {
+      "name": "rootedTokensB",
+      "type": "integer",
+      "description": "Tokens of surahB with an annotated root. Unit: tokens."
+     },
+     {
+      "name": "distance",
+      "type": "number",
+      "description": "sqrt of base-2 Jensen-Shannon divergence between the two root distributions; 0 identical, 1 no shared root. Rounded to 4 decimals."
+     },
+     {
+      "name": "nullMean",
+      "type": "number",
+      "description": "Mean distance over 500 draws of the permutation null. Rounded to 4 decimals."
+     },
+     {
+      "name": "excess",
+      "type": "number",
+      "description": "distance minus nullMean. Rounded to 4 decimals."
+     },
+     {
+      "name": "permutationP",
+      "type": "number",
+      "description": "One-sided permutation p-value, (1 + draws with null distance >= observed) / 501. Rounded to 5 decimals."
+     },
+     {
+      "name": "bhQ",
+      "type": "number",
+      "description": "Benjamini-Hochberg adjusted q-value over all 6,441 pairs. Rounded to 5 decimals."
+     },
+     {
+      "name": "lowCount",
+      "type": "integer",
+      "description": "1 when either surah has fewer than 100 rooted tokens. Unit: 0 or 1."
      }
     ]
    }

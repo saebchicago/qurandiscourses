@@ -261,6 +261,17 @@
    "onHome": false,
    "claim": "For gh-f-r and r-h-m (91 shared verses; gh-f-r in 202 verses, r-h-m in 313), the extended table gives logDice 12.50, t-score 8.48, log odds ratio 3.07 (95% interval 2.76 to 3.37), and deltaP 0.414 (r-h-m given gh-f-r) against 0.272 (gh-f-r given r-h-m). The measures rank pairs differently by design.",
    "traceFull": "<strong>Source trace.</strong> Computed by <code>scripts/build-exports.mjs</code> with <code>scripts/lib/association-measures.mjs</code> from the published verse counts, written to <code>data/exports/association-extended.json</code>. logDice follows Rychlý (2008). Checked against a hand-computed 2x2 table in <code>scripts/association-measures.test.mjs</code>. Download on <a href=\"export.html\">Export</a>."
+  },
+  {
+   "id": "surah-distance-permutation-null",
+   "claimId": "claim.surah-distance.permutation-null.v1",
+   "label": "nuanced",
+   "labelText": "Nuanced",
+   "title": "distance between surahs, against a permutation null",
+   "sourceIds": "leeds-corpus-v0.4 lin-1991-jsd endres-schindelin-2003",
+   "onHome": false,
+   "claim": "Al-Baqarah (2) and Al-Imran (3) have a Jensen-Shannon root distance of 0.384 against a permutation-null mean of 0.345 (excess 0.039, permutation p 0.002, BH q 0.003). Al-Baqarah and At-Tawbah (9) are 0.482 against 0.376 (excess 0.106). Both are well above chance for their lengths, and the second more so; neither number says what the surahs differ in.",
+   "traceFull": "<strong>Source trace.</strong> Computed by <code>scripts/compute-surah-distance.mjs</code> from the Leeds v0.4 rooted tokens, written to <code>data/surah-distance/surah-distance.json</code> and published as the <code>surah-distance</code> table on <a href=\"export.html\">Export</a>. The distance is the square root of the Jensen-Shannon divergence (Lin 1991; a metric, Endres &amp; Schindelin 2003). Checked against hand-computed cases in <code>scripts/surah-distance.test.mjs</code>. The null reassigns verses between the two surahs at random with sizes fixed (500 draws, fixed seed)."
   }
  ]
 }

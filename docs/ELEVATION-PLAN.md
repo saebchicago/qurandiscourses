@@ -19,6 +19,7 @@ Original text below is kept as written on the day of the proposal. This block sa
 | A7 Zenodo DOI | Not done. |
 | B5 concordance v1 | **Done**, with a test that it matches every root's published occurrence count. |
 | B7 static API | **Done** (`/api/v1/index.json`, `openapi.json`, CORS). |
+| C4 surah distance | **Done**, v1.5.0 (export table 20 `surah-distance`, 6,441 pairs, permutation null, claim, worked example). Method as in "C4 method" below; 500 draws, seed 20261018, ~35 s. No page yet: the table is on Export only. |
 
 Production check (2026-10-18, GitHub Actions run against divinediscourses.org, **[Verified]**): 41 passed, 0 failed after one fix. The run found a defect outside this plan's scope: 195 of 411 root pages answered 301 to a lowercase address while their canonical named the capital form; fixed in #174 with `rootPageSlug` and guards in `build-canonicals --check` and the smoke test. A weekly scheduled smoke run now exists.
 
@@ -177,7 +178,7 @@ Precompute layouts offline (seeded, fixed iterations, rounded coordinates); ship
 
 ---
 
-### C4 method (prototype result, 2026-10-18, **[Verified]** by a scratch run, not yet shipped)
+### C4 method (prototype result, 2026-10-18, **[Verified]**; shipped in v1.5.0)
 
 The plan first said "bootstrap intervals" for the surah-to-surah distance. A prototype over the real data showed that does not work: with Jensen-Shannon distance between two surahs' root distributions and a verse-block bootstrap, **47% of the 6,441 surah pairs had their own observed distance outside the bootstrap's 95% interval** (surahs 2 and 3: observed 0.384, interval 0.432 to 0.464). Resampling verses with replacement concentrates each sample, and the plug-in distance is biased upward in small samples, so the interval is shifted away from the estimate it is meant to bracket.
 

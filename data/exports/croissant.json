@@ -16,10 +16,10 @@
  "name": "divinediscourses-exports",
  "description": "Computed tables from the Divine Discourses Qur'an study platform: root frequencies, root-pair association statistics, per-surah statistics, and verse lengths, derived from the Leeds Quranic Arabic Corpus v0.4.",
  "url": "https://divinediscourses.org/export",
- "version": "1.4.0",
+ "version": "1.5.0",
  "datePublished": "2026-10-18",
  "license": "https://www.gnu.org/licenses/gpl-3.0.html",
- "citeAs": "Divine Discourses project. Divine Discourses, version 1.4.0. 2026. https://divinediscourses.org.",
+ "citeAs": "Divine Discourses project. Divine Discourses, version 1.5.0. 2026. https://divinediscourses.org.",
  "creator": {
   "@type": "Organization",
   "name": "Divine Discourses project",
@@ -129,6 +129,13 @@
    "@id": "structure-tests.csv",
    "name": "structure-tests.csv",
    "contentUrl": "https://divinediscourses.org/data/exports/structure-tests.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
+   "@id": "surah-distance.csv",
+   "name": "surah-distance.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/surah-distance.csv",
    "encodingFormat": "text/csv"
   },
   {
@@ -2226,6 +2233,164 @@
       },
       "extract": {
        "column": "lengthSymmetry_survivor"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "surah-distance",
+   "name": "surah-distance",
+   "description": "Jensen-Shannon distance between the root distributions of every pair of surahs (6,441 pairs), with a permutation null so each distance can be read against what chance and surah length alone produce.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/surahA",
+     "name": "surahA",
+     "description": "Lower surah number of the pair, 1-114, Cairo order.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "surahA"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/surahB",
+     "name": "surahB",
+     "description": "Higher surah number of the pair.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "surahB"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/rootedTokensA",
+     "name": "rootedTokensA",
+     "description": "Tokens of surahA with an annotated root.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "rootedTokensA"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/rootedTokensB",
+     "name": "rootedTokensB",
+     "description": "Tokens of surahB with an annotated root.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "rootedTokensB"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/distance",
+     "name": "distance",
+     "description": "sqrt of base-2 Jensen-Shannon divergence between the two root distributions; 0 identical, 1 no shared root. Rounded to 4 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "distance"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/nullMean",
+     "name": "nullMean",
+     "description": "Mean distance over 500 draws of the permutation null. Rounded to 4 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "nullMean"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/excess",
+     "name": "excess",
+     "description": "distance minus nullMean. Rounded to 4 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "excess"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/permutationP",
+     "name": "permutationP",
+     "description": "One-sided permutation p-value, (1 + draws with null distance >= observed) / 501. Rounded to 5 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "permutationP"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/bhQ",
+     "name": "bhQ",
+     "description": "Benjamini-Hochberg adjusted q-value over all 6,441 pairs. Rounded to 5 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "bhQ"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/lowCount",
+     "name": "lowCount",
+     "description": "1 when either surah has fewer than 100 rooted tokens.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "lowCount"
       }
      }
     }

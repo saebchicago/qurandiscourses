@@ -77,6 +77,27 @@ Four further root-pair association measures (logDice, t-score, log odds ratio wi
 | `deltaP_BgivenA` | number | n/a | P(rootB in verse | rootA in verse) minus P(rootB | rootA absent). Rounded to 4 decimals. Asymmetric: differs from deltaP_AgivenB. |
 | `deltaP_AgivenB` | number | n/a | P(rootA | rootB in verse) minus P(rootA | rootB absent). Rounded to 4 decimals. |
 
+## surah-distance
+
+Jensen-Shannon distance between the root distributions of every pair of surahs (6,441 pairs), with a permutation null so each distance can be read against what chance and surah length alone produce. (6441 rows.)
+
+**Counting rule:** Rooted Leeds tokens only. distance is the square root of the base-2 Jensen-Shannon divergence of the two surahs' root counts (0 to 1). The null pools both surahs' verses, reassigns verses to the two sides at random with side sizes in verses fixed, and recomputes the distance; 500 draws, mulberry32 seed 20261018. permutationP = (1 + draws at least as large as observed) / 501, so the smallest possible value is 0.002. bhQ is Benjamini-Hochberg over all 6,441 pairs. Plug-in Jensen-Shannon distance is biased upward for short surahs, so read excess (distance minus nullMean), not distance alone. lowCount is 1 when either surah has fewer than 100 rooted tokens; those rows are kept and flagged.
+
+**Verification:** Verified: direct computation from Leeds morphology by scripts/compute-surah-distance.mjs, hand-computed unit test in scripts/surah-distance.test.mjs. Which pairs count as 'distant' depends on the null chosen; this one holds verse boundaries fixed.
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `surahA` | integer | n/a | Lower surah number of the pair, 1-114, Cairo order. |
+| `surahB` | integer | n/a | Higher surah number of the pair. |
+| `rootedTokensA` | integer | tokens | Tokens of surahA with an annotated root. |
+| `rootedTokensB` | integer | tokens | Tokens of surahB with an annotated root. |
+| `distance` | number | n/a | sqrt of base-2 Jensen-Shannon divergence between the two root distributions; 0 identical, 1 no shared root. Rounded to 4 decimals. |
+| `nullMean` | number | n/a | Mean distance over 500 draws of the permutation null. Rounded to 4 decimals. |
+| `excess` | number | n/a | distance minus nullMean. Rounded to 4 decimals. |
+| `permutationP` | number | n/a | One-sided permutation p-value, (1 + draws with null distance >= observed) / 501. Rounded to 5 decimals. |
+| `bhQ` | number | n/a | Benjamini-Hochberg adjusted q-value over all 6,441 pairs. Rounded to 5 decimals. |
+| `lowCount` | integer | 0 or 1 | 1 when either surah has fewer than 100 rooted tokens. |
+
 ## surah-stats
 
 Per-surah corpus fingerprint: all 114 surahs. (114 rows.)

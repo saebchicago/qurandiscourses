@@ -1,7 +1,7 @@
 {
  "api": "v1",
  "description": "Index of the Divine Discourses export tables: static files, read-only, no key. Every number regenerates from the public repository's data and scripts.",
- "version": "1.4.0",
+ "version": "1.5.0",
  "released": "2026-10-18",
  "license": {
   "name": "GPL-3.0-or-later",
@@ -66,6 +66,22 @@
     "url": "https://divinediscourses.org/data/exports/association-extended.json",
     "bytes": 1390167,
     "sha256": "e15890475291a12e33eac1b8ab1516db2d3ee3f3a2ca7d5b3c4382009e677990"
+   }
+  },
+  {
+   "name": "surah-distance",
+   "description": "Jensen-Shannon distance between the root distributions of every pair of surahs (6,441 pairs), with a permutation null so each distance can be read against what chance and surah length alone produce.",
+   "rowCount": 6441,
+   "verification": "Verified: direct computation from Leeds morphology by scripts/compute-surah-distance.mjs, hand-computed unit test in scripts/surah-distance.test.mjs. Which pairs count as 'distant' depends on the null chosen; this one holds verse boundaries fixed.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/surah-distance.csv",
+    "bytes": 328535,
+    "sha256": "bb0d306f1aaf05dd95761f763f159f58b2a7950d65a541db86775acfeed23a66"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/surah-distance.json",
+    "bytes": 1069158,
+    "sha256": "05db59d58c2dfa23eae14182133a2945be8a439b4a6977afa2bf0439c1e58b09"
    }
   },
   {
@@ -326,6 +342,14 @@
   }
  ],
  "archives": [
+  {
+   "version": "1.5.0",
+   "released": "2026-10-18",
+   "tables": 20,
+   "url": "https://divinediscourses.org/data/exports/divinediscourses-data-v1.5.0.tar.gz",
+   "bytes": 2182004,
+   "sha256": "ff217b0fe85e091b8709b05c2e8604f093716f92507250d868cf873ed522f888"
+  },
   {
    "version": "1.4.0",
    "released": "2026-10-18",
