@@ -124,16 +124,16 @@
     },
     {
       "id": "penrice-archive-search",
-      "url": "https://archive.org/advancedsearch.php?q=creator%3A%28penrice%29&fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=year&rows=25&output=json",
+      "url": "https://archive.org/advancedsearch.php?q=creator%3A%28penrice%29+AND+title%3A%28kor*+OR+quran+OR+coran+OR+dictionary%29&fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=year&rows=25&output=csv",
       "patterns": [
-        "identifier|title|year"
+        "."
       ]
     },
     {
       "id": "lane-archive-search",
-      "url": "https://archive.org/advancedsearch.php?q=title%3A%28arabic-english+lexicon%29+AND+creator%3A%28lane%29&fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=year&rows=25&output=json",
+      "url": "https://archive.org/advancedsearch.php?q=title%3A%28arabic-english+lexicon%29+AND+creator%3A%28lane%29&fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=year&rows=25&output=csv",
       "patterns": [
-        "identifier|title|year"
+        "."
       ]
     }
   ]
