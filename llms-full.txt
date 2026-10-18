@@ -1938,6 +1938,33 @@ theological relationships.
 
 Download the full association-pairs table (CSV/JSON) →
 
+#### Concordance (word in context)
+
+Show every occurrence in context
+
+Every occurrence of this root with up to five words on each
+side, within the same verse. Words are shown as the Leeds
+corpus v0.4 segments them, the same tokens every count on
+this page is made from.
+
+Order by
+
+Reference
+Lemma
+Word before
+Word after
+
+Download loaded lines (CSV)
+
+Ref
+Before
+Word
+After
+Lemma
+POS
+
+Load more verses
+
 #### Network position ●
 
 ℹ How this is computed
@@ -7345,6 +7372,16 @@ before it was renamed "Study".
 ### 2026
 
 #### October
+
+A concordance, and more ways to rank a root's partners.
+On Roots , each root now has a word-in-context view:
+every occurrence with up to five words on each side, inside the
+verse, ordered by reference, lemma, or the word before or after,
+and downloadable as CSV. It is built from the same word
+segmentation as every count on the page, and a test checks that it
+lists exactly as many occurrences as each root's published total.
+The association table also shows logDice, t-score, log odds ratio
+and deltaP, and can reorder the same 25 partners by any of them. §
 
 An index for scripts. The data is now discoverable
 without reading a web page: api/v1/index.json

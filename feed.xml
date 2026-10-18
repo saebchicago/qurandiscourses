@@ -9,6 +9,21 @@
   <updated>2026-10-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>A concordance, and more ways to rank a root's partners</title>
+    <id>https://divinediscourses.org/changelog#2026-10-roots-concordance</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-roots-concordance"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;A concordance, and more ways to rank a root's partners.&lt;/strong&gt;
+              On &lt;a href="/roots"&gt;Roots&lt;/a&gt;, each root now has a word-in-context view:
+              every occurrence with up to five words on each side, inside the
+              verse, ordered by reference, lemma, or the word before or after,
+              and downloadable as CSV. It is built from the same word
+              segmentation as every count on the page, and a test checks that it
+              lists exactly as many occurrences as each root's published total.
+              The association table also shows logDice, t-score, log odds ratio
+              and deltaP, and can reorder the same 25 partners by any of them.</content>
+  </entry>
+  <entry>
     <title>An index for scripts</title>
     <id>https://divinediscourses.org/changelog#2026-10-data-api-index</id>
     <link href="https://divinediscourses.org/changelog#2026-10-data-api-index"/>

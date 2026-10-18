@@ -60,6 +60,7 @@ jobs:
           node --test scripts/wbw-proxy.test.mjs
           node --test scripts/review-credit.test.mjs
           node --test scripts/association-measures.test.mjs
+          node --test scripts/concordance.test.mjs
 
       - name: Validate navigation and deployment headers
         run: |

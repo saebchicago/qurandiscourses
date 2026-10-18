@@ -1056,6 +1056,47 @@
             </p>
           </div>
 
+          <!-- Concordance: assets/concordance.js, loaded on open -->
+          <div class="stat-block" id="detailConcBlock">
+            <h4>Concordance (word in context)</h4>
+            <details id="concDetails">
+              <summary>Show every occurrence in context</summary>
+              <p style="font-size: 0.86rem; margin: 0.4rem 0">
+                Every occurrence of this root with up to five words on each
+                side, within the same verse. Words are shown as the Leeds
+                corpus v0.4 segments them, the same tokens every count on
+                this page is made from.
+              </p>
+              <p style="font-size: 0.86rem; margin: 0.4rem 0">
+                <label for="concSort">Order by</label>
+                <select id="concSort">
+                  <option value="ref">Reference</option>
+                  <option value="lemma">Lemma</option>
+                  <option value="before">Word before</option>
+                  <option value="after">Word after</option>
+                </select>
+                <button type="button" id="concCsv">Download loaded lines (CSV)</button>
+              </p>
+              <p id="concStatus" role="status" style="font-size: 0.82rem; color: var(--muted)"></p>
+              <div class="table-scroll">
+                <table class="data" id="concTable" style="min-width: 640px">
+                  <thead>
+                    <tr>
+                      <th>Ref</th>
+                      <th>Before</th>
+                      <th>Word</th>
+                      <th>After</th>
+                      <th>Lemma</th>
+                      <th>POS</th>
+                    </tr>
+                  </thead>
+                  <tbody id="concBody"></tbody>
+                </table>
+              </div>
+              <p><button type="button" id="concMore" hidden>Load more verses</button></p>
+            </details>
+          </div>
+
           <!-- Network position: centrality metrics from data/centrality/ -->
           <div
             class="stat-block encyclopedic-only"
@@ -1760,6 +1801,7 @@
     <script src="assets/chart.js" defer></script>
     <script src="js/viz.js" defer></script>
     <script src="assets/root-meanings.js"></script>
+    <script src="assets/concordance.js"></script>
     <script>
       (function () {
         "use strict";
@@ -2062,6 +2104,7 @@
           renderTrendChart(bw);
           renderCentrality(bw);
           renderDispersion(bw);
+          if (window.qdConcordance) window.qdConcordance.show(bw, safeKey(bw));
         }
 
         function renderFullDetail(d) {
