@@ -1,12 +1,16 @@
 name: Deployed smoke test
 
 # Read-only check of a DEPLOYED site (scripts/smoke-deployed.mjs): GET and
-# HEAD requests only. Run it by hand after a deploy, from the Actions tab
-# or with "gh workflow run smoke.yml", because the authoring sandbox
-# cannot reach production. Leave the input empty for production, or give
+# HEAD requests only. Runs weekly on a schedule and on demand (Actions tab
+# or "gh workflow run smoke.yml"), because the authoring sandbox cannot
+# reach production. Leave the input empty for production, or give
 # a Netlify deploy-preview URL.
 
 on:
+  schedule:
+    # Weekly, Tuesday 10:23 UTC (off the hour): catches a deploy or host
+    # change that breaks a page, header or the data API between releases.
+    - cron: "23 10 * * 2"
   workflow_dispatch:
     inputs:
       url:

@@ -1,8 +1,26 @@
 # Divine Discourses elevation plan
 
-Status: proposal for owner review, 2026-10-18. Nothing here changes the site; the code under `docs/elevation/` is skeleton code that has been run and is not wired into `scripts/`.
+Status: proposal written 2026-10-18; see Progress below for what has since shipped. The code under `docs/elevation/` is skeleton code that has been run; parts of it were adopted into `scripts/` and `docs/notebooks/` (see Progress).
 
 Labels used throughout. **[Verified]**: checked in this repository or by running the code here. **[Modeled]**: my estimate (effort, targets); a judgment, not a measurement. **[Unverified]**: from an external source I could only see as a search abstract or listing; check before relying on it.
+
+## Progress (updated 2026-10-18)
+
+Original text below is kept as written on the day of the proposal. This block says what has since happened. **[Verified]** items were checked in this repository or by a run against production.
+
+| Item | Status |
+|---|---|
+| A1 extended association measures | **Done**, v1.4.0 (export table 19, claim, worked example, Roots panel columns and re-sort). The skeleton `compute-association-extended.mjs` was not adopted as a script: the measures live in `scripts/lib/association-measures.mjs` and `build-exports.mjs` computes the table from published counts. |
+| A2 layer-sensitivity harness | **Not done.** The skeleton is still in `docs/elevation/`. |
+| A3 licence verification (MASAQ, QuranMorph, QAMAR) | **Not done.** The authoring sandbox cannot reach Mendeley, arXiv or the ACL Anthology; needs an open-network machine. |
+| A4 notebook | **Done.** Moved to `docs/notebooks/`, five checks, executed in CI. |
+| A5 gloss source | **Decided** (Penrice 1873 primary, Lane cross-check). Validator, worklist, coverage wiring and a Roots-page display are built; **0 of 1,642 roots transcribed** (owner task). |
+| A6 coverage v2 | **Done** (token-weighted view; also fixed seven editorial glosses keyed to non-roots). |
+| A7 Zenodo DOI | Not done. |
+| B5 concordance v1 | **Done**, with a test that it matches every root's published occurrence count. |
+| B7 static API | **Done** (`/api/v1/index.json`, `openapi.json`, CORS). |
+
+Production check (2026-10-18, GitHub Actions run against divinediscourses.org, **[Verified]**): 41 passed, 0 failed after one fix. The run found a defect outside this plan's scope: 195 of 411 root pages answered 301 to a lowercase address while their canonical named the capital form; fixed in #174 with `rootPageSlug` and guards in `build-canonicals --check` and the smoke test. A weekly scheduled smoke run now exists.
 
 ## Executive summary
 
@@ -73,7 +91,7 @@ Effort: S ≈ days, M ≈ 1–3 weeks, L ≈ 1–3 months, XL > 3 months of one 
 | A1 | **Extended association measures**: logDice, t-score, log odds ratio with 95% interval, directional ΔP, beside PMI/Dice/G2 (new export table `association-extended`, measure toggle in Roots explorer) | Shows method-dependence instead of picking a winner; matches the site's dispersion convention | Leeds only | S–M (script exists: `docs/elevation/compute-association-extended.mjs`) | Readers over-read a "winner" → every ranking shows which measure; a claim record with `agreement: method-dependent` | Script in `scripts/` with `--check`; shared measures equal the published file within its rounding; table in `schema.json`; claim 1:1 with a worked example |
 | A2 | **Layer-sensitivity harness** in the build, with Leeds as layer 1 (no new data yet) | Makes the later layers a converter, not a rewrite | None | S (exists: `layer-sensitivity.mjs`) | Premature surface area → ship as generator + empty-state page only | Identity test passes; misaligned layer refused; unannotated ≠ disagreement |
 | A3 | **Licence and fit verification** for MASAQ, QuranMorph, QAMAR | Gates all of Phase B | Read-only research | S | Misreading a licence → quote the grant verbatim from the source, record sha256 | `sources.json` entries as ○ Pending with licence text, URL, retrieval date, file hash, tokenization notes |
-| A4 | **Notebook + data-pack guide** (`docs/notebooks/reproduce-numbers.ipynb`) published on Export | Lets an outsider reproduce a Numbers figure in minutes | Data pack (Leeds GPL notice included) | S | Notebook rot → CI runs its cells against the committed pack | CI executes the notebook; 4 checks pass |
+| A4 | **Notebook + data-pack guide** (`docs/notebooks/reproduce-numbers.ipynb`) published on Export | Lets an outsider reproduce a Numbers figure in minutes | Data pack (Leeds GPL notice included) | S | Notebook rot → CI runs its cells against the committed pack | CI executes the notebook; 5 checks pass |
 | A5 | **Gloss source decision** (the owner task in `docs/gloss-dataset-research.md`) | Unblocks the 0% | Per that memo: verify QUL label and the volume's permission page | S (owner) | Shipping without verified licence → memo's own gate stands | Decision recorded in `DEFERRED.md` |
 | A6 | **Coverage report v2**: add token-weighted gloss coverage, layer count, overlay count, claims by status | Honest accounting that can't be gamed by glossing rare roots | None | S | None | `compute-coverage.mjs --check` passes; `coverage.html` figures are bound spans |
 | A7 | **Zenodo DOI per release** (CITATION.cff exists) | Makes citation measurable | None | S | Version/date drift → release script checks `version.json`, `CITATION.cff`, tag together | DOI in `CITATION.cff` and About |
