@@ -367,6 +367,17 @@
    "publisher": "The Hague: Mouton & Co.",
    "year": "1964",
    "note": "Source of Juilland's D, the older equal-parts dispersion measure reported in data/dispersion/*.json alongside Gries's DP for comparability with the wider literature."
+  },
+  {
+   "id": "rychly-2008-logdice",
+   "type": "paper",
+   "author": "Rychlý, Pavel",
+   "name": "A Lexicographer-Friendly Association Score",
+   "publisher": "Proceedings of Recent Advances in Slavonic Natural Language Processing (RASLAN 2008), Brno: Masaryk University, pp. 6–9",
+   "year": "2008",
+   "url": "https://nlp.fi.muni.cz/raslan/2008/papers/13.pdf",
+   "note": "Defines logDice, 14 + log2 of the Dice coefficient. Used in data/exports/association-extended.* alongside t-score, log odds ratio and deltaP. Bibliographic details checked against the Masaryk University publication record on 2026-10-18; the PDF text itself was not read in this session.",
+   "accessed": "2026-10-18"
   }
  ]
 }

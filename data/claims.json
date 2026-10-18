@@ -472,6 +472,30 @@
     "Juilland's D for the same root is 0.6128, on a 0=clumped/1=even scale (the reverse of DP's direction) -- broadly consistent with DP/DPnorm here, but Juilland's D classically assumes comparably-sized corpus parts, which this corpus's 114 surahs (3 to 286 verses) are not.",
     "Dispersion measures where a root's occurrences fall, not what they mean; j-h-m's concentration in shorter surahs is a distributional fact, not a claim about its theological or thematic significance."
    ]
+  },
+  {
+   "id": "claim.association.extended-measures.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4",
+    "rychly-2008-logdice"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/build-exports.mjs",
+    "output": "data/exports/association-extended.json",
+    "method": "For every pair in association-pairs, take the verse-level 2x2 over N = 6,236 verses (a root occurs in a verse if any token carries it; marginals are each root's verseCount in data/association/*.json, the joint count is sharedVerses) and compute logDice, t-score, Haldane-Anscombe log odds ratio with a Wald 95% interval, and directional deltaP with scripts/lib/association-measures.mjs. Hand-computed unit test: scripts/association-measures.test.mjs."
+   },
+   "limitations": [
+    "The measures describe how verse-level co-occurrence departs from independence under one definition of 'occurs in a verse'; they do not establish that two roots are related in meaning.",
+    "Rankings differ by measure by design. The site publishes all of them because the collocation literature does not agree on a single best one.",
+    "The table covers only the pairs in association-pairs (each root's top 25 partners by LLR with at least 5 shared verses), not every qualifying pair.",
+    "All inputs inherit the Leeds v0.4 root assignments; a different morphological layer would change the 2x2 tables."
+   ]
   }
  ]
 }

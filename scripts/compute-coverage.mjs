@@ -185,10 +185,61 @@ for (const f of htmlFiles) {
 }
 const glossRenderPaths = [...new Set([...directLookupPages, ...refsJsPages, ...embedJsPages])].sort();
 
+// Token-weighted view. A per-root percentage treats the rarest root and
+// the most frequent one alike, so it can be moved by glossing rare roots.
+// This block measures the same question by how much of the rooted text a
+// set of glossed roots would cover, which is what a reader meets. Pure
+// arithmetic on data/roots-summary.json totalCount; nothing inferred.
+const rootedTokensTotal = Object.values(rootsSummary).reduce((n, m) => n + m.totalCount, 0);
+const rootsByFrequency = Object.values(rootsSummary)
+  .map((m) => ({ root: m.rootBuckwalter, count: m.totalCount }))
+  .sort((a, b) => b.count - a.count || (a.root < b.root ? -1 : 1));
+const topNShare = {};
+for (const n of [10, 50, 100, 200, 500]) {
+  const covered = rootsByFrequency.slice(0, n).reduce((a, r) => a + r.count, 0);
+  topNShare[`top${n}`] = { rootedTokens: covered, percentOfRootedTokens: pct(covered, rootedTokensTotal) };
+}
+const rootsNeededFor = {};
+for (const target of [50, 75, 90]) {
+  let run = 0;
+  let k = 0;
+  while (run * 100 < target * rootedTokensTotal) run += rootsByFrequency[k++].count;
+  rootsNeededFor[`${target}pct`] = k;
+}
+const editorialKeys = new Set();
+if (existsSync(rootMeaningsPath)) {
+  const src = readFileSync(rootMeaningsPath, "utf8");
+  for (const m of src.matchAll(/^\s*(?:"([^"]*)"|([A-Za-z$*]+))\s*:\s*"/gm)) editorialKeys.add(m[1] ?? m[2]);
+}
+const editorialMatched = [...editorialKeys].filter((k) => rootsSummary[k]);
+// An editorial gloss keyed by a string that is not a corpus root never
+// renders. Seven such keys sat in assets/root-meanings.js unnoticed.
+const editorialUnmatched = [...editorialKeys].filter((k) => !rootsSummary[k]);
+if (editorialUnmatched.length) {
+  throw new Error(`assets/root-meanings.js has keys that are not corpus roots: ${editorialUnmatched.join(", ")}. STOPPING.`);
+}
+const editorialTokens = editorialMatched.reduce((n, k) => n + rootsSummary[k].totalCount, 0);
+const tokenWeighted = {
+  rootedTokens: rootedTokensTotal,
+  verifiedGlossTokens: 0,
+  verifiedGlossPercentOfRootedTokens: 0,
+  editorialGlossRootsMatched: editorialMatched.length,
+  editorialGlossTokens: editorialTokens,
+  editorialGlossPercentOfRootedTokens: pct(editorialTokens, rootedTokensTotal),
+  topNShare,
+  rootsNeededForShareOfRootedTokens: rootsNeededFor,
+  _note:
+    "Verified coverage is 0 tokens because no root has a verified gloss. The editorial figure is shown for scale only: " +
+    "those glosses are working glosses, not quotations from a citable dictionary, and are not counted as verified. " +
+    "topNShare and rootsNeededForShareOfRootedTokens size the target: they say how much of the rooted text the most " +
+    "frequent roots cover, and are not a claim about which roots matter most.",
+};
+
 const rootGloss = {
   totalRoots: TOTAL_ROOTS,
   withVerifiedGloss: 0,
   percentWith: 0,
+  tokenWeighted,
   reason: verifiedGlossSourceExists
     ? "unexpected: a gloss field was found on data/roots-summary.json entries; script needs updating"
     : "no verified gloss source present in repository",
@@ -211,6 +262,7 @@ const rootGloss = {
 };
 
 console.log(`  Verified root gloss coverage: 0/${TOTAL_ROOTS} (0%). Reason: ${rootGloss.reason}`);
+console.log(`  Token-weighted: ${tokenWeighted.editorialGlossPercentOfRootedTokens}% of ${rootedTokensTotal} rooted tokens carry an editorial (unverified) gloss; top-100 roots would cover ${topNShare.top100.percentOfRootedTokens}%.`);
 console.log(`  (Editorial, unverified: ${editorialGlossCount} roots in assets/root-meanings.js, not counted.)`);
 console.log(`  Render paths (${glossRenderPaths.length}): ${glossRenderPaths.join(", ")}`);
 

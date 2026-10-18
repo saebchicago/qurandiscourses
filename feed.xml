@@ -9,6 +9,21 @@
   <updated>2026-10-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>Four more ways to score a root pair, and version 1.4.0</title>
+    <id>https://divinediscourses.org/changelog#2026-10-extended-association-measures</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-extended-association-measures"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Four more ways to score a root pair, and version 1.4.0.&lt;/strong&gt;
+              The &lt;a href="/export"&gt;Export&lt;/a&gt; page has a nineteenth table, &lt;code&gt;association-extended&lt;/code&gt;:
+              logDice, t-score, a log odds ratio with a 95% interval, and a
+              directional deltaP for the same 5,211 root pairs as the existing
+              association table, row for row. The measures disagree about which
+              pairs rank highest, and the site does not choose between them.
+              Nothing already published changed; the other eighteen tables are
+              byte-identical. The new archive is v1.4.0; earlier archives stay
+              available.</content>
+  </entry>
+  <entry>
     <title>Credit where it is due, and version 1.3.1</title>
     <id>https://divinediscourses.org/changelog#2026-10-credits-and-notices</id>
     <link href="https://divinediscourses.org/changelog#2026-10-credits-and-notices"/>
