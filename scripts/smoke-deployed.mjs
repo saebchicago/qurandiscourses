@@ -184,6 +184,21 @@ for (const u of sample) {
   check("share stub /s/surah/1 is noindex and not in the sitemap", r.status === 200 && noindex && !locs.some((u) => u.includes("/s/")), `${r.status}, noindex=${noindex}`);
 }
 
+// ── mixed-case share stub (informational) ───────────────────────────
+// Share stubs keep their .html address and a capital in the key
+// (s/root/uAlh.html). The host redirects mixed-case PAGE paths to lowercase;
+// this reports what it does to a stub, and whether the target still serves.
+if (!LOCAL) {
+  const r = await get(BASE + "/s/root/uAlh.html");
+  const hop = r.headers.get("location");
+  let tail = "";
+  if (hop && hop.startsWith("/")) {
+    const n = await get(BASE + hop);
+    tail = ` -> ${n.status}`;
+  }
+  console.log(`INFO share stub /s/root/uAlh.html · ${r.status}${hop ? " -> " + hop : ""}${tail}`);
+}
+
 // ── text integrity in delivered HTML ─────────────────────────────────
 {
   const { body } = await text(BASE + "/surah/1");
