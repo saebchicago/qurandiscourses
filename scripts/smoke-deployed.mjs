@@ -244,6 +244,8 @@ if (!LOCAL) {
   check("concordance inputs are served (root-analytics, morphology)", ra.status === 200 && (await get(BASE + "/data/morphology/1.json")).status === 200, String(ra.status));
   const qp = await text(BASE + "/query");
   check("query page is served with its form and scripts", qp.r.status === 200 && /id="qForm"/.test(qp.body) && /src="assets\/query-core\.js"/.test(qp.body), String(qp.r.status));
+  const dp = await text(BASE + "/distance");
+  check("distance page is served with its map and script", dp.r.status === 200 && /id="dMap"/.test(dp.body) && /src="assets\/distance\.js"/.test(dp.body), String(dp.r.status));
   const qc = await text(BASE + "/assets/query-core.js");
   check("assets/query-core.js is served", qc.r.status === 200 && /qdQueryCore/.test(qc.body), String(qc.r.status));
 }

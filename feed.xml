@@ -9,6 +9,20 @@
   <updated>2026-10-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>Query by Arabic, and a surah distance map</title>
+    <id>https://divinediscourses.org/changelog#2026-10-query-distance-polish</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-query-distance-polish"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Query by Arabic, and a surah distance map.&lt;/strong&gt;
+              &lt;a href="/query"&gt;Query&lt;/a&gt; now accepts a lemma in Arabic letters and a
+              written word in Arabic (vowel marks ignored). A new page,
+              &lt;a href="/distance"&gt;Surah distance&lt;/a&gt;, draws the 114 by 114 map of how far
+              apart every two surahs are by the roots they use, read against a
+              permutation null, with the closest and most distant pairs. The same
+              numbers are in the &lt;code&gt;surah-distance&lt;/code&gt; export table. No
+              published number changed.</content>
+  </entry>
+  <entry>
     <title>Templates with one open slot</title>
     <id>https://divinediscourses.org/changelog#2026-10-one-slot-templates</id>
     <link href="https://divinediscourses.org/changelog#2026-10-one-slot-templates"/>

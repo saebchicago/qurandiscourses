@@ -161,6 +161,9 @@
       result.total.toLocaleString() + " occurrence" + (result.total === 1 ? "" : "s") + " in " +
       result.bySurah.length.toLocaleString() + " surah" + (result.bySurah.length === 1 ? "" : "s") +
       " (" + result.surahsScanned.toLocaleString() + " searched).";
+    if (/[\u0600-\u06ff]/.test(f.lemma)) {
+      $("qSummary").textContent += " A lemma in Arabic letters is matched on letters only, so it may include more than one lemma.";
+    }
     drawRows();
     $("qResults").hidden = false;
   }
@@ -168,6 +171,7 @@
   function fillForm(f) {
     $("qRoot").value = f.root;
     $("qLemma").value = f.lemma;
+    $("qWord").value = f.form;
     $("qFrom").value = f.from || "";
     $("qTo").value = f.to || "";
     $("qPeriod").value = f.period;
@@ -182,6 +186,7 @@
     var p = new URLSearchParams();
     p.set("root", $("qRoot").value);
     p.set("lemma", $("qLemma").value);
+    p.set("form", $("qWord").value);
     p.set("pos", pos.join(","));
     p.set("from", $("qFrom").value);
     p.set("to", $("qTo").value);
@@ -199,7 +204,7 @@
       return;
     }
     if (!Q.hasAnchor(f)) {
-      status.textContent = "Choose a root, a lemma or a part of speech. A surah range or a period only narrows a query; on its own it would list every word in it.";
+      status.textContent = "Choose a root, a lemma, a written word or a part of speech. A surah range or a period only narrows a query; on its own it would list every word in it.";
       return;
     }
     status.textContent = "Reading…";
@@ -274,7 +279,7 @@
     });
     // Empty submit: say what is needed (execute stays silent for a bare page).
     $("qForm").addEventListener("submit", function () {
-      if (Q.isEmpty(readForm())) $("qStatus").textContent = "Choose a root, a lemma or a part of speech.";
+      if (Q.isEmpty(readForm())) $("qStatus").textContent = "Choose a root, a lemma, a written word or a part of speech.";
     });
 
     var f0 = Q.parse(location.search);

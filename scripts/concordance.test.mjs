@@ -15,6 +15,7 @@ import vm from "node:vm";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const sandbox = { window: {}, document: { readyState: "complete", getElementById: () => null } };
+vm.runInNewContext(readFileSync(join(ROOT, "assets/kwic.js"), "utf8"), sandbox);
 vm.runInNewContext(readFileSync(join(ROOT, "assets/concordance.js"), "utf8"), sandbox);
 const { _linesForVerse: linesForVerse, WINDOW } = sandbox.window.qdConcordance;
 

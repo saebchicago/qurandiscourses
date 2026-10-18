@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-10-query-distance-polish",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Query by Arabic, and a surah distance map.</strong>\n              <a href=\"/query\">Query</a> now accepts a lemma in Arabic letters and a\n              written word in Arabic (vowel marks ignored). A new page,\n              <a href=\"/distance\">Surah distance</a>, draws the 114 by 114 map of how far\n              apart every two surahs are by the roots they use, read against a\n              permutation null, with the closest and most distant pairs. The same\n              numbers are in the <code>surah-distance</code> export table. No\n              published number changed."
+  },
+  {
    "id": "2026-10-one-slot-templates",
    "year": "2026",
    "month": "October",
