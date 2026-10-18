@@ -16,6 +16,9 @@ Follow `data/root-glosses/worklist.json`: the 200 most frequent roots, ranked by
 
 1. **Find the Penrice entry.** Use a scan of the printed 1873 edition (London: Henry S. King & Co.), not a modern retyped edition, which may carry its own terms. Penrice arranges entries by root. Note the page number printed on the page.
 2. **Quote.** Copy the English of the root's leading sense or senses exactly, at most 200 characters. Keep Penrice's spelling and punctuation. Mark an omission with `...`. Add nothing.
+   **Scans located** (Internet Archive listings, read through the CI evidence job on 2026-10-18; open each and confirm the title page before use):
+   - Penrice 1873: `dictionaryglossa0000penr` and `adictionaryandg00penrgoog` (both dated 1873). Later items (`bub_gb_…` 1995, `dictionaryglossa0000john` 1969, `silkalbaynfmanqi0000penr` 1976) are reprints; use them only if their title page reproduces the 1873 edition.
+   - Lane: the eight parts as `AnArabic-englishLexiconInEightPartsPart2Jim-kha` … `Part6Ghayn-fa_466` (parts 1, 7 and 8 not in that listing), and Google scans `anarabicenglish01lanegoog`, `02`, `03`. Archive.org: `https://archive.org/details/<identifier>`.
 3. **Cross-check in Lane.** Use scans of the printed Lexicon. Record the part (1–8) and the page where the root's entry begins. Then set `finding`:
    - `agrees`: Lane's leading senses include Penrice's.
    - `adds-senses`: Lane agrees and gives further senses Penrice omits.
