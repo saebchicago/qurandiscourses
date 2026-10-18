@@ -7346,6 +7346,14 @@ before it was renamed "Study".
 
 #### October
 
+An index for scripts. The data is now discoverable
+without reading a web page: api/v1/index.json
+lists every export table with its address, size and SHA-256, and every
+published archive, and api/v1/openapi.json
+describes the same addresses in OpenAPI 3.1. They are static files,
+readable from any site, with no key. See Export .
+No published number changed. §
+
 Four more ways to score a root pair, and version 1.4.0.
 The Export page has a nineteenth table, association-extended :
 logDice, t-score, a log odds ratio with a 95% interval, and a
