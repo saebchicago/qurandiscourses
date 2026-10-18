@@ -23,7 +23,9 @@
 // sitemap; representative pages' title, description, exactly one h1 (in
 // <main> on the surah/juz/root pages) and
 // parseable JSON-LD; the bundled Arabic and Tanzil notice in delivered
-// HTML; the /* security headers; the word-by-word proxy's state.
+// HTML; the static data API (index, OpenAPI, CORS, digest of a served
+// table), the extended association measures and the Roots concordance;
+// the /* security headers; the word-by-word proxy's state.
 // Not covered (needs a browser): translation-failure rendering, which
 // scripts/verify-site.mjs asserts against the local tree.
 
@@ -146,6 +148,46 @@ for (const u of sample) {
 {
   const { body } = await text(BASE + "/surah/1");
   check("surah page ships the Arabic and the Tanzil notice in its HTML", /بِسْمِ/.test(body) && /Tanzil Quran Text/.test(body) && /CHANGING IT IS NOT ALLOWED/.test(body));
+}
+
+// ── data API, association measures, concordance (v1.4.0 round) ──────
+// The deployed index must list the tables the host actually serves, with
+// digests that match the bytes it serves; the per-root association files
+// must carry the extended measures the Roots panel reads; the concordance
+// module must be served and loaded by the Roots page.
+{
+  const { createHash } = await import("node:crypto");
+  const r = await get(BASE + "/api/v1/index.json");
+  let index = null;
+  try { index = r.status === 200 ? await r.json() : null; } catch {}
+  check("api/v1/index.json answers with an index", !!index && Array.isArray(index.tables) && index.tables.length >= 19, `${r.status}, ${index?.tables?.length ?? 0} tables, v${index?.version ?? "?"}`);
+  if (!LOCAL) {
+    check("api/v1/index.json is readable cross-origin", r.headers.get("access-control-allow-origin") === "*", r.headers.get("access-control-allow-origin") || "(no header)");
+  } else out("SKIP", "api/v1 CORS header", "--local");
+  const oa = await get(BASE + "/api/v1/openapi.json");
+  let spec = null;
+  try { spec = oa.status === 200 ? await oa.json() : null; } catch {}
+  check("api/v1/openapi.json is OpenAPI 3.1", spec?.openapi === "3.1.0", String(oa.status));
+  const ext = index?.tables?.find((t) => t.name === "association-extended");
+  if (ext) {
+    const path = ext.csv.url.replace("https://divinediscourses.org", "");
+    const tr = await get(BASE + path);
+    const bytes = tr.status === 200 ? Buffer.from(await tr.arrayBuffer()) : Buffer.alloc(0);
+    const digest = createHash("sha256").update(bytes).digest("hex");
+    check("association-extended.csv matches the index digest", digest === ext.csv.sha256, `${tr.status}, ${bytes.length} bytes`);
+    if (!LOCAL) check("export tables are readable cross-origin", tr.headers.get("access-control-allow-origin") === "*", tr.headers.get("access-control-allow-origin") || "(no header)");
+  } else check("index lists association-extended", false);
+  const a = await get(BASE + "/data/association/ruHm.json");
+  let assoc = null;
+  try { assoc = a.status === 200 ? await a.json() : null; } catch {}
+  const gfr = assoc?.partners?.find((p) => p.root === "gfr");
+  check("per-root association file carries the extended measures", !!gfr && ["partnerVerses", "logDice", "tScore", "logOddsRatio", "deltaP"].every((k) => typeof gfr[k] === "number"), gfr ? `r-h-m / gh-f-r logDice ${gfr.logDice}, deltaP ${gfr.deltaP}` : String(a.status));
+  const roots = await text(BASE + "/roots");
+  check("roots page has the measure sort and the concordance panel", /id="detailAssocSort"/.test(roots.body) && /id="concDetails"/.test(roots.body) && /src="assets\/concordance\.js"/.test(roots.body), String(roots.r.status));
+  const cj = await text(BASE + "/assets/concordance.js");
+  check("assets/concordance.js is served", cj.r.status === 200 && /qdConcordance/.test(cj.body), String(cj.r.status));
+  const ra = await get(BASE + "/data/root-analytics/ruHm.json");
+  check("concordance inputs are served (root-analytics, morphology)", ra.status === 200 && (await get(BASE + "/data/morphology/1.json")).status === 200, String(ra.status));
 }
 
 // ── security headers ─────────────────────────────────────────────────
