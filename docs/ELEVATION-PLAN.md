@@ -18,6 +18,7 @@ Original text below is kept as written on the day of the proposal. This block sa
 | A6 coverage v2 | **Done** (token-weighted view; also fixed seven editorial glosses keyed to non-roots). |
 | A7 Zenodo DOI | Not done. |
 | B5 concordance v1 | **Done**, with a test that it matches every root's published occurrence count. |
+| B6 query builder v1 | **Done** (`/query`, under Analyze). Filters: root (Buckwalter, Latin or Arabic), lemma, POS, surah range, period; counts by surah, occurrences with context, CSV, permalink. State is the URL only. `scripts/query.test.mjs` checks every root's query total against the published count. Not done: lemma search by Arabic, form-level filters. |
 | B7 static API | **Done** (`/api/v1/index.json`, `openapi.json`, CORS). |
 | C4 surah distance | **Done**, v1.5.0 (export table 20 `surah-distance`, 6,441 pairs, permutation null, claim, worked example). Method as in "C4 method" below; 500 draws, seed 20261018, ~35 s. No page yet: the table is on Export only. |
 

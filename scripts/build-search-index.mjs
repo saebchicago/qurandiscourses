@@ -102,7 +102,7 @@ const pageTitle = (html, file) =>
 const PAGES = [
   "index.html", "read.html", "navigate.html", "dossier.html", "themes.html",
   "compare.html", "replay.html", "exercises.html", "exercise.html",
-  "exercise-roots.html", "roots.html", "words.html", "patterns.html",
+  "exercise-roots.html", "roots.html", "words.html", "query.html", "patterns.html",
   "formulas.html", "numbers.html", "how-to-use.html", "how-it-works.html",
   "paths.html", "glossary.html", "vocabulary.html", "watch.html", "sources.html",
   "validation.html", "datasets.html", "coverage.html", "export.html",

@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-10-query-builder",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>A query page.</strong> The new <a href=\"/query\">Query</a> page\n              (under Analyze) filters the word-by-word morphology by root, lemma,\n              part of speech, surah range and period, and returns the counts, the\n              occurrences with a few words of context, and a CSV. The whole query\n              lives in the address, so a copied link reproduces the same result and\n              nothing is stored. A root's total on this page equals its total on\n              Roots, checked for all 1,642 roots. Roots and lemmas are the\n              annotators' judgments from the Leeds v0.4 corpus, and the period\n              filter uses one chronology among several. No published number\n              changed."
+  },
+  {
    "id": "2026-10-surah-distance",
    "year": "2026",
    "month": "October",

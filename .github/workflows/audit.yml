@@ -61,6 +61,7 @@ jobs:
           node --test scripts/review-credit.test.mjs
           node --test scripts/association-measures.test.mjs
           node scripts/surah-distance.test.mjs
+          node --test scripts/query.test.mjs
           node --test scripts/concordance.test.mjs
 
       - name: Validate navigation and deployment headers

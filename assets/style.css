@@ -5266,3 +5266,13 @@ html[data-memorize] .verse:not(.is-revealed) .wbw-strip {
   display: inline-flex;
   align-items: center;
 }
+
+/* Query builder (query.html) */
+.query-form { padding: 1rem; }
+.query-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 0.75rem; }
+.query-grid label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.9rem; }
+.query-pos { margin: 0.9rem 0 0; border: 1px solid var(--border, currentColor); border-radius: 6px; padding: 0.5rem 0.75rem; }
+.query-pos legend { font-size: 0.85rem; padding: 0 0.3rem; }
+.query-pos div { display: flex; flex-wrap: wrap; gap: 0.35rem 0.9rem; }
+.query-pos label { font-size: 0.85rem; white-space: nowrap; }
+.query-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.9rem 0 0; }

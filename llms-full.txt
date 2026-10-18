@@ -39,6 +39,7 @@ Ground rules for using this site as a source:
 - [Exercise: Spot the roots](https://divinediscourses.org/exercise-roots): An interactive exercise: spot the recurring roots in a short surah, then check your reading against the Leeds corpus morphology data.
 - [Qur'anic roots and where they occur](https://divinediscourses.org/roots): The 1,642 triliteral roots of the Qur'an with frequency, derived forms, surah distribution, Makki/Madani split, and co-occurrence data from the Leeds Corpus.
 - [Search Qur'anic Arabic word forms](https://divinediscourses.org/words): Search all 4,832 dictionary forms of Qur'anic Arabic by Arabic, transliteration or root, with frequency, part of speech and first occurrence.
+- [Query the corpus](https://divinediscourses.org/query): Ask the Leeds v0.4 morphology a question: filter by root, lemma, part of speech, surah range and period, then get counts, occurrences and a CSV. The address reproduces the result.
 - [Structural and rhetorical patterns](https://divinediscourses.org/patterns): Structural and rhetorical patterns in the Qur'an: iltifat, mutashabihat.
 - [Recurring phrases in the Qur'an](https://divinediscourses.org/formulas): Every recurring 3-5 word sequence in the Qur'an, counted two ways, by root sequence and by surface form, with every place each phrase occurs.
 - [Corpus numbers and how each was counted](https://divinediscourses.org/numbers): Counted figures from the Qur'anic corpus: root frequency, verse length, lexical diversity by period, and the method behind each number.
@@ -3025,6 +3026,73 @@ Trace a word family by its root on the Roots page →
 See any word in its verse on the Read page →
 
 Follow the guided path "Follow a root through the Qur'an" →
+
+===== Query the corpus (https://divinediscourses.org/query) =====
+
+## Query the corpus
+
+Ask the word-by-word morphology a question and get the counts, the
+occurrences and a CSV. Every filter is optional but at least one is
+required. The address bar holds the whole query, so the link you copy
+reproduces the same result; nothing is stored.
+
+Root
+
+Lemma (Buckwalter)
+
+From surah
+
+To surah
+
+Period
+
+Any
+Early Meccan
+Middle Meccan
+Late Meccan
+Medinan
+
+Part of speech (Leeds tags; none selected means any)
+
+Run query
+Clear
+
+### Result
+
+Download CSV
+Copy link to this query
+
+### By surah
+
+Surah Occurrences
+
+### Occurrences
+
+Ref
+Before
+Word
+After
+Root
+Lemma
+POS
+
+Show more
+
+### How to read this
+
+Counts come straight from the Leeds Quranic Arabic Corpus v0.4
+morphology (every token and its annotated root, lemma and part of
+speech), so a root's total here equals its total on
+Roots .
+●
+The period filter uses the Nöldeke-Bell four-period scheme, one
+chronology among several.
+●
+Roots and lemmas are the annotators' judgments, not the text itself;
+a different morphological analysis would give different counts. Tokens
+without an annotated root cannot be found by a root query. The
+page reads the same files you can download from
+Export and Datasets .
 
 ===== Structural and rhetorical patterns (https://divinediscourses.org/patterns) =====
 
@@ -7393,6 +7461,17 @@ before it was renamed "Study".
 ### 2026
 
 #### October
+
+A query page. The new Query page
+(under Analyze) filters the word-by-word morphology by root, lemma,
+part of speech, surah range and period, and returns the counts, the
+occurrences with a few words of context, and a CSV. The whole query
+lives in the address, so a copied link reproduces the same result and
+nothing is stored. A root's total on this page equals its total on
+Roots, checked for all 1,642 roots. Roots and lemmas are the
+annotators' judgments from the Leeds v0.4 corpus, and the period
+filter uses one chronology among several. No published number
+changed. §
 
 How far apart two surahs are, against chance, and version 1.5.0.
 The Export page has a twentieth table,
