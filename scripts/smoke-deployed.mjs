@@ -184,6 +184,20 @@ for (const u of sample) {
   check("share stub /s/surah/1 is noindex and not in the sitemap", r.status === 200 && noindex && !locs.some((u) => u.includes("/s/")), `${r.status}, noindex=${noindex}`);
 }
 
+// ── mixed-case share stub still resolves ────────────────────────────
+// Share stubs keep a capital in the key (s/root/uAlh.html), and links to
+// them are already in the wild from the share button. The host answers a
+// mixed-case page path with a 301 to lowercase; measured 2026-10-18:
+// /s/root/uAlh.html -> 301 /s/root/ualh -> 200. The stubs are noindex, so
+// the redirect costs nothing in search; what matters is that old links
+// still land on a 200. This fails if that chain ever stops resolving.
+if (!LOCAL) {
+  const r = await get(BASE + "/s/root/uAlh.html");
+  const hop = r.headers.get("location");
+  const end = r.status === 200 ? r : hop && hop.startsWith("/") ? await get(BASE + hop) : r;
+  check("mixed-case share stub /s/root/uAlh.html still resolves to a 200", end.status === 200, `${r.status}${hop ? " -> " + hop : ""} -> ${end.status}`);
+} else out("SKIP", "mixed-case share stub", "--local");
+
 // ── text integrity in delivered HTML ─────────────────────────────────
 {
   const { body } = await text(BASE + "/surah/1");

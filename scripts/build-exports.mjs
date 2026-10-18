@@ -11,7 +11,7 @@
 // statistics itself, and it does not modify any of those inputs. It only
 // writes new files under data/exports/.
 //
-// Output: 19 tables, each as both a CSV and a JSON array of the same
+// Output: 20 tables (incl. surah-distance, read from data/surah-distance/), each as both a CSV and a JSON array of the same
 // rows — root-frequencies, association-pairs, surah-stats,
 // verse-lengths, formulas, centrality, rhyme-summary, fawatih,
 // discursive-pivots, structure, structure-tests, theme-surah-density,
@@ -241,6 +241,28 @@ const extColumns = [
   "deltaP_AgivenB",
 ];
 writeTable("association-extended", extRows, extColumns);
+
+// ── Table 2c: surah-distance (every surah pair, with a permutation null) ─
+// Read from data/surah-distance/surah-distance.json, written by
+// scripts/compute-surah-distance.mjs (the permutation run is too slow to
+// repeat here). One row per unordered surah pair, surahA < surahB.
+
+console.log("\nBuilding surah-distance…");
+const distJson = JSON.parse(readFileSync(join(ROOT, "data", "surah-distance", "surah-distance.json"), "utf8"));
+const distRows = distJson.pairs.map((p) => ({
+  surahA: p.surahA,
+  surahB: p.surahB,
+  rootedTokensA: p.rootedTokensA,
+  rootedTokensB: p.rootedTokensB,
+  distance: p.distance,
+  nullMean: p.nullMean,
+  excess: p.excess,
+  permutationP: p.permutationP,
+  bhQ: p.bhQ,
+  lowCount: p.lowCount ? 1 : 0,
+}));
+const distColumns = ["surahA", "surahB", "rootedTokensA", "rootedTokensB", "distance", "nullMean", "excess", "permutationP", "bhQ", "lowCount"];
+writeTable("surah-distance", distRows, distColumns);
 
 // ── Table 3: surah-stats (surah-profiles.json + chronology + names) ────
 
@@ -718,6 +740,24 @@ const schema = {
         { name: "logOddsRatioHi95", type: "number", unit: "natural log", description: "Upper end of the same interval. Rounded to 3 decimals." },
         { name: "deltaP_BgivenA", type: "number", unit: null, description: "P(rootB in verse | rootA in verse) minus P(rootB | rootA absent). Rounded to 4 decimals. Asymmetric: differs from deltaP_AgivenB." },
         { name: "deltaP_AgivenB", type: "number", unit: null, description: "P(rootA | rootB in verse) minus P(rootA | rootB absent). Rounded to 4 decimals." },
+      ],
+    },
+    "surah-distance": {
+      description: "Jensen-Shannon distance between the root distributions of every pair of surahs (6,441 pairs), with a permutation null so each distance can be read against what chance and surah length alone produce.",
+      rowCount: distRows.length,
+      countingRule: "Rooted Leeds tokens only. distance is the square root of the base-2 Jensen-Shannon divergence of the two surahs' root counts (0 to 1). The null pools both surahs' verses, reassigns verses to the two sides at random with side sizes in verses (not tokens) fixed, and recomputes the distance; 500 draws, mulberry32 seed 20261018. permutationP = (1 + draws at least as large as observed) / 501, so the smallest possible value is 0.002. bhQ is Benjamini-Hochberg over all 6,441 pairs. Plug-in Jensen-Shannon distance is biased upward for short surahs, so read excess (distance minus nullMean), not distance alone. lowCount is 1 when either surah has fewer than 100 rooted tokens; those rows are kept and flagged.",
+      verification: "Verified: direct computation from Leeds morphology by scripts/compute-surah-distance.mjs, hand-computed unit test in scripts/surah-distance.test.mjs. Which pairs count as 'distant' depends on the null chosen; this one holds verse boundaries fixed.",
+      fields: [
+        { name: "surahA", type: "integer", unit: null, description: "Lower surah number of the pair, 1-114, Cairo order." },
+        { name: "surahB", type: "integer", unit: null, description: "Higher surah number of the pair." },
+        { name: "rootedTokensA", type: "integer", unit: "tokens", description: "Tokens of surahA with an annotated root." },
+        { name: "rootedTokensB", type: "integer", unit: "tokens", description: "Tokens of surahB with an annotated root." },
+        { name: "distance", type: "number", unit: null, description: "sqrt of base-2 Jensen-Shannon divergence between the two root distributions; 0 identical, 1 no shared root. Rounded to 4 decimals." },
+        { name: "nullMean", type: "number", unit: null, description: "Mean distance over 500 draws of the permutation null. Rounded to 4 decimals." },
+        { name: "excess", type: "number", unit: null, description: "distance minus nullMean. Rounded to 4 decimals." },
+        { name: "permutationP", type: "number", unit: null, description: "One-sided permutation p-value, (1 + draws with null distance >= observed) / 501. Rounded to 5 decimals." },
+        { name: "bhQ", type: "number", unit: null, description: "Benjamini-Hochberg adjusted q-value over all 6,441 pairs. Rounded to 5 decimals." },
+        { name: "lowCount", type: "integer", unit: "0 or 1", description: "1 when either surah has fewer than 100 rooted tokens." },
       ],
     },
     "surah-stats": {

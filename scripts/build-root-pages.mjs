@@ -56,6 +56,32 @@ for (const r of rootSurah) (surahsByRoot.get(r.root) || surahsByRoot.set(r.root,
     seen.set(slug, bw);
   }
 }
+// Checked root glosses (data/root-glosses/roots.json, gated by
+// build-root-glosses.mjs): a verbatim Penrice (1873) quotation with its page
+// and the Lane cross-check. A page shows one only when its root has a record;
+// today none do, so no page changes. Always the Nuanced badge: a gloss is a
+// lexicographer's English, not the meaning of the root.
+const glossByRoot = new Map(
+  (readJson("data/root-glosses/roots.json").records || []).map((r) => [r.root, r]),
+);
+const LANE_FINDING = {
+  agrees: "Lane's Lexicon agrees",
+  "adds-senses": "Lane's Lexicon agrees and adds further senses",
+  differs: "Lane's Lexicon differs",
+  "not-found": "no entry in Lane's Lexicon",
+};
+const glossFact = (bw) => {
+  const g = glossByRoot.get(bw);
+  if (!g) return [];
+  const c = g.crossCheck;
+  const lane = c.finding === "not-found" ? LANE_FINDING["not-found"] : `${LANE_FINDING[c.finding]} (part ${c.part}, p. ${c.page})`;
+  return [[
+    "Gloss (Penrice, 1873)",
+    `&ldquo;${esc(g.gloss)}&rdquo; <span class="t-annotation">p. ${g.locator.page} · ${lane}. Quoted exactly; a lexicographer's English, not the meaning of the root.</span>`,
+    badge("penrice-1873 lane-lexicon", "nuanced"),
+  ]];
+};
+
 const rootHref = (bw) => (hasPage.has(bw) ? `/root/${rootPageSlug(bw)}` : `/roots?root=${safeKey(bw)}`);
 
 function pageFor(bw) {
@@ -75,6 +101,7 @@ function pageFor(bw) {
   const url = `${SITE}/root/${rootPageSlug(bw)}`;
 
   const facts = [
+    ...glossFact(bw),
     ["Occurrences", n0(s.totalCount), badge("leeds-corpus-v0.4")],
     ["Rank among 1,642 roots", ordinal(rank.get(bw)), badge("leeds-corpus-v0.4")],
     ["Verses containing it", n0(verses.length), badge("leeds-corpus-v0.4")],

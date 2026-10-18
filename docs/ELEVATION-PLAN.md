@@ -1,8 +1,27 @@
 # Divine Discourses elevation plan
 
-Status: proposal for owner review, 2026-10-18. Nothing here changes the site; the code under `docs/elevation/` is skeleton code that has been run and is not wired into `scripts/`.
+Status: proposal written 2026-10-18; see Progress below for what has since shipped. The code under `docs/elevation/` is skeleton code that has been run; parts of it were adopted into `scripts/` and `docs/notebooks/` (see Progress).
 
 Labels used throughout. **[Verified]**: checked in this repository or by running the code here. **[Modeled]**: my estimate (effort, targets); a judgment, not a measurement. **[Unverified]**: from an external source I could only see as a search abstract or listing; check before relying on it.
+
+## Progress (updated 2026-10-18)
+
+Original text below is kept as written on the day of the proposal. This block says what has since happened. **[Verified]** items were checked in this repository or by a run against production.
+
+| Item | Status |
+|---|---|
+| A1 extended association measures | **Done**, v1.4.0 (export table 19, claim, worked example, Roots panel columns and re-sort). The skeleton `compute-association-extended.mjs` was not adopted as a script: the measures live in `scripts/lib/association-measures.mjs` and `build-exports.mjs` computes the table from published counts. |
+| A2 layer-sensitivity harness | **Done.** Adopted as `scripts/compare-layers.mjs` (`--selftest`, `--check`) over `scripts/lib/layers.mjs`; registers Leeds as layer 1 in `data/layers/index.json`; `data/layers/sensitivity.json` is empty until a second layer is added. Tested with a synthetic layer folder (30 removed roots gives exactly 30 changed tokens; a misaligned layer stops the build). No `/layers` page yet. |
+| A3 licence verification (MASAQ, QuranMorph, QAMAR) | **Not done.** The authoring sandbox cannot reach Mendeley, arXiv or the ACL Anthology; needs an open-network machine. |
+| A4 notebook | **Done.** Moved to `docs/notebooks/`, five checks, executed in CI. |
+| A5 gloss source | **Decided** (Penrice 1873 primary, Lane cross-check). Validator, worklist, coverage wiring and a Roots-page display are built; **0 of 1,642 roots transcribed** (owner task). |
+| A6 coverage v2 | **Done** (token-weighted view; also fixed seven editorial glosses keyed to non-roots). |
+| A7 Zenodo DOI | Not done. |
+| B5 concordance v1 | **Done**, with a test that it matches every root's published occurrence count. |
+| B7 static API | **Done** (`/api/v1/index.json`, `openapi.json`, CORS). |
+| C4 surah distance | **Done**, v1.5.0 (export table 20 `surah-distance`, 6,441 pairs, permutation null, claim, worked example). Method as in "C4 method" below; 500 draws, seed 20261018, ~35 s. No page yet: the table is on Export only. |
+
+Production check (2026-10-18, GitHub Actions run against divinediscourses.org, **[Verified]**): 41 passed, 0 failed after one fix. The run found a defect outside this plan's scope: 195 of 411 root pages answered 301 to a lowercase address while their canonical named the capital form; fixed in #174 with `rootPageSlug` and guards in `build-canonicals --check` and the smoke test. A weekly scheduled smoke run now exists.
 
 ## Executive summary
 
@@ -73,7 +92,7 @@ Effort: S ≈ days, M ≈ 1–3 weeks, L ≈ 1–3 months, XL > 3 months of one 
 | A1 | **Extended association measures**: logDice, t-score, log odds ratio with 95% interval, directional ΔP, beside PMI/Dice/G2 (new export table `association-extended`, measure toggle in Roots explorer) | Shows method-dependence instead of picking a winner; matches the site's dispersion convention | Leeds only | S–M (script exists: `docs/elevation/compute-association-extended.mjs`) | Readers over-read a "winner" → every ranking shows which measure; a claim record with `agreement: method-dependent` | Script in `scripts/` with `--check`; shared measures equal the published file within its rounding; table in `schema.json`; claim 1:1 with a worked example |
 | A2 | **Layer-sensitivity harness** in the build, with Leeds as layer 1 (no new data yet) | Makes the later layers a converter, not a rewrite | None | S (exists: `layer-sensitivity.mjs`) | Premature surface area → ship as generator + empty-state page only | Identity test passes; misaligned layer refused; unannotated ≠ disagreement |
 | A3 | **Licence and fit verification** for MASAQ, QuranMorph, QAMAR | Gates all of Phase B | Read-only research | S | Misreading a licence → quote the grant verbatim from the source, record sha256 | `sources.json` entries as ○ Pending with licence text, URL, retrieval date, file hash, tokenization notes |
-| A4 | **Notebook + data-pack guide** (`docs/notebooks/reproduce-numbers.ipynb`) published on Export | Lets an outsider reproduce a Numbers figure in minutes | Data pack (Leeds GPL notice included) | S | Notebook rot → CI runs its cells against the committed pack | CI executes the notebook; 4 checks pass |
+| A4 | **Notebook + data-pack guide** (`docs/notebooks/reproduce-numbers.ipynb`) published on Export | Lets an outsider reproduce a Numbers figure in minutes | Data pack (Leeds GPL notice included) | S | Notebook rot → CI runs its cells against the committed pack | CI executes the notebook; 5 checks pass |
 | A5 | **Gloss source decision** (the owner task in `docs/gloss-dataset-research.md`) | Unblocks the 0% | Per that memo: verify QUL label and the volume's permission page | S (owner) | Shipping without verified licence → memo's own gate stands | Decision recorded in `DEFERRED.md` |
 | A6 | **Coverage report v2**: add token-weighted gloss coverage, layer count, overlay count, claims by status | Honest accounting that can't be gamed by glossing rare roots | None | S | None | `compute-coverage.mjs --check` passes; `coverage.html` figures are bound spans |
 | A7 | **Zenodo DOI per release** (CITATION.cff exists) | Makes citation measurable | None | S | Version/date drift → release script checks `version.json`, `CITATION.cff`, tag together | DOI in `CITATION.cff` and About |
@@ -99,7 +118,7 @@ Effort: S ≈ days, M ≈ 1–3 weeks, L ≈ 1–3 months, XL > 3 months of one 
 | C1 | **Annotation-sensitivity dashboard** (`/layers`) | The site's distinctive finding: how much counts move between resources | Layers from B1–B3 | M | Reads as ranking resources → no "best layer"; differences only, with claim `method-dependent` | Per-root divergence table; rooted-token share per layer; export table `layer-sensitivity` |
 | C2 | **Page-cited scholarly overlays** (Khan 2013 first; then Islahi, Cuypers, Farrin) | The scholarly record readers actually want next to the computed structure | Rights-gated: factual section divisions with page cites; counsel/permission per work | L (ongoing) | Transcription as interpretation → never the site's words, only the scholar's divisions with page; Transcription Gate | `OverlayRecord` validates; ring analyses count > 0 only with a page cite; coverage report moves |
 | C3 | **Formulaic systems** (templates with one variable slot, skip-grams) | Moves from fixed n-grams toward Bannister-style systems | Leeds | L | Over-claiming orality → report only coverage vs a length-matched null with Benjamini–Hochberg; no claim about composition | Null-tested; every system lists its occurrences; claim records |
-| C4 | **Multi-surah fingerprint compare** | Compare surahs by root distributions without prose | Leeds | M | Spurious distance → bootstrap intervals; show root-frequency vectors, not a verdict | Pairwise distance with interval; method note; export |
+| C4 | **Multi-surah fingerprint compare** | Compare surahs by root distributions without prose | Leeds | M | Spurious distance → permutation null, not bootstrap (see "C4 method" below); show root-frequency vectors, not a verdict | Pairwise distance with its permutation null and excess; method note; export |
 | C5 | **Versioned data diffs** between releases | Reproducibility over time | `RELEASES.json` + packs | M | Noise from date stamps → compare with `SOURCE_DATE_EPOCH` pinned | Release page lists every numeric change |
 | C6 | **Saved local workspaces** (queries, pins) | Study continuity, privacy intact | None | M | Storage loss → export/import JSON | Local only; no network; included in app backups |
 | C7 | **Analytic learning paths** | Pedagogy: how to read a collocation table, a sensitivity table | None | M | Interpretive drift → steps teach method, not meaning | Paths validate (`check-paths.mjs`) |
@@ -133,7 +152,7 @@ data/layers/<layer-id>/
   manifest.json     # LayerManifest (id, version, licence, licenseVerifiedFrom, sha256, rootNotation)
   tokens.json       # normalized LayerToken[] keyed (s, v, w), one file per surah like data/morphology/
 scripts/ingest-layer-<id>.mjs      # upstream -> tokens.json, pure and offline after download
-scripts/compare-layers.mjs         # alignment audit + sensitivity (from layer-sensitivity.mjs)
+scripts/compare-layers.mjs         # alignment audit + sensitivity (adopted, see Progress)
 ```
 
 1. Ingest is the only step that reads an upstream file; it verifies the recorded sha256 first and fails on mismatch.
@@ -159,6 +178,21 @@ Precompute layouts offline (seeded, fixed iterations, rounded coordinates); ship
 
 ---
 
+### C4 method (prototype result, 2026-10-18, **[Verified]**; shipped in v1.5.0)
+
+The plan first said "bootstrap intervals" for the surah-to-surah distance. A prototype over the real data showed that does not work: with Jensen-Shannon distance between two surahs' root distributions and a verse-block bootstrap, **47% of the 6,441 surah pairs had their own observed distance outside the bootstrap's 95% interval** (surahs 2 and 3: observed 0.384, interval 0.432 to 0.464). Resampling verses with replacement concentrates each sample, and the plug-in distance is biased upward in small samples, so the interval is shifted away from the estimate it is meant to bracket.
+
+The design that works is a **permutation null**: for each pair, pool both surahs' verses, reshuffle which verses belong to which side (sizes fixed, seeded `mulberry32`), recompute the distance, and report the observed distance, the null mean, the excess (observed minus null mean), and a permutation p with Benjamini-Hochberg q across the 6,441 pairs. Prototype behavior on real data:
+
+| Pair | Rooted tokens | Observed | Null mean | Excess | p |
+|---|---|---|---|---|---|
+| 2 vs 3 | 3,884 / 2,274 | 0.384 | 0.346 | 0.038 | 0.010 |
+| 2 vs 9 | 3,884 / 1,646 | 0.482 | 0.375 | 0.107 | 0.010 |
+| 1 vs 112 | 23 / 10 | 0.934 | 0.871 | 0.063 | 0.139 |
+| 103 vs 104 | 10 / 21 | 1.000 | 0.974 | 0.026 | 0.178 |
+
+Short surahs sit near 1.0 under the null, so most of their raw distance is sampling noise; the table says so instead of ranking them. Cost: about 50 seconds per 100 permutations for all pairs. Limits to state on the page: verses within a surah are not independent draws, so the p-value answers "more different than shuffling verses between these two surahs would produce", not a claim about the text's composition; and a distance between root distributions is not a similarity of meaning.
+
 ## 4. Concrete Implementation Artifacts
 
 All files are in `docs/elevation/`. Each was run here; results are under "What was verified".
@@ -167,7 +201,7 @@ All files are in `docs/elevation/`. Each was run here; results are under "What w
 |---|---|---|
 | Zod schemas + TypeScript types: layers, sensitivity rows, extended association rows, verified gloss (locator required, label fixed to Nuanced), scholarly overlay (page per unit) | `schemas.ts` | Not imported by the site |
 | Deterministic generator: extended association measures | `compute-association-extended.mjs` | Follows repo conventions: embedded hand-computed test, `--check` against the published file |
-| Deterministic generator: annotation sensitivity between layers | `layer-sensitivity.mjs` | `--selftest`; refuses misaligned layers |
+| Deterministic generator: annotation sensitivity between layers | `scripts/compare-layers.mjs` + `scripts/lib/layers.mjs` (adopted from `layer-sensitivity.mjs`) | `--selftest`; refuses misaligned layers |
 | Deterministic root-network layout + pure SVG renderer | `root-network.mjs` | Replaces "a React component" |
 | Claim record for the new statistic | `claim.example.json` | Field values are exactly what `check-claims.mjs` enforces |
 | Notebook reproducing Numbers-page figures from the data pack | `docs/notebooks/reproduce-numbers.ipynb` (moved; runs in CI) | Five checks |

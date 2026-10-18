@@ -397,6 +397,28 @@
    "publisher": "London: Williams and Norgate",
    "year": "1863–1893",
    "note": "Public domain by age. Cross-check for the verified root glosses in data/root-glosses/roots.json: each record states whether Lane's entry for the root agrees, adds senses, or was not found, with its page. Transcribe from a scan of the printed edition."
+  },
+  {
+   "id": "lin-1991-jsd",
+   "type": "paper",
+   "author": "Lin, Jianhua",
+   "name": "Divergence measures based on the Shannon entropy",
+   "publisher": "IEEE Transactions on Information Theory 37(1): 145–151",
+   "year": "1991",
+   "url": "https://doi.org/10.1109/18.61115",
+   "note": "Introduces the Jensen-Shannon divergence used in data/exports/surah-distance.*. Bibliographic details checked against the IEEE Xplore record and Crossref (DOI 10.1109/18.61115) on 2026-10-18; the paper text itself was not read in this session.",
+   "accessed": "2026-10-18"
+  },
+  {
+   "id": "endres-schindelin-2003",
+   "type": "paper",
+   "author": "Endres, Dominik M.; Schindelin, Johannes E.",
+   "name": "A new metric for probability distributions",
+   "publisher": "IEEE Transactions on Information Theory 49(7): 1858–1860",
+   "year": "2003",
+   "url": "https://doi.org/10.1109/TIT.2003.813506",
+   "note": "Source for the square root of the Jensen-Shannon divergence being a metric, which is why surah-distance reports the square root. Bibliographic details checked against search results for the published record (DOI 10.1109/TIT.2003.813506) on 2026-10-18; the paper text and proof were not read in this session.",
+   "accessed": "2026-10-18"
   }
  ]
 }
