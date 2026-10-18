@@ -149,7 +149,7 @@ for (const u of sample) {
     try { JSON.parse(m[1]); return true; } catch { return false; }
   });
   const problems = [];
-  if (r.status !== 200) problems.push(`status ${r.status}`);
+  if (r.status !== 200) problems.push(`status ${r.status}${r.headers.get("location") ? " -> " + r.headers.get("location") : ""}`);
   if (/noindex/.test(robotsMeta + " " + xrt)) problems.push("noindex");
   if (canon !== u) problems.push(`canonical ${canon}`);
   if (!meta(body, /<title>([^<]+)<\/title>/)) problems.push("no title");
