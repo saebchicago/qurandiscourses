@@ -7023,7 +7023,7 @@ A source can be fully cited in data/sources.json
 and still be reachable from no badge anywhere: nothing checked
 for that until this measurement.
 38 of
-41 sources appear in at
+43 sources appear in at
 least one data-source-ids attribute on the site,
 static or built at render time. The rest are cited in the
 bibliography on Sources but not yet
@@ -7378,6 +7378,16 @@ before it was renamed "Study".
 ### 2026
 
 #### October
+
+A source for root glosses. Root meanings will be
+quoted, with page numbers, from John Penrice's Dictionary and
+Glossary of the Kor-ân (1873) and checked against Lane's
+Arabic-English Lexicon . Both are public domain. None is
+transcribed yet, so the Coverage count of
+verified root glosses is still 0 of 1,642; it will rise as each
+checked transcription is added. Every such gloss will carry the
+Nuanced label, because it is a lexicographer's English, not the
+meaning. §
 
 A concordance, and more ways to rank a root's partners.
 On Roots , each root now has a word-in-context view:

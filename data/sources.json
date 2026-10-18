@@ -378,6 +378,25 @@
    "url": "https://nlp.fi.muni.cz/raslan/2008/papers/13.pdf",
    "note": "Defines logDice, 14 + log2 of the Dice coefficient. Used in data/exports/association-extended.* alongside t-score, log odds ratio and deltaP. Bibliographic details checked against the Masaryk University publication record on 2026-10-18; the PDF text itself was not read in this session.",
    "accessed": "2026-10-18"
+  },
+  {
+   "id": "penrice-1873",
+   "type": "book",
+   "author": "Penrice, John",
+   "name": "A Dictionary and Glossary of the Kor-ân, with Copious Grammatical References and Explanations of the Text",
+   "publisher": "London: Henry S. King & Co.",
+   "year": "1873",
+   "note": "Public domain by age. Primary source for the verified root glosses in data/root-glosses/roots.json: each gloss is a short verbatim quotation with its page. Transcribe from a scan of the printed edition, not from a modern digital transcription, which may carry its own terms."
+  },
+  {
+   "id": "lane-lexicon",
+   "type": "book",
+   "author": "Lane, Edward William",
+   "name": "An Arabic-English Lexicon",
+   "edition": "8 parts; parts 6-8 completed by Stanley Lane-Poole",
+   "publisher": "London: Williams and Norgate",
+   "year": "1863–1893",
+   "note": "Public domain by age. Cross-check for the verified root glosses in data/root-glosses/roots.json: each record states whether Lane's entry for the root agrees, adds senses, or was not found, with its page. Transcribe from a scan of the printed edition."
   }
  ]
 }

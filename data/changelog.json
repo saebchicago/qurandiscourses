@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-10-root-gloss-source",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>A source for root glosses.</strong> Root meanings will be\n              quoted, with page numbers, from John Penrice's <em>Dictionary and\n              Glossary of the Kor-ân</em> (1873) and checked against Lane's\n              <em>Arabic-English Lexicon</em>. Both are public domain. None is\n              transcribed yet, so the <a href=\"/coverage\">Coverage</a> count of\n              verified root glosses is still 0 of 1,642; it will rise as each\n              checked transcription is added. Every such gloss will carry the\n              Nuanced label, because it is a lexicographer's English, not the\n              meaning."
+  },
+  {
    "id": "2026-10-roots-concordance",
    "year": "2026",
    "month": "October",

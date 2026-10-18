@@ -143,6 +143,17 @@ the Quran.com Foundation Content API v4 (`scripts/build-surah-meta.mjs`
 records the exact endpoint). It is factual reference metadata cached at
 build time; the API is credited in sources.html and data/sources.json.
 
+## Verified root glosses (`data/root-glosses/`)
+
+`data/root-glosses/roots.json` holds short verbatim quotations from John
+Penrice, *A Dictionary and Glossary of the Kor-ân* (London: Henry S. King
+& Co., 1873), each with its page, cross-checked against Edward William
+Lane, *An Arabic-English Lexicon* (London: Williams and Norgate,
+1863–1893). Both works are in the public domain by age; quotations are
+transcribed from scans of the printed editions. `worklist.json` is
+generated from the Leeds corpus counts (GPL, above). Transcription rules:
+`docs/root-glosses.md`.
+
 ## Khan word-by-word glosses (`data/gloss/`)
 
 Files in `data/gloss/` carry per-word English glosses transcribed from
