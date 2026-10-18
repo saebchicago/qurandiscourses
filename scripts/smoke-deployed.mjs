@@ -161,6 +161,14 @@ for (const u of sample) {
   if (!ldOk) problems.push("JSON-LD does not parse");
   if (!LOCAL && r.status === 200 && !/text\/html/.test(r.headers.get("content-type") || "")) problems.push(`content-type ${r.headers.get("content-type")}`);
   check(`page ${path}`, !problems.length, problems.join(", ") || "200, indexable, canonical, title, description, one h1, JSON-LD");
+  // A sitemap URL should answer 200 itself. When it redirects, follow one
+  // same-host hop and report what is there, so the cause is visible in the log.
+  const hop = r.status >= 300 && r.status < 400 ? r.headers.get("location") : null;
+  if (hop && hop.startsWith("/")) {
+    const next = await text(BASE + hop);
+    const nextCanon = meta(next.body, /<link\s+rel="canonical"\s+href="([^"]+)"/);
+    console.log(`INFO   followed ${path} -> ${hop} · ${next.r.status}, canonical ${nextCanon}`);
+  }
 }
 
 // ── share stubs stay out of the index ────────────────────────────────
