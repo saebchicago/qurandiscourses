@@ -44,8 +44,36 @@ const out = (kind, name, detail) => {
 };
 const check = (name, ok, detail) => out(ok ? "PASS" : "FAIL", name, detail);
 
+// A transient network error (a reset, a timeout) must not abort the run and
+// hide every later result. One retry after a pause; if it still fails,
+// return a status-0 response carrying the error, so the checks that use
+// it print FAIL with the cause and the remaining checks still run. The
+// first run from GitHub Actions died on a single ECONNRESET and printed
+// nothing after the redirect checks.
+const FAILED = Symbol("failed");
 async function get(url, opts = {}) {
-  return fetch(url, { redirect: "manual", signal: AbortSignal.timeout(TIMEOUT), ...opts });
+  let err;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      return await fetch(url, { redirect: "manual", signal: AbortSignal.timeout(TIMEOUT), ...opts });
+    } catch (e) {
+      err = e;
+      if (attempt === 0) await new Promise((r) => setTimeout(r, 1500));
+    }
+  }
+  const why = err?.cause?.code || err?.name || err?.message || "network error";
+  console.log(`INFO request failed twice · ${url} · ${why}`);
+  return Object.assign(
+    {
+      status: 0,
+      headers: new Headers(),
+      [FAILED]: why,
+      text: async () => "",
+      json: async () => { throw new Error(why); },
+      arrayBuffer: async () => new ArrayBuffer(0),
+    },
+    { ok: false },
+  );
 }
 async function text(url) {
   const r = await get(url);
@@ -54,11 +82,12 @@ async function text(url) {
 const meta = (h, re) => (re.exec(h) || [])[1] || null;
 
 // ── reachability ─────────────────────────────────────────────────────
-try {
-  await get(BASE + "/");
-} catch (e) {
-  console.log(`SKIP everything · ${BASE} unreachable (${e.cause?.code || e.message})`);
-  process.exit(2);
+{
+  const first = await get(BASE + "/");
+  if (first[FAILED]) {
+    console.log(`SKIP everything · ${BASE} unreachable (${first[FAILED]})`);
+    process.exit(2);
+  }
 }
 
 // ── hosts and redirects (production config only) ─────────────────────
@@ -68,13 +97,10 @@ if (PROD && !LOCAL) {
     ["https://divinediscourses.com/read", "https://divinediscourses.org/read"],
     ["https://www.divinediscourses.com/read", "https://divinediscourses.org/read"],
   ]) {
-    try {
-      const r = await get(from);
-      const loc = r.headers.get("location") || "";
-      check(`redirect ${from}`, r.status === 301 && loc.replace(/\/$/, "") === to, `${r.status} -> ${loc || "(none)"}`);
-    } catch (e) {
-      out("SKIP", `redirect ${from}`, `unreachable (${e.cause?.code || e.message})`);
-    }
+    const r = await get(from);
+    const loc = r.headers.get("location") || "";
+    if (r[FAILED]) out("SKIP", `redirect ${from}`, `unreachable (${r[FAILED]})`);
+    else check(`redirect ${from}`, r.status === 301 && loc.replace(/\/$/, "") === to, `${r.status} -> ${loc || "(none)"}`);
   }
 }
 if (!LOCAL) {
