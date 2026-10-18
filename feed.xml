@@ -9,6 +9,21 @@
   <updated>2026-10-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>Root pages now have one address</title>
+    <id>https://divinediscourses.org/changelog#2026-10-root-page-addresses</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-root-page-addresses"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Root pages now have one address.&lt;/strong&gt; A check run against the
+              live site found that 195 of the 411 root reference pages, those whose
+              key contains a capital letter such as &lt;code&gt;/root/uAlh&lt;/code&gt;, were
+              redirected by the host to a lowercase address while the sitemap, the
+              page's own canonical tag and the links to it still named the capital
+              form. All root pages now live at lowercase addresses
+              (&lt;code&gt;/root/ualh&lt;/code&gt;), and the sitemap, canonical tags and links
+              say so. Old links keep working through the host's redirect. No
+              published number changed.</content>
+  </entry>
+  <entry>
     <title>A source for root glosses</title>
     <id>https://divinediscourses.org/changelog#2026-10-root-gloss-source</id>
     <link href="https://divinediscourses.org/changelog#2026-10-root-gloss-source"/>

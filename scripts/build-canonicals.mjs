@@ -184,6 +184,11 @@ function checkSitemap(xml) {
     seen.add(loc);
     if (!loc.startsWith(SITE)) failures.push(`sitemap.xml: ${loc} is not on ${SITE}`);
     if (/\.html(\?|#|$)/.test(loc)) failures.push(`sitemap.xml: ${loc} is a .html address`);
+    // The production host answers a mixed-case page path with a 301 to the
+    // lowercase form, so a sitemap entry (and the canonical it must match)
+    // with a capital letter names an address that redirects. 195 root pages
+    // did exactly that until rootPageSlug.
+    if (/[A-Z]/.test(loc.slice(SITE.length).split("?")[0])) failures.push(`sitemap.xml: ${loc} has a capital letter in its path; the host redirects it to lowercase`);
   }
   for (const f of pages) {
     const want = url(f);

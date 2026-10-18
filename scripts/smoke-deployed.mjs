@@ -44,8 +44,36 @@ const out = (kind, name, detail) => {
 };
 const check = (name, ok, detail) => out(ok ? "PASS" : "FAIL", name, detail);
 
+// A transient network error (a reset, a timeout) must not abort the run and
+// hide every later result. One retry after a pause; if it still fails,
+// return a status-0 response carrying the error, so the checks that use
+// it print FAIL with the cause and the remaining checks still run. The
+// first run from GitHub Actions died on a single ECONNRESET and printed
+// nothing after the redirect checks.
+const FAILED = Symbol("failed");
 async function get(url, opts = {}) {
-  return fetch(url, { redirect: "manual", signal: AbortSignal.timeout(TIMEOUT), ...opts });
+  let err;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      return await fetch(url, { redirect: "manual", signal: AbortSignal.timeout(TIMEOUT), ...opts });
+    } catch (e) {
+      err = e;
+      if (attempt === 0) await new Promise((r) => setTimeout(r, 1500));
+    }
+  }
+  const why = err?.cause?.code || err?.name || err?.message || "network error";
+  console.log(`INFO request failed twice · ${url} · ${why}`);
+  return Object.assign(
+    {
+      status: 0,
+      headers: new Headers(),
+      [FAILED]: why,
+      text: async () => "",
+      json: async () => { throw new Error(why); },
+      arrayBuffer: async () => new ArrayBuffer(0),
+    },
+    { ok: false },
+  );
 }
 async function text(url) {
   const r = await get(url);
@@ -54,11 +82,12 @@ async function text(url) {
 const meta = (h, re) => (re.exec(h) || [])[1] || null;
 
 // ── reachability ─────────────────────────────────────────────────────
-try {
-  await get(BASE + "/");
-} catch (e) {
-  console.log(`SKIP everything · ${BASE} unreachable (${e.cause?.code || e.message})`);
-  process.exit(2);
+{
+  const first = await get(BASE + "/");
+  if (first[FAILED]) {
+    console.log(`SKIP everything · ${BASE} unreachable (${first[FAILED]})`);
+    process.exit(2);
+  }
 }
 
 // ── hosts and redirects (production config only) ─────────────────────
@@ -68,13 +97,10 @@ if (PROD && !LOCAL) {
     ["https://divinediscourses.com/read", "https://divinediscourses.org/read"],
     ["https://www.divinediscourses.com/read", "https://divinediscourses.org/read"],
   ]) {
-    try {
-      const r = await get(from);
-      const loc = r.headers.get("location") || "";
-      check(`redirect ${from}`, r.status === 301 && loc.replace(/\/$/, "") === to, `${r.status} -> ${loc || "(none)"}`);
-    } catch (e) {
-      out("SKIP", `redirect ${from}`, `unreachable (${e.cause?.code || e.message})`);
-    }
+    const r = await get(from);
+    const loc = r.headers.get("location") || "";
+    if (r[FAILED]) out("SKIP", `redirect ${from}`, `unreachable (${r[FAILED]})`);
+    else check(`redirect ${from}`, r.status === 301 && loc.replace(/\/$/, "") === to, `${r.status} -> ${loc || "(none)"}`);
   }
 }
 if (!LOCAL) {
@@ -104,6 +130,12 @@ const sm = await text(BASE + "/sitemap.xml");
 const locs = [...sm.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
 check("sitemap.xml lists pages", sm.r.status === 200 && locs.length > 100, `${locs.length} URLs`);
 if (!locs.every((u) => u.startsWith("https://divinediscourses.org/"))) check("sitemap URLs all on the canonical host", false);
+{
+  // The host redirects a mixed-case page path to lowercase, so a sitemap URL
+  // with a capital in its path would redirect (and its canonical would loop).
+  const mixed = locs.filter((u) => /[A-Z]/.test(u.slice("https://divinediscourses.org".length)));
+  check("sitemap URLs are all lowercase paths", mixed.length === 0, mixed.length ? `${mixed.length}, e.g. ${mixed[0]}` : `${locs.length} URLs`);
+}
 
 // A deterministic sample spread across the families.
 const sample = [...new Set([
@@ -123,7 +155,7 @@ for (const u of sample) {
     try { JSON.parse(m[1]); return true; } catch { return false; }
   });
   const problems = [];
-  if (r.status !== 200) problems.push(`status ${r.status}`);
+  if (r.status !== 200) problems.push(`status ${r.status}${r.headers.get("location") ? " -> " + r.headers.get("location") : ""}`);
   if (/noindex/.test(robotsMeta + " " + xrt)) problems.push("noindex");
   if (canon !== u) problems.push(`canonical ${canon}`);
   if (!meta(body, /<title>([^<]+)<\/title>/)) problems.push("no title");
@@ -135,6 +167,14 @@ for (const u of sample) {
   if (!ldOk) problems.push("JSON-LD does not parse");
   if (!LOCAL && r.status === 200 && !/text\/html/.test(r.headers.get("content-type") || "")) problems.push(`content-type ${r.headers.get("content-type")}`);
   check(`page ${path}`, !problems.length, problems.join(", ") || "200, indexable, canonical, title, description, one h1, JSON-LD");
+  // A sitemap URL should answer 200 itself. When it redirects, follow one
+  // same-host hop and report what is there, so the cause is visible in the log.
+  const hop = r.status >= 300 && r.status < 400 ? r.headers.get("location") : null;
+  if (hop && hop.startsWith("/")) {
+    const next = await text(BASE + hop);
+    const nextCanon = meta(next.body, /<link\s+rel="canonical"\s+href="([^"]+)"/);
+    console.log(`INFO   followed ${path} -> ${hop} · ${next.r.status}, canonical ${nextCanon}`);
+  }
 }
 
 // ── share stubs stay out of the index ────────────────────────────────

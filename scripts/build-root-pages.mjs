@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 //
 // build-root-pages.mjs — one static, indexable reference page per root
-// with at least MIN occurrences, at /root/<safeKey> (root/<safeKey>.html).
+// with at least MIN occurrences, at /root/<slug> (root/<slug>.html), slug = rootPageSlug (lowercase safeKey).
 //
 //   node scripts/build-root-pages.mjs           # write root/*.html
 //   node scripts/build-root-pages.mjs --check   # exit 1 if any is stale
@@ -24,7 +24,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { SITE } from "./lib/site.mjs";
-import { safeKey } from "./lib/safe-key.mjs";
+import { safeKey, rootPageSlug } from "./lib/safe-key.mjs";
 import { ordinal } from "./lib/ordinal.mjs";
 import { readJson } from "./lib/io.mjs";
 import { ROOT, ROOT_PAGE_MIN, esc, n0, PERIOD, badge, ar, posLabel, renderPage, replaceRegion, sitemapRegion, writeFamily } from "./lib/page-shell.mjs";
@@ -46,7 +46,17 @@ for (const l of lemmas) if (l.root) (lemmasByRoot.get(l.root) || lemmasByRoot.se
 const surahsByRoot = new Map();
 for (const r of rootSurah) (surahsByRoot.get(r.root) || surahsByRoot.set(r.root, []).get(r.root)).push(r);
 
-const rootHref = (bw) => (hasPage.has(bw) ? `/root/${safeKey(bw)}` : `/roots?root=${safeKey(bw)}`);
+// Page addresses use the lowercase slug (see rootPageSlug); the roots.html
+// fallback is a query on the data key, which keeps safeKey.
+{
+  const seen = new Map();
+  for (const bw of pageRoots) {
+    const slug = rootPageSlug(bw);
+    if (seen.has(slug)) throw new Error(`root pages ${seen.get(slug)} and ${bw} share the slug ${slug}. STOPPING.`);
+    seen.set(slug, bw);
+  }
+}
+const rootHref = (bw) => (hasPage.has(bw) ? `/root/${rootPageSlug(bw)}` : `/roots?root=${safeKey(bw)}`);
 
 function pageFor(bw) {
   const sk = safeKey(bw);
@@ -62,7 +72,7 @@ function pageFor(bw) {
   const description =
     `The root ${s.rootLatin} (${s.rootArabic}) occurs ${n0(s.totalCount)} times in ${disp.surahsOccurringIn} surahs of the Qur'an, ` +
     `as ${lems.length} lemma${lems.length === 1 ? "" : "s"}. Forms, where it concentrates, and its companion roots.`;
-  const url = `${SITE}/root/${sk}`;
+  const url = `${SITE}/root/${rootPageSlug(bw)}`;
 
   const facts = [
     ["Occurrences", n0(s.totalCount), badge("leeds-corpus-v0.4")],
@@ -191,12 +201,12 @@ function pageFor(bw) {
 
 function rootsList() {
   const items = pageRoots.map(
-    (bw) => `<li><a href="/root/${safeKey(bw)}">${ar(summary[bw].rootArabic)} ${esc(summary[bw].rootLatin)} <span class="n">${n0(summary[bw].totalCount)}</span></a></li>`,
+    (bw) => `<li><a href="/root/${rootPageSlug(bw)}">${ar(summary[bw].rootArabic)} ${esc(summary[bw].rootLatin)} <span class="n">${n0(summary[bw].totalCount)}</span></a></li>`,
   );
   return `            <ul class="surah-page-list root-page-list">\n              ${items.join("\n              ")}\n            </ul>`;
 }
 
-const wanted = new Map(pageRoots.map((bw) => [`root/${safeKey(bw)}.html`, pageFor(bw)]));
+const wanted = new Map(pageRoots.map((bw) => [`root/${rootPageSlug(bw)}.html`, pageFor(bw)]));
 const rootsHtml = readFileSync(join(ROOT, "roots.html"), "utf8");
 const sm = readFileSync(join(ROOT, "sitemap.xml"), "utf8");
 writeFamily({
@@ -205,7 +215,7 @@ writeFamily({
   wanted,
   edits: new Map([
     ["roots.html", replaceRegion(rootsHtml, "root-pages", rootsList(), "roots.html")],
-    ["sitemap.xml", sitemapRegion(sm, "root-pages", pageRoots.map((bw) => `${SITE}/root/${safeKey(bw)}`), "0.5")],
+    ["sitemap.xml", sitemapRegion(sm, "root-pages", pageRoots.map((bw) => `${SITE}/root/${rootPageSlug(bw)}`), "0.5")],
   ]),
   check: CHECK,
 });
