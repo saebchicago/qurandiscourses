@@ -117,7 +117,7 @@ Effort: S ≈ days, M ≈ 1–3 weeks, L ≈ 1–3 months, XL > 3 months of one 
 | C1 | **Annotation-sensitivity dashboard** (`/layers`) | The site's distinctive finding: how much counts move between resources | Layers from B1–B3 | M | Reads as ranking resources → no "best layer"; differences only, with claim `method-dependent` | Per-root divergence table; rooted-token share per layer; export table `layer-sensitivity` |
 | C2 | **Page-cited scholarly overlays** (Khan 2013 first; then Islahi, Cuypers, Farrin) | The scholarly record readers actually want next to the computed structure | Rights-gated: factual section divisions with page cites; counsel/permission per work | L (ongoing) | Transcription as interpretation → never the site's words, only the scholar's divisions with page; Transcription Gate | `OverlayRecord` validates; ring analyses count > 0 only with a page cite; coverage report moves |
 | C3 | **Formulaic systems** (templates with one variable slot, skip-grams) | Moves from fixed n-grams toward Bannister-style systems | Leeds | L | Over-claiming orality → report only coverage vs a length-matched null with Benjamini–Hochberg; no claim about composition | Null-tested; every system lists its occurrences; claim records |
-| C4 | **Multi-surah fingerprint compare** | Compare surahs by root distributions without prose | Leeds | M | Spurious distance → bootstrap intervals; show root-frequency vectors, not a verdict | Pairwise distance with interval; method note; export |
+| C4 | **Multi-surah fingerprint compare** | Compare surahs by root distributions without prose | Leeds | M | Spurious distance → permutation null, not bootstrap (see "C4 method" below); show root-frequency vectors, not a verdict | Pairwise distance with its permutation null and excess; method note; export |
 | C5 | **Versioned data diffs** between releases | Reproducibility over time | `RELEASES.json` + packs | M | Noise from date stamps → compare with `SOURCE_DATE_EPOCH` pinned | Release page lists every numeric change |
 | C6 | **Saved local workspaces** (queries, pins) | Study continuity, privacy intact | None | M | Storage loss → export/import JSON | Local only; no network; included in app backups |
 | C7 | **Analytic learning paths** | Pedagogy: how to read a collocation table, a sensitivity table | None | M | Interpretive drift → steps teach method, not meaning | Paths validate (`check-paths.mjs`) |
@@ -176,6 +176,21 @@ New features add **no third-party origins**. The API is same-origin static JSON;
 Precompute layouts offline (seeded, fixed iterations, rounded coordinates); ship coordinates, not a simulation. SVG is adequate to a few hundred nodes; above that, cluster or filter before drawing, not after. Per-root shards for concordance keep first paint independent of corpus size. Lazy-load the heavy modules (the site already has `assets/lazy.js`).
 
 ---
+
+### C4 method (prototype result, 2026-10-18, **[Verified]** by a scratch run, not yet shipped)
+
+The plan first said "bootstrap intervals" for the surah-to-surah distance. A prototype over the real data showed that does not work: with Jensen-Shannon distance between two surahs' root distributions and a verse-block bootstrap, **47% of the 6,441 surah pairs had their own observed distance outside the bootstrap's 95% interval** (surahs 2 and 3: observed 0.384, interval 0.432 to 0.464). Resampling verses with replacement concentrates each sample, and the plug-in distance is biased upward in small samples, so the interval is shifted away from the estimate it is meant to bracket.
+
+The design that works is a **permutation null**: for each pair, pool both surahs' verses, reshuffle which verses belong to which side (sizes fixed, seeded `mulberry32`), recompute the distance, and report the observed distance, the null mean, the excess (observed minus null mean), and a permutation p with Benjamini-Hochberg q across the 6,441 pairs. Prototype behavior on real data:
+
+| Pair | Rooted tokens | Observed | Null mean | Excess | p |
+|---|---|---|---|---|---|
+| 2 vs 3 | 3,884 / 2,274 | 0.384 | 0.346 | 0.038 | 0.010 |
+| 2 vs 9 | 3,884 / 1,646 | 0.482 | 0.375 | 0.107 | 0.010 |
+| 1 vs 112 | 23 / 10 | 0.934 | 0.871 | 0.063 | 0.139 |
+| 103 vs 104 | 10 / 21 | 1.000 | 0.974 | 0.026 | 0.178 |
+
+Short surahs sit near 1.0 under the null, so most of their raw distance is sampling noise; the table says so instead of ranking them. Cost: about 50 seconds per 100 permutations for all pairs. Limits to state on the page: verses within a surah are not independent draws, so the p-value answers "more different than shuffling verses between these two surahs would produce", not a claim about the text's composition; and a distance between root distributions is not a similarity of meaning.
 
 ## 4. Concrete Implementation Artifacts
 
