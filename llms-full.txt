@@ -7341,6 +7341,12 @@ the same addresses in OpenAPI 3.1. These are static files: there
 is no query service, no key and no rate limit, and any site may
 fetch them. Fetch a table whole and filter it locally.
 
+A worked example:
+reproduce-numbers.ipynb , a Python notebook that recomputes figures from the Numbers
+page and the association tables using only the archive. It runs
+on every change to the site, so a failure there means the
+archive and the pages disagree.
+
 ### Preview: top 5 roots by frequency
 
 Root

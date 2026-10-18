@@ -109,6 +109,16 @@ jobs:
           node scripts/compute-coverage.mjs --check
           node scripts/check-generated-freshness.mjs
 
+      - name: Reproduce published figures from the data pack (notebook)
+        # docs/notebooks/reproduce-numbers.ipynb recomputes Numbers-page
+        # figures from the current release archive alone, the way an outside
+        # reader would. Pinned versions in a throwaway venv; the notebook
+        # finds the repository root itself and reads no network.
+        run: |
+          python3 -m venv /tmp/nbvenv
+          /tmp/nbvenv/bin/pip install --quiet "pandas==2.2.3" "nbconvert==7.16.4" "ipykernel==6.29.5"
+          /tmp/nbvenv/bin/jupyter nbconvert --to notebook --execute --stdout docs/notebooks/reproduce-numbers.ipynb > /dev/null
+
       - name: Install browser audit harness
         # PRs get the full browser gate. Scheduled/manual runs recheck the
         # deployed experience. A post-merge push repeats deterministic checks
