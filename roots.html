@@ -1056,6 +1056,24 @@
             </p>
           </div>
 
+          <!-- Checked root gloss (Penrice 1873, cross-checked against Lane):
+               data/root-glosses/roots.json. Hidden unless this root has a record. -->
+          <div class="stat-block" id="detailGlossBlock" hidden>
+            <h4>
+              Gloss from Penrice (1873)
+              <span
+                class="badge nuanced"
+                data-source-ids="penrice-1873 lane-lexicon"
+                aria-label="Nuanced"
+                tabindex="0"
+                title="Nuanced · a lexicographer's English, quoted exactly; not the meaning of the root"
+                >●</span
+              >
+            </h4>
+            <p id="detailGlossText" style="margin: 0 0 0.3rem"></p>
+            <p id="detailGlossCite" style="font-size: 0.82rem; color: var(--muted); margin: 0"></p>
+          </div>
+
           <!-- Concordance: assets/concordance.js, loaded on open -->
           <div class="stat-block" id="detailConcBlock">
             <h4>Concordance (word in context)</h4>
@@ -2104,7 +2122,40 @@
           renderTrendChart(bw);
           renderCentrality(bw);
           renderDispersion(bw);
+          renderRootGloss(bw);
           if (window.qdConcordance) window.qdConcordance.show(bw, safeKey(bw));
+        }
+
+        // Checked root gloss: a verbatim Penrice (1873) quotation with its
+        // page and the result of the Lane cross-check, from
+        // data/root-glosses/roots.json (gated by build-root-glosses.mjs).
+        // The block stays hidden for roots without a record. textContent
+        // only: the file is data, never markup.
+        var rootGlossPromise = null;
+        const LANE_FINDING = {
+          agrees: "Lane's Lexicon agrees",
+          "adds-senses": "Lane's Lexicon agrees and adds further senses",
+          differs: "Lane's Lexicon differs",
+          "not-found": "no entry in Lane's Lexicon",
+        };
+        async function renderRootGloss(bw) {
+          const block = document.getElementById("detailGlossBlock");
+          if (!block) return;
+          block.hidden = true;
+          try {
+            rootGlossPromise = rootGlossPromise || fetch("data/root-glosses/roots.json").then((r) => (r.ok ? r.json() : { records: [] }));
+            const data = await rootGlossPromise;
+            const rec = (data.records || []).find((r) => r.root === bw);
+            if (!rec) return;
+            document.getElementById("detailGlossText").textContent = "\u201C" + rec.gloss + "\u201D";
+            const c = rec.crossCheck || {};
+            const lane = c.finding === "not-found" ? LANE_FINDING["not-found"] : `${LANE_FINDING[c.finding] || "Lane checked"} (part ${c.part}, p. ${c.page})`;
+            document.getElementById("detailGlossCite").textContent =
+              `Penrice, A Dictionary and Glossary of the Kor-\u00E2n (1873), p. ${rec.locator.page}; ${lane}. Quoted exactly; a lexicographer's English, not the meaning of the root.`;
+            block.hidden = false;
+          } catch {
+            block.hidden = true;
+          }
         }
 
         function renderFullDetail(d) {
