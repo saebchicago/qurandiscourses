@@ -1,6 +1,6 @@
 name: Release tag
 
-# Creates the annotated tag v<version> that the release checklist asks for
+# Creates the tag v<version> (as a GitHub release) that the release checklist asks for
 # (docs/maintainer-guide.md, "Cutting a release", step 5), so a citation of
 # a version resolves to the exact commit. Two ways in:
 #
@@ -41,10 +41,9 @@ jobs:
       - name: Create missing tags
         env:
           PAIRS: ${{ github.event.inputs.pairs }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git fetch --tags --force
           if [ -z "${PAIRS:-}" ]; then
             v=$(node -p 'require("./data/version.json").version')
@@ -66,7 +65,9 @@ jobs:
             if [ "v$said" != "$tag" ]; then
               echo "::error::$full has data/version.json $said, not ${tag#v}; refusing"; exit 1
             fi
-            git tag -a "$tag" "$full" -m "$tag: $(git log -1 --format=%s "$full")"
-            git push origin "refs/tags/$tag"
+            # A plain `git push` of the tag is refused: GITHUB_TOKEN may not
+            # push refs whose history changes workflow files. Creating a
+            # GitHub release creates the tag server-side instead.
+            gh release create "$tag" --target "$full" --title "$tag" --notes "Data release $tag ($(git log -1 --format=%s "$full")). Archive: data/exports/divinediscourses-data-$tag.tar.gz. Changes: https://divinediscourses.org/changelog. Cite: https://divinediscourses.org/about#cite"
             echo "Created $tag at $full." | tee -a "$GITHUB_STEP_SUMMARY"
           done
