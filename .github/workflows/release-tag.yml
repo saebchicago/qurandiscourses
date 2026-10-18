@@ -41,7 +41,11 @@ jobs:
       - name: Create missing tags
         env:
           PAIRS: ${{ github.event.inputs.pairs }}
-          GH_TOKEN: ${{ github.token }}
+          # GITHUB_TOKEN cannot create these tags in this repository (both a
+          # tag push and the releases API return 403 for refs whose history
+          # changes workflow files). Add a fine-grained token with Contents
+          # and Workflows write as the RELEASE_TOKEN secret to enable this job.
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN || github.token }}
         run: |
           set -euo pipefail
           git fetch --tags --force
@@ -68,6 +72,14 @@ jobs:
             # A plain `git push` of the tag is refused: GITHUB_TOKEN may not
             # push refs whose history changes workflow files. Creating a
             # GitHub release creates the tag server-side instead.
-            gh release create "$tag" --target "$full" --title "$tag" --notes "Data release $tag ($(git log -1 --format=%s "$full")). Archive: data/exports/divinediscourses-data-$tag.tar.gz. Changes: https://divinediscourses.org/changelog. Cite: https://divinediscourses.org/about#cite"
+            if ! gh release create "$tag" --target "$full" --title "$tag" --notes "Data release $tag ($(git log -1 --format=%s "$full")). Archive: data/exports/divinediscourses-data-$tag.tar.gz. Changes: https://divinediscourses.org/changelog. Cite: https://divinediscourses.org/about#cite"; then
+              {
+                echo "Could not create $tag with this token. Either add a RELEASE_TOKEN secret (fine-grained, Contents + Workflows: write) and re-run, or run locally:"
+                echo '```'
+                echo "git fetch origin && git tag -a $tag $full -m \"$tag\" && git push origin $tag"
+                echo '```'
+              } | tee -a "$GITHUB_STEP_SUMMARY"
+              exit 1
+            fi
             echo "Created $tag at $full." | tee -a "$GITHUB_STEP_SUMMARY"
           done

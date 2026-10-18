@@ -1114,7 +1114,9 @@ The site is versioned so a citation can pin an exact set of numbers.
    its own when a push to main changes `data/version.json`: it creates
    `v<version>` on that commit if the tag does not exist, and refuses a
    commit whose `data/version.json` names another version. To backfill an
-   older tag, run it by hand with `pairs` (`v1.4.0=<sha>`). By hand:
+   older tag, run it by hand with `pairs` (`v1.4.0=<sha>`). It needs a
+   `RELEASE_TOKEN` repository secret (fine-grained token, Contents and
+   Workflows write): the default `GITHUB_TOKEN` is refused with a 403. By hand:
    `git tag -a v<version> -m "<one-line summary>"` and push the tag. The tag is what makes a citation resolvable later:
    `github.com/saebchicago/qurandiscourses/tree/v<version>` is the exact
    data a paper used.
