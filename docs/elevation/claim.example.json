@@ -1,0 +1,21 @@
+{
+  "_note": "EXAMPLE record for data/claims.json, not yet in the ledger. It becomes valid when (1) scripts/compute-association-extended.mjs exists (adopt docs/elevation/compute-association-extended.mjs), (2) data/exports/association-extended.json exists, (3) 'rychly-2008-logdice' is registered in data/sources.json, and (4) a matching worked example is added to data/case-studies.json (check-claims.mjs enforces 1:1). Field names and allowed values are exactly those check-claims.mjs enforces today.",
+  "id": "claim.association.extended-measures.v1",
+  "claimType": "computed-statistic",
+  "sourceIds": ["leeds-corpus-v0.4", "rychly-2008-logdice"],
+  "sourceCheck": "source-checked",
+  "reproduction": "reproduced",
+  "agreement": "method-dependent",
+  "interpretation": "none",
+  "aiInvolvement": "language-editing",
+  "derivation": {
+    "script": "scripts/compute-association-extended.mjs",
+    "output": "data/exports/association-extended.json",
+    "method": "For each root pair sharing at least 5 verses, build the verse-level 2x2 over N = 6,236 verses (a root occurs in a verse if any token carries it) and compute logDice, t-score, Haldane-Anscombe log odds ratio with a Wald 95% interval, and directional delta-P, alongside the published PMI, Dice and Dunning G2. The shared measures are asserted equal to data/association/*.json within that file's rounding."
+  },
+  "limitations": [
+    "The measures describe how verse-level co-occurrence departs from independence under one definition of 'occurs in a verse'; they do not establish that two roots are related in meaning.",
+    "Rankings differ by measure. The site publishes all of them because the collocation literature does not agree on a single best one.",
+    "All inputs inherit the Leeds v0.4 root assignments; a different morphological layer would change the 2x2 tables."
+  ]
+}
