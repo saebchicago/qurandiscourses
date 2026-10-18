@@ -5276,3 +5276,15 @@ html[data-memorize] .verse:not(.is-revealed) .wbw-strip {
 .query-pos div { display: flex; flex-wrap: wrap; gap: 0.35rem 0.9rem; }
 .query-pos label { font-size: 0.85rem; white-space: nowrap; }
 .query-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.9rem 0 0; }
+
+/* Surah distance map (distance.html) */
+.dist-card { padding: 1rem; }
+.dist-controls { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.5rem; }
+.dist-controls label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.9rem; }
+.dist-pair { min-height: 3em; margin: 0.4rem 0 0.75rem; }
+.dist-map-wrap { overflow-x: auto; }
+.dist-map-wrap canvas { width: 100%; max-width: 684px; height: auto; aspect-ratio: 1; cursor: crosshair; display: block; }
+.dist-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+.dist-swatch { display: inline-block; width: 8rem; height: 0.7rem; border-radius: 3px; }
+.dist-lists { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; }
+button.linklike { background: none; border: 0; padding: 0; color: inherit; text-decoration: underline; cursor: pointer; font: inherit; text-align: left; }

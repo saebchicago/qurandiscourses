@@ -1,4 +1,4 @@
-/* Concordance (key word in context) for the Roots explorer.
+/* Concordance (key word in context) for the Roots explorer. Needs assets/kwic.js.
  *
  * For the selected root, lists each occurrence with up to WINDOW words
  * before and after it in the same verse, sortable by reference, by lemma,
@@ -55,13 +55,14 @@
     var out = [];
     for (var i = 0; i < words.length; i++) {
       if (words[i].root !== bw) continue;
+      var c = window.qdKwic.context(words, i, WINDOW);
       out.push({
         s: s,
         v: v,
         w: words[i].w,
-        before: words.slice(Math.max(0, i - WINDOW), i).map(function (x) { return x.ar; }),
-        key: words[i].ar,
-        after: words.slice(i + 1, i + 1 + WINDOW).map(function (x) { return x.ar; }),
+        before: c.before,
+        key: c.key,
+        after: c.after,
         lemma: words[i].lemma,
         pos: words[i].pos,
       });

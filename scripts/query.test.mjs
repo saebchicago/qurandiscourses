@@ -13,7 +13,9 @@ import { safeKey } from "./lib/safe-key.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const sandbox = { URLSearchParams };
-vm.runInNewContext(readFileSync(join(ROOT, "assets/query-core.js"), "utf8"), Object.assign(sandbox, { globalThis: sandbox }));
+Object.assign(sandbox, { globalThis: sandbox });
+vm.runInNewContext(readFileSync(join(ROOT, "assets/kwic.js"), "utf8"), sandbox);
+vm.runInNewContext(readFileSync(join(ROOT, "assets/query-core.js"), "utf8"), sandbox);
 const Q = sandbox.qdQueryCore;
 const readJson = (rel) => JSON.parse(readFileSync(join(ROOT, rel), "utf8"));
 const chron = readJson("data/chronology.json");
@@ -91,4 +93,47 @@ test("context stays inside the verse and the CSV round-trips the row count", () 
   const lines = Q.csv(r).trim().split("\n");
   assert.equal(lines.length, r.total + 1);
   assert.equal(lines[0], "surah,verse,word,before,keyword,after,root,lemma,pos");
+});
+
+test("Arabic lemma matching reproduces every published Arabic lemma (all 1,642 roots' top lemmas)", () => {
+  const list = readJson("data/roots-list.json");
+  for (let s = 1; s <= 114; s++) load([s]);
+  const byRoot = new Map();
+  for (let s = 1; s <= 114; s++) for (const v of Object.values(morph[s])) for (const w of v) {
+    if (!w.root) continue;
+    let set = byRoot.get(w.root); if (!set) byRoot.set(w.root, (set = new Set()));
+    set.add(Q.tokenLemmaLetters(w.lemma));
+  }
+  const bad = [];
+  let checked = 0;
+  for (const [bw, e] of Object.entries(list)) for (const l of e.topLemmas || []) {
+    checked++;
+    if (!byRoot.get(bw).has(Q.lemmaLetters(l.lemmaArabic))) bad.push(`${bw}: ${l.lemmaArabic}`);
+  }
+  assert.ok(checked > 1000, `checked ${checked}`);
+  assert.deepEqual(bad, []);
+});
+
+test("lemma by Arabic letters and form filters select the same tokens as their Buckwalter / surface equivalents", () => {
+  const a = exec("lemma=qaAla");
+  const b = exec("lemma=" + encodeURIComponent(Q.bwToArabic("qaAla")));
+  assert.ok(a.total > 1000);
+  assert.ok(b.total >= a.total, "the letters match is at least as wide as the exact Buckwalter match");
+  assert.ok(b.rows.every((r) => Q.tokenLemmaLetters(r.lemma) === Q.lemmaLetters(Q.bwToArabic("qaAla"))));
+  const f1 = exec("form=" + encodeURIComponent("\u0642\u0627\u0644"));
+  const f2 = exec("form=" + encodeURIComponent("\u0642\u064e\u0627\u0644\u064e"));
+  assert.ok(f1.total > 100);
+  assert.equal(f1.total, f2.total);
+  assert.ok(f1.rows.every((r) => Q.fold(r.key) === "\u0642\u0627\u0644"));
+});
+
+test("query.html has no duplicate ids, and every id query.js looks up exists once", () => {
+  const html = readFileSync(join(ROOT, "query.html"), "utf8");
+  const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]);
+  const dupes = ids.filter((x, i) => ids.indexOf(x) !== i);
+  assert.deepEqual(dupes, []);
+  const js = readFileSync(join(ROOT, "assets/query.js"), "utf8");
+  const wanted = new Set([...js.matchAll(/\$\("([A-Za-z]+)"\)/g)].map((m) => m[1]));
+  const missing = [...wanted].filter((id) => !ids.includes(id));
+  assert.deepEqual(missing, []);
 });

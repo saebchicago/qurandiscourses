@@ -40,6 +40,7 @@ Ground rules for using this site as a source:
 - [Qur'anic roots and where they occur](https://divinediscourses.org/roots): The 1,642 triliteral roots of the Qur'an with frequency, derived forms, surah distribution, Makki/Madani split, and co-occurrence data from the Leeds Corpus.
 - [Search Qur'anic Arabic word forms](https://divinediscourses.org/words): Search all 4,832 dictionary forms of Qur'anic Arabic by Arabic, transliteration or root, with frequency, part of speech and first occurrence.
 - [Query the corpus](https://divinediscourses.org/query): Ask the Leeds v0.4 morphology a question: filter by root, lemma, part of speech, surah range and period, then get counts, occurrences and a CSV. The address reproduces the result.
+- [How far apart are two surahs?](https://divinediscourses.org/distance): Compare any two surahs by the roots they use: a 114 by 114 map of Jensen-Shannon distance read against a permutation null, with the closest and most distant pairs.
 - [Structural and rhetorical patterns](https://divinediscourses.org/patterns): Structural and rhetorical patterns in the Qur'an: iltifat, mutashabihat.
 - [Recurring phrases in the Qur'an](https://divinediscourses.org/formulas): Every recurring 3-5 word sequence in the Qur'an, counted two ways, by root sequence and by surface form, with every place each phrase occurs.
 - [Corpus numbers and how each was counted](https://divinediscourses.org/numbers): Counted figures from the Qur'anic corpus: root frequency, verse length, lexical diversity by period, and the method behind each number.
@@ -3038,7 +3039,9 @@ reproduces the same result; nothing is stored.
 
 Root
 
-Lemma (Buckwalter)
+Lemma
+
+Written word
 
 From surah
 
@@ -3088,11 +3091,59 @@ Roots .
 The period filter uses the Nöldeke-Bell four-period scheme, one
 chronology among several.
 ●
-Roots and lemmas are the annotators' judgments, not the text itself;
+A lemma typed in Arabic letters is matched on letters only (hamza seats and vowel marks folded), so it can match more than one Buckwalter lemma; the Buckwalter form is exact. A written word is matched on its letters, with vowel marks ignored. Roots and lemmas are the annotators' judgments, not the text itself;
 a different morphological analysis would give different counts. Tokens
 without an annotated root cannot be found by a root query. The
 page reads the same files you can download from
 Export and Datasets .
+
+===== How far apart are two surahs? (https://divinediscourses.org/distance) =====
+
+## How far apart are two surahs?
+
+Each square compares two surahs by the roots they use and how often.
+Darker means the two use more different vocabularies than random
+reassignment of the same verses would give. Click a square, or pick two
+surahs, to see the numbers.
+
+Surah A
+Surah B
+
+Loading…
+
+Hatched squares involve a surah with under 100 rooted tokens.
+
+### Closest and most distant pairs
+
+Pairs where both surahs have at least 500 rooted tokens, so short-text
+noise does not decide the ranking. Both lists are ordered by excess
+over the null, smallest first and largest first; the raw distance is
+shown beside it.
+
+#### Smallest excess (most alike)
+
+Pair Distance Excess
+
+#### Largest excess over the null
+
+Pair Distance Excess
+
+### How to read this
+
+The distance is the square root of the Jensen-Shannon divergence
+between two surahs' root counts, from 0 (same proportions) to 1 (no
+root in common).
+●
+Short surahs look distant from everything by arithmetic alone, so each
+distance is compared with what pooling both surahs' verses and
+reassigning them at random would give (500 draws), and the excess over
+that null is what the colors show. A large excess means different
+vocabularies, not different themes or styles; the null keeps verse
+counts, not token counts, so pairs whose verses differ in length are
+calibrated less well.
+●
+The full table, with p and q values, is on Export
+as surah-distance .
 
 ===== Structural and rhetorical patterns (https://divinediscourses.org/patterns) =====
 
@@ -7499,6 +7550,15 @@ before it was renamed "Study".
 ### 2026
 
 #### October
+
+Query by Arabic, and a surah distance map.
+Query now accepts a lemma in Arabic letters and a
+written word in Arabic (vowel marks ignored). A new page,
+Surah distance , draws the 114 by 114 map of how far
+apart every two surahs are by the roots they use, read against a
+permutation null, with the closest and most distant pairs. The same
+numbers are in the surah-distance export table. No
+published number changed. §
 
 Templates with one open slot. Formulas
 has a new panel listing pairs of words two places apart with any word

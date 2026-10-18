@@ -77,6 +77,7 @@
               <li><a href="/roots">Roots</a></li>
               <li><a href="/words">Words</a></li>
               <li><a href="/query">Query</a></li>
+              <li><a href="/distance">Surah distance</a></li>
               <li><a href="/patterns">Patterns</a></li>
               <li><a href="/formulas">Formulas</a></li>
               <li><a href="/numbers">Numbers</a></li>
@@ -128,8 +129,11 @@
             <label>Root
               <input id="qRoot" name="root" type="text" autocomplete="off" spellcheck="false" placeholder="rHm or r-ḥ-m" />
             </label>
-            <label>Lemma (Buckwalter)
-              <input id="qLemma" name="lemma" type="text" autocomplete="off" spellcheck="false" placeholder="qaAla" />
+            <label>Lemma
+              <input id="qLemma" name="lemma" type="text" autocomplete="off" spellcheck="false" placeholder="qaAla or قال" />
+            </label>
+            <label>Written word
+              <input id="qWord" name="form" type="text" lang="ar" dir="rtl" autocomplete="off" spellcheck="false" placeholder="قال" />
             </label>
             <label>From surah
               <input id="qFrom" name="from" type="number" min="1" max="114" inputmode="numeric" />
@@ -202,7 +206,7 @@
           The period filter uses the Nöldeke-Bell four-period scheme, one
           chronology among several.
           <span class="badge nuanced" data-source-ids="leeds-corpus-v0.4" aria-label="Nuanced" tabindex="0" title="Nuanced · the period assignment is one scheme among several">●</span>
-          Roots and lemmas are the annotators' judgments, not the text itself;
+          A lemma typed in Arabic letters is matched on letters only (hamza seats and vowel marks folded), so it can match more than one Buckwalter lemma; the Buckwalter form is exact. A written word is matched on its letters, with vowel marks ignored. Roots and lemmas are the annotators' judgments, not the text itself;
           a different morphological analysis would give different counts. Tokens
           without an annotated root cannot be found by a root query. The
           page reads the same files you can download from
@@ -284,6 +288,7 @@
     <script src="assets/lang-labels.js" defer></script>
     <script src="assets/trans-picker.js" defer></script>
     <script src="assets/share.js" defer></script>
+    <script src="assets/kwic.js"></script>
     <script src="assets/query-core.js"></script>
     <script src="assets/query.js"></script>
     <script src="assets/cite-badge.js" defer></script>
