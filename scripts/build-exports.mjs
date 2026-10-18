@@ -11,7 +11,7 @@
 // statistics itself, and it does not modify any of those inputs. It only
 // writes new files under data/exports/.
 //
-// Output: 20 tables, each as both a CSV and a JSON array of the same
+// Output: 20 tables (incl. surah-distance, read from data/surah-distance/), each as both a CSV and a JSON array of the same
 // rows — root-frequencies, association-pairs, surah-stats,
 // verse-lengths, formulas, centrality, rhyme-summary, fawatih,
 // discursive-pivots, structure, structure-tests, theme-surah-density,
@@ -745,7 +745,7 @@ const schema = {
     "surah-distance": {
       description: "Jensen-Shannon distance between the root distributions of every pair of surahs (6,441 pairs), with a permutation null so each distance can be read against what chance and surah length alone produce.",
       rowCount: distRows.length,
-      countingRule: "Rooted Leeds tokens only. distance is the square root of the base-2 Jensen-Shannon divergence of the two surahs' root counts (0 to 1). The null pools both surahs' verses, reassigns verses to the two sides at random with side sizes in verses fixed, and recomputes the distance; 500 draws, mulberry32 seed 20261018. permutationP = (1 + draws at least as large as observed) / 501, so the smallest possible value is 0.002. bhQ is Benjamini-Hochberg over all 6,441 pairs. Plug-in Jensen-Shannon distance is biased upward for short surahs, so read excess (distance minus nullMean), not distance alone. lowCount is 1 when either surah has fewer than 100 rooted tokens; those rows are kept and flagged.",
+      countingRule: "Rooted Leeds tokens only. distance is the square root of the base-2 Jensen-Shannon divergence of the two surahs' root counts (0 to 1). The null pools both surahs' verses, reassigns verses to the two sides at random with side sizes in verses (not tokens) fixed, and recomputes the distance; 500 draws, mulberry32 seed 20261018. permutationP = (1 + draws at least as large as observed) / 501, so the smallest possible value is 0.002. bhQ is Benjamini-Hochberg over all 6,441 pairs. Plug-in Jensen-Shannon distance is biased upward for short surahs, so read excess (distance minus nullMean), not distance alone. lowCount is 1 when either surah has fewer than 100 rooted tokens; those rows are kept and flagged.",
       verification: "Verified: direct computation from Leeds morphology by scripts/compute-surah-distance.mjs, hand-computed unit test in scripts/surah-distance.test.mjs. Which pairs count as 'distant' depends on the null chosen; this one holds verse boundaries fixed.",
       fields: [
         { name: "surahA", type: "integer", unit: null, description: "Lower surah number of the pair, 1-114, Cairo order." },

@@ -1,4 +1,6 @@
-// Hand-computed checks for jsDistance and the permutation logic.
+// Hand-computed checks for jsDistance. The permutation null, p-value and
+// Benjamini-Hochberg steps are covered by compute-surah-distance.mjs --check
+// (determinism) and by the documented prototype run, not by unit tests.
 import { jsDistance } from "./lib/surah-distance.mjs";
 
 let failures = 0;

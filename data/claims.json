@@ -512,13 +512,13 @@
    "aiInvolvement": "research-discovery",
    "derivation": {
     "script": "scripts/compute-surah-distance.mjs",
-    "output": "data/exports/surah-distance.json",
+    "output": "data/surah-distance/surah-distance.json",
     "method": "For every pair of surahs, take the root-count vectors over rooted Leeds tokens and compute the square root of the base-2 Jensen-Shannon divergence (scripts/lib/surah-distance.mjs). The null pools both surahs' verses, reassigns verses to the two sides at random with side sizes in verses fixed, and recomputes the distance; 500 draws, mulberry32 seed 20261018. permutationP = (1 + draws at least as large as observed) / 501; bhQ is Benjamini-Hochberg over all 6,441 pairs. Hand-computed unit test: scripts/surah-distance.test.mjs."
    },
    "limitations": [
     "A distance between root distributions says the two surahs use different roots in different proportions; it does not say they differ in theme, meaning or style.",
     "Plug-in Jensen-Shannon distance is biased upward for short surahs, so the raw distance is reported beside a permutation null and the excess is the quantity to read. Pairs where either surah has fewer than 100 rooted tokens are flagged lowCount, not removed.",
-    "The null holds verse boundaries fixed and treats verses as exchangeable; it asks whether the two surahs differ more than random assignment of the same verses would, not whether they differ in any particular respect.",
+    "The null holds verse boundaries and per-side verse counts fixed, not token counts, and treats verses as exchangeable, so pairs whose verses differ in length are calibrated less well; it asks whether the two surahs differ more than random assignment of the same verses would, not whether they differ in any particular respect.",
     "With 500 draws the smallest possible permutationP is 0.002; many long-surah pairs sit at that floor, so p does not rank them.",
     "All inputs inherit the Leeds v0.4 root assignments; a different morphological layer would change the vectors."
    ]

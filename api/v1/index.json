@@ -75,13 +75,13 @@
    "verification": "Verified: direct computation from Leeds morphology by scripts/compute-surah-distance.mjs, hand-computed unit test in scripts/surah-distance.test.mjs. Which pairs count as 'distant' depends on the null chosen; this one holds verse boundaries fixed.",
    "csv": {
     "url": "https://divinediscourses.org/data/exports/surah-distance.csv",
-    "bytes": 328535,
-    "sha256": "bb0d306f1aaf05dd95761f763f159f58b2a7950d65a541db86775acfeed23a66"
+    "bytes": 328515,
+    "sha256": "883efc169165c8c2a7efd87a1db642e2197659711d6f542510157703706ffba6"
    },
    "json": {
     "url": "https://divinediscourses.org/data/exports/surah-distance.json",
-    "bytes": 1069158,
-    "sha256": "05db59d58c2dfa23eae14182133a2945be8a439b4a6977afa2bf0439c1e58b09"
+    "bytes": 1069138,
+    "sha256": "0d8ae218160b53b816d1aee4cdb444a81ac474348bc8591e22ee3e9231529cab"
    }
   },
   {
@@ -347,8 +347,8 @@
    "released": "2026-10-18",
    "tables": 20,
    "url": "https://divinediscourses.org/data/exports/divinediscourses-data-v1.5.0.tar.gz",
-   "bytes": 2182004,
-   "sha256": "ff217b0fe85e091b8709b05c2e8604f093716f92507250d868cf873ed522f888"
+   "bytes": 2181827,
+   "sha256": "213954afcd03d956fe051aa2480ea6f2d0c384e0c94ea3e7b9288cde0555e01a"
   },
   {
    "version": "1.4.0",
