@@ -11,7 +11,7 @@
 // statistics itself, and it does not modify any of those inputs. It only
 // writes new files under data/exports/.
 //
-// Output: 18 tables, each as both a CSV and a JSON array of the same
+// Output: 19 tables, each as both a CSV and a JSON array of the same
 // rows — root-frequencies, association-pairs, surah-stats,
 // verse-lengths, formulas, centrality, rhyme-summary, fawatih,
 // discursive-pivots, structure, structure-tests, theme-surah-density,
@@ -38,6 +38,7 @@ import { fileURLToPath } from "url";
 import { safeKey } from "./lib/safe-key.mjs";
 import { computedDate } from "./lib/computed-date.mjs";
 import { TOTAL_VERSES, TOTAL_TOKENS, TOTAL_ROOTS } from "./lib/corpus.mjs";
+import { cells, logDice, tScore, logOddsRatio, deltaP } from "./lib/association-measures.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
@@ -154,8 +155,10 @@ function pairKey(a, b) {
 
 const seenPairs = new Set();
 const pairRows = [];
+const rootVerseCount = new Map(); // root -> verses attesting it (the 2x2 marginal)
 for (const f of assocFiles) {
   const data = JSON.parse(readFileSync(join(ASSOC, f), "utf8"));
+  rootVerseCount.set(data.root, data.verseCount);
   for (const p of data.partners || []) {
     const key = pairKey(data.root, p.root);
     if (seenPairs.has(key)) continue;
@@ -188,6 +191,56 @@ const pairColumns = [
   "llr",
 ];
 writeTable("association-pairs", pairRows, pairColumns);
+
+// ── Table 2b: association-extended (same pairs, more measures) ──────────
+// Same unordered pairs, same row order and same orientation (rootA, rootB)
+// as association-pairs, so the two tables join row for row. The marginals
+// come from each root's verseCount in data/association/*.json; the joint
+// count is the published sharedVerses. No corpus rescan, no new inputs.
+
+console.log("\nBuilding association-extended…");
+const round = (x, d) => Math.round(x * 10 ** d) / 10 ** d;
+const extRows = pairRows.map((p) => {
+  const fA = rootVerseCount.get(p.rootA);
+  const fB = rootVerseCount.get(p.rootB);
+  if (!fA || !fB) throw new Error(`Missing verseCount for ${p.rootA} or ${p.rootB}. STOPPING.`);
+  const c = cells(p.sharedVerses, fA, fB, TOTAL_VERSES);
+  const lor = logOddsRatio(c);
+  const dp = deltaP(c);
+  return {
+    rootA: p.rootA,
+    rootASafeKey: p.rootASafeKey,
+    rootB: p.rootB,
+    rootBSafeKey: p.rootBSafeKey,
+    sharedVerses: p.sharedVerses,
+    versesA: fA,
+    versesB: fB,
+    logDice: round(logDice(c), 3),
+    tScore: round(tScore(c), 2),
+    logOddsRatio: round(lor.lor, 3),
+    logOddsRatioLo95: round(lor.lo, 3),
+    logOddsRatioHi95: round(lor.hi, 3),
+    deltaP_BgivenA: round(dp.bGivenA, 4),
+    deltaP_AgivenB: round(dp.aGivenB, 4),
+  };
+});
+const extColumns = [
+  "rootA",
+  "rootASafeKey",
+  "rootB",
+  "rootBSafeKey",
+  "sharedVerses",
+  "versesA",
+  "versesB",
+  "logDice",
+  "tScore",
+  "logOddsRatio",
+  "logOddsRatioLo95",
+  "logOddsRatioHi95",
+  "deltaP_BgivenA",
+  "deltaP_AgivenB",
+];
+writeTable("association-extended", extRows, extColumns);
 
 // ── Table 3: surah-stats (surah-profiles.json + chronology + names) ────
 
@@ -643,6 +696,28 @@ const schema = {
         { name: "pmi", type: "number", unit: "bits (log base 2)", description: "Pointwise mutual information: log2((k11*N)/((k11+k12)*(k11+k21))), N=6,236, rounded to 2 decimals." },
         { name: "dice", type: "number", unit: null, description: "Dice coefficient: 2*k11/(2*k11+k12+k21), rounded to 3 decimals." },
         { name: "llr", type: "number", unit: null, description: "Dunning's log-likelihood ratio (G2) over the pair's verse-level 2x2 table, rounded to 2 decimals." },
+      ],
+    },
+    "association-extended": {
+      description: "Four further root-pair association measures (logDice, t-score, log odds ratio with a 95% interval, directional deltaP) for exactly the pairs in association-pairs, in the same order and orientation.",
+      rowCount: extRows.length,
+      countingRule: "Same verse-level 2x2 table as association-pairs (N = 6,236 verses; a root occurs in a verse if any token carries it). sharedVerses is k11; versesA and versesB are each root's verse count (the marginals). Same pair set as association-pairs: top 25 partners per root by LLR with at least 5 shared verses, so this is not the complete set of qualifying pairs. Measures disagree about rank order by design; no single measure is presented as correct.",
+      verification: "Verified: direct computation from published counts by scripts/lib/association-measures.mjs, hand-computed unit test in scripts/association-measures.test.mjs. Which measure to prefer for a given question is method-dependent.",
+      fields: [
+        { name: "rootA", type: "string", unit: null, description: "First root of the pair (Buckwalter); identical to association-pairs.rootA for the same row." },
+        { name: "rootASafeKey", type: "string", unit: null, description: "URL/filename-safe encoding of rootA." },
+        { name: "rootB", type: "string", unit: null, description: "Second root of the pair (Buckwalter)." },
+        { name: "rootBSafeKey", type: "string", unit: null, description: "URL/filename-safe encoding of rootB." },
+        { name: "sharedVerses", type: "integer", unit: "verses", description: "k11: verses in which both roots are attested." },
+        { name: "versesA", type: "integer", unit: "verses", description: "Verses in which rootA is attested." },
+        { name: "versesB", type: "integer", unit: "verses", description: "Verses in which rootB is attested." },
+        { name: "logDice", type: "number", unit: null, description: "14 + log2(2*k11/(versesA+versesB)), Rychly 2008; at most 14, independent of corpus size. Rounded to 3 decimals." },
+        { name: "tScore", type: "number", unit: null, description: "(k11 - E11)/sqrt(k11) where E11 = versesA*versesB/N. Rounded to 2 decimals." },
+        { name: "logOddsRatio", type: "number", unit: "natural log", description: "ln((k11+0.5)(k22+0.5)/((k12+0.5)(k21+0.5))), Haldane-Anscombe correction. Rounded to 3 decimals." },
+        { name: "logOddsRatioLo95", type: "number", unit: "natural log", description: "Lower end of a Wald 95% interval for logOddsRatio (estimate minus 1.96*sqrt(sum 1/(cell+0.5))). Rounded to 3 decimals." },
+        { name: "logOddsRatioHi95", type: "number", unit: "natural log", description: "Upper end of the same interval. Rounded to 3 decimals." },
+        { name: "deltaP_BgivenA", type: "number", unit: null, description: "P(rootB in verse | rootA in verse) minus P(rootB | rootA absent). Rounded to 4 decimals. Asymmetric: differs from deltaP_AgivenB." },
+        { name: "deltaP_AgivenB", type: "number", unit: null, description: "P(rootA | rootB in verse) minus P(rootA | rootB absent). Rounded to 4 decimals." },
       ],
     },
     "surah-stats": {

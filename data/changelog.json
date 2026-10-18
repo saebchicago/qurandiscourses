@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-10-extended-association-measures",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Four more ways to score a root pair, and version 1.4.0.</strong>\n              The <a href=\"/export\">Export</a> page has a nineteenth table, <code>association-extended</code>:\n              logDice, t-score, a log odds ratio with a 95% interval, and a\n              directional deltaP for the same 5,211 root pairs as the existing\n              association table, row for row. The measures disagree about which\n              pairs rank highest, and the site does not choose between them.\n              Nothing already published changed; the other eighteen tables are\n              byte-identical. The new archive is v1.4.0; earlier archives stay\n              available."
+  },
+  {
    "id": "2026-10-credits-and-notices",
    "year": "2026",
    "month": "October",

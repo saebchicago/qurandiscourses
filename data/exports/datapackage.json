@@ -1,8 +1,8 @@
 {
  "name": "divinediscourses-exports",
  "title": "Divine Discourses public export tables",
- "version": "1.3.1",
- "created": "2026-10-01",
+ "version": "1.4.0",
+ "created": "2026-10-18",
  "homepage": "https://divinediscourses.org/export",
  "licenses": [
   {
@@ -24,6 +24,89 @@
   }
  ],
  "resources": [
+  {
+   "name": "association-extended",
+   "title": "Divine Discourses: association-extended",
+   "description": "Four further root-pair association measures (logDice, t-score, log odds ratio with a 95% interval, directional deltaP) for exactly the pairs in association-pairs, in the same order and orientation.",
+   "path": "association-extended.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "rootA",
+      "type": "string",
+      "description": "First root of the pair (Buckwalter); identical to association-pairs.rootA for the same row."
+     },
+     {
+      "name": "rootASafeKey",
+      "type": "string",
+      "description": "URL/filename-safe encoding of rootA."
+     },
+     {
+      "name": "rootB",
+      "type": "string",
+      "description": "Second root of the pair (Buckwalter)."
+     },
+     {
+      "name": "rootBSafeKey",
+      "type": "string",
+      "description": "URL/filename-safe encoding of rootB."
+     },
+     {
+      "name": "sharedVerses",
+      "type": "integer",
+      "description": "k11: verses in which both roots are attested. Unit: verses."
+     },
+     {
+      "name": "versesA",
+      "type": "integer",
+      "description": "Verses in which rootA is attested. Unit: verses."
+     },
+     {
+      "name": "versesB",
+      "type": "integer",
+      "description": "Verses in which rootB is attested. Unit: verses."
+     },
+     {
+      "name": "logDice",
+      "type": "number",
+      "description": "14 + log2(2*k11/(versesA+versesB)), Rychly 2008; at most 14, independent of corpus size. Rounded to 3 decimals."
+     },
+     {
+      "name": "tScore",
+      "type": "number",
+      "description": "(k11 - E11)/sqrt(k11) where E11 = versesA*versesB/N. Rounded to 2 decimals."
+     },
+     {
+      "name": "logOddsRatio",
+      "type": "number",
+      "description": "ln((k11+0.5)(k22+0.5)/((k12+0.5)(k21+0.5))), Haldane-Anscombe correction. Rounded to 3 decimals. Unit: natural log."
+     },
+     {
+      "name": "logOddsRatioLo95",
+      "type": "number",
+      "description": "Lower end of a Wald 95% interval for logOddsRatio (estimate minus 1.96*sqrt(sum 1/(cell+0.5))). Rounded to 3 decimals. Unit: natural log."
+     },
+     {
+      "name": "logOddsRatioHi95",
+      "type": "number",
+      "description": "Upper end of the same interval. Rounded to 3 decimals. Unit: natural log."
+     },
+     {
+      "name": "deltaP_BgivenA",
+      "type": "number",
+      "description": "P(rootB in verse | rootA in verse) minus P(rootB | rootA absent). Rounded to 4 decimals. Asymmetric: differs from deltaP_AgivenB."
+     },
+     {
+      "name": "deltaP_AgivenB",
+      "type": "number",
+      "description": "P(rootA | rootB in verse) minus P(rootA | rootB absent). Rounded to 4 decimals."
+     }
+    ]
+   }
+  },
   {
    "name": "association-pairs",
    "title": "Divine Discourses: association-pairs",

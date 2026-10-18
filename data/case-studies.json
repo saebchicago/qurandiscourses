@@ -250,6 +250,17 @@
    "onHome": false,
    "claim": "j-h-m (Hellfire) occurs in 18 of 114 surahs -- moderate by plain range -- but its normalized Deviation of Proportions is 0.7989, near the top of the ranking-eligible range, because those 18 surahs are disproportionately short.",
    "traceFull": "<strong>Source trace.</strong> Computed by <code>scripts/compute-dispersion.mjs</code>, written to <code>data/dispersion/juHm.json</code>. Method note in <code>data/dispersion/methods.json</code>. Panel on the <a href=\"roots.html?root=juHm\">root detail view</a>; ranking table on <a href=\"numbers.html#dispersion\">Numbers</a>."
+  },
+  {
+   "id": "association-extended-measures",
+   "claimId": "claim.association.extended-measures.v1",
+   "label": "nuanced",
+   "labelText": "Nuanced",
+   "title": "extended association measures",
+   "sourceIds": "leeds-corpus-v0.4 rychly-2008-logdice",
+   "onHome": false,
+   "claim": "For gh-f-r and r-h-m (91 shared verses; gh-f-r in 202 verses, r-h-m in 313), the extended table gives logDice 12.50, t-score 8.48, log odds ratio 3.07 (95% interval 2.76 to 3.37), and deltaP 0.414 (r-h-m given gh-f-r) against 0.272 (gh-f-r given r-h-m). The measures rank pairs differently by design.",
+   "traceFull": "<strong>Source trace.</strong> Computed by <code>scripts/build-exports.mjs</code> with <code>scripts/lib/association-measures.mjs</code> from the published verse counts, written to <code>data/exports/association-extended.json</code>. logDice follows Rychlý (2008). Checked against a hand-computed 2x2 table in <code>scripts/association-measures.test.mjs</code>. Download on <a href=\"export.html\">Export</a>."
   }
  ]
 }
