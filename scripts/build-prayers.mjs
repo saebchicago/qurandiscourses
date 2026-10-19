@@ -69,6 +69,7 @@ for (let s = 1; s <= 114; s++) {
       if (w.lemma !== "rab~" || !/(نا|نآ)$/.test(plain(w.ar))) return;
       const kind = vowelOnBa(w.ar);
       if (kind === "nominative" || kind === "genitive") { stateForms[kind]++; return; }
+      if (kind === "none") throw new Error(`build-prayers: no vowel found on the ba of ${w.ar} at ${s}:${ayah}; refusing to drop it silently`);
       if (kind !== "accusative") return;
       const prev = i ? words[i - 1].lemma : "";
       if (NOT_VOCATIVE_AFTER[prev]) {

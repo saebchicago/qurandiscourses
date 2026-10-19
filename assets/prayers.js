@@ -85,10 +85,11 @@
         $("pNom").textContent = v.nominativeForms.toLocaleString();
         $("pGen").textContent = v.genitiveForms.toLocaleString();
         $("pPeriods").textContent =
-          "By the period the site assigns to the surah (periods are contested; see Sources): " +
+          "By the period the site assigns to the surah, with the number of verses in each period (periods are contested, and they differ a lot in size; see Sources): " +
           Object.keys(PERIODS)
-            .filter(function (p) { return v.byPeriod[p]; })
-            .map(function (p) { return PERIODS[p] + " " + v.byPeriod[p]; })
+            .map(function (p) {
+              return PERIODS[p] + " " + (v.byPeriod[p] || 0) + " of " + (d.totals.versesPerPeriod[p] || 0).toLocaleString() + " verses";
+            })
             .join(", ") + ".";
         drawVerses(v);
         drawNext(v);
