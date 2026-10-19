@@ -1302,7 +1302,7 @@
                               ? "permutation p " + verdict[p.period + "|" + r.root].permutationP + ", BH q " + verdict[p.period + "|" + r.root].bhQ
                               : "") +
                             '">' +
-                            (verdict[p.period + "|" + r.root] ? (verdict[p.period + "|" + r.root].passes ? "\u2713" : "\u2013") : "") +
+                            (verdict[p.period + "|" + r.root] ? (verdict[p.period + "|" + r.root].passes ? (verdict[p.period + "|" + r.root].direction === "depleted" ? "\u2713 under-used" : "\u2713") : "\u2013") : "") +
                             "</td>"
                           : "") +
                         "</tr>"

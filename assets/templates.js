@@ -87,7 +87,8 @@
 
   function pickShape() {
     var slots = Number(el("tplWidth").value) || 1;
-    shape = data.shapes.filter(function (s) { return s.slots === slots; })[0] || data.shapes[0];
+    shape = (data.shapes || []).filter(function (s) { return s.slots === slots; })[0];
+    if (!shape) throw new Error("no " + slots + "-slot block in the data file");
   }
 
   function refresh() {

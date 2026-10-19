@@ -616,11 +616,8 @@
  "sourceRegistryBlockers": [],
  "sourceUsage": {
   "totalSources": 48,
-  "used": 42,
+  "used": 45,
   "unusedIds": [
-   "benjamini-hochberg-1995",
-   "cochran-1954-combination",
-   "dunning-1993-g2",
    "qul",
    "qul-mutashabihat",
    "rychly-2008-logdice"

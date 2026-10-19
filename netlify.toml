@@ -486,12 +486,12 @@
 [[headers]]
   for = "/numbers.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-CaM5q4xqT2NHWa56q/4/8Eqg+ZTZH3p/S7fvOBvfnso=' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-LSvvrG9gZIVbvBCgLhtQ08iFnVfLJkGanYmBzr0ZXgc='; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://api.alquran.cloud https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-1OhJjtbJY+WK9MqjX/QKDqdfz8geqoCx+rPLJCN2Fyc=' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-LSvvrG9gZIVbvBCgLhtQ08iFnVfLJkGanYmBzr0ZXgc='; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://api.alquran.cloud https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/numbers"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-CaM5q4xqT2NHWa56q/4/8Eqg+ZTZH3p/S7fvOBvfnso=' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-LSvvrG9gZIVbvBCgLhtQ08iFnVfLJkGanYmBzr0ZXgc='; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://api.alquran.cloud https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-1OhJjtbJY+WK9MqjX/QKDqdfz8geqoCx+rPLJCN2Fyc=' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'sha256-LSvvrG9gZIVbvBCgLhtQ08iFnVfLJkGanYmBzr0ZXgc='; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://api.alquran.cloud https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; media-src 'self' https://cdn.islamic.network; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/paths.html"
