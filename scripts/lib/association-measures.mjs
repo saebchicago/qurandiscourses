@@ -50,3 +50,17 @@ export function deltaP({ k11, k12, k21, k22 }) {
     aGivenB: k11 / (k11 + k21) - k12 / (k12 + k22),
   };
 }
+
+/**
+ * Cochran's Q for the homogeneity of several log odds ratios: do the periods
+ * estimate one common association? Inverse-variance weights, Q = sum w_i
+ * (lor_i - pooled)^2, referred to chi-square with (n - 1) degrees of freedom.
+ * `estimates` is [{ lor, se }], se > 0. Returns { q, df, pooled }.
+ */
+export function cochranQ(estimates) {
+  const w = estimates.map((e) => 1 / (e.se * e.se));
+  const sw = w.reduce((a, b) => a + b, 0);
+  const pooled = estimates.reduce((s, e, i) => s + w[i] * e.lor, 0) / sw;
+  const q = estimates.reduce((s, e, i) => s + w[i] * (e.lor - pooled) ** 2, 0);
+  return { q, df: estimates.length - 1, pooled };
+}

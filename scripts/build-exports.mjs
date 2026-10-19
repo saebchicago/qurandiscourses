@@ -11,7 +11,7 @@
 // statistics itself, and it does not modify any of those inputs. It only
 // writes new files under data/exports/.
 //
-// Output: 20 tables (incl. surah-distance, read from data/surah-distance/), each as both a CSV and a JSON array of the same
+// Output: 22 tables (incl. surah-distance, read from data/surah-distance/), each as both a CSV and a JSON array of the same
 // rows — root-frequencies, association-pairs, surah-stats,
 // verse-lengths, formulas, centrality, rhyme-summary, fawatih,
 // discursive-pivots, structure, structure-tests, theme-surah-density,
@@ -39,6 +39,7 @@ import { safeKey } from "./lib/safe-key.mjs";
 import { computedDate } from "./lib/computed-date.mjs";
 import { TOTAL_VERSES, TOTAL_TOKENS, TOTAL_ROOTS } from "./lib/corpus.mjs";
 import { cells, logDice, tScore, logOddsRatio, deltaP } from "./lib/association-measures.mjs";
+import { associationByPeriod, PERIODS as ASSOC_PERIODS } from "./lib/association-by-period.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
@@ -263,6 +264,38 @@ const distRows = distJson.pairs.map((p) => ({
 }));
 const distColumns = ["surahA", "surahB", "rootedTokensA", "rootedTokensB", "distance", "nullMean", "excess", "permutationP", "bhQ", "lowCount"];
 writeTable("surah-distance", distRows, distColumns);
+
+// ── Table 2d: keyness-period (every root x period, with a surah-level null) ─
+// Read from data/keyness/period-keyness.json, written by
+// scripts/compute-period-keyness.mjs (100,000 permutations; too slow to repeat).
+
+console.log("\nBuilding keyness-period…");
+const keyJson = JSON.parse(readFileSync(join(ROOT, "data", "keyness", "period-keyness.json"), "utf8"));
+const keyRows = keyJson.rows.map((r) => ({
+  root: r.root,
+  rootSafeKey: safeKey(r.root),
+  period: r.period,
+  count: r.count,
+  countRest: r.countRest,
+  g2: r.g2,
+  direction: r.direction,
+  permutationP: r.permutationP,
+  bhQ: r.bhQ,
+}));
+const keyColumns = ["root", "rootSafeKey", "period", "count", "countRest", "g2", "direction", "permutationP", "bhQ"];
+writeTable("keyness-period", keyRows, keyColumns);
+
+// ── Table 2e: association-by-period (each pair of association-pairs, per period) ─
+// Rebuilt here from the per-root verse lists by lib/association-by-period.mjs;
+// needs association-pairs.csv, written above.
+
+console.log("\nBuilding association-by-period…");
+const abp = associationByPeriod(ROOT);
+const abpColumns = ["rootA", "rootASafeKey", "rootB", "rootBSafeKey"];
+for (const per of ASSOC_PERIODS) abpColumns.push(`shared_${per}`);
+for (const per of ASSOC_PERIODS) abpColumns.push(`logOddsRatio_${per}`, `lo95_${per}`, `hi95_${per}`);
+abpColumns.push("periodsCompared", "heterogeneityQ", "heterogeneityP", "heterogeneityBhQ");
+writeTable("association-by-period", abp.rows, abpColumns);
 
 // ── Table 3: surah-stats (surah-profiles.json + chronology + names) ────
 
@@ -745,7 +778,7 @@ const schema = {
     "surah-distance": {
       description: "Jensen-Shannon distance between the root distributions of every pair of surahs (6,441 pairs), with a permutation null so each distance can be read against what chance and surah length alone produce.",
       rowCount: distRows.length,
-      countingRule: "Rooted Leeds tokens only. distance is the square root of the base-2 Jensen-Shannon divergence of the two surahs' root counts (0 to 1). The null pools both surahs' verses, reassigns verses to the two sides at random with side sizes in verses (not tokens) fixed, and recomputes the distance; 500 draws, mulberry32 seed 20261018. permutationP = (1 + draws at least as large as observed) / 501, so the smallest possible value is 0.002. bhQ is Benjamini-Hochberg over all 6,441 pairs. Plug-in Jensen-Shannon distance is biased upward for short surahs, so read excess (distance minus nullMean), not distance alone. lowCount is 1 when either surah has fewer than 100 rooted tokens; those rows are kept and flagged.",
+      countingRule: "Rooted Leeds tokens only. distance is the square root of the base-2 Jensen-Shannon divergence of the two surahs' root counts (0 to 1). The null pools both surahs' verses, reassigns verses to the two sides at random with side sizes in verses (not tokens) fixed, and recomputes the distance; 2,000 draws, mulberry32 seed 20261018. permutationP = (1 + draws at least as large as observed) / 2,001, so the smallest possible value is 0.0005. bhQ is Benjamini-Hochberg over all 6,441 pairs. Plug-in Jensen-Shannon distance is biased upward for short surahs, so read excess (distance minus nullMean), not distance alone. lowCount is 1 when either surah has fewer than 100 rooted tokens; those rows are kept and flagged.",
       verification: "Verified: direct computation from Leeds morphology by scripts/compute-surah-distance.mjs, hand-computed unit test in scripts/surah-distance.test.mjs. Which pairs count as 'distant' depends on the null chosen; this one holds verse boundaries fixed.",
       fields: [
         { name: "surahA", type: "integer", unit: null, description: "Lower surah number of the pair, 1-114, Cairo order." },
@@ -753,11 +786,60 @@ const schema = {
         { name: "rootedTokensA", type: "integer", unit: "tokens", description: "Tokens of surahA with an annotated root." },
         { name: "rootedTokensB", type: "integer", unit: "tokens", description: "Tokens of surahB with an annotated root." },
         { name: "distance", type: "number", unit: null, description: "sqrt of base-2 Jensen-Shannon divergence between the two root distributions; 0 identical, 1 no shared root. Rounded to 4 decimals." },
-        { name: "nullMean", type: "number", unit: null, description: "Mean distance over 500 draws of the permutation null. Rounded to 4 decimals." },
+        { name: "nullMean", type: "number", unit: null, description: "Mean distance over 2,000 draws of the permutation null. Rounded to 4 decimals." },
         { name: "excess", type: "number", unit: null, description: "distance minus nullMean. Rounded to 4 decimals." },
-        { name: "permutationP", type: "number", unit: null, description: "One-sided permutation p-value, (1 + draws with null distance >= observed) / 501. Rounded to 5 decimals." },
+        { name: "permutationP", type: "number", unit: null, description: "One-sided permutation p-value, (1 + draws with null distance >= observed) / 2,001. Rounded to 5 decimals." },
         { name: "bhQ", type: "number", unit: null, description: "Benjamini-Hochberg adjusted q-value over all 6,441 pairs. Rounded to 5 decimals." },
         { name: "lowCount", type: "integer", unit: "0 or 1", description: "1 when either surah has fewer than 100 rooted tokens." },
+      ],
+    },
+    "keyness-period": {
+      description: "Dunning G2 keyness of every root (1,642) in each of the four revelation periods (6,568 root-period tests), with a permutation p-value that assigns whole surahs to periods at random, and a Benjamini-Hochberg q.",
+      rowCount: keyRows.length,
+      countingRule: "G2 is the token-level 2x2 of root-in-period against root-elsewhere, all Leeds tokens as the universe (the statistic of scripts/compute-association-stats.mjs). permutationP = (1 + draws with G2 at least as large as observed) / 100,001 over 100,000 random assignments of the 114 surahs to the four periods with each period's surah count held fixed (mulberry32 seed 20261018), so the smallest possible value is 1e-5. bhQ is Benjamini-Hochberg over all 6,568 tests. direction says whether the root is used more (enriched) or less (depleted) in the period than elsewhere. Roots share surahs, so the tests are strongly dependent: the file's calibration block reports how often relabelled chronologies pass anything.",
+      verification: "Verified: direct computation from Leeds morphology by scripts/compute-period-keyness.mjs, hand-checked G2 and an exact-enumeration check of the Monte Carlo p in scripts/keyness.test.mjs. Nuanced: the period assignment is the Noldeke-Bell four-period scheme, one chronology among several; every figure is conditional on it.",
+      fields: [
+        { name: "root", type: "string", unit: null, description: "Root (Buckwalter)." },
+        { name: "rootSafeKey", type: "string", unit: null, description: "URL/filename-safe encoding of root." },
+        { name: "period", type: "string", unit: null, description: "One of meccan-early, meccan-middle, meccan-late, medinan." },
+        { name: "count", type: "integer", unit: "tokens", description: "Occurrences of the root in the period." },
+        { name: "countRest", type: "integer", unit: "tokens", description: "Occurrences of the root in the other three periods." },
+        { name: "g2", type: "number", unit: null, description: "Dunning's G2 for period against rest, rounded to 3 decimals." },
+        { name: "direction", type: "string", unit: null, description: "enriched or depleted: the root's rate in the period against its rate elsewhere." },
+        { name: "permutationP", type: "number", unit: null, description: "One-sided permutation p-value over 100,000 surah-to-period reassignments, rounded to 6 decimals; at least 0.00001." },
+        { name: "bhQ", type: "number", unit: null, description: "Benjamini-Hochberg q over all 6,568 root-period tests, rounded to 6 decimals." },
+      ],
+    },
+    "association-by-period": {
+      description: "For every pair in association-pairs, the verse-level log odds ratio with a 95% interval inside each revelation period, and Cochran's Q test of whether the four periods agree on one association.",
+      rowCount: abp.rows.length,
+      countingRule: "Same pairs as association-pairs. Inside each period the 2x2 uses that period's verse count as N and a root occurs in a verse if any token carries it; a period is left empty when either root has no verse in it. shared_* are joint verse counts and always sum to association-pairs.sharedVerses. Cochran's Q uses inverse-variance weights over the periods compared, heterogeneityP is its chi-square tail with (periodsCompared - 1) degrees of freedom, and heterogeneityBhQ is Benjamini-Hochberg over all pairs. Periods hold 603, 1,401, 2,609 and 1,623 verses, so late-Meccan intervals are narrow and early-Meccan ones wide.",
+      verification: "Verified: direct computation from Leeds morphology by scripts/lib/association-by-period.mjs, with a sample of pairs recounted independently from the token files in scripts/association-by-period.test.mjs. Nuanced: the period assignment is the Noldeke-Bell four-period scheme, one chronology among several. A non-significant Q means the data cannot tell the periods apart, not that they are the same.",
+      fields: [
+        { name: "rootA", type: "string", unit: null, description: "First root of the pair (Buckwalter); the same orientation as association-pairs." },
+        { name: "rootASafeKey", type: "string", unit: null, description: "URL/filename-safe encoding of rootA." },
+        { name: "rootB", type: "string", unit: null, description: "Second root of the pair (Buckwalter)." },
+        { name: "rootBSafeKey", type: "string", unit: null, description: "URL/filename-safe encoding of rootB." },
+        { name: "shared_meccan-early", type: "integer", unit: "verses", description: "Verses of the Early Meccan period in which both roots occur." },
+        { name: "shared_meccan-middle", type: "integer", unit: "verses", description: "Same, Middle Meccan." },
+        { name: "shared_meccan-late", type: "integer", unit: "verses", description: "Same, Late Meccan." },
+        { name: "shared_medinan", type: "integer", unit: "verses", description: "Same, Medinan." },
+        { name: "logOddsRatio_meccan-early", type: "number", unit: "natural log", description: "Haldane-Anscombe log odds ratio inside the period; empty when either root has no verse there. Rounded to 3 decimals." },
+        { name: "lo95_meccan-early", type: "number", unit: "natural log", description: "Lower end of the Wald 95% interval for the period's log odds ratio." },
+        { name: "hi95_meccan-early", type: "number", unit: "natural log", description: "Upper end of the same interval." },
+        { name: "logOddsRatio_meccan-middle", type: "number", unit: "natural log", description: "As above, Middle Meccan." },
+        { name: "lo95_meccan-middle", type: "number", unit: "natural log", description: "Lower interval end, Middle Meccan." },
+        { name: "hi95_meccan-middle", type: "number", unit: "natural log", description: "Upper interval end, Middle Meccan." },
+        { name: "logOddsRatio_meccan-late", type: "number", unit: "natural log", description: "As above, Late Meccan." },
+        { name: "lo95_meccan-late", type: "number", unit: "natural log", description: "Lower interval end, Late Meccan." },
+        { name: "hi95_meccan-late", type: "number", unit: "natural log", description: "Upper interval end, Late Meccan." },
+        { name: "logOddsRatio_medinan", type: "number", unit: "natural log", description: "As above, Medinan." },
+        { name: "lo95_medinan", type: "number", unit: "natural log", description: "Lower interval end, Medinan." },
+        { name: "hi95_medinan", type: "number", unit: "natural log", description: "Upper interval end, Medinan." },
+        { name: "periodsCompared", type: "integer", unit: "periods", description: "Number of periods in which both roots occur (0 to 4)." },
+        { name: "heterogeneityQ", type: "number", unit: null, description: "Cochran's Q over the periods compared; empty when fewer than two. Rounded to 3 decimals." },
+        { name: "heterogeneityP", type: "number", unit: null, description: "Chi-square upper tail of Q with (periodsCompared - 1) degrees of freedom, 3 significant digits." },
+        { name: "heterogeneityBhQ", type: "number", unit: null, description: "Benjamini-Hochberg q over all pairs with a Q, 3 significant digits. Rows are ordered by this value." },
       ],
     },
     "surah-stats": {

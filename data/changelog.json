@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-10-period-analyses",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Four more analyses, tested against noise, and version 1.6.0.</strong>\n              <a href=\"/numbers\">Numbers</a> now marks which of the roots listed as most key for a\n              revelation period stay key when whole surahs are reassigned to periods at random:\n              132 of 6,568 root-period tests do, and only 9, 5, 5 and 14 of the 15 listed roots\n              for the four periods. The <a href=\"/export\">Export</a> page has two new tables,\n              <code>keyness-period</code> and <code>association-by-period</code> (whether a root\n              pair's association is the same in every period; 14 of 5,203 pairs differ, from a\n              conservative test). <a href=\"/formulas\">Formulas</a> now covers templates with two\n              and three open slots as well as one. <a href=\"/validation\">Validation</a> has a new\n              section showing what each of these methods reports on data where there is nothing\n              to find. The surah-distance null now uses 2,000 draws instead of 500, so its\n              p-values can go lower (a surah pair's smallest possible p is now 0.0005); the\n              distances changed in the third or fourth decimal."
+  },
+  {
    "id": "2026-10-query-distance-polish",
    "year": "2026",
    "month": "October",

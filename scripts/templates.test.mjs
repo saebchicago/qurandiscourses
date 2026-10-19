@@ -49,6 +49,20 @@ for (const cs of cases) {
 }
 near(expectedSupport(indexVerses([{ s: 1, v: 1, t: [0, 1, 0] }]), 0, 0), 1 / 3, "a==c hand value 1/3");
 
+// The same exact-mean check for wider gaps (two and three open slots).
+for (const gap of [3, 4]) {
+  for (const cs of [{ t: [0, 1, 2, 3, 4], a: 0, c: 3 }, { t: [0, 1, 0, 1, 0], a: 0, c: 0 }, { t: [0, 0, 1, 2, 0, 3], a: 0, c: 0 }]) {
+    const idx = indexVerses([{ s: 1, v: 1, t: cs.t }]);
+    const perms = permutations(cs.t);
+    let total = 0;
+    for (const p of perms) {
+      const o = observe([{ s: 1, v: 1, t: p }], 10, gap).get(cs.a * 10 + cs.c);
+      total += o ? o.k : 0;
+    }
+    near(expectedSupport(idx, cs.a, cs.c, gap), total / perms.length, `expected gap ${gap} ${JSON.stringify(cs.t)} ${cs.a}_${cs.c}`);
+  }
+}
+
 // A planted template is found; a fixed trigram (one filler) is not a candidate.
 const verses = [];
 for (let i = 0; i < 12; i++) verses.push({ s: 1, v: i + 1, t: [5, 10 + (i % 3), 6, 20 + i, 21 + i] });   // 5 _ 6, three fillers

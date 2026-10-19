@@ -214,7 +214,7 @@ if (!LOCAL) {
   const r = await get(BASE + "/api/v1/index.json");
   let index = null;
   try { index = r.status === 200 ? await r.json() : null; } catch {}
-  check("api/v1/index.json answers with an index", !!index && Array.isArray(index.tables) && index.tables.length >= 19, `${r.status}, ${index?.tables?.length ?? 0} tables, v${index?.version ?? "?"}`);
+  check("api/v1/index.json answers with an index", !!index && Array.isArray(index.tables) && index.tables.length >= 22, `${r.status}, ${index?.tables?.length ?? 0} tables, v${index?.version ?? "?"}`);
   if (!LOCAL) {
     check("api/v1/index.json is readable cross-origin", r.headers.get("access-control-allow-origin") === "*", r.headers.get("access-control-allow-origin") || "(no header)");
   } else out("SKIP", "api/v1 CORS header", "--local");
@@ -244,6 +244,8 @@ if (!LOCAL) {
   check("concordance inputs are served (root-analytics, morphology)", ra.status === 200 && (await get(BASE + "/data/morphology/1.json")).status === 200, String(ra.status));
   const qp = await text(BASE + "/query");
   check("query page is served with its form and scripts", qp.r.status === 200 && /id="qForm"/.test(qp.body) && /src="assets\/query-core\.js"/.test(qp.body), String(qp.r.status));
+  const cal = await get(BASE + "/data/calibration/report.json");
+  check("calibration report and period keyness are served", cal.status === 200 && (await get(BASE + "/data/keyness/period-keyness.json")).status === 200, String(cal.status));
   const dp = await text(BASE + "/distance");
   check("distance page is served with its map and script", dp.r.status === 200 && /id="dMap"/.test(dp.body) && /src="assets\/distance\.js"/.test(dp.body), String(dp.r.status));
   const qc = await text(BASE + "/assets/query-core.js");

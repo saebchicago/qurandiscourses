@@ -9,7 +9,7 @@
 
 import test from "node:test";
 import assert from "node:assert/strict";
-import { cells, logDice, tScore, logOddsRatio, deltaP } from "./lib/association-measures.mjs";
+import { cochranQ, cells, logDice, tScore, logOddsRatio, deltaP } from "./lib/association-measures.mjs";
 
 const near = (got, want) => assert.ok(Math.abs(got - want) < 1e-9, `got ${got}, want ${want}`);
 const c = cells(10, 15, 15, 30);
@@ -34,4 +34,16 @@ test("logOR centre and interval", () => {
   near(r.lor, Math.log((10.5 * 10.5) / (5.5 * 5.5)));
   near(r.hi - r.lor, r.lor - r.lo);
   assert.ok(r.lo < r.lor && r.lor < r.hi);
+});
+
+test("cochranQ by hand", () => {
+  // Two estimates 0 and 2, each with se 1: weights 1 and 1, pooled 1, Q = 1 + 1 = 2, df 1.
+  const r = cochranQ([{ lor: 0, se: 1 }, { lor: 2, se: 1 }]);
+  near(r.q, 2);
+  near(r.pooled, 1);
+  assert.equal(r.df, 1);
+  // Identical estimates are perfectly homogeneous.
+  near(cochranQ([{ lor: 1.5, se: 0.3 }, { lor: 1.5, se: 0.7 }, { lor: 1.5, se: 0.2 }]).q, 0);
+  // Unequal precision: lor 0 (se 1, w 1) and lor 3 (se 0.5, w 4): pooled = 12/5 = 2.4; Q = 1*2.4^2 + 4*0.6^2 = 5.76 + 1.44 = 7.2.
+  near(cochranQ([{ lor: 0, se: 1 }, { lor: 3, se: 0.5 }]).q, 7.2);
 });

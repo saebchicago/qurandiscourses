@@ -7,6 +7,7 @@
   "use strict";
   var PAGE = 25;
   var data = null;
+  var shape = null; // the selected width's block of the data file
   var shown = 0;
   var rows = [];
 
@@ -88,7 +89,7 @@
     var how = el("tplSort").value;
     // Same folding as the data: no vowel marks or tatweel, alif wasla as alif.
     var q = el("tplFilter").value.replace(/[\u064b-\u0670\u065f\u06d6-\u06ed\u0640]/g, "").replace(/\u0671/g, "\u0627").trim();
-    var list = data.systems;
+    var list = shape.systems;
     if (q) list = list.filter(function (s) { return s.template.indexOf(q) >= 0; });
     rows = sortRows(list, how);
     shown = 0;
@@ -117,7 +118,6 @@
       .then(function (d) {
         data = d;
         el("tplStatus").textContent = "";
-        summary();
         refresh();
       })
       .catch(function (e) {
@@ -130,6 +130,7 @@
     if (!det) return;
     det.addEventListener("toggle", function () { if (det.open) load(); });
     el("tplSort").addEventListener("change", function () { if (data) refresh(); });
+    el("tplWidth").addEventListener("change", function () { if (data) refresh(); });
     el("tplFilter").addEventListener("input", function () { if (data) refresh(); });
     el("tplMore").addEventListener("click", drawMore);
   }

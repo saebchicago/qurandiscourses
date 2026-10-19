@@ -132,9 +132,9 @@
       <section>
         <h2>Export: download the numbers</h2>
         <p class="lede">
-          Twenty precomputed tables, each as CSV and JSON: root
+          Twenty-two precomputed tables, each as CSV and JSON: root
           frequencies, dispersion and counts by surah, lemma frequencies,
-          root-pair association statistics (and four further measures for the same pairs), surah-to-surah distance with a permutation null, per-surah stats, verse lengths
+          root-pair association statistics (and four further measures for the same pairs), surah-to-surah distance with a permutation null, period keyness and period-split association, per-surah stats, verse lengths
           and recitation durations,
           formulas and formulaic density, centrality, rhyme summary,
           fawātiḥ, direct address, discursive pivots, computed structure
@@ -471,6 +471,64 @@
         </div>
         <div class="card">
           <h4 style="margin: 0 0 0.3rem">
+            Period keyness, tested
+            <span
+              class="badge ok"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · computed from Leeds Quranic Arabic Corpus v0.4"
+              >●</span
+            >
+            <span
+              class="badge nuanced"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Nuanced"
+              tabindex="0"
+              title="Nuanced · the period assignment is one chronology among several"
+              >●</span
+            >
+          </h4>
+          <p style="margin: 0 0 0.4rem">
+            Dunning G2 for every root in each of the four revelation periods, with a permutation p-value that assigns whole surahs to periods at random and a Benjamini-Hochberg q. A high G2 alone can come from one long surah; read the q.
+          </p>
+          <p class="export-links" style="margin: 0">
+            <a href="data/exports/keyness-period.csv" download>CSV</a>
+            <a href="data/exports/keyness-period.json" download>JSON</a>
+            <span style="font-size: 0.82rem; color: var(--muted)">6,568 rows</span>
+          </p>
+        </div>
+        <div class="card">
+          <h4 style="margin: 0 0 0.3rem">
+            Association by period
+            <span
+              class="badge ok"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Verified"
+              tabindex="0"
+              title="Verified · computed from Leeds Quranic Arabic Corpus v0.4"
+              >●</span
+            >
+            <span
+              class="badge nuanced"
+              data-source-ids="leeds-corpus-v0.4"
+              aria-label="Nuanced"
+              tabindex="0"
+              title="Nuanced · the period assignment is one chronology among several"
+              >●</span
+            >
+          </h4>
+          <p style="margin: 0 0 0.4rem">
+            For every pair in the association table, the log odds ratio with its 95% interval inside each period, and Cochran's Q test of whether the periods agree. The test is conservative (see Validation): a pair that does not pass may still differ.
+          </p>
+          <p class="export-links" style="margin: 0">
+            <a href="data/exports/association-by-period.csv" download>CSV</a>
+            <a href="data/exports/association-by-period.json" download>JSON</a>
+            <span style="font-size: 0.82rem; color: var(--muted)">5,211 rows</span>
+          </p>
+        </div>
+        <div class="card">
+          <h4 style="margin: 0 0 0.3rem">
             Per-surah stats
             <span
               class="badge ok"
@@ -782,11 +840,11 @@
       <section>
         <h3 id="datapack">Everything at once, pinned to a version</h3>
         <p>
-          One archive holds all twenty tables in both formats, the schema,
+          One archive holds all twenty-two tables in both formats, the schema,
           the data dictionary, and a citation file, so a download never
           travels without its provenance. The archive is named by release
           version and built deterministically: citing
-          <span class="t-data">v1.5.0</span> names these exact bytes, and
+          <span class="t-data">v1.6.0</span> names these exact bytes, and
           a new release adds a new archive rather than replacing this
           one. For toolchains that read standard packaging, the same
           tables are described as a
@@ -799,8 +857,8 @@
           >.
         </p>
         <p class="export-links">
-          <a href="data/exports/divinediscourses-data-v1.5.0.tar.gz" download
-            >divinediscourses-data-v1.5.0.tar.gz (all tables + schema + citation + corpus notice)</a
+          <a href="data/exports/divinediscourses-data-v1.6.0.tar.gz" download
+            >divinediscourses-data-v1.6.0.tar.gz (all tables + schema + citation + corpus notice)</a
           >
         </p>
         <p class="t-annotation">
