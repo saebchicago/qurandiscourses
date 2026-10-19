@@ -1,8 +1,8 @@
 {
  "api": "v1",
  "description": "Index of the Divine Discourses export tables: static files, read-only, no key. Every number regenerates from the public repository's data and scripts.",
- "version": "1.5.0",
- "released": "2026-10-18",
+ "version": "1.6.0",
+ "released": "2026-10-19",
  "license": {
   "name": "GPL-3.0-or-later",
   "url": "https://www.gnu.org/licenses/gpl-3.0.html",
@@ -75,13 +75,45 @@
    "verification": "Verified: direct computation from Leeds morphology by scripts/compute-surah-distance.mjs, hand-computed unit test in scripts/surah-distance.test.mjs. Which pairs count as 'distant' depends on the null chosen; this one holds verse boundaries fixed.",
    "csv": {
     "url": "https://divinediscourses.org/data/exports/surah-distance.csv",
-    "bytes": 328515,
-    "sha256": "883efc169165c8c2a7efd87a1db642e2197659711d6f542510157703706ffba6"
+    "bytes": 331292,
+    "sha256": "6677dd7057341926cf4ab2eee7d2ff73d9f56ca9b2b278f19b3c7d8aea4b340c"
    },
    "json": {
     "url": "https://divinediscourses.org/data/exports/surah-distance.json",
-    "bytes": 1069138,
-    "sha256": "0d8ae218160b53b816d1aee4cdb444a81ac474348bc8591e22ee3e9231529cab"
+    "bytes": 1071915,
+    "sha256": "cc64dc180553e0a44090de02b71d9d48c2e81dbe55a7e57695ab15c768036f7e"
+   }
+  },
+  {
+   "name": "keyness-period",
+   "description": "Dunning G2 keyness of every root (1,642) in each of the four revelation periods (6,568 root-period tests), with a permutation p-value that assigns whole surahs to periods at random, and a Benjamini-Hochberg q.",
+   "rowCount": 6568,
+   "verification": "Verified: direct computation from Leeds morphology by scripts/compute-period-keyness.mjs, hand-checked G2 and an exact-enumeration check of the Monte Carlo p in scripts/keyness.test.mjs. Nuanced: the period assignment is the Noldeke-Bell four-period scheme, one chronology among several; every figure is conditional on it.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/keyness-period.csv",
+    "bytes": 367299,
+    "sha256": "faae5edf1a4ec735ec8dd4d8c093db05216866e7c8d35d431b06409463c1144b"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/keyness-period.json",
+    "bytes": 1010894,
+    "sha256": "886f404fd309df70682e739ab67ed231ee01a16dcba48c86d2f6a807ad13fd4d"
+   }
+  },
+  {
+   "name": "association-by-period",
+   "description": "For every pair in association-pairs, the verse-level log odds ratio with a 95% interval inside each revelation period, and Cochran's Q test of whether the four periods agree on one association.",
+   "rowCount": 5211,
+   "verification": "Verified: direct computation from Leeds morphology by scripts/lib/association-by-period.mjs, with a sample of pairs recounted independently from the token files in scripts/association-by-period.test.mjs. Nuanced: the period assignment is the Noldeke-Bell four-period scheme, one chronology among several. A non-significant Q means the data cannot tell the periods apart, not that they are the same.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/association-by-period.csv",
+    "bytes": 593031,
+    "sha256": "46cc35450ec2dde88ef88eb96fcdee53b99e80d1948623c75b90cb9d7f878bda"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/association-by-period.json",
+    "bytes": 3046500,
+    "sha256": "cf1cc9ad11193b88602043f1b9f834cac9047e0033b159d11e65d0f2f73440b8"
    }
   },
   {
@@ -342,6 +374,14 @@
   }
  ],
  "archives": [
+  {
+   "version": "1.6.0",
+   "released": "2026-10-19",
+   "tables": 22,
+   "url": "https://divinediscourses.org/data/exports/divinediscourses-data-v1.6.0.tar.gz",
+   "bytes": 2915771,
+   "sha256": "a3615111661961c57fae9254afe9111a71c5cd94f7f4eeaafe9b4e3fefa816e0"
+  },
   {
    "version": "1.5.0",
    "released": "2026-10-18",

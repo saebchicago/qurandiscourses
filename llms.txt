@@ -3,8 +3,8 @@
 > A Qur'an study platform in the coherence-reading tradition of
 > Dr. Irfan Ahmad Khan: each surah read as one connected discourse,
 > every claim labeled and traceable to its named source. Static site,
-> open source, no accounts, page-visit analytics only. Version 1.5.0
-> (2026-10-18).
+> open source, no accounts, page-visit analytics only. Version 1.6.0
+> (2026-10-19).
 
 Ground rules for using this site as a source:
 
@@ -66,7 +66,7 @@ Ground rules for using this site as a source:
 
 ## Data
 
-- [Export tables](https://divinediscourses.org/export): 20 tables (association-extended, association-pairs, centrality, direct-address, discursive-pivots, dispersion, fawatih, formulaic-density, formulas, lemma-frequencies, rhyme-summary, root-frequencies, root-surah-counts, structure, structure-tests, surah-distance, surah-stats, theme-surah-density, verse-durations, verse-lengths) as CSV and JSON, with schema.json and DATA-DICTIONARY.md alongside
+- [Export tables](https://divinediscourses.org/export): 22 tables (association-by-period, association-extended, association-pairs, centrality, direct-address, discursive-pivots, dispersion, fawatih, formulaic-density, formulas, keyness-period, lemma-frequencies, rhyme-summary, root-frequencies, root-surah-counts, structure, structure-tests, surah-distance, surah-stats, theme-surah-density, verse-durations, verse-lengths) as CSV and JSON, with schema.json and DATA-DICTIONARY.md alongside
 - [Dataset documentation](https://divinediscourses.org/datasets): every bundled dataset with its generator script and license
 - [Coverage report](https://divinediscourses.org/coverage): measured completeness and counting-rule sensitivity
 - [Claims ledger](https://divinediscourses.org/validation): per-claim evidence records with permalinks

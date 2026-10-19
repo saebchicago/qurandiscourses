@@ -36,7 +36,7 @@
     <script src="/assets/ga-init.js"></script>
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/formulas","url":"https://divinediscourses.org/formulas","name":"Recurring phrases in the Qur'an · Divine Discourses","description":"Every recurring 3-5 word sequence in the Qur'an, counted two ways, by root sequence and by surface form, with every place each phrase occurs.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.5.0","dateModified":"2026-10-18"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Recurring phrases in the Qur'an","item":"https://divinediscourses.org/formulas"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/formulas","url":"https://divinediscourses.org/formulas","name":"Recurring phrases in the Qur'an · Divine Discourses","description":"Every recurring 3-5 word sequence in the Qur'an, counted two ways, by root sequence and by surface form, with every place each phrase occurs.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.6.0","dateModified":"2026-10-19"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Recurring phrases in the Qur'an","item":"https://divinediscourses.org/formulas"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -258,19 +258,29 @@
             >
           </h3>
           <p style="margin: 0 0 0.6rem">
-            Two words two places apart in one verse, with any word between
-            them, such as <span lang="ar" dir="rtl">وما _ من</span>.
+            Two words a fixed distance apart in one verse, with one, two or three
+            words of any kind between them, such as <span lang="ar" dir="rtl">وما _ من</span>.
             Each template's count is compared with what shuffling the words
             inside every verse would give, and the whole list is corrected
             together (Benjamini-Hochberg). A template needs at least three
-            occurrences and at least two different words in the slot; a
-            phrase with one fixed middle word is on the list above.
+            occurrences and at least two different fillers in the slot; a
+            phrase with one fixed middle word is on the list above. The three
+            widths are separate analyses: the same pair of fixed words can
+            appear in more than one, and a wider system can contain a narrower
+            one.
           </p>
           <details id="tplDetails">
             <summary>Show the templates</summary>
             <p id="tplSummary" class="small" style="margin: 0.6rem 0"></p>
             <p id="tplStatus" class="small" role="status" aria-live="polite"></p>
             <p style="display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: end">
+              <label>Open slots
+                <select id="tplWidth">
+                  <option value="1">One (a _ c)</option>
+                  <option value="2">Two (a _ _ c)</option>
+                  <option value="3">Three (a _ _ _ c)</option>
+                </select>
+              </label>
               <label>Order by
                 <select id="tplSort">
                   <option value="support">Most occurrences</option>

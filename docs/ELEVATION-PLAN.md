@@ -19,8 +19,9 @@ Original text below is kept as written on the day of the proposal. This block sa
 | A7 Zenodo DOI | Not done. |
 | B5 concordance v1 | **Done**, with a test that it matches every root's published occurrence count. |
 | B6 query builder v1 | **Done** (`/query`, under Analyze). Filters: root (Buckwalter, Latin or Arabic), lemma, POS, surah range, period; counts by surah, occurrences with context, CSV, permalink. State is the URL only. `scripts/query.test.mjs` checks every root's query total against the published count. Not done: lemma search by Arabic, form-level filters. |
+| C5 period analyses (keyness null, period-split association, wider templates, calibration) | **Done**, v1.6.0 (export tables 21 and 22, templates at two and three slots, a Validation section). Findings recorded in the claims ledger: 132 of 6,568 root-period tests pass a surah-level null; 14 of 5,203 pairs differ across periods (test is conservative); calibration published beside every null-tested method. |
 | B7 static API | **Done** (`/api/v1/index.json`, `openapi.json`, CORS). |
-| C4 surah distance | **Done**, v1.5.0 (export table 20 `surah-distance`, 6,441 pairs, permutation null, claim, worked example). Method as in "C4 method" below; 500 draws, seed 20261018, ~35 s. No page yet: the table is on Export only. |
+| C4 surah distance | **Done**, v1.5.0 (export table 20 `surah-distance`, 6,441 pairs, permutation null, claim, worked example). Method as in "C4 method" below; 2,000 draws (500 in v1.5.0), seed 20261018, ~2.5 min (weekly full recompute; `--check` compares digests). Page: `/distance`. |
 
 Production check (2026-10-18, GitHub Actions run against divinediscourses.org, **[Verified]**): 41 passed, 0 failed after one fix. The run found a defect outside this plan's scope: 195 of 411 root pages answered 301 to a lowercase address while their canonical named the capital form; fixed in #174 with `rootPageSlug` and guards in `build-canonicals --check` and the smoke test. A weekly scheduled smoke run now exists.
 

@@ -419,6 +419,39 @@
    "url": "https://doi.org/10.1109/TIT.2003.813506",
    "note": "Source for the square root of the Jensen-Shannon divergence being a metric, which is why surah-distance reports the square root. Bibliographic details checked against search results for the published record (DOI 10.1109/TIT.2003.813506) on 2026-10-18; the paper text and proof were not read in this session.",
    "accessed": "2026-10-18"
+  },
+  {
+   "id": "benjamini-hochberg-1995",
+   "type": "paper",
+   "author": "Benjamini, Yoav; Hochberg, Yosef",
+   "name": "Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing",
+   "publisher": "Journal of the Royal Statistical Society: Series B 57(1): 289–300",
+   "year": "1995",
+   "url": "https://doi.org/10.1111/j.2517-6161.1995.tb02031.x",
+   "note": "The step-up procedure used for every q-value on the site (data/exports: association-pairs-derived, surah-distance, keyness-period, association-by-period, formulaic templates). Bibliographic details checked against search results for the published record on 2026-10-19; the paper text was not read in this session.",
+   "accessed": "2026-10-19"
+  },
+  {
+   "id": "dunning-1993-g2",
+   "type": "paper",
+   "author": "Dunning, Ted",
+   "name": "Accurate Methods for the Statistics of Surprise and Coincidence",
+   "publisher": "Computational Linguistics 19(1): 61–74",
+   "year": "1993",
+   "url": "https://aclanthology.org/J93-1003/",
+   "note": "Source of the log-likelihood ratio (G2) used for root association (association-pairs) and for keyness (keyness-period). Bibliographic details checked against the ACL Anthology record on 2026-10-19; the paper text was not read in this session.",
+   "accessed": "2026-10-19"
+  },
+  {
+   "id": "cochran-1954-combination",
+   "type": "paper",
+   "author": "Cochran, William G.",
+   "name": "The Combination of Estimates from Different Experiments",
+   "publisher": "Biometrics 10(1): 101–129",
+   "year": "1954",
+   "url": "https://doi.org/10.2307/3001666",
+   "note": "Source of Cochran's Q, the test of whether several estimates agree, used for association-by-period. Journal, volume, issue, starting page and DOI checked against a search result on 2026-10-19; the end page (129) was not confirmed in this session and the paper text was not read.",
+   "accessed": "2026-10-19"
   }
  ]
 }

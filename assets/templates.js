@@ -7,6 +7,7 @@
   "use strict";
   var PAGE = 25;
   var data = null;
+  var shape = null; // the selected width's block of the data file
   var shown = 0;
   var rows = [];
 
@@ -84,11 +85,19 @@
     el("tplCount").textContent = "Showing " + shown.toLocaleString() + " of " + rows.length.toLocaleString() + ".";
   }
 
+  function pickShape() {
+    var slots = Number(el("tplWidth").value) || 1;
+    shape = (data.shapes || []).filter(function (s) { return s.slots === slots; })[0];
+    if (!shape) throw new Error("no " + slots + "-slot block in the data file");
+  }
+
   function refresh() {
+    pickShape();
+    summary();
     var how = el("tplSort").value;
     // Same folding as the data: no vowel marks or tatweel, alif wasla as alif.
     var q = el("tplFilter").value.replace(/[\u064b-\u0670\u065f\u06d6-\u06ed\u0640]/g, "").replace(/\u0671/g, "\u0627").trim();
-    var list = data.systems;
+    var list = shape.systems;
     if (q) list = list.filter(function (s) { return s.template.indexOf(q) >= 0; });
     rows = sortRows(list, how);
     shown = 0;
@@ -97,11 +106,11 @@
   }
 
   function summary() {
-    var o = data.observed;
-    var n = data.null;
+    var o = shape.observed;
+    var n = shape.null;
     el("tplSummary").textContent =
-      o.systems.toLocaleString() + " of " + o.candidates.toLocaleString() + " candidate templates recur more than word order predicts (BH q ≤ 0.05), " +
-      "covering " + (o.coveredShare * 100).toFixed(1) + "% of the corpus's " + o.tokens.toLocaleString() + " words. " +
+      o.systems.toLocaleString() + " of " + o.candidates.toLocaleString() + " candidate " + shape.slots + "-slot templates recur more than word order predicts (BH q ≤ 0.05), " +
+      "covering " + (o.coveredShare * 100).toFixed(1) + "% of the corpus's " + data.tokens.toLocaleString() + " words. " +
       "The same procedure on " + n.shuffles + " verse-shuffled copies of the text finds " + n.systems.mean + " on average (at most " + n.systems.max + "), " +
       "covering " + n.coveredTokens.mean + " words on average.";
   }
@@ -117,7 +126,6 @@
       .then(function (d) {
         data = d;
         el("tplStatus").textContent = "";
-        summary();
         refresh();
       })
       .catch(function (e) {
@@ -130,6 +138,7 @@
     if (!det) return;
     det.addEventListener("toggle", function () { if (det.open) load(); });
     el("tplSort").addEventListener("change", function () { if (data) refresh(); });
+    el("tplWidth").addEventListener("change", function () { if (data) refresh(); });
     el("tplFilter").addEventListener("input", function () { if (data) refresh(); });
     el("tplMore").addEventListener("click", drawMore);
   }
