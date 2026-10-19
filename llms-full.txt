@@ -3,7 +3,7 @@
 > A Qur'an study platform in the coherence-reading tradition of
 > Dr. Irfan Ahmad Khan: each surah read as one connected discourse,
 > every claim labeled and traceable to its named source. Static site,
-> open source, no accounts, page-visit analytics only. Version 1.6.0
+> open source, no accounts, page-visit analytics only. Version 1.7.0
 > (2026-10-19).
 
 Ground rules for using this site as a source:
@@ -41,6 +41,7 @@ Ground rules for using this site as a source:
 - [Search Qur'anic Arabic word forms](https://divinediscourses.org/words): Search all 4,832 dictionary forms of Qur'anic Arabic by Arabic, transliteration or root, with frequency, part of speech and first occurrence.
 - [Query the corpus](https://divinediscourses.org/query): Ask the Leeds v0.4 morphology a question: filter by root, lemma, part of speech, surah range and period, then get counts, occurrences and a CSV. The address reproduces the result.
 - [How far apart are two surahs?](https://divinediscourses.org/distance): Compare any two surahs by the roots they use: a 114 by 114 map of Jensen-Shannon distance read against a permutation null, with the closest and most distant pairs.
+- [Prayers and remembrance in the text](https://divinediscourses.org/prayers): Every place the Qur'an has people say &quot;Our Lord&quot; as a prayer, found by a literal search of the morphology, with the words that follow it, and counts for the roots of glorification, praise, remembrance and forgiveness.
 - [Structural and rhetorical patterns](https://divinediscourses.org/patterns): Structural and rhetorical patterns in the Qur'an: iltifat, mutashabihat.
 - [Recurring phrases in the Qur'an](https://divinediscourses.org/formulas): Every recurring 3-5 word sequence in the Qur'an, counted two ways, by root sequence and by surface form, with every place each phrase occurs.
 - [Corpus numbers and how each was counted](https://divinediscourses.org/numbers): Counted figures from the Qur'anic corpus: root frequency, verse length, lexical diversity by period, and the method behind each number.
@@ -66,7 +67,7 @@ Ground rules for using this site as a source:
 
 ## Data
 
-- [Export tables](https://divinediscourses.org/export): 22 tables (association-by-period, association-extended, association-pairs, centrality, direct-address, discursive-pivots, dispersion, fawatih, formulaic-density, formulas, keyness-period, lemma-frequencies, rhyme-summary, root-frequencies, root-surah-counts, structure, structure-tests, surah-distance, surah-stats, theme-surah-density, verse-durations, verse-lengths) as CSV and JSON, with schema.json and DATA-DICTIONARY.md alongside
+- [Export tables](https://divinediscourses.org/export): 23 tables (association-by-period, association-extended, association-pairs, centrality, direct-address, discursive-pivots, dispersion, fawatih, formulaic-density, formulas, keyness-period, lemma-frequencies, prayers-vocative, rhyme-summary, root-frequencies, root-surah-counts, structure, structure-tests, surah-distance, surah-stats, theme-surah-density, verse-durations, verse-lengths) as CSV and JSON, with schema.json and DATA-DICTIONARY.md alongside
 - [Dataset documentation](https://divinediscourses.org/datasets): every bundled dataset with its generator script and license
 - [Coverage report](https://divinediscourses.org/coverage): measured completeness and counting-rule sensitivity
 - [Claims ledger](https://divinediscourses.org/validation): per-claim evidence records with permalinks
@@ -3144,6 +3145,88 @@ calibrated less well.
 ●
 The full table, with p and q values, is on Export
 as surah-distance .
+
+===== Prayers and remembrance in the text (https://divinediscourses.org/prayers) =====
+
+## Prayers and remembrance in the text
+
+Where the Qur'an has people say رَبَّنَا
+( rabbana , "Our Lord") as an address to God, and how often it
+uses the roots of glorification, praise, remembrance and forgiveness.
+This page describes what the text contains. It does not say what to
+recite or when.
+
+### Read before using
+
+Whether a verse is a model prayer depends on who is speaking. Several
+of the verses below are spoken by people the text itself condemns,
+for instance on the Day of Judgment. This page finds the words; it
+does not decide who says them. Open each verse in context before
+using it, and see the
+limits below.
+
+### "Our Lord" as an address
+
+41 times in 38
+verses of 19 surahs.
+●
+
+Verse
+Word
+Next word
+Period
+Context
+
+### What comes next
+
+The lemma of the word right after رَبَّنَا ,
+most frequent first. The lemma is the dictionary form from the Leeds corpus.
+
+Next word (lemma) Example Times
+
+### Glorification, praise, remembrance and forgiveness
+
+Token and verse counts for four roots, with the lemmas that carry them.
+A root is wider than the act its name suggests, so read the lemmas.
+
+Root Tokens Verses Lemmas
+
+sbH includes senses other than glorification, such as swimming or moving along (21:33).
+
+Hmd includes al-Hamid , a name of God, besides the act of praising.
+
+*kr includes dhikr as a name for the Qur'an itself, and dhakar , male.
+
+gfr includes al-Ghafur and al-Ghaffar , names of God, besides asking forgiveness.
+
+●
+
+### How these were found, and what they leave out
+
+A token counts when its lemma is rabb , it ends in the
+first-person plural suffix, and the Uthmani text puts the accusative
+vowel on the ba. ●
+
+Two tokens with that form are not addresses and are left out: 25:21,
+"or see our Lord" (the object of a verb), and 35:34, "indeed our
+Lord" (after inna ).
+
+The forms رَبُّنَا and
+رَبِّنَا speak about the Lord, not to Him.
+They occur 17 and 16 times and are not
+listed here.
+
+Prayers in other forms are not found by this search: those that begin
+with another address, or with an imperative alone. The list is the
+text's "Our Lord" prayers, not all of its prayers.
+
+Speaker, occasion and meaning are not computed. Hadith is not used
+on this page.
+
+If you know of a verse this search misses or misreads, or can advise
+on appropriate use,
+open a correction issue .
+The table is also on Export as prayers-vocative .
 
 ===== Structural and rhetorical patterns (https://divinediscourses.org/patterns) =====
 
@@ -6989,7 +7072,7 @@ roots by surah, lemma frequencies, association pairs, surah distances, period ke
 stats, verse lengths, verse durations, formulas, formulaic
 density, centrality, rhyme summary, fawatih, direct address,
 discursive pivots, computed structure, structure tests, and
-theme-surah density — 22 tables, each as CSV and JSON, with
+theme-surah density — 23 tables, each as CSV and JSON, with
 schema.json and a prose data dictionary) — browsable on Export — and the
 measured data-coverage report behind the
 Coverage dashboard.
@@ -7239,7 +7322,7 @@ script, see Datasets .
 
 ## Export: download the numbers
 
-Twenty-two precomputed tables, each as CSV and JSON: root
+Twenty-three precomputed tables, each as CSV and JSON: root
 frequencies, dispersion and counts by surah, lemma frequencies,
 root-pair association statistics (and four further measures for the same pairs), surah-to-surah distance with a permutation null, period keyness and period-split association, per-surah stats, verse lengths
 and recitation durations,
@@ -7409,6 +7492,14 @@ CSV
 JSON
 5,211 rows
 
+#### Prayers: "Our Lord" as an address ● ●
+
+Every place the Qur'an has people address God as rabbana , with the word that follows. Speaker is not included: several rows are spoken by people the text condemns. See Prayers .
+
+CSV
+JSON
+41 rows
+
 #### Per-surah stats ● ~
 
 All 114 surahs: verse/word-unit/root counts, vocabulary-diversity
@@ -7537,11 +7628,11 @@ DATA-DICTIONARY.md (prose)
 
 ### Everything at once, pinned to a version
 
-One archive holds all twenty-two tables in both formats, the schema,
+One archive holds all twenty-three tables in both formats, the schema,
 the data dictionary, and a citation file, so a download never
 travels without its provenance. The archive is named by release
 version and built deterministically: citing
-v1.6.0 names these exact bytes, and
+v1.7.0 names these exact bytes, and
 a new release adds a new archive rather than replacing this
 one. For toolchains that read standard packaging, the same
 tables are described as a
@@ -7549,7 +7640,7 @@ Frictionless Data package
 and as
 Croissant JSON-LD .
 
-divinediscourses-data-v1.6.0.tar.gz (all tables + schema + citation + corpus notice)
+divinediscourses-data-v1.7.0.tar.gz (all tables + schema + citation + corpus notice)
 
 Earlier releases stay downloadable, because a published citation
 points at the bytes it was written against:
@@ -7607,6 +7698,16 @@ before it was renamed "Study".
 ### 2026
 
 #### October
+
+Where the text says "Our Lord" as a prayer, and version 1.7.0.
+New Prayers page: the 41 places in 38 verses of 19 surahs where
+the Qur'an has people address God as rabbana , found by a literal search of the
+morphology with the rule and its two exclusions stated, the words that follow it, and
+counts for the roots of glorification, praise, remembrance and forgiveness. It says
+what the text contains, not what to recite, and notes that some of these verses are
+spoken by people the text condemns. The Export page has the list as
+a new table, prayers-vocative .
+§
 
 Four more analyses, tested against noise, and version 1.6.0.
 Numbers now marks which of the roots listed as most key for a
@@ -9863,7 +9964,7 @@ Every page footer has a Cite link that produces a ready-made
 reference for that page in Chicago, APA, and BibTeX form,
 including the release version. To cite the site as a whole:
 
-Divine Discourses, version 1.6.0. 2026.
+Divine Discourses, version 1.7.0. 2026.
 https://divinediscourses.org.
 
 Machine-readable citation metadata lives in
@@ -10255,6 +10356,25 @@ Dunning G2 keyness of every root (1,642) in each of the four revelation periods 
 | `direction` | string | n/a | enriched or depleted: the root's rate in the period against its rate elsewhere. |
 | `permutationP` | number | n/a | One-sided permutation p-value over 100,000 surah-to-period reassignments, rounded to 6 decimals; at least 0.00001. |
 | `bhQ` | number | n/a | Benjamini-Hochberg q over all 6,568 root-period tests, rounded to 6 decimals. |
+
+## prayers-vocative
+
+Every place the Qur'an has people address God as rabbana (Our Lord): 41 words in 38 verses, with the word that follows and the period the site assigns to the surah. (41 rows.)
+
+**Counting rule:** A token counts when its Leeds lemma is rab~, it ends in the first-person plural suffix, and the Uthmani text puts the accusative vowel on the ba. Tokens after inna (35:34) or a verb of seeing (25:21) are excluded because they are not addresses. The nominative (rabbuna) and genitive (rabbina) forms speak about the Lord and are not rows. Speaker, occasion and meaning are not computed: several rows are spoken by people the text condemns, so read each verse in context.
+
+**Verification:** Verified: a literal search of the Leeds morphology by scripts/build-prayers.mjs, recounted from the surface forms in scripts/prayers.test.mjs. Nuanced: the rule above is a stated choice, and the period is the site's chronology, one among several.
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `surah` | integer | n/a | Surah number (1-114). |
+| `ayah` | integer | n/a | Verse number within the surah. |
+| `wordIndex` | integer | position | 1-based position of the word in the verse. |
+| `form` | string | n/a | The word as written in the Tanzil Uthmani text, with diacritics. |
+| `nextForm` | string | n/a | The following word as written, or empty at the end of the verse. |
+| `nextLemma` | string | n/a | Leeds lemma of the following word (Buckwalter), or empty. |
+| `nextRoot` | string | n/a | Leeds root of the following word (Buckwalter), empty for particles. |
+| `period` | string | n/a | The site's period for the surah: meccan-early, meccan-middle, meccan-late or medinan. |
 
 ## association-by-period
 

@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-10-prayers",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Where the text says \"Our Lord\" as a prayer, and version 1.7.0.</strong>\n              New <a href=\"/prayers\">Prayers</a> page: the 41 places in 38 verses of 19 surahs where\n              the Qur'an has people address God as <em>rabbana</em>, found by a literal search of the\n              morphology with the rule and its two exclusions stated, the words that follow it, and\n              counts for the roots of glorification, praise, remembrance and forgiveness. It says\n              what the text contains, not what to recite, and notes that some of these verses are\n              spoken by people the text condemns. The <a href=\"/export\">Export</a> page has the list as\n              a new table, <code>prayers-vocative</code>.\n            "
+  },
+  {
    "id": "2026-10-period-analyses",
    "year": "2026",
    "month": "October",

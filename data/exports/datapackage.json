@@ -1,7 +1,7 @@
 {
  "name": "divinediscourses-exports",
  "title": "Divine Discourses public export tables",
- "version": "1.6.0",
+ "version": "1.7.0",
  "created": "2026-10-19",
  "homepage": "https://divinediscourses.org/export",
  "licenses": [
@@ -746,6 +746,59 @@
       "name": "firstVerse",
       "type": "string",
       "description": "First occurrence, as surah:verse."
+     }
+    ]
+   }
+  },
+  {
+   "name": "prayers-vocative",
+   "title": "Divine Discourses: prayers-vocative",
+   "description": "Every place the Qur'an has people address God as rabbana (Our Lord): 41 words in 38 verses, with the word that follows and the period the site assigns to the surah.",
+   "path": "prayers-vocative.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "surah",
+      "type": "integer",
+      "description": "Surah number (1-114)."
+     },
+     {
+      "name": "ayah",
+      "type": "integer",
+      "description": "Verse number within the surah."
+     },
+     {
+      "name": "wordIndex",
+      "type": "integer",
+      "description": "1-based position of the word in the verse. Unit: position."
+     },
+     {
+      "name": "form",
+      "type": "string",
+      "description": "The word as written in the Tanzil Uthmani text, with diacritics."
+     },
+     {
+      "name": "nextForm",
+      "type": "string",
+      "description": "The following word as written, or empty at the end of the verse."
+     },
+     {
+      "name": "nextLemma",
+      "type": "string",
+      "description": "Leeds lemma of the following word (Buckwalter), or empty."
+     },
+     {
+      "name": "nextRoot",
+      "type": "string",
+      "description": "Leeds root of the following word (Buckwalter), empty for particles."
+     },
+     {
+      "name": "period",
+      "type": "string",
+      "description": "The site's period for the surah: meccan-early, meccan-middle, meccan-late or medinan."
      }
     ]
    }

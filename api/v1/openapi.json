@@ -2,7 +2,7 @@
  "openapi": "3.1.0",
  "info": {
   "title": "Divine Discourses data",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Static, read-only files. There is no query interface: fetch a table whole and filter it locally. Field definitions for every table are in /data/exports/schema.json.",
   "license": {
    "name": "GPL-3.0-or-later",
@@ -44,6 +44,7 @@
         "association-extended",
         "surah-distance",
         "keyness-period",
+        "prayers-vocative",
         "association-by-period",
         "surah-stats",
         "verse-lengths",
@@ -91,6 +92,7 @@
         "association-extended",
         "surah-distance",
         "keyness-period",
+        "prayers-vocative",
         "association-by-period",
         "surah-stats",
         "verse-lengths",
@@ -146,6 +148,7 @@
       "schema": {
        "type": "string",
        "enum": [
+        "1.7.0",
         "1.6.0",
         "1.5.0",
         "1.4.0",

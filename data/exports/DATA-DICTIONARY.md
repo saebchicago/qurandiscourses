@@ -118,6 +118,25 @@ Dunning G2 keyness of every root (1,642) in each of the four revelation periods 
 | `permutationP` | number | n/a | One-sided permutation p-value over 100,000 surah-to-period reassignments, rounded to 6 decimals; at least 0.00001. |
 | `bhQ` | number | n/a | Benjamini-Hochberg q over all 6,568 root-period tests, rounded to 6 decimals. |
 
+## prayers-vocative
+
+Every place the Qur'an has people address God as rabbana (Our Lord): 41 words in 38 verses, with the word that follows and the period the site assigns to the surah. (41 rows.)
+
+**Counting rule:** A token counts when its Leeds lemma is rab~, it ends in the first-person plural suffix, and the Uthmani text puts the accusative vowel on the ba. Tokens after inna (35:34) or a verb of seeing (25:21) are excluded because they are not addresses. The nominative (rabbuna) and genitive (rabbina) forms speak about the Lord and are not rows. Speaker, occasion and meaning are not computed: several rows are spoken by people the text condemns, so read each verse in context.
+
+**Verification:** Verified: a literal search of the Leeds morphology by scripts/build-prayers.mjs, recounted from the surface forms in scripts/prayers.test.mjs. Nuanced: the rule above is a stated choice, and the period is the site's chronology, one among several.
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `surah` | integer | n/a | Surah number (1-114). |
+| `ayah` | integer | n/a | Verse number within the surah. |
+| `wordIndex` | integer | position | 1-based position of the word in the verse. |
+| `form` | string | n/a | The word as written in the Tanzil Uthmani text, with diacritics. |
+| `nextForm` | string | n/a | The following word as written, or empty at the end of the verse. |
+| `nextLemma` | string | n/a | Leeds lemma of the following word (Buckwalter), or empty. |
+| `nextRoot` | string | n/a | Leeds root of the following word (Buckwalter), empty for particles. |
+| `period` | string | n/a | The site's period for the surah: meccan-early, meccan-middle, meccan-late or medinan. |
+
 ## association-by-period
 
 For every pair in association-pairs, the verse-level log odds ratio with a 95% interval inside each revelation period, and Cochran's Q test of whether the four periods agree on one association. (5211 rows.)
