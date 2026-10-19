@@ -50,6 +50,7 @@ const INPUTS = [
   join(ROOT, "data", "chronology.json"),
   join(ROOT, "data", "formulaic-templates.json"),
   join(ROOT, "data", "keyness", "period-keyness.json"),
+  join(ROOT, "data", "surah-distance", "surah-distance.json"),
   join(ROOT, "data", "root-analytics"),
   join(ROOT, "data", "exports", "association-pairs.csv"),
   join(ROOT, "scripts", "build-calibration.mjs"),
@@ -201,7 +202,7 @@ tests.push({
   anyFindingRate: round(abpRuns.filter((x) => x.passingBH > 0).length / ABP_RUNS, 3),
   rawPRate: round(mean(abpRuns.map((x) => x.shareP05)), 4),
   nominal: 0.05,
-  reading: "A raw rate well below 0.05 means the test is conservative: with sparse counts in the smaller periods the chi-square reference over-states the variance of the estimates, so the pairs that pass are real but many period-specific pairs will be missed. The count of significant pairs is a lower bound.",
+  reading: "A raw rate well below 0.05 means the test is conservative: with sparse counts in the smaller periods the chi-square reference over-states the variance of the estimates, so it will miss many period-specific pairs. Null runs show how often it fires in noise, not how many real effects it misses, so the number of pairs that pass is not a count of real effects.",
   runs: abpRuns,
 });
 
