@@ -7216,7 +7216,7 @@ URL
 A source can be fully cited in data/sources.json
 and still be reachable from no badge anywhere: nothing checked
 for that until this measurement.
-42 of
+45 of
 48 sources appear in at
 least one data-source-ids attribute on the site,
 static or built at render time. The rest are cited in the
