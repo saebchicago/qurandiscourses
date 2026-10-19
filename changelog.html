@@ -42,7 +42,7 @@
     <script src="/assets/ga-init.js"></script>
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/changelog","url":"https://divinediscourses.org/changelog","name":"Changelog: every correction logged · Divine Discourses","description":"Every correction and material change to Divine Discourses since launch. A public record of accountability.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.5.0","dateModified":"2026-10-18"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Changelog: every correction logged","item":"https://divinediscourses.org/changelog"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/changelog","url":"https://divinediscourses.org/changelog","name":"Changelog: every correction logged · Divine Discourses","description":"Every correction and material change to Divine Discourses since launch. A public record of accountability.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.6.0","dateModified":"2026-10-19"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Changelog: every correction logged","item":"https://divinediscourses.org/changelog"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -139,6 +139,20 @@
           <h3>2026</h3>
           <h4>October</h4>
           <ul>
+            <li id="2026-10-period-analyses">
+              <strong>Four more analyses, tested against noise, and version 1.6.0.</strong>
+              <a href="/numbers">Numbers</a> now marks which of the roots listed as most key for a
+              revelation period stay key when whole surahs are reassigned to periods at random:
+              132 of 6,568 root-period tests do, and only 9, 5, 5 and 14 of the 15 listed roots
+              for the four periods. The <a href="/export">Export</a> page has two new tables,
+              <code>keyness-period</code> and <code>association-by-period</code> (whether a root
+              pair's association is the same in every period; 14 of 5,203 pairs differ, from a
+              conservative test). <a href="/formulas">Formulas</a> now covers templates with two
+              and three open slots as well as one. <a href="/validation">Validation</a> has a new
+              section showing what each of these methods reports on data where there is nothing
+              to find. The surah-distance null now uses 2,000 draws instead of 500, so its
+              p-values can go lower (a surah pair's smallest possible p is now 0.0005); the
+              distances changed in the third or fourth decimal.<a class="claim-anchor" href="#2026-10-period-analyses" aria-label="Link to this entry">&sect;</a></li>
             <li id="2026-10-query-distance-polish">
               <strong>Query by Arabic, and a surah distance map.</strong>
               <a href="/query">Query</a> now accepts a lemma in Arabic letters and a

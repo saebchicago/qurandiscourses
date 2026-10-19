@@ -85,7 +85,14 @@
     el("tplCount").textContent = "Showing " + shown.toLocaleString() + " of " + rows.length.toLocaleString() + ".";
   }
 
+  function pickShape() {
+    var slots = Number(el("tplWidth").value) || 1;
+    shape = data.shapes.filter(function (s) { return s.slots === slots; })[0] || data.shapes[0];
+  }
+
   function refresh() {
+    pickShape();
+    summary();
     var how = el("tplSort").value;
     // Same folding as the data: no vowel marks or tatweel, alif wasla as alif.
     var q = el("tplFilter").value.replace(/[\u064b-\u0670\u065f\u06d6-\u06ed\u0640]/g, "").replace(/\u0671/g, "\u0627").trim();
@@ -98,11 +105,11 @@
   }
 
   function summary() {
-    var o = data.observed;
-    var n = data.null;
+    var o = shape.observed;
+    var n = shape.null;
     el("tplSummary").textContent =
-      o.systems.toLocaleString() + " of " + o.candidates.toLocaleString() + " candidate templates recur more than word order predicts (BH q ≤ 0.05), " +
-      "covering " + (o.coveredShare * 100).toFixed(1) + "% of the corpus's " + o.tokens.toLocaleString() + " words. " +
+      o.systems.toLocaleString() + " of " + o.candidates.toLocaleString() + " candidate " + shape.slots + "-slot templates recur more than word order predicts (BH q ≤ 0.05), " +
+      "covering " + (o.coveredShare * 100).toFixed(1) + "% of the corpus's " + data.tokens.toLocaleString() + " words. " +
       "The same procedure on " + n.shuffles + " verse-shuffled copies of the text finds " + n.systems.mean + " on average (at most " + n.systems.max + "), " +
       "covering " + n.coveredTokens.mean + " words on average.";
   }

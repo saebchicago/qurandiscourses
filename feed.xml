@@ -9,6 +9,25 @@
   <updated>2026-10-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>Four more analyses, tested against noise, and version 1.6.0</title>
+    <id>https://divinediscourses.org/changelog#2026-10-period-analyses</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-period-analyses"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Four more analyses, tested against noise, and version 1.6.0.&lt;/strong&gt;
+              &lt;a href="/numbers"&gt;Numbers&lt;/a&gt; now marks which of the roots listed as most key for a
+              revelation period stay key when whole surahs are reassigned to periods at random:
+              132 of 6,568 root-period tests do, and only 9, 5, 5 and 14 of the 15 listed roots
+              for the four periods. The &lt;a href="/export"&gt;Export&lt;/a&gt; page has two new tables,
+              &lt;code&gt;keyness-period&lt;/code&gt; and &lt;code&gt;association-by-period&lt;/code&gt; (whether a root
+              pair's association is the same in every period; 14 of 5,203 pairs differ, from a
+              conservative test). &lt;a href="/formulas"&gt;Formulas&lt;/a&gt; now covers templates with two
+              and three open slots as well as one. &lt;a href="/validation"&gt;Validation&lt;/a&gt; has a new
+              section showing what each of these methods reports on data where there is nothing
+              to find. The surah-distance null now uses 2,000 draws instead of 500, so its
+              p-values can go lower (a surah pair's smallest possible p is now 0.0005); the
+              distances changed in the third or fourth decimal.</content>
+  </entry>
+  <entry>
     <title>Query by Arabic, and a surah distance map</title>
     <id>https://divinediscourses.org/changelog#2026-10-query-distance-polish</id>
     <link href="https://divinediscourses.org/changelog#2026-10-query-distance-polish"/>
