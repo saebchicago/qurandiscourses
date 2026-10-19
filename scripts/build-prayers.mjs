@@ -88,6 +88,11 @@ for (let s = 1; s <= 114; s++) {
 
 const byPeriod = {};
 for (const v of vocative) byPeriod[v.period] = (byPeriod[v.period] || 0) + 1;
+const versesByPeriod = {};
+for (const k of new Set(vocative.map((v) => `${v.period}|${v.s}:${v.a}`))) {
+  const p = k.split("|")[0];
+  versesByPeriod[p] = (versesByPeriod[p] || 0) + 1;
+}
 const nextCounts = new Map();
 for (const v of vocative) {
   const k = v.nextLemma || "(end of verse)";
@@ -113,6 +118,7 @@ const out = {
     genitiveForms: stateForms.genitive,
     excluded,
     byPeriod,
+    versesByPeriod,
     surahCounts: [...surahCounts].sort((x, y) => y[1] - x[1] || x[0] - y[0]).map(([s, n]) => ({ s, name: nameOf(s), n })),
     nextWord: [...nextCounts].sort((x, y) => y[1] - x[1] || (x[0] < y[0] ? -1 : 1)).map(([lemma, n]) => ({ lemma, n })),
     entries: vocative,

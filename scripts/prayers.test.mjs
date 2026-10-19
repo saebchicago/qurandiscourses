@@ -40,6 +40,7 @@ assert.equal(
   Object.values(data.vocative.byPeriod).reduce((a, b) => a + b, 0),
   data.vocative.tokens,
 );
+assert.equal(Object.values(data.vocative.versesByPeriod).reduce((a, b) => a + b, 0), data.vocative.verses);
 assert.equal(data.vocative.nextWord.reduce((a, x) => a + x.n, 0), data.vocative.tokens);
 
 // Remembrance roots: recount from the root field.
