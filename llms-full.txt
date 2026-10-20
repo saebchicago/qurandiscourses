@@ -42,6 +42,7 @@ Ground rules for using this site as a source:
 - [Query the corpus](https://divinediscourses.org/query): Ask the Leeds v0.4 morphology a question: filter by root, lemma, part of speech, surah range and period, then get counts, occurrences and a CSV. The address reproduces the result.
 - [How far apart are two surahs?](https://divinediscourses.org/distance): Compare any two surahs by the roots they use: a 114 by 114 map of Jensen-Shannon distance read against a permutation null, with the closest and most distant pairs.
 - [Prayers and remembrance in the text](https://divinediscourses.org/prayers): Every place the Qur'an has people say &quot;Our Lord&quot; as a prayer, found by a literal search of the morphology, with the words that follow it, and counts for the roots of glorification, praise, remembrance and forgiveness.
+- [Explore the published tables](https://divinediscourses.org/explore): Sort, filter and chart any of the 23 published data tables in your browser, with a histogram of any numeric column and a link that reproduces your view.
 - [Structural and rhetorical patterns](https://divinediscourses.org/patterns): Structural and rhetorical patterns in the Qur'an: iltifat, mutashabihat.
 - [Recurring phrases in the Qur'an](https://divinediscourses.org/formulas): Every recurring 3-5 word sequence in the Qur'an, counted two ways, by root sequence and by surface form, with every place each phrase occurs.
 - [Corpus numbers and how each was counted](https://divinediscourses.org/numbers): Counted figures from the Qur'anic corpus: root frequency, verse length, lexical diversity by period, and the method behind each number.
@@ -3236,6 +3237,50 @@ If you know of a verse this search misses or misreads, or can advise
 on appropriate use,
 open a correction issue .
 The table is also on Export as prayers-vocative .
+
+===== Explore the published tables (https://divinediscourses.org/explore) =====
+
+## Explore the published tables
+
+Pick a table, sort it, filter it and see how one column is
+distributed. Everything is read from the same files you can download
+on Export ; nothing here is recomputed or sent
+anywhere, and the address in your browser reproduces your view.
+
+Table Loading…
+Column to summarize
+
+Choose a table to begin.
+
+This page needs JavaScript. The same tables are on
+Export as CSV and JSON.
+
+Previous
+
+Next
+Clear filters
+Download filtered rows (CSV)
+
+### One column at a time
+
+Pick a column above.
+
+The bars count rows in the table as filtered above. A shape here
+describes the published numbers and says nothing by itself about
+meaning; read the method note for the table on
+Export before drawing a conclusion.
+
+### How to read this
+
+Text filters match a piece of the cell. Arabic vowel marks and case are ignored, so plain letters find a pointed word.
+
+Number filters take >=2 , <0.5 , =3 , 5..10 or a bare number. A row with no value never matches a filter on that column.
+
+The tables are the published ones, with the counting rules, method and verification label for each given in the schema on Export . Rows with an empty cell mean the value is not available, not zero.
+
+Counts of downloads from Export are the only analytics on this page: which table and format, nothing you filter or type.
+
+●
 
 ===== Structural and rhetorical patterns (https://divinediscourses.org/patterns) =====
 
@@ -7082,7 +7127,7 @@ stats, verse lengths, verse durations, formulas, formulaic
 density, centrality, rhyme summary, fawatih, direct address,
 discursive pivots, computed structure, structure tests, and
 theme-surah density — 23 tables, each as CSV and JSON, with
-schema.json and a prose data dictionary) — browsable on Export — and the
+schema.json and a prose data dictionary) — browsable on Export and Explore — and the
 measured data-coverage report behind the
 Coverage dashboard.
 ●
@@ -7340,7 +7385,8 @@ fawātiḥ, direct address, discursive pivots, computed structure
 and its tests, and theme-surah density. Every field is
 documented in the schema and data dictionary below. For the complete raw pipeline (morphology,
 per-root files, and every other dataset this site ships), see
-Datasets .
+Datasets . To look before you download, sort,
+filter and chart any table on Explore .
 
 Generated deterministically by
 scripts/build-exports.mjs , which reads
@@ -7707,6 +7753,13 @@ before it was renamed "Study".
 ### 2026
 
 #### October
+
+Explore the tables.
+New Explore page: pick any of the 23 published tables, sort and
+filter it, and see a histogram of any numeric column, all in your browser from the same
+files as Export . The address reproduces your view, and nothing you
+filter is sent anywhere.
+§
 
 Download counts.
 The site now counts which Export table is downloaded, and in

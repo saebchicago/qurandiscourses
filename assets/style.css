@@ -5288,3 +5288,17 @@ html[data-memorize] .verse:not(.is-revealed) .wbw-strip {
 .dist-swatch { display: inline-block; width: 8rem; height: 0.7rem; border-radius: 3px; }
 .dist-lists { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; }
 button.linklike { background: none; border: 0; padding: 0; color: inherit; text-decoration: underline; cursor: pointer; font: inherit; text-align: left; }
+
+/* Table explorer (explore.html) */
+.ex-card { padding: 1rem; }
+.ex-controls { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.5rem; }
+.ex-controls label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.9rem; min-width: 12rem; }
+.ex-status { min-height: 1.6em; margin: 0.4rem 0; }
+.ex-sort { background: none; border: 0; padding: 0; font: inherit; font-weight: 600; color: inherit; cursor: pointer; text-align: left; }
+.ex-sort:hover, .ex-sort:focus-visible { text-decoration: underline; }
+.ex-filter { width: 100%; min-width: 5rem; font: inherit; font-size: 0.85rem; padding: 0.2rem 0.3rem; }
+.ex-missing { color: var(--muted); }
+.ex-pager { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-top: 0.75rem; }
+.ex-chart { margin-top: 0.5rem; overflow-x: auto; }
+.ex-hist { width: 100%; max-width: 560px; height: auto; }
+.ex-axis { font-size: 10px; fill: var(--muted); }

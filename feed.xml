@@ -9,6 +9,17 @@
   <updated>2026-10-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>Explore the tables</title>
+    <id>https://divinediscourses.org/changelog#2026-10-explore</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-explore"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Explore the tables.&lt;/strong&gt;
+              New &lt;a href="/explore"&gt;Explore&lt;/a&gt; page: pick any of the 23 published tables, sort and
+              filter it, and see a histogram of any numeric column, all in your browser from the same
+              files as &lt;a href="/export"&gt;Export&lt;/a&gt;. The address reproduces your view, and nothing you
+              filter is sent anywhere.</content>
+  </entry>
+  <entry>
     <title>Download counts</title>
     <id>https://divinediscourses.org/changelog#2026-10-download-counts</id>
     <link href="https://divinediscourses.org/changelog#2026-10-download-counts"/>
