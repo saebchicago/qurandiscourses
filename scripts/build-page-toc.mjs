@@ -79,7 +79,9 @@ const RUNTIME_REGIONS = {
 // check-generated-freshness's EXCLUDED and check-data-nums's
 // SHOULD_BIND_SKIP. An entry naming a page that HAS a region is stale and
 // fails, so this list cannot quietly outlive its reason.
-const NO_TOC = {};
+const NO_TOC = {
+  "index.html": "the home page is a set of entry points, each with its own heading, not a long document to navigate",
+};
 
 const pages = readdirSync(ROOT)
   .filter((f) => f.endsWith(".html"))

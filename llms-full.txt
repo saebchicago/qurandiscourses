@@ -373,7 +373,32 @@ No ʿamūd statements and no ring analyses exist anywhere on the
 site: those lenses are blank scaffolding for your own reading,
 never generated commentary.
 
-Page-visit counts only. No generated tafsir. Public data and scripts. Every
+## Tested against noise
+
+The methods below are also run on text where the pattern cannot be
+real, so you can see what each finds by chance. A method that finds
+as much in noise as in the Qur'an has found nothing. Other
+patterns on the site, such as rhyme runs and symmetry, are not
+covered by these runs. ●
+
+Method
+On the Qur'an
+On noise
+
+The table loads with JavaScript. The same figures are on
+Validation .
+
+A weekly job recomputes the published numbers from the corpus and compares them with what is shipped; a difference fails the build.
+
+The datasets and scripts are public, so anyone can rerun the checks.
+
+These figures show how often a method fires by chance. They do not show that a finding is meaningful.
+
+All the checks
+Explore the tables
+Download the data
+
+Page-visit and download counts only. No generated tafsir. Public data and scripts. Every
 claim labeled.
 
 Recent corrections are logged publicly.
@@ -7753,6 +7778,13 @@ before it was renamed "Study".
 ### 2026
 
 #### October
+
+The home page now shows the noise checks.
+A new "Tested against noise" table on the home page sets what each
+method finds on the Qur'an beside what it finds on text where the pattern cannot be
+real, read from the same report as Validation .
+The home page's privacy line now says page-visit and download counts, matching About.
+§
 
 Explore the tables.
 New Explore page: pick any of the 23 published tables, sort and

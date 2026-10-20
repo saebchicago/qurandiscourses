@@ -9,6 +9,17 @@
   <updated>2026-10-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>The home page now shows the noise checks</title>
+    <id>https://divinediscourses.org/changelog#2026-10-home-noise</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-home-noise"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;The home page now shows the noise checks.&lt;/strong&gt;
+              A new "Tested against noise" table on the &lt;a href="/"&gt;home page&lt;/a&gt; sets what each
+              method finds on the Qur'an beside what it finds on text where the pattern cannot be
+              real, read from the same report as &lt;a href="/validation#calibration"&gt;Validation&lt;/a&gt;.
+              The home page's privacy line now says page-visit and download counts, matching About.</content>
+  </entry>
+  <entry>
     <title>Explore the tables</title>
     <id>https://divinediscourses.org/changelog#2026-10-explore</id>
     <link href="https://divinediscourses.org/changelog#2026-10-explore"/>

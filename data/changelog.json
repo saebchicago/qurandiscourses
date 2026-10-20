@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-10-home-noise",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>The home page now shows the noise checks.</strong>\n              A new \"Tested against noise\" table on the <a href=\"/\">home page</a> sets what each\n              method finds on the Qur'an beside what it finds on text where the pattern cannot be\n              real, read from the same report as <a href=\"/validation#calibration\">Validation</a>.\n              The home page's privacy line now says page-visit and download counts, matching About.\n            "
+  },
+  {
    "id": "2026-10-explore",
    "year": "2026",
    "month": "October",
