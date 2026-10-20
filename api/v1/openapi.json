@@ -2,7 +2,7 @@
  "openapi": "3.1.0",
  "info": {
   "title": "Divine Discourses data",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Static, read-only files. There is no query interface: fetch a table whole and filter it locally. Field definitions for every table are in /data/exports/schema.json.",
   "license": {
    "name": "GPL-3.0-or-later",
@@ -148,6 +148,7 @@
       "schema": {
        "type": "string",
        "enum": [
+        "1.7.1",
         "1.7.0",
         "1.6.0",
         "1.5.0",

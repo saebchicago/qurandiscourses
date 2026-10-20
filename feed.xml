@@ -9,12 +9,25 @@
   <updated>2026-10-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>Correction to the Prayers count, version 1.7.1</title>
+    <id>https://divinediscourses.org/changelog#2026-10-prayers-correction</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-prayers-correction"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Correction to the Prayers count, version 1.7.1.&lt;/strong&gt;
+              The first &lt;a href="/prayers"&gt;Prayers&lt;/a&gt; page counted 41 places in 38 verses. It missed
+              every form written with a maddah mark, so the correct count is 70 in 62 verses of 26
+              surahs. The page, the &lt;code&gt;prayers-vocative&lt;/code&gt; table on &lt;a href="/export"&gt;Export&lt;/a&gt;
+              and the reviewer sheet now carry the full list. A review comment caught the error; the
+              test that recounts from the surface forms now strips the same marks, and the two
+              counts agree.</content>
+  </entry>
+  <entry>
     <title>Where the text says "Our Lord" as a prayer, and version 1.7.0</title>
     <id>https://divinediscourses.org/changelog#2026-10-prayers</id>
     <link href="https://divinediscourses.org/changelog#2026-10-prayers"/>
     <updated>2026-10-01T00:00:00Z</updated>
     <content type="html">&lt;strong&gt;Where the text says "Our Lord" as a prayer, and version 1.7.0.&lt;/strong&gt;
-              New &lt;a href="/prayers"&gt;Prayers&lt;/a&gt; page: the 41 places in 38 verses of 19 surahs where
+              New &lt;a href="/prayers"&gt;Prayers&lt;/a&gt; page: the 70 places in 62 verses of 26 surahs where
               the Qur'an has people address God as &lt;em&gt;rabbana&lt;/em&gt;, found by a literal search of the
               morphology with the rule and its two exclusions stated, the words that follow it, and
               counts for the roots of glorification, praise, remembrance and forgiveness. It says

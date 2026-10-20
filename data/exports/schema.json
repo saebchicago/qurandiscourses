@@ -2,7 +2,7 @@
  "_generated": "scripts/build-exports.mjs",
  "_source": "Dukes, Kais. The Quranic Arabic Corpus, version 0.4. Leeds: Language Research Group, University of Leeds, 2009-2017. https://corpus.quran.com/. GNU GPL.",
  "_chronologySource": "Egyptian Standard (Cairo 1924) revelation order, four-period classification following the Nöldeke-Bell tradition (Watt, \"Bell's Introduction to the Qur'an\", 1970).",
- "_computed": "2026-10-19",
+ "_computed": "2026-10-20",
  "tables": {
   "root-frequencies": {
    "description": "Every one of the 1,642 roots: raw occurrence count, overall normalized frequency, and per-period count and normalized frequency.",
@@ -387,8 +387,8 @@
    ]
   },
   "prayers-vocative": {
-   "description": "Every place the Qur'an has people address God as rabbana (Our Lord): 41 words in 38 verses, with the word that follows and the period the site assigns to the surah.",
-   "rowCount": 41,
+   "description": "Every place the Qur'an has people address God as rabbana (Our Lord): 70 words in 62 verses, with the word that follows and the period the site assigns to the surah.",
+   "rowCount": 70,
    "countingRule": "A token counts when its Leeds lemma is rab~, it ends in the first-person plural suffix, and the Uthmani text puts the accusative vowel on the ba. Tokens after inna (35:34) or a verb of seeing (25:21) are excluded because they are not addresses. The nominative (rabbuna) and genitive (rabbina) forms speak about the Lord and are not rows. Speaker, occasion and meaning are not computed: several rows are spoken by people the text condemns, so read each verse in context.",
    "verification": "Verified: a literal search of the Leeds morphology by scripts/build-prayers.mjs, recounted from the surface forms in scripts/prayers.test.mjs. Nuanced: the rule above is a stated choice, and the period is the site's chronology, one among several.",
    "fields": [

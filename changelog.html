@@ -42,7 +42,7 @@
     <script src="/assets/ga-init.js"></script>
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/changelog","url":"https://divinediscourses.org/changelog","name":"Changelog: every correction logged · Divine Discourses","description":"Every correction and material change to Divine Discourses since launch. A public record of accountability.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.7.0","dateModified":"2026-10-19"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Changelog: every correction logged","item":"https://divinediscourses.org/changelog"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/changelog","url":"https://divinediscourses.org/changelog","name":"Changelog: every correction logged · Divine Discourses","description":"Every correction and material change to Divine Discourses since launch. A public record of accountability.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.7.1","dateModified":"2026-10-20"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Changelog: every correction logged","item":"https://divinediscourses.org/changelog"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -140,9 +140,18 @@
           <h3>2026</h3>
           <h4>October</h4>
           <ul>
+            <li id="2026-10-prayers-correction">
+              <strong>Correction to the Prayers count, version 1.7.1.</strong>
+              The first <a href="/prayers">Prayers</a> page counted 41 places in 38 verses. It missed
+              every form written with a maddah mark, so the correct count is 70 in 62 verses of 26
+              surahs. The page, the <code>prayers-vocative</code> table on <a href="/export">Export</a>
+              and the reviewer sheet now carry the full list. A review comment caught the error; the
+              test that recounts from the surface forms now strips the same marks, and the two
+              counts agree.
+            <a class="claim-anchor" href="#2026-10-prayers-correction" aria-label="Link to this entry">&sect;</a></li>
             <li id="2026-10-prayers">
               <strong>Where the text says "Our Lord" as a prayer, and version 1.7.0.</strong>
-              New <a href="/prayers">Prayers</a> page: the 41 places in 38 verses of 19 surahs where
+              New <a href="/prayers">Prayers</a> page: the 70 places in 62 verses of 26 surahs where
               the Qur'an has people address God as <em>rabbana</em>, found by a literal search of the
               morphology with the rule and its two exclusions stated, the words that follow it, and
               counts for the roots of glorification, praise, remembrance and forgiveness. It says

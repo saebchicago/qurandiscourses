@@ -16,10 +16,10 @@
  "name": "divinediscourses-exports",
  "description": "Computed tables from the Divine Discourses Qur'an study platform: root frequencies, root-pair association statistics, per-surah statistics, and verse lengths, derived from the Leeds Quranic Arabic Corpus v0.4.",
  "url": "https://divinediscourses.org/export",
- "version": "1.7.0",
+ "version": "1.7.1",
  "datePublished": "2026-10-19",
  "license": "https://www.gnu.org/licenses/gpl-3.0.html",
- "citeAs": "Divine Discourses project. Divine Discourses, version 1.7.0. 2026. https://divinediscourses.org.",
+ "citeAs": "Divine Discourses project. Divine Discourses, version 1.7.1. 2026. https://divinediscourses.org.",
  "creator": {
   "@type": "Organization",
   "name": "Divine Discourses project",
@@ -1999,7 +1999,7 @@
    "@type": "cr:RecordSet",
    "@id": "prayers-vocative",
    "name": "prayers-vocative",
-   "description": "Every place the Qur'an has people address God as rabbana (Our Lord): 41 words in 38 verses, with the word that follows and the period the site assigns to the surah.",
+   "description": "Every place the Qur'an has people address God as rabbana (Our Lord): 70 words in 62 verses, with the word that follows and the period the site assigns to the surah.",
    "field": [
     {
      "@type": "cr:Field",

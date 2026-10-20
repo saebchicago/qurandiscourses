@@ -17,10 +17,10 @@ for (let s = 1; s <= 114; s++) {
   const m = JSON.parse(read(`data/morphology/${s}.json`));
   for (const [a, ws] of Object.entries(m)) {
     ws.forEach((w, i) => {
-      const bare = w.ar.replace(/[ً-ْٰـ]/g, "").replace(/ٱ/g, "ا");
+      const bare = w.ar.replace(/[\u0610-\u061a\u064b-\u065f\u0670\u06d6-\u06ed\u0640]/g, "").replace(/\u0671/g, "\u0627");
       if (!/^[\u0648\u0641\u0628\u0644\u0643]?\u0631\u0628\u0646[\u0627\u0622]$/.test(bare)) return;
       if (w.lemma !== "rab~") return;
-      const marks = /\u0631[\u064b-\u0652\u0670]*\u0628([\u064b-\u0652\u0670]*)/.exec(w.ar)[1];
+      const marks = /\u0631[\u064b-\u065f\u0670]*\u0628([\u064b-\u065f\u0670]*)/.exec(w.ar)[1];
       if (marks.includes("ُ")) return void tally.nominative++;
       if (marks.includes("ِ")) return void tally.genitive++;
       const prev = i ? ws[i - 1].lemma : "";

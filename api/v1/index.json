@@ -1,7 +1,7 @@
 {
  "api": "v1",
  "description": "Index of the Divine Discourses export tables: static files, read-only, no key. Every number regenerates from the public repository's data and scripts.",
- "version": "1.7.0",
+ "version": "1.7.1",
  "released": "2026-10-19",
  "license": {
   "name": "GPL-3.0-or-later",
@@ -102,18 +102,18 @@
   },
   {
    "name": "prayers-vocative",
-   "description": "Every place the Qur'an has people address God as rabbana (Our Lord): 41 words in 38 verses, with the word that follows and the period the site assigns to the surah.",
-   "rowCount": 41,
+   "description": "Every place the Qur'an has people address God as rabbana (Our Lord): 70 words in 62 verses, with the word that follows and the period the site assigns to the surah.",
+   "rowCount": 70,
    "verification": "Verified: a literal search of the Leeds morphology by scripts/build-prayers.mjs, recounted from the surface forms in scripts/prayers.test.mjs. Nuanced: the rule above is a stated choice, and the period is the site's chronology, one among several.",
    "csv": {
     "url": "https://divinediscourses.org/data/exports/prayers-vocative.csv",
-    "bytes": 2595,
-    "sha256": "587f9f94d9ad0ec3cb1f72ca50980f1b6afcb10dc61532a4fcd47e4556cadea9"
+    "bytes": 4468,
+    "sha256": "d025a398e63569659d38cab95d1b281c5785ad9370a6190dea6945b3a084b5a0"
    },
    "json": {
     "url": "https://divinediscourses.org/data/exports/prayers-vocative.json",
-    "bytes": 6184,
-    "sha256": "30b705a4a5a4fa741858e629d7c6f65663f134f7b646f5ee7da60fb27a1db68b"
+    "bytes": 10638,
+    "sha256": "6d2f64b724e95529700d319a8b2d7a3629ba16cc6ab2542e192c86ca06a08420"
    }
   },
   {
@@ -390,6 +390,14 @@
   }
  ],
  "archives": [
+  {
+   "version": "1.7.1",
+   "released": "2026-10-19",
+   "tables": 23,
+   "url": "https://divinediscourses.org/data/exports/divinediscourses-data-v1.7.1.tar.gz",
+   "bytes": 2919098,
+   "sha256": "34995f511caf5f86641e4699992d72d236cd3a51f4f89f3930d3843cd4f010e9"
+  },
   {
    "version": "1.7.0",
    "released": "2026-10-19",
