@@ -3,6 +3,13 @@
  "algorithm": "sha256",
  "releases": [
   {
+   "version": "1.7.0",
+   "released": "2026-10-19",
+   "tables": 23,
+   "bytes": 2918546,
+   "sha256": "e5f6d63ef9e699f4fadd35968e2f5c6a48d2f471020bf51edf9ea570fc4d3be2"
+  },
+  {
    "version": "1.6.0",
    "released": "2026-10-19",
    "tables": 22,

@@ -16,10 +16,10 @@
  "name": "divinediscourses-exports",
  "description": "Computed tables from the Divine Discourses Qur'an study platform: root frequencies, root-pair association statistics, per-surah statistics, and verse lengths, derived from the Leeds Quranic Arabic Corpus v0.4.",
  "url": "https://divinediscourses.org/export",
- "version": "1.6.0",
+ "version": "1.7.0",
  "datePublished": "2026-10-19",
  "license": "https://www.gnu.org/licenses/gpl-3.0.html",
- "citeAs": "Divine Discourses project. Divine Discourses, version 1.6.0. 2026. https://divinediscourses.org.",
+ "citeAs": "Divine Discourses project. Divine Discourses, version 1.7.0. 2026. https://divinediscourses.org.",
  "creator": {
   "@type": "Organization",
   "name": "Divine Discourses project",
@@ -108,6 +108,13 @@
    "@id": "lemma-frequencies.csv",
    "name": "lemma-frequencies.csv",
    "contentUrl": "https://divinediscourses.org/data/exports/lemma-frequencies.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
+   "@id": "prayers-vocative.csv",
+   "name": "prayers-vocative.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/prayers-vocative.csv",
    "encodingFormat": "text/csv"
   },
   {
@@ -1983,6 +1990,134 @@
       },
       "extract": {
        "column": "firstVerse"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "prayers-vocative",
+   "name": "prayers-vocative",
+   "description": "Every place the Qur'an has people address God as rabbana (Our Lord): 41 words in 38 verses, with the word that follows and the period the site assigns to the surah.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "prayers-vocative/surah",
+     "name": "surah",
+     "description": "Surah number (1-114).",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "prayers-vocative.csv"
+      },
+      "extract": {
+       "column": "surah"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "prayers-vocative/ayah",
+     "name": "ayah",
+     "description": "Verse number within the surah.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "prayers-vocative.csv"
+      },
+      "extract": {
+       "column": "ayah"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "prayers-vocative/wordIndex",
+     "name": "wordIndex",
+     "description": "1-based position of the word in the verse.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "prayers-vocative.csv"
+      },
+      "extract": {
+       "column": "wordIndex"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "prayers-vocative/form",
+     "name": "form",
+     "description": "The word as written in the Tanzil Uthmani text, with diacritics.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "prayers-vocative.csv"
+      },
+      "extract": {
+       "column": "form"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "prayers-vocative/nextForm",
+     "name": "nextForm",
+     "description": "The following word as written, or empty at the end of the verse.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "prayers-vocative.csv"
+      },
+      "extract": {
+       "column": "nextForm"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "prayers-vocative/nextLemma",
+     "name": "nextLemma",
+     "description": "Leeds lemma of the following word (Buckwalter), or empty.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "prayers-vocative.csv"
+      },
+      "extract": {
+       "column": "nextLemma"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "prayers-vocative/nextRoot",
+     "name": "nextRoot",
+     "description": "Leeds root of the following word (Buckwalter), empty for particles.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "prayers-vocative.csv"
+      },
+      "extract": {
+       "column": "nextRoot"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "prayers-vocative/period",
+     "name": "period",
+     "description": "The site's period for the surah: meccan-early, meccan-middle, meccan-late or medinan.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "prayers-vocative.csv"
+      },
+      "extract": {
+       "column": "period"
       }
      }
     }

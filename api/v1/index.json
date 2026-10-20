@@ -1,7 +1,7 @@
 {
  "api": "v1",
  "description": "Index of the Divine Discourses export tables: static files, read-only, no key. Every number regenerates from the public repository's data and scripts.",
- "version": "1.6.0",
+ "version": "1.7.0",
  "released": "2026-10-19",
  "license": {
   "name": "GPL-3.0-or-later",
@@ -98,6 +98,22 @@
     "url": "https://divinediscourses.org/data/exports/keyness-period.json",
     "bytes": 1010894,
     "sha256": "886f404fd309df70682e739ab67ed231ee01a16dcba48c86d2f6a807ad13fd4d"
+   }
+  },
+  {
+   "name": "prayers-vocative",
+   "description": "Every place the Qur'an has people address God as rabbana (Our Lord): 41 words in 38 verses, with the word that follows and the period the site assigns to the surah.",
+   "rowCount": 41,
+   "verification": "Verified: a literal search of the Leeds morphology by scripts/build-prayers.mjs, recounted from the surface forms in scripts/prayers.test.mjs. Nuanced: the rule above is a stated choice, and the period is the site's chronology, one among several.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/prayers-vocative.csv",
+    "bytes": 2595,
+    "sha256": "587f9f94d9ad0ec3cb1f72ca50980f1b6afcb10dc61532a4fcd47e4556cadea9"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/prayers-vocative.json",
+    "bytes": 6184,
+    "sha256": "30b705a4a5a4fa741858e629d7c6f65663f134f7b646f5ee7da60fb27a1db68b"
    }
   },
   {
@@ -374,6 +390,14 @@
   }
  ],
  "archives": [
+  {
+   "version": "1.7.0",
+   "released": "2026-10-19",
+   "tables": 23,
+   "url": "https://divinediscourses.org/data/exports/divinediscourses-data-v1.7.0.tar.gz",
+   "bytes": 2918546,
+   "sha256": "e5f6d63ef9e699f4fadd35968e2f5c6a48d2f471020bf51edf9ea570fc4d3be2"
+  },
   {
    "version": "1.6.0",
    "released": "2026-10-19",

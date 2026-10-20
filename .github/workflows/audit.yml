@@ -61,6 +61,8 @@ jobs:
           node --test scripts/review-credit.test.mjs
           node --test scripts/association-measures.test.mjs
           node scripts/surah-distance.test.mjs
+          node scripts/prayers.test.mjs
+          node scripts/build-prayers.mjs --check
           node scripts/stats.test.mjs
           node scripts/keyness.test.mjs
           node scripts/association-by-period.test.mjs

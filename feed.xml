@@ -9,6 +9,20 @@
   <updated>2026-10-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>Where the text says "Our Lord" as a prayer, and version 1.7.0</title>
+    <id>https://divinediscourses.org/changelog#2026-10-prayers</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-prayers"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Where the text says "Our Lord" as a prayer, and version 1.7.0.&lt;/strong&gt;
+              New &lt;a href="/prayers"&gt;Prayers&lt;/a&gt; page: the 41 places in 38 verses of 19 surahs where
+              the Qur'an has people address God as &lt;em&gt;rabbana&lt;/em&gt;, found by a literal search of the
+              morphology with the rule and its two exclusions stated, the words that follow it, and
+              counts for the roots of glorification, praise, remembrance and forgiveness. It says
+              what the text contains, not what to recite, and notes that some of these verses are
+              spoken by people the text condemns. The &lt;a href="/export"&gt;Export&lt;/a&gt; page has the list as
+              a new table, &lt;code&gt;prayers-vocative&lt;/code&gt;.</content>
+  </entry>
+  <entry>
     <title>Four more analyses, tested against noise, and version 1.6.0</title>
     <id>https://divinediscourses.org/changelog#2026-10-period-analyses</id>
     <link href="https://divinediscourses.org/changelog#2026-10-period-analyses"/>

@@ -11,7 +11,7 @@
 // statistics itself, and it does not modify any of those inputs. It only
 // writes new files under data/exports/.
 //
-// Output: 22 tables (incl. surah-distance, read from data/surah-distance/), each as both a CSV and a JSON array of the same
+// Output: 23 tables (incl. surah-distance, read from data/surah-distance/), each as both a CSV and a JSON array of the same
 // rows — root-frequencies, association-pairs, surah-stats,
 // verse-lengths, formulas, centrality, rhyme-summary, fawatih,
 // discursive-pivots, structure, structure-tests, theme-surah-density,
@@ -296,6 +296,24 @@ for (const per of ASSOC_PERIODS) abpColumns.push(`shared_${per}`);
 for (const per of ASSOC_PERIODS) abpColumns.push(`logOddsRatio_${per}`, `lo95_${per}`, `hi95_${per}`);
 abpColumns.push("periodsCompared", "heterogeneityQ", "heterogeneityP", "heterogeneityBhQ");
 writeTable("association-by-period", abp.rows, abpColumns);
+
+// ── Table 2f: prayers-vocative (read from data/prayers/prayers.json) ───────
+// Written by scripts/build-prayers.mjs: one row per vocative "rabbana" token.
+
+console.log("\nBuilding prayers-vocative…");
+const prayersJson = JSON.parse(readFileSync(join(ROOT, "data", "prayers", "prayers.json"), "utf8"));
+const prayerRows = prayersJson.vocative.entries.map((e) => ({
+  surah: e.s,
+  ayah: e.a,
+  wordIndex: e.w,
+  form: e.form,
+  nextForm: e.nextAr,
+  nextLemma: e.nextLemma,
+  nextRoot: e.nextRoot,
+  period: e.period,
+}));
+const prayerColumns = ["surah", "ayah", "wordIndex", "form", "nextForm", "nextLemma", "nextRoot", "period"];
+writeTable("prayers-vocative", prayerRows, prayerColumns);
 
 // ── Table 3: surah-stats (surah-profiles.json + chronology + names) ────
 
@@ -808,6 +826,22 @@ const schema = {
         { name: "direction", type: "string", unit: null, description: "enriched or depleted: the root's rate in the period against its rate elsewhere." },
         { name: "permutationP", type: "number", unit: null, description: "One-sided permutation p-value over 100,000 surah-to-period reassignments, rounded to 6 decimals; at least 0.00001." },
         { name: "bhQ", type: "number", unit: null, description: "Benjamini-Hochberg q over all 6,568 root-period tests, rounded to 6 decimals." },
+      ],
+    },
+    "prayers-vocative": {
+      description: "Every place the Qur'an has people address God as rabbana (Our Lord): 41 words in 38 verses, with the word that follows and the period the site assigns to the surah.",
+      rowCount: prayerRows.length,
+      countingRule: "A token counts when its Leeds lemma is rab~, it ends in the first-person plural suffix, and the Uthmani text puts the accusative vowel on the ba. Tokens after inna (35:34) or a verb of seeing (25:21) are excluded because they are not addresses. The nominative (rabbuna) and genitive (rabbina) forms speak about the Lord and are not rows. Speaker, occasion and meaning are not computed: several rows are spoken by people the text condemns, so read each verse in context.",
+      verification: "Verified: a literal search of the Leeds morphology by scripts/build-prayers.mjs, recounted from the surface forms in scripts/prayers.test.mjs. Nuanced: the rule above is a stated choice, and the period is the site's chronology, one among several.",
+      fields: [
+        { name: "surah", type: "integer", unit: null, description: "Surah number (1-114)." },
+        { name: "ayah", type: "integer", unit: null, description: "Verse number within the surah." },
+        { name: "wordIndex", type: "integer", unit: "position", description: "1-based position of the word in the verse." },
+        { name: "form", type: "string", unit: null, description: "The word as written in the Tanzil Uthmani text, with diacritics." },
+        { name: "nextForm", type: "string", unit: null, description: "The following word as written, or empty at the end of the verse." },
+        { name: "nextLemma", type: "string", unit: null, description: "Leeds lemma of the following word (Buckwalter), or empty." },
+        { name: "nextRoot", type: "string", unit: null, description: "Leeds root of the following word (Buckwalter), empty for particles." },
+        { name: "period", type: "string", unit: null, description: "The site's period for the surah: meccan-early, meccan-middle, meccan-late or medinan." },
       ],
     },
     "association-by-period": {
