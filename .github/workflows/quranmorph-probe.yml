@@ -36,7 +36,7 @@ jobs:
             n=$((n+1)); [ $n -gt 6 ] && break
             u=$(echo "$l" | sed -E 's/^href="//; s/"$//')
             case "$u" in http*) full="$u" ;; /*) full="https://sina.birzeit.edu$u" ;; *) full="$base$u" ;; esac
-            f="file$n_$(basename "$u")"
+            f="file${n}_$(basename "$u")"
             echo; echo "== $full"
             curl -fsSL --max-time 120 -o "$f" "$full" || { echo "download failed"; continue; }
             echo "size $(wc -c < "$f") bytes, sha256 $(sha256sum "$f" | cut -d' ' -f1)"
