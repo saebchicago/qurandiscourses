@@ -3142,6 +3142,10 @@ that null is what the colors show. A large excess means different
 vocabularies, not different themes or styles; the null keeps verse
 counts, not token counts, so pairs whose verses differ in length are
 calibrated less well.
+With 2,000 draws the smallest possible p-value is 1 in 2,001, and
+3,703 of the 6,441 pairs reach it, so p and q cannot rank those pairs
+against each other. The lists above rank by excess over the null, which
+is a size of difference, not a strength of evidence.
 ●
 The full table, with p and q values, is on Export
 as surah-distance .

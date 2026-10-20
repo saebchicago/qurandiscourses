@@ -36,7 +36,7 @@
     <script src="/assets/ga-init.js"></script>
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/distance","url":"https://divinediscourses.org/distance","name":"How far apart are two surahs? · Divine Discourses","description":"Compare any two surahs by the roots they use: a 114 by 114 map of Jensen-Shannon distance read against a permutation null, with the closest and most distant pairs.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.7.0","dateModified":"2026-10-19"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"How far apart are two surahs?","item":"https://divinediscourses.org/distance"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/distance","url":"https://divinediscourses.org/distance","name":"How far apart are two surahs? · Divine Discourses","description":"Compare any two surahs by the roots they use: a 114 by 114 map of Jensen-Shannon distance read against a permutation null, with the closest and most distant pairs.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.7.0","dateModified":"2026-10-20"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"How far apart are two surahs?","item":"https://divinediscourses.org/distance"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -174,6 +174,10 @@
           vocabularies, not different themes or styles; the null keeps verse
           counts, not token counts, so pairs whose verses differ in length are
           calibrated less well.
+          With 2,000 draws the smallest possible p-value is 1 in 2,001, and
+          3,703 of the 6,441 pairs reach it, so p and q cannot rank those pairs
+          against each other. The lists above rank by excess over the null, which
+          is a size of difference, not a strength of evidence.
           <span class="badge nuanced" data-source-ids="leeds-corpus-v0.4 lin-1991-jsd endres-schindelin-2003" aria-label="Nuanced" tabindex="0" title="Nuanced · a distance depends on the null it is read against">●</span>
           The full table, with p and q values, is on <a href="/export">Export</a>
           as <code>surah-distance</code>.
