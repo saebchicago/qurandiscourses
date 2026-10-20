@@ -1,0 +1,57 @@
+name: QuranMorph probe
+
+# Read-only, manual. Fetches the QuranMorph download page and whatever data
+# files it links (licence: CC-BY-4.0, attribution to SinaLab, confirmed by the
+# authors 2026-10-19), and prints their format so an ingest can be written
+# against the real structure: file names, sizes, sha256, and the first lines.
+# Writes nothing to the repository and uploads nothing.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    name: Print the QuranMorph data format
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Fetch the page and the linked data files
+        run: |
+          set -uo pipefail
+          mkdir -p /tmp/qm && cd /tmp/qm
+          base="https://sina.birzeit.edu/quran/"
+          curl -fsSL --max-time 60 -o page.html "$base" || { echo "page fetch failed"; exit 1; }
+          echo "== page: $(wc -c < page.html) bytes, sha256 $(sha256sum page.html | cut -d' ' -f1)"
+          echo "== visible text (first 80 lines)"
+          sed -e 's/<script[^>]*>.*<\/script>//g' -e 's/<[^>]*>/ /g' page.html | tr -s ' \t' ' ' | grep -v '^ *$' | head -80 | cut -c1-240
+          echo "== links to data-like files"
+          grep -oiE 'href="[^"]+\.(zip|csv|tsv|xlsx|json|txt|gz|tar)"' page.html | sort -u | tee links.txt
+          echo "== licence / attribution lines"
+          grep -iE 'licen[cs]e|CC[- ]?BY|creative commons|cite|attribution' page.html | sed 's/<[^>]*>/ /g' | tr -s ' ' | head -20 | cut -c1-300
+          n=0
+          while read -r l; do
+            n=$((n+1)); [ $n -gt 6 ] && break
+            u=$(echo "$l" | sed -E 's/^href="//; s/"$//')
+            case "$u" in http*) full="$u" ;; /*) full="https://sina.birzeit.edu$u" ;; *) full="$base$u" ;; esac
+            f="file$n_$(basename "$u")"
+            echo; echo "== $full"
+            curl -fsSL --max-time 120 -o "$f" "$full" || { echo "download failed"; continue; }
+            echo "size $(wc -c < "$f") bytes, sha256 $(sha256sum "$f" | cut -d' ' -f1)"
+            file "$f"
+            case "$f" in
+              *.zip) unzip -l "$f" | head -30 ;;
+              *.gz|*.tar) tar -tzf "$f" 2>/dev/null | head -30 ;;
+              *.xlsx) python3 - "$f" <<'PY'
+          import sys, zipfile, re
+          z = zipfile.ZipFile(sys.argv[1])
+          print([i.filename for i in z.infolist()][:20])
+          ss = z.read("xl/sharedStrings.xml").decode("utf8", "ignore") if "xl/sharedStrings.xml" in z.namelist() else ""
+          print("shared strings sample:", re.findall(r"<t[^>]*>([^<]*)</t>", ss)[:30])
+          PY
+                ;;
+              *) echo "lines: $(wc -l < "$f")"; head -8 "$f" | cut -c1-400 ;;
+            esac
+          done < links.txt
