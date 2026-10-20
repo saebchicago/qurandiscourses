@@ -1,8 +1,9 @@
 # Licence outreach drafts
 
-Two sources need a reply from their authors before their data can be copied
-into the GPL exports (see `docs/ELEVATION-PLAN.md`, A3). Send from the
-maintainer's address; nothing here has been sent.
+Two sources needed a reply from their authors before their data could be
+used (see `docs/ELEVATION-PLAN.md`, A3). Both messages below were sent from the
+maintainer's address; see Status at the end for the replies. Do not send them
+again.
 
 ## MASAQ (Mendeley Data page states CC BY-NC 3.0)
 

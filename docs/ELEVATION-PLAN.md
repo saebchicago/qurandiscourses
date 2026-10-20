@@ -12,7 +12,7 @@ Original text below is kept as written on the day of the proposal. This block sa
 |---|---|
 | A1 extended association measures | **Done**, v1.4.0 (export table 19, claim, worked example, Roots panel columns and re-sort). The skeleton `compute-association-extended.mjs` was not adopted as a script: the measures live in `scripts/lib/association-measures.mjs` and `build-exports.mjs` computes the table from published counts. |
 | A2 layer-sensitivity harness | **Done.** Adopted as `scripts/compare-layers.mjs` (`--selftest`, `--check`) over `scripts/lib/layers.mjs`; registers Leeds as layer 1 in `data/layers/index.json`; `data/layers/sensitivity.json` is empty until a second layer is added. Tested with a synthetic layer folder (30 removed roots gives exactly 30 changed tokens; a misaligned layer stops the build). No `/layers` page yet. |
-| A3 licence verification (MASAQ, QuranMorph, QAMAR) | **Read from the sources on 2026-10-18** through CI's open-network evidence job (`data/evidence/fetch-list.json`; quotes, URLs and sha256 in §5). **MASAQ is CC BY-NC 3.0, not CC BY 3.0**: non-commercial, so it cannot be merged into the GPL export tables; owner decision needed before B1. QuranMorph: data licence still not named. QAMAR: the paper says the corpus "will be released"; no release seen. |
+| A3 licence verification (MASAQ, QuranMorph, QAMAR) | **Read from the sources on 2026-10-18** through CI's open-network evidence job (`data/evidence/fetch-list.json`; quotes, URLs and sha256 in §5). **MASAQ is CC BY-NC 3.0, not CC BY 3.0**: non-commercial, so it cannot be merged into the GPL export tables; owner decision needed before B1; the authors were emailed on 2026-10-20 and have not yet replied. **QuranMorph: licence confirmed by the authors on 2026-10-19 as CC-BY-4.0 with SinaLab attribution (§5).** QAMAR: the paper says the corpus "will be released"; no release seen. |
 | A4 notebook | **Done.** Moved to `docs/notebooks/`, five checks, executed in CI. |
 | A5 gloss source | **Decided** (Penrice 1873 primary, Lane cross-check). Validator, worklist, coverage wiring and a Roots-page display are built; **0 of 1,642 roots transcribed** (owner task). |
 | A6 coverage v2 | **Done** (token-weighted view; also fixed seven editorial glosses keyed to non-roots). |
@@ -318,7 +318,7 @@ Qualitative review at 6 and 12 months: a short written assessment per phase agai
 
 ## First 30 Days
 
-1. **Days 1–3.** Read the licence text for MASAQ, QuranMorph, QAMAR from the sources themselves; record URL, licence quote, file sha256, tokenization notes as ○ Pending in `sources.json` (A3).
+1. **Days 1–3.** Read the licence text for MASAQ, QuranMorph, QAMAR from the sources themselves; record URL, licence quote, file sha256, tokenization notes as ○ Pending in `sources.json` (A3). Status 2026-10-20: QuranMorph is answered (CC-BY-4.0, see §5), so record it as verified, not pending, once a layer is added; MASAQ is awaiting the authors (do not email them again before about a week has passed); QAMAR is unreleased.
 2. **Days 3–7.** Decide the gloss source (A5): verify the QUL resource label and the volume's permission page, or choose a public-domain lexicon edition and verify its terms.
 3. **Week 2.** Adopt `compute-association-extended.mjs` into `scripts/` with `--check`, the export table, the claim and its worked example, and the measure toggle (A1). Confirm the existing association files are unchanged.
 4. **Week 2.** Adopt `layer-sensitivity.mjs` as a generator with Leeds as layer 1 and an empty-state `/layers` page (A2).
