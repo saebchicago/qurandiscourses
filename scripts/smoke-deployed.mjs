@@ -248,6 +248,8 @@ if (!LOCAL) {
   check("calibration report and period keyness are served", cal.status === 200 && (await get(BASE + "/data/keyness/period-keyness.json")).status === 200, String(cal.status));
   const pr = await text(BASE + "/prayers");
   check("prayers page is served with its table and script", pr.r.status === 200 && /id="pBody"/.test(pr.body) && /src="assets\/prayers\.js"/.test(pr.body), String(pr.r.status));
+  const ex = await text(BASE + "/explore");
+  check("explore page is served with its table and scripts", ex.r.status === 200 && /id="exGrid"/.test(ex.body) && /src="assets\/explorer\.js"/.test(ex.body), String(ex.r.status));
   const dp = await text(BASE + "/distance");
   check("distance page is served with its map and script", dp.r.status === 200 && /id="dMap"/.test(dp.body) && /src="assets\/distance\.js"/.test(dp.body), String(dp.r.status));
   const qc = await text(BASE + "/assets/query-core.js");
