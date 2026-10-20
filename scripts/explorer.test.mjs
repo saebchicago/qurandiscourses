@@ -82,7 +82,30 @@ test("pages and URL state round-trip", () => {
   const p = X.pageOf(rows, 3);
   assert.equal(p.pages, 3); assert.equal(p.rows.length, 20);
   assert.equal(X.pageOf(rows, 99).page, 3);
-  const st = { table: "keyness-period", sort: "g2", dir: "desc", filters: { period: "medinan", count: ">=5" }, page: 2 };
+  const st = { table: "keyness-period", sort: "g2", dir: "desc", filters: { period: "medinan", count: ">=5" }, page: 2, col: "g2" };
   assert.deepEqual(X.parseState(X.serializeState(st)), st);
-  assert.deepEqual(X.parseState(""), { table: "", sort: "", dir: "asc", filters: {}, page: 1 });
+  assert.deepEqual(X.parseState(""), { table: "", sort: "", dir: "asc", filters: {}, page: 1, col: "" });
+});
+
+test("small nonzero published values are never shown as zero", () => {
+  assert.equal(X.showCell(1.81e-11), "1.81e-11");
+  assert.equal(X.showCell(9.56e-10), "9.56e-10");
+  assert.equal(X.showCell(0.00001), "0.00001");
+  assert.equal(X.showCell(18408), "18,408");
+  assert.equal(X.showStat(1.81e-11), "1.81e-11");
+  assert.equal(X.showStat(12.3456789), "12.34568");
+  // Every nonzero number in every published table keeps a nonzero display.
+  for (const name of Object.keys(schema.tables)) {
+    const meta = schema.tables[name];
+    const t = X.load(readFileSync(join(ROOT, "data", "exports", name + ".csv"), "utf8"), meta.fields);
+    t.types.forEach((ty, i) => {
+      if (ty !== "number") return;
+      for (const r of t.rows) {
+        const v = r[i];
+        const shown = v === null ? null : Number(X.showCell(v).replace(/,/g, ""));
+        if (v !== null && v !== 0) assert.notEqual(shown, 0, name + "." + t.header[i] + " " + v);
+        if (v !== null) assert.equal(shown, v, name + " cell is shown exactly");
+      }
+    });
+  }
 });

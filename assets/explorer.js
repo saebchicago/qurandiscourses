@@ -16,7 +16,6 @@
   var state = X.parseState(location.search);
   var table = null;
   var view = [];
-  var summaryCol = "";
 
   function el(tag, text, cls) {
     var e = document.createElement(tag);
@@ -26,9 +25,7 @@
   }
   function isArabic(v) { return typeof v === "string" && /[؀-ۿ]/.test(v); }
   function status(msg) { $("exStatus").textContent = msg; }
-  function fmt(x) {
-    return typeof x === "number" ? (Math.abs(x) >= 1000 || Number.isInteger(x) ? x.toLocaleString() : String(Math.round(x * 1e6) / 1e6)) : String(x);
-  }
+  var fmt = X.showStat;
 
   function pushState() {
     var q = X.serializeState(state);
@@ -108,7 +105,7 @@
         var td = document.createElement("td");
         if (v == null) { td.textContent = "–"; td.className = "ex-missing"; td.title = "not available"; }
         else {
-          td.textContent = typeof v === "number" ? fmt(v) : v;
+          td.textContent = typeof v === "number" ? X.showCell(v) : v;
           if (isArabic(v)) { td.setAttribute("lang", "ar"); td.setAttribute("dir", "rtl"); }
         }
         tr.appendChild(td);
@@ -123,8 +120,8 @@
     $("exChartNote").hidden = true;
     var sum = $("exSummary");
     sum.textContent = "";
-    if (!table || !summaryCol) { sum.textContent = "Pick a column above."; return; }
-    var s = X.summarize(table, view, summaryCol);
+    if (!table || !state.col) { sum.textContent = "Pick a column above."; return; }
+    var s = X.summarize(table, view, state.col);
     var lines = [s.column + " · " + s.type + " · " + s.rows.toLocaleString() + " rows in view, " + s.missing.toLocaleString() + " with no value"];
     if (s.type === "integer" || s.type === "number") {
       if (s.n) lines.push("min " + fmt(s.min) + " · median " + fmt(s.median) + " · mean " + fmt(s.mean) + " · max " + fmt(s.max));
@@ -133,14 +130,14 @@
     }
     lines.forEach(function (l) { sum.appendChild(el("div", l)); });
     if (s.type !== "integer" && s.type !== "number") return;
-    var bins = X.histogram(table, view, summaryCol, 20);
+    var bins = X.histogram(table, view, state.col, 20);
     if (!bins.length) return;
     var W = 560, H = 170, padL = 36, padB = 24, padT = 8;
     var max = Math.max.apply(null, bins.map(function (b) { return b.count; }));
     var svg = document.createElementNS(NS, "svg");
     svg.setAttribute("viewBox", "0 0 " + W + " " + H);
     svg.setAttribute("role", "img");
-    svg.setAttribute("aria-label", "Histogram of " + summaryCol + ": " + bins.length + " bars, largest bar " + max + " rows");
+    svg.setAttribute("aria-label", "Histogram of " + state.col + ": " + bins.length + " bars, largest bar " + max + " rows");
     svg.setAttribute("class", "ex-hist");
     var bw = (W - padL - 8) / bins.length;
     bins.forEach(function (b, i) {
@@ -175,7 +172,7 @@
     if (window.qdDownloadSvg) {
       var dl = el("button", "Download chart (SVG)", "button secondary");
       dl.type = "button";
-      dl.addEventListener("click", function () { window.qdDownloadSvg(svg, state.table + "-" + summaryCol + "-histogram.svg"); });
+      dl.addEventListener("click", function () { window.qdDownloadSvg(svg, state.table + "-" + state.col + "-histogram.svg"); });
       host.appendChild(dl);
     }
     $("exChartNote").hidden = false;
@@ -226,8 +223,8 @@
       sel.appendChild(el("option", "Choose…")).value = "";
       t.header.forEach(function (h) { var o = el("option", h); o.value = h; sel.appendChild(o); });
       sel.disabled = false;
-      if (summaryCol && t.header.indexOf(summaryCol) < 0) summaryCol = "";
-      sel.value = summaryCol;
+      if (state.col && t.header.indexOf(state.col) < 0) state.col = "";
+      sel.value = state.col;
       drawHeader();
       refresh();
     }).catch(function (e) {
@@ -241,7 +238,7 @@
     state.dir = "asc";
     state.filters = {};
     state.page = 1;
-    summaryCol = "";
+    state.col = "";
     table = null;
     $("exHead").textContent = "";
     $("exBody").textContent = "";
@@ -281,7 +278,7 @@
         sel.appendChild(o);
       });
       sel.addEventListener("change", function () { chooseTable(sel.value); });
-      $("exCol").addEventListener("change", function () { summaryCol = $("exCol").value; drawChart(); });
+      $("exCol").addEventListener("change", function () { state.col = $("exCol").value; pushState(); drawChart(); });
       $("exPrev").addEventListener("click", function () { state.page--; refresh(); });
       $("exNext").addEventListener("click", function () { state.page++; refresh(); });
       $("exClear").addEventListener("click", function () { state.filters = {}; state.page = 1; drawHeader(); refresh(); });

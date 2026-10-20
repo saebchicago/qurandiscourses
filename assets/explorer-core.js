@@ -7,6 +7,7 @@
  *
  *   t   table name        s   sort, "column" or "column:desc"
  *   f.<column>  a filter  p   page (1-based)
+ *   c   the column the summary and chart describe
  *
  * Filters: text columns match a substring (case and Arabic vowel marks
  * folded); number columns take  >=2  <0.5  =3  5..10  or a bare number.
@@ -216,6 +217,17 @@
     return bins;
   }
 
+  // How a number is shown. A published cell keeps every digit the file has
+  // (JavaScript prints 1.81e-11 as 1.81e-11, never as 0); a figure computed
+  // here (mean, median) is cut to 7 significant digits. Whole numbers get
+  // thousands separators.
+  function showCell(x) {
+    return Number.isInteger(x) ? x.toLocaleString("en-US") : String(x);
+  }
+  function showStat(x) {
+    return Number.isInteger(x) ? x.toLocaleString("en-US") : String(Number(x.toPrecision(7)));
+  }
+
   function pageOf(rows, page) {
     var pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
     var p = Math.min(Math.max(1, page | 0 || 1), pages);
@@ -225,7 +237,7 @@
   // URL state <-> object. Unknown keys are ignored.
   function parseState(search) {
     var p = new URLSearchParams(search || "");
-    var st = { table: p.get("t") || "", sort: "", dir: "asc", filters: {}, page: 1 };
+    var st = { table: p.get("t") || "", sort: "", dir: "asc", filters: {}, page: 1, col: p.get("c") || "" };
     var s = p.get("s") || "";
     if (s) {
       var i = s.lastIndexOf(":");
@@ -247,6 +259,7 @@
       if (st.filters[k] !== "") p.set("f." + k, st.filters[k]);
     });
     if (st.page > 1) p.set("p", String(st.page));
+    if (st.col) p.set("c", st.col);
     return p.toString();
   }
 
@@ -254,7 +267,7 @@
     PAGE_SIZE: PAGE_SIZE,
     fold: fold, parseCsv: parseCsv, toCsv: toCsv, coerce: coerce, load: load,
     parseNumFilter: parseNumFilter, filterRows: filterRows, sortRows: sortRows,
-    summarize: summarize, histogram: histogram, pageOf: pageOf,
+    summarize: summarize, histogram: histogram, pageOf: pageOf, showCell: showCell, showStat: showStat,
     parseState: parseState, serializeState: serializeState,
   };
   root.qdExplorer = api;
