@@ -86,7 +86,7 @@
     <script src="/assets/ga-init.js"></script>
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/","url":"https://divinediscourses.org/","name":"Divine Discourses: Read the Qur'an One Surah at a Time","description":"Read the Qur'an one surah at a time: Arabic, translations, recitation, roots and structure. Human scholarship, no AI-generated commentary.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.7.1","dateModified":"2026-10-04"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://divinediscourses.org/search?q={search_term_string}"},"query-input":"required name=search_term_string"}}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/","url":"https://divinediscourses.org/","name":"Divine Discourses: Read the Qur'an One Surah at a Time","description":"Read the Qur'an one surah at a time: Arabic, translations, recitation, roots and structure. Human scholarship, no AI-generated commentary.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.7.1","dateModified":"2026-10-20"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://divinediscourses.org/search?q={search_term_string}"},"query-input":"required name=search_term_string"}}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -534,9 +534,49 @@
         </p>
       </section>
 
+      <section id="trustSection" class="workflow-section" aria-labelledby="trustTitle">
+        <div class="card">
+          <h2 id="trustTitle">Tested against noise</h2>
+          <p class="lede">
+            Every pattern this site reports is also run on text where the
+            pattern cannot be real, so you can see what each method finds by
+            chance. A method that finds as much in noise as in the Qur'an has
+            found nothing. <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · read from the published calibration report, computed from Leeds Quranic Arabic Corpus v0.4">●</span>
+          </p>
+          <div class="table-scroll">
+            <table class="data" id="trustTable">
+              <thead>
+                <tr>
+                  <th scope="col">Method</th>
+                  <th scope="col">On the Qur'an</th>
+                  <th scope="col">On noise</th>
+                </tr>
+              </thead>
+              <tbody id="trustBody"></tbody>
+            </table>
+          </div>
+          <noscript>
+            <p class="t-annotation">
+              The table loads with JavaScript. The same figures are on
+              <a href="/validation#calibration">Validation</a>.
+            </p>
+          </noscript>
+          <ul class="t-annotation">
+            <li>A weekly job recomputes the published numbers from the corpus and compares them with what is shipped; a difference fails the build.</li>
+            <li>The datasets and scripts are public, so anyone can rerun the checks.</li>
+            <li>These figures show how often a method fires by chance. They do not show that a finding is meaningful.</li>
+          </ul>
+          <p>
+            <a class="button secondary" href="/validation#calibration">All the checks</a>
+            <a class="button secondary" href="/explore">Explore the tables</a>
+            <a class="button secondary" href="/export">Download the data</a>
+          </p>
+        </div>
+      </section>
+
       <section class="home-trust ruled">
         <p class="trust-strip">
-          Page-visit counts only. No generated tafsir. Public data and scripts. Every
+          Page-visit and download counts only. No generated tafsir. Public data and scripts. Every
           claim labeled.
         </p>
         <p class="caption-note t-annotation">
@@ -860,6 +900,7 @@
       })();
     </script>
     <script src="assets/featured.js" defer></script>
+    <script src="assets/home-trust.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
     <script src="assets/version.js" defer></script>
