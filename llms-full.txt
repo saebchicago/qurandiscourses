@@ -7708,6 +7708,14 @@ before it was renamed "Study".
 
 #### October
 
+Download counts.
+The site now counts which Export table is downloaded, and in
+which format, so the data we publish can follow what people use. The count carries
+only the table name and format from the link, nothing you typed, and it follows the
+same off switch and Global Privacy Control rule as page counts. See
+Analytics on About.
+§
+
 Correction to the Prayers count, version 1.7.1.
 The first Prayers page counted 41 places in 38 verses. It missed
 every form written with a maddah mark, so the correct count is 70 in 62 verses of 26
@@ -9869,13 +9877,17 @@ Device boundary: nothing synchronizes. Clearing this browser's site data, using 
 
 ### Analytics
 
-This site uses Google Analytics to count visits by page. Each page
+This site uses Google Analytics to count visits by page and to count
+downloads from Export . Each page
 load sends the page address without any query string or fragment
 (so a search or a chosen passage in the address is not sent), the
 referring address cut the same way, and the technical connection
 information any web request carries, such as your IP address and
 browser headers. It does not send names, notes, form contents, or
-what you type into search. Google Signals and ad personalization
+what you type into search. A download count sends only which export
+table was fetched and in which format (for example
+keyness-period , csv ), read from the link
+you clicked; it carries nothing you typed. Google Signals and ad personalization
 features are turned off in the tag. Google Analytics also sets
 cookies in your browser to recognize a returning visit.
 
@@ -10172,7 +10184,7 @@ Saeb A. Ahsan : Maintainer; transcription of Dr. Khan's published outlines and g
 
 ### Privacy
 
-Page visits are counted with privacy-restricted Google Analytics, which you can turn off. See Analytics .
+Page visits and data downloads are counted with privacy-restricted Google Analytics, which you can turn off. See Analytics .
 
 Preferences, reading progress, passage cache, pinned references,
 reader-authored worksheets, and study notes are saved in the

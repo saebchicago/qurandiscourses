@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-10-download-counts",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Download counts.</strong>\n              The site now counts which <a href=\"/export\">Export</a> table is downloaded, and in\n              which format, so the data we publish can follow what people use. The count carries\n              only the table name and format from the link, nothing you typed, and it follows the\n              same off switch and Global Privacy Control rule as page counts. See\n              <a href=\"/about#analytics\">Analytics</a> on About.\n            "
+  },
+  {
    "id": "2026-10-prayers-correction",
    "year": "2026",
    "month": "October",
