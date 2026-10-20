@@ -26,9 +26,9 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "data", "prayers", "prayers.json");
 const CHECK = process.argv.includes("--check");
 
-const FOLD = /[ً-ْٰـ]/g;
-const plain = (s) => s.replace(FOLD, "").replace(/ٱ/g, "ا");
-const MARKS = /\u0631[\u064b-\u0652\u0670]*\u0628([\u064b-\u0652\u0670]*)/;
+const FOLD = /[\u0610-\u061a\u064b-\u065f\u0670\u06d6-\u06ed\u0640]/g;
+const plain = (s) => s.replace(FOLD, "").replace(/\u0671/g, "\u0627");
+const MARKS = /\u0631[\u064b-\u065f\u0670]*\u0628([\u064b-\u065f\u0670]*)/;
 function vowelOnBa(ar) {
   const m = MARKS.exec(ar);
   const marks = m ? m[1] : "";

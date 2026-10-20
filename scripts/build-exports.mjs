@@ -829,7 +829,7 @@ const schema = {
       ],
     },
     "prayers-vocative": {
-      description: "Every place the Qur'an has people address God as rabbana (Our Lord): 41 words in 38 verses, with the word that follows and the period the site assigns to the surah.",
+      description: "Every place the Qur'an has people address God as rabbana (Our Lord): 70 words in 62 verses, with the word that follows and the period the site assigns to the surah.",
       rowCount: prayerRows.length,
       countingRule: "A token counts when its Leeds lemma is rab~, it ends in the first-person plural suffix, and the Uthmani text puts the accusative vowel on the ba. Tokens after inna (35:34) or a verb of seeing (25:21) are excluded because they are not addresses. The nominative (rabbuna) and genitive (rabbina) forms speak about the Lord and are not rows. Speaker, occasion and meaning are not computed: several rows are spoken by people the text condemns, so read each verse in context.",
       verification: "Verified: a literal search of the Leeds morphology by scripts/build-prayers.mjs, recounted from the surface forms in scripts/prayers.test.mjs. Nuanced: the rule above is a stated choice, and the period is the site's chronology, one among several.",

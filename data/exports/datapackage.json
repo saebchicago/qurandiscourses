@@ -1,7 +1,7 @@
 {
  "name": "divinediscourses-exports",
  "title": "Divine Discourses public export tables",
- "version": "1.7.0",
+ "version": "1.7.1",
  "created": "2026-10-19",
  "homepage": "https://divinediscourses.org/export",
  "licenses": [
@@ -753,7 +753,7 @@
   {
    "name": "prayers-vocative",
    "title": "Divine Discourses: prayers-vocative",
-   "description": "Every place the Qur'an has people address God as rabbana (Our Lord): 41 words in 38 verses, with the word that follows and the period the site assigns to the surah.",
+   "description": "Every place the Qur'an has people address God as rabbana (Our Lord): 70 words in 62 verses, with the word that follows and the period the site assigns to the surah.",
    "path": "prayers-vocative.csv",
    "format": "csv",
    "mediatype": "text/csv",
