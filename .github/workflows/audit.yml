@@ -62,6 +62,7 @@ jobs:
           node --test scripts/association-measures.test.mjs
           node scripts/surah-distance.test.mjs
           node scripts/prayers.test.mjs
+          node scripts/ga-events.test.mjs
           node scripts/build-prayers.mjs --check
           node scripts/stats.test.mjs
           node scripts/keyness.test.mjs

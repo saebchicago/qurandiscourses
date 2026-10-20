@@ -977,7 +977,12 @@ committing. Register the palette in the `setPalette` select in
   isn't feasible, and with script-src locked down the residual risk is low.
 - No accounts. Page-visit analytics (Google Analytics 4, address only,
   honors Global Privacy Control and the dd_analytics_off setting; see
-  assets/ga-init.js) are the only analytics. Preferences live in
+  assets/ga-init.js) are the only analytics, plus one fixed event,
+  `dataset_download` ({table, format} read from the clicked export link,
+  nothing typed by the reader). A new event goes in the `EVENTS` allowlist in
+  ga-init.js, takes only values from a fixed list, is covered by
+  scripts/ga-events.test.mjs, and needs the Analytics section of
+  about.html updated first. Preferences live in
   localStorage only; the privacy copy on about.html/credits.html must
   stay in sync with reality.
 

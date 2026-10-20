@@ -12,6 +12,11 @@ window.dataLayer = window.dataLayer || [];
 function gtag() {
   dataLayer.push(arguments);
 }
+// ddEvent(name, params) sends one of the fixed events listed below. It does
+// nothing until analytics are confirmed on, so a browser that has opted out
+// never reaches it. Callers pass only values from a fixed list, never text
+// a reader typed.
+window.ddEvent = function () {};
 (function () {
   "use strict";
   var ID = "G-QEQGD1980R";
@@ -56,4 +61,22 @@ function gtag() {
     page_referrer: referrer,
   });
   gtag("event", "page_view", { page_location: location_, page_referrer: referrer });
+
+  var EVENTS = { dataset_download: true };
+  window.ddEvent = function (name, params) {
+    if (EVENTS[name] === true) gtag("event", name, params || {});
+  };
+
+  // Download counts: which export table and which format was fetched, read
+  // from the link's own address. Nothing about the reader goes with it.
+  var TABLE_FILE = /(?:^|\/)data\/exports\/([a-z0-9-]+)\.(csv|json)(?:$|[?#])/;
+  var ARCHIVE_FILE = /(?:^|\/)data\/exports\/divinediscourses-data-v[0-9.]+\.tar\.gz(?:$|[?#])/;
+  document.addEventListener("click", function (e) {
+    var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+    if (!a) return;
+    var href = a.getAttribute("href") || "";
+    var m = TABLE_FILE.exec(href);
+    if (m) window.ddEvent("dataset_download", { table: m[1], format: m[2] });
+    else if (ARCHIVE_FILE.test(href)) window.ddEvent("dataset_download", { table: "archive", format: "tar.gz" });
+  });
 })();

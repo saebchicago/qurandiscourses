@@ -360,13 +360,17 @@
 
         <h3 id="analytics">Analytics</h3>
         <p>
-          This site uses Google Analytics to count visits by page. Each page
+          This site uses Google Analytics to count visits by page and to count
+          downloads from <a href="/export">Export</a>. Each page
           load sends the page address without any query string or fragment
           (so a search or a chosen passage in the address is not sent), the
           referring address cut the same way, and the technical connection
           information any web request carries, such as your IP address and
           browser headers. It does not send names, notes, form contents, or
-          what you type into search. Google Signals and ad personalization
+          what you type into search. A download count sends only which export
+          table was fetched and in which format (for example
+          <code>keyness-period</code>, <code>csv</code>), read from the link
+          you clicked; it carries nothing you typed. Google Signals and ad personalization
           features are turned off in the tag. Google Analytics also sets
           cookies in your browser to recognize a returning visit.
         </p>
@@ -583,7 +587,7 @@
           <button type="submit" class="button secondary">Send</button>
           <p class="feedback-note t-annotation">
             Goes to the maintainer via the hosting provider's form service.
-            Page visits are counted with Google Analytics; audio and translations load from the
+            Page visits and data downloads are counted with Google Analytics; audio and translations load from the
             providers named under <a href="/about#privacy">Privacy</a>. Prefer
             GitHub? <a href="https://github.com/saebchicago/qurandiscourses/issues/new?template=correction.md" rel="noopener">Open a correction issue</a>.
           </p>

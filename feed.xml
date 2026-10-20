@@ -9,6 +9,18 @@
   <updated>2026-10-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>Download counts</title>
+    <id>https://divinediscourses.org/changelog#2026-10-download-counts</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-download-counts"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Download counts.&lt;/strong&gt;
+              The site now counts which &lt;a href="/export"&gt;Export&lt;/a&gt; table is downloaded, and in
+              which format, so the data we publish can follow what people use. The count carries
+              only the table name and format from the link, nothing you typed, and it follows the
+              same off switch and Global Privacy Control rule as page counts. See
+              &lt;a href="/about#analytics"&gt;Analytics&lt;/a&gt; on About.</content>
+  </entry>
+  <entry>
     <title>Correction to the Prayers count, version 1.7.1</title>
     <id>https://divinediscourses.org/changelog#2026-10-prayers-correction</id>
     <link href="https://divinediscourses.org/changelog#2026-10-prayers-correction"/>
