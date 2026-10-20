@@ -27,8 +27,22 @@ jobs:
           echo "== page: $(wc -c < page.html) bytes, sha256 $(sha256sum page.html | cut -d' ' -f1)"
           echo "== visible text (first 80 lines)"
           sed -e 's/<script[^>]*>.*<\/script>//g' -e 's/<[^>]*>/ /g' page.html | tr -s ' \t' ' ' | grep -v '^ *$' | head -80 | cut -c1-240
+          echo "== every link on the page"
+          grep -oiE 'href="[^"]+"' page.html | sort -u | cut -c1-300
           echo "== links to data-like files"
-          grep -oiE 'href="[^"]+\.(zip|csv|tsv|xlsx|json|txt|gz|tar)"' page.html | sort -u | tee links.txt
+          grep -oiE 'href="[^"]+\.(zip|csv|tsv|xlsx|json|txt|gz|tar)"' page.html | sort -u | tee links.txt || true
+          echo "== form links (the download may sit behind a form; this reads it, never submits it)"
+          grep -oiE 'href="[^"]*(forms\.gle|docs\.google\.com/forms)[^"]*"' page.html | sort -u | tee forms.txt || true
+          while read -r fl; do
+            fu=$(echo "$fl" | sed -E 's/^href="//; s/"$//; s/&amp;/\&/g')
+            echo; echo "== form $fu"
+            curl -fsSL --max-time 60 -o form.html "$fu" || { echo "form fetch failed"; continue; }
+            echo "title: $(grep -oiE '<title>[^<]*' form.html | head -1)"
+            echo "form text (first 40 lines):"
+            sed -e 's/<script[^>]*>.*<\/script>//g' -e 's/<[^>]*>/ /g' form.html | tr -s ' \t' ' ' | grep -v '^ *$' | head -40 | cut -c1-240
+            echo "question data (first 1500 chars):"
+            grep -oE 'FB_PUBLIC_LOAD_DATA_ = .{0,1500}' form.html | head -1
+          done < forms.txt
           echo "== licence / attribution lines"
           grep -iE 'licen[cs]e|CC[- ]?BY|creative commons|cite|attribution' page.html | sed 's/<[^>]*>/ /g' | tr -s ' ' | head -20 | cut -c1-300
           n=0
@@ -55,3 +69,8 @@ jobs:
               *) echo "lines: $(wc -l < "$f")"; head -8 "$f" | cut -c1-400 ;;
             esac
           done < links.txt
+          if [ ! -s links.txt ]; then
+            echo
+            echo "::error::No direct data file link on the page. If a form link is listed above, the data is delivered through that form; a person has to submit it."
+            exit 3
+          fi
