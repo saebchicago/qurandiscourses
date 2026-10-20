@@ -28,3 +28,8 @@ Subject: Licence for the QuranMorph data
 > licence. Could you tell us under what terms the data may be used and
 > redistributed? Until we hear from you we link to QuranMorph and do not copy
 > its data. Thank you.
+
+## Status
+
+- **QuranMorph: answered 2026-10-19.** SinaLab (Diyam Aqraa, copied to Prof. Mustafa Jarrar) wrote: "You can use the data under the CC-BY-4.0 license; thus, you must cite properly. Please attribute this work to SinaLab and put a link the corpus https://sina.birzeit.edu/quran/". Use with that attribution; keep derived QuranMorph tables under their own CC-BY-4.0 notice. The email is in the maintainer's mailbox; it is the only record of the grant, so keep it. Not yet used on the site: nothing is credited until a layer ships.
+- **MASAQ: sent 2026-10-20, no reply yet.** The message went to Dr. Sawalha with four co-authors copied; one cc address (an Amazon address listed for one co-author) bounced. Until the authors answer, MASAQ stays out of the exports and off the site.
