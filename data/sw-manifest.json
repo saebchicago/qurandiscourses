@@ -2,7 +2,7 @@
  "_generated": "scripts/build-sw-manifest.mjs — the service worker's precache list and content fingerprint. A hash diff here alongside an unchanged version is the reviewer's cue to consider a SW_VERSION bump (see docs/maintainer-guide.md).",
  "version": "v19",
  "hashes": {
-  "assets/ah-init.js": "dcf8a88fe63ff6f9fcb08db6938f19ad7a3690ed916029f7ef03f6f64988ef1e",
+  "assets/ah-init.js": "74f374a935afbcf88cada6b62c9c4c343567a98d9e43c100e2a54fe84d555115",
   "assets/app.js": "02ee2264d49fc795f1d11ef8dc5b3783dc7cd846017c1de26bb55f63ca10796a",
   "assets/ask-routes.js": "227bced79a00b3fed1a941435ff26a55678f56fdec99aa41cae0f6de765fcbf1",
   "assets/ask.js": "096eb8174d6bd72765c4b096ae3d670d20483a1a3a1aa538e5ce02f5e353ce69",

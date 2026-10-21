@@ -33,4 +33,26 @@
   tag.setAttribute("data-endpoint", "/_ah/c");
   tag.setAttribute("data-optout-key", "dd_analytics_off");
   (document.head || document.documentElement).appendChild(tag);
+
+  /* Dataset downloads: one named event per download, tagged <table>_<format>
+     (for example association_pairs_csv). The tag comes from the file's own
+     path, never from anything the reader typed. The tracker honors the same
+     opt-outs, so the call is a no-op when analytics is off or not loaded. */
+  document.addEventListener("click", function (event) {
+    try {
+      var link = event.target && event.target.closest && event.target.closest("a[href]");
+      if (!link) return;
+      var url = new URL(link.getAttribute("href"), location.href);
+      if (url.origin !== location.origin) return;
+      var match = /\/data\/(?:exports\/|([a-z0-9_-]+)\/)?([a-z0-9_-]+)\.(csv|tsv|json|jsonl)$/i.exec(url.pathname);
+      if (!match) return;
+      var table = (match[1] && !/^exports$/i.test(match[1]) ? match[1] : match[2]).toLowerCase().replace(/[^a-z0-9]+/g, "_");
+      var name = table + "_" + match[3].toLowerCase();
+      if (/^[a-z0-9_.:-]{1,40}$/.test(name) && window.ah && typeof window.ah.track === "function") {
+        window.ah.track("dataset_download", { tag: name });
+      }
+    } catch (e) {
+      /* analytics never breaks the page */
+    }
+  }, true);
 })();
