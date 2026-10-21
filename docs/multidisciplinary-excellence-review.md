@@ -10,8 +10,9 @@ testable action register without displacing direct attention from the Qur'an
 > in places that the site has no analytics. That stopped being true on
 > 4 October 2026, when Google Analytics 4 was added to the website (page
 > address only, opt-out honored, Global Privacy Control honored; off inside
-> the app). The source of truth is `assets/ga-init.js` and the privacy
-> section of `/about`. Statements below about "no analytics" describe the
+> the app). Google Analytics was removed on 21 October 2026; the site's own
+> cookieless first-party analytics (`assets/ah-init.js`) is now the only
+> analytics. The source of truth is the privacy section of `/about`. Statements below about "no analytics" describe the
 > state on the review date, not today. The text is otherwise left as
 > reviewed.
 

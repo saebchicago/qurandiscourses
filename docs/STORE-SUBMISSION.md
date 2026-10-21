@@ -40,13 +40,13 @@ Privacy policy URL: `https://divinediscourses.org/privacy` (301 to `/about#priva
 - Support URL: https://divinediscourses.org/about
 - Claims rule: keep store text to what the site's claim registry labels as verified.
 
-## Data disclosures (derived from `/about#privacy` and `assets/ga-init.js`, verified)
+## Data disclosures (derived from `/about#privacy` and `assets/ah-init.js`, verified)
 
-**Decision (placeholder, owner may reverse): analytics are off in the app.** `assets/ga-init.js` sends nothing when `window.Capacitor.isNativePlatform()` is true. The web site is unchanged (GA4, page address only, opt-out, Global Privacy Control honored).
+**Decision (placeholder, owner may reverse): analytics are off in the app.** `assets/ah-init.js` (the site's own first-party analytics loader) sends and adds nothing when `window.Capacitor.isNativePlatform()` is true. The web site runs only the first-party analytics described on About (opt-out, Global Privacy Control and Do Not Track honored); it runs no Google analytics.
 
 - App Store privacy label: **Data Not Collected** (the app contacts providers named below for content, not for tracking; confirm against Apple's definitions at submission).
 - Play Data safety: no data collected or shared for analytics. Declare that content requests go to third parties without user identifiers beyond what any HTTPS request carries (IP address, to verify wording against Play's definition: IP-derived approximate location counts if collected, which is why analytics stay off in the app).
-- If analytics are ever turned on in the app, declare: Approximate Location (GA4 derives it from IP), App activity (page views), Device or other IDs (GA client ID), purpose Analytics, not used for advertising.
+- If analytics are ever turned on in the app, declare what the first-party analytics records per About (page views, clicks, downloads, scroll depth, engaged time, error counts; a per-tab session id; no cookies, no stored IP address), purpose Analytics, not used for advertising.
 - Stored on device only: preferences, progress, notes, worksheets, 30-day plan start date, cache. The app also writes a backup JSON to its Documents folder (never leaves the device unless the user enables iCloud/device backup).
 - Third parties contacted by the app: api.alquran.cloud, Quran Foundation (word-by-word), cdn.islamic.network (audio).
 - Not collected: accounts, contacts, purchases, advertising ID.

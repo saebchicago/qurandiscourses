@@ -51,7 +51,7 @@ export const PRECACHE_DATA = [
 const EXTRA_ASSETS = [
   // Referenced by absolute path from every page head, which the scan below
   // (relative "assets/..." only) does not see.
-  "/assets/ga-init.js",
+  "/assets/ah-init.js",
   "/assets/native-bridge.js",
   "/assets/icons/icon-192.png",
   "/assets/icons/icon-512.png",

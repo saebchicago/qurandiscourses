@@ -3,7 +3,7 @@
 > A Qur'an study platform in the coherence-reading tradition of
 > Dr. Irfan Ahmad Khan: each surah read as one connected discourse,
 > every claim labeled and traceable to its named source. Static site,
-> open source, no accounts, page-visit and export-download analytics only (table and format, nothing typed; opt-out honored). Version 1.7.1
+> open source, no accounts, the site's own cookieless first-party analytics only (no Google; opt-out honored). Version 1.7.1
 > (2026-10-19).
 
 Ground rules for using this site as a source:
@@ -398,7 +398,7 @@ All the checks
 Explore the tables
 Download the data
 
-Page-visit and download counts only. No generated tafsir. Public data and scripts. Every
+Anonymous usage counts only, no Google. No generated tafsir. Public data and scripts. Every
 claim labeled.
 
 Recent corrections are logged publicly.
@@ -4458,7 +4458,7 @@ Validation page.
 Accounts, sync, analytics, engagement mechanics
 
 No accounts, no streaks. Notes and preferences
-stay in your browser; apart from a page-visit count
+stay in your browser; apart from anonymous usage counts
 ( Analytics ), the only network
 requests fetch the text, translations, and audio you ask for.
 
@@ -9923,17 +9923,15 @@ storage and are never sent by this site. They are deliberately kept
 in separate stores so clearing display settings cannot erase writing
 unexpectedly.
 
-Four outside services can be contacted, and only these four. The
+Three outside services can be contacted, and only these three. The
 Arabic text ships with this site (Tanzil); translations come from
 api.alquran.cloud . Word-by-word meanings, when you
 open them, come from api.quran.com . Recitation audio
-is streamed from cdn.islamic.network . Page-visit
-counts go to Google Analytics
-( googletagmanager.com ,
-google-analytics.com ), described under
-Analytics . Nothing else is
-permitted: the site's content security policy names exactly these
-hosts, so a fifth would be blocked by your browser rather than
+is streamed from cdn.islamic.network . Usage
+counts stay on this site's own address and go to no outside
+service, as described under Analytics .
+Nothing else is permitted: the site's content security policy names
+exactly these hosts, so a fourth would be blocked by your browser rather than
 silently allowed. Like any direct web request, each provider receives
 technical connection information such as your IP address and browser
 headers. What the request carries is the surah, verse, selected
@@ -9962,29 +9960,63 @@ Device boundary: nothing synchronizes. Clearing this browser's site data, using 
 
 ### Analytics
 
-This site uses Google Analytics to count visits by page and to count
-downloads from Export . Each page
-load sends the page address without any query string or fragment
-(so a search or a chosen passage in the address is not sent), the
-referring address cut the same way, and the technical connection
-information any web request carries, such as your IP address and
-browser headers. It does not send names, notes, form contents, or
-what you type into search. A download count sends only which export
-table was fetched and in which format (for example
-keyness-period , csv ), read from the link
-you clicked; it carries nothing you typed. Google Signals and ad personalization
-features are turned off in the tag. Google Analytics also sets
-cookies in your browser to recognize a returning visit.
+The only analytics on this site are its own. There is no Google
+Analytics and no other third-party analytics or advertising
+service. The browser does not contact any additional website for
+them, and nothing is sent to Google. The script is described under
+First-party analytics below.
 
-Global Privacy Control is honored: if your browser sends it, the
-site configures nothing, sends no analytics, and does not load
-Google's tag script, so Google is not contacted.
+Global Privacy Control and Do Not Track are honored: if your browser
+sends either, the site adds no analytics script and sends nothing.
 You can also turn analytics off for this browser here. The choice is
 stored in your browser's local storage, so it applies to this
 browser only. Analytics runs only with JavaScript.
 
 Analytics: On
 Turn analytics off
+
+#### First-party analytics
+
+This site runs its own cookieless analytics script. It is
+requested from this site's own address
+(under /_ah/ ), and its measurements are sent to this
+site's own address too, which passes them on to an analytics
+service run by the site's maintainer. Your browser does not contact
+any additional website for it. It is used to understand how the
+site is used. There are no ads, the data is not sold, and no
+profile of any visitor is built. It does not run inside the
+mobile app.
+
+What it records:
+
+page views;
+
+clicks on links and buttons, with the label text cut to 80 characters;
+
+clicks on links that leave the site, recording only the destination's hostname and path;
+
+file downloads, recording the file name;
+
+scroll depth milestones;
+
+engaged time;
+
+a count of JavaScript errors;
+
+UTM parameters from the address you landed on, when present.
+
+It uses a random session identifier kept in your tab's
+sessionStorage , so it is specific to one tab and is
+discarded when the tab closes. It sets no cookies, and it does not
+store IP addresses or user agent strings. Records are kept for 400
+days. No consent banner is shown, because nothing here uses cookies.
+
+You can stop it in any of these ways: turn analytics off with the
+control above (this stores dd_analytics_off as
+1 in your browser's local storage), send Global Privacy
+Control or Do Not Track from your browser, or set the
+localStorage key ah_optout to
+1 . The choice applies from the next page you open.
 
 ### Review and correction forms
 
@@ -10269,7 +10301,7 @@ Saeb A. Ahsan : Maintainer; transcription of Dr. Khan's published outlines and g
 
 ### Privacy
 
-Page visits and data downloads are counted with privacy-restricted Google Analytics, which you can turn off. See Analytics .
+Usage is counted only by the site's own cookieless first-party analytics (no Google), which you can turn off. See Analytics .
 
 Preferences, reading progress, passage cache, pinned references,
 reader-authored worksheets, and study notes are saved in the
