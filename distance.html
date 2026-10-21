@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-depth="simple">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <title>How far apart are two surahs? · Divine Discourses</title>
+    <meta
+      name="description"
+      content="Compare any two surahs by the roots they use: a 114 by 114 map of Jensen-Shannon distance read against a permutation null, with the closest and most distant pairs."
+    />
+    <link rel="canonical" href="https://divinediscourses.org/distance" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Divine Discourses" />
+    <meta property="og:title" content="How far apart are two surahs? · Divine Discourses" />
+    <meta property="og:description" content="Compare any two surahs by the roots they use: a 114 by 114 map of Jensen-Shannon distance read against a permutation null, with the closest and most distant pairs." />
+    <meta property="og:url" content="https://divinediscourses.org/distance" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:image" content="https://divinediscourses.org/assets/og/site-og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Divine Discourses: toward direct engagement with the Qur'an. Every claim labeled and traceable to its source."
+    />
+    <link rel="stylesheet" href="assets/fonts.css" />
+    <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/depth-boot.js"></script>
+    <script src="assets/nav.js"></script>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="%232b1d0e"/><text x="32" y="46" text-anchor="middle" font-family="Amiri,serif" font-size="42" fill="%23f6efe2">ق</text></svg>'
+    />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <meta name="theme-color" content="#2b1d0e" />
+    <script src="/assets/ah-init.js"></script>
+    <!-- JSONLD (build-jsonld.mjs) -->
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/distance","url":"https://divinediscourses.org/distance","name":"How far apart are two surahs? · Divine Discourses","description":"Compare any two surahs by the roots they use: a 114 by 114 map of Jensen-Shannon distance read against a permutation null, with the closest and most distant pairs.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.7.1","dateModified":"2026-10-20"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"How far apart are two surahs?","item":"https://divinediscourses.org/distance"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+    </script>
+    <!-- /JSONLD -->
+  </head>
+  <body>
+    <a href="#main" class="skip">Skip to main content</a>
+    <header class="site">
+      <div class="crest" aria-hidden="true">﷽</div>
+      <h1><a href="/">Divine Discourses</a></h1>
+    </header>
+    <nav class="primary" aria-label="Primary">
+      <ul class="nav-groups">
+        <li class="nav-group" data-group="read">
+          <details class="nav-details" name="nav-group">
+            <summary class="nav-group-btn">Read</summary>
+            <ul class="nav-menu">
+              <li><a href="/read">Read</a></li>
+              <li><a href="/navigate">Navigate</a></li>
+              <li><a href="/#dailySection">Today's discourse</a></li>
+            </ul>
+          </details>
+        </li>
+        <li class="nav-group" data-group="study">
+          <details class="nav-details" name="nav-group">
+            <summary class="nav-group-btn">Study</summary>
+            <ul class="nav-menu">
+              <li><a href="/dossier">Dossier</a></li>
+              <li><a href="/themes">Themes</a></li>
+              <li><a href="/compare">Compare</a></li>
+              <li><a href="/replay">Replay</a></li>
+              <li><a href="/exercises">Exercises</a></li>
+            </ul>
+          </details>
+        </li>
+        <li class="nav-group" data-group="analyze">
+          <details class="nav-details" name="nav-group">
+            <summary class="nav-group-btn">Analyze</summary>
+            <ul class="nav-menu">
+              <li><a href="/roots">Roots</a></li>
+              <li><a href="/words">Words</a></li>
+              <li><a href="/query">Query</a></li>
+              <li><a href="/distance">Surah distance</a></li>
+              <li><a href="/prayers">Prayers</a></li>
+              <li><a href="/explore">Explore the data</a></li>
+              <li><a href="/patterns">Patterns</a></li>
+              <li><a href="/formulas">Formulas</a></li>
+              <li><a href="/numbers">Numbers</a></li>
+            </ul>
+          </details>
+        </li>
+        <li class="nav-group" data-group="learn">
+          <details class="nav-details" name="nav-group">
+            <summary class="nav-group-btn">Learn</summary>
+            <ul class="nav-menu">
+              <li><a href="/how-to-use">How to use</a></li>
+              <li><a href="/how-it-works">How it works</a></li>
+              <li><a href="/paths">Study paths</a></li>
+              <li><a href="/glossary">Glossary</a></li>
+              <li><a href="/vocabulary">Core vocabulary</a></li>
+              <li><a href="/search">Search</a></li>
+              <li><a href="/watch">Watch</a></li>
+            </ul>
+          </details>
+        </li>
+        <li class="nav-group" data-group="verify">
+          <details class="nav-details" name="nav-group">
+            <summary class="nav-group-btn">Verify</summary>
+            <ul class="nav-menu">
+              <li><a href="/sources">Sources</a></li>
+              <li><a href="/validation">Validation</a></li>
+              <li><a href="/datasets">Datasets</a></li>
+              <li><a href="/coverage">Coverage</a></li>
+              <li><a href="/export">Export</a></li>
+              <li><a href="/changelog">Changelog</a></li>
+              <li><a href="/contribute">Contribute</a></li>
+              <li><a href="/open-questions">Open questions</a></li>
+            </ul>
+          </details>
+        </li>
+      </ul>
+    </nav>
+    <main id="main">
+      <section>
+        <h2>How far apart are two surahs?</h2>
+        <p class="lede">
+          Each square compares two surahs by the roots they use and how often.
+          Darker means the two use more different vocabularies than random
+          reassignment of the same verses would give. Click a square, or pick two
+          surahs, to see the numbers.
+        </p>
+        <div class="card dist-card">
+          <div class="dist-controls">
+            <label>Surah A <select id="dA"></select></label>
+            <label>Surah B <select id="dB"></select></label>
+          </div>
+          <p id="dPair" class="dist-pair" role="status" aria-live="polite">Loading…</p>
+          <div class="dist-map-wrap">
+            <canvas id="dMap" width="684" height="684" role="img" aria-label="Map of the excess Jensen-Shannon distance between every pair of surahs; use the two selectors above for exact values"></canvas>
+          </div>
+          <p class="dist-legend t-annotation">
+            <span class="dist-swatch" id="dLegend"></span>
+            <span id="dLegendText"></span>
+            Hatched squares involve a surah with under 100 rooted tokens.
+          </p>
+        </div>
+      </section>
+      <section>
+        <h3>Closest and most distant pairs</h3>
+        <p class="t-annotation">
+          Pairs where both surahs have at least 500 rooted tokens, so short-text
+          noise does not decide the ranking. Both lists are ordered by excess
+          over the null, smallest first and largest first; the raw distance is
+          shown beside it.
+        </p>
+        <div class="dist-lists">
+          <div>
+            <h4>Smallest excess (most alike)</h4>
+            <table class="data"><thead><tr><th scope="col">Pair</th><th scope="col">Distance</th><th scope="col">Excess</th></tr></thead><tbody id="dClose"></tbody></table>
+          </div>
+          <div>
+            <h4>Largest excess over the null</h4>
+            <table class="data"><thead><tr><th scope="col">Pair</th><th scope="col">Distance</th><th scope="col">Excess</th></tr></thead><tbody id="dFar"></tbody></table>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>How to read this</h3>
+        <p>
+          The distance is the square root of the Jensen-Shannon divergence
+          between two surahs' root counts, from 0 (same proportions) to 1 (no
+          root in common).
+          <span class="badge ok" data-source-ids="leeds-corpus-v0.4 lin-1991-jsd endres-schindelin-2003" aria-label="Verified" tabindex="0" title="Verified · computed from Leeds Quranic Arabic Corpus v0.4">●</span>
+          Short surahs look distant from everything by arithmetic alone, so each
+          distance is compared with what pooling both surahs' verses and
+          reassigning them at random would give (2,000 draws), and the excess over
+          that null is what the colors show. A large excess means different
+          vocabularies, not different themes or styles; the null keeps verse
+          counts, not token counts, so pairs whose verses differ in length are
+          calibrated less well.
+          With 2,000 draws the smallest possible p-value is 1 in 2,001, and
+          3,703 of the 6,441 pairs reach it, so p and q cannot rank those pairs
+          against each other. The lists above rank by excess over the null, which
+          is a size of difference, not a strength of evidence.
+          <span class="badge nuanced" data-source-ids="leeds-corpus-v0.4 lin-1991-jsd endres-schindelin-2003" aria-label="Nuanced" tabindex="0" title="Nuanced · a distance depends on the null it is read against">●</span>
+          The full table, with p and q values, is on <a href="/export">Export</a>
+          as <code>surah-distance</code>.
+        </p>
+      </section>
+    </main>
+    <footer class="site">
+      <p class="footer-links">
+        <a href="/about">About</a> · <a href="/credits">Credits</a> ·
+        <a href="/sources">Sources</a> ·
+        <a href="/datasets">Datasets</a> ·
+        <a href="/validation">Validation</a> ·
+        <a href="/changelog">Changelog</a> ·
+        <a href="/review">Review our work</a> ·
+        <a href="/corrections">Corrections</a> ·
+        <a href="/review?type=correction&amp;page=%2Fdistance">Report an issue</a> ·
+        <a href="/about#cite">Cite</a>
+      </p>
+      <p class="footer-license">
+        Arabic text: <a href="https://tanzil.net" rel="noopener">Tanzil Project</a>.
+        Grammar: <a href="https://corpus.quran.com" rel="noopener">Quranic Arabic Corpus</a>.
+        Site code MIT; all else keeps its own license, see
+        <a href="/credits">Credits</a>.
+      </p>
+      <details class="footer-feedback">
+        <summary>Report a correction</summary>
+        <form
+          name="correction"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          class="feedback-form"
+        >
+          <input type="hidden" name="form-name" value="correction" />
+          <input type="hidden" name="page" value="" />
+          <p class="feedback-hp">
+            <label>Leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+          </p>
+          <label>
+            What is wrong, and where on the page?
+            <textarea name="message" required rows="3"></textarea>
+          </label>
+          <label>
+            How can we reach you? (optional)
+            <input type="text" name="contact" autocomplete="email" />
+          </label>
+          <button type="submit" class="button secondary">Send</button>
+          <p class="feedback-note t-annotation">
+            Goes to the maintainer via the hosting provider's form service.
+            Usage is counted with the site's own cookieless analytics, which you can turn off; audio and translations load from the
+            providers named under <a href="/about#privacy">Privacy</a>. Prefer
+            GitHub? <a href="https://github.com/saebchicago/qurandiscourses/issues/new?template=correction.md" rel="noopener">Open a correction issue</a>.
+          </p>
+        </form>
+      </details>
+    </footer>
+    <div class="settings">
+      <button
+        class="gear"
+        id="gearBtn"
+        aria-controls="settingsPanel"
+        aria-expanded="false"
+        title="Open settings"
+        aria-label="Open settings"
+      >
+        ⚙
+      </button>
+      <div
+        class="panel"
+        id="settingsPanel"
+        role="dialog"
+        aria-label="Settings"
+        hidden
+      ></div>
+    </div>
+    <script src="assets/surahs.js"></script>
+    <script src="assets/app.js"></script>
+    <script src="assets/lang-labels.js" defer></script>
+    <script src="assets/trans-picker.js" defer></script>
+    <script src="assets/share.js" defer></script>
+    <script src="assets/distance.js"></script>
+    <script src="assets/cite-badge.js" defer></script>
+    <script src="assets/glossary.js" defer></script>
+    <script src="assets/version.js" defer></script>
+    <script src="assets/cite-page.js" defer></script>
+    <script src="assets/feedback.js" defer></script>
+    <script src="assets/path-data.js" defer></script>
+    <script src="assets/path-ribbon.js" defer></script>
+  </body>
+</html>

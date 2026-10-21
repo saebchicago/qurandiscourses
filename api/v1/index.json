@@ -1,0 +1,474 @@
+{
+ "api": "v1",
+ "description": "Index of the Divine Discourses export tables: static files, read-only, no key. Every number regenerates from the public repository's data and scripts.",
+ "version": "1.7.1",
+ "released": "2026-10-19",
+ "license": {
+  "name": "GPL-3.0-or-later",
+  "url": "https://www.gnu.org/licenses/gpl-3.0.html",
+  "note": "The tables derive from the Leeds Quranic Arabic Corpus v0.4 (GPL). Keep data/exports/NOTICE-LEEDS.txt with any copy."
+ },
+ "citation": "https://divinediscourses.org/about#cite",
+ "openapi": "https://divinediscourses.org/api/v1/openapi.json",
+ "descriptors": {
+  "schema": "https://divinediscourses.org/data/exports/schema.json",
+  "dataDictionary": "https://divinediscourses.org/data/exports/DATA-DICTIONARY.md",
+  "frictionless": "https://divinediscourses.org/data/exports/datapackage.json",
+  "croissant": "https://divinediscourses.org/data/exports/croissant.json",
+  "corpusNotice": "https://divinediscourses.org/data/exports/NOTICE-LEEDS.txt",
+  "sources": "https://divinediscourses.org/data/sources.json",
+  "claims": "https://divinediscourses.org/data/claims.json"
+ },
+ "tables": [
+  {
+   "name": "root-frequencies",
+   "description": "Every one of the 1,642 roots: raw occurrence count, overall normalized frequency, and per-period count and normalized frequency.",
+   "rowCount": 1642,
+   "verification": "totalCount and normalizedFrequencyOverall: Verified (direct computation). Per-period fields: Nuanced (depend on the four-period chronology named in _chronologySource).",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/root-frequencies.csv",
+    "bytes": 96439,
+    "sha256": "eee9e69ef706cfeb63ecc67c14c0d20e431d9490a0629c09b31b2dfb69c57822"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/root-frequencies.json",
+    "bytes": 595342,
+    "sha256": "d0ad89180b2c9e06d4d70ffc1f97029a4815530984c69cc73f20ba3bd6b5670d"
+   }
+  },
+  {
+   "name": "association-pairs",
+   "description": "Root-pair association statistics: the union of every pair appearing in any root's top-25-by-LLR partner list, deduplicated by unordered pair.",
+   "rowCount": 5211,
+   "verification": "Verified: direct computation from Leeds morphology, cross-checked against a hand-computed 2x2 table and against data/cooccurrence/*.json's independently computed counts.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/association-pairs.csv",
+    "bytes": 255542,
+    "sha256": "07b98b72a76054605b9079f5fdefe5852709a406a24ca1a0375ae286b5bca420"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/association-pairs.json",
+    "bytes": 880777,
+    "sha256": "72b7c9ae09da360bad291cb2da9c1425d534d43ba6d1af7720345a2e50ae475f"
+   }
+  },
+  {
+   "name": "association-extended",
+   "description": "Four further root-pair association measures (logDice, t-score, log odds ratio with a 95% interval, directional deltaP) for exactly the pairs in association-pairs, in the same order and orientation.",
+   "rowCount": 5211,
+   "verification": "Verified: direct computation from published counts by scripts/lib/association-measures.mjs, hand-computed unit test in scripts/association-measures.test.mjs. Which measure to prefer for a given question is method-dependent.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/association-extended.csv",
+    "bytes": 363758,
+    "sha256": "3db9766c3b00fb30ad481a8b6efad837547d37692dee95af3e3cdd54f9fe3f47"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/association-extended.json",
+    "bytes": 1390167,
+    "sha256": "e15890475291a12e33eac1b8ab1516db2d3ee3f3a2ca7d5b3c4382009e677990"
+   }
+  },
+  {
+   "name": "surah-distance",
+   "description": "Jensen-Shannon distance between the root distributions of every pair of surahs (6,441 pairs), with a permutation null so each distance can be read against what chance and surah length alone produce.",
+   "rowCount": 6441,
+   "verification": "Verified: direct computation from Leeds morphology by scripts/compute-surah-distance.mjs, hand-computed unit test in scripts/surah-distance.test.mjs. Which pairs count as 'distant' depends on the null chosen; this one holds verse boundaries fixed.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/surah-distance.csv",
+    "bytes": 331292,
+    "sha256": "6677dd7057341926cf4ab2eee7d2ff73d9f56ca9b2b278f19b3c7d8aea4b340c"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/surah-distance.json",
+    "bytes": 1071915,
+    "sha256": "cc64dc180553e0a44090de02b71d9d48c2e81dbe55a7e57695ab15c768036f7e"
+   }
+  },
+  {
+   "name": "keyness-period",
+   "description": "Dunning G2 keyness of every root (1,642) in each of the four revelation periods (6,568 root-period tests), with a permutation p-value that assigns whole surahs to periods at random, and a Benjamini-Hochberg q.",
+   "rowCount": 6568,
+   "verification": "Verified: direct computation from Leeds morphology by scripts/compute-period-keyness.mjs, hand-checked G2 and an exact-enumeration check of the Monte Carlo p in scripts/keyness.test.mjs. Nuanced: the period assignment is the Noldeke-Bell four-period scheme, one chronology among several; every figure is conditional on it.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/keyness-period.csv",
+    "bytes": 367299,
+    "sha256": "faae5edf1a4ec735ec8dd4d8c093db05216866e7c8d35d431b06409463c1144b"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/keyness-period.json",
+    "bytes": 1010894,
+    "sha256": "886f404fd309df70682e739ab67ed231ee01a16dcba48c86d2f6a807ad13fd4d"
+   }
+  },
+  {
+   "name": "prayers-vocative",
+   "description": "Every place the Qur'an has people address God as rabbana (Our Lord): 70 words in 62 verses, with the word that follows and the period the site assigns to the surah.",
+   "rowCount": 70,
+   "verification": "Verified: a literal search of the Leeds morphology by scripts/build-prayers.mjs, recounted from the surface forms in scripts/prayers.test.mjs. Nuanced: the rule above is a stated choice, and the period is the site's chronology, one among several.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/prayers-vocative.csv",
+    "bytes": 4468,
+    "sha256": "d025a398e63569659d38cab95d1b281c5785ad9370a6190dea6945b3a084b5a0"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/prayers-vocative.json",
+    "bytes": 10638,
+    "sha256": "6d2f64b724e95529700d319a8b2d7a3629ba16cc6ab2542e192c86ca06a08420"
+   }
+  },
+  {
+   "name": "association-by-period",
+   "description": "For every pair in association-pairs, the verse-level log odds ratio with a 95% interval inside each revelation period, and Cochran's Q test of whether the four periods agree on one association.",
+   "rowCount": 5211,
+   "verification": "Verified: direct computation from Leeds morphology by scripts/lib/association-by-period.mjs, with a sample of pairs recounted independently from the token files in scripts/association-by-period.test.mjs. Nuanced: the period assignment is the Noldeke-Bell four-period scheme, one chronology among several. A non-significant Q means the data cannot tell the periods apart, not that they are the same.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/association-by-period.csv",
+    "bytes": 593031,
+    "sha256": "46cc35450ec2dde88ef88eb96fcdee53b99e80d1948623c75b90cb9d7f878bda"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/association-by-period.json",
+    "bytes": 3046500,
+    "sha256": "cf1cc9ad11193b88602043f1b9f834cac9047e0033b159d11e65d0f2f73440b8"
+   }
+  },
+  {
+   "name": "surah-stats",
+   "description": "Per-surah corpus fingerprint: all 114 surahs.",
+   "rowCount": 114,
+   "verification": "verseCount/tokenCount/distinctRootCount/diversity ratios/nounPct/verbPct: Verified (direct computation). formMATTR/formMTLD: Verified (direct computation; formulas hand-verified against fixed-point fixtures). revelationOrder/period: Nuanced (Cairo 1924 / Nöldeke-Bell chronology, one scheme among several).",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/surah-stats.csv",
+    "bytes": 13087,
+    "sha256": "6c03ae8a59d93b3b893df0ea54cee61301f574656e809acd0be2879f3b273f9d"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/surah-stats.json",
+    "bytes": 44935,
+    "sha256": "eab04cf37eb2b9bb2838cdcd642bc66491bd4f4f9b95aa57dc533d76f01154b9"
+   }
+  },
+  {
+   "name": "verse-lengths",
+   "description": "Every verse in the corpus (6,236 rows) with its token length and revelation period.",
+   "rowCount": 6236,
+   "verification": "surah/verse/tokens: Verified (direct tally). period: Nuanced (Cairo 1924 / Nöldeke-Bell chronology).",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/verse-lengths.csv",
+    "bytes": 123719,
+    "sha256": "bd9b736464375768ae7b162e8f27347fd41e3dcfb7f6522776550e9e5577d7b0"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/verse-lengths.json",
+    "bytes": 360662,
+    "sha256": "8e986b8bce5ad8cb14f2eebc863947cdbb0a19c268fd3fd84da4236236a312c8"
+   }
+  },
+  {
+   "name": "formulas",
+   "description": "Every recurring 3-5 word sequence in the Qur'an (18,408 rows: 6,403 root-view + 12,005 surface-view), with its first occurrence.",
+   "rowCount": 18408,
+   "verification": "Verified (direct computation from Leeds morphology).",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/formulas.csv",
+    "bytes": 1505550,
+    "sha256": "9ecbcecbd9d46fe873dc4c42df37f424e50e18a3c3c89029f300fe8d851e6d3c"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/formulas.json",
+    "bytes": 2867691,
+    "sha256": "a8245dfb1e790a778f7aa2d02001f0601b78dd690d78eb768372eec5bf554b97"
+   }
+  },
+  {
+   "name": "centrality",
+   "description": "Network centrality for all 1,642 roots over the root co-occurrence graph (5,211 edges, built from each root's top-25-by-LLR partners).",
+   "rowCount": 1642,
+   "verification": "Nuanced: the four measures rank roots differently by design, and the graph itself is a subset (each root's top-25 partners, not every pair meeting the underlying 5-shared-verse threshold).",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/centrality.csv",
+    "bytes": 85806,
+    "sha256": "c81651ece82a02a5de004855080af9eadceb3448fb89d5fc88fc0cf42ff634b7"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/centrality.json",
+    "bytes": 350038,
+    "sha256": "7a6895294e31acbb3fc72b162627bb3c8de201ff0080db9b63cda4747096c2b8"
+   }
+  },
+  {
+   "name": "rhyme-summary",
+   "description": "Per-surah roll-up of verse-ending (rhyme) patterns for all 114 surahs.",
+   "rowCount": 114,
+   "verification": "Verified (direct computation from Leeds morphology and the Tanzil Uthmani text).",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/rhyme-summary.csv",
+    "bytes": 4003,
+    "sha256": "61d28c9f475af0cf4a6407e193185e006e0e0699a43140d5240b811b878ab372"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/rhyme-summary.json",
+    "bytes": 19845,
+    "sha256": "f8b9570ae69b2ead163c477d7c7fbdd86e14d29a7e509c25b34a90660fe16b61"
+   }
+  },
+  {
+   "name": "fawatih",
+   "description": "The 29 surahs opening with a sequence of isolated letters (fawatih / al-muqatta'at), and which combination.",
+   "rowCount": 29,
+   "verification": "Verified (direct detection from Leeds morphology). The letters' meaning is not asserted; the classical tradition has never settled it.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/fawatih.csv",
+    "bytes": 436,
+    "sha256": "aeb5b432b2e19a50db406a26822c26da81fa02167358650197731de468d8a987"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/fawatih.json",
+    "bytes": 1287,
+    "sha256": "c8c1d36d71d623c42701f6f1c0cb3ceea31b2eb9325853c080b5484b07004034"
+   }
+  },
+  {
+   "name": "discursive-pivots",
+   "description": "137 verses mechanically flagged for opening with a temporal particle (idh or idha) while sharing a content root with the immediately preceding verse.",
+   "rowCount": 137,
+   "verification": "Nuanced: depends on the fixed marker list and content-root stoplist; a different choice of either would change the count.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/discursive-pivots.csv",
+    "bytes": 3460,
+    "sha256": "4f6d6032c19caca27d8dcec188aeb68712ccf7747b041048b2a39676524a687f"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/discursive-pivots.json",
+    "bytes": 11773,
+    "sha256": "44c7e6d26dba1f7815f5a2158aeb4e2fbd75dc2f0ca067a8e610aa07d193d0ab"
+   }
+  },
+  {
+   "name": "structure",
+   "description": "Mechanically segmented sections for all 114 surahs (TextTiling-derived changepoint detection over lexical cohesion), not a transcribed scholarly outline.",
+   "rowCount": 417,
+   "verification": "Nuanced: a computed segmentation, not a scholar's reading; never attributed to any named scholar. See docs/maintainer-guide.md on the named-scholar outline policy.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/structure.csv",
+    "bytes": 5522,
+    "sha256": "7cf23eedf8768a58b7af375af76a4cef4b5e941d95644b2c6b66565abdc582ef"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/structure.json",
+    "bytes": 30495,
+    "sha256": "51849c7f70a36b932b85ebd1dd13685cbfbb2aa10c1a90f9907c13f92dfe2676"
+   }
+  },
+  {
+   "name": "structure-tests",
+   "description": "Four block-level mirror-symmetry tests (concentric pairing, inclusio, formula bookending, verse-length symmetry) over the computed sections in the structure table, one row per surah.",
+   "rowCount": 114,
+   "verification": "Nuanced: a null result describes this specific mechanical test over a computed segmentation, not the scholarly literature on ring composition, which this site never asserts an outline from.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/structure-tests.csv",
+    "bytes": 7433,
+    "sha256": "0315f9e5b07187aa76e3083c32e6800638bcc7a4b0b759aec4b3b200f0d9b61f"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/structure-tests.json",
+    "bytes": 48348,
+    "sha256": "e29c3c4309ade1d234aa7b3c3f8b3ab69b9bb4bb24fdbb2b77c4c2a808fe6703"
+   }
+  },
+  {
+   "name": "theme-surah-density",
+   "description": "Sparse theme-by-surah matrix: for each surah, the themes whose root-family vocabulary clusters most densely in it.",
+   "rowCount": 252,
+   "verification": "Nuanced: perThousand is a direct computation, but which roots belong to which theme is an editorial classification, not a computed fact.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/theme-surah-density.csv",
+    "bytes": 8457,
+    "sha256": "34b4a13da5ed6d2c1f535cb5e2a4ef5e77305c8a19e781882ca206fd8505d8e0"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/theme-surah-density.json",
+    "bytes": 21775,
+    "sha256": "c2f955ce32360e2e8900fe7bfb9e314dc6a9022d32364acda228e02be6560906"
+   }
+  },
+  {
+   "name": "formulaic-density",
+   "description": "Per-surah mean share of words covered by a recurring 3-5-word phrase (Bannister's oral-formulaic density), tested against a length-matched null, for all 114 surahs.",
+   "rowCount": 114,
+   "verification": "Nuanced: the significance test's null (uniform resampling across the whole corpus) does not control for genre or period, only length.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/formulaic-density.csv",
+    "bytes": 5203,
+    "sha256": "5d640c5c4656b5cbc99c98c75e40561a330614f6e47f3969b0025789e8dfd416"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/formulaic-density.json",
+    "bytes": 19234,
+    "sha256": "1bd3c0078a94ad58a13fcad883b03a59cd5cd86bd384f893b1edbfde52d3bfc6"
+   }
+  },
+  {
+   "name": "dispersion",
+   "description": "How evenly each of the 1,642 roots is spread across the 114 surahs, weighted by surah token count.",
+   "rowCount": 1642,
+   "verification": "Nuanced: dp/dpNorm and juillandD are independent formulas that can and do disagree; this site reports both rather than picking one as authoritative.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/dispersion.csv",
+    "bytes": 82484,
+    "sha256": "6db2b352523f0cfa402e2b2fbd95cf1a8291ab2f7839cd017170cb967e6ccb49"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/dispersion.json",
+    "bytes": 272867,
+    "sha256": "c40b2eb983ecf2703ace8e6428f77c1cb18b8b81debf37b7c523a1b9269f0bc8"
+   }
+  },
+  {
+   "name": "root-surah-counts",
+   "description": "How often each root occurs in each surah it appears in, as a count and as a rate per 1,000 of that surah's tokens (long format: one row per root per surah).",
+   "rowCount": 17496,
+   "verification": "Verified: direct computation from Leeds morphology; per-root sums equal root-frequencies totalCount, and per-root row counts equal dispersion surahsOccurringIn.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/root-surah-counts.csv",
+    "bytes": 461024,
+    "sha256": "b1498c8c416c049d56f4bdfdf1828c3e216d78782d9d3da066a39a162713dbe3"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/root-surah-counts.json",
+    "bytes": 1633210,
+    "sha256": "68127cabcc795da3d35065dda18e0d626b7bf43a4863d0473d5f3f1d4b781c01"
+   }
+  },
+  {
+   "name": "lemma-frequencies",
+   "description": "Every lemma (dictionary headword) in the corpus: how often it occurs, its part of speech, its root if it has one, how many distinct written forms it takes, and how widely it is spread.",
+   "rowCount": 4832,
+   "verification": "Verified: direct computation from Leeds morphology; row count equals the lemma total on Numbers, and each rooted lemma's count matches data/root-analytics/.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/lemma-frequencies.csv",
+    "bytes": 259389,
+    "sha256": "b5805095ddeb9585db6f7c12905dc37acaf3cd6ea9cc094e44a5d30b9a110758"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/lemma-frequencies.json",
+    "bytes": 829480,
+    "sha256": "66636b8f6b69fe082277c00c43d9ca82da0cbc504a2be3ff2abaabc6b9c6b425"
+   }
+  },
+  {
+   "name": "verse-durations",
+   "description": "Every verse with its length in word-units and how long its recitation lasts in each recording the Read page plays, one column per reciter.",
+   "rowCount": 6236,
+   "verification": "Verified as measurements of those files. Nuanced as analysis: a duration is one recording's performance, not a property of the text, and verse-1 files may include the basmala.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/verse-durations.csv",
+    "bytes": 189443,
+    "sha256": "244510ac2a444989dca456fb5937ae42037a56f42866593d7850725031016c3d"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/verse-durations.json",
+    "bytes": 1087302,
+    "sha256": "34c713bc9933be7d4cdad460761196f641623b9492300902be62607cd733e70a"
+   }
+  },
+  {
+   "name": "direct-address",
+   "description": "Every verse containing the believers' vocative ya ayyuha al-ladhina amanu ('O you who believe').",
+   "rowCount": 89,
+   "verification": "Verified: direct computation from Leeds morphology. Other vocatives (for example 'O people', 'O Prophet') are not in this table.",
+   "csv": {
+    "url": "https://divinediscourses.org/data/exports/direct-address.csv",
+    "bytes": 4525,
+    "sha256": "52eb779dcc35762dcf3e628335cb689f67eb591203b893f3c864a93d9a5f9e8f"
+   },
+   "json": {
+    "url": "https://divinediscourses.org/data/exports/direct-address.json",
+    "bytes": 8500,
+    "sha256": "810634f3027581ac610b83d859b37e0c95b63413d50b3fba3a8cf29bd629beb7"
+   }
+  }
+ ],
+ "archives": [
+  {
+   "version": "1.7.1",
+   "released": "2026-10-19",
+   "tables": 23,
+   "url": "https://divinediscourses.org/data/exports/divinediscourses-data-v1.7.1.tar.gz",
+   "bytes": 2919098,
+   "sha256": "34995f511caf5f86641e4699992d72d236cd3a51f4f89f3930d3843cd4f010e9"
+  },
+  {
+   "version": "1.7.0",
+   "released": "2026-10-19",
+   "tables": 23,
+   "url": "https://divinediscourses.org/data/exports/divinediscourses-data-v1.7.0.tar.gz",
+   "bytes": 2918546,
+   "sha256": "e5f6d63ef9e699f4fadd35968e2f5c6a48d2f471020bf51edf9ea570fc4d3be2"
+  },
+  {
+   "version": "1.6.0",
+   "released": "2026-10-19",
+   "tables": 22,
+   "url": "https://divinediscourses.org/data/exports/divinediscourses-data-v1.6.0.tar.gz",
+   "bytes": 2915771,
+   "sha256": "a3615111661961c57fae9254afe9111a71c5cd94f7f4eeaafe9b4e3fefa816e0"
+  },
+  {
+   "version": "1.5.0",
+   "released": "2026-10-18",
+   "tables": 20,
+   "url": "https://divinediscourses.org/data/exports/divinediscourses-data-v1.5.0.tar.gz",
+   "bytes": 2181827,
+   "sha256": "213954afcd03d956fe051aa2480ea6f2d0c384e0c94ea3e7b9288cde0555e01a"
+  },
+  {
+   "version": "1.4.0",
+   "released": "2026-10-18",
+   "tables": 19,
+   "url": "https://divinediscourses.org/data/exports/divinediscourses-data-v1.4.0.tar.gz",
+   "bytes": 1983090,
+   "sha256": "49926242d45e1c60ee4ce98ee7c86326c0b9ef0569b342249a624e774003794b"
+  },
+  {
+   "version": "1.3.1",
+   "released": "2026-10-01",
+   "tables": 18,
+   "url": "https://divinediscourses.org/data/exports/divinediscourses-data-v1.3.1.tar.gz",
+   "bytes": 1682247,
+   "sha256": "26260aeebbdea332b8f58dfb75918d74ee4da1944b72e492f2dad8ae7c37b92d"
+  },
+  {
+   "version": "1.3.0",
+   "released": "2026-09-26",
+   "tables": 18,
+   "url": "https://divinediscourses.org/data/exports/divinediscourses-data-v1.3.0.tar.gz",
+   "bytes": 1681381,
+   "sha256": "609c15c44ec20f5f67edb2548ae68b009ca8ec3abbb8cedab0674e40ea2b8fcb"
+  },
+  {
+   "version": "1.2.0",
+   "released": "2026-08-09",
+   "tables": 14,
+   "url": "https://divinediscourses.org/data/exports/divinediscourses-data-v1.2.0.tar.gz",
+   "bytes": 1093542,
+   "sha256": "bbaa1a8003ca18efb498809036d84ce15f9ab4136df6fd2d35e7a8248c2b63ae"
+  },
+  {
+   "version": "1.1.0",
+   "released": "2026-08-05",
+   "tables": 4,
+   "url": "https://divinediscourses.org/data/exports/divinediscourses-data-v1.1.0.tar.gz",
+   "bytes": 292978,
+   "sha256": "e62f8ad77d70bcd508cb786667e38c62d402efc6f596a6f0aa0c165af43c6c05"
+  },
+  {
+   "version": "1.0.0",
+   "released": "2026-08-04",
+   "tables": 4,
+   "url": "https://divinediscourses.org/data/exports/divinediscourses-data-v1.0.0.tar.gz",
+   "bytes": 292977,
+   "sha256": "ef4748dda205060e0aa26f0330ace7d62b46496c0652c1ef2a173eea68f7745b"
+  }
+ ]
+}

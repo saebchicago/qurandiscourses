@@ -22,7 +22,6 @@
     <script src="/assets/nav.js"></script>
     <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="theme-color" content="#2b1d0e" />
-    <script src="/assets/ga-init.js"></script>
     <script src="/assets/ah-init.js"></script>
     <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/root/kbr","url":"https://divinediscourses.org/root/kbr","name":"Root k-b-r (ك ب ر), 161 occurrences · Divine Discourses","description":"The root k-b-r (ك ب ر) occurs 161 times in 57 surahs of the Qur'an, as 18 lemmas. Forms, where it concentrates, and its companion roots.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"about":{"@type":"DefinedTerm","name":"k-b-r (ك ب ر)","inDefinedTermSet":"https://divinediscourses.org/roots"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Roots","item":"https://divinediscourses.org/roots"},{"@type":"ListItem","position":3,"name":"Root k-b-r","item":"https://divinediscourses.org/root/kbr"}]}]}
@@ -64,6 +63,10 @@
             <ul class="nav-menu">
               <li><a href="/roots">Roots</a></li>
               <li><a href="/words">Words</a></li>
+              <li><a href="/query">Query</a></li>
+              <li><a href="/distance">Surah distance</a></li>
+              <li><a href="/prayers">Prayers</a></li>
+              <li><a href="/explore">Explore the data</a></li>
               <li><a href="/patterns">Patterns</a></li>
               <li><a href="/formulas">Formulas</a></li>
               <li><a href="/numbers">Numbers</a></li>
@@ -165,7 +168,7 @@
 
         <section class="card" aria-labelledby="company">
           <h2 class="card-title" id="company">Roots it keeps company with</h2>
-          <ul class="surah-themes"><li><a href="/roots?root=uSgr"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ص غ ر</span> ṣ-gh-r</a> <span class="t-annotation">7 shared verses</span></li><li><a href="/root/uElw"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ع ل و</span> ʿ-l-w</a> <span class="t-annotation">11 shared verses</span></li><li><a href="/root/uDuEf"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ض ع ف</span> ḍ-ʿ-f</a> <span class="t-annotation">9 shared verses</span></li><li><a href="/root/ruAy"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ر ا ي</span> r-a-y</a> <span class="t-annotation">21 shared verses</span></li><li><a href="/root/uAyy"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ا ي ي</span> a-y-y</a> <span class="t-annotation">23 shared verses</span></li><li><a href="/root/kwn"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ك و ن</span> k-w-n</a> <span class="t-annotation">50 shared verses</span></li><li><a href="/root/mkr"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">م ك ر</span> m-k-r</a> <span class="t-annotation">5 shared verses</span></li><li><a href="/root/jrm"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ج ر م</span> j-r-m</a> <span class="t-annotation">8 shared verses</span></li></ul>
+          <ul class="surah-themes"><li><a href="/roots?root=uSgr"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ص غ ر</span> ṣ-gh-r</a> <span class="t-annotation">7 shared verses</span></li><li><a href="/root/uelw"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ع ل و</span> ʿ-l-w</a> <span class="t-annotation">11 shared verses</span></li><li><a href="/root/uduef"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ض ع ف</span> ḍ-ʿ-f</a> <span class="t-annotation">9 shared verses</span></li><li><a href="/root/ruay"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ر ا ي</span> r-a-y</a> <span class="t-annotation">21 shared verses</span></li><li><a href="/root/uayy"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ا ي ي</span> a-y-y</a> <span class="t-annotation">23 shared verses</span></li><li><a href="/root/kwn"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ك و ن</span> k-w-n</a> <span class="t-annotation">50 shared verses</span></li><li><a href="/root/mkr"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">م ك ر</span> m-k-r</a> <span class="t-annotation">5 shared verses</span></li><li><a href="/root/jrm"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ج ر م</span> j-r-m</a> <span class="t-annotation">8 shared verses</span></li></ul>
           <p class="prov t-annotation"><span class="badge nuanced" data-source-ids="leeds-corpus-v0.4" aria-label="Nuanced" tabindex="0" title="Nuanced · depends on a classification or method">~</span> Ranked by log-likelihood of sharing a verse, one association measure among several (<a href="/roots?root=kbr">explorer</a>).</p>
         </section>
 
@@ -218,7 +221,7 @@
           <button type="submit" class="button secondary">Send</button>
           <p class="feedback-note t-annotation">
             Goes to the maintainer via the hosting provider's form service.
-            Page visits are counted with Google Analytics and the site's own cookieless analytics; audio and translations load from the
+            Usage is counted with the site's own cookieless analytics, which you can turn off; audio and translations load from the
             providers named under <a href="/about#privacy">Privacy</a>. Prefer
             GitHub? <a href="https://github.com/saebchicago/qurandiscourses/issues/new?template=correction.md" rel="noopener">Open a correction issue</a>.
           </p>

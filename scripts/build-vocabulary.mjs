@@ -26,7 +26,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { readJson } from "./lib/io.mjs";
-import { safeKey } from "./lib/safe-key.mjs";
+import { safeKey, rootPageSlug } from "./lib/safe-key.mjs";
 import { TOTAL_TOKENS } from "./lib/corpus.mjs";
 import { ROOT, ROOT_PAGE_MIN, esc, n0, ar, posLabel, replaceRegion } from "./lib/page-shell.mjs";
 
@@ -90,7 +90,7 @@ const rows = cut.map((l, i) => {
     root: l.root || "",
     rootLatin: s ? s.rootLatin : "",
     rootArabic: s ? s.rootArabic : "",
-    rootHref: l.root ? (rootCount.get(l.root) >= ROOT_PAGE_MIN ? `/root/${safeKey(l.root)}` : `/roots?root=${safeKey(l.root)}`) : "",
+    rootHref: l.root ? (rootCount.get(l.root) >= ROOT_PAGE_MIN ? `/root/${rootPageSlug(l.root)}` : `/roots?root=${safeKey(l.root)}`) : "",
     count: l.count,
     cum: +((100 * l.cum) / lemmatized).toFixed(1),
     at,

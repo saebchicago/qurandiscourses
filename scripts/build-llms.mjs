@@ -38,7 +38,7 @@ const PAGES = [
   "index.html", "read.html", "navigate.html",
   "dossier.html", "themes.html", "compare.html", "replay.html", "exercises.html",
   "exercise.html", "exercise-roots.html",
-  "roots.html", "words.html", "patterns.html", "formulas.html", "numbers.html",
+  "roots.html", "words.html", "query.html", "distance.html", "prayers.html", "explore.html", "patterns.html", "formulas.html", "numbers.html",
   "how-to-use.html", "how-it-works.html", "paths.html", "glossary.html", "vocabulary.html", "search.html", "watch.html",
   "sources.html", "validation.html", "datasets.html", "coverage.html",
   "export.html", "changelog.html", "contribute.html", "review.html", "corrections.html", "open-questions.html",
@@ -66,7 +66,7 @@ const header = `# Divine Discourses
 > A Qur'an study platform in the coherence-reading tradition of
 > Dr. Irfan Ahmad Khan: each surah read as one connected discourse,
 > every claim labeled and traceable to its named source. Static site,
-> open source, no accounts, anonymous usage analytics only. Version ${version}
+> open source, no accounts, the site's own cookieless first-party analytics only (no Google; opt-out honored). Version ${version}
 > (${released}).
 
 Ground rules for using this site as a source:

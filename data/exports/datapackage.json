@@ -1,8 +1,8 @@
 {
  "name": "divinediscourses-exports",
  "title": "Divine Discourses public export tables",
- "version": "1.3.1",
- "created": "2026-10-01",
+ "version": "1.7.1",
+ "created": "2026-10-19",
  "homepage": "https://divinediscourses.org/export",
  "licenses": [
   {
@@ -24,6 +24,222 @@
   }
  ],
  "resources": [
+  {
+   "name": "association-by-period",
+   "title": "Divine Discourses: association-by-period",
+   "description": "For every pair in association-pairs, the verse-level log odds ratio with a 95% interval inside each revelation period, and Cochran's Q test of whether the four periods agree on one association.",
+   "path": "association-by-period.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "rootA",
+      "type": "string",
+      "description": "First root of the pair (Buckwalter); the same orientation as association-pairs."
+     },
+     {
+      "name": "rootASafeKey",
+      "type": "string",
+      "description": "URL/filename-safe encoding of rootA."
+     },
+     {
+      "name": "rootB",
+      "type": "string",
+      "description": "Second root of the pair (Buckwalter)."
+     },
+     {
+      "name": "rootBSafeKey",
+      "type": "string",
+      "description": "URL/filename-safe encoding of rootB."
+     },
+     {
+      "name": "shared_meccan-early",
+      "type": "integer",
+      "description": "Verses of the Early Meccan period in which both roots occur. Unit: verses."
+     },
+     {
+      "name": "shared_meccan-middle",
+      "type": "integer",
+      "description": "Same, Middle Meccan. Unit: verses."
+     },
+     {
+      "name": "shared_meccan-late",
+      "type": "integer",
+      "description": "Same, Late Meccan. Unit: verses."
+     },
+     {
+      "name": "shared_medinan",
+      "type": "integer",
+      "description": "Same, Medinan. Unit: verses."
+     },
+     {
+      "name": "logOddsRatio_meccan-early",
+      "type": "number",
+      "description": "Haldane-Anscombe log odds ratio inside the period; empty when either root has no verse there. Rounded to 3 decimals. Unit: natural log."
+     },
+     {
+      "name": "lo95_meccan-early",
+      "type": "number",
+      "description": "Lower end of the Wald 95% interval for the period's log odds ratio. Unit: natural log."
+     },
+     {
+      "name": "hi95_meccan-early",
+      "type": "number",
+      "description": "Upper end of the same interval. Unit: natural log."
+     },
+     {
+      "name": "logOddsRatio_meccan-middle",
+      "type": "number",
+      "description": "As above, Middle Meccan. Unit: natural log."
+     },
+     {
+      "name": "lo95_meccan-middle",
+      "type": "number",
+      "description": "Lower interval end, Middle Meccan. Unit: natural log."
+     },
+     {
+      "name": "hi95_meccan-middle",
+      "type": "number",
+      "description": "Upper interval end, Middle Meccan. Unit: natural log."
+     },
+     {
+      "name": "logOddsRatio_meccan-late",
+      "type": "number",
+      "description": "As above, Late Meccan. Unit: natural log."
+     },
+     {
+      "name": "lo95_meccan-late",
+      "type": "number",
+      "description": "Lower interval end, Late Meccan. Unit: natural log."
+     },
+     {
+      "name": "hi95_meccan-late",
+      "type": "number",
+      "description": "Upper interval end, Late Meccan. Unit: natural log."
+     },
+     {
+      "name": "logOddsRatio_medinan",
+      "type": "number",
+      "description": "As above, Medinan. Unit: natural log."
+     },
+     {
+      "name": "lo95_medinan",
+      "type": "number",
+      "description": "Lower interval end, Medinan. Unit: natural log."
+     },
+     {
+      "name": "hi95_medinan",
+      "type": "number",
+      "description": "Upper interval end, Medinan. Unit: natural log."
+     },
+     {
+      "name": "periodsCompared",
+      "type": "integer",
+      "description": "Number of periods in which both roots occur (0 to 4). Unit: periods."
+     },
+     {
+      "name": "heterogeneityQ",
+      "type": "number",
+      "description": "Cochran's Q over the periods compared; empty when fewer than two. Rounded to 3 decimals."
+     },
+     {
+      "name": "heterogeneityP",
+      "type": "number",
+      "description": "Chi-square upper tail of Q with (periodsCompared - 1) degrees of freedom, 3 significant digits."
+     },
+     {
+      "name": "heterogeneityBhQ",
+      "type": "number",
+      "description": "Benjamini-Hochberg q over all pairs with a Q, 3 significant digits. Rows are ordered by this value."
+     }
+    ]
+   }
+  },
+  {
+   "name": "association-extended",
+   "title": "Divine Discourses: association-extended",
+   "description": "Four further root-pair association measures (logDice, t-score, log odds ratio with a 95% interval, directional deltaP) for exactly the pairs in association-pairs, in the same order and orientation.",
+   "path": "association-extended.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "rootA",
+      "type": "string",
+      "description": "First root of the pair (Buckwalter); identical to association-pairs.rootA for the same row."
+     },
+     {
+      "name": "rootASafeKey",
+      "type": "string",
+      "description": "URL/filename-safe encoding of rootA."
+     },
+     {
+      "name": "rootB",
+      "type": "string",
+      "description": "Second root of the pair (Buckwalter)."
+     },
+     {
+      "name": "rootBSafeKey",
+      "type": "string",
+      "description": "URL/filename-safe encoding of rootB."
+     },
+     {
+      "name": "sharedVerses",
+      "type": "integer",
+      "description": "k11: verses in which both roots are attested. Unit: verses."
+     },
+     {
+      "name": "versesA",
+      "type": "integer",
+      "description": "Verses in which rootA is attested. Unit: verses."
+     },
+     {
+      "name": "versesB",
+      "type": "integer",
+      "description": "Verses in which rootB is attested. Unit: verses."
+     },
+     {
+      "name": "logDice",
+      "type": "number",
+      "description": "14 + log2(2*k11/(versesA+versesB)), Rychly 2008; at most 14, independent of corpus size. Rounded to 3 decimals."
+     },
+     {
+      "name": "tScore",
+      "type": "number",
+      "description": "(k11 - E11)/sqrt(k11) where E11 = versesA*versesB/N. Rounded to 2 decimals."
+     },
+     {
+      "name": "logOddsRatio",
+      "type": "number",
+      "description": "ln((k11+0.5)(k22+0.5)/((k12+0.5)(k21+0.5))), Haldane-Anscombe correction. Rounded to 3 decimals. Unit: natural log."
+     },
+     {
+      "name": "logOddsRatioLo95",
+      "type": "number",
+      "description": "Lower end of a Wald 95% interval for logOddsRatio (estimate minus 1.96*sqrt(sum 1/(cell+0.5))). Rounded to 3 decimals. Unit: natural log."
+     },
+     {
+      "name": "logOddsRatioHi95",
+      "type": "number",
+      "description": "Upper end of the same interval. Rounded to 3 decimals. Unit: natural log."
+     },
+     {
+      "name": "deltaP_BgivenA",
+      "type": "number",
+      "description": "P(rootB in verse | rootA in verse) minus P(rootB | rootA absent). Rounded to 4 decimals. Asymmetric: differs from deltaP_AgivenB."
+     },
+     {
+      "name": "deltaP_AgivenB",
+      "type": "number",
+      "description": "P(rootA | rootB in verse) minus P(rootA | rootB absent). Rounded to 4 decimals."
+     }
+    ]
+   }
+  },
   {
    "name": "association-pairs",
    "title": "Divine Discourses: association-pairs",
@@ -414,6 +630,64 @@
    }
   },
   {
+   "name": "keyness-period",
+   "title": "Divine Discourses: keyness-period",
+   "description": "Dunning G2 keyness of every root (1,642) in each of the four revelation periods (6,568 root-period tests), with a permutation p-value that assigns whole surahs to periods at random, and a Benjamini-Hochberg q.",
+   "path": "keyness-period.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "root",
+      "type": "string",
+      "description": "Root (Buckwalter)."
+     },
+     {
+      "name": "rootSafeKey",
+      "type": "string",
+      "description": "URL/filename-safe encoding of root."
+     },
+     {
+      "name": "period",
+      "type": "string",
+      "description": "One of meccan-early, meccan-middle, meccan-late, medinan."
+     },
+     {
+      "name": "count",
+      "type": "integer",
+      "description": "Occurrences of the root in the period. Unit: tokens."
+     },
+     {
+      "name": "countRest",
+      "type": "integer",
+      "description": "Occurrences of the root in the other three periods. Unit: tokens."
+     },
+     {
+      "name": "g2",
+      "type": "number",
+      "description": "Dunning's G2 for period against rest, rounded to 3 decimals."
+     },
+     {
+      "name": "direction",
+      "type": "string",
+      "description": "enriched or depleted: the root's rate in the period against its rate elsewhere."
+     },
+     {
+      "name": "permutationP",
+      "type": "number",
+      "description": "One-sided permutation p-value over 100,000 surah-to-period reassignments, rounded to 6 decimals; at least 0.00001."
+     },
+     {
+      "name": "bhQ",
+      "type": "number",
+      "description": "Benjamini-Hochberg q over all 6,568 root-period tests, rounded to 6 decimals."
+     }
+    ]
+   }
+  },
+  {
    "name": "lemma-frequencies",
    "title": "Divine Discourses: lemma-frequencies",
    "description": "Every lemma (dictionary headword) in the corpus: how often it occurs, its part of speech, its root if it has one, how many distinct written forms it takes, and how widely it is spread.",
@@ -472,6 +746,59 @@
       "name": "firstVerse",
       "type": "string",
       "description": "First occurrence, as surah:verse."
+     }
+    ]
+   }
+  },
+  {
+   "name": "prayers-vocative",
+   "title": "Divine Discourses: prayers-vocative",
+   "description": "Every place the Qur'an has people address God as rabbana (Our Lord): 70 words in 62 verses, with the word that follows and the period the site assigns to the surah.",
+   "path": "prayers-vocative.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "surah",
+      "type": "integer",
+      "description": "Surah number (1-114)."
+     },
+     {
+      "name": "ayah",
+      "type": "integer",
+      "description": "Verse number within the surah."
+     },
+     {
+      "name": "wordIndex",
+      "type": "integer",
+      "description": "1-based position of the word in the verse. Unit: position."
+     },
+     {
+      "name": "form",
+      "type": "string",
+      "description": "The word as written in the Tanzil Uthmani text, with diacritics."
+     },
+     {
+      "name": "nextForm",
+      "type": "string",
+      "description": "The following word as written, or empty at the end of the verse."
+     },
+     {
+      "name": "nextLemma",
+      "type": "string",
+      "description": "Leeds lemma of the following word (Buckwalter), or empty."
+     },
+     {
+      "name": "nextRoot",
+      "type": "string",
+      "description": "Leeds root of the following word (Buckwalter), empty for particles."
+     },
+     {
+      "name": "period",
+      "type": "string",
+      "description": "The site's period for the surah: meccan-early, meccan-middle, meccan-late or medinan."
      }
     ]
    }
@@ -782,6 +1109,69 @@
       "name": "lengthSymmetry_survivor",
       "type": "string",
       "description": "Whether this candidate survived correction; null if not applicable."
+     }
+    ]
+   }
+  },
+  {
+   "name": "surah-distance",
+   "title": "Divine Discourses: surah-distance",
+   "description": "Jensen-Shannon distance between the root distributions of every pair of surahs (6,441 pairs), with a permutation null so each distance can be read against what chance and surah length alone produce.",
+   "path": "surah-distance.csv",
+   "format": "csv",
+   "mediatype": "text/csv",
+   "encoding": "utf-8",
+   "schema": {
+    "fields": [
+     {
+      "name": "surahA",
+      "type": "integer",
+      "description": "Lower surah number of the pair, 1-114, Cairo order."
+     },
+     {
+      "name": "surahB",
+      "type": "integer",
+      "description": "Higher surah number of the pair."
+     },
+     {
+      "name": "rootedTokensA",
+      "type": "integer",
+      "description": "Tokens of surahA with an annotated root. Unit: tokens."
+     },
+     {
+      "name": "rootedTokensB",
+      "type": "integer",
+      "description": "Tokens of surahB with an annotated root. Unit: tokens."
+     },
+     {
+      "name": "distance",
+      "type": "number",
+      "description": "sqrt of base-2 Jensen-Shannon divergence between the two root distributions; 0 identical, 1 no shared root. Rounded to 4 decimals."
+     },
+     {
+      "name": "nullMean",
+      "type": "number",
+      "description": "Mean distance over 2,000 draws of the permutation null. Rounded to 4 decimals."
+     },
+     {
+      "name": "excess",
+      "type": "number",
+      "description": "distance minus nullMean. Rounded to 4 decimals."
+     },
+     {
+      "name": "permutationP",
+      "type": "number",
+      "description": "One-sided permutation p-value, (1 + draws with null distance >= observed) / 2,001. Rounded to 5 decimals."
+     },
+     {
+      "name": "bhQ",
+      "type": "number",
+      "description": "Benjamini-Hochberg adjusted q-value over all 6,441 pairs. Rounded to 5 decimals."
+     },
+     {
+      "name": "lowCount",
+      "type": "integer",
+      "description": "1 when either surah has fewer than 100 rooted tokens. Unit: 0 or 1."
      }
     ]
    }

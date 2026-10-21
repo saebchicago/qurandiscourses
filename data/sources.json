@@ -367,6 +367,91 @@
    "publisher": "The Hague: Mouton & Co.",
    "year": "1964",
    "note": "Source of Juilland's D, the older equal-parts dispersion measure reported in data/dispersion/*.json alongside Gries's DP for comparability with the wider literature."
+  },
+  {
+   "id": "rychly-2008-logdice",
+   "type": "paper",
+   "author": "Rychlý, Pavel",
+   "name": "A Lexicographer-Friendly Association Score",
+   "publisher": "Proceedings of Recent Advances in Slavonic Natural Language Processing (RASLAN 2008), Brno: Masaryk University, pp. 6–9",
+   "year": "2008",
+   "url": "https://nlp.fi.muni.cz/raslan/2008/papers/13.pdf",
+   "note": "Defines logDice, 14 + log2 of the Dice coefficient. Used in data/exports/association-extended.* alongside t-score, log odds ratio and deltaP. Bibliographic details checked against the Masaryk University publication record on 2026-10-18; the PDF text itself was not read in this session.",
+   "accessed": "2026-10-18"
+  },
+  {
+   "id": "penrice-1873",
+   "type": "book",
+   "author": "Penrice, John",
+   "name": "A Dictionary and Glossary of the Kor-ân, with Copious Grammatical References and Explanations of the Text",
+   "publisher": "London: Henry S. King & Co.",
+   "year": "1873",
+   "note": "Public domain by age. Primary source for the verified root glosses in data/root-glosses/roots.json: each gloss is a short verbatim quotation with its page. Transcribe from a scan of the printed edition, not from a modern digital transcription, which may carry its own terms."
+  },
+  {
+   "id": "lane-lexicon",
+   "type": "book",
+   "author": "Lane, Edward William",
+   "name": "An Arabic-English Lexicon",
+   "edition": "8 parts; parts 6-8 completed by Stanley Lane-Poole",
+   "publisher": "London: Williams and Norgate",
+   "year": "1863–1893",
+   "note": "Public domain by age. Cross-check for the verified root glosses in data/root-glosses/roots.json: each record states whether Lane's entry for the root agrees, adds senses, or was not found, with its page. Transcribe from a scan of the printed edition."
+  },
+  {
+   "id": "lin-1991-jsd",
+   "type": "paper",
+   "author": "Lin, Jianhua",
+   "name": "Divergence measures based on the Shannon entropy",
+   "publisher": "IEEE Transactions on Information Theory 37(1): 145–151",
+   "year": "1991",
+   "url": "https://doi.org/10.1109/18.61115",
+   "note": "Introduces the Jensen-Shannon divergence used in data/exports/surah-distance.*. Bibliographic details checked against the IEEE Xplore record and Crossref (DOI 10.1109/18.61115) on 2026-10-18; the paper text itself was not read in this session.",
+   "accessed": "2026-10-18"
+  },
+  {
+   "id": "endres-schindelin-2003",
+   "type": "paper",
+   "author": "Endres, Dominik M.; Schindelin, Johannes E.",
+   "name": "A new metric for probability distributions",
+   "publisher": "IEEE Transactions on Information Theory 49(7): 1858–1860",
+   "year": "2003",
+   "url": "https://doi.org/10.1109/TIT.2003.813506",
+   "note": "Source for the square root of the Jensen-Shannon divergence being a metric, which is why surah-distance reports the square root. Bibliographic details checked against search results for the published record (DOI 10.1109/TIT.2003.813506) on 2026-10-18; the paper text and proof were not read in this session.",
+   "accessed": "2026-10-18"
+  },
+  {
+   "id": "benjamini-hochberg-1995",
+   "type": "paper",
+   "author": "Benjamini, Yoav; Hochberg, Yosef",
+   "name": "Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing",
+   "publisher": "Journal of the Royal Statistical Society: Series B 57(1): 289–300",
+   "year": "1995",
+   "url": "https://doi.org/10.1111/j.2517-6161.1995.tb02031.x",
+   "note": "The step-up procedure used for every q-value on the site (data/exports: association-pairs-derived, surah-distance, keyness-period, association-by-period, formulaic templates). Bibliographic details checked against search results for the published record on 2026-10-19; the paper text was not read in this session.",
+   "accessed": "2026-10-19"
+  },
+  {
+   "id": "dunning-1993-g2",
+   "type": "paper",
+   "author": "Dunning, Ted",
+   "name": "Accurate Methods for the Statistics of Surprise and Coincidence",
+   "publisher": "Computational Linguistics 19(1): 61–74",
+   "year": "1993",
+   "url": "https://aclanthology.org/J93-1003/",
+   "note": "Source of the log-likelihood ratio (G2) used for root association (association-pairs) and for keyness (keyness-period). Bibliographic details checked against the ACL Anthology record on 2026-10-19; the paper text was not read in this session.",
+   "accessed": "2026-10-19"
+  },
+  {
+   "id": "cochran-1954-combination",
+   "type": "paper",
+   "author": "Cochran, William G.",
+   "name": "The Combination of Estimates from Different Experiments",
+   "publisher": "Biometrics 10(1): 101–129",
+   "year": "1954",
+   "url": "https://doi.org/10.2307/3001666",
+   "note": "Source of Cochran's Q, the test of whether several estimates agree, used for association-by-period. Journal, volume, issue, starting page and DOI checked against a search result on 2026-10-19; the end page (129) was not confirmed in this session and the paper text was not read.",
+   "accessed": "2026-10-19"
   }
  ]
 }

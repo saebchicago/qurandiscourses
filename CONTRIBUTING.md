@@ -105,11 +105,10 @@ Before a submission is merged, it needs to pass:
    data, or a newly-added source with documented rights status — never
    invented figures.
 5. **No new tracking, analytics, backend, or paywall logic in a
-   submission.** The site's only analytics are the two described on the
-   About page (Google Analytics, and the maintainer's own cookieless
-   first-party analytics, loaded by `assets/ga-init.js` and
-   `assets/ah-init.js`); a contribution must not add a third, an account
-   system, a backend, or paywall logic. This stays a static site with
+   submission.** The site's only analytics is the maintainer's own cookieless
+   first-party analytics described on the About page, loaded by
+   `assets/ah-init.js` (no Google); a contribution must not add another, an
+   account system, a backend, or paywall logic. This stays a static site with
    client-only persistence.
 6. `node scripts/verify-site.mjs` and `node scripts/build-csp.mjs --check`
    both pass.

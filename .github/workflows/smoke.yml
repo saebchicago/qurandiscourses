@@ -1,0 +1,43 @@
+name: Deployed smoke test
+
+# Read-only check of a DEPLOYED site (scripts/smoke-deployed.mjs): GET and
+# HEAD requests only. Runs weekly on a schedule and on demand (Actions tab
+# or "gh workflow run smoke.yml"), because the authoring sandbox cannot
+# reach production. Leave the input empty for production, or give
+# a Netlify deploy-preview URL.
+
+on:
+  schedule:
+    # Weekly, Tuesday 10:23 UTC (off the hour): catches a deploy or host
+    # change that breaks a page, header or the data API between releases.
+    - cron: "23 10 * * 2"
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Target (empty = https://divinediscourses.org)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Smoke test the deployed site
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 22
+      - name: Run scripts/smoke-deployed.mjs
+        env:
+          TARGET: ${{ inputs.url }}
+        run: |
+          set -o pipefail
+          status=0
+          node scripts/smoke-deployed.mjs $TARGET | tee smoke.txt || status=$?
+          # The full output goes to the run summary whether it passed or not.
+          { echo '```'; cat smoke.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          exit $status

@@ -127,3 +127,67 @@ export function makeEq(failures) {
     if (Math.abs(got - want) > eps) failures.push(`${label}: got ${got}, want ${want}`);
   };
 }
+
+// Benjamini-Hochberg adjusted q-values, same order as the input.
+export function bhAdjust(ps) {
+  const m = ps.length;
+  const order = ps.map((_, i) => i).sort((x, y) => ps[x] - ps[y] || x - y);
+  const q = new Array(m);
+  let running = 1;
+  for (let r = m - 1; r >= 0; r--) {
+    const i = order[r];
+    running = Math.min(running, (ps[i] * m) / (r + 1));
+    q[i] = running;
+  }
+  return q;
+}
+
+// Upper tail P(X >= x) of a chi-square variable with df degrees of freedom:
+// the regularized upper incomplete gamma Q(df/2, x/2), by series below the
+// mode and a continued fraction above it (Numerical Recipes 6.2). Accurate
+// to about 1e-14 relative; the far tail does not underflow to zero until
+// about x = 1400.
+export function chiSquareUpperTail(x, df) {
+  if (x <= 0) return 1;
+  const a = df / 2;
+  const z = x / 2;
+  const lg = lgamma(a);
+  if (z < a + 1) {
+    let sum = 1 / a;
+    let term = sum;
+    for (let n = 1; n < 1000; n++) {
+      term *= z / (a + n);
+      sum += term;
+      if (Math.abs(term) < Math.abs(sum) * 1e-16) break;
+    }
+    return Math.max(0, 1 - sum * Math.exp(-z + a * Math.log(z) - lg));
+  }
+  let b = z + 1 - a;
+  let c = 1 / 1e-300;
+  let d = 1 / b;
+  let h = d;
+  for (let i = 1; i < 1000; i++) {
+    const an = -i * (i - a);
+    b += 2;
+    d = an * d + b;
+    if (Math.abs(d) < 1e-300) d = 1e-300;
+    c = b + an / c;
+    if (Math.abs(c) < 1e-300) c = 1e-300;
+    d = 1 / d;
+    const delta = d * c;
+    h *= delta;
+    if (Math.abs(delta - 1) < 1e-16) break;
+  }
+  return Math.min(1, Math.exp(-z + a * Math.log(z) - lg) * h);
+}
+
+// log Gamma(x) for x > 0 (Lanczos, g = 7, n = 9).
+export function lgamma(x) {
+  const g = [0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+  if (x < 0.5) return Math.log(Math.PI / Math.sin(Math.PI * x)) - lgamma(1 - x);
+  x -= 1;
+  let s = g[0];
+  const t = x + 7.5;
+  for (let i = 1; i < 9; i++) s += g[i] / (x + i);
+  return 0.5 * Math.log(2 * Math.PI) + (x + 0.5) * Math.log(t) - t + Math.log(s);
+}

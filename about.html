@@ -33,11 +33,10 @@
     />
     <link rel="manifest" href="manifest.webmanifest" />
     <meta name="theme-color" content="#2b1d0e" />
-    <script src="/assets/ga-init.js"></script>
     <script src="/assets/ah-init.js"></script>
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/about","url":"https://divinediscourses.org/about","name":"About this site and its method · Divine Discourses","description":"About Divine Discourses: the coherence-based method behind the site, its evidence-labeling standards, and how it's maintained.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.3.1","dateModified":"2026-10-17","about":{"@id":"https://divinediscourses.org/about#about-dr-khan"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"About this site and its method","item":"https://divinediscourses.org/about"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"},{"@type":"Person","@id":"https://divinediscourses.org/about#about-dr-khan","name":"Irfan Ahmad Khan","honorificPrefix":"Dr.","birthDate":"1931","deathDate":"2018","url":"https://divinediscourses.org/about#about-dr-khan","description":"Scholar of the Qur'an whose weekly tafsir lessons and published writings at the Association of Quranic Understanding developed the coherence-based reading this site follows."}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/about","url":"https://divinediscourses.org/about","name":"About this site and its method · Divine Discourses","description":"About Divine Discourses: the coherence-based method behind the site, its evidence-labeling standards, and how it's maintained.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.7.1","dateModified":"2026-10-21","about":{"@id":"https://divinediscourses.org/about#about-dr-khan"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"About this site and its method","item":"https://divinediscourses.org/about"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"},{"@type":"Person","@id":"https://divinediscourses.org/about#about-dr-khan","name":"Irfan Ahmad Khan","honorificPrefix":"Dr.","birthDate":"1931","deathDate":"2018","url":"https://divinediscourses.org/about#about-dr-khan","description":"Scholar of the Qur'an whose weekly tafsir lessons and published writings at the Association of Quranic Understanding developed the coherence-based reading this site follows."}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -77,6 +76,10 @@
             <ul class="nav-menu">
               <li><a href="/roots">Roots</a></li>
               <li><a href="/words">Words</a></li>
+              <li><a href="/query">Query</a></li>
+              <li><a href="/distance">Surah distance</a></li>
+              <li><a href="/prayers">Prayers</a></li>
+              <li><a href="/explore">Explore the data</a></li>
               <li><a href="/patterns">Patterns</a></li>
               <li><a href="/formulas">Formulas</a></li>
               <li><a href="/numbers">Numbers</a></li>
@@ -321,17 +324,15 @@
           unexpectedly.
         </p>
         <p>
-          Four outside services can be contacted, and only these four. The
+          Three outside services can be contacted, and only these three. The
           Arabic text ships with this site (Tanzil); translations come from
           <strong>api.alquran.cloud</strong>. Word-by-word meanings, when you
           open them, come from <strong>api.quran.com</strong>. Recitation audio
-          is streamed from <strong>cdn.islamic.network</strong>. Page-visit
-          counts go to <strong>Google Analytics</strong>
-          (<strong>googletagmanager.com</strong>,
-          <strong>google-analytics.com</strong>), described under
-          <a href="#analytics">Analytics</a>. Nothing else is
-          permitted: the site's content security policy names exactly these
-          hosts, so a fifth would be blocked by your browser rather than
+          is streamed from <strong>cdn.islamic.network</strong>. Usage
+          counts stay on this site's own address and go to no outside
+          service, as described under <a href="#analytics">Analytics</a>.
+          Nothing else is permitted: the site's content security policy names
+          exactly these hosts, so a fourth would be blocked by your browser rather than
           silently allowed. Like any direct web request, each provider receives
           technical connection information such as your IP address and browser
           headers. What the request carries is the surah, verse, selected
@@ -358,22 +359,15 @@
 
         <h3 id="analytics">Analytics</h3>
         <p>
-          This site uses Google Analytics to count visits by page. Each page
-          load sends the page address without any query string or fragment
-          (so a search or a chosen passage in the address is not sent), the
-          referring address cut the same way, and the technical connection
-          information any web request carries, such as your IP address and
-          browser headers. It does not send names, notes, form contents, or
-          what you type into search. Google Signals and ad personalization
-          features are turned off in the tag. Google Analytics also sets
-          cookies in your browser to recognize a returning visit. A second,
-          cookieless analytics script is described under
-          <a href="#first-party-analytics">First-party analytics</a>.
+          The only analytics on this site are its own. There is no Google
+          Analytics and no other third-party analytics or advertising
+          service. The browser does not contact any additional website for
+          them, and nothing is sent to Google. The script is described under
+          <a href="#first-party-analytics">First-party analytics</a> below.
         </p>
         <p>
-          Global Privacy Control is honored: if your browser sends it, the
-          site configures nothing, sends no analytics, and does not load
-          Google's tag script, so Google is not contacted.
+          Global Privacy Control and Do Not Track are honored: if your browser
+          sends either, the site adds no analytics script and sends nothing.
           You can also turn analytics off for this browser here. The choice is
           stored in your browser's local storage, so it applies to this
           browser only. Analytics runs only with JavaScript.
@@ -385,8 +379,8 @@
 
         <h4 id="first-party-analytics">First-party analytics</h4>
         <p>
-          Besides Google Analytics, this site runs a second, separate
-          analytics script. It is requested from this site's own address
+          This site runs its own cookieless analytics script. It is
+          requested from this site's own address
           (under <code>/_ah/</code>), and its measurements are sent to this
           site's own address too, which passes them on to an analytics
           service run by the site's maintainer. Your browser does not contact
@@ -523,7 +517,7 @@
           including the release version. To cite the site as a whole:
         </p>
         <p class="cite-example">
-          Divine Discourses, version 1.3.1. 2026.
+          Divine Discourses, version 1.7.1. 2026.
           https://divinediscourses.org.
         </p>
         <p>
@@ -622,7 +616,7 @@
           <button type="submit" class="button secondary">Send</button>
           <p class="feedback-note t-annotation">
             Goes to the maintainer via the hosting provider's form service.
-            Page visits are counted with Google Analytics and the site's own cookieless analytics; audio and translations load from the
+            Usage is counted with the site's own cookieless analytics, which you can turn off; audio and translations load from the
             providers named under <a href="/about#privacy">Privacy</a>. Prefer
             GitHub? <a href="https://github.com/saebchicago/qurandiscourses/issues/new?template=correction.md" rel="noopener">Open a correction issue</a>.
           </p>

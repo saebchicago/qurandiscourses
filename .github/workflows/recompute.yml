@@ -1,0 +1,29 @@
+name: Full recompute of the slow generators
+
+# The audit's --check for the seeded-shuffle generators compares input
+# digests (see scripts/lib/input-digest.mjs). This job runs the full
+# recompute weekly and on demand, so an output that no longer matches what
+# its code produces cannot go unnoticed for long.
+
+on:
+  schedule:
+    - cron: "41 11 * * 3"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  recompute:
+    name: Full recompute (--check --full)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 22
+      - run: node scripts/compute-surah-distance.mjs --check --full
+      - run: node scripts/build-formulaic-templates.mjs --check --full
+      - run: node scripts/compute-period-keyness.mjs --check --full
+      - run: node scripts/build-calibration.mjs --check --full

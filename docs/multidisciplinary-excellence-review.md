@@ -6,6 +6,16 @@ and automated integrity checks
 **Purpose:** turn a multidisciplinary expert review into a sequenced,
 testable action register without displacing direct attention from the Qur'an
 
+> **Correction, 18 October 2026.** This review was written on 29 July and says
+> in places that the site has no analytics. That stopped being true on
+> 4 October 2026, when Google Analytics 4 was added to the website (page
+> address only, opt-out honored, Global Privacy Control honored; off inside
+> the app). Google Analytics was removed on 21 October 2026; the site's own
+> cookieless first-party analytics (`assets/ah-init.js`) is now the only
+> analytics. The source of truth is the privacy section of `/about`. Statements below about "no analytics" describe the
+> state on the review date, not today. The text is otherwise left as
+> reviewed.
+
 > This is a structured heuristic review, not a claim that named external
 > experts, representative users, counsel, or an accessibility auditor have
 > signed off on the site. Reader research, assistive-technology testing, and

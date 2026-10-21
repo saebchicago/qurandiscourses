@@ -16,16 +16,30 @@
  "name": "divinediscourses-exports",
  "description": "Computed tables from the Divine Discourses Qur'an study platform: root frequencies, root-pair association statistics, per-surah statistics, and verse lengths, derived from the Leeds Quranic Arabic Corpus v0.4.",
  "url": "https://divinediscourses.org/export",
- "version": "1.3.1",
- "datePublished": "2026-10-01",
+ "version": "1.7.1",
+ "datePublished": "2026-10-19",
  "license": "https://www.gnu.org/licenses/gpl-3.0.html",
- "citeAs": "Divine Discourses project. Divine Discourses, version 1.3.1. 2026. https://divinediscourses.org.",
+ "citeAs": "Divine Discourses project. Divine Discourses, version 1.7.1. 2026. https://divinediscourses.org.",
  "creator": {
   "@type": "Organization",
   "name": "Divine Discourses project",
   "url": "https://divinediscourses.org/about"
  },
  "distribution": [
+  {
+   "@type": "cr:FileObject",
+   "@id": "association-by-period.csv",
+   "name": "association-by-period.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/association-by-period.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
+   "@id": "association-extended.csv",
+   "name": "association-extended.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/association-extended.csv",
+   "encodingFormat": "text/csv"
+  },
   {
    "@type": "cr:FileObject",
    "@id": "association-pairs.csv",
@@ -84,9 +98,23 @@
   },
   {
    "@type": "cr:FileObject",
+   "@id": "keyness-period.csv",
+   "name": "keyness-period.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/keyness-period.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
    "@id": "lemma-frequencies.csv",
    "name": "lemma-frequencies.csv",
    "contentUrl": "https://divinediscourses.org/data/exports/lemma-frequencies.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
+   "@id": "prayers-vocative.csv",
+   "name": "prayers-vocative.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/prayers-vocative.csv",
    "encodingFormat": "text/csv"
   },
   {
@@ -126,6 +154,13 @@
   },
   {
    "@type": "cr:FileObject",
+   "@id": "surah-distance.csv",
+   "name": "surah-distance.csv",
+   "contentUrl": "https://divinediscourses.org/data/exports/surah-distance.csv",
+   "encodingFormat": "text/csv"
+  },
+  {
+   "@type": "cr:FileObject",
    "@id": "surah-stats.csv",
    "name": "surah-stats.csv",
    "contentUrl": "https://divinediscourses.org/data/exports/surah-stats.csv",
@@ -154,6 +189,592 @@
   }
  ],
  "recordSet": [
+  {
+   "@type": "cr:RecordSet",
+   "@id": "association-by-period",
+   "name": "association-by-period",
+   "description": "For every pair in association-pairs, the verse-level log odds ratio with a 95% interval inside each revelation period, and Cochran's Q test of whether the four periods agree on one association.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/rootA",
+     "name": "rootA",
+     "description": "First root of the pair (Buckwalter); the same orientation as association-pairs.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "rootA"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/rootASafeKey",
+     "name": "rootASafeKey",
+     "description": "URL/filename-safe encoding of rootA.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "rootASafeKey"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/rootB",
+     "name": "rootB",
+     "description": "Second root of the pair (Buckwalter).",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "rootB"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/rootBSafeKey",
+     "name": "rootBSafeKey",
+     "description": "URL/filename-safe encoding of rootB.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "rootBSafeKey"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/shared_meccan-early",
+     "name": "shared_meccan-early",
+     "description": "Verses of the Early Meccan period in which both roots occur.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "shared_meccan-early"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/shared_meccan-middle",
+     "name": "shared_meccan-middle",
+     "description": "Same, Middle Meccan.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "shared_meccan-middle"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/shared_meccan-late",
+     "name": "shared_meccan-late",
+     "description": "Same, Late Meccan.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "shared_meccan-late"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/shared_medinan",
+     "name": "shared_medinan",
+     "description": "Same, Medinan.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "shared_medinan"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/logOddsRatio_meccan-early",
+     "name": "logOddsRatio_meccan-early",
+     "description": "Haldane-Anscombe log odds ratio inside the period; empty when either root has no verse there. Rounded to 3 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "logOddsRatio_meccan-early"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/lo95_meccan-early",
+     "name": "lo95_meccan-early",
+     "description": "Lower end of the Wald 95% interval for the period's log odds ratio.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "lo95_meccan-early"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/hi95_meccan-early",
+     "name": "hi95_meccan-early",
+     "description": "Upper end of the same interval.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "hi95_meccan-early"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/logOddsRatio_meccan-middle",
+     "name": "logOddsRatio_meccan-middle",
+     "description": "As above, Middle Meccan.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "logOddsRatio_meccan-middle"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/lo95_meccan-middle",
+     "name": "lo95_meccan-middle",
+     "description": "Lower interval end, Middle Meccan.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "lo95_meccan-middle"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/hi95_meccan-middle",
+     "name": "hi95_meccan-middle",
+     "description": "Upper interval end, Middle Meccan.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "hi95_meccan-middle"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/logOddsRatio_meccan-late",
+     "name": "logOddsRatio_meccan-late",
+     "description": "As above, Late Meccan.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "logOddsRatio_meccan-late"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/lo95_meccan-late",
+     "name": "lo95_meccan-late",
+     "description": "Lower interval end, Late Meccan.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "lo95_meccan-late"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/hi95_meccan-late",
+     "name": "hi95_meccan-late",
+     "description": "Upper interval end, Late Meccan.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "hi95_meccan-late"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/logOddsRatio_medinan",
+     "name": "logOddsRatio_medinan",
+     "description": "As above, Medinan.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "logOddsRatio_medinan"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/lo95_medinan",
+     "name": "lo95_medinan",
+     "description": "Lower interval end, Medinan.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "lo95_medinan"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/hi95_medinan",
+     "name": "hi95_medinan",
+     "description": "Upper interval end, Medinan.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "hi95_medinan"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/periodsCompared",
+     "name": "periodsCompared",
+     "description": "Number of periods in which both roots occur (0 to 4).",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "periodsCompared"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/heterogeneityQ",
+     "name": "heterogeneityQ",
+     "description": "Cochran's Q over the periods compared; empty when fewer than two. Rounded to 3 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "heterogeneityQ"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/heterogeneityP",
+     "name": "heterogeneityP",
+     "description": "Chi-square upper tail of Q with (periodsCompared - 1) degrees of freedom, 3 significant digits.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "heterogeneityP"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-by-period/heterogeneityBhQ",
+     "name": "heterogeneityBhQ",
+     "description": "Benjamini-Hochberg q over all pairs with a Q, 3 significant digits. Rows are ordered by this value.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-by-period.csv"
+      },
+      "extract": {
+       "column": "heterogeneityBhQ"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "association-extended",
+   "name": "association-extended",
+   "description": "Four further root-pair association measures (logDice, t-score, log odds ratio with a 95% interval, directional deltaP) for exactly the pairs in association-pairs, in the same order and orientation.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "association-extended/rootA",
+     "name": "rootA",
+     "description": "First root of the pair (Buckwalter); identical to association-pairs.rootA for the same row.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "association-extended.csv"
+      },
+      "extract": {
+       "column": "rootA"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-extended/rootASafeKey",
+     "name": "rootASafeKey",
+     "description": "URL/filename-safe encoding of rootA.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "association-extended.csv"
+      },
+      "extract": {
+       "column": "rootASafeKey"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-extended/rootB",
+     "name": "rootB",
+     "description": "Second root of the pair (Buckwalter).",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "association-extended.csv"
+      },
+      "extract": {
+       "column": "rootB"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-extended/rootBSafeKey",
+     "name": "rootBSafeKey",
+     "description": "URL/filename-safe encoding of rootB.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "association-extended.csv"
+      },
+      "extract": {
+       "column": "rootBSafeKey"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-extended/sharedVerses",
+     "name": "sharedVerses",
+     "description": "k11: verses in which both roots are attested.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "association-extended.csv"
+      },
+      "extract": {
+       "column": "sharedVerses"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-extended/versesA",
+     "name": "versesA",
+     "description": "Verses in which rootA is attested.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "association-extended.csv"
+      },
+      "extract": {
+       "column": "versesA"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-extended/versesB",
+     "name": "versesB",
+     "description": "Verses in which rootB is attested.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "association-extended.csv"
+      },
+      "extract": {
+       "column": "versesB"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-extended/logDice",
+     "name": "logDice",
+     "description": "14 + log2(2*k11/(versesA+versesB)), Rychly 2008; at most 14, independent of corpus size. Rounded to 3 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-extended.csv"
+      },
+      "extract": {
+       "column": "logDice"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-extended/tScore",
+     "name": "tScore",
+     "description": "(k11 - E11)/sqrt(k11) where E11 = versesA*versesB/N. Rounded to 2 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-extended.csv"
+      },
+      "extract": {
+       "column": "tScore"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-extended/logOddsRatio",
+     "name": "logOddsRatio",
+     "description": "ln((k11+0.5)(k22+0.5)/((k12+0.5)(k21+0.5))), Haldane-Anscombe correction. Rounded to 3 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-extended.csv"
+      },
+      "extract": {
+       "column": "logOddsRatio"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-extended/logOddsRatioLo95",
+     "name": "logOddsRatioLo95",
+     "description": "Lower end of a Wald 95% interval for logOddsRatio (estimate minus 1.96*sqrt(sum 1/(cell+0.5))). Rounded to 3 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-extended.csv"
+      },
+      "extract": {
+       "column": "logOddsRatioLo95"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-extended/logOddsRatioHi95",
+     "name": "logOddsRatioHi95",
+     "description": "Upper end of the same interval. Rounded to 3 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-extended.csv"
+      },
+      "extract": {
+       "column": "logOddsRatioHi95"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-extended/deltaP_BgivenA",
+     "name": "deltaP_BgivenA",
+     "description": "P(rootB in verse | rootA in verse) minus P(rootB | rootA absent). Rounded to 4 decimals. Asymmetric: differs from deltaP_AgivenB.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-extended.csv"
+      },
+      "extract": {
+       "column": "deltaP_BgivenA"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "association-extended/deltaP_AgivenB",
+     "name": "deltaP_AgivenB",
+     "description": "P(rootA | rootB in verse) minus P(rootA | rootB absent). Rounded to 4 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "association-extended.csv"
+      },
+      "extract": {
+       "column": "deltaP_AgivenB"
+      }
+     }
+    }
+   ]
+  },
   {
    "@type": "cr:RecordSet",
    "@id": "association-pairs",
@@ -1075,6 +1696,149 @@
   },
   {
    "@type": "cr:RecordSet",
+   "@id": "keyness-period",
+   "name": "keyness-period",
+   "description": "Dunning G2 keyness of every root (1,642) in each of the four revelation periods (6,568 root-period tests), with a permutation p-value that assigns whole surahs to periods at random, and a Benjamini-Hochberg q.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "keyness-period/root",
+     "name": "root",
+     "description": "Root (Buckwalter).",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "keyness-period.csv"
+      },
+      "extract": {
+       "column": "root"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "keyness-period/rootSafeKey",
+     "name": "rootSafeKey",
+     "description": "URL/filename-safe encoding of root.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "keyness-period.csv"
+      },
+      "extract": {
+       "column": "rootSafeKey"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "keyness-period/period",
+     "name": "period",
+     "description": "One of meccan-early, meccan-middle, meccan-late, medinan.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "keyness-period.csv"
+      },
+      "extract": {
+       "column": "period"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "keyness-period/count",
+     "name": "count",
+     "description": "Occurrences of the root in the period.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "keyness-period.csv"
+      },
+      "extract": {
+       "column": "count"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "keyness-period/countRest",
+     "name": "countRest",
+     "description": "Occurrences of the root in the other three periods.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "keyness-period.csv"
+      },
+      "extract": {
+       "column": "countRest"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "keyness-period/g2",
+     "name": "g2",
+     "description": "Dunning's G2 for period against rest, rounded to 3 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "keyness-period.csv"
+      },
+      "extract": {
+       "column": "g2"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "keyness-period/direction",
+     "name": "direction",
+     "description": "enriched or depleted: the root's rate in the period against its rate elsewhere.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "keyness-period.csv"
+      },
+      "extract": {
+       "column": "direction"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "keyness-period/permutationP",
+     "name": "permutationP",
+     "description": "One-sided permutation p-value over 100,000 surah-to-period reassignments, rounded to 6 decimals; at least 0.00001.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "keyness-period.csv"
+      },
+      "extract": {
+       "column": "permutationP"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "keyness-period/bhQ",
+     "name": "bhQ",
+     "description": "Benjamini-Hochberg q over all 6,568 root-period tests, rounded to 6 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "keyness-period.csv"
+      },
+      "extract": {
+       "column": "bhQ"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
    "@id": "lemma-frequencies",
    "name": "lemma-frequencies",
    "description": "Every lemma (dictionary headword) in the corpus: how often it occurs, its part of speech, its root if it has one, how many distinct written forms it takes, and how widely it is spread.",
@@ -1226,6 +1990,134 @@
       },
       "extract": {
        "column": "firstVerse"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "prayers-vocative",
+   "name": "prayers-vocative",
+   "description": "Every place the Qur'an has people address God as rabbana (Our Lord): 70 words in 62 verses, with the word that follows and the period the site assigns to the surah.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "prayers-vocative/surah",
+     "name": "surah",
+     "description": "Surah number (1-114).",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "prayers-vocative.csv"
+      },
+      "extract": {
+       "column": "surah"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "prayers-vocative/ayah",
+     "name": "ayah",
+     "description": "Verse number within the surah.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "prayers-vocative.csv"
+      },
+      "extract": {
+       "column": "ayah"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "prayers-vocative/wordIndex",
+     "name": "wordIndex",
+     "description": "1-based position of the word in the verse.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "prayers-vocative.csv"
+      },
+      "extract": {
+       "column": "wordIndex"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "prayers-vocative/form",
+     "name": "form",
+     "description": "The word as written in the Tanzil Uthmani text, with diacritics.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "prayers-vocative.csv"
+      },
+      "extract": {
+       "column": "form"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "prayers-vocative/nextForm",
+     "name": "nextForm",
+     "description": "The following word as written, or empty at the end of the verse.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "prayers-vocative.csv"
+      },
+      "extract": {
+       "column": "nextForm"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "prayers-vocative/nextLemma",
+     "name": "nextLemma",
+     "description": "Leeds lemma of the following word (Buckwalter), or empty.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "prayers-vocative.csv"
+      },
+      "extract": {
+       "column": "nextLemma"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "prayers-vocative/nextRoot",
+     "name": "nextRoot",
+     "description": "Leeds root of the following word (Buckwalter), empty for particles.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "prayers-vocative.csv"
+      },
+      "extract": {
+       "column": "nextRoot"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "prayers-vocative/period",
+     "name": "period",
+     "description": "The site's period for the surah: meccan-early, meccan-middle, meccan-late or medinan.",
+     "dataType": "sc:Text",
+     "source": {
+      "fileObject": {
+       "@id": "prayers-vocative.csv"
+      },
+      "extract": {
+       "column": "period"
       }
      }
     }
@@ -2001,6 +2893,164 @@
       },
       "extract": {
        "column": "lengthSymmetry_survivor"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "cr:RecordSet",
+   "@id": "surah-distance",
+   "name": "surah-distance",
+   "description": "Jensen-Shannon distance between the root distributions of every pair of surahs (6,441 pairs), with a permutation null so each distance can be read against what chance and surah length alone produce.",
+   "field": [
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/surahA",
+     "name": "surahA",
+     "description": "Lower surah number of the pair, 1-114, Cairo order.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "surahA"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/surahB",
+     "name": "surahB",
+     "description": "Higher surah number of the pair.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "surahB"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/rootedTokensA",
+     "name": "rootedTokensA",
+     "description": "Tokens of surahA with an annotated root.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "rootedTokensA"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/rootedTokensB",
+     "name": "rootedTokensB",
+     "description": "Tokens of surahB with an annotated root.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "rootedTokensB"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/distance",
+     "name": "distance",
+     "description": "sqrt of base-2 Jensen-Shannon divergence between the two root distributions; 0 identical, 1 no shared root. Rounded to 4 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "distance"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/nullMean",
+     "name": "nullMean",
+     "description": "Mean distance over 2,000 draws of the permutation null. Rounded to 4 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "nullMean"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/excess",
+     "name": "excess",
+     "description": "distance minus nullMean. Rounded to 4 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "excess"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/permutationP",
+     "name": "permutationP",
+     "description": "One-sided permutation p-value, (1 + draws with null distance >= observed) / 2,001. Rounded to 5 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "permutationP"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/bhQ",
+     "name": "bhQ",
+     "description": "Benjamini-Hochberg adjusted q-value over all 6,441 pairs. Rounded to 5 decimals.",
+     "dataType": "sc:Float",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "bhQ"
+      }
+     }
+    },
+    {
+     "@type": "cr:Field",
+     "@id": "surah-distance/lowCount",
+     "name": "lowCount",
+     "description": "1 when either surah has fewer than 100 rooted tokens.",
+     "dataType": "sc:Integer",
+     "source": {
+      "fileObject": {
+       "@id": "surah-distance.csv"
+      },
+      "extract": {
+       "column": "lowCount"
       }
      }
     }

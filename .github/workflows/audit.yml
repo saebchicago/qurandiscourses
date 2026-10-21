@@ -59,6 +59,18 @@ jobs:
           node scripts/check-word-timings-state.mjs
           node --test scripts/wbw-proxy.test.mjs
           node --test scripts/review-credit.test.mjs
+          node --test scripts/association-measures.test.mjs
+          node scripts/surah-distance.test.mjs
+          node scripts/prayers.test.mjs
+          node --test scripts/explorer.test.mjs
+          node scripts/home-trust.test.mjs
+          node scripts/build-prayers.mjs --check
+          node scripts/stats.test.mjs
+          node scripts/keyness.test.mjs
+          node scripts/association-by-period.test.mjs
+          node --test scripts/query.test.mjs
+          node scripts/templates.test.mjs
+          node --test scripts/concordance.test.mjs
 
       - name: Validate navigation and deployment headers
         run: |
@@ -96,6 +108,14 @@ jobs:
           node scripts/build-llms.mjs --check
           node scripts/build-changelog.mjs --check
           node scripts/build-datapack.mjs --check
+          node scripts/build-api-index.mjs --check
+          node scripts/build-root-glosses.mjs --check
+          node scripts/compare-layers.mjs --selftest
+          node scripts/compare-layers.mjs --check
+          node scripts/compute-surah-distance.mjs --check
+          node scripts/build-formulaic-templates.mjs --check
+          node scripts/compute-period-keyness.mjs --check
+          node scripts/build-calibration.mjs --check
           node scripts/build-search-index.mjs --check
           node scripts/build-ask-routes.mjs --check
           node scripts/build-related.mjs --check
@@ -105,6 +125,16 @@ jobs:
           node scripts/build-provenance.mjs --check
           node scripts/compute-coverage.mjs --check
           node scripts/check-generated-freshness.mjs
+
+      - name: Reproduce published figures from the data pack (notebook)
+        # docs/notebooks/reproduce-numbers.ipynb recomputes Numbers-page
+        # figures from the current release archive alone, the way an outside
+        # reader would. Pinned versions in a throwaway venv; the notebook
+        # finds the repository root itself and reads no network.
+        run: |
+          python3 -m venv /tmp/nbvenv
+          /tmp/nbvenv/bin/pip install --quiet "pandas==2.2.3" "nbconvert==7.16.4" "ipykernel==6.29.5"
+          /tmp/nbvenv/bin/jupyter nbconvert --to notebook --execute --stdout docs/notebooks/reproduce-numbers.ipynb > /dev/null
 
       - name: Install browser audit harness
         # PRs get the full browser gate. Scheduled/manual runs recheck the

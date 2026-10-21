@@ -1,0 +1,176 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "Divine Discourses data",
+  "version": "1.7.1",
+  "description": "Static, read-only files. There is no query interface: fetch a table whole and filter it locally. Field definitions for every table are in /data/exports/schema.json.",
+  "license": {
+   "name": "GPL-3.0-or-later",
+   "url": "https://www.gnu.org/licenses/gpl-3.0.html"
+  }
+ },
+ "servers": [
+  {
+   "url": "https://divinediscourses.org"
+  }
+ ],
+ "paths": {
+  "/api/v1/index.json": {
+   "get": {
+    "summary": "Index of tables, archives and descriptors, with a sha256 for every file",
+    "responses": {
+     "200": {
+      "description": "Index",
+      "content": {
+       "application/json": {}
+      }
+     }
+    }
+   }
+  },
+  "/data/exports/{table}.json": {
+   "get": {
+    "summary": "One export table as a JSON array of row objects",
+    "parameters": [
+     {
+      "name": "table",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "enum": [
+        "root-frequencies",
+        "association-pairs",
+        "association-extended",
+        "surah-distance",
+        "keyness-period",
+        "prayers-vocative",
+        "association-by-period",
+        "surah-stats",
+        "verse-lengths",
+        "formulas",
+        "centrality",
+        "rhyme-summary",
+        "fawatih",
+        "discursive-pivots",
+        "structure",
+        "structure-tests",
+        "theme-surah-density",
+        "formulaic-density",
+        "dispersion",
+        "root-surah-counts",
+        "lemma-frequencies",
+        "verse-durations",
+        "direct-address"
+       ]
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Rows",
+      "content": {
+       "application/json": {}
+      }
+     }
+    }
+   }
+  },
+  "/data/exports/{table}.csv": {
+   "get": {
+    "summary": "The same table as CSV with a header row",
+    "parameters": [
+     {
+      "name": "table",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "enum": [
+        "root-frequencies",
+        "association-pairs",
+        "association-extended",
+        "surah-distance",
+        "keyness-period",
+        "prayers-vocative",
+        "association-by-period",
+        "surah-stats",
+        "verse-lengths",
+        "formulas",
+        "centrality",
+        "rhyme-summary",
+        "fawatih",
+        "discursive-pivots",
+        "structure",
+        "structure-tests",
+        "theme-surah-density",
+        "formulaic-density",
+        "dispersion",
+        "root-surah-counts",
+        "lemma-frequencies",
+        "verse-durations",
+        "direct-address"
+       ]
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Rows",
+      "content": {
+       "text/csv": {}
+      }
+     }
+    }
+   }
+  },
+  "/data/exports/schema.json": {
+   "get": {
+    "summary": "Field names, types, units, counting rules and verification for every table",
+    "responses": {
+     "200": {
+      "description": "Schema",
+      "content": {
+       "application/json": {}
+      }
+     }
+    }
+   }
+  },
+  "/data/exports/divinediscourses-data-v{version}.tar.gz": {
+   "get": {
+    "summary": "A published archive. Its bytes never change; a new release adds a new archive",
+    "parameters": [
+     {
+      "name": "version",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "enum": [
+        "1.7.1",
+        "1.7.0",
+        "1.6.0",
+        "1.5.0",
+        "1.4.0",
+        "1.3.1",
+        "1.3.0",
+        "1.2.0",
+        "1.1.0",
+        "1.0.0"
+       ]
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Archive",
+      "content": {
+       "application/gzip": {}
+      }
+     }
+    }
+   }
+  }
+ }
+}

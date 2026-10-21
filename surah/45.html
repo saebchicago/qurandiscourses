@@ -22,7 +22,6 @@
     <script src="/assets/nav.js"></script>
     <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="theme-color" content="#2b1d0e" />
-    <script src="/assets/ga-init.js"></script>
     <script src="/assets/ah-init.js"></script>
     <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/surah/45","url":"https://divinediscourses.org/surah/45","name":"Surah al-Jathiyah (45): The Kneeling | Divine Discourses","description":"Surah al-Jathiyah (الجاثية), surah 45 of the Qur'an: 37 verses, Meccan, 65th in revelation order. Arabic text, roots, structure and listening time.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"about":{"@type":"CreativeWork","name":"Surah al-Jathiyah","alternateName":["الجاثية","The Kneeling"],"position":45,"inLanguage":"ar","isPartOf":{"@type":"Book","name":"The Qur'an"}}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Browse all 114 surahs","item":"https://divinediscourses.org/navigate"},{"@type":"ListItem","position":3,"name":"Surah al-Jathiyah","item":"https://divinediscourses.org/surah/45"}]}]}
@@ -64,6 +63,10 @@
             <ul class="nav-menu">
               <li><a href="/roots">Roots</a></li>
               <li><a href="/words">Words</a></li>
+              <li><a href="/query">Query</a></li>
+              <li><a href="/distance">Surah distance</a></li>
+              <li><a href="/prayers">Prayers</a></li>
+              <li><a href="/explore">Explore the data</a></li>
               <li><a href="/patterns">Patterns</a></li>
               <li><a href="/formulas">Formulas</a></li>
               <li><a href="/numbers">Numbers</a></li>
@@ -157,7 +160,7 @@
 
         <section class="card" aria-labelledby="roots">
           <h2 class="card-title" id="roots">Most frequent roots</h2>
-          <ol class="surah-roots"><li><a href="/root/uAlh"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ا ل ه</span> a-l-h</a> <span class="t-annotation">19×</span></li><li><a href="/root/uAyy"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ا ي ي</span> a-y-y</a> <span class="t-annotation">12×</span></li><li><a href="/root/kwn"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ك و ن</span> k-w-n</a> <span class="t-annotation">10×</span></li><li><a href="/root/qwm"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ق و م</span> q-w-m</a> <span class="t-annotation">9×</span></li><li><a href="/root/uElm"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ع ل م</span> ʿ-l-m</a> <span class="t-annotation">8×</span></li><li><a href="/root/ywm"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ي و م</span> y-w-m</a> <span class="t-annotation">8×</span></li><li><a href="/root/smw"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">س م و</span> s-m-w</a> <span class="t-annotation">7×</span></li><li><a href="/root/uAruD"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ا ر ض</span> a-r-ḍ</a> <span class="t-annotation">7×</span></li></ol>
+          <ol class="surah-roots"><li><a href="/root/ualh"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ا ل ه</span> a-l-h</a> <span class="t-annotation">19×</span></li><li><a href="/root/uayy"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ا ي ي</span> a-y-y</a> <span class="t-annotation">12×</span></li><li><a href="/root/kwn"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ك و ن</span> k-w-n</a> <span class="t-annotation">10×</span></li><li><a href="/root/qwm"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ق و م</span> q-w-m</a> <span class="t-annotation">9×</span></li><li><a href="/root/uelm"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ع ل م</span> ʿ-l-m</a> <span class="t-annotation">8×</span></li><li><a href="/root/ywm"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ي و م</span> y-w-m</a> <span class="t-annotation">8×</span></li><li><a href="/root/smw"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">س م و</span> s-m-w</a> <span class="t-annotation">7×</span></li><li><a href="/root/uarud"><span class="ar-inline ar notranslate" translate="no" lang="ar" dir="rtl">ا ر ض</span> a-r-ḍ</a> <span class="t-annotation">7×</span></li></ol>
           <p class="prov t-annotation"><span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited source">●</span> Word-units per root in this surah, Leeds corpus v0.4. Each opens every occurrence on <a href="/roots">Roots</a>.</p>
         </section>
 
@@ -265,7 +268,7 @@
           <button type="submit" class="button secondary">Send</button>
           <p class="feedback-note t-annotation">
             Goes to the maintainer via the hosting provider's form service.
-            Page visits are counted with Google Analytics and the site's own cookieless analytics; audio and translations load from the
+            Usage is counted with the site's own cookieless analytics, which you can turn off; audio and translations load from the
             providers named under <a href="/about#privacy">Privacy</a>. Prefer
             GitHub? <a href="https://github.com/saebchicago/qurandiscourses/issues/new?template=correction.md" rel="noopener">Open a correction issue</a>.
           </p>

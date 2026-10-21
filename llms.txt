@@ -3,8 +3,8 @@
 > A Qur'an study platform in the coherence-reading tradition of
 > Dr. Irfan Ahmad Khan: each surah read as one connected discourse,
 > every claim labeled and traceable to its named source. Static site,
-> open source, no accounts, anonymous usage analytics only. Version 1.3.1
-> (2026-10-01).
+> open source, no accounts, the site's own cookieless first-party analytics only (no Google; opt-out honored). Version 1.7.1
+> (2026-10-19).
 
 Ground rules for using this site as a source:
 
@@ -39,6 +39,10 @@ Ground rules for using this site as a source:
 - [Exercise: Spot the roots](https://divinediscourses.org/exercise-roots): An interactive exercise: spot the recurring roots in a short surah, then check your reading against the Leeds corpus morphology data.
 - [Qur'anic roots and where they occur](https://divinediscourses.org/roots): The 1,642 triliteral roots of the Qur'an with frequency, derived forms, surah distribution, Makki/Madani split, and co-occurrence data from the Leeds Corpus.
 - [Search Qur'anic Arabic word forms](https://divinediscourses.org/words): Search all 4,832 dictionary forms of Qur'anic Arabic by Arabic, transliteration or root, with frequency, part of speech and first occurrence.
+- [Query the corpus](https://divinediscourses.org/query): Ask the Leeds v0.4 morphology a question: filter by root, lemma, part of speech, surah range and period, then get counts, occurrences and a CSV. The address reproduces the result.
+- [How far apart are two surahs?](https://divinediscourses.org/distance): Compare any two surahs by the roots they use: a 114 by 114 map of Jensen-Shannon distance read against a permutation null, with the closest and most distant pairs.
+- [Prayers and remembrance in the text](https://divinediscourses.org/prayers): Every place the Qur'an has people say &quot;Our Lord&quot; as a prayer, found by a literal search of the morphology, with the words that follow it, and counts for the roots of glorification, praise, remembrance and forgiveness.
+- [Explore the published tables](https://divinediscourses.org/explore): Sort, filter and chart any of the 23 published data tables in your browser, with a histogram of any numeric column and a link that reproduces your view.
 - [Structural and rhetorical patterns](https://divinediscourses.org/patterns): Structural and rhetorical patterns in the Qur'an: iltifat, mutashabihat.
 - [Recurring phrases in the Qur'an](https://divinediscourses.org/formulas): Every recurring 3-5 word sequence in the Qur'an, counted two ways, by root sequence and by surface form, with every place each phrase occurs.
 - [Corpus numbers and how each was counted](https://divinediscourses.org/numbers): Counted figures from the Qur'anic corpus: root frequency, verse length, lexical diversity by period, and the method behind each number.
@@ -64,7 +68,7 @@ Ground rules for using this site as a source:
 
 ## Data
 
-- [Export tables](https://divinediscourses.org/export): 18 tables (association-pairs, centrality, direct-address, discursive-pivots, dispersion, fawatih, formulaic-density, formulas, lemma-frequencies, rhyme-summary, root-frequencies, root-surah-counts, structure, structure-tests, surah-stats, theme-surah-density, verse-durations, verse-lengths) as CSV and JSON, with schema.json and DATA-DICTIONARY.md alongside
+- [Export tables](https://divinediscourses.org/export): 23 tables (association-by-period, association-extended, association-pairs, centrality, direct-address, discursive-pivots, dispersion, fawatih, formulaic-density, formulas, keyness-period, lemma-frequencies, prayers-vocative, rhyme-summary, root-frequencies, root-surah-counts, structure, structure-tests, surah-distance, surah-stats, theme-surah-density, verse-durations, verse-lengths) as CSV and JSON, with schema.json and DATA-DICTIONARY.md alongside
 - [Dataset documentation](https://divinediscourses.org/datasets): every bundled dataset with its generator script and license
 - [Coverage report](https://divinediscourses.org/coverage): measured completeness and counting-rule sensitivity
 - [Claims ledger](https://divinediscourses.org/validation): per-claim evidence records with permalinks

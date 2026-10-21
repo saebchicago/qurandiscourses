@@ -9,6 +9,219 @@
   <updated>2026-10-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>The home page now shows the noise checks</title>
+    <id>https://divinediscourses.org/changelog#2026-10-home-noise</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-home-noise"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;The home page now shows the noise checks.&lt;/strong&gt;
+              A new "Tested against noise" table on the &lt;a href="/"&gt;home page&lt;/a&gt; sets what each
+              method finds on the Qur'an beside what it finds on text where the pattern cannot be
+              real, read from the same report as &lt;a href="/validation#calibration"&gt;Validation&lt;/a&gt;.
+              The home page's privacy line now says page-visit and download counts, matching About.</content>
+  </entry>
+  <entry>
+    <title>Explore the tables</title>
+    <id>https://divinediscourses.org/changelog#2026-10-explore</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-explore"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Explore the tables.&lt;/strong&gt;
+              New &lt;a href="/explore"&gt;Explore&lt;/a&gt; page: pick any of the 23 published tables, sort and
+              filter it, and see a histogram of any numeric column, all in your browser from the same
+              files as &lt;a href="/export"&gt;Export&lt;/a&gt;. The address reproduces your view, and nothing you
+              filter is sent anywhere.</content>
+  </entry>
+  <entry>
+    <title>Download counts</title>
+    <id>https://divinediscourses.org/changelog#2026-10-download-counts</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-download-counts"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Download counts.&lt;/strong&gt;
+              The site now counts which &lt;a href="/export"&gt;Export&lt;/a&gt; table is downloaded, and in
+              which format, so the data we publish can follow what people use. The count carries
+              only the table name and format from the link, nothing you typed, and it follows the
+              same off switch and Global Privacy Control rule as page counts. See
+              &lt;a href="/about#analytics"&gt;Analytics&lt;/a&gt; on About.</content>
+  </entry>
+  <entry>
+    <title>Correction to the Prayers count, version 1.7.1</title>
+    <id>https://divinediscourses.org/changelog#2026-10-prayers-correction</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-prayers-correction"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Correction to the Prayers count, version 1.7.1.&lt;/strong&gt;
+              The first &lt;a href="/prayers"&gt;Prayers&lt;/a&gt; page counted 41 places in 38 verses. It missed
+              every form written with a maddah mark, so the correct count is 70 in 62 verses of 26
+              surahs. The page, the &lt;code&gt;prayers-vocative&lt;/code&gt; table on &lt;a href="/export"&gt;Export&lt;/a&gt;
+              and the reviewer sheet now carry the full list. A review comment caught the error; the
+              test that recounts from the surface forms now strips the same marks, and the two
+              counts agree.</content>
+  </entry>
+  <entry>
+    <title>Where the text says "Our Lord" as a prayer, and version 1.7.0</title>
+    <id>https://divinediscourses.org/changelog#2026-10-prayers</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-prayers"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Where the text says "Our Lord" as a prayer, and version 1.7.0.&lt;/strong&gt;
+              New &lt;a href="/prayers"&gt;Prayers&lt;/a&gt; page: the 70 places in 62 verses of 26 surahs where
+              the Qur'an has people address God as &lt;em&gt;rabbana&lt;/em&gt;, found by a literal search of the
+              morphology with the rule and its two exclusions stated, the words that follow it, and
+              counts for the roots of glorification, praise, remembrance and forgiveness. It says
+              what the text contains, not what to recite, and notes that some of these verses are
+              spoken by people the text condemns. The &lt;a href="/export"&gt;Export&lt;/a&gt; page has the list as
+              a new table, &lt;code&gt;prayers-vocative&lt;/code&gt;.</content>
+  </entry>
+  <entry>
+    <title>Four more analyses, tested against noise, and version 1.6.0</title>
+    <id>https://divinediscourses.org/changelog#2026-10-period-analyses</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-period-analyses"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Four more analyses, tested against noise, and version 1.6.0.&lt;/strong&gt;
+              &lt;a href="/numbers"&gt;Numbers&lt;/a&gt; now marks which of the roots listed as most key for a
+              revelation period stay key when whole surahs are reassigned to periods at random:
+              132 of 6,568 root-period tests do, and only 9, 5, 5 and 14 of the 15 listed roots
+              for the four periods. The &lt;a href="/export"&gt;Export&lt;/a&gt; page has two new tables,
+              &lt;code&gt;keyness-period&lt;/code&gt; and &lt;code&gt;association-by-period&lt;/code&gt; (whether a root
+              pair's association is the same in every period; 14 of 5,203 pairs differ, from a
+              conservative test). &lt;a href="/formulas"&gt;Formulas&lt;/a&gt; now covers templates with two
+              and three open slots as well as one. &lt;a href="/validation"&gt;Validation&lt;/a&gt; has a new
+              section showing what each of these methods reports on data where there is nothing
+              to find. The surah-distance null now uses 2,000 draws instead of 500, so its
+              p-values can go lower (a surah pair's smallest possible p is now 0.0005); the
+              distances changed in the third or fourth decimal.</content>
+  </entry>
+  <entry>
+    <title>Query by Arabic, and a surah distance map</title>
+    <id>https://divinediscourses.org/changelog#2026-10-query-distance-polish</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-query-distance-polish"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Query by Arabic, and a surah distance map.&lt;/strong&gt;
+              &lt;a href="/query"&gt;Query&lt;/a&gt; now accepts a lemma in Arabic letters and a
+              written word in Arabic (vowel marks ignored). A new page,
+              &lt;a href="/distance"&gt;Surah distance&lt;/a&gt;, draws the 114 by 114 map of how far
+              apart every two surahs are by the roots they use, read against a
+              permutation null, with the closest and most distant pairs. The same
+              numbers are in the &lt;code&gt;surah-distance&lt;/code&gt; export table. No
+              published number changed.</content>
+  </entry>
+  <entry>
+    <title>Templates with one open slot</title>
+    <id>https://divinediscourses.org/changelog#2026-10-one-slot-templates</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-one-slot-templates"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Templates with one open slot.&lt;/strong&gt; &lt;a href="/formulas"&gt;Formulas&lt;/a&gt;
+              has a new panel listing pairs of words two places apart with any word
+              between them (for example &lt;em&gt;wa-ma _ min&lt;/em&gt;) that recur more than
+              shuffling the words inside each verse would predict. 1,003 of 1,669
+              candidates pass a Benjamini-Hochberg correction; the same procedure on
+              100 verse-shuffled copies of the text finds almost none. Each
+              template lists every place it occurs. This records recurrence, not
+              why it recurs, and common particles and repeated verses are in the
+              count. No existing number changed.</content>
+  </entry>
+  <entry>
+    <title>A query page</title>
+    <id>https://divinediscourses.org/changelog#2026-10-query-builder</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-query-builder"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;A query page.&lt;/strong&gt; The new &lt;a href="/query"&gt;Query&lt;/a&gt; page
+              (under Analyze) filters the word-by-word morphology by root, lemma,
+              part of speech, surah range and period, and returns the counts, the
+              occurrences with a few words of context, and a CSV. The whole query
+              lives in the address, so a copied link reproduces the same result and
+              nothing is stored. A root's total on this page equals its total on
+              Roots, checked for all 1,642 roots. Roots and lemmas are the
+              annotators' judgments from the Leeds v0.4 corpus, and the period
+              filter uses one chronology among several. No published number
+              changed.</content>
+  </entry>
+  <entry>
+    <title>How far apart two surahs are, against chance, and version 1.5.0</title>
+    <id>https://divinediscourses.org/changelog#2026-10-surah-distance</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-surah-distance"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;How far apart two surahs are, against chance, and version 1.5.0.&lt;/strong&gt;
+              The &lt;a href="/export"&gt;Export&lt;/a&gt; page has a twentieth table,
+              &lt;code&gt;surah-distance&lt;/code&gt;: the Jensen-Shannon distance between the
+              root distributions of every pair of surahs (6,441 pairs), beside a
+              permutation null, the excess over it, a p-value and a
+              Benjamini-Hochberg q. Short surahs look distant from everything by
+              arithmetic alone, so the table reports what random reassignment of
+              the same verses would give and flags pairs with a surah under 100
+              rooted tokens. No published number changed.</content>
+  </entry>
+  <entry>
+    <title>Root pages now have one address</title>
+    <id>https://divinediscourses.org/changelog#2026-10-root-page-addresses</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-root-page-addresses"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Root pages now have one address.&lt;/strong&gt; A check run against the
+              live site found that 195 of the 411 root reference pages, those whose
+              key contains a capital letter such as &lt;code&gt;/root/uAlh&lt;/code&gt;, were
+              redirected by the host to a lowercase address while the sitemap, the
+              page's own canonical tag and the links to it still named the capital
+              form. All root pages now live at lowercase addresses
+              (&lt;code&gt;/root/ualh&lt;/code&gt;), and the sitemap, canonical tags and links
+              say so. Old links keep working through the host's redirect. No
+              published number changed.</content>
+  </entry>
+  <entry>
+    <title>A source for root glosses</title>
+    <id>https://divinediscourses.org/changelog#2026-10-root-gloss-source</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-root-gloss-source"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;A source for root glosses.&lt;/strong&gt; Root meanings will be
+              quoted, with page numbers, from John Penrice's &lt;em&gt;Dictionary and
+              Glossary of the Kor-ân&lt;/em&gt; (1873) and checked against Lane's
+              &lt;em&gt;Arabic-English Lexicon&lt;/em&gt;. Both are public domain. None is
+              transcribed yet, so the &lt;a href="/coverage"&gt;Coverage&lt;/a&gt; count of
+              verified root glosses is still 0 of 1,642; it will rise as each
+              checked transcription is added. Every such gloss will carry the
+              Nuanced label, because it is a lexicographer's English, not the
+              meaning.</content>
+  </entry>
+  <entry>
+    <title>A concordance, and more ways to rank a root's partners</title>
+    <id>https://divinediscourses.org/changelog#2026-10-roots-concordance</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-roots-concordance"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;A concordance, and more ways to rank a root's partners.&lt;/strong&gt;
+              On &lt;a href="/roots"&gt;Roots&lt;/a&gt;, each root now has a word-in-context view:
+              every occurrence with up to five words on each side, inside the
+              verse, ordered by reference, lemma, or the word before or after,
+              and downloadable as CSV. It is built from the same word
+              segmentation as every count on the page, and a test checks that it
+              lists exactly as many occurrences as each root's published total.
+              The association table also shows logDice, t-score, log odds ratio
+              and deltaP, and can reorder the same 25 partners by any of them.</content>
+  </entry>
+  <entry>
+    <title>An index for scripts</title>
+    <id>https://divinediscourses.org/changelog#2026-10-data-api-index</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-data-api-index"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;An index for scripts.&lt;/strong&gt; The data is now discoverable
+              without reading a web page: &lt;a href="/api/v1/index.json"&gt;api/v1/index.json&lt;/a&gt;
+              lists every export table with its address, size and SHA-256, and every
+              published archive, and &lt;a href="/api/v1/openapi.json"&gt;api/v1/openapi.json&lt;/a&gt;
+              describes the same addresses in OpenAPI 3.1. They are static files,
+              readable from any site, with no key. See &lt;a href="/export#api"&gt;Export&lt;/a&gt;.
+              No published number changed.</content>
+  </entry>
+  <entry>
+    <title>Four more ways to score a root pair, and version 1.4.0</title>
+    <id>https://divinediscourses.org/changelog#2026-10-extended-association-measures</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-extended-association-measures"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Four more ways to score a root pair, and version 1.4.0.&lt;/strong&gt;
+              The &lt;a href="/export"&gt;Export&lt;/a&gt; page has a nineteenth table, &lt;code&gt;association-extended&lt;/code&gt;:
+              logDice, t-score, a log odds ratio with a 95% interval, and a
+              directional deltaP for the same 5,211 root pairs as the existing
+              association table, row for row. The measures disagree about which
+              pairs rank highest, and the site does not choose between them.
+              Nothing already published changed; the other eighteen tables are
+              byte-identical. The new archive is v1.4.0; earlier archives stay
+              available.</content>
+  </entry>
+  <entry>
     <title>Credit where it is due, and version 1.3.1</title>
     <id>https://divinediscourses.org/changelog#2026-10-credits-and-notices</id>
     <link href="https://divinediscourses.org/changelog#2026-10-credits-and-notices"/>

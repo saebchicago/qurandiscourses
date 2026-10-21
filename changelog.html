@@ -39,11 +39,10 @@
     />
     <link rel="manifest" href="manifest.webmanifest" />
     <meta name="theme-color" content="#2b1d0e" />
-    <script src="/assets/ga-init.js"></script>
     <script src="/assets/ah-init.js"></script>
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/changelog","url":"https://divinediscourses.org/changelog","name":"Changelog: every correction logged · Divine Discourses","description":"Every correction and material change to Divine Discourses since launch. A public record of accountability.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.3.1","dateModified":"2026-10-01"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Changelog: every correction logged","item":"https://divinediscourses.org/changelog"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/changelog","url":"https://divinediscourses.org/changelog","name":"Changelog: every correction logged · Divine Discourses","description":"Every correction and material change to Divine Discourses since launch. A public record of accountability.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.7.1","dateModified":"2026-10-20"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Changelog: every correction logged","item":"https://divinediscourses.org/changelog"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -83,6 +82,10 @@
             <ul class="nav-menu">
               <li><a href="/roots">Roots</a></li>
               <li><a href="/words">Words</a></li>
+              <li><a href="/query">Query</a></li>
+              <li><a href="/distance">Surah distance</a></li>
+              <li><a href="/prayers">Prayers</a></li>
+              <li><a href="/explore">Explore the data</a></li>
               <li><a href="/patterns">Patterns</a></li>
               <li><a href="/formulas">Formulas</a></li>
               <li><a href="/numbers">Numbers</a></li>
@@ -138,6 +141,149 @@
           <h3>2026</h3>
           <h4>October</h4>
           <ul>
+            <li id="2026-10-home-noise">
+              <strong>The home page now shows the noise checks.</strong>
+              A new "Tested against noise" table on the <a href="/">home page</a> sets what each
+              method finds on the Qur'an beside what it finds on text where the pattern cannot be
+              real, read from the same report as <a href="/validation#calibration">Validation</a>.
+              The home page's privacy line now says page-visit and download counts, matching About.
+            <a class="claim-anchor" href="#2026-10-home-noise" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-10-explore">
+              <strong>Explore the tables.</strong>
+              New <a href="/explore">Explore</a> page: pick any of the 23 published tables, sort and
+              filter it, and see a histogram of any numeric column, all in your browser from the same
+              files as <a href="/export">Export</a>. The address reproduces your view, and nothing you
+              filter is sent anywhere.
+            <a class="claim-anchor" href="#2026-10-explore" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-10-download-counts">
+              <strong>Download counts.</strong>
+              The site now counts which <a href="/export">Export</a> table is downloaded, and in
+              which format, so the data we publish can follow what people use. The count carries
+              only the table name and format from the link, nothing you typed, and it follows the
+              same off switch and Global Privacy Control rule as page counts. See
+              <a href="/about#analytics">Analytics</a> on About.
+            <a class="claim-anchor" href="#2026-10-download-counts" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-10-prayers-correction">
+              <strong>Correction to the Prayers count, version 1.7.1.</strong>
+              The first <a href="/prayers">Prayers</a> page counted 41 places in 38 verses. It missed
+              every form written with a maddah mark, so the correct count is 70 in 62 verses of 26
+              surahs. The page, the <code>prayers-vocative</code> table on <a href="/export">Export</a>
+              and the reviewer sheet now carry the full list. A review comment caught the error; the
+              test that recounts from the surface forms now strips the same marks, and the two
+              counts agree.
+            <a class="claim-anchor" href="#2026-10-prayers-correction" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-10-prayers">
+              <strong>Where the text says "Our Lord" as a prayer, and version 1.7.0.</strong>
+              New <a href="/prayers">Prayers</a> page: the 70 places in 62 verses of 26 surahs where
+              the Qur'an has people address God as <em>rabbana</em>, found by a literal search of the
+              morphology with the rule and its two exclusions stated, the words that follow it, and
+              counts for the roots of glorification, praise, remembrance and forgiveness. It says
+              what the text contains, not what to recite, and notes that some of these verses are
+              spoken by people the text condemns. The <a href="/export">Export</a> page has the list as
+              a new table, <code>prayers-vocative</code>.
+            <a class="claim-anchor" href="#2026-10-prayers" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-10-period-analyses">
+              <strong>Four more analyses, tested against noise, and version 1.6.0.</strong>
+              <a href="/numbers">Numbers</a> now marks which of the roots listed as most key for a
+              revelation period stay key when whole surahs are reassigned to periods at random:
+              132 of 6,568 root-period tests do, and only 9, 5, 5 and 14 of the 15 listed roots
+              for the four periods. The <a href="/export">Export</a> page has two new tables,
+              <code>keyness-period</code> and <code>association-by-period</code> (whether a root
+              pair's association is the same in every period; 14 of 5,203 pairs differ, from a
+              conservative test). <a href="/formulas">Formulas</a> now covers templates with two
+              and three open slots as well as one. <a href="/validation">Validation</a> has a new
+              section showing what each of these methods reports on data where there is nothing
+              to find. The surah-distance null now uses 2,000 draws instead of 500, so its
+              p-values can go lower (a surah pair's smallest possible p is now 0.0005); the
+              distances changed in the third or fourth decimal.<a class="claim-anchor" href="#2026-10-period-analyses" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-10-query-distance-polish">
+              <strong>Query by Arabic, and a surah distance map.</strong>
+              <a href="/query">Query</a> now accepts a lemma in Arabic letters and a
+              written word in Arabic (vowel marks ignored). A new page,
+              <a href="/distance">Surah distance</a>, draws the 114 by 114 map of how far
+              apart every two surahs are by the roots they use, read against a
+              permutation null, with the closest and most distant pairs. The same
+              numbers are in the <code>surah-distance</code> export table. No
+              published number changed.<a class="claim-anchor" href="#2026-10-query-distance-polish" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-10-one-slot-templates">
+              <strong>Templates with one open slot.</strong> <a href="/formulas">Formulas</a>
+              has a new panel listing pairs of words two places apart with any word
+              between them (for example <em>wa-ma _ min</em>) that recur more than
+              shuffling the words inside each verse would predict. 1,003 of 1,669
+              candidates pass a Benjamini-Hochberg correction; the same procedure on
+              100 verse-shuffled copies of the text finds almost none. Each
+              template lists every place it occurs. This records recurrence, not
+              why it recurs, and common particles and repeated verses are in the
+              count. No existing number changed.<a class="claim-anchor" href="#2026-10-one-slot-templates" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-10-query-builder">
+              <strong>A query page.</strong> The new <a href="/query">Query</a> page
+              (under Analyze) filters the word-by-word morphology by root, lemma,
+              part of speech, surah range and period, and returns the counts, the
+              occurrences with a few words of context, and a CSV. The whole query
+              lives in the address, so a copied link reproduces the same result and
+              nothing is stored. A root's total on this page equals its total on
+              Roots, checked for all 1,642 roots. Roots and lemmas are the
+              annotators' judgments from the Leeds v0.4 corpus, and the period
+              filter uses one chronology among several. No published number
+              changed.<a class="claim-anchor" href="#2026-10-query-builder" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-10-surah-distance">
+              <strong>How far apart two surahs are, against chance, and version 1.5.0.</strong>
+              The <a href="/export">Export</a> page has a twentieth table,
+              <code>surah-distance</code>: the Jensen-Shannon distance between the
+              root distributions of every pair of surahs (6,441 pairs), beside a
+              permutation null, the excess over it, a p-value and a
+              Benjamini-Hochberg q. Short surahs look distant from everything by
+              arithmetic alone, so the table reports what random reassignment of
+              the same verses would give and flags pairs with a surah under 100
+              rooted tokens. No published number changed.<a class="claim-anchor" href="#2026-10-surah-distance" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-10-root-page-addresses">
+              <strong>Root pages now have one address.</strong> A check run against the
+              live site found that 195 of the 411 root reference pages, those whose
+              key contains a capital letter such as <code>/root/uAlh</code>, were
+              redirected by the host to a lowercase address while the sitemap, the
+              page's own canonical tag and the links to it still named the capital
+              form. All root pages now live at lowercase addresses
+              (<code>/root/ualh</code>), and the sitemap, canonical tags and links
+              say so. Old links keep working through the host's redirect. No
+              published number changed.<a class="claim-anchor" href="#2026-10-root-page-addresses" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-10-root-gloss-source">
+              <strong>A source for root glosses.</strong> Root meanings will be
+              quoted, with page numbers, from John Penrice's <em>Dictionary and
+              Glossary of the Kor-ân</em> (1873) and checked against Lane's
+              <em>Arabic-English Lexicon</em>. Both are public domain. None is
+              transcribed yet, so the <a href="/coverage">Coverage</a> count of
+              verified root glosses is still 0 of 1,642; it will rise as each
+              checked transcription is added. Every such gloss will carry the
+              Nuanced label, because it is a lexicographer's English, not the
+              meaning.<a class="claim-anchor" href="#2026-10-root-gloss-source" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-10-roots-concordance">
+              <strong>A concordance, and more ways to rank a root's partners.</strong>
+              On <a href="/roots">Roots</a>, each root now has a word-in-context view:
+              every occurrence with up to five words on each side, inside the
+              verse, ordered by reference, lemma, or the word before or after,
+              and downloadable as CSV. It is built from the same word
+              segmentation as every count on the page, and a test checks that it
+              lists exactly as many occurrences as each root's published total.
+              The association table also shows logDice, t-score, log odds ratio
+              and deltaP, and can reorder the same 25 partners by any of them.<a class="claim-anchor" href="#2026-10-roots-concordance" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-10-data-api-index">
+              <strong>An index for scripts.</strong> The data is now discoverable
+              without reading a web page: <a href="/api/v1/index.json">api/v1/index.json</a>
+              lists every export table with its address, size and SHA-256, and every
+              published archive, and <a href="/api/v1/openapi.json">api/v1/openapi.json</a>
+              describes the same addresses in OpenAPI 3.1. They are static files,
+              readable from any site, with no key. See <a href="/export#api">Export</a>.
+              No published number changed.<a class="claim-anchor" href="#2026-10-data-api-index" aria-label="Link to this entry">&sect;</a></li>
+            <li id="2026-10-extended-association-measures">
+              <strong>Four more ways to score a root pair, and version 1.4.0.</strong>
+              The <a href="/export">Export</a> page has a nineteenth table, <code>association-extended</code>:
+              logDice, t-score, a log odds ratio with a 95% interval, and a
+              directional deltaP for the same 5,211 root pairs as the existing
+              association table, row for row. The measures disagree about which
+              pairs rank highest, and the site does not choose between them.
+              Nothing already published changed; the other eighteen tables are
+              byte-identical. The new archive is v1.4.0; earlier archives stay
+              available.<a class="claim-anchor" href="#2026-10-extended-association-measures" aria-label="Link to this entry">&sect;</a></li>
             <li id="2026-10-credits-and-notices">
               <strong>Credit where it is due, and version 1.3.1.</strong> Every
               page's footer now names and links the two sources the site ships:
@@ -1677,7 +1823,7 @@
           <button type="submit" class="button secondary">Send</button>
           <p class="feedback-note t-annotation">
             Goes to the maintainer via the hosting provider's form service.
-            Page visits are counted with Google Analytics and the site's own cookieless analytics; audio and translations load from the
+            Usage is counted with the site's own cookieless analytics, which you can turn off; audio and translations load from the
             providers named under <a href="/about#privacy">Privacy</a>. Prefer
             GitHub? <a href="https://github.com/saebchicago/qurandiscourses/issues/new?template=correction.md" rel="noopener">Open a correction issue</a>.
           </p>

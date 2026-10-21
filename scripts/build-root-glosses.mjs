@@ -1,0 +1,117 @@
+// build-root-glosses.mjs — validate the verified root glosses and write
+// the transcription worklist.
+//
+//   node scripts/build-root-glosses.mjs           # rewrite the worklist
+//   node scripts/build-root-glosses.mjs --check   # exit 1 on a bad record or a stale worklist
+//
+// WHY THIS EXISTS. data/coverage/report.json measured verified root-gloss
+// coverage at 0 of 1,642 because no citable source was in the repository.
+// The owner chose Penrice's Dictionary and Glossary of the Kor-ân (1873) as
+// the primary source and Lane's Arabic-English Lexicon (1863-93) as the
+// cross-check, both public domain by age. Glosses are entered by hand, from
+// scans of the printed books, into data/root-glosses/roots.json. This script
+// is the gate on that file: a record that is missing its page, its
+// cross-check or its second reader does not ship.
+//
+// Each record:
+//   root          Buckwalter root as in data/roots-summary.json
+//   gloss         verbatim quotation from Penrice, at most 200 characters,
+//                 no paraphrase, no added words (an elision is "...")
+//   source        "penrice-1873"
+//   locator       { page }  the page of the printed 1873 edition
+//   crossCheck    { source: "lane-lexicon", part, page, finding }
+//                 finding: "agrees" | "adds-senses" | "differs" | "not-found"
+//                 (part and page are null only when finding is "not-found")
+//   transcribedBy, checkedBy   two different people
+//   checkedOn     YYYY-MM-DD
+//   label         "nuanced", always: a gloss is a lexicographer's English,
+//                 not the meaning, so it never renders as Verified (●)
+//
+// The worklist (data/root-glosses/worklist.json) ranks the most frequent
+// roots by token count with their cumulative share of rooted tokens and
+// whether each has a record yet, so transcription starts where it covers
+// the most text. Deterministic: no dates, ties broken by root.
+
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+const DIR = join(ROOT, "data", "root-glosses");
+const CHECK = process.argv.includes("--check");
+const WORKLIST_SIZE = 200;
+
+const readJson = (rel) => JSON.parse(readFileSync(join(ROOT, rel), "utf8"));
+const rootsSummary = readJson("data/roots-summary.json");
+const sourceIds = new Set(readJson("data/sources.json").sources.map((s) => s.id));
+const { records } = readJson("data/root-glosses/roots.json");
+
+const FINDINGS = new Set(["agrees", "adds-senses", "differs", "not-found"]);
+const isPage = (n) => Number.isInteger(n) && n > 0;
+const failures = [];
+const seen = new Set();
+
+for (const [i, r] of (records || []).entries()) {
+  const at = `record ${i} (${r && r.root})`;
+  const bad = (msg) => failures.push(`${at}: ${msg}`);
+  if (!r || typeof r !== "object") { bad("not an object"); continue; }
+  if (!rootsSummary[r.root]) bad("root is not a corpus root in data/roots-summary.json");
+  if (seen.has(r.root)) bad("duplicate root");
+  seen.add(r.root);
+  if (typeof r.gloss !== "string" || !r.gloss.trim() || r.gloss.length > 200) bad("gloss must be a non-empty quotation of at most 200 characters");
+  if (r.source !== "penrice-1873") bad('source must be "penrice-1873"');
+  if (!r.locator || !isPage(r.locator.page)) bad("locator.page must be a positive integer (page of the 1873 edition)");
+  const c = r.crossCheck || {};
+  if (c.source !== "lane-lexicon") bad('crossCheck.source must be "lane-lexicon"');
+  if (!FINDINGS.has(c.finding)) bad(`crossCheck.finding must be one of ${[...FINDINGS].join(", ")}`);
+  if (c.finding === "not-found") {
+    if (c.part !== null || c.page !== null) bad("crossCheck.part and page must be null when finding is not-found");
+  } else if (!isPage(c.part) || !isPage(c.page)) bad("crossCheck.part and crossCheck.page must be positive integers");
+  if (!r.transcribedBy || !r.checkedBy) bad("transcribedBy and checkedBy are required");
+  else if (r.transcribedBy.trim().toLowerCase() === r.checkedBy.trim().toLowerCase()) bad("checkedBy must be a different person from transcribedBy");
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(r.checkedOn || "")) bad("checkedOn must be YYYY-MM-DD");
+  if (r.label !== "nuanced") bad('label must be "nuanced"');
+}
+for (const id of ["penrice-1873", "lane-lexicon"]) if (!sourceIds.has(id)) failures.push(`data/sources.json has no ${id} entry`);
+
+// ── worklist ─────────────────────────────────────────────────────────
+const ranked = Object.values(rootsSummary)
+  .map((m) => ({ root: m.rootBuckwalter, rootLatin: m.rootLatin, arabic: m.rootArabic, totalCount: m.totalCount }))
+  .sort((a, b) => b.totalCount - a.totalCount || (a.root < b.root ? -1 : 1));
+const rootedTokens = ranked.reduce((n, r) => n + r.totalCount, 0);
+let running = 0;
+const worklist = {
+  _comment:
+    "GENERATED by scripts/build-root-glosses.mjs. The most frequent roots by token count, in transcription order, " +
+    "with the share of rooted tokens covered once every root above it is glossed. status is glossed when " +
+    "data/root-glosses/roots.json has a validated record. Page numbers are NOT listed here: look each root up in the printed books.",
+  rootedTokens,
+  glossed: (records || []).length,
+  roots: ranked.slice(0, WORKLIST_SIZE).map((r, i) => {
+    running += r.totalCount;
+    return {
+      rank: i + 1,
+      ...r,
+      cumulativePercentOfRootedTokens: Math.round((running / rootedTokens) * 10000) / 100,
+      status: seen.has(r.root) ? "glossed" : "to-do",
+    };
+  }),
+};
+const payload = JSON.stringify(worklist, null, 1) + "\n";
+const OUT = join(DIR, "worklist.json");
+
+if (failures.length) {
+  console.error("build-root-glosses: FAIL");
+  for (const f of failures) console.error("  - " + f);
+  process.exit(1);
+}
+if (CHECK) {
+  if (!existsSync(OUT) || readFileSync(OUT, "utf8") !== payload) {
+    console.error("build-root-glosses --check: FAIL — data/root-glosses/worklist.json is stale.\n  Run: node scripts/build-root-glosses.mjs");
+    process.exit(1);
+  }
+  console.log(`build-root-glosses --check: OK (${worklist.glossed} validated records; worklist current).`);
+} else {
+  writeFileSync(OUT, payload);
+  console.log(`build-root-glosses: ${worklist.glossed} validated records; wrote data/root-glosses/worklist.json (top ${WORKLIST_SIZE}).`);
+}

@@ -12,7 +12,7 @@ Owner steps only. Everything else is already in the repo. Labels: **verified** =
 | Privacy manifest | `App/PrivacyInfo.xcprivacy`: no tracking, no data collected; FileTimestamp C617.1, UserDefaults CA92.1 |
 | Export compliance | `ITSAppUsesNonExemptEncryption = false` (HTTPS only), so ASC asks nothing |
 | Offline | App-Bound Domains let the site's service worker run in-app |
-| Analytics | None in the app: `ga-init.js` does not even load Google's script inside the shell, and `ah-init.js` does not add the first-party analytics script |
+| Analytics | None in the app: `ah-init.js` does not add the first-party analytics script inside the shell (the site has no Google analytics) |
 | Native features | Backups to Documents, universal-link routing, daily 07:00 reminder (repeats), haptics |
 | Icon | 1024 px, opaque (`store/icon-1024.png`, also in the asset catalog) |
 | Screenshots | 4 at 1320x2868 (`store/ios-6.9in/`) |

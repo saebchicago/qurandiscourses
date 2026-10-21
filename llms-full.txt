@@ -3,8 +3,8 @@
 > A Qur'an study platform in the coherence-reading tradition of
 > Dr. Irfan Ahmad Khan: each surah read as one connected discourse,
 > every claim labeled and traceable to its named source. Static site,
-> open source, no accounts, anonymous usage analytics only. Version 1.3.1
-> (2026-10-01).
+> open source, no accounts, the site's own cookieless first-party analytics only (no Google; opt-out honored). Version 1.7.1
+> (2026-10-19).
 
 Ground rules for using this site as a source:
 
@@ -39,6 +39,10 @@ Ground rules for using this site as a source:
 - [Exercise: Spot the roots](https://divinediscourses.org/exercise-roots): An interactive exercise: spot the recurring roots in a short surah, then check your reading against the Leeds corpus morphology data.
 - [Qur'anic roots and where they occur](https://divinediscourses.org/roots): The 1,642 triliteral roots of the Qur'an with frequency, derived forms, surah distribution, Makki/Madani split, and co-occurrence data from the Leeds Corpus.
 - [Search Qur'anic Arabic word forms](https://divinediscourses.org/words): Search all 4,832 dictionary forms of Qur'anic Arabic by Arabic, transliteration or root, with frequency, part of speech and first occurrence.
+- [Query the corpus](https://divinediscourses.org/query): Ask the Leeds v0.4 morphology a question: filter by root, lemma, part of speech, surah range and period, then get counts, occurrences and a CSV. The address reproduces the result.
+- [How far apart are two surahs?](https://divinediscourses.org/distance): Compare any two surahs by the roots they use: a 114 by 114 map of Jensen-Shannon distance read against a permutation null, with the closest and most distant pairs.
+- [Prayers and remembrance in the text](https://divinediscourses.org/prayers): Every place the Qur'an has people say &quot;Our Lord&quot; as a prayer, found by a literal search of the morphology, with the words that follow it, and counts for the roots of glorification, praise, remembrance and forgiveness.
+- [Explore the published tables](https://divinediscourses.org/explore): Sort, filter and chart any of the 23 published data tables in your browser, with a histogram of any numeric column and a link that reproduces your view.
 - [Structural and rhetorical patterns](https://divinediscourses.org/patterns): Structural and rhetorical patterns in the Qur'an: iltifat, mutashabihat.
 - [Recurring phrases in the Qur'an](https://divinediscourses.org/formulas): Every recurring 3-5 word sequence in the Qur'an, counted two ways, by root sequence and by surface form, with every place each phrase occurs.
 - [Corpus numbers and how each was counted](https://divinediscourses.org/numbers): Counted figures from the Qur'anic corpus: root frequency, verse length, lexical diversity by period, and the method behind each number.
@@ -64,7 +68,7 @@ Ground rules for using this site as a source:
 
 ## Data
 
-- [Export tables](https://divinediscourses.org/export): 18 tables (association-pairs, centrality, direct-address, discursive-pivots, dispersion, fawatih, formulaic-density, formulas, lemma-frequencies, rhyme-summary, root-frequencies, root-surah-counts, structure, structure-tests, surah-stats, theme-surah-density, verse-durations, verse-lengths) as CSV and JSON, with schema.json and DATA-DICTIONARY.md alongside
+- [Export tables](https://divinediscourses.org/export): 23 tables (association-by-period, association-extended, association-pairs, centrality, direct-address, discursive-pivots, dispersion, fawatih, formulaic-density, formulas, keyness-period, lemma-frequencies, prayers-vocative, rhyme-summary, root-frequencies, root-surah-counts, structure, structure-tests, surah-distance, surah-stats, theme-surah-density, verse-durations, verse-lengths) as CSV and JSON, with schema.json and DATA-DICTIONARY.md alongside
 - [Dataset documentation](https://divinediscourses.org/datasets): every bundled dataset with its generator script and license
 - [Coverage report](https://divinediscourses.org/coverage): measured completeness and counting-rule sensitivity
 - [Claims ledger](https://divinediscourses.org/validation): per-claim evidence records with permalinks
@@ -369,7 +373,32 @@ No ʿamūd statements and no ring analyses exist anywhere on the
 site: those lenses are blank scaffolding for your own reading,
 never generated commentary.
 
-Anonymous usage counts only. No generated tafsir. Public data and scripts. Every
+## Tested against noise
+
+The methods below are also run on text where the pattern cannot be
+real, so you can see what each finds by chance. A method that finds
+as much in noise as in the Qur'an has found nothing. Other
+patterns on the site, such as rhyme runs and symmetry, are not
+covered by these runs. ●
+
+Method
+On the Qur'an
+On noise
+
+The table loads with JavaScript. The same figures are on
+Validation .
+
+A weekly job recomputes the published numbers from the corpus and compares them with what is shipped; a difference fails the build.
+
+The datasets and scripts are public, so anyone can rerun the checks.
+
+These figures show how often a method fires by chance. They do not show that a finding is meaningful.
+
+All the checks
+Explore the tables
+Download the data
+
+Anonymous usage counts only, no Google. No generated tafsir. Public data and scripts. Every
 claim labeled.
 
 Recent corrections are logged publicly.
@@ -1907,17 +1936,65 @@ Click a node to open that root; hover or tab to it for the
 shared-verse count, LLR, PMI, and Dice. The graph plots the
 same partners the table below lists.
 
+Order these partners by
+
+Strength of evidence (LLR)
+Distinctiveness (PMI)
+Overlap (Dice)
+logDice
+t-score
+Log odds ratio
+deltaP (partner given this root)
+
+The partners are this root's 25 strongest by LLR. Another
+measure reorders the same 25; it does not bring in different
+partners. Measures disagree by design, and none is the right
+one. Formulas in data/association/methods.json .
+
 Root
 Shared verses
 Strength of evidence (LLR)
 Distinctiveness (PMI)
 Overlap (Dice)
+logDice
+t-score
+Log odds ratio
+deltaP
 
 These are statistical measures of word distribution in the
 text. They do not indicate thematic, exegetical, or
 theological relationships.
 
 Download the full association-pairs table (CSV/JSON) →
+
+#### Gloss from Penrice (1873) ●
+
+#### Concordance (word in context)
+
+Show every occurrence in context
+
+Every occurrence of this root with up to five words on each
+side, within the same verse. Words are shown as the Leeds
+corpus v0.4 segments them, the same tokens every count on
+this page is made from.
+
+Order by
+
+Reference
+Lemma
+Word before
+Word after
+
+Download loaded lines (CSV)
+
+Ref
+Before
+Word
+After
+Lemma
+POS
+
+Load more verses
 
 #### Network position ●
 
@@ -2978,6 +3055,258 @@ See any word in its verse on the Read page →
 
 Follow the guided path "Follow a root through the Qur'an" →
 
+===== Query the corpus (https://divinediscourses.org/query) =====
+
+## Query the corpus
+
+Ask the word-by-word morphology a question and get the counts, the
+occurrences and a CSV. Every filter is optional but at least one is
+required. The address bar holds the whole query, so the link you copy
+reproduces the same result; nothing is stored.
+
+Root
+
+Lemma
+
+Written word
+
+From surah
+
+To surah
+
+Period
+
+Any
+Early Meccan
+Middle Meccan
+Late Meccan
+Medinan
+
+Part of speech (Leeds tags; none selected means any)
+
+Run query
+Clear
+
+### Result
+
+Download CSV
+Copy link to this query
+
+### By surah
+
+Surah Occurrences
+
+### Occurrences
+
+Ref
+Before
+Word
+After
+Root
+Lemma
+POS
+
+Show more
+
+### How to read this
+
+Counts come straight from the Leeds Quranic Arabic Corpus v0.4
+morphology (every token and its annotated root, lemma and part of
+speech), so a root's total here equals its total on
+Roots .
+●
+The period filter uses the Nöldeke-Bell four-period scheme, one
+chronology among several.
+●
+A lemma typed in Arabic letters is matched on letters only (hamza seats and vowel marks folded), so it can match more than one Buckwalter lemma; the Buckwalter form is exact. A written word is matched on its letters, with vowel marks ignored. Roots and lemmas are the annotators' judgments, not the text itself;
+a different morphological analysis would give different counts. Tokens
+without an annotated root cannot be found by a root query. The
+page reads the same files you can download from
+Export and Datasets .
+
+===== How far apart are two surahs? (https://divinediscourses.org/distance) =====
+
+## How far apart are two surahs?
+
+Each square compares two surahs by the roots they use and how often.
+Darker means the two use more different vocabularies than random
+reassignment of the same verses would give. Click a square, or pick two
+surahs, to see the numbers.
+
+Surah A
+Surah B
+
+Loading…
+
+Hatched squares involve a surah with under 100 rooted tokens.
+
+### Closest and most distant pairs
+
+Pairs where both surahs have at least 500 rooted tokens, so short-text
+noise does not decide the ranking. Both lists are ordered by excess
+over the null, smallest first and largest first; the raw distance is
+shown beside it.
+
+#### Smallest excess (most alike)
+
+Pair Distance Excess
+
+#### Largest excess over the null
+
+Pair Distance Excess
+
+### How to read this
+
+The distance is the square root of the Jensen-Shannon divergence
+between two surahs' root counts, from 0 (same proportions) to 1 (no
+root in common).
+●
+Short surahs look distant from everything by arithmetic alone, so each
+distance is compared with what pooling both surahs' verses and
+reassigning them at random would give (2,000 draws), and the excess over
+that null is what the colors show. A large excess means different
+vocabularies, not different themes or styles; the null keeps verse
+counts, not token counts, so pairs whose verses differ in length are
+calibrated less well.
+With 2,000 draws the smallest possible p-value is 1 in 2,001, and
+3,703 of the 6,441 pairs reach it, so p and q cannot rank those pairs
+against each other. The lists above rank by excess over the null, which
+is a size of difference, not a strength of evidence.
+●
+The full table, with p and q values, is on Export
+as surah-distance .
+
+===== Prayers and remembrance in the text (https://divinediscourses.org/prayers) =====
+
+## Prayers and remembrance in the text
+
+Where the Qur'an has people say رَبَّنَا
+( rabbana , "Our Lord") as an address to God, and how often it
+uses the roots of glorification, praise, remembrance and forgiveness.
+This page describes what the text contains. It does not say what to
+recite or when.
+
+### Read before using
+
+Whether a verse is a model prayer depends on who is speaking. Several
+of the verses below are spoken by people the text itself condemns,
+for instance on the Day of Judgment. This page finds the words; it
+does not decide who says them. Open each verse in context before
+using it, and see the
+limits below.
+
+### "Our Lord" as an address
+
+70 times in 62
+verses of 26 surahs.
+●
+
+The list loads with JavaScript. The same rows are in the
+CSV and
+JSON on
+Export .
+
+Verse
+Word
+Next word
+Period
+Context
+
+### What comes next
+
+The lemma of the word right after رَبَّنَا ,
+most frequent first. The lemma is the dictionary form from the Leeds corpus.
+
+Next word (lemma) Example Times
+
+### Glorification, praise, remembrance and forgiveness
+
+Token and verse counts for four roots, with the lemmas that carry them.
+A root is wider than the act its name suggests, so read the lemmas.
+
+Root Tokens Verses Lemmas
+
+sbH includes senses other than glorification, such as swimming or moving along (21:33).
+
+Hmd includes al-Hamid , a name of God, besides the act of praising.
+
+*kr includes dhikr as a name for the Qur'an itself, and dhakar , male.
+
+gfr includes al-Ghafur and al-Ghaffar , names of God, besides asking forgiveness.
+
+●
+
+### How these were found, and what they leave out
+
+A token counts when its lemma is rabb , it ends in the
+first-person plural suffix, and the Uthmani text puts the accusative
+vowel on the ba. ●
+
+Two tokens with that form are not addresses and are left out: 25:21,
+"or see our Lord" (the object of a verb), and 35:34, "indeed our
+Lord" (after inna ).
+
+The forms رَبُّنَا and
+رَبِّنَا speak about the Lord, not to Him.
+They occur 18 and 21 times and are not
+listed here.
+
+Prayers in other forms are not found by this search: those that begin
+with another address, or with an imperative alone. The list is the
+text's "Our Lord" prayers, not all of its prayers.
+
+Speaker, occasion and meaning are not computed. Hadith is not used
+on this page.
+
+If you know of a verse this search misses or misreads, or can advise
+on appropriate use,
+open a correction issue .
+The table is also on Export as prayers-vocative .
+
+===== Explore the published tables (https://divinediscourses.org/explore) =====
+
+## Explore the published tables
+
+Pick a table, sort it, filter it and see how one column is
+distributed. Everything is read from the same files you can download
+on Export ; nothing here is recomputed or sent
+anywhere, and the address in your browser reproduces your view.
+
+Table Loading…
+Column to summarize
+
+Choose a table to begin.
+
+This page needs JavaScript. The same tables are on
+Export as CSV and JSON.
+
+Previous
+
+Next
+Clear filters
+Download filtered rows (CSV)
+
+### One column at a time
+
+Pick a column above.
+
+The bars count rows in the table as filtered above. A shape here
+describes the published numbers and says nothing by itself about
+meaning; read the method note for the table on
+Export before drawing a conclusion.
+
+### How to read this
+
+Text filters match a piece of the cell. Arabic vowel marks and case are ignored, so plain letters find a pointed word.
+
+Number filters take >=2 , <0.5 , =3 , 5..10 or a bare number. A row with no value never matches a filter on that column.
+
+The tables are the published ones, with the counting rules, method and verification label for each given in the schema on Export . Rows with an empty cell mean the value is not available, not zero.
+
+Counts of downloads from Export are the only analytics on this page: which table and format, nothing you filter or type.
+
+●
+
 ===== Structural and rhetorical patterns (https://divinediscourses.org/patterns) =====
 
 ## Patterns
@@ -3219,6 +3548,53 @@ the technical oral-formulaic-theory sense, a scholarly
 judgment argued in Bannister 2014, not settled by this
 count. Full per-surah, per-verse table:
 Export .
+
+### Templates with one open slot ●
+
+Two words a fixed distance apart in one verse, with one, two or three
+words of any kind between them, such as وما _ من .
+Each template's count is compared with what shuffling the words
+inside every verse would give, and the whole list is corrected
+together (Benjamini-Hochberg). A template needs at least three
+occurrences and at least two different fillers in the slot; a
+phrase with one fixed middle word is on the list above. The three
+widths are separate analyses: the same pair of fixed words can
+appear in more than one, and a wider system can contain a narrower
+one.
+
+Show the templates
+
+Open slots
+
+One (a _ c)
+Two (a _ _ c)
+Three (a _ _ _ c)
+
+Order by
+
+Most occurrences
+Most above chance (count / expected)
+Smallest q
+Most different slot words
+
+Contains
+
+Template
+Count
+Expected by chance
+Slot words
+Most frequent slot words
+Occurrences
+
+Show more
+
+This records where a pattern recurs beyond word order, not why.
+The shuffle keeps each verse's length and words, so common
+particles and repeated verses (a refrain repeated verbatim counts
+each time) are in the count; whether a template is a formula in the
+oral-formulaic sense is a scholarly judgment, argued in Bannister
+2014, not settled here. Full list with every occurrence:
+data/formulaic-templates.json .
 
 ### Explore further
 
@@ -5773,6 +6149,12 @@ Validation .
 
 ## Sources
 
+This site builds on published work by many scholars and projects, each
+used under the terms its authors state. If you maintain a source listed
+here, or you see terms we have misread, we welcome your guidance on
+appropriate use and attribution:
+open a correction issue .
+
 Every dataset, translation, scholarly work, and tool that Divine Discourses
 draws on, with license and verification status.
 
@@ -6569,6 +6951,32 @@ forms one chooses to count — the same caution the y-w-m example
 makes. This site does not endorse numerical-parity claims it
 cannot reproduce.
 
+## What the methods report in noise
+
+Several statistics on this site are read against a null: a version
+of the data in which the thing being tested cannot be true. Each one
+has also been run on data where the null is true by
+construction, and the table shows what it reports there beside what
+it reports on the real text. A method that finds as much in noise as
+in the Qur'an has found nothing.
+●
+
+Method
+On the real text
+On null data
+Runs with any finding (nominal 5%)
+
+This table needs JavaScript; the same figures are in data/calibration/report.json .
+
+How to read each row
+
+Benjamini-Hochberg control is on the false discovery rate, and the
+tests here are dependent (roots share surahs; template windows
+overlap), so false findings come in bursts: the figure to compare
+with 5% is the share of null runs with any finding. Rows
+marked conservative miss real effects as well as noise.
+Generated by scripts/build-calibration.mjs .
+
 ## Triangulation prompts
 
 These prompts are optional discovery aids for locating sources or
@@ -6739,12 +7147,12 @@ full directory
 #### data/exports/ · data/coverage/report.json
 
 The public download tables (root frequencies, root dispersion,
-roots by surah, lemma frequencies, association pairs, per-surah
+roots by surah, lemma frequencies, association pairs, surah distances, period keyness, period-split association, per-surah
 stats, verse lengths, verse durations, formulas, formulaic
 density, centrality, rhyme summary, fawatih, direct address,
 discursive pivots, computed structure, structure tests, and
-theme-surah density — 18 tables, each as CSV and JSON, with
-schema.json and a prose data dictionary) — browsable on Export — and the
+theme-surah density — 23 tables, each as CSV and JSON, with
+schema.json and a prose data dictionary) — browsable on Export and Explore — and the
 measured data-coverage report behind the
 Coverage dashboard.
 ●
@@ -6976,8 +7384,8 @@ URL
 A source can be fully cited in data/sources.json
 and still be reachable from no badge anywhere: nothing checked
 for that until this measurement.
-38 of
-40 sources appear in at
+45 of
+48 sources appear in at
 least one data-source-ids attribute on the site,
 static or built at render time. The rest are cited in the
 bibliography on Sources but not yet
@@ -6993,16 +7401,17 @@ script, see Datasets .
 
 ## Export: download the numbers
 
-Eighteen precomputed tables, each as CSV and JSON: root
+Twenty-three precomputed tables, each as CSV and JSON: root
 frequencies, dispersion and counts by surah, lemma frequencies,
-root-pair association statistics, per-surah stats, verse lengths
+root-pair association statistics (and four further measures for the same pairs), surah-to-surah distance with a permutation null, period keyness and period-split association, per-surah stats, verse lengths
 and recitation durations,
 formulas and formulaic density, centrality, rhyme summary,
 fawātiḥ, direct address, discursive pivots, computed structure
 and its tests, and theme-surah density. Every field is
 documented in the schema and data dictionary below. For the complete raw pipeline (morphology,
 per-root files, and every other dataset this site ships), see
-Datasets .
+Datasets . To look before you download, sort,
+filter and chart any table on Explore .
 
 Generated deterministically by
 scripts/build-exports.mjs , which reads
@@ -7122,6 +7531,54 @@ panel; see the schema for the exact counting rule.
 CSV
 JSON
 5,211 rows
+
+#### Association, extended measures ● ●
+
+logDice, t-score, log odds ratio with a 95% interval, and
+directional deltaP for exactly the pairs in the table above,
+row for row. The measures disagree about rank order; none is
+presented as the right one.
+
+CSV
+JSON
+5,211 rows
+
+#### Surah-to-surah distance ● ●
+
+Jensen-Shannon distance between the root distributions of every
+pair of surahs, with a permutation null, an excess over that
+null, a p-value and a Benjamini-Hochberg q. Read the excess,
+not the raw distance: short surahs look distant from
+everything. Pairs with a surah under 100 rooted tokens are
+flagged, not dropped.
+
+CSV
+JSON
+6,441 rows
+
+#### Period keyness, tested ● ●
+
+Dunning G2 for every root in each of the four revelation periods, with a permutation p-value that assigns whole surahs to periods at random and a Benjamini-Hochberg q. A high G2 alone can come from one long surah; read the q.
+
+CSV
+JSON
+6,568 rows
+
+#### Association by period ● ●
+
+For every pair in the association table, the log odds ratio with its 95% interval inside each period, and Cochran's Q test of whether the periods agree. The test is conservative (see Validation): a pair that does not pass may still differ.
+
+CSV
+JSON
+5,211 rows
+
+#### Prayers: "Our Lord" as an address ● ●
+
+Every place the Qur'an has people address God as rabbana , with the word that follows. Speaker is not included: several rows are spoken by people the text condemns. See Prayers .
+
+CSV
+JSON
+70 rows
 
 #### Per-surah stats ● ~
 
@@ -7251,11 +7708,11 @@ DATA-DICTIONARY.md (prose)
 
 ### Everything at once, pinned to a version
 
-One archive holds all eighteen tables in both formats, the schema,
+One archive holds all twenty-three tables in both formats, the schema,
 the data dictionary, and a citation file, so a download never
 travels without its provenance. The archive is named by release
 version and built deterministically: citing
-v1.3.0 names these exact bytes, and
+v1.7.1 names these exact bytes, and
 a new release adds a new archive rather than replacing this
 one. For toolchains that read standard packaging, the same
 tables are described as a
@@ -7263,14 +7720,32 @@ Frictionless Data package
 and as
 Croissant JSON-LD .
 
-divinediscourses-data-v1.3.1.tar.gz (all tables + schema + citation + corpus notice)
+divinediscourses-data-v1.7.1.tar.gz (all tables + schema + citation + corpus notice)
 
 Earlier releases stay downloadable, because a published citation
 points at the bytes it was written against:
+v1.3.1 ,
 v1.3.0 ,
 v1.2.0 ,
 v1.1.0 ,
 v1.0.0 .
+
+### For scripts and notebooks
+
+api/v1/index.json lists every
+table with its row count, CSV and JSON address, size and SHA-256,
+and every archive above, so a script can find the data and check
+a download without reading this page.
+api/v1/openapi.json describes
+the same addresses in OpenAPI 3.1. These are static files: there
+is no query service, no key and no rate limit, and any site may
+fetch them. Fetch a table whole and filter it locally.
+
+A worked example:
+reproduce-numbers.ipynb , a Python notebook that recomputes figures from the Numbers
+page and the association tables using only the archive. It runs
+on every change to the site, so a failure there means the
+archive and the pages disagree.
 
 ### Preview: top 5 roots by frequency
 
@@ -7303,6 +7778,149 @@ before it was renamed "Study".
 ### 2026
 
 #### October
+
+The home page now shows the noise checks.
+A new "Tested against noise" table on the home page sets what each
+method finds on the Qur'an beside what it finds on text where the pattern cannot be
+real, read from the same report as Validation .
+The home page's privacy line now says page-visit and download counts, matching About.
+§
+
+Explore the tables.
+New Explore page: pick any of the 23 published tables, sort and
+filter it, and see a histogram of any numeric column, all in your browser from the same
+files as Export . The address reproduces your view, and nothing you
+filter is sent anywhere.
+§
+
+Download counts.
+The site now counts which Export table is downloaded, and in
+which format, so the data we publish can follow what people use. The count carries
+only the table name and format from the link, nothing you typed, and it follows the
+same off switch and Global Privacy Control rule as page counts. See
+Analytics on About.
+§
+
+Correction to the Prayers count, version 1.7.1.
+The first Prayers page counted 41 places in 38 verses. It missed
+every form written with a maddah mark, so the correct count is 70 in 62 verses of 26
+surahs. The page, the prayers-vocative table on Export
+and the reviewer sheet now carry the full list. A review comment caught the error; the
+test that recounts from the surface forms now strips the same marks, and the two
+counts agree.
+§
+
+Where the text says "Our Lord" as a prayer, and version 1.7.0.
+New Prayers page: the 70 places in 62 verses of 26 surahs where
+the Qur'an has people address God as rabbana , found by a literal search of the
+morphology with the rule and its two exclusions stated, the words that follow it, and
+counts for the roots of glorification, praise, remembrance and forgiveness. It says
+what the text contains, not what to recite, and notes that some of these verses are
+spoken by people the text condemns. The Export page has the list as
+a new table, prayers-vocative .
+§
+
+Four more analyses, tested against noise, and version 1.6.0.
+Numbers now marks which of the roots listed as most key for a
+revelation period stay key when whole surahs are reassigned to periods at random:
+132 of 6,568 root-period tests do, and only 9, 5, 5 and 14 of the 15 listed roots
+for the four periods. The Export page has two new tables,
+keyness-period and association-by-period (whether a root
+pair's association is the same in every period; 14 of 5,203 pairs differ, from a
+conservative test). Formulas now covers templates with two
+and three open slots as well as one. Validation has a new
+section showing what each of these methods reports on data where there is nothing
+to find. The surah-distance null now uses 2,000 draws instead of 500, so its
+p-values can go lower (a surah pair's smallest possible p is now 0.0005); the
+distances changed in the third or fourth decimal. §
+
+Query by Arabic, and a surah distance map.
+Query now accepts a lemma in Arabic letters and a
+written word in Arabic (vowel marks ignored). A new page,
+Surah distance , draws the 114 by 114 map of how far
+apart every two surahs are by the roots they use, read against a
+permutation null, with the closest and most distant pairs. The same
+numbers are in the surah-distance export table. No
+published number changed. §
+
+Templates with one open slot. Formulas
+has a new panel listing pairs of words two places apart with any word
+between them (for example wa-ma _ min ) that recur more than
+shuffling the words inside each verse would predict. 1,003 of 1,669
+candidates pass a Benjamini-Hochberg correction; the same procedure on
+100 verse-shuffled copies of the text finds almost none. Each
+template lists every place it occurs. This records recurrence, not
+why it recurs, and common particles and repeated verses are in the
+count. No existing number changed. §
+
+A query page. The new Query page
+(under Analyze) filters the word-by-word morphology by root, lemma,
+part of speech, surah range and period, and returns the counts, the
+occurrences with a few words of context, and a CSV. The whole query
+lives in the address, so a copied link reproduces the same result and
+nothing is stored. A root's total on this page equals its total on
+Roots, checked for all 1,642 roots. Roots and lemmas are the
+annotators' judgments from the Leeds v0.4 corpus, and the period
+filter uses one chronology among several. No published number
+changed. §
+
+How far apart two surahs are, against chance, and version 1.5.0.
+The Export page has a twentieth table,
+surah-distance : the Jensen-Shannon distance between the
+root distributions of every pair of surahs (6,441 pairs), beside a
+permutation null, the excess over it, a p-value and a
+Benjamini-Hochberg q. Short surahs look distant from everything by
+arithmetic alone, so the table reports what random reassignment of
+the same verses would give and flags pairs with a surah under 100
+rooted tokens. No published number changed. §
+
+Root pages now have one address. A check run against the
+live site found that 195 of the 411 root reference pages, those whose
+key contains a capital letter such as /root/uAlh , were
+redirected by the host to a lowercase address while the sitemap, the
+page's own canonical tag and the links to it still named the capital
+form. All root pages now live at lowercase addresses
+( /root/ualh ), and the sitemap, canonical tags and links
+say so. Old links keep working through the host's redirect. No
+published number changed. §
+
+A source for root glosses. Root meanings will be
+quoted, with page numbers, from John Penrice's Dictionary and
+Glossary of the Kor-ân (1873) and checked against Lane's
+Arabic-English Lexicon . Both are public domain. None is
+transcribed yet, so the Coverage count of
+verified root glosses is still 0 of 1,642; it will rise as each
+checked transcription is added. Every such gloss will carry the
+Nuanced label, because it is a lexicographer's English, not the
+meaning. §
+
+A concordance, and more ways to rank a root's partners.
+On Roots , each root now has a word-in-context view:
+every occurrence with up to five words on each side, inside the
+verse, ordered by reference, lemma, or the word before or after,
+and downloadable as CSV. It is built from the same word
+segmentation as every count on the page, and a test checks that it
+lists exactly as many occurrences as each root's published total.
+The association table also shows logDice, t-score, log odds ratio
+and deltaP, and can reorder the same 25 partners by any of them. §
+
+An index for scripts. The data is now discoverable
+without reading a web page: api/v1/index.json
+lists every export table with its address, size and SHA-256, and every
+published archive, and api/v1/openapi.json
+describes the same addresses in OpenAPI 3.1. They are static files,
+readable from any site, with no key. See Export .
+No published number changed. §
+
+Four more ways to score a root pair, and version 1.4.0.
+The Export page has a nineteenth table, association-extended :
+logDice, t-score, a log odds ratio with a 95% interval, and a
+directional deltaP for the same 5,211 root pairs as the existing
+association table, row for row. The measures disagree about which
+pairs rank highest, and the site does not choose between them.
+Nothing already published changed; the other eighteen tables are
+byte-identical. The new archive is v1.4.0; earlier archives stay
+available. §
 
 Credit where it is due, and version 1.3.1. Every
 page's footer now names and links the two sources the site ships:
@@ -9305,17 +9923,15 @@ storage and are never sent by this site. They are deliberately kept
 in separate stores so clearing display settings cannot erase writing
 unexpectedly.
 
-Four outside services can be contacted, and only these four. The
+Three outside services can be contacted, and only these three. The
 Arabic text ships with this site (Tanzil); translations come from
 api.alquran.cloud . Word-by-word meanings, when you
 open them, come from api.quran.com . Recitation audio
-is streamed from cdn.islamic.network . Page-visit
-counts go to Google Analytics
-( googletagmanager.com ,
-google-analytics.com ), described under
-Analytics . Nothing else is
-permitted: the site's content security policy names exactly these
-hosts, so a fifth would be blocked by your browser rather than
+is streamed from cdn.islamic.network . Usage
+counts stay on this site's own address and go to no outside
+service, as described under Analytics .
+Nothing else is permitted: the site's content security policy names
+exactly these hosts, so a fourth would be blocked by your browser rather than
 silently allowed. Like any direct web request, each provider receives
 technical connection information such as your IP address and browser
 headers. What the request carries is the surah, verse, selected
@@ -9344,21 +9960,14 @@ Device boundary: nothing synchronizes. Clearing this browser's site data, using 
 
 ### Analytics
 
-This site uses Google Analytics to count visits by page. Each page
-load sends the page address without any query string or fragment
-(so a search or a chosen passage in the address is not sent), the
-referring address cut the same way, and the technical connection
-information any web request carries, such as your IP address and
-browser headers. It does not send names, notes, form contents, or
-what you type into search. Google Signals and ad personalization
-features are turned off in the tag. Google Analytics also sets
-cookies in your browser to recognize a returning visit. A second,
-cookieless analytics script is described under
-First-party analytics .
+The only analytics on this site are its own. There is no Google
+Analytics and no other third-party analytics or advertising
+service. The browser does not contact any additional website for
+them, and nothing is sent to Google. The script is described under
+First-party analytics below.
 
-Global Privacy Control is honored: if your browser sends it, the
-site configures nothing, sends no analytics, and does not load
-Google's tag script, so Google is not contacted.
+Global Privacy Control and Do Not Track are honored: if your browser
+sends either, the site adds no analytics script and sends nothing.
 You can also turn analytics off for this browser here. The choice is
 stored in your browser's local storage, so it applies to this
 browser only. Analytics runs only with JavaScript.
@@ -9368,8 +9977,8 @@ Turn analytics off
 
 #### First-party analytics
 
-Besides Google Analytics, this site runs a second, separate
-analytics script. It is requested from this site's own address
+This site runs its own cookieless analytics script. It is
+requested from this site's own address
 (under /_ah/ ), and its measurements are sent to this
 site's own address too, which passes them on to an analytics
 service run by the site's maintainer. Your browser does not contact
@@ -9502,7 +10111,7 @@ Every page footer has a Cite link that produces a ready-made
 reference for that page in Chicago, APA, and BibTeX form,
 including the release version. To cite the site as a whole:
 
-Divine Discourses, version 1.3.1. 2026.
+Divine Discourses, version 1.7.1. 2026.
 https://divinediscourses.org.
 
 Machine-readable citation metadata lives in
@@ -9692,7 +10301,7 @@ Saeb A. Ahsan : Maintainer; transcription of Dr. Khan's published outlines and g
 
 ### Privacy
 
-Page visits and site usage (such as clicks and scrolling) are counted with privacy-restricted Google Analytics and the site's own cookieless analytics, both of which you can turn off. See Analytics .
+Usage is counted only by the site's own cookieless first-party analytics (no Google), which you can turn off. See Analytics .
 
 Preferences, reading progress, passage cache, pinned references,
 reader-authored worksheets, and study notes are saved in the
@@ -9777,7 +10386,7 @@ reading-lens: A published coherence method rendered as UI scaffolding on the Rea
 
 # Data dictionary: public exports
 
-Generated by `scripts/build-exports.mjs` on 2026-09-26. Mirrors `data/exports/schema.json` in prose; the JSON file is the machine-readable source of truth.
+Generated by `scripts/build-exports.mjs` on 2026-10-20. Mirrors `data/exports/schema.json` in prose; the JSON file is the machine-readable source of truth.
 
 Source corpus: Dukes, Kais. The Quranic Arabic Corpus, version 0.4. Leeds: Language Research Group, University of Leeds, 2009-2017. https://corpus.quran.com/. GNU GPL.
 
@@ -9828,6 +10437,126 @@ Root-pair association statistics: the union of every pair appearing in any root'
 | `pmi` | number | bits (log base 2) | Pointwise mutual information: log2((k11*N)/((k11+k12)*(k11+k21))), N=6,236, rounded to 2 decimals. |
 | `dice` | number | n/a | Dice coefficient: 2*k11/(2*k11+k12+k21), rounded to 3 decimals. |
 | `llr` | number | n/a | Dunning's log-likelihood ratio (G2) over the pair's verse-level 2x2 table, rounded to 2 decimals. |
+
+## association-extended
+
+Four further root-pair association measures (logDice, t-score, log odds ratio with a 95% interval, directional deltaP) for exactly the pairs in association-pairs, in the same order and orientation. (5211 rows.)
+
+**Counting rule:** Same verse-level 2x2 table as association-pairs (N = 6,236 verses; a root occurs in a verse if any token carries it). sharedVerses is k11; versesA and versesB are each root's verse count (the marginals). Same pair set as association-pairs: top 25 partners per root by LLR with at least 5 shared verses, so this is not the complete set of qualifying pairs. Measures disagree about rank order by design; no single measure is presented as correct.
+
+**Verification:** Verified: direct computation from published counts by scripts/lib/association-measures.mjs, hand-computed unit test in scripts/association-measures.test.mjs. Which measure to prefer for a given question is method-dependent.
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `rootA` | string | n/a | First root of the pair (Buckwalter); identical to association-pairs.rootA for the same row. |
+| `rootASafeKey` | string | n/a | URL/filename-safe encoding of rootA. |
+| `rootB` | string | n/a | Second root of the pair (Buckwalter). |
+| `rootBSafeKey` | string | n/a | URL/filename-safe encoding of rootB. |
+| `sharedVerses` | integer | verses | k11: verses in which both roots are attested. |
+| `versesA` | integer | verses | Verses in which rootA is attested. |
+| `versesB` | integer | verses | Verses in which rootB is attested. |
+| `logDice` | number | n/a | 14 + log2(2*k11/(versesA+versesB)), Rychly 2008; at most 14, independent of corpus size. Rounded to 3 decimals. |
+| `tScore` | number | n/a | (k11 - E11)/sqrt(k11) where E11 = versesA*versesB/N. Rounded to 2 decimals. |
+| `logOddsRatio` | number | natural log | ln((k11+0.5)(k22+0.5)/((k12+0.5)(k21+0.5))), Haldane-Anscombe correction. Rounded to 3 decimals. |
+| `logOddsRatioLo95` | number | natural log | Lower end of a Wald 95% interval for logOddsRatio (estimate minus 1.96*sqrt(sum 1/(cell+0.5))). Rounded to 3 decimals. |
+| `logOddsRatioHi95` | number | natural log | Upper end of the same interval. Rounded to 3 decimals. |
+| `deltaP_BgivenA` | number | n/a | P(rootB in verse | rootA in verse) minus P(rootB | rootA absent). Rounded to 4 decimals. Asymmetric: differs from deltaP_AgivenB. |
+| `deltaP_AgivenB` | number | n/a | P(rootA | rootB in verse) minus P(rootA | rootB absent). Rounded to 4 decimals. |
+
+## surah-distance
+
+Jensen-Shannon distance between the root distributions of every pair of surahs (6,441 pairs), with a permutation null so each distance can be read against what chance and surah length alone produce. (6441 rows.)
+
+**Counting rule:** Rooted Leeds tokens only. distance is the square root of the base-2 Jensen-Shannon divergence of the two surahs' root counts (0 to 1). The null pools both surahs' verses, reassigns verses to the two sides at random with side sizes in verses (not tokens) fixed, and recomputes the distance; 2,000 draws, mulberry32 seed 20261018. permutationP = (1 + draws at least as large as observed) / 2,001, so the smallest possible value is 0.0005. bhQ is Benjamini-Hochberg over all 6,441 pairs. Plug-in Jensen-Shannon distance is biased upward for short surahs, so read excess (distance minus nullMean), not distance alone. lowCount is 1 when either surah has fewer than 100 rooted tokens; those rows are kept and flagged.
+
+**Verification:** Verified: direct computation from Leeds morphology by scripts/compute-surah-distance.mjs, hand-computed unit test in scripts/surah-distance.test.mjs. Which pairs count as 'distant' depends on the null chosen; this one holds verse boundaries fixed.
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `surahA` | integer | n/a | Lower surah number of the pair, 1-114, Cairo order. |
+| `surahB` | integer | n/a | Higher surah number of the pair. |
+| `rootedTokensA` | integer | tokens | Tokens of surahA with an annotated root. |
+| `rootedTokensB` | integer | tokens | Tokens of surahB with an annotated root. |
+| `distance` | number | n/a | sqrt of base-2 Jensen-Shannon divergence between the two root distributions; 0 identical, 1 no shared root. Rounded to 4 decimals. |
+| `nullMean` | number | n/a | Mean distance over 2,000 draws of the permutation null. Rounded to 4 decimals. |
+| `excess` | number | n/a | distance minus nullMean. Rounded to 4 decimals. |
+| `permutationP` | number | n/a | One-sided permutation p-value, (1 + draws with null distance >= observed) / 2,001. Rounded to 5 decimals. |
+| `bhQ` | number | n/a | Benjamini-Hochberg adjusted q-value over all 6,441 pairs. Rounded to 5 decimals. |
+| `lowCount` | integer | 0 or 1 | 1 when either surah has fewer than 100 rooted tokens. |
+
+## keyness-period
+
+Dunning G2 keyness of every root (1,642) in each of the four revelation periods (6,568 root-period tests), with a permutation p-value that assigns whole surahs to periods at random, and a Benjamini-Hochberg q. (6568 rows.)
+
+**Counting rule:** G2 is the token-level 2x2 of root-in-period against root-elsewhere, all Leeds tokens as the universe (the statistic of scripts/compute-association-stats.mjs). permutationP = (1 + draws with G2 at least as large as observed) / 100,001 over 100,000 random assignments of the 114 surahs to the four periods with each period's surah count held fixed (mulberry32 seed 20261018), so the smallest possible value is 1e-5. bhQ is Benjamini-Hochberg over all 6,568 tests. direction says whether the root is used more (enriched) or less (depleted) in the period than elsewhere. Roots share surahs, so the tests are strongly dependent: the file's calibration block reports how often relabelled chronologies pass anything.
+
+**Verification:** Verified: direct computation from Leeds morphology by scripts/compute-period-keyness.mjs, hand-checked G2 and an exact-enumeration check of the Monte Carlo p in scripts/keyness.test.mjs. Nuanced: the period assignment is the Noldeke-Bell four-period scheme, one chronology among several; every figure is conditional on it.
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `root` | string | n/a | Root (Buckwalter). |
+| `rootSafeKey` | string | n/a | URL/filename-safe encoding of root. |
+| `period` | string | n/a | One of meccan-early, meccan-middle, meccan-late, medinan. |
+| `count` | integer | tokens | Occurrences of the root in the period. |
+| `countRest` | integer | tokens | Occurrences of the root in the other three periods. |
+| `g2` | number | n/a | Dunning's G2 for period against rest, rounded to 3 decimals. |
+| `direction` | string | n/a | enriched or depleted: the root's rate in the period against its rate elsewhere. |
+| `permutationP` | number | n/a | One-sided permutation p-value over 100,000 surah-to-period reassignments, rounded to 6 decimals; at least 0.00001. |
+| `bhQ` | number | n/a | Benjamini-Hochberg q over all 6,568 root-period tests, rounded to 6 decimals. |
+
+## prayers-vocative
+
+Every place the Qur'an has people address God as rabbana (Our Lord): 70 words in 62 verses, with the word that follows and the period the site assigns to the surah. (70 rows.)
+
+**Counting rule:** A token counts when its Leeds lemma is rab~, it ends in the first-person plural suffix, and the Uthmani text puts the accusative vowel on the ba. Tokens after inna (35:34) or a verb of seeing (25:21) are excluded because they are not addresses. The nominative (rabbuna) and genitive (rabbina) forms speak about the Lord and are not rows. Speaker, occasion and meaning are not computed: several rows are spoken by people the text condemns, so read each verse in context.
+
+**Verification:** Verified: a literal search of the Leeds morphology by scripts/build-prayers.mjs, recounted from the surface forms in scripts/prayers.test.mjs. Nuanced: the rule above is a stated choice, and the period is the site's chronology, one among several.
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `surah` | integer | n/a | Surah number (1-114). |
+| `ayah` | integer | n/a | Verse number within the surah. |
+| `wordIndex` | integer | position | 1-based position of the word in the verse. |
+| `form` | string | n/a | The word as written in the Tanzil Uthmani text, with diacritics. |
+| `nextForm` | string | n/a | The following word as written, or empty at the end of the verse. |
+| `nextLemma` | string | n/a | Leeds lemma of the following word (Buckwalter), or empty. |
+| `nextRoot` | string | n/a | Leeds root of the following word (Buckwalter), empty for particles. |
+| `period` | string | n/a | The site's period for the surah: meccan-early, meccan-middle, meccan-late or medinan. |
+
+## association-by-period
+
+For every pair in association-pairs, the verse-level log odds ratio with a 95% interval inside each revelation period, and Cochran's Q test of whether the four periods agree on one association. (5211 rows.)
+
+**Counting rule:** Same pairs as association-pairs. Inside each period the 2x2 uses that period's verse count as N and a root occurs in a verse if any token carries it; a period is left empty when either root has no verse in it. shared_* are joint verse counts and always sum to association-pairs.sharedVerses. Cochran's Q uses inverse-variance weights over the periods compared, heterogeneityP is its chi-square tail with (periodsCompared - 1) degrees of freedom, and heterogeneityBhQ is Benjamini-Hochberg over all pairs. Periods hold 603, 1,401, 2,609 and 1,623 verses, so late-Meccan intervals are narrow and early-Meccan ones wide.
+
+**Verification:** Verified: direct computation from Leeds morphology by scripts/lib/association-by-period.mjs, with a sample of pairs recounted independently from the token files in scripts/association-by-period.test.mjs. Nuanced: the period assignment is the Noldeke-Bell four-period scheme, one chronology among several. A non-significant Q means the data cannot tell the periods apart, not that they are the same.
+
+| Field | Type | Unit | Description |
+| --- | --- | --- | --- |
+| `rootA` | string | n/a | First root of the pair (Buckwalter); the same orientation as association-pairs. |
+| `rootASafeKey` | string | n/a | URL/filename-safe encoding of rootA. |
+| `rootB` | string | n/a | Second root of the pair (Buckwalter). |
+| `rootBSafeKey` | string | n/a | URL/filename-safe encoding of rootB. |
+| `shared_meccan-early` | integer | verses | Verses of the Early Meccan period in which both roots occur. |
+| `shared_meccan-middle` | integer | verses | Same, Middle Meccan. |
+| `shared_meccan-late` | integer | verses | Same, Late Meccan. |
+| `shared_medinan` | integer | verses | Same, Medinan. |
+| `logOddsRatio_meccan-early` | number | natural log | Haldane-Anscombe log odds ratio inside the period; empty when either root has no verse there. Rounded to 3 decimals. |
+| `lo95_meccan-early` | number | natural log | Lower end of the Wald 95% interval for the period's log odds ratio. |
+| `hi95_meccan-early` | number | natural log | Upper end of the same interval. |
+| `logOddsRatio_meccan-middle` | number | natural log | As above, Middle Meccan. |
+| `lo95_meccan-middle` | number | natural log | Lower interval end, Middle Meccan. |
+| `hi95_meccan-middle` | number | natural log | Upper interval end, Middle Meccan. |
+| `logOddsRatio_meccan-late` | number | natural log | As above, Late Meccan. |
+| `lo95_meccan-late` | number | natural log | Lower interval end, Late Meccan. |
+| `hi95_meccan-late` | number | natural log | Upper interval end, Late Meccan. |
+| `logOddsRatio_medinan` | number | natural log | As above, Medinan. |
+| `lo95_medinan` | number | natural log | Lower interval end, Medinan. |
+| `hi95_medinan` | number | natural log | Upper interval end, Medinan. |
+| `periodsCompared` | integer | periods | Number of periods in which both roots occur (0 to 4). |
+| `heterogeneityQ` | number | n/a | Cochran's Q over the periods compared; empty when fewer than two. Rounded to 3 decimals. |
+| `heterogeneityP` | number | n/a | Chi-square upper tail of Q with (periodsCompared - 1) degrees of freedom, 3 significant digits. |
+| `heterogeneityBhQ` | number | n/a | Benjamini-Hochberg q over all pairs with a Q, 3 significant digits. Rows are ordered by this value. |
 
 ## surah-stats
 

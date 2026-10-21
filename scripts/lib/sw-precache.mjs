@@ -45,11 +45,12 @@ export const PRECACHE_DATA = [
   "/data/chronology.json",
   "/data/name-mentions.json",
   "/data/names.json",
+  // Read by the home page "Tested against noise" table (assets/home-trust.js).
+  "/data/calibration/report.json",
 ];
 const EXTRA_ASSETS = [
   // Referenced by absolute path from every page head, which the scan below
   // (relative "assets/..." only) does not see.
-  "/assets/ga-init.js",
   "/assets/ah-init.js",
   "/assets/native-bridge.js",
   "/assets/icons/icon-192.png",

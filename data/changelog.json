@@ -2,6 +2,96 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-10-home-noise",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>The home page now shows the noise checks.</strong>\n              A new \"Tested against noise\" table on the <a href=\"/\">home page</a> sets what each\n              method finds on the Qur'an beside what it finds on text where the pattern cannot be\n              real, read from the same report as <a href=\"/validation#calibration\">Validation</a>.\n              The home page's privacy line now says page-visit and download counts, matching About.\n            "
+  },
+  {
+   "id": "2026-10-explore",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Explore the tables.</strong>\n              New <a href=\"/explore\">Explore</a> page: pick any of the 23 published tables, sort and\n              filter it, and see a histogram of any numeric column, all in your browser from the same\n              files as <a href=\"/export\">Export</a>. The address reproduces your view, and nothing you\n              filter is sent anywhere.\n            "
+  },
+  {
+   "id": "2026-10-download-counts",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Download counts.</strong>\n              The site now counts which <a href=\"/export\">Export</a> table is downloaded, and in\n              which format, so the data we publish can follow what people use. The count carries\n              only the table name and format from the link, nothing you typed, and it follows the\n              same off switch and Global Privacy Control rule as page counts. See\n              <a href=\"/about#analytics\">Analytics</a> on About.\n            "
+  },
+  {
+   "id": "2026-10-prayers-correction",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Correction to the Prayers count, version 1.7.1.</strong>\n              The first <a href=\"/prayers\">Prayers</a> page counted 41 places in 38 verses. It missed\n              every form written with a maddah mark, so the correct count is 70 in 62 verses of 26\n              surahs. The page, the <code>prayers-vocative</code> table on <a href=\"/export\">Export</a>\n              and the reviewer sheet now carry the full list. A review comment caught the error; the\n              test that recounts from the surface forms now strips the same marks, and the two\n              counts agree.\n            "
+  },
+  {
+   "id": "2026-10-prayers",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Where the text says \"Our Lord\" as a prayer, and version 1.7.0.</strong>\n              New <a href=\"/prayers\">Prayers</a> page: the 70 places in 62 verses of 26 surahs where\n              the Qur'an has people address God as <em>rabbana</em>, found by a literal search of the\n              morphology with the rule and its two exclusions stated, the words that follow it, and\n              counts for the roots of glorification, praise, remembrance and forgiveness. It says\n              what the text contains, not what to recite, and notes that some of these verses are\n              spoken by people the text condemns. The <a href=\"/export\">Export</a> page has the list as\n              a new table, <code>prayers-vocative</code>.\n            "
+  },
+  {
+   "id": "2026-10-period-analyses",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Four more analyses, tested against noise, and version 1.6.0.</strong>\n              <a href=\"/numbers\">Numbers</a> now marks which of the roots listed as most key for a\n              revelation period stay key when whole surahs are reassigned to periods at random:\n              132 of 6,568 root-period tests do, and only 9, 5, 5 and 14 of the 15 listed roots\n              for the four periods. The <a href=\"/export\">Export</a> page has two new tables,\n              <code>keyness-period</code> and <code>association-by-period</code> (whether a root\n              pair's association is the same in every period; 14 of 5,203 pairs differ, from a\n              conservative test). <a href=\"/formulas\">Formulas</a> now covers templates with two\n              and three open slots as well as one. <a href=\"/validation\">Validation</a> has a new\n              section showing what each of these methods reports on data where there is nothing\n              to find. The surah-distance null now uses 2,000 draws instead of 500, so its\n              p-values can go lower (a surah pair's smallest possible p is now 0.0005); the\n              distances changed in the third or fourth decimal."
+  },
+  {
+   "id": "2026-10-query-distance-polish",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Query by Arabic, and a surah distance map.</strong>\n              <a href=\"/query\">Query</a> now accepts a lemma in Arabic letters and a\n              written word in Arabic (vowel marks ignored). A new page,\n              <a href=\"/distance\">Surah distance</a>, draws the 114 by 114 map of how far\n              apart every two surahs are by the roots they use, read against a\n              permutation null, with the closest and most distant pairs. The same\n              numbers are in the <code>surah-distance</code> export table. No\n              published number changed."
+  },
+  {
+   "id": "2026-10-one-slot-templates",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Templates with one open slot.</strong> <a href=\"/formulas\">Formulas</a>\n              has a new panel listing pairs of words two places apart with any word\n              between them (for example <em>wa-ma _ min</em>) that recur more than\n              shuffling the words inside each verse would predict. 1,003 of 1,669\n              candidates pass a Benjamini-Hochberg correction; the same procedure on\n              100 verse-shuffled copies of the text finds almost none. Each\n              template lists every place it occurs. This records recurrence, not\n              why it recurs, and common particles and repeated verses are in the\n              count. No existing number changed."
+  },
+  {
+   "id": "2026-10-query-builder",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>A query page.</strong> The new <a href=\"/query\">Query</a> page\n              (under Analyze) filters the word-by-word morphology by root, lemma,\n              part of speech, surah range and period, and returns the counts, the\n              occurrences with a few words of context, and a CSV. The whole query\n              lives in the address, so a copied link reproduces the same result and\n              nothing is stored. A root's total on this page equals its total on\n              Roots, checked for all 1,642 roots. Roots and lemmas are the\n              annotators' judgments from the Leeds v0.4 corpus, and the period\n              filter uses one chronology among several. No published number\n              changed."
+  },
+  {
+   "id": "2026-10-surah-distance",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>How far apart two surahs are, against chance, and version 1.5.0.</strong>\n              The <a href=\"/export\">Export</a> page has a twentieth table,\n              <code>surah-distance</code>: the Jensen-Shannon distance between the\n              root distributions of every pair of surahs (6,441 pairs), beside a\n              permutation null, the excess over it, a p-value and a\n              Benjamini-Hochberg q. Short surahs look distant from everything by\n              arithmetic alone, so the table reports what random reassignment of\n              the same verses would give and flags pairs with a surah under 100\n              rooted tokens. No published number changed."
+  },
+  {
+   "id": "2026-10-root-page-addresses",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Root pages now have one address.</strong> A check run against the\n              live site found that 195 of the 411 root reference pages, those whose\n              key contains a capital letter such as <code>/root/uAlh</code>, were\n              redirected by the host to a lowercase address while the sitemap, the\n              page's own canonical tag and the links to it still named the capital\n              form. All root pages now live at lowercase addresses\n              (<code>/root/ualh</code>), and the sitemap, canonical tags and links\n              say so. Old links keep working through the host's redirect. No\n              published number changed."
+  },
+  {
+   "id": "2026-10-root-gloss-source",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>A source for root glosses.</strong> Root meanings will be\n              quoted, with page numbers, from John Penrice's <em>Dictionary and\n              Glossary of the Kor-ân</em> (1873) and checked against Lane's\n              <em>Arabic-English Lexicon</em>. Both are public domain. None is\n              transcribed yet, so the <a href=\"/coverage\">Coverage</a> count of\n              verified root glosses is still 0 of 1,642; it will rise as each\n              checked transcription is added. Every such gloss will carry the\n              Nuanced label, because it is a lexicographer's English, not the\n              meaning."
+  },
+  {
+   "id": "2026-10-roots-concordance",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>A concordance, and more ways to rank a root's partners.</strong>\n              On <a href=\"/roots\">Roots</a>, each root now has a word-in-context view:\n              every occurrence with up to five words on each side, inside the\n              verse, ordered by reference, lemma, or the word before or after,\n              and downloadable as CSV. It is built from the same word\n              segmentation as every count on the page, and a test checks that it\n              lists exactly as many occurrences as each root's published total.\n              The association table also shows logDice, t-score, log odds ratio\n              and deltaP, and can reorder the same 25 partners by any of them."
+  },
+  {
+   "id": "2026-10-data-api-index",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>An index for scripts.</strong> The data is now discoverable\n              without reading a web page: <a href=\"/api/v1/index.json\">api/v1/index.json</a>\n              lists every export table with its address, size and SHA-256, and every\n              published archive, and <a href=\"/api/v1/openapi.json\">api/v1/openapi.json</a>\n              describes the same addresses in OpenAPI 3.1. They are static files,\n              readable from any site, with no key. See <a href=\"/export#api\">Export</a>.\n              No published number changed."
+  },
+  {
+   "id": "2026-10-extended-association-measures",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Four more ways to score a root pair, and version 1.4.0.</strong>\n              The <a href=\"/export\">Export</a> page has a nineteenth table, <code>association-extended</code>:\n              logDice, t-score, a log odds ratio with a 95% interval, and a\n              directional deltaP for the same 5,211 root pairs as the existing\n              association table, row for row. The measures disagree about which\n              pairs rank highest, and the site does not choose between them.\n              Nothing already published changed; the other eighteen tables are\n              byte-identical. The new archive is v1.4.0; earlier archives stay\n              available."
+  },
+  {
    "id": "2026-10-credits-and-notices",
    "year": "2026",
    "month": "October",

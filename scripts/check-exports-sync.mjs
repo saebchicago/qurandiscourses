@@ -114,11 +114,13 @@ for (const name of tableNames) {
 }
 
 // ── 4. The table count in prose ──────────────────────────────────────
-const WORDS = ["zero","one","two","three","four","five","six","seven","eight","nine","ten",
-  "eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen","twenty"];
+const UNITS = ["zero","one","two","three","four","five","six","seven","eight","nine","ten",
+  "eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"];
+// 0-39 as hyphenated number words ("twenty-two"): the table count has passed twenty.
+const WORDS = [...UNITS, "twenty", ...UNITS.slice(1, 10).map((u) => `twenty-${u}`), "thirty", ...UNITS.slice(1, 10).map((u) => `thirty-${u}`)];;
 const word = WORDS[tableNames.length] || null;
 for (const [rel, text] of [["export.html", exportPage], ["datasets.html", readText("datasets.html")]]) {
-  for (const m of text.matchAll(/(\w+) (?:precomputed )?tables\b/gi)) {
+  for (const m of text.matchAll(/([\w-]+) (?:precomputed )?tables\b/gi)) {
     const said = m[1].toLowerCase();
     const asNum = /^\d+$/.test(said) ? Number(said) : WORDS.indexOf(said);
     if (asNum === -1) continue; // "the tables", "all tables" — not a count

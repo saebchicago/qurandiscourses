@@ -472,6 +472,184 @@
     "Juilland's D for the same root is 0.6128, on a 0=clumped/1=even scale (the reverse of DP's direction) -- broadly consistent with DP/DPnorm here, but Juilland's D classically assumes comparably-sized corpus parts, which this corpus's 114 surahs (3 to 286 verses) are not.",
     "Dispersion measures where a root's occurrences fall, not what they mean; j-h-m's concentration in shorter surahs is a distributional fact, not a claim about its theological or thematic significance."
    ]
+  },
+  {
+   "id": "claim.association.extended-measures.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4",
+    "rychly-2008-logdice"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/build-exports.mjs",
+    "output": "data/exports/association-extended.json",
+    "method": "For every pair in association-pairs, take the verse-level 2x2 over N = 6,236 verses (a root occurs in a verse if any token carries it; marginals are each root's verseCount in data/association/*.json, the joint count is sharedVerses) and compute logDice, t-score, Haldane-Anscombe log odds ratio with a Wald 95% interval, and directional deltaP with scripts/lib/association-measures.mjs. Hand-computed unit test: scripts/association-measures.test.mjs."
+   },
+   "limitations": [
+    "The measures describe how verse-level co-occurrence departs from independence under one definition of 'occurs in a verse'; they do not establish that two roots are related in meaning.",
+    "Rankings differ by measure by design. The site publishes all of them because the collocation literature does not agree on a single best one.",
+    "The table covers only the pairs in association-pairs (each root's top 25 partners by LLR with at least 5 shared verses), not every qualifying pair.",
+    "All inputs inherit the Leeds v0.4 root assignments; a different morphological layer would change the 2x2 tables."
+   ]
+  },
+  {
+   "id": "claim.surah-distance.permutation-null.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4",
+    "lin-1991-jsd",
+    "endres-schindelin-2003"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/compute-surah-distance.mjs",
+    "output": "data/surah-distance/surah-distance.json",
+    "method": "For every pair of surahs, take the root-count vectors over rooted Leeds tokens and compute the square root of the base-2 Jensen-Shannon divergence (scripts/lib/surah-distance.mjs). The null pools both surahs' verses, reassigns verses to the two sides at random with side sizes in verses fixed, and recomputes the distance; 2,000 draws, mulberry32 seed 20261018. permutationP = (1 + draws at least as large as observed) / 2,001; bhQ is Benjamini-Hochberg over all 6,441 pairs. Hand-computed unit test: scripts/surah-distance.test.mjs."
+   },
+   "limitations": [
+    "A distance between root distributions says the two surahs use different roots in different proportions; it does not say they differ in theme, meaning or style.",
+    "Plug-in Jensen-Shannon distance is biased upward for short surahs, so the raw distance is reported beside a permutation null and the excess is the quantity to read. Pairs where either surah has fewer than 100 rooted tokens are flagged lowCount, not removed.",
+    "The null holds verse boundaries and per-side verse counts fixed, not token counts, and treats verses as exchangeable, so pairs whose verses differ in length are calibrated less well; it asks whether the two surahs differ more than random assignment of the same verses would, not whether they differ in any particular respect.",
+    "With 2,000 draws the smallest possible permutationP is 0.0005; many long-surah pairs sit at that floor, so p does not rank them.",
+    "All inputs inherit the Leeds v0.4 root assignments; a different morphological layer would change the vectors."
+   ]
+  },
+  {
+   "id": "claim.formulas.one-slot-templates.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4",
+    "bannister-2014"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/build-formulaic-templates.mjs",
+    "output": "data/formulaic-templates.json",
+    "method": "Over diacritic-stripped surface forms within a verse, take every pair of forms at distance two (a _ c) with at least 3 windows and at least 2 different words in the slot. Expected support under a within-verse shuffle is exact (scripts/lib/templates.mjs, checked against all permutations of small verses in scripts/templates.test.mjs); the p-value is the Poisson upper tail at that expectation; q is Benjamini-Hochberg over all candidates. The identical pipeline runs on 100 verse-shuffled copies of the text (seed 20261018) and its result is published beside the real one."
+   },
+   "limitations": [
+    "The list records where a pattern recurs beyond word order inside a verse; it does not say the pattern is a formula in the oral-formulaic sense or why it recurs.",
+    "The shuffle keeps verse length and word multiset, so templates built from very common particles are counted; repeated verses (such as a refrain repeated verbatim) contribute each time they occur.",
+    "The Poisson tail is an approximation; the build checks it by running the same procedure on shuffled copies, where it finds a system in 6 of 100 shuffles (at most 1), consistent with the 5% level it is set at, not exact control.",
+    "Only a _ c at distance two is searched. Other shapes (longer gaps, two slots) are not tested, so absence from the list says nothing about them.",
+    "Surface forms are diacritic-stripped spelling, so distinct words that share a spelling are merged and inflected variants are separate."
+   ]
+  },
+  {
+   "id": "claim.keyness.period-surah-null.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4",
+    "dunning-1993-g2",
+    "benjamini-hochberg-1995",
+    "noldeke-schwally-1909",
+    "watt-bell-1970"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/compute-period-keyness.mjs",
+    "output": "data/keyness/period-keyness.json",
+    "method": "For each of 1,642 roots and four revelation periods, Dunning's G2 over the token-level 2x2 (root in period against elsewhere). The null assigns the 114 surahs to the four periods at random keeping each period's number of surahs; 100,000 draws (mulberry32 seed 20261018); p = (1 + draws at least as large) / 100,001; q is Benjamini-Hochberg over all 6,568 tests. Calibration: 40 random relabelings stand in for the observed chronology, each tested against 5,000 fresh draws. Hand-checked G2 and an exact enumeration of all 20 assignments of a six-surah toy corpus in scripts/keyness.test.mjs."
+   },
+   "limitations": [
+    "Every figure is conditional on the Noldeke-Bell four-period chronology, one scheme among several; a different chronology gives different periods and different results.",
+    "The null treats whole surahs as exchangeable apart from their period label. It is the right null for 'is this root's period profile more than a long surah's own vocabulary', and says nothing about why a root is frequent where it is.",
+    "Roots share surahs, so the tests are strongly dependent and false findings come in bursts; one of 40 relabeled chronologies passed 54 tests, 39 passed none. Benjamini-Hochberg aims at the false discovery rate, not at bounding such bursts.",
+    "The smallest possible permutation p is 1e-5, so a test with a true p below that cannot be separated from one at the floor.",
+    "G2 is two-sided: a passing root can be enriched or depleted in the period; the direction column says which."
+   ]
+  },
+  {
+   "id": "claim.association.period-heterogeneity.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4",
+    "cochran-1954-combination",
+    "benjamini-hochberg-1995",
+    "noldeke-schwally-1909",
+    "watt-bell-1970"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/build-exports.mjs",
+    "output": "data/exports/association-by-period.json",
+    "method": "For every pair in association-pairs, rebuild the verse-level 2x2 inside each revelation period (N = the period's verse count), take the Haldane-Anscombe log odds ratio with its Wald 95% interval, and test the periods' agreement with Cochran's Q (inverse-variance weights, chi-square with periods-1 degrees of freedom, Benjamini-Hochberg over pairs). Implemented in scripts/lib/association-by-period.mjs; the four period joint counts sum to the published sharedVerses for every pair, and a sample of pairs is recounted from the token files in scripts/association-by-period.test.mjs."
+   },
+   "limitations": [
+    "Conditional on the Noldeke-Bell four-period chronology, one scheme among several.",
+    "The test is conservative: on data where each verse is given a random period it reports raw p <= 0.05 for about 1% of pairs against a nominal 5%. A non-significant Q means the data cannot tell the periods apart, not that they agree, and the count of significant pairs is a lower bound.",
+    "The pair list is the top 25 partners per root by LLR with at least 5 shared verses, not every co-occurring pair.",
+    "Early-Meccan intervals are wide (603 verses); a period with no verse for either root is left out of the comparison."
+   ]
+  },
+  {
+   "id": "claim.formulas.wider-templates.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4",
+    "bannister-2014",
+    "benjamini-hochberg-1995"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/build-formulaic-templates.mjs",
+    "output": "data/formulaic-templates.json",
+    "method": "The one-slot analysis (claim.formulas.one-slot-templates.v1) repeated for two and three open slots: forms a and c three or four words apart in one verse, any words between, at least 3 windows and 2 different slot fillers. Expected support under a within-verse shuffle is exact for every gap (checked against every permutation of small verses in scripts/templates.test.mjs); Poisson tail, Benjamini-Hochberg per width; the same pipeline on 100 shuffled copies of the text."
+   },
+   "limitations": [
+    "Records where a pattern recurs beyond word order inside a verse, not why it recurs or whether it is a formula in the oral-formulaic sense.",
+    "The widths are separate analyses over overlapping windows: the same pair can pass at several widths and a wider system can contain a narrower one, so the three counts must not be added.",
+    "Three-slot templates find something in 12 of 100 shuffled copies against a nominal 5%: the Poisson approximation and overlapping windows make that width slightly liberal.",
+    "Common particles and verbatim repeated verses are in the counts."
+   ]
+  },
+  {
+   "id": "claim.validation.null-calibration.v1",
+   "claimType": "computed-statistic",
+   "sourceIds": [
+    "leeds-corpus-v0.4",
+    "benjamini-hochberg-1995"
+   ],
+   "sourceCheck": "source-checked",
+   "reproduction": "reproduced",
+   "agreement": "method-dependent",
+   "interpretation": "none",
+   "aiInvolvement": "research-discovery",
+   "derivation": {
+    "script": "scripts/build-calibration.mjs",
+    "output": "data/calibration/report.json",
+    "method": "Every statistic the site tests against a null is run on data where the null is true by construction, and the result is published beside the real one: templates on 100 verse-shuffled copies, period keyness on 40 relabeled chronologies, surah distance on 10 texts whose verses are shuffled across the whole Qur'an and cut into pseudo-surahs of the real surahs' sizes (200 draws per pair), period association on 5 random verse-to-period assignments."
+   },
+   "limitations": [
+    "A calibration shows the code and the multiple-testing step behave as designed on exchangeable data; it does not show the real text is exchangeable, and for surahs it is not, which is the finding.",
+    "The pseudo-surah runs use 200 draws per pair and 10 texts, the period-association runs 5 assignments: small counts, so the rates are estimates with real sampling noise.",
+    "Benjamini-Hochberg controls the false discovery rate under independence or positive dependence; with dependent tests false findings arrive in bursts, so the share of runs with any finding is shown next to 5%."
+   ]
   }
  ]
 }

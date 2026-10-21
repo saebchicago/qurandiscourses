@@ -7,7 +7,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const { server, base } = await startStaticServer(ROOT);
 
 try {
-  for (const path of ["/", "/read", "/assets/style.css", "/data/version.json"]) {
+  for (const path of ["/", "/read", "/assets/style.css", "/data/version.json", "/api/v1/index.json"]) {
     const response = await fetch(base + path);
     assert.equal(response.status, 200, `${path} should be public`);
   }

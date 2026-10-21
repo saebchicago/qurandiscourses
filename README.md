@@ -40,9 +40,9 @@ Live site: https://divinediscourses.org
 ## Architecture
 
 Static site, no framework, no build step for pages, no external runtime
-dependencies (fonts self-hosted; Google Analytics and the maintainer's own
-first-party analytics, reached through this site's `/_ah/` paths, count page
-visits; the only other network calls are the optional
+dependencies (fonts self-hosted; the maintainer's own cookieless
+first-party analytics, reached through this site's `/_ah/` paths, is the only
+analytics and counts usage; the only other network calls are the optional
 alquran.cloud verse/translation API and recitation audio).
 
 ```

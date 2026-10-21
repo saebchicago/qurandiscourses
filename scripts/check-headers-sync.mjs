@@ -174,6 +174,9 @@ const REQUIRED_BLOCKS = [
   ["/data/*", "Cache-Control"],
   ["/docs/*", "X-Robots-Tag"],
   ["/sw.js", "Cache-Control"],
+  // Cross-origin read access for the static data API and the tables it indexes.
+  ["/api/v1/*", "Access-Control-Allow-Origin"],
+  ["/data/exports/*", "Access-Control-Allow-Origin"],
   // RFC 9116 contact file: served as text/plain by a hand-authored block.
   ["/.well-known/security.txt", "Content-Type"],
 ];
