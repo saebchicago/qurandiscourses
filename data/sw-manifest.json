@@ -2,7 +2,7 @@
  "_generated": "scripts/build-sw-manifest.mjs — the service worker's precache list and content fingerprint. A hash diff here alongside an unchanged version is the reviewer's cue to consider a SW_VERSION bump (see docs/maintainer-guide.md).",
  "version": "v19",
  "hashes": {
-  "assets/ah-init.js": "dcf8a88fe63ff6f9fcb08db6938f19ad7a3690ed916029f7ef03f6f64988ef1e",
+  "assets/ah-init.js": "74f374a935afbcf88cada6b62c9c4c343567a98d9e43c100e2a54fe84d555115",
   "assets/app.js": "02ee2264d49fc795f1d11ef8dc5b3783dc7cd846017c1de26bb55f63ca10796a",
   "assets/ask-routes.js": "227bced79a00b3fed1a941435ff26a55678f56fdec99aa41cae0f6de765fcbf1",
   "assets/ask.js": "096eb8174d6bd72765c4b096ae3d670d20483a1a3a1aa538e5ce02f5e353ce69",
@@ -70,7 +70,7 @@
   "data/name-mentions.json": "7583039eb03c10a48bed1b18f0b98fdce9dd7369e7692b4aa7c9633ddfec13a2",
   "data/names.json": "a5b42e8cbddb92d58a90968ba9a33212690582709353e3f7da16e5d1c01b3f50",
   "data/numbers.json": "da90637377a660f16cfc89d4cbbf6f14567d94c605a05d8d5fe5de45951cb0a3",
-  "data/page-dates.json": "f773153167416c991fab7747943a2a8eb5acba51659e41486eb69172a98c99a1",
+  "data/page-dates.json": "78810e47dafac36eceafa940c8c7aa681d21c6b4fc4a1b835ce59b074b0fbd34",
   "data/paths.json": "4c856e51bfa683da92b1534018640344c55dd9e242fc3b2f3d324c90a19c291f",
   "data/related.json": "28c9fb28bcc473030cff5045879cb5bf34f046ea0d1f6dd2d757dc2cf4d11f9d",
   "data/replications.json": "774212ea23301a6e0922267a3c9f87716469fcd95180c01e224af2c62ae3bf3e",

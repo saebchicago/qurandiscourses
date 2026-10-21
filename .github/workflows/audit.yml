@@ -71,6 +71,7 @@ jobs:
           node --test scripts/query.test.mjs
           node scripts/templates.test.mjs
           node --test scripts/concordance.test.mjs
+          node --test scripts/ah-dataset-download.test.mjs
 
       - name: Validate navigation and deployment headers
         run: |
