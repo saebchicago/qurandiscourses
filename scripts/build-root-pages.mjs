@@ -106,7 +106,7 @@ function pageFor(bw) {
     ["Rank among 1,642 roots", ordinal(rank.get(bw)), badge("leeds-corpus-v0.4")],
     ["Verses containing it", n0(verses.length), badge("leeds-corpus-v0.4")],
     ["Surahs containing it", `${disp.surahsOccurringIn} of 114`, badge("leeds-corpus-v0.4")],
-    ["In Meccan / Medinan surahs", `${n0(an.makki)} / ${n0(an.madani)}`, badge("leeds-corpus-v0.4 quran-foundation-api-v4", "nuanced")],
+    ["In Meccan / Medinan surahs", `${n0(an.makki)} / ${n0(an.madani)}`, badge("leeds-corpus-v0.4 alquran-cloud-api", "nuanced")],
     ...Object.keys(PERIOD).map((p) => [`${PERIOD[p]} (Cairo 1924 periods)`, n0(fr[`count_${p}`]), badge("leeds-corpus-v0.4 cairo-1924", "nuanced")]),
     ["As verbs / as nouns and adjectives", `${n0((s.posDistribution && s.posDistribution.V) || 0)} / ${n0(s.totalCount - ((s.posDistribution && s.posDistribution.V) || 0))}`, badge("leeds-corpus-v0.4")],
     ["Spread across surahs (DP, normalized)", `${disp.dpNorm} <span class="t-annotation">(0 even, 1 concentrated)</span>`, badge("leeds-corpus-v0.4 gries-dispersion-2008", "nuanced")],

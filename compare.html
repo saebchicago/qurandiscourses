@@ -1815,7 +1815,7 @@
         // N-way (2–6) side-by-side of committed per-surah fingerprints:
         // length, vocabulary spread, grammatical texture, cross-reference
         // reach. All figures come from data/surah-profiles.json (Leeds +
-        // Cairo 1924) and data/surah-meta.json (Quran.com API v4).
+        // Cairo 1924) and data/surah-meta.json (bundled Tanzil metadata).
 
         const MAX_SURAHS = 6;
         let profiles = null;
@@ -2020,9 +2020,9 @@
 
           html +=
             '<p class="prov" style="margin:0.75rem 0 0;font-size:0.82rem">' +
-            '<span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924 quran-foundation-api-v4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> ' +
+            '<span class="badge ok" data-source-ids="leeds-corpus-v0.4 cairo-1924 alquran-cloud-api" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span> ' +
             "Length, vocabulary, and grammatical texture computed from Leeds morphology; period and revelation order from Cairo 1924; " +
-            "classification from the Quran.com API. " +
+            "classification from the bundled Tanzil text metadata (alquran.cloud). " +
             "Descriptive statistics, not a measure of merit.</p>";
           html += "</div>";
 

@@ -130,7 +130,7 @@ function pageFor(n) {
     ["Verses", n0(pr.verseCount), badge("leeds-corpus-v0.4 tanzil")],
     ["Word-units", n0(pr.tokenCount), badge("leeds-corpus-v0.4")],
     ["Distinct roots", n0(pr.distinctRootCount), badge("leeds-corpus-v0.4")],
-    ["Classification", cls, badge("quran-foundation-api-v4", "nuanced")],
+    ["Classification", cls, badge("alquran-cloud-api", "nuanced")],
     ["Revelation order (Cairo 1924)", ordinal(ch.revelationOrder), badge("cairo-1924", "nuanced")],
     ["Period (Nöldeke-Bell four-period scheme)", PERIOD[ch.period] || esc(ch.period), badge("cairo-1924 noldeke-schwally-1909", "nuanced")],
     ["Juz", juz, badge("tanzil alquran-cloud-api")],

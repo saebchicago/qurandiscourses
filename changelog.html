@@ -42,7 +42,7 @@
     <script src="/assets/ah-init.js"></script>
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/changelog","url":"https://divinediscourses.org/changelog","name":"Changelog: every correction logged · Divine Discourses","description":"Every correction and material change to Divine Discourses since launch. A public record of accountability.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.7.1","dateModified":"2026-10-20"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Changelog: every correction logged","item":"https://divinediscourses.org/changelog"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/changelog","url":"https://divinediscourses.org/changelog","name":"Changelog: every correction logged · Divine Discourses","description":"Every correction and material change to Divine Discourses since launch. A public record of accountability.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.7.1","dateModified":"2026-10-23"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Changelog: every correction logged","item":"https://divinediscourses.org/changelog"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -141,6 +141,13 @@
           <h3>2026</h3>
           <h4>October</h4>
           <ul>
+            <li id="2026-10-surah-meta-local">
+              <strong>Surah metadata is now built from files this site already ships.</strong>
+              Makki/Madani classification, verse counts and names in <code>data/surah-meta.json</code> now come from the
+              bundled Tanzil text's metadata, the Cairo 1924 order and the curated names, not the Quran.com Foundation API,
+              whose terms do not allow redistributing its content. Every classification, verse count and revelation order
+              is unchanged; surah names on <a href="/compare">Compare</a> now use the same spelling as the rest of the site.
+            <a class="claim-anchor" href="#2026-10-surah-meta-local" aria-label="Link to this entry">&sect;</a></li>
             <li id="2026-10-home-noise">
               <strong>The home page now shows the noise checks.</strong>
               A new "Tested against noise" table on the <a href="/">home page</a> sets what each

@@ -1,11 +1,11 @@
 {
-  "_source": "Quran.com Foundation Content API v4, /chapters endpoint, accessed 2026-07-06",
-  "_generated": "2026-07-06",
+  "_source": "Bundled Tanzil text metadata via alquran.cloud (data/quran-text/: revelationType, numberOfAyahs); revelation order from Cairo 1924 (data/chronology.json); names from data/surah-names.json",
+  "_generated": "2026-10-23",
   "_note": "Classification: 'makki' = revealed before the Hijra (622 CE); 'madani' = revealed after. Where a surah has mixed opinions in tradition, the predominant classification in the source is used.",
   "surahs": {
     "1": {
       "surah": 1,
-      "name": "Al-Fatihah",
+      "name": "al-Fatihah",
       "nameArabic": "الفاتحة",
       "revelationOrder": 5,
       "classification": "makki",
@@ -14,7 +14,7 @@
     },
     "2": {
       "surah": 2,
-      "name": "Al-Baqarah",
+      "name": "al-Baqarah",
       "nameArabic": "البقرة",
       "revelationOrder": 87,
       "classification": "madani",
@@ -23,7 +23,7 @@
     },
     "3": {
       "surah": 3,
-      "name": "Ali 'Imran",
+      "name": "Al ʿImran",
       "nameArabic": "آل عمران",
       "revelationOrder": 89,
       "classification": "madani",
@@ -32,7 +32,7 @@
     },
     "4": {
       "surah": 4,
-      "name": "An-Nisa",
+      "name": "al-Nisa'",
       "nameArabic": "النساء",
       "revelationOrder": 92,
       "classification": "madani",
@@ -41,7 +41,7 @@
     },
     "5": {
       "surah": 5,
-      "name": "Al-Ma'idah",
+      "name": "al-Ma'idah",
       "nameArabic": "المائدة",
       "revelationOrder": 112,
       "classification": "madani",
@@ -50,7 +50,7 @@
     },
     "6": {
       "surah": 6,
-      "name": "Al-An'am",
+      "name": "al-An'am",
       "nameArabic": "الأنعام",
       "revelationOrder": 55,
       "classification": "makki",
@@ -59,7 +59,7 @@
     },
     "7": {
       "surah": 7,
-      "name": "Al-A'raf",
+      "name": "al-A'raf",
       "nameArabic": "الأعراف",
       "revelationOrder": 39,
       "classification": "makki",
@@ -68,7 +68,7 @@
     },
     "8": {
       "surah": 8,
-      "name": "Al-Anfal",
+      "name": "al-Anfal",
       "nameArabic": "الأنفال",
       "revelationOrder": 88,
       "classification": "madani",
@@ -77,7 +77,7 @@
     },
     "9": {
       "surah": 9,
-      "name": "At-Tawbah",
+      "name": "al-Tawbah",
       "nameArabic": "التوبة",
       "revelationOrder": 113,
       "classification": "madani",
@@ -113,7 +113,7 @@
     },
     "13": {
       "surah": 13,
-      "name": "Ar-Ra'd",
+      "name": "al-Ra'd",
       "nameArabic": "الرعد",
       "revelationOrder": 96,
       "classification": "madani",
@@ -123,7 +123,7 @@
     "14": {
       "surah": 14,
       "name": "Ibrahim",
-      "nameArabic": "ابراهيم",
+      "nameArabic": "إبراهيم",
       "revelationOrder": 72,
       "classification": "makki",
       "revelationPlace": "makkah",
@@ -131,7 +131,7 @@
     },
     "15": {
       "surah": 15,
-      "name": "Al-Hijr",
+      "name": "al-Hijr",
       "nameArabic": "الحجر",
       "revelationOrder": 54,
       "classification": "makki",
@@ -140,7 +140,7 @@
     },
     "16": {
       "surah": 16,
-      "name": "An-Nahl",
+      "name": "al-Nahl",
       "nameArabic": "النحل",
       "revelationOrder": 70,
       "classification": "makki",
@@ -149,7 +149,7 @@
     },
     "17": {
       "surah": 17,
-      "name": "Al-Isra",
+      "name": "al-Isra",
       "nameArabic": "الإسراء",
       "revelationOrder": 50,
       "classification": "makki",
@@ -158,7 +158,7 @@
     },
     "18": {
       "surah": 18,
-      "name": "Al-Kahf",
+      "name": "al-Kahf",
       "nameArabic": "الكهف",
       "revelationOrder": 69,
       "classification": "makki",
@@ -185,7 +185,7 @@
     },
     "21": {
       "surah": 21,
-      "name": "Al-Anbya",
+      "name": "al-Anbiya",
       "nameArabic": "الأنبياء",
       "revelationOrder": 73,
       "classification": "makki",
@@ -194,7 +194,7 @@
     },
     "22": {
       "surah": 22,
-      "name": "Al-Hajj",
+      "name": "al-Hajj",
       "nameArabic": "الحج",
       "revelationOrder": 103,
       "classification": "madani",
@@ -203,7 +203,7 @@
     },
     "23": {
       "surah": 23,
-      "name": "Al-Mu'minun",
+      "name": "al-Mu'minun",
       "nameArabic": "المؤمنون",
       "revelationOrder": 74,
       "classification": "makki",
@@ -212,7 +212,7 @@
     },
     "24": {
       "surah": 24,
-      "name": "An-Nur",
+      "name": "al-Nur",
       "nameArabic": "النور",
       "revelationOrder": 102,
       "classification": "madani",
@@ -221,7 +221,7 @@
     },
     "25": {
       "surah": 25,
-      "name": "Al-Furqan",
+      "name": "al-Furqan",
       "nameArabic": "الفرقان",
       "revelationOrder": 42,
       "classification": "makki",
@@ -230,7 +230,7 @@
     },
     "26": {
       "surah": 26,
-      "name": "Ash-Shu'ara",
+      "name": "al-Shu'ara",
       "nameArabic": "الشعراء",
       "revelationOrder": 47,
       "classification": "makki",
@@ -239,7 +239,7 @@
     },
     "27": {
       "surah": 27,
-      "name": "An-Naml",
+      "name": "al-Naml",
       "nameArabic": "النمل",
       "revelationOrder": 48,
       "classification": "makki",
@@ -248,7 +248,7 @@
     },
     "28": {
       "surah": 28,
-      "name": "Al-Qasas",
+      "name": "al-Qasas",
       "nameArabic": "القصص",
       "revelationOrder": 49,
       "classification": "makki",
@@ -257,7 +257,7 @@
     },
     "29": {
       "surah": 29,
-      "name": "Al-'Ankabut",
+      "name": "al-'Ankabut",
       "nameArabic": "العنكبوت",
       "revelationOrder": 85,
       "classification": "makki",
@@ -266,7 +266,7 @@
     },
     "30": {
       "surah": 30,
-      "name": "Ar-Rum",
+      "name": "al-Rum",
       "nameArabic": "الروم",
       "revelationOrder": 84,
       "classification": "makki",
@@ -284,7 +284,7 @@
     },
     "32": {
       "surah": 32,
-      "name": "As-Sajdah",
+      "name": "al-Sajdah",
       "nameArabic": "السجدة",
       "revelationOrder": 75,
       "classification": "makki",
@@ -293,7 +293,7 @@
     },
     "33": {
       "surah": 33,
-      "name": "Al-Ahzab",
+      "name": "al-Ahzab",
       "nameArabic": "الأحزاب",
       "revelationOrder": 90,
       "classification": "madani",
@@ -303,7 +303,7 @@
     "34": {
       "surah": 34,
       "name": "Saba",
-      "nameArabic": "سبإ",
+      "nameArabic": "سبأ",
       "revelationOrder": 58,
       "classification": "makki",
       "revelationPlace": "makkah",
@@ -320,7 +320,7 @@
     },
     "36": {
       "surah": 36,
-      "name": "Ya-Sin",
+      "name": "Yasin",
       "nameArabic": "يس",
       "revelationOrder": 41,
       "classification": "makki",
@@ -329,7 +329,7 @@
     },
     "37": {
       "surah": 37,
-      "name": "As-Saffat",
+      "name": "al-Saffat",
       "nameArabic": "الصافات",
       "revelationOrder": 56,
       "classification": "makki",
@@ -347,7 +347,7 @@
     },
     "39": {
       "surah": 39,
-      "name": "Az-Zumar",
+      "name": "al-Zumar",
       "nameArabic": "الزمر",
       "revelationOrder": 59,
       "classification": "makki",
@@ -374,7 +374,7 @@
     },
     "42": {
       "surah": 42,
-      "name": "Ash-Shuraa",
+      "name": "al-Shura",
       "nameArabic": "الشورى",
       "revelationOrder": 62,
       "classification": "makki",
@@ -383,7 +383,7 @@
     },
     "43": {
       "surah": 43,
-      "name": "Az-Zukhruf",
+      "name": "al-Zukhruf",
       "nameArabic": "الزخرف",
       "revelationOrder": 63,
       "classification": "makki",
@@ -392,7 +392,7 @@
     },
     "44": {
       "surah": 44,
-      "name": "Ad-Dukhan",
+      "name": "al-Dukhan",
       "nameArabic": "الدخان",
       "revelationOrder": 64,
       "classification": "makki",
@@ -401,7 +401,7 @@
     },
     "45": {
       "surah": 45,
-      "name": "Al-Jathiyah",
+      "name": "al-Jathiyah",
       "nameArabic": "الجاثية",
       "revelationOrder": 65,
       "classification": "makki",
@@ -410,7 +410,7 @@
     },
     "46": {
       "surah": 46,
-      "name": "Al-Ahqaf",
+      "name": "al-Ahqaf",
       "nameArabic": "الأحقاف",
       "revelationOrder": 66,
       "classification": "makki",
@@ -428,7 +428,7 @@
     },
     "48": {
       "surah": 48,
-      "name": "Al-Fath",
+      "name": "al-Fath",
       "nameArabic": "الفتح",
       "revelationOrder": 111,
       "classification": "madani",
@@ -437,7 +437,7 @@
     },
     "49": {
       "surah": 49,
-      "name": "Al-Hujurat",
+      "name": "al-Hujurat",
       "nameArabic": "الحجرات",
       "revelationOrder": 106,
       "classification": "madani",
@@ -455,7 +455,7 @@
     },
     "51": {
       "surah": 51,
-      "name": "Adh-Dhariyat",
+      "name": "al-Dhariyat",
       "nameArabic": "الذاريات",
       "revelationOrder": 67,
       "classification": "makki",
@@ -464,7 +464,7 @@
     },
     "52": {
       "surah": 52,
-      "name": "At-Tur",
+      "name": "al-Tur",
       "nameArabic": "الطور",
       "revelationOrder": 76,
       "classification": "makki",
@@ -473,7 +473,7 @@
     },
     "53": {
       "surah": 53,
-      "name": "An-Najm",
+      "name": "al-Najm",
       "nameArabic": "النجم",
       "revelationOrder": 23,
       "classification": "makki",
@@ -482,7 +482,7 @@
     },
     "54": {
       "surah": 54,
-      "name": "Al-Qamar",
+      "name": "al-Qamar",
       "nameArabic": "القمر",
       "revelationOrder": 37,
       "classification": "makki",
@@ -491,7 +491,7 @@
     },
     "55": {
       "surah": 55,
-      "name": "Ar-Rahman",
+      "name": "al-Rahman",
       "nameArabic": "الرحمن",
       "revelationOrder": 97,
       "classification": "madani",
@@ -500,7 +500,7 @@
     },
     "56": {
       "surah": 56,
-      "name": "Al-Waqi'ah",
+      "name": "al-Waqi'ah",
       "nameArabic": "الواقعة",
       "revelationOrder": 46,
       "classification": "makki",
@@ -509,7 +509,7 @@
     },
     "57": {
       "surah": 57,
-      "name": "Al-Hadid",
+      "name": "al-Hadid",
       "nameArabic": "الحديد",
       "revelationOrder": 94,
       "classification": "madani",
@@ -518,7 +518,7 @@
     },
     "58": {
       "surah": 58,
-      "name": "Al-Mujadila",
+      "name": "al-Mujadilah",
       "nameArabic": "المجادلة",
       "revelationOrder": 105,
       "classification": "madani",
@@ -527,7 +527,7 @@
     },
     "59": {
       "surah": 59,
-      "name": "Al-Hashr",
+      "name": "al-Hashr",
       "nameArabic": "الحشر",
       "revelationOrder": 101,
       "classification": "madani",
@@ -536,7 +536,7 @@
     },
     "60": {
       "surah": 60,
-      "name": "Al-Mumtahanah",
+      "name": "al-Mumtahanah",
       "nameArabic": "الممتحنة",
       "revelationOrder": 91,
       "classification": "madani",
@@ -545,7 +545,7 @@
     },
     "61": {
       "surah": 61,
-      "name": "As-Saf",
+      "name": "al-Saff",
       "nameArabic": "الصف",
       "revelationOrder": 109,
       "classification": "madani",
@@ -554,7 +554,7 @@
     },
     "62": {
       "surah": 62,
-      "name": "Al-Jumu'ah",
+      "name": "al-Jumu'ah",
       "nameArabic": "الجمعة",
       "revelationOrder": 110,
       "classification": "madani",
@@ -563,7 +563,7 @@
     },
     "63": {
       "surah": 63,
-      "name": "Al-Munafiqun",
+      "name": "al-Munafiqun",
       "nameArabic": "المنافقون",
       "revelationOrder": 104,
       "classification": "madani",
@@ -572,7 +572,7 @@
     },
     "64": {
       "surah": 64,
-      "name": "At-Taghabun",
+      "name": "al-Taghabun",
       "nameArabic": "التغابن",
       "revelationOrder": 108,
       "classification": "madani",
@@ -581,7 +581,7 @@
     },
     "65": {
       "surah": 65,
-      "name": "At-Talaq",
+      "name": "al-Talaq",
       "nameArabic": "الطلاق",
       "revelationOrder": 99,
       "classification": "madani",
@@ -590,7 +590,7 @@
     },
     "66": {
       "surah": 66,
-      "name": "At-Tahrim",
+      "name": "al-Tahrim",
       "nameArabic": "التحريم",
       "revelationOrder": 107,
       "classification": "madani",
@@ -599,7 +599,7 @@
     },
     "67": {
       "surah": 67,
-      "name": "Al-Mulk",
+      "name": "al-Mulk",
       "nameArabic": "الملك",
       "revelationOrder": 77,
       "classification": "makki",
@@ -608,7 +608,7 @@
     },
     "68": {
       "surah": 68,
-      "name": "Al-Qalam",
+      "name": "al-Qalam",
       "nameArabic": "القلم",
       "revelationOrder": 2,
       "classification": "makki",
@@ -617,7 +617,7 @@
     },
     "69": {
       "surah": 69,
-      "name": "Al-Haqqah",
+      "name": "al-Haqqah",
       "nameArabic": "الحاقة",
       "revelationOrder": 78,
       "classification": "makki",
@@ -626,7 +626,7 @@
     },
     "70": {
       "surah": 70,
-      "name": "Al-Ma'arij",
+      "name": "al-Ma'arij",
       "nameArabic": "المعارج",
       "revelationOrder": 79,
       "classification": "makki",
@@ -644,7 +644,7 @@
     },
     "72": {
       "surah": 72,
-      "name": "Al-Jinn",
+      "name": "al-Jinn",
       "nameArabic": "الجن",
       "revelationOrder": 40,
       "classification": "makki",
@@ -653,7 +653,7 @@
     },
     "73": {
       "surah": 73,
-      "name": "Al-Muzzammil",
+      "name": "al-Muzzammil",
       "nameArabic": "المزمل",
       "revelationOrder": 3,
       "classification": "makki",
@@ -662,7 +662,7 @@
     },
     "74": {
       "surah": 74,
-      "name": "Al-Muddaththir",
+      "name": "al-Muddaththir",
       "nameArabic": "المدثر",
       "revelationOrder": 4,
       "classification": "makki",
@@ -671,7 +671,7 @@
     },
     "75": {
       "surah": 75,
-      "name": "Al-Qiyamah",
+      "name": "al-Qiyamah",
       "nameArabic": "القيامة",
       "revelationOrder": 31,
       "classification": "makki",
@@ -680,8 +680,8 @@
     },
     "76": {
       "surah": 76,
-      "name": "Al-Insan",
-      "nameArabic": "الانسان",
+      "name": "al-Insan",
+      "nameArabic": "الإنسان",
       "revelationOrder": 98,
       "classification": "madani",
       "revelationPlace": "madinah",
@@ -689,7 +689,7 @@
     },
     "77": {
       "surah": 77,
-      "name": "Al-Mursalat",
+      "name": "al-Mursalat",
       "nameArabic": "المرسلات",
       "revelationOrder": 33,
       "classification": "makki",
@@ -698,8 +698,8 @@
     },
     "78": {
       "surah": 78,
-      "name": "An-Naba",
-      "nameArabic": "النبإ",
+      "name": "al-Naba'",
+      "nameArabic": "النبأ",
       "revelationOrder": 80,
       "classification": "makki",
       "revelationPlace": "makkah",
@@ -707,7 +707,7 @@
     },
     "79": {
       "surah": 79,
-      "name": "An-Nazi'at",
+      "name": "al-Nazi'at",
       "nameArabic": "النازعات",
       "revelationOrder": 81,
       "classification": "makki",
@@ -725,7 +725,7 @@
     },
     "81": {
       "surah": 81,
-      "name": "At-Takwir",
+      "name": "al-Takwir",
       "nameArabic": "التكوير",
       "revelationOrder": 7,
       "classification": "makki",
@@ -734,8 +734,8 @@
     },
     "82": {
       "surah": 82,
-      "name": "Al-Infitar",
-      "nameArabic": "الإنفطار",
+      "name": "al-Infitar",
+      "nameArabic": "الانفطار",
       "revelationOrder": 82,
       "classification": "makki",
       "revelationPlace": "makkah",
@@ -743,7 +743,7 @@
     },
     "83": {
       "surah": 83,
-      "name": "Al-Mutaffifin",
+      "name": "al-Mutaffifin",
       "nameArabic": "المطففين",
       "revelationOrder": 86,
       "classification": "makki",
@@ -752,8 +752,8 @@
     },
     "84": {
       "surah": 84,
-      "name": "Al-Inshiqaq",
-      "nameArabic": "الإنشقاق",
+      "name": "al-Inshiqaq",
+      "nameArabic": "الانشقاق",
       "revelationOrder": 83,
       "classification": "makki",
       "revelationPlace": "makkah",
@@ -761,7 +761,7 @@
     },
     "85": {
       "surah": 85,
-      "name": "Al-Buruj",
+      "name": "al-Buruj",
       "nameArabic": "البروج",
       "revelationOrder": 27,
       "classification": "makki",
@@ -770,7 +770,7 @@
     },
     "86": {
       "surah": 86,
-      "name": "At-Tariq",
+      "name": "al-Tariq",
       "nameArabic": "الطارق",
       "revelationOrder": 36,
       "classification": "makki",
@@ -779,7 +779,7 @@
     },
     "87": {
       "surah": 87,
-      "name": "Al-A'la",
+      "name": "al-A'la",
       "nameArabic": "الأعلى",
       "revelationOrder": 8,
       "classification": "makki",
@@ -788,7 +788,7 @@
     },
     "88": {
       "surah": 88,
-      "name": "Al-Ghashiyah",
+      "name": "al-Ghashiyah",
       "nameArabic": "الغاشية",
       "revelationOrder": 68,
       "classification": "makki",
@@ -797,7 +797,7 @@
     },
     "89": {
       "surah": 89,
-      "name": "Al-Fajr",
+      "name": "al-Fajr",
       "nameArabic": "الفجر",
       "revelationOrder": 10,
       "classification": "makki",
@@ -806,7 +806,7 @@
     },
     "90": {
       "surah": 90,
-      "name": "Al-Balad",
+      "name": "al-Balad",
       "nameArabic": "البلد",
       "revelationOrder": 35,
       "classification": "makki",
@@ -815,7 +815,7 @@
     },
     "91": {
       "surah": 91,
-      "name": "Ash-Shams",
+      "name": "al-Shams",
       "nameArabic": "الشمس",
       "revelationOrder": 26,
       "classification": "makki",
@@ -824,7 +824,7 @@
     },
     "92": {
       "surah": 92,
-      "name": "Al-Layl",
+      "name": "al-Layl",
       "nameArabic": "الليل",
       "revelationOrder": 9,
       "classification": "makki",
@@ -833,7 +833,7 @@
     },
     "93": {
       "surah": 93,
-      "name": "Ad-Duhaa",
+      "name": "al-Duha",
       "nameArabic": "الضحى",
       "revelationOrder": 11,
       "classification": "makki",
@@ -842,7 +842,7 @@
     },
     "94": {
       "surah": 94,
-      "name": "Ash-Sharh",
+      "name": "al-Sharh",
       "nameArabic": "الشرح",
       "revelationOrder": 12,
       "classification": "makki",
@@ -851,7 +851,7 @@
     },
     "95": {
       "surah": 95,
-      "name": "At-Tin",
+      "name": "al-Tin",
       "nameArabic": "التين",
       "revelationOrder": 28,
       "classification": "makki",
@@ -860,7 +860,7 @@
     },
     "96": {
       "surah": 96,
-      "name": "Al-'Alaq",
+      "name": "al-'Alaq",
       "nameArabic": "العلق",
       "revelationOrder": 1,
       "classification": "makki",
@@ -869,7 +869,7 @@
     },
     "97": {
       "surah": 97,
-      "name": "Al-Qadr",
+      "name": "al-Qadr",
       "nameArabic": "القدر",
       "revelationOrder": 25,
       "classification": "makki",
@@ -878,7 +878,7 @@
     },
     "98": {
       "surah": 98,
-      "name": "Al-Bayyinah",
+      "name": "al-Bayyinah",
       "nameArabic": "البينة",
       "revelationOrder": 100,
       "classification": "madani",
@@ -887,7 +887,7 @@
     },
     "99": {
       "surah": 99,
-      "name": "Az-Zalzalah",
+      "name": "al-Zalzalah",
       "nameArabic": "الزلزلة",
       "revelationOrder": 93,
       "classification": "madani",
@@ -896,7 +896,7 @@
     },
     "100": {
       "surah": 100,
-      "name": "Al-'Adiyat",
+      "name": "al-'Adiyat",
       "nameArabic": "العاديات",
       "revelationOrder": 14,
       "classification": "makki",
@@ -905,7 +905,7 @@
     },
     "101": {
       "surah": 101,
-      "name": "Al-Qari'ah",
+      "name": "al-Qari'ah",
       "nameArabic": "القارعة",
       "revelationOrder": 30,
       "classification": "makki",
@@ -914,7 +914,7 @@
     },
     "102": {
       "surah": 102,
-      "name": "At-Takathur",
+      "name": "al-Takathur",
       "nameArabic": "التكاثر",
       "revelationOrder": 16,
       "classification": "makki",
@@ -923,7 +923,7 @@
     },
     "103": {
       "surah": 103,
-      "name": "Al-'Asr",
+      "name": "al-'Asr",
       "nameArabic": "العصر",
       "revelationOrder": 13,
       "classification": "makki",
@@ -932,7 +932,7 @@
     },
     "104": {
       "surah": 104,
-      "name": "Al-Humazah",
+      "name": "al-Humazah",
       "nameArabic": "الهمزة",
       "revelationOrder": 32,
       "classification": "makki",
@@ -941,7 +941,7 @@
     },
     "105": {
       "surah": 105,
-      "name": "Al-Fil",
+      "name": "al-Fil",
       "nameArabic": "الفيل",
       "revelationOrder": 19,
       "classification": "makki",
@@ -959,7 +959,7 @@
     },
     "107": {
       "surah": 107,
-      "name": "Al-Ma'un",
+      "name": "al-Ma'un",
       "nameArabic": "الماعون",
       "revelationOrder": 17,
       "classification": "makki",
@@ -968,7 +968,7 @@
     },
     "108": {
       "surah": 108,
-      "name": "Al-Kawthar",
+      "name": "al-Kawthar",
       "nameArabic": "الكوثر",
       "revelationOrder": 15,
       "classification": "makki",
@@ -977,7 +977,7 @@
     },
     "109": {
       "surah": 109,
-      "name": "Al-Kafirun",
+      "name": "al-Kafirun",
       "nameArabic": "الكافرون",
       "revelationOrder": 18,
       "classification": "makki",
@@ -986,7 +986,7 @@
     },
     "110": {
       "surah": 110,
-      "name": "An-Nasr",
+      "name": "al-Nasr",
       "nameArabic": "النصر",
       "revelationOrder": 114,
       "classification": "madani",
@@ -995,7 +995,7 @@
     },
     "111": {
       "surah": 111,
-      "name": "Al-Masad",
+      "name": "al-Masad",
       "nameArabic": "المسد",
       "revelationOrder": 6,
       "classification": "makki",
@@ -1004,7 +1004,7 @@
     },
     "112": {
       "surah": 112,
-      "name": "Al-Ikhlas",
+      "name": "al-Ikhlas",
       "nameArabic": "الإخلاص",
       "revelationOrder": 22,
       "classification": "makki",
@@ -1013,7 +1013,7 @@
     },
     "113": {
       "surah": 113,
-      "name": "Al-Falaq",
+      "name": "al-Falaq",
       "nameArabic": "الفلق",
       "revelationOrder": 20,
       "classification": "makki",
@@ -1022,7 +1022,7 @@
     },
     "114": {
       "surah": 114,
-      "name": "An-Nas",
+      "name": "al-Nas",
       "nameArabic": "الناس",
       "revelationOrder": 21,
       "classification": "makki",

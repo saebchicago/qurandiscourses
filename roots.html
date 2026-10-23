@@ -240,7 +240,7 @@
     <script src="/assets/ah-init.js"></script>
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/roots","url":"https://divinediscourses.org/roots","name":"Qur'anic roots and where they occur · Divine Discourses","description":"The 1,642 triliteral roots of the Qur'an with frequency, derived forms, surah distribution, Makki/Madani split, and co-occurrence data from the Leeds Corpus.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.7.1","dateModified":"2026-10-18"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Qur'anic roots and where they occur","item":"https://divinediscourses.org/roots"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/roots","url":"https://divinediscourses.org/roots","name":"Qur'anic roots and where they occur · Divine Discourses","description":"The 1,642 triliteral roots of the Qur'an with frequency, derived forms, surah distribution, Makki/Madani split, and co-occurrence data from the Leeds Corpus.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.7.1","dateModified":"2026-10-23"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"Qur'anic roots and where they occur","item":"https://divinediscourses.org/roots"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -507,10 +507,10 @@
               Makki / Madani distribution
               <span
                 class="badge ok"
-                data-source-ids="leeds-corpus-v0.4 quran-foundation-api-v4"
+                data-source-ids="leeds-corpus-v0.4 alquran-cloud-api"
                 aria-label="Verified"
                 tabindex="0"
-                title="Verified · Leeds v0.4 + Quran.com API v4"
+                title="Verified · Leeds v0.4 + bundled Tanzil metadata"
                 >●</span
               >
             </h4>
@@ -523,10 +523,10 @@
               <summary>ℹ How this is computed</summary>
               <p>
                 Computed from Leeds Quranic Arabic Corpus v0.4 morphology +
-                Quran.com Foundation API v4
-                <code>/chapters</code> revelation-place field. Surahs classified
-                <em>makkah</em> in the API are counted as Makki;
-                <em>madinah</em> as Madani.
+                the revelation type in the bundled Tanzil text's metadata
+                (<code>data/surah-meta.json</code>). Surahs typed
+                <em>Meccan</em> there are counted as Makki;
+                <em>Medinan</em> as Madani.
               </p>
             </details>
           </div>

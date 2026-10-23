@@ -374,7 +374,7 @@ const sourcesJson = JSON.parse(readFileSync(join(DATA, "sources.json"), "utf8"))
 const sourcesById = new Map(sourcesJson.sources.map((s) => [s.id, s]));
 
 const NOT_STATED = "not stated in repository";
-const REGISTRY_IDS = ["leeds-corpus-v0.4", "tanzil", "cairo-1924", "quran-foundation-api-v4", "khan-introduction-2011"];
+const REGISTRY_IDS = ["leeds-corpus-v0.4", "tanzil", "cairo-1924", "alquran-cloud-api", "khan-introduction-2011"];
 
 const sourceRegistry = REGISTRY_IDS.map((id) => {
   const s = sourcesById.get(id);

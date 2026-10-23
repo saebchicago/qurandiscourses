@@ -136,12 +136,18 @@ redistribution. Nothing derived from it remains in `data/` or
 `data/exports/`. The QurSim paper (Sharaf & Atwell, LREC 2012), which
 was only ever cited as a methodological reference, is no longer cited.
 
-## Surah metadata (Quran.com Foundation API)
+## Surah metadata (bundled Tanzil metadata)
 
-`data/surah-meta.json` (Makki/Madani classification) was retrieved from
-the Quran.com Foundation Content API v4 (`scripts/build-surah-meta.mjs`
-records the exact endpoint). It is factual reference metadata cached at
-build time; the API is credited in sources.html and data/sources.json.
+`data/surah-meta.json` (Makki/Madani classification, verse counts, names)
+is built offline by `scripts/build-surah-meta.mjs` from files this
+repository already ships: the surah metadata in the bundled Tanzil text
+(`data/quran-text/`, as served by alquran.cloud), the Cairo 1924
+revelation order (`data/chronology.json`) and the curated names in
+`data/surah-names.json`. Until October 2026 it was cached from the
+Quran.com Foundation Content API v4, whose developer terms do not allow
+redistributing API content; the rebuilt file matches that output on every
+revelation place, verse count and revelation order, and no Quran.com
+Foundation content is committed in its place.
 
 ## Formulaic templates (`data/formulaic-templates.json`)
 

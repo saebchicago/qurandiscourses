@@ -52,6 +52,9 @@ const ONLY = (args.find((a) => a.startsWith("--only=")) || "")
 // juz feeds recitation-pace; build-exports reads nearly everything, so
 // it runs last.
 const ORDER = [
+  // Offline since October 2026; read by build-surahs-js, the search index
+  // and the reference pages, so it runs first.
+  "build-surah-meta",
   "build-formulas",
   "build-rhyme-map",
   "build-symmetry-test",
@@ -93,7 +96,6 @@ const ORDER = [
 // without saying so would read as "all 45 checked".
 const EXCLUDED = [
   ["build-og-images", "needs a browser"],
-  ["build-surah-meta", "needs the network"],
   ["build-quran-text", "needs the network; run by .github/workflows/quran-text.yml"],
   ["build-recitation-durations", "needs the network; run by .github/workflows/recitation-durations.yml"],
   ["build-word-timings", "needs the network; run by .github/workflows/word-timings.yml"],
