@@ -52,6 +52,9 @@ const ONLY = (args.find((a) => a.startsWith("--only=")) || "")
 // juz feeds recitation-pace; build-exports reads nearly everything, so
 // it runs last.
 const ORDER = [
+  // Offline since October 2026; read by build-surahs-js, the search index
+  // and the reference pages, so it runs first.
+  "build-surah-meta",
   "build-formulas",
   "build-rhyme-map",
   "build-symmetry-test",
