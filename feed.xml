@@ -9,6 +9,17 @@
   <updated>2026-10-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>Surah metadata is now built from files this site already ships</title>
+    <id>https://divinediscourses.org/changelog#2026-10-surah-meta-local</id>
+    <link href="https://divinediscourses.org/changelog#2026-10-surah-meta-local"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Surah metadata is now built from files this site already ships.&lt;/strong&gt;
+              Makki/Madani classification, verse counts and names in &lt;code&gt;data/surah-meta.json&lt;/code&gt; now come from the
+              bundled Tanzil text's metadata, the Cairo 1924 order and the curated names, not the Quran.com Foundation API,
+              whose terms do not allow redistributing its content. Every classification, verse count and revelation order
+              is unchanged; surah names on &lt;a href="/compare"&gt;Compare&lt;/a&gt; now use the same spelling as the rest of the site.</content>
+  </entry>
+  <entry>
     <title>The home page now shows the noise checks</title>
     <id>https://divinediscourses.org/changelog#2026-10-home-noise</id>
     <link href="https://divinediscourses.org/changelog#2026-10-home-noise"/>

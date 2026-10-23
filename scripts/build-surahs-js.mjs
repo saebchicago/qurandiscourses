@@ -40,7 +40,10 @@ for (let id = 1; id <= 114; id++) {
   const p = profiles[k];
   if (!n || !c || !m || !p) throw new Error(`Surah ${id}: missing in a source`);
 
-  // The two independent sources must agree; fail loudly, never guess.
+  // Fail loudly, never guess. surah-meta.json now takes its revelation
+  // order from chronology.json, so this first check guards only against
+  // a stale surah-meta; the classification check below still compares two
+  // independent sources (Tanzil metadata vs the Cairo 1924 periods).
   if (c.revelationOrder !== m.revelationOrder)
     throw new Error(
       `Surah ${id}: revelationOrder mismatch chronology=${c.revelationOrder} meta=${m.revelationOrder}`,

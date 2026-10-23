@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-10-surah-meta-local",
+   "year": "2026",
+   "month": "October",
+   "html": "\n              <strong>Surah metadata is now built from files this site already ships.</strong>\n              Makki/Madani classification, verse counts and names in <code>data/surah-meta.json</code> now come from the\n              bundled Tanzil text's metadata, the Cairo 1924 order and the curated names, not the Quran.com Foundation API,\n              whose terms do not allow redistributing its content. Every classification, verse count and revelation order\n              is unchanged; surah names on <a href=\"/compare\">Compare</a> now use the same spelling as the rest of the site.\n            "
+  },
+  {
    "id": "2026-10-home-noise",
    "year": "2026",
    "month": "October",

@@ -1,7 +1,7 @@
 {
  "_script": "scripts/compute-coverage.mjs",
  "_method": "Every number in this report is measured directly from repository data files at generation time, except the 'popular'/alternate values in countingRuleSensitivity, which are quoted verbatim from numbers.html's own prose (already-published editorial text, not independently measurable from a data file) and are marked verified:false accordingly. Source registry fields are read verbatim from data/sources.json; any field absent there is recorded as \"not stated in repository\", never inferred.",
- "_computed": "2026-10-19",
+ "_computed": "2026-10-23",
  "morphology": {
   "totalTokens": 77429,
   "fields": {
@@ -595,13 +595,13 @@
    "url": "not stated in repository"
   },
   {
-   "id": "quran-foundation-api-v4",
-   "name": "Quran.com Foundation Content API",
-   "version": "v4",
-   "author": "Quran.com Foundation",
-   "year": "2025",
+   "id": "alquran-cloud-api",
+   "name": "AlQuran.cloud API",
+   "version": "v1",
+   "author": "Islamic Network",
+   "year": "2024",
    "license": "not stated in repository",
-   "url": "https://api-docs.quran.foundation"
+   "url": "https://alquran.cloud/api"
   },
   {
    "id": "khan-introduction-2011",

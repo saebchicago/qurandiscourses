@@ -1752,10 +1752,10 @@ are particles, pronouns, and other unrooted forms).
 ℹ How this is computed
 
 Computed from Leeds Quranic Arabic Corpus v0.4 morphology +
-Quran.com Foundation API v4
-/chapters revelation-place field. Surahs classified
-makkah in the API are counted as Makki;
-madinah as Madani.
+the revelation type in the bundled Tanzil text's metadata
+( data/surah-meta.json ). Surahs typed
+Meccan there are counted as Makki;
+Medinan as Madani.
 
 #### Where it appears
 
@@ -4359,7 +4359,7 @@ Foundation, 2024) for structured verse data and corpus indexing.
 qul.tarteel.ai
 
 Quran.com Foundation Content API v4 (Quran.com
-Foundation, 2025) for translations, recitations, and metadata.
+Foundation, 2025) for the word-by-word English, read at runtime.
 api-docs.quran.foundation
 
 Full citations for all sources, including access dates and version
@@ -6627,10 +6627,11 @@ argues.
 
 Quran.com Foundation.
 Quran.com Foundation Content API , v4. 2025.
-https://api-docs.quran.foundation . Used for per-surah Makki/Madani classification (revelation-place
-field, /chapters endpoint); results committed to
-data/surah-meta.json with the source string recorded
-inside the file.
+https://api-docs.quran.foundation . Serves the word-by-word English at runtime (next entry). Until
+October 2026 it also supplied the Makki/Madani classification in
+data/surah-meta.json ; that file is now built from the
+bundled Tanzil text's metadata, so no Quran.com Foundation content
+is committed to this repository.
 ●
 
 Quran.com Foundation.
@@ -7234,7 +7235,7 @@ with four-period classification, and juz boundaries.
 ●
 
 GPL (profiles) / public-domain reference
-(chronology) / API-sourced factual metadata (surah-meta) ·
+(chronology) / factual metadata from the bundled Tanzil text (surah-meta) ·
 generators build-surah-profiles.mjs ,
 build-surah-meta.mjs , build-juz.mjs ·
 profiles ·
@@ -7778,6 +7779,13 @@ before it was renamed "Study".
 ### 2026
 
 #### October
+
+Surah metadata is now built from files this site already ships.
+Makki/Madani classification, verse counts and names in data/surah-meta.json now come from the
+bundled Tanzil text's metadata, the Cairo 1924 order and the curated names, not the Quran.com Foundation API,
+whose terms do not allow redistributing its content. Every classification, verse count and revelation order
+is unchanged; surah names on Compare now use the same spelling as the rest of the site.
+§
 
 The home page now shows the noise checks.
 A new "Tested against noise" table on the home page sets what each

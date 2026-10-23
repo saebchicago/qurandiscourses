@@ -1,13 +1,24 @@
 #!/usr/bin/env node
 //
 // build-surah-meta.mjs — generate data/surah-meta.json with Makki/Madani
-// classification for all 114 surahs.
+// classification, verse counts and names for all 114 surahs.
 //
-// Primary source: Quran.com Foundation Content API v4, /chapters endpoint.
-// Fallback (if API unreachable): chronology.json + Nöldeke-Bell period mapping
-//   (meccan-early/middle/late → makki, medinan → madani).
+// Built offline from files this repository already ships, so no
+// third-party API content is redistributed:
+//   - data/quran-text/<n>.json   revelationType and numberOfAyahs: the
+//     bundled Tanzil text's surah metadata, as served by alquran.cloud
+//     (see scripts/build-quran-text.mjs)
+//   - data/chronology.json       revelation order (Cairo 1924)
+//   - data/surah-names.json      transliteration and Arabic display name
 //
-// The source used is recorded in the output file's _source field.
+// Until October 2026 this file came from the Quran.com Foundation Content
+// API v4 /chapters endpoint. Before switching, all 114 revelation places,
+// verse counts and revelation orders were compared against that output
+// and matched exactly; only the name spellings changed, to the curated
+// forms in surah-names.json.
+//
+// --check: exit 1 if data/surah-meta.json differs from a fresh build
+// (ignoring the _generated date).
 //
 
 import { readFileSync, writeFileSync } from "fs";
@@ -18,103 +29,66 @@ import { computedDate } from "./lib/computed-date.mjs";
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, "..");
 const DATA = join(ROOT, "data");
+const OUT = join(DATA, "surah-meta.json");
+const CHECK = process.argv.includes("--check");
 
-async function fetchChaptersFromApi() {
-  const url = "https://api.quran.com/api/v4/chapters?language=en";
-  console.log(`  Fetching ${url} …`);
-  const res = await fetch(url, {
-    headers: { Accept: "application/json" },
-    signal: AbortSignal.timeout(12000),
-  });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return res.json();
-}
+const readJson = (p) => JSON.parse(readFileSync(join(DATA, p), "utf8"));
 
-function buildFromChronology() {
-  const chronology = JSON.parse(readFileSync(join(DATA, "chronology.json"), "utf8"));
-  const result = {};
-  for (const [num, s] of Object.entries(chronology)) {
-    const period = s.period || "";
-    const classification = period.startsWith("meccan") ? "makki" : period === "medinan" ? "madani" : "unclassified";
-    result[num] = {
-      surah: Number(num),
-      name: s.name,
-      revelationOrder: s.revelationOrder,
-      classification,
-      period,
+const SOURCE =
+  "Bundled Tanzil text metadata via alquran.cloud (data/quran-text/: revelationType, numberOfAyahs); " +
+  "revelation order from Cairo 1924 (data/chronology.json); names from data/surah-names.json";
+
+const PLACE = { Meccan: "makkah", Medinan: "madinah" };
+const CLASS = { makkah: "makki", madinah: "madani" };
+
+function build() {
+  const chronology = readJson("chronology.json");
+  const names = readJson("surah-names.json");
+  const surahs = {};
+  for (let n = 1; n <= 114; n++) {
+    const k = String(n);
+    const text = readJson(`quran-text/${k}.json`);
+    const c = chronology[k];
+    const nm = names[k];
+    if (!c || !nm) throw new Error(`Surah ${n}: missing in chronology.json or surah-names.json`);
+    const revelationPlace = PLACE[text.revelationType];
+    if (!revelationPlace) throw new Error(`Surah ${n}: unknown revelationType "${text.revelationType}"`);
+    if (!Number.isInteger(text.numberOfAyahs) || text.numberOfAyahs < 3)
+      throw new Error(`Surah ${n}: bad numberOfAyahs ${text.numberOfAyahs}`);
+    surahs[k] = {
+      surah: n,
+      name: nm.translit,
+      nameArabic: nm.ar,
+      revelationOrder: c.revelationOrder,
+      classification: CLASS[revelationPlace],
+      revelationPlace,
+      versesCount: text.numberOfAyahs,
     };
   }
-  return { entries: result, source: "chronology.json (Leeds Quranic Arabic Corpus v0.4 + Egyptian Standard revelation order, Nöldeke-Bell classification)" };
+  return {
+    _source: SOURCE,
+    _generated: computedDate(),
+    _note:
+      "Classification: 'makki' = revealed before the Hijra (622 CE); 'madani' = revealed after. Where a surah has mixed opinions in tradition, the predominant classification in the source is used.",
+    surahs,
+  };
 }
 
-async function main() {
-  let entries = {};
-  let sourceStr = "";
+const output = build();
+const body = JSON.stringify(output, null, 2);
 
+if (CHECK) {
+  const strip = (s) => s.replace(/"_generated": "[^"]*"/, "");
+  let current = "";
   try {
-    console.log("Trying Quran.com API v4…");
-    const apiData = await fetchChaptersFromApi();
-    const chapters = apiData.chapters || [];
-    if (!chapters.length) throw new Error("Empty chapters array");
-
-    for (const ch of chapters) {
-      const num = String(ch.id);
-      const classification = ch.revelation_place === "makkah" ? "makki" : ch.revelation_place === "madinah" ? "madani" : "unclassified (source unavailable)";
-      entries[num] = {
-        surah: ch.id,
-        name: ch.name_simple,
-        nameArabic: ch.name_arabic,
-        revelationOrder: ch.revelation_order,
-        classification,
-        revelationPlace: ch.revelation_place,
-        versesCount: ch.verses_count,
-      };
-    }
-
-    sourceStr = "Quran.com Foundation Content API v4, /chapters endpoint, accessed " + computedDate();
-    console.log(`  API succeeded: ${Object.keys(entries).length} chapters`);
-  } catch (err) {
-    console.warn(`  API failed (${err.message}); falling back to chronology.json`);
-    const fallback = buildFromChronology();
-    entries = fallback.entries;
-    sourceStr = fallback.source;
-  }
-
-  // Validate: 114 entries required
-  const count = Object.keys(entries).length;
-  if (count !== 114) {
-    console.error(`ERROR: expected 114 entries, got ${count}`);
+    current = readFileSync(OUT, "utf8");
+  } catch {}
+  if (strip(current) !== strip(body)) {
+    console.error("build-surah-meta --check: FAIL — data/surah-meta.json is stale.\n  Run: node scripts/build-surah-meta.mjs");
     process.exit(1);
   }
-
-  // Mark any missing classifications explicitly
-  for (const [num, e] of Object.entries(entries)) {
-    if (!e.classification) {
-      e.classification = "unclassified (source unavailable)";
-      console.warn(`  Surah ${num}: classification missing, marked unclassified`);
-    }
-  }
-
-  const output = {
-    _source: sourceStr,
-    _generated: computedDate(),
-    _note: "Classification: 'makki' = revealed before the Hijra (622 CE); 'madani' = revealed after. Where a surah has mixed opinions in tradition, the predominant classification in the source is used.",
-    surahs: entries,
-  };
-
-  const outPath = join(DATA, "surah-meta.json");
-  writeFileSync(outPath, JSON.stringify(output, null, 2));
-  console.log(`\nWrote ${outPath}`);
-
-  // Spot-check
-  console.log("\nSpot-check:");
-  for (const n of [1, 2, 3, 96, 114]) {
-    const e = entries[String(n)];
-    console.log(`  Surah ${n} (${e?.name}): ${e?.classification}`);
-  }
+  console.log("build-surah-meta --check: OK (114 surahs)");
+} else {
+  writeFileSync(OUT, body);
+  console.log(`Wrote ${OUT} (114 surahs)`);
 }
-
-main().catch((err) => {
-  console.error("Fatal:", err);
-  process.exit(1);
-});

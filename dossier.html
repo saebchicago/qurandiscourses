@@ -610,7 +610,7 @@
             `<div class="stat-grid">` +
               `<div class="stat-block"><h4>Verses ${OK("leeds-corpus-v0.4", "Leeds Corpus v0.4")}</h4><p class="stat-value">${su.verseCount}</p></div>` +
               (m
-                ? `<div class="stat-block"><h4>Revealed ${OK("quran-foundation-api-v4", "Quran Foundation Content API v4")}</h4><p class="stat-value" style="font-size:1rem">${qdEsc(m.revelationPlace === "makkah" ? "Makkah" : m.revelationPlace === "madinah" ? "Madinah" : m.revelationPlace)} · ${ordinalEn(m.revelationOrder)} in revelation order</p></div>`
+                ? `<div class="stat-block"><h4>Revealed ${OK("alquran-cloud-api", "bundled Tanzil text metadata")}</h4><p class="stat-value" style="font-size:1rem">${qdEsc(m.revelationPlace === "makkah" ? "Makkah" : m.revelationPlace === "madinah" ? "Madinah" : m.revelationPlace)} · ${ordinalEn(m.revelationOrder)} in revelation order</p></div>`
                 : "") +
               (period
                 ? // Literal data-source-ids (not a NUANCED(ids) parameter):
