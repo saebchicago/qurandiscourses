@@ -1265,13 +1265,18 @@ if (runCheck("targets") && !PAGE_FILTER && !LIVE) {
 // Home needs verse text, not the much larger word-level morphology payload.
 // A long-surah fixture also proves Arabic remains available without translations.
 if (runCheck("home-arabic") && (!PAGE_FILTER || PAGE_FILTER === "index.html") && !LIVE) {
+  for (const fixtureSurah of [2, 4]) {
   const hctx = await newContext({ apiMode: "abort" });
-  const fixtureNow = Date.UTC(2026, 9, 25, 12);
+  const referenceDay = Math.floor(Date.UTC(2026, 9, 25, 12) / 86400000);
+  const fixtureDay = referenceDay - ((referenceDay - (fixtureSurah - 1)) % 114 + 114) % 114;
+  const fixtureNow = fixtureDay * 86400000 + 12 * 3600000;
   await hctx.addInitScript((now) => { Date.now = () => now; }, fixtureNow);
   const page = await hctx.newPage();
   const morphologyRequests = [];
+  const textRequests = [];
   page.on("request", (r) => {
     if (/\/data\/morphology\//.test(r.url())) morphologyRequests.push(r.url());
+    if (/\/data\/quran-text\//.test(r.url())) textRequests.push(r.url());
   });
   await page.goto(`${BASE}/index.html`, { waitUntil: "load" });
   const day = Math.floor(fixtureNow / 86400000);
@@ -1294,7 +1299,11 @@ if (runCheck("home-arabic") && (!PAGE_FILTER || PAGE_FILTER === "index.html") &&
     "Another surah renders the corresponding bundled text");
   report("home-arabic-payload", "index.html", morphologyRequests.length === 0,
     `${morphologyRequests.length} unnecessary morphology requests (want 0)`);
+  const initialRequests = textRequests.filter((url) => url.endsWith(`/quran-text/${firstSurah}.json`)).length;
+  report("home-arabic-shared-loader", "index.html", initialRequests === 1,
+    `surah ${firstSurah}: ${initialRequests} Arabic text requests (want 1)`);
   await hctx.close();
+  }
 }
 
 // ── Performance budgets (lab: bytes, requests, DOM nodes per template) ─

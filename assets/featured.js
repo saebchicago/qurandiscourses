@@ -233,10 +233,12 @@
       var id = su.id;
       // Match the reader's bundled Tanzil text. Word-level morphology is
       // unnecessary here and makes long-surah days exceed the home budget.
-      fetch("data/quran-text/" + id + ".json")
-        .then(function (r) {
-          return r.ok ? r.json() : null;
-        })
+      var request = window.qdFetchLocalSurah
+        ? window.qdFetchLocalSurah(id)
+        : fetch("data/quran-text/" + id + ".json").then(function (r) {
+            return r.ok ? r.json() : null;
+          });
+      request
         .then(function (data) {
           if (su.id !== id) return;
           arabicText = data;

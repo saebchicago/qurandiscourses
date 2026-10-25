@@ -733,6 +733,10 @@
     }
     return localText.get(n);
   }
+  // Home and the reader share one local-text request, independently of
+  // translation availability. This exposes public Arabic text, not app state.
+  window.qdFetchLocalSurah = localSurah;
+
   function surahHeader(sd) {
     return {
       number: sd.number,
