@@ -11,12 +11,8 @@ on:
       - ".github/ISSUE_TEMPLATE/**"
       - ".github/pull_request_template.md"
   pull_request:
+    # Required merge checks must also be emitted for documentation-only PRs.
     branches: [main]
-    paths-ignore:
-      - "**/*.md"
-      - "docs/**"
-      - ".github/ISSUE_TEMPLATE/**"
-      - ".github/pull_request_template.md"
   schedule:
     # Citation and translation endpoints can drift without a code change.
     - cron: "17 9 * * 1"
