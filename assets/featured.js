@@ -160,8 +160,8 @@
     // by the hour and by this tab's visit count, so the card that says
     // "same for everyone" showed different verses on two visits.
     var verseShift = 0;
-    var morph = null;
-    var morphSurah = 0;
+    var arabicText = null;
+    var arabicSurah = 0;
     var su = surahById(dailySurahNum());
     if (!su) return;
     function currentSurahNum() {
@@ -220,8 +220,8 @@
       verseLabel.innerHTML =
         "<a href=\"/read?s=" + su.id + "&a=" + v + "\">" + su.id + ":" + v + "</a>";
       wrap.hidden = false;
-      if (morph && morphSurah === su.id && morph[String(v)]) {
-        verseAr.textContent = morph[String(v)].map(function (w) { return w.ar; }).join(" ");
+      if (arabicText && arabicSurah === su.id && Array.isArray(arabicText.ayahs) && arabicText.ayahs[v - 1]) {
+        verseAr.textContent = arabicText.ayahs[v - 1].text;
       }
       paintTranslation(su.id, v);
       if (reflect) reflect.setAttribute("data-reflect-ref", su.id + ":" + v);
@@ -229,16 +229,20 @@
       if (nextVerseBtn) nextVerseBtn.textContent = "Another verse";
       if (nextSurahBtn) nextSurahBtn.textContent = "Another surah";
     }
-    function loadMorph() {
+    function loadArabic() {
       var id = su.id;
-      fetch("data/morphology/" + id + ".json")
-        .then(function (r) {
-          return r.ok ? r.json() : null;
-        })
+      // Match the reader's bundled Tanzil text. Word-level morphology is
+      // unnecessary here and makes long-surah days exceed the home budget.
+      var request = window.qdFetchLocalSurah
+        ? window.qdFetchLocalSurah(id)
+        : fetch("data/quran-text/" + id + ".json").then(function (r) {
+            return r.ok ? r.json() : null;
+          });
+      request
         .then(function (data) {
           if (su.id !== id) return;
-          morph = data;
-          morphSurah = id;
+          arabicText = data;
+          arabicSurah = id;
           paintVerse();
         })
         .catch(function () {
@@ -248,13 +252,14 @@
     function adoptSurah() {
       su = surahById(currentSurahNum());
       if (!su) return;
-      morph = null;
-      morphSurah = 0;
+      arabicText = null;
+      arabicSurah = 0;
+      verseAr.textContent = "";
       applyLinks();
       paintIntro();
       paintWhen();
       paintVerse();
-      loadMorph();
+      loadArabic();
     }
     if (nextVerseBtn) {
       nextVerseBtn.addEventListener("click", function () {
@@ -288,7 +293,7 @@
     paintIntro();
     paintWhen();
     paintVerse();
-    loadMorph();
+    loadArabic();
   }
 
   function mountReflect(box) {

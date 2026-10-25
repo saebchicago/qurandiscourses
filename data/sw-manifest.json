@@ -1,9 +1,9 @@
 {
  "_generated": "scripts/build-sw-manifest.mjs — the service worker's precache list and content fingerprint. A hash diff here alongside an unchanged version is the reviewer's cue to consider a SW_VERSION bump (see docs/maintainer-guide.md).",
- "version": "v19",
+ "version": "v20",
  "hashes": {
   "assets/ah-init.js": "74f374a935afbcf88cada6b62c9c4c343567a98d9e43c100e2a54fe84d555115",
-  "assets/app.js": "02ee2264d49fc795f1d11ef8dc5b3783dc7cd846017c1de26bb55f63ca10796a",
+  "assets/app.js": "93c7ce343824d614229dc7aa3a32b5697dd7d43c006c12e647038179504e0d5b",
   "assets/ask-routes.js": "227bced79a00b3fed1a941435ff26a55678f56fdec99aa41cae0f6de765fcbf1",
   "assets/ask.js": "096eb8174d6bd72765c4b096ae3d670d20483a1a3a1aa538e5ce02f5e353ce69",
   "assets/audio-engine.js": "28fb9def208eb2a2fa6c1a24292856e43696d4d15a30cbdb0ec38569053c681b",
@@ -13,7 +13,7 @@
   "assets/cite-page.js": "1eb65e8712ee9de1b2ba1464d5a15e6bbbcbad923544326d4766e73d3da73ce0",
   "assets/depth-boot.js": "86e78ef0bbc3198527283513dc3656d81dd6ed94934cd0fa4e91473d8b97a3a1",
   "assets/discovery-worksheet.js": "6b7d92bba8dcf717b4b0c96c53652b39b3a188df765ab56bc43da69060e65955",
-  "assets/featured.js": "b2cf5dd5c8370393adefac9e2a8e8f311cb861f805fab6199407524760a0529f",
+  "assets/featured.js": "452e5038e7b5a89f23153e415f3a40719d0207cac9b0ea7cb6153926f4cf7a90",
   "assets/feedback.js": "9d92e21027fb3c803fdee49c8bc380078a564a5c98d77d0e79ebc27706936377",
   "assets/fonts.css": "13292a826f5fd02c40de188a9b5343b99bc24c2b5c049b033a6b7ec1d871b825",
   "assets/glossary.js": "53b0a884c1ac30627f2f82e8716b2de7dead74a2c2a6ddbe30210da9971ed5ca",
