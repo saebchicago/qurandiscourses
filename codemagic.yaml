@@ -51,7 +51,14 @@ workflows:
           xcode-project use-profiles
       - name: Set the build number from the latest TestFlight build
         script: |
-          LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID" || echo 0)
+          set -euo pipefail
+          : "${APP_STORE_APPLE_ID:?set APP_STORE_APPLE_ID in the app_store group}"
+          # A failed lookup (API error, bad key) stops the build. Only a
+          # successful lookup that returns nothing, an app with no builds
+          # yet, starts at 1.
+          LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID")
+          LATEST=${LATEST:-0}
+          case "$LATEST" in ''|*[!0-9]*) echo "unexpected build number: $LATEST" >&2; exit 1;; esac
           cd ios-app/ios/App
           agvtool new-version -all $((LATEST + 1))
       - name: Build the signed IPA

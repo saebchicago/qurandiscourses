@@ -37,7 +37,7 @@ No Mac? `codemagic.yaml` (repo root) builds, signs and uploads to TestFlight fro
 
 1. codemagic.io > sign in with GitHub > add `saebchicago/qurandiscourses`, choose the `codemagic.yaml` workflow `iOS to TestFlight`.
 2. Team settings > Team integrations > Developer Portal > add an App Store Connect API key (App Store Connect > Users and Access > Integrations > Keys, role App Manager) and name it exactly `Divine Discourses ASC`, or edit the name in the file.
-3. Create the app record in App Store Connect first (bundle id `org.divinediscourses.app`).
+3. Register the App ID first: developer.apple.com > Certificates, Identifiers & Profiles > Identifiers > + > App IDs > App, bundle id `org.divinediscourses.app`, tick **Associated Domains** (the app declares it in `App.entitlements`; a profile made without it cannot sign the app). Then create the app record in App Store Connect with that bundle id. (Capability step to verify against Apple's current UI.)
 4. In Codemagic, app > Environment variables, create a group named `app_store` with two variables: `APP_STORE_APPLE_ID` (the app's numeric Apple ID) and `CERTIFICATE_PRIVATE_KEY` (mark Secure; generate once with `ssh-keygen -t rsa -b 2048 -m PEM -f ~/codemagic_cert_key -q -N ""` and paste the file's contents; never commit it).
 5. Start the build by hand. It takes the place of steps 3 and 4 in the table above, and no Team selection in Xcode is needed. Then go on to table step 5 (TestFlight on your phone).
 
