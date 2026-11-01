@@ -33,7 +33,14 @@ Owner steps only. Everything else is already in the repo. Labels: **verified** =
 | 5 | TestFlight on your iPhone, run the 6 checks below | You | 15 min | 6 |
 | 6 | ASC > Divine Discourses > iOS App 1.0 > Build: select the build > Add for Review > Submit | You | 2 min | Release |
 
-No Mac? Use a cloud Mac build (Codemagic or Xcode Cloud). Ask Claude for the config; it is not set up yet.
+No Mac? `codemagic.yaml` (repo root) builds, signs and uploads to TestFlight from Codemagic's cloud Macs. **Unverified: never run.** Setup, once:
+
+1. codemagic.io > sign in with GitHub > add `saebchicago/qurandiscourses`, choose the `codemagic.yaml` workflow `iOS to TestFlight`.
+2. Team settings > Team integrations > Developer Portal > add an App Store Connect API key (App Store Connect > Users and Access > Integrations > Keys, role App Manager) and name it exactly `Divine Discourses ASC`, or edit the name in the file.
+3. Create the app record in App Store Connect first (bundle id `org.divinediscourses.app`), then set the environment variable `APP_STORE_APPLE_ID` in Codemagic to its numeric Apple ID.
+4. Start the build by hand. It takes the place of steps 3 and 4 above, and no Team selection in Xcode is needed. Then go on to step 5 (TestFlight on your phone).
+
+Codemagic's free tier covers a limited number of build minutes (to verify current limits). The build never submits for review; step 6 stays manual.
 
 ## TestFlight checks (step 5)
 

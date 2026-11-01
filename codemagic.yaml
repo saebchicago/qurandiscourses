@@ -1,0 +1,63 @@
+# Cloud Mac build for the iOS wrapper (ios-app/). Manual trigger only: start it
+# from the Codemagic UI; nothing here runs on push. Setup steps and what each
+# value means: docs/APP-STORE-RUNBOOK.md ("No Mac?").
+#
+# Needs one environment variable set in Codemagic (app > Environment
+# variables): APP_STORE_APPLE_ID, the numeric "Apple ID" shown under App
+# Store Connect > App Information. Not a secret. Without it the build number
+# restarts at 1 and a second upload is rejected as a duplicate.
+#
+# Unverified: written without access to Codemagic or App Store Connect, never
+# run. Expect to adjust the Xcode version and the integration name below.
+workflows:
+  ios-testflight:
+    name: iOS to TestFlight
+    instance_type: mac_mini_m2
+    max_build_duration: 45
+    integrations:
+      # The name you give the App Store Connect API key in Codemagic:
+      # Team settings > Team integrations > Developer Portal > Manage keys.
+      app_store_connect: Divine Discourses ASC
+    environment:
+      xcode: latest
+      node: 22
+      vars:
+        BUNDLE_ID: "org.divinediscourses.app"
+        XCODE_PROJECT: "ios-app/ios/App/App.xcodeproj"
+        XCODE_SCHEME: "App"
+    triggering:
+      events: []
+    scripts:
+      - name: Install Capacitor and sync the iOS project
+        script: |
+          cd ios-app
+          npm ci
+          npx cap sync ios
+      - name: Create signing assets in the Apple account (App Store distribution)
+        script: |
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE --create
+      - name: Apply the provisioning profile to the project
+        script: |
+          keychain initialize
+          keychain add-certificates
+          xcode-project use-profiles
+      - name: Set the build number from the latest TestFlight build
+        script: |
+          LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID" || echo 0)
+          cd ios-app/ios/App
+          agvtool new-version -all $((LATEST + 1))
+      - name: Build the signed IPA
+        script: |
+          xcode-project build-ipa \
+            --project "$XCODE_PROJECT" \
+            --scheme "$XCODE_SCHEME"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        # Uploads to TestFlight only. Submitting for review stays a manual
+        # step in App Store Connect (runbook step 6).
+        submit_to_testflight: false
