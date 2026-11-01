@@ -60,6 +60,7 @@ jobs:
           node scripts/prayers.test.mjs
           node --test scripts/explorer.test.mjs
           node scripts/home-trust.test.mjs
+          node scripts/home-ledger.test.mjs
           node scripts/build-prayers.mjs --check
           node scripts/stats.test.mjs
           node scripts/keyness.test.mjs

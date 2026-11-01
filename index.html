@@ -86,7 +86,7 @@
     <script src="/assets/ah-init.js"></script>
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/","url":"https://divinediscourses.org/","name":"Divine Discourses: Read the Qur'an One Surah at a Time","description":"Read the Qur'an one surah at a time: Arabic, translations, recitation, roots and structure. Human scholarship, no AI-generated commentary.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.7.1","dateModified":"2026-10-21"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://divinediscourses.org/search?q={search_term_string}"},"query-input":"required name=search_term_string"}}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/","url":"https://divinediscourses.org/","name":"Divine Discourses: Read the Qur'an One Surah at a Time","description":"Read the Qur'an one surah at a time: Arabic, translations, recitation, roots and structure. Human scholarship, no AI-generated commentary.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.7.1","dateModified":"2026-11-01"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://divinediscourses.org/search?q={search_term_string}"},"query-input":"required name=search_term_string"}}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -575,6 +575,33 @@
         </div>
       </section>
 
+      <section id="ledgerSection" class="workflow-section" aria-labelledby="ledgerTitle">
+        <div class="card">
+          <h2 id="ledgerTitle">The claim ledger, counted</h2>
+          <p class="lede">
+            Every worked example on this site is a claim in one public ledger,
+            labeled on four dimensions. These bars are the ledger's own counts,
+            read when the page loads.
+          </p>
+          <div id="ledgerBody"></div>
+          <p id="ledgerNote" class="t-annotation"></p>
+          <noscript>
+            <p class="t-annotation">
+              The counts load with JavaScript. The ledger itself is
+              <a href="/data/claims.json">data/claims.json</a>.
+            </p>
+          </noscript>
+          <ul class="t-annotation">
+            <li>A label records what was checked, not whether a claim is true.</li>
+            <li>AI involvement is disclosed claim by claim, so it is shown here rather than left to a footnote.</li>
+          </ul>
+          <p>
+            <a class="button secondary" href="/validation">How claims are checked</a>
+            <a class="button secondary" href="/review">Review our work</a>
+          </p>
+        </div>
+      </section>
+
       <section class="home-trust ruled">
         <p class="trust-strip">
           Anonymous usage counts only, no Google. No generated tafsir. Public data and scripts. Every
@@ -902,6 +929,7 @@
     </script>
     <script src="assets/featured.js" defer></script>
     <script src="assets/home-trust.js" defer></script>
+    <script src="assets/home-ledger.js" defer></script>
     <script src="assets/cite-badge.js" defer></script>
     <script src="assets/glossary.js" defer></script>
     <script src="assets/version.js" defer></script>
