@@ -2,10 +2,15 @@
 # from the Codemagic UI; nothing here runs on push. Setup steps and what each
 # value means: docs/APP-STORE-RUNBOOK.md ("No Mac?").
 #
-# Needs one environment variable set in Codemagic (app > Environment
-# variables): APP_STORE_APPLE_ID, the numeric "Apple ID" shown under App
-# Store Connect > App Information. Not a secret. Without it the build number
-# restarts at 1 and a second upload is rejected as a duplicate.
+# Needs a variable group named `app_store` (Codemagic: app > Environment
+# variables) holding two variables:
+#   CERTIFICATE_PRIVATE_KEY  (Secure) an RSA 2048 PEM private key you generate
+#       once: ssh-keygen -t rsa -b 2048 -m PEM -f ~/codemagic_cert_key -q -N ""
+#       and paste the contents of ~/codemagic_cert_key. Keep the file out of
+#       the repo. Codemagic uses it to create the distribution certificate.
+#   APP_STORE_APPLE_ID  the numeric "Apple ID" under App Store Connect > App
+#       Information. Not a secret. Without it the build number restarts at 1
+#       and a second upload is rejected as a duplicate.
 #
 # Unverified: written without access to Codemagic or App Store Connect, never
 # run. Expect to adjust the Xcode version and the integration name below.
@@ -19,6 +24,8 @@ workflows:
       # Team settings > Team integrations > Developer Portal > Manage keys.
       app_store_connect: Divine Discourses ASC
     environment:
+      groups:
+        - app_store
       xcode: latest
       node: 22
       vars:
