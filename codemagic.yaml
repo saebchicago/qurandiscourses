@@ -1,0 +1,77 @@
+# Cloud Mac build for the iOS wrapper (ios-app/). Manual trigger only: start it
+# from the Codemagic UI; nothing here runs on push. Setup steps and what each
+# value means: docs/APP-STORE-RUNBOOK.md ("No Mac?").
+#
+# Needs a variable group named `app_store` (Codemagic: app > Environment
+# variables) holding two variables:
+#   CERTIFICATE_PRIVATE_KEY  (Secure) an RSA 2048 PEM private key you generate
+#       once: ssh-keygen -t rsa -b 2048 -m PEM -f ~/codemagic_cert_key -q -N ""
+#       and paste the contents of ~/codemagic_cert_key. Keep the file out of
+#       the repo. Codemagic uses it to create the distribution certificate.
+#   APP_STORE_APPLE_ID  the numeric "Apple ID" under App Store Connect > App
+#       Information. Not a secret. Without it the build number restarts at 1
+#       and a second upload is rejected as a duplicate.
+#
+# Unverified: written without access to Codemagic or App Store Connect, never
+# run. Expect to adjust the Xcode version and the integration name below.
+workflows:
+  ios-testflight:
+    name: iOS to TestFlight
+    instance_type: mac_mini_m2
+    max_build_duration: 45
+    integrations:
+      # The name you give the App Store Connect API key in Codemagic:
+      # Team settings > Team integrations > Developer Portal > Manage keys.
+      app_store_connect: Divine Discourses ASC
+    environment:
+      groups:
+        - app_store
+      xcode: latest
+      node: 22
+      vars:
+        BUNDLE_ID: "org.divinediscourses.app"
+        XCODE_PROJECT: "ios-app/ios/App/App.xcodeproj"
+        XCODE_SCHEME: "App"
+    triggering:
+      events: []
+    scripts:
+      - name: Install Capacitor and sync the iOS project
+        script: |
+          cd ios-app
+          npm ci
+          npx cap sync ios
+      - name: Create signing assets in the Apple account (App Store distribution)
+        script: |
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE --create
+      - name: Apply the provisioning profile to the project
+        script: |
+          keychain initialize
+          keychain add-certificates
+          xcode-project use-profiles
+      - name: Set the build number from the latest TestFlight build
+        script: |
+          set -euo pipefail
+          : "${APP_STORE_APPLE_ID:?set APP_STORE_APPLE_ID in the app_store group}"
+          # A failed lookup (API error, bad key) stops the build. Only a
+          # successful lookup that returns nothing, an app with no builds
+          # yet, starts at 1.
+          LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID")
+          LATEST=${LATEST:-0}
+          case "$LATEST" in ''|*[!0-9]*) echo "unexpected build number: $LATEST" >&2; exit 1;; esac
+          cd ios-app/ios/App
+          agvtool new-version -all $((LATEST + 1))
+      - name: Build the signed IPA
+        script: |
+          xcode-project build-ipa \
+            --project "$XCODE_PROJECT" \
+            --scheme "$XCODE_SCHEME"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        # Uploads to TestFlight only. Submitting for review stays a manual
+        # step in App Store Connect (runbook step 6).
+        submit_to_testflight: false

@@ -15,6 +15,8 @@ npx cap open ios
 
 In Xcode: App target > Signing & Capabilities > choose your Team; confirm bundle id `org.divinediscourses.app` (change in `capacitor.config.json` and Xcode together if taken). Run on a device, then Product > Archive > Distribute to App Store Connect (TestFlight first).
 
+Cloud build without a Mac: `codemagic.yaml` at the repo root (unverified, see the runbook).
+
 ## Mode: remote URL with App-Bound Domains (current)
 
 `capacitor.config.json` sets `server.url` to the live site, and `ios.limitsNavigationsToAppBoundDomains: true` with `WKAppBoundDomains` (divinediscourses.org, localhost) in `Info.plist`. App-Bound Domains are what let a WKWebView register the site's existing service worker, so offline Save, the precached pages and the cached passages work in the app with no code changes and with `location.href` still on https://divinediscourses.org (shared links stay correct).

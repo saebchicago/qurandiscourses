@@ -962,6 +962,12 @@
   force = true
 
 [[redirects]]
+  from = "/codemagic.yaml"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
   from = "/store/*"
   to = "/404"
   status = 404

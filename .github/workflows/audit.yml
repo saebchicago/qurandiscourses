@@ -28,7 +28,7 @@ concurrency:
 jobs:
   integrity:
     name: Content, security, and browser integrity
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # Playwright 1.54.1 has no Chromium build for the 26.04 image that ubuntu-latest now resolves to
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
@@ -160,7 +160,7 @@ jobs:
       github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
       || github.event_name == 'pull_request'
     continue-on-error: ${{ github.event_name == 'pull_request' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # Playwright 1.54.1 has no Chromium build for the 26.04 image that ubuntu-latest now resolves to
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
