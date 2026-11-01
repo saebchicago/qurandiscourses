@@ -6,8 +6,20 @@
   <id>https://divinediscourses.org/changelog</id>
   <link href="https://divinediscourses.org/changelog"/>
   <link rel="self" href="https://divinediscourses.org/feed.xml"/>
-  <updated>2026-10-01T00:00:00Z</updated>
+  <updated>2026-11-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
+  <entry>
+    <title>The home page now counts the claim ledger</title>
+    <id>https://divinediscourses.org/changelog#2026-11-home-ledger</id>
+    <link href="https://divinediscourses.org/changelog#2026-11-home-ledger"/>
+    <updated>2026-11-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;The home page now counts the claim ledger.&lt;/strong&gt;
+              A new "claim ledger, counted" panel on the &lt;a href="/"&gt;home page&lt;/a&gt; shows how the
+              ledger's claims are labeled: reproduced, checked against source, agreement across
+              methods, and where AI was involved. The counts are read from
+              &lt;a href="/data/claims.json"&gt;data/claims.json&lt;/a&gt; when the page loads. None of the
+              claims has been independently reproduced yet, and the panel says so.</content>
+  </entry>
   <entry>
     <title>Surah metadata is now built from files this site already ships</title>
     <id>https://divinediscourses.org/changelog#2026-10-surah-meta-local</id>

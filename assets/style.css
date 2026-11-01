@@ -5302,3 +5302,11 @@ button.linklike { background: none; border: 0; padding: 0; color: inherit; text-
 .ex-chart { margin-top: 0.5rem; overflow-x: auto; }
 .ex-hist { width: 100%; max-width: 560px; height: auto; }
 .ex-axis { font-size: 10px; fill: var(--muted); }
+
+.ledger-group {
+  margin: 0 0 1.1rem;
+}
+.ledger-group h3 {
+  margin: 0 0 0.3rem;
+  font-size: 1rem;
+}

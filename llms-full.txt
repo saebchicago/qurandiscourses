@@ -398,6 +398,22 @@ All the checks
 Explore the tables
 Download the data
 
+## The claim ledger, counted
+
+Every worked example on this site is a claim in one public ledger,
+labeled on four dimensions. These bars are the ledger's own counts,
+read when the page loads.
+
+The counts load with JavaScript. The ledger itself is
+data/claims.json .
+
+A label records what was checked, not whether a claim is true.
+
+AI involvement is disclosed claim by claim, so it is shown here rather than left to a footnote.
+
+How claims are checked
+Review our work
+
 Anonymous usage counts only, no Google. No generated tafsir. Public data and scripts. Every
 claim labeled.
 
@@ -7780,6 +7796,16 @@ the middle depth tier appears as "Scholar" in entries written
 before it was renamed "Study".
 
 ### 2026
+
+#### November
+
+The home page now counts the claim ledger.
+A new "claim ledger, counted" panel on the home page shows how the
+ledger's claims are labeled: reproduced, checked against source, agreement across
+methods, and where AI was involved. The counts are read from
+data/claims.json when the page loads. None of the
+claims has been independently reproduced yet, and the panel says so.
+§
 
 #### October
 

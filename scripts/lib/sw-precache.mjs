@@ -47,6 +47,8 @@ export const PRECACHE_DATA = [
   "/data/names.json",
   // Read by the home page "Tested against noise" table (assets/home-trust.js).
   "/data/calibration/report.json",
+  // Read by the home page "claim ledger, counted" panel (assets/home-ledger.js).
+  "/data/claims.json",
 ];
 const EXTRA_ASSETS = [
   // Referenced by absolute path from every page head, which the scan below
