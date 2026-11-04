@@ -1,8 +1,8 @@
 {
  "api": "v1",
  "description": "Index of the Divine Discourses export tables: static files, read-only, no key. Every number regenerates from the public repository's data and scripts.",
- "version": "1.7.1",
- "released": "2026-10-19",
+ "version": "1.8.0",
+ "released": "2026-11-03",
  "license": {
   "name": "GPL-3.0-or-later",
   "url": "https://www.gnu.org/licenses/gpl-3.0.html",
@@ -279,17 +279,17 @@
   {
    "name": "theme-surah-density",
    "description": "Sparse theme-by-surah matrix: for each surah, the themes whose root-family vocabulary clusters most densely in it.",
-   "rowCount": 252,
+   "rowCount": 260,
    "verification": "Nuanced: perThousand is a direct computation, but which roots belong to which theme is an editorial classification, not a computed fact.",
    "csv": {
     "url": "https://divinediscourses.org/data/exports/theme-surah-density.csv",
-    "bytes": 8457,
-    "sha256": "34b4a13da5ed6d2c1f535cb5e2a4ef5e77305c8a19e781882ca206fd8505d8e0"
+    "bytes": 8791,
+    "sha256": "7754a015b1573e18a47e0e0517f2512f1ab930dbce7b288cbee6fb9ddb4796eb"
    },
    "json": {
     "url": "https://divinediscourses.org/data/exports/theme-surah-density.json",
-    "bytes": 21775,
-    "sha256": "c2f955ce32360e2e8900fe7bfb9e314dc6a9022d32364acda228e02be6560906"
+    "bytes": 22533,
+    "sha256": "1800cd4761ddb507b186e78588e127296e59ae078bb76c971f626d109d688435"
    }
   },
   {
@@ -390,6 +390,14 @@
   }
  ],
  "archives": [
+  {
+   "version": "1.8.0",
+   "released": "2026-11-03",
+   "tables": 23,
+   "url": "https://divinediscourses.org/data/exports/divinediscourses-data-v1.8.0.tar.gz",
+   "bytes": 2919165,
+   "sha256": "0eb89a61f9a72c283207bd896a6a759c789de51743f506c02ae2f39439f08231"
+  },
   {
    "version": "1.7.1",
    "released": "2026-10-19",
