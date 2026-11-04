@@ -6,6 +6,7 @@
 // are deliberately absent — see the generator header.
 window.ROOT_REFS = {
   "gh-f-r": { k: "gfr", a: "غ ف ر", l: "gh-f-r", bw: "gfr" },
+  "k-y-l": { k: "kyl", a: "ك ي ل", l: "k-y-l", bw: "kyl" },
   "r-h-m": { k: "ruHm", a: "ر ح م", l: "r-ḥ-m", bw: "rHm" },
   "r-ḥ-m": { k: "ruHm", a: "ر ح م", l: "r-ḥ-m", bw: "rHm" },
 };

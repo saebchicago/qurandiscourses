@@ -211,6 +211,42 @@
      "html": "Still on the Dossier, ask where the three readings agree and diverge: does your ring centre coincide with your ʿamūd? With the pivot in Khan's outline? A method that finds nothing in a surah is also a result."
     }
    ]
+  },
+  {
+   "id": "public-responsibility",
+   "title": "Prophets and public responsibility",
+   "intro": "Four readings on work, wealth, power and dignity: Yusuf and Musa entrusted with work, Shuʿayb's address to Madyan, the charges given to Musa and to Dawud, and al-Hujurat on how groups treat one another. The path gives the passages and the questions; the answers are yours.",
+   "minutes": 26,
+   "steps": [
+    {
+     "label": "Read two appointments",
+     "page": "/read",
+     "query": "s=12&a=43-57",
+     "minutes": 7,
+     "html": "Read <a href=\"read.html?s=12&a=43-57\">Yusuf 12:43–57</a>, then <a href=\"read.html?s=28&a=22-28\">al-Qasas 28:22–28</a>. In each, note the words the passage itself uses for the person given the work (12:55, 28:26), and check them in word-by-word view."
+    },
+    {
+     "label": "Read Shuʿayb's address",
+     "page": "/read",
+     "query": "s=11&a=84-95",
+     "minutes": 8,
+     "html": "Read <a href=\"read.html?s=11&a=84-95\">Hud 11:84–95</a>, then <a href=\"read.html?s=26&a=176-191\">al-Shu'ara 26:176–191</a>. What does the community object to in 11:87, and what does Shuʿayb say of his own conduct in 11:88? Follow <a href=\"roots.html?q=k-y-l\">k-y-l (to measure) on Roots</a> to see where else the vocabulary of measure appears, and the <a href=\"themes.html#corruption\">Corruption on the earth</a> theme for where Shuʿayb's warning recurs."
+    },
+    {
+     "label": "Compare two charges",
+     "page": "/compare",
+     "query": "mode=passages&p1=20:42-48&p2=38:20-26",
+     "minutes": 6,
+     "html": "In <a href=\"compare.html?mode=passages&p1=20:42-48&p2=38:20-26\">Compare</a>, set Taha 20:42–48 beside Sad 38:20–26. In the first, Musa and Harun are sent to speak to Pharaoh; in the second, Dawud is told how to judge. Which roots do the passages share, and which appear in only one?"
+    },
+    {
+     "label": "Read on dignity and difference",
+     "page": "/read",
+     "query": "s=49&a=9-13",
+     "minutes": 5,
+     "html": "Read <a href=\"read.html?s=49&a=9-13\">al-Hujurat 49:9–13</a> and <a href=\"read.html?s=60&a=7-9\">al-Mumtahanah 60:7–9</a>. Mark the verbs that govern how groups speak to and treat one another, then write in your own words what the four readings agree on and where they differ."
+    }
+   ]
   }
  ]
 }

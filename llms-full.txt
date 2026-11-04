@@ -31,7 +31,7 @@ Ground rules for using this site as a source:
 - [Read a surah with parallel translations](https://divinediscourses.org/read): Open any surah or verse range of the Qur'an with the Arabic, parallel translations, word-by-word meanings, and recitation.
 - [Browse all 114 surahs](https://divinediscourses.org/navigate): All 114 surahs in mushaf or revelation order, filtered by length, period, and structure, with a juz grid for finding your place.
 - [Surah dossier: one profile per surah](https://divinediscourses.org/dossier): One profile per surah: chronology, vocabulary and roots, verse-ending sounds, recurring phrases and structure, every claim badged and traceable.
-- [Themes across the Qur'an](https://divinediscourses.org/themes): 33 theme gateways into the Qur'an, from forgiveness and gratitude to death and paradise: root families and computed key passages for self-study.
+- [Themes across the Qur'an](https://divinediscourses.org/themes): 34 theme gateways into the Qur'an, from forgiveness and gratitude to death and paradise: root families and computed key passages for self-study.
 - [Compare passages and roots](https://divinediscourses.org/compare): Put passages side by side to see the vocabulary they share, or compare roots by how they distribute across the chronology.
 - [Replay a surah with recitation](https://divinediscourses.org/replay): Watch a surah unfold: recitation plays verse by verse while recurring roots light up and, where transcribed, Khan's outline appears at each pivot.
 - [Practice structural reading](https://divinediscourses.org/exercises): Practice exercises in structural Qur'an reading: outline a discourse against Khan's published outlines, or spot recurring roots against the corpus data.
@@ -1209,6 +1209,10 @@ cluster, and in which period?
 Write down, in your own words, what the passages agree on and
 where they differ.
 
+For a guided reading across work, wealth, power and dignity,
+follow Prophets and public
+responsibility on Study paths.
+
 ### Forgiveness
 
 Root families: غ ف ر gh-f-r (to forgive, cover over), ع ف و ʿ-f-w (to pardon, efface), ت و ب t-w-b (to turn back, repent), ص ف ح ṣ-f-ḥ (to overlook, forgive).
@@ -1432,6 +1436,14 @@ Root families: ط غ ي ṭ-gh-y (to transgress, tyrannize), ب غ ي b-gh-y (to
 Densest in: al-Nazi'at , al-Haqqah , al-Hujurat .
 
 Key passages: 24:33 , 3:7 , 10:23 .
+
+### Corruption on the earth
+
+Root families: ف س د f-s-d (to corrupt, spread corruption), ع ث و ʿ-th-w (to act wickedly, cause mischief).
+
+Densest in: al-'Ankabut , al-Qasas , al-Naml .
+
+Key passages: 2:60 , 7:74 , 11:85 .
 
 ### Covenant and fulfillment
 
@@ -4664,6 +4676,41 @@ diverge: does your ring centre coincide with your ʿamūd? With
 the pivot in Khan's outline? A method that finds nothing in a
 surah is also a result.
 
+### Path 7 · Prophets and public responsibility
+
+Four readings on work, wealth, power and dignity: Yusuf and Musa
+entrusted with work, Shuʿayb's address to Madyan, the charges
+given to Musa and to Dawud, and al-Hujurat on how groups treat
+one another. The path gives the passages and the questions; the
+answers are yours.
+
+Read Yusuf 12:43–57 , then
+al-Qasas 28:22–28 . In
+each, note the words the passage itself uses for the person
+given the work (12:55, 28:26), and check them in word-by-word
+view.
+
+Read Hud 11:84–95 , then
+al-Shu'ara 26:176–191 .
+What does the community object to in 11:87, and what does
+Shuʿayb say of his own conduct in 11:88? Follow
+k-y-l (to measure) on Roots to see
+where else the vocabulary of measure appears, and the
+Corruption on the earth theme
+for where Shuʿayb's warning recurs.
+
+In
+Compare , set Taha 20:42–48 beside Sad 38:20–26. In the first, Musa
+and Harun are sent to speak to Pharaoh; in the second, Dawud is
+told how to judge. Which roots do the passages share, and which
+appear in only one?
+
+Read al-Hujurat 49:9–13 and
+al-Mumtahanah 60:7–9 . Mark
+the verbs that govern how groups speak to and treat one
+another, then write in your own words what the four readings
+agree on and where they differ.
+
 Step checkmarks are saved in this browser only and are cleared by
 the settings panel's "Clear preferences".
 
@@ -7704,7 +7751,7 @@ word-units per 1,000 surah word-units). See Themes .
 
 CSV
 JSON
-252 rows
+260 rows
 
 #### Formulaic density ~
 
@@ -7798,6 +7845,17 @@ before it was renamed "Study".
 ### 2026
 
 #### November
+
+A seventh study path and a 34th theme.
+Prophets and public responsibility
+sets four readings side by side: Yusuf 12:43–57 and al-Qasas 28:22–28 on
+people given work, Shuʿayb's address in Hud 11:84–95, the charges in Taha
+20:42–48 and Sad 38:20–26, and al-Hujurat 49:9–13 with al-Mumtahanah 60:7–9.
+Each step gives the passages and a question; the site writes no answer.
+The new Corruption on the earth theme groups
+f-s-d with ʿ-th-w; its key passages, including Shuʿayb's warnings in 11:85
+and 26:183, are computed by the same lexical rule as the other themes.
+§
 
 The home page now counts the claim ledger.
 A new "claim ledger, counted" panel on the home page shows how the
@@ -10428,7 +10486,7 @@ reading-lens: A published coherence method rendered as UI scaffolding on the Rea
 
 # Data dictionary: public exports
 
-Generated by `scripts/build-exports.mjs` on 2026-10-20. Mirrors `data/exports/schema.json` in prose; the JSON file is the machine-readable source of truth.
+Generated by `scripts/build-exports.mjs` on 2026-11-04. Mirrors `data/exports/schema.json` in prose; the JSON file is the machine-readable source of truth.
 
 Source corpus: Dukes, Kais. The Quranic Arabic Corpus, version 0.4. Leeds: Language Research Group, University of Leeds, 2009-2017. https://corpus.quran.com/. GNU GPL.
 
@@ -10778,7 +10836,7 @@ Four block-level mirror-symmetry tests (concentric pairing, inclusio, formula bo
 
 ## theme-surah-density
 
-Sparse theme-by-surah matrix: for each surah, the themes whose root-family vocabulary clusters most densely in it. (252 rows.)
+Sparse theme-by-surah matrix: for each surah, the themes whose root-family vocabulary clusters most densely in it. (260 rows.)
 
 **Counting rule:** perThousand = theme-root tokens per 1,000 surah tokens (Leeds counts, minimum 2 tokens). Each theme lists at most its top 8 surahs by density, so a surah's absence from this table for a given theme means it is not among that theme's densest, not that the vocabulary is absent entirely. Root-to-theme grouping is editorial (see themes.html); the counting is mechanical.
 

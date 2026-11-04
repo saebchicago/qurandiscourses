@@ -252,6 +252,14 @@ const THEMES = [
     },
   },
   {
+    slug: "corruption",
+    title: "Corruption on the earth",
+    roots: {
+      fsd: "to corrupt, spread corruption",
+      Evw: "to act wickedly, cause mischief",
+    },
+  },
+  {
     slug: "covenant",
     title: "Covenant and fulfillment",
     roots: {
