@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-11-public-responsibility",
+   "year": "2026",
+   "month": "November",
+   "html": "\n              <strong>A seventh study path and a 34th theme.</strong>\n              <a href=\"/paths#public-responsibility\">Prophets and public responsibility</a>\n              sets four readings side by side: Yusuf 12:43–57 and al-Qasas 28:22–28 on\n              people given work, Shuʿayb's address in Hud 11:84–95, the charges in Taha\n              20:42–48 and Sad 38:20–26, and al-Hujurat 49:9–13 with al-Mumtahanah 60:7–9.\n              Each step gives the passages and a question; the site writes no answer.\n              The new <a href=\"/themes#corruption\">Corruption on the earth</a> theme groups\n              f-s-d with ʿ-th-w; its key passages, including Shuʿayb's warnings in 11:85\n              and 26:183, are computed by the same lexical rule as the other themes.\n              The theme adds eight rows to the theme-by-surah export, so the data is released as\n              version 1.8.0 with a new <a href=\"/export\">citable archive</a>; the 1.7.1 archive is unchanged.\n            "
+  },
+  {
    "id": "2026-11-home-ledger",
    "year": "2026",
    "month": "November",

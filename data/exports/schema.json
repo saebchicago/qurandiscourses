@@ -2,7 +2,7 @@
  "_generated": "scripts/build-exports.mjs",
  "_source": "Dukes, Kais. The Quranic Arabic Corpus, version 0.4. Leeds: Language Research Group, University of Leeds, 2009-2017. https://corpus.quran.com/. GNU GPL.",
  "_chronologySource": "Egyptian Standard (Cairo 1924) revelation order, four-period classification following the Nöldeke-Bell tradition (Watt, \"Bell's Introduction to the Qur'an\", 1970).",
- "_computed": "2026-10-20",
+ "_computed": "2026-11-04",
  "tables": {
   "root-frequencies": {
    "description": "Every one of the 1,642 roots: raw occurrence count, overall normalized frequency, and per-period count and normalized frequency.",
@@ -1130,7 +1130,7 @@
   },
   "theme-surah-density": {
    "description": "Sparse theme-by-surah matrix: for each surah, the themes whose root-family vocabulary clusters most densely in it.",
-   "rowCount": 252,
+   "rowCount": 260,
    "countingRule": "perThousand = theme-root tokens per 1,000 surah tokens (Leeds counts, minimum 2 tokens). Each theme lists at most its top 8 surahs by density, so a surah's absence from this table for a given theme means it is not among that theme's densest, not that the vocabulary is absent entirely. Root-to-theme grouping is editorial (see themes.html); the counting is mechanical.",
    "verification": "Nuanced: perThousand is a direct computation, but which roots belong to which theme is an editorial classification, not a computed fact.",
    "fields": [

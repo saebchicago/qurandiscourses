@@ -30,6 +30,7 @@
     "brotherhood": "Brotherhood and community",
     "sincerity": "Sincerity",
     "tyranny": "Tyranny and transgression",
+    "corruption": "Corruption on the earth",
     "covenant": "Covenant and fulfillment",
     "striving": "Effort and striving",
     "certainty": "Certainty and doubt",
@@ -205,31 +206,33 @@
     ],
     "7": [
       {
-        "s": 37,
-        "score": 2.4,
+        "s": 28,
+        "score": 3.8,
         "shared": [
+          "corruption",
           "sincerity"
         ]
       },
       {
-        "s": 38,
-        "score": 2.4,
+        "s": 11,
+        "score": 2.6,
         "shared": [
+          "corruption",
           "sincerity"
         ]
       },
       {
-        "s": 39,
+        "s": 27,
         "score": 2.4,
         "shared": [
-          "sincerity"
+          "corruption"
         ]
       },
       {
-        "s": 12,
-        "score": 2.3,
+        "s": 29,
+        "score": 2.4,
         "shared": [
-          "sincerity"
+          "corruption"
         ]
       }
     ],
@@ -308,21 +311,23 @@
         ]
       },
       {
+        "s": 28,
+        "score": 3.8,
+        "shared": [
+          "joy-sorrow",
+          "corruption"
+        ]
+      },
+      {
+        "s": 27,
+        "score": 3.3,
+        "shared": [
+          "joy-sorrow",
+          "corruption"
+        ]
+      },
+      {
         "s": 8,
-        "score": 2.2,
-        "shared": [
-          "trust"
-        ]
-      },
-      {
-        "s": 13,
-        "score": 2.2,
-        "shared": [
-          "joy-sorrow"
-        ]
-      },
-      {
-        "s": 14,
         "score": 2.2,
         "shared": [
           "trust"
@@ -332,21 +337,23 @@
     "11": [
       {
         "s": 28,
-        "score": 4.7,
+        "score": 6.3,
         "shared": [
           "fear-hope",
+          "corruption",
           "sincerity"
         ]
       },
       {
-        "s": 20,
-        "score": 3.7,
+        "s": 26,
+        "score": 5.3,
         "shared": [
-          "fear-hope"
+          "fear-hope",
+          "corruption"
         ]
       },
       {
-        "s": 26,
+        "s": 20,
         "score": 3.7,
         "shared": [
           "fear-hope"
@@ -803,6 +810,15 @@
         ]
       },
       {
+        "s": 11,
+        "score": 6.3,
+        "shared": [
+          "fear-hope",
+          "corruption",
+          "sincerity"
+        ]
+      },
+      {
         "s": 51,
         "score": 6.3,
         "shared": [
@@ -814,14 +830,6 @@
         "score": 6.3,
         "shared": [
           "fear-hope"
-        ]
-      },
-      {
-        "s": 13,
-        "score": 5.8,
-        "shared": [
-          "fear-hope",
-          "joy-sorrow"
         ]
       }
     ],
@@ -3666,6 +3674,18 @@
           "a": "ṭ-gh-y",
           "b": "h-d-y",
           "count": 3
+        }
+      }
+    ],
+    "corruption": [
+      {
+        "slug": "peace",
+        "title": "Peace and reconciliation",
+        "score": 9,
+        "via": {
+          "a": "f-s-d",
+          "b": "ṣ-l-ḥ",
+          "count": 9
         }
       }
     ],
