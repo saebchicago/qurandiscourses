@@ -36,7 +36,7 @@
     <script src="/assets/ah-init.js"></script>
     <!-- JSONLD (build-jsonld.mjs) -->
     <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/how-it-works","url":"https://divinediscourses.org/how-it-works","name":"How the method works · Divine Discourses","description":"The method behind Divine Discourses: coherence-based reading, depth levels, verification labels, and sources.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.8.0","dateModified":"2026-10-23","about":{"@id":"https://divinediscourses.org/about#about-dr-khan"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"How the method works","item":"https://divinediscourses.org/how-it-works"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://divinediscourses.org/how-it-works","url":"https://divinediscourses.org/how-it-works","name":"How the method works · Divine Discourses","description":"The method behind Divine Discourses: coherence-based reading, depth levels, verification labels, and sources.","inLanguage":"en","isPartOf":{"@id":"https://divinediscourses.org/#website"},"version":"1.8.0","dateModified":"2026-11-06","about":{"@id":"https://divinediscourses.org/about#about-dr-khan"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://divinediscourses.org/"},{"@type":"ListItem","position":2,"name":"How the method works","item":"https://divinediscourses.org/how-it-works"}]},{"@type":"WebSite","@id":"https://divinediscourses.org/#website","name":"Divine Discourses","url":"https://divinediscourses.org/","description":"A Qur'an study platform in the coherence-reading tradition: each surah read as one discourse, every claim labeled and traceable to its source.","inLanguage":"en","license":"https://opensource.org/licenses/MIT"}]}
     </script>
     <!-- /JSONLD -->
   </head>
@@ -125,6 +125,7 @@
           <p class="t-annotation">On this page:</p>
           <ul>
             <li><a href="#method">The method</a></li>
+            <li><a href="#why-corpus">Why a corpus: what numbers add to reading</a></li>
             <li><a href="#depth-levels">Three depth levels</a></li>
             <li><a href="#evidence-status">Evidence status</a></li>
             <li><a href="#sources">Sources</a></li>
@@ -175,6 +176,63 @@
           methods as a reading lenses card — scaffolding for your own
           reading, never the site's interpretation.
         </p>
+
+        <h3 id="why-corpus">Why a corpus: what numbers add to reading</h3>
+        <p>
+          A corpus is the whole text with every word tagged: its root, its
+          form, its grammar. That lets a computer count, compare and find
+          patterns across all of it at once. Reading and counting do different
+          jobs. Reading gives meaning. Counting tells you where to look, and
+          how much weight an impression deserves.
+        </p>
+        <ul>
+          <li>
+            <strong>It turns an impression into something checkable.</strong>
+            "God's name keeps coming back" becomes a figure anyone can
+            recompute: the root a-l-h occurs 2,851 times among the corpus's
+            <span data-num="totals.tokens">77,429</span> words.
+            <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
+          </li>
+          <li>
+            <strong>It holds what no single reading can.</strong> No one
+            keeps 114 surahs in mind at once. The call "our Lord"
+            (<em>rabbana</em>) can be gathered wherever it appears: 70 times in
+            62 verses of 26 surahs, each with its verse beside it on the
+            <a href="/prayers">Prayers</a> page.
+            <span class="badge ok" data-source-ids="leeds-corpus-v0.4" aria-label="Verified" tabindex="0" title="Verified · computed from the cited corpus">●</span>
+          </li>
+          <li>
+            <strong>It supplies a comparison.</strong> A count alone means
+            little: is 2,851 a lot? Is a pattern more than chance? The home
+            page's "Tested against noise" table runs each method on text where
+            the pattern cannot be real, so you can see what chance alone
+            produces before you trust a result.
+          </li>
+          <li>
+            <strong>It sends you back to the text.</strong> A number here is a
+            pointer to verses worth reading, not a conclusion about them. Where
+            a figure is shown, the passages behind it are one click away.
+          </li>
+        </ul>
+        <p>Three habits for reading any number on this site:</p>
+        <ul>
+          <li>
+            <strong>Check its label.</strong> Verified means recomputed from a
+            named source; Nuanced means the counting method varies between
+            sources; Pending means not yet settled. See
+            <a href="#evidence-status">Evidence status</a>.
+          </li>
+          <li>
+            <strong>Know what it is relative to.</strong> Every count follows
+            one reading of the text and one set of annotations. See
+            <a href="#text-behind-numbers">The text behind the numbers</a>.
+          </li>
+          <li>
+            <strong>Do not read a count as meaning.</strong> How often a word
+            occurs does not establish how important it is in a passage. The
+            number tells you where to look; the reading is yours.
+          </li>
+        </ul>
 
         <h3 id="depth-levels">Three depth levels</h3>
         <p>
@@ -592,6 +650,7 @@
       ></div>
     </div>
     <script src="assets/app.js"></script>
+    <script src="assets/cite-badge.js" defer></script>
     <script src="assets/lang-labels.js" defer></script>
     <script src="assets/trans-picker.js" defer></script>
     <script src="assets/share.js" defer></script>

@@ -5,6 +5,7 @@
 // page's own markup could match, nothing else; ambiguous folded forms
 // are deliberately absent — see the generator header.
 window.ROOT_REFS = {
+  "a-l-h": { k: "uAlh", a: "ا ل ه", l: "a-l-h", bw: "Alh" },
   "a-m-n": { k: "uAmn", a: "ا م ن", l: "a-m-n", bw: "Amn" },
   "ʿ-m-l": { k: "uEml", a: "ع م ل", l: "ʿ-m-l", bw: "Eml" },
   "ṣ-l-ḥ": { k: "uSluH", a: "ص ل ح", l: "ṣ-l-ḥ", bw: "SlH" },
