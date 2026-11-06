@@ -2,6 +2,12 @@
  "_comment": "The changelog registry. scripts/build-changelog.mjs renders these entries into changelog.html's marker region (grouped by year and month, each entry carrying its id as a permalink anchor) and emits feed.xml (Atom). Entries are in display order, newest first; html is the entry's inner markup, stored verbatim. An entry's id is its permanent anchor: never rename one after it ships, because feed readers and inbound links hold it.",
  "entries": [
   {
+   "id": "2026-11-robustness",
+   "year": "2026",
+   "month": "November",
+   "html": "\n              <strong>Do the period results survive other choices?</strong>\n              <a href=\"/validation#robustness\">Validation</a> now re-runs the period-keyness test under\n              eleven changes fixed in advance (each period boundary moved, the largest surah of each\n              period removed, Meccan against Medinan) and shows how many of the original results\n              survive each. The verdict is Partly: the Meccan-early and Medinan results mostly hold,\n              but moving the late-Meccan/Medinan boundary across five long surahs removes most of the\n              Medinan results. That boundary is also the best-established of the three, so that variant is the\n              least plausible alternative; the page says so and shows what the next-harshest keeps. The data is in <a href=\"/data/robustness/period-keyness.json\">data/robustness/period-keyness.json</a>.\n            "
+  },
+  {
    "id": "2026-11-why-corpus",
    "year": "2026",
    "month": "November",
