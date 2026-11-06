@@ -9,6 +9,20 @@
   <updated>2026-11-01T00:00:00Z</updated>
   <author><name>Divine Discourses project</name></author>
   <entry>
+    <title>Do the period results survive other choices?</title>
+    <id>https://divinediscourses.org/changelog#2026-11-robustness</id>
+    <link href="https://divinediscourses.org/changelog#2026-11-robustness"/>
+    <updated>2026-11-01T00:00:00Z</updated>
+    <content type="html">&lt;strong&gt;Do the period results survive other choices?&lt;/strong&gt;
+              &lt;a href="/validation#robustness"&gt;Validation&lt;/a&gt; now re-runs the period-keyness test under
+              eleven changes fixed in advance (each period boundary moved, the largest surah of each
+              period removed, Meccan against Medinan) and shows how many of the original results
+              survive each. The verdict is Partly: the Meccan-early and Medinan results mostly hold,
+              but moving the late-Meccan/Medinan boundary across five long surahs removes most of the
+              Medinan results. That boundary is also the best-established of the three, so that variant is the
+              least plausible alternative; the page says so and shows what the next-harshest keeps. The data is in &lt;a href="/data/robustness/period-keyness.json"&gt;data/robustness/period-keyness.json&lt;/a&gt;.</content>
+  </entry>
+  <entry>
     <title>Why a corpus, and what numbers add</title>
     <id>https://divinediscourses.org/changelog#2026-11-why-corpus</id>
     <link href="https://divinediscourses.org/changelog#2026-11-why-corpus"/>

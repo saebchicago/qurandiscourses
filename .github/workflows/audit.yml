@@ -62,6 +62,8 @@ jobs:
           node scripts/home-trust.test.mjs
           node scripts/home-ledger.test.mjs
           node scripts/why-corpus.test.mjs
+          node scripts/build-robustness.mjs --check
+          node scripts/robustness.test.mjs
           node scripts/build-prayers.mjs --check
           node scripts/stats.test.mjs
           node scripts/keyness.test.mjs
