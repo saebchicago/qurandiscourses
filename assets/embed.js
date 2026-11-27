@@ -8,14 +8,19 @@
   // trusted, same as everywhere else on the site.
 
   var SITE = "https://divinediscourses.org";
+  // Dataset text is trusted by policy, but it is escaped anyway so a bad
+  // data PR cannot inject markup into a page foreign sites iframe.
+  function e(v) {
+    return window.qdEsc(v);
+  }
   var root = document.getElementById("embedRoot");
 
   function footer(href, label) {
     return (
       '<p class="embed-footer"><a href="' +
-      href +
+      e(href) +
       '" target="_blank" rel="noopener">' +
-      label +
+      e(label) +
       " · View on Divine Discourses →</a></p>"
     );
   }
@@ -48,11 +53,11 @@
         var top = entry.topLemmas && entry.topLemmas[0];
         root.innerHTML =
           '<p class="ar embed-ar notranslate" translate="no" lang="ar" dir="rtl">' +
-          entry.rootArabic +
+          e(entry.rootArabic) +
           "</p>" +
           '<h1 class="embed-title">Root ' +
-          entry.rootLatin +
-          (gloss ? " — " + gloss : "") +
+          e(entry.rootLatin) +
+          (gloss ? " — " + e(gloss) : "") +
           "</h1>" +
           '<p class="embed-meta">' +
           entry.totalCount.toLocaleString("en-US") +
@@ -61,14 +66,14 @@
           " in the Qur'an" +
           (top
             ? ' · most frequent form <span class="ar-inline notranslate" translate="no" lang="ar" dir="rtl">' +
-              top.lemmaArabic +
+              e(top.lemmaArabic) +
               "</span> (" +
               top.count +
               "×)"
             : "") +
           "</p>" +
           '<p class="embed-prov">Counts from the Leeds Quranic Arabic Corpus v0.4; every occurrence verifiable on the site.</p>' +
-          footer(SITE + "/roots?root=" + id, entry.rootLatin);
+          footer(SITE + "/roots?root=" + encodeURIComponent(id), entry.rootLatin);
       })
       .catch(fail);
   }
@@ -88,9 +93,9 @@
           .map(function (r) {
             return (
               '<span class="embed-chip"><span class="ar-inline notranslate" translate="no" lang="ar" dir="rtl">' +
-              r.arabic +
+              e(r.arabic) +
               "</span> " +
-              r.latin +
+              e(r.latin) +
               " · " +
               r.count.toLocaleString("en-US") +
               "×</span>"
@@ -99,7 +104,7 @@
           .join(" ");
         root.innerHTML =
           '<h1 class="embed-title">' +
-          t.title +
+          e(t.title) +
           "</h1>" +
           '<p class="embed-meta">A gateway into the Qur’an’s vocabulary: ' +
           t.passages.length +
@@ -108,7 +113,7 @@
           chips +
           "</p>" +
           '<p class="embed-prov">Computed from the Leeds corpus; the grouping is lexical, a starting point rather than an index.</p>' +
-          footer(SITE + "/themes#" + t.slug, t.title);
+          footer(SITE + "/themes#" + encodeURIComponent(t.slug), t.title);
       })
       .catch(fail);
   }

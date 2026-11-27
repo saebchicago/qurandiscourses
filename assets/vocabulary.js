@@ -142,16 +142,16 @@
     el.meaning.textContent = "";
     el.links.innerHTML =
       'First seen at <a href="/read?s=' +
-      at[0] +
+      encodeURIComponent(at[0]) +
       "&amp;a=" +
-      at[1] +
+      encodeURIComponent(at[1]) +
       '">' +
       esc(at[0] + ":" + at[1]) +
       "</a>, word " +
       esc(at[2]) +
       (r.rootHref ? ' · <a href="' + esc(r.rootHref) + '">every word from this root</a>' : "") +
       ' · <a href="/vocabulary#v' +
-      r.rank +
+      encodeURIComponent(r.rank) +
       '">in the list</a>';
     el.show.hidden = false;
     el.knew.hidden = true;

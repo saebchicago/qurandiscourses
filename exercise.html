@@ -295,12 +295,12 @@
         function verseHTML(num, arText, enText) {
           return (
             '<div class="verse-wrapper" id="break-zone-' +
-            num +
+            qdEsc(num) +
             '" style="margin-bottom:1rem;">' +
             '<div class="card" style="margin:0;">' +
             '<div style="margin-bottom:0.75rem;">' +
             '<strong style="font-size:1.1rem;color:var(--accent);font-family:var(--serif);">' +
-            num +
+            qdEsc(num) +
             "</strong>" +
             "</div>" +
             '<p class="ar xl notranslate" translate="no" lang="ar" dir="rtl" style="margin:0 0 0.75rem;font-size:1.8rem;line-height:2;">' +
@@ -310,7 +310,7 @@
               ? '<p style="margin:0 0 0.75rem;line-height:1.7;">' + enText + "</p>"
               : "") +
             '<button class="break-btn" data-verse="' +
-            num +
+            qdEsc(num) +
             '" style="font-size:0.82rem;padding:0.25rem 0.6rem;border:1px solid var(--accent-soft);background:transparent;color:var(--muted);border-radius:4px;cursor:pointer;">Mark a break before this verse</button>' +
             "</div>" +
             "</div>"

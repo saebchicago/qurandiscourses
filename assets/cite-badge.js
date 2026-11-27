@@ -43,24 +43,42 @@
 
   // Chicago bibliography order:
   // Author. Title, edition. Place: Publisher, year. ISBN. License. Accessed.
+  // The only markup formatCitation emits is its own <em>; every data field
+  // is escaped (data/sources.json is trusted by policy, but a data PR must
+  // not be able to inject markup into the popover).
+  function esc(v) {
+    return String(v == null ? "" : v)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  // Link targets from the registry must be http(s); anything else
+  // (javascript:, data:) is shown as text and never made a link.
+  function isWebUrl(u) {
+    return /^https?:\/\//i.test(String(u || ""));
+  }
+
   function formatCitation(src) {
     const parts = [];
-    if (src.author) parts.push(src.author + ".");
+    if (src.author) parts.push(esc(src.author) + ".");
     if (src.name) {
       const namePart = src.edition
-        ? `<em>${src.name}</em>, ${src.edition}`
-        : `<em>${src.name}</em>`;
+        ? `<em>${esc(src.name)}</em>, ${esc(src.edition)}`
+        : `<em>${esc(src.name)}</em>`;
       parts.push(namePart + ".");
     }
     if (src.publisher) {
-      parts.push(src.publisher + (src.year ? ", " + src.year : "") + ".");
+      parts.push(esc(src.publisher) + (src.year ? ", " + esc(src.year) : "") + ".");
     } else if (src.year) {
-      parts.push(src.year + ".");
+      parts.push(esc(src.year) + ".");
     }
-    if (src.isbn) parts.push("ISBN " + src.isbn + ".");
-    if (src.license) parts.push(src.license + ".");
-    if (src.accessed) parts.push("Accessed " + src.accessed + ".");
-    if (src.note) parts.push(src.note);
+    if (src.isbn) parts.push("ISBN " + esc(src.isbn) + ".");
+    if (src.license) parts.push(esc(src.license) + ".");
+    if (src.accessed) parts.push("Accessed " + esc(src.accessed) + ".");
+    if (src.note) parts.push(esc(src.note));
     return parts.join(" ");
   }
 
@@ -107,7 +125,7 @@
     for (const src of sources) {
       const li = document.createElement("li");
       li.innerHTML = formatCitation(src);
-      if (src.url) {
+      if (src.url && isWebUrl(src.url)) {
         const a = document.createElement("a");
         a.href = src.url;
         a.textContent = src.url;

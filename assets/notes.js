@@ -71,7 +71,7 @@
     if (currentRef) {
       html +=
         '<label for="noteArea" style="font-size:0.9rem;font-weight:600">On ' +
-        refLabel(currentRef) +
+        escapeHtml(refLabel(currentRef)) +
         "</label>" +
         '<textarea id="noteArea" rows="4" style="width:100%;margin:0.4rem 0 0.2rem;padding:0.6rem;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit;font-size:0.92rem;resize:vertical" placeholder="What do you notice? Where does the discourse pivot; which roots recur; what does this passage assume its hearer knows?">' +
         (current ? escapeHtml(current.text) : "") +
@@ -96,11 +96,11 @@
             var preview = (notes[r].text || "").slice(0, 90);
             return (
               '<li style="margin:0.45rem 0;font-size:0.88rem"><a href="/read?s=' +
-              r.split(":")[0] +
+              encodeURIComponent(r.split(":")[0]) +
               "&a=" +
               encodeURIComponent(r.split(":")[1]) +
               '">' +
-              refLabel(r) +
+              escapeHtml(refLabel(r)) +
               "</a> — " +
               escapeHtml(preview) +
               (notes[r].text.length > 90 ? "…" : "") +
@@ -214,7 +214,9 @@
   }
 
   function escapeHtml(v) {
-    return window.qdEsc ? window.qdEsc(v) : v;
+    return window.qdEsc ? window.qdEsc(v) : String(v == null ? "" : v).replace(/[&<>"']/g, function (c) {
+      return "&#" + c.charCodeAt(0) + ";";
+    });
   }
 
   function exportMarkdown() {
