@@ -183,7 +183,12 @@
   if (P.LocalNotifications && P.LocalNotifications.addListener) {
     P.LocalNotifications.addListener("localNotificationActionPerformed", function (ev) {
       var url = ev && ev.notification && ev.notification.extra && ev.notification.extra.url;
-      if (url) location.href = url;
+      // Same-origin only: never navigate to a javascript:, data: or
+      // foreign URL carried by a notification payload.
+      try {
+        var target = new URL(url, location.href);
+        if (url && target.origin === location.origin) location.href = target.href;
+      } catch (e) {}
     });
   }
 

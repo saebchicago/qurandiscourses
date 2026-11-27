@@ -102,7 +102,7 @@
           '<span class="recurring-word' +
           cls +
           '" data-root="' +
-          w.root +
+          qdEsc(w.root) +
           '" data-ayah="' +
           ayah +
           '">' +
@@ -372,11 +372,11 @@
       .map(function (r) {
         return (
           '<button type="button" data-rec="' +
-          r.id +
+          qdEsc(r.id) +
           '" style="display:block;width:100%;text-align:left;padding:0.7rem 1rem;border:0;background:' +
           (r.id === qdState.reciter ? "var(--bg)" : "var(--card)") +
           ';color:var(--ink);cursor:pointer;font:inherit">' +
-          r.name +
+          qdEsc(r.name) +
           "</button>"
         );
       })

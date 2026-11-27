@@ -561,6 +561,10 @@
 (function () {
   "use strict";
 
+  var esc = function (v) {
+    return window.qdEsc ? window.qdEsc(v) : String(v == null ? "" : v);
+  };
+
   var CACHE = "dd-saved";
   var LIST_KEY = "qd_saved_v1";
   var supported = "caches" in window;
@@ -691,11 +695,11 @@
     var saved = list()[s];
     bar.hidden = false;
     bar.innerHTML = saved
-      ? '<p class="offline-save-row"><span>✓ ' + surahName(s) + " is saved for offline reading" +
+      ? '<p class="offline-save-row"><span>✓ ' + esc(surahName(s)) + " is saved for offline reading" +
         (saved.translation ? "" : " (Arabic only)") +
         '.</span> <button type="button" class="btn-utility" data-offline="remove">Remove</button></p>'
       : '<p class="offline-save-row"><button type="button" class="button secondary" id="saveOfflineBtn" data-offline="save">Save ' +
-        surahName(s) + " for offline reading</button></p>" +
+        esc(surahName(s)) + " for offline reading</button></p>" +
         '<p class="t-annotation offline-save-note">' +
         (IN_APP
           ? "Keeps the Arabic and word data on this device. Translations and recitation need a connection."

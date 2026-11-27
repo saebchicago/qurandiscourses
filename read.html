@@ -1042,9 +1042,11 @@
               return { edition: ed.edition, _mismatchOf: ed._mismatchOf, m };
             });
             verses = arEd.ayahs.map((v) => {
-              const sn = v.surah ? v.surah.number : s;
+              // Numbers from the API are coerced to integers: they are
+              // interpolated into attributes and links below, unescaped.
+              const sn = v.surah ? parseInt(v.surah.number, 10) || s : s;
               return {
-                ayahNum: v.numberInSurah,
+                ayahNum: parseInt(v.numberInSurah, 10) || 0,
                 surahNum: sn,
                 arText: qdEsc(v.text),
                 surahName:
@@ -1053,7 +1055,7 @@
                 surahNameTranslation: qdEsc(
                   (v.surah && v.surah.englishNameTranslation) || "",
                 ),
-                arNumber: v.number,
+                arNumber: parseInt(v.number, 10) || 0,
                 translations: byNumber.map((t) => ({
                   edition: t.edition,
                   text: t.m.get(v.number) || "",
@@ -1085,7 +1087,7 @@
                 arText: qdEsc(ar.text),
                 surahName: SURAH_DISPLAY_NAMES[s] || qdEsc(ar.surah.englishName),
                 surahNameTranslation: qdEsc(ar.surah.englishNameTranslation),
-                arNumber: ar.number,
+                arNumber: parseInt(ar.number, 10) || 0,
                 // Each entry carries _mismatchOf when the API substituted a
                 // different edition than requested (see qdFetchVerse).
                 translations: data.filter(
@@ -1129,7 +1131,7 @@
                 arText: qdEsc(arVerse.text),
                 surahName,
                 surahNameTranslation,
-                arNumber: arVerse.number,
+                arNumber: parseInt(arVerse.number, 10) || 0,
                 translations: transEds.map((ed) => ({
                   edition: ed.edition,
                   text:
@@ -1573,7 +1575,7 @@
               for (let a = ayahStart; a <= ayahEnd; a++) {
                 const words = morph[String(a)];
                 if (!words) continue;
-                let arabic = words.map((w) => w.ar).join(" ");
+                let arabic = qdEsc(words.map((w) => w.ar).join(" "));
                 if (deepLinkHl && s === deepLinkHl.surah && a === deepLinkHl.ayah) {
                   arabic = applyHighlight(
                     arabic,
