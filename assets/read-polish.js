@@ -561,6 +561,10 @@
 (function () {
   "use strict";
 
+  var esc = function (v) {
+    return window.qdEsc ? window.qdEsc(v) : String(v == null ? "" : v);
+  };
+
   var CACHE = "dd-saved";
   var LIST_KEY = "qd_saved_v1";
   var supported = "caches" in window;
